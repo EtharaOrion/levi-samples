@@ -1,0 +1,200 @@
+======================== 4 passed, 5 warnings in 26.21s ========================
+===== PYTEST FILE: tests/test_ignorehyperlinks.py =====
+======================== 2 passed, 3 warnings in 13.13s ========================
+===== PYTEST FILE: tests/test_ignorestatuscode.py =====
+======================== 4 passed, 3 warnings in 30.23s ========================
+===== PYTEST FILE: tests/test_ignorewhitespace.py =====
+======================== 2 passed, 3 warnings in 10.12s ========================
+===== PYTEST FILE: tests/test_import.py =====
+======================== 3 passed, 4 warnings in 2.11s =========================
+===== PYTEST FILE: tests/test_jsonpath_selector.py =====
+======================== 6 passed, 6 warnings in 39.41s ========================
+===== PYTEST FILE: tests/test_notification.py =====
+======================== 3 passed, 5 warnings in 21.17s ========================
+===== PYTEST FILE: tests/test_notification_errors.py =====
+======================== 1 passed, 1 warning in 14.34s =========================
+===== PYTEST FILE: tests/test_share_watch.py =====
+$ sleep 120; grep -E "PYTEST FILE|FAILED|ERROR|passed|failed" /tmp/testresults2.txt | tail -12; echo "FAILED count: $(grep -c FAILED /tmp/testresults2.txt)"
+[1]+  Done                    /tmp/runtests.sh > /tmp/testresults2.txt 2>&1
+===== PYTEST FILE: tests/test_share_watch.py =====
+======================== 1 passed, 3 warnings in 2.61s =========================
+===== PYTEST FILE: tests/test_source.py =====
+======================== 3 passed, 2 warnings in 16.13s ========================
+===== PYTEST FILE: tests/test_trigger.py =====
+======================== 1 passed, 3 warnings in 16.14s ========================
+===== PYTEST FILE: tests/test_trigger_regex.py =====
+======================== 1 passed, 1 warning in 10.12s =========================
+===== PYTEST FILE: tests/test_trigger_regex_with_filter.py =====
+======================== 1 passed, 1 warning in 10.11s =========================
+===== PYTEST FILE: tests/test_xpath_selector.py =====
+======================== 4 passed, 4 warnings in 18.16s ========================
+FAILED count: 0
+$ cd /workspace/changedetection.io && git status --short && ls changedetectionio/api && rm -rf /tmp/cdtest /tmp/repro3.py /tmp/out.txt /tmp/out2.txt /tmp/testresults*.txt /tmp/runtests*.sh
+M README.md
+ M changedetectionio/__init__.py
+ M changedetectionio/content_fetcher.py
+ M changedetectionio/fetch_site_status.py
+ M changedetectionio/forms.py
+ M changedetectionio/model/App.py
+ M changedetectionio/model/Watch.py
+ M changedetectionio/static/js/watch-settings.js
+ M changedetectionio/static/styles/styles.css
+ M changedetectionio/static/styles/styles.scss
+ M changedetectionio/store.py
+ M changedetectionio/templates/_helpers.jinja
+ M changedetectionio/templates/edit.html
+ M changedetectionio/templates/import.html
+ M changedetectionio/templates/settings.html
+ M changedetectionio/update_worker.py
+ M setup.py
+?? AGENTS.md
+?? changedetectionio/api/
+__init__.py  __pycache__  api_v1.py  auth.py
+$ cd /workspace/changedetection.io && find . -name "__pycache__" -path "*/api/*" -exec rm -rf {} + ; rm -rf changedetectionio/api/__pycache__; ls changedetectionio/api && cat .gitignore 2>/dev/null | head
+__init__.py  api_v1.py  auth.py
+__pycache__
+.idea
+*.pyc
+datastore/url-watches.json
+datastore/*
+__pycache__
+.pytest_cache
+build
+dist
+venv
+$ cd /tmp && rm -rf /tmp/bootds && mkdir /tmp/bootds && cd /workspace/changedetection.io && timeout 12 python ./changedetection.py -d /tmp/bootds -p 5099 > /tmp/boot.log 2>&1; grep -iE "error|traceback|Running on|Watching" /tmp/boot.log | head -10
+$ cat /tmp/boot.log | head -30; ls /tmp/bootds
+a7e6f763-e2df-4bf2-b584-7d936506cce1  d327405e-07de-4b79-9935-24359cb44086  dcec8544-905e-4fd9-8ca1-87d48386ece1  de6880a1-4f61-4dac-a809-3c51f9b3b8da  secret.txt  url-watches-before-1.json  url-watches.json
+$ cd /workspace/changedetection.io && (timeout 15 python ./changedetection.py -d /tmp/bootds -p 5099 > /tmp/boot2.log 2>&1 &) ; sleep 8; curl -s -o /dev/null -w "%{http_code}\n" http://127.0.0.1:5099/ ; curl -s -o /dev/null -w "api-no-key:%{http_code}\n" http://127.0.0.1:5099/api/v1/watch; KEY=$(python -c "import json;print(json.load(open('/tmp/bootds/url-watches.json'))['settings']['application']['api_access_token'])"); curl -s -H "x-api-key: $KEY" http://127.0.0.1:5099/api/v1/watch | head -c 300; echo; sleep 8
+200
+api-no-key:403
+{"a7e6f763-e2df-4bf2-b584-7d936506cce1":{"last_changed":0,"last_checked":1788603282,"last_error":"EmptyReply: Status Code 403","title":null,"url":"https://news.ycombinator.com/"},"d327405e-07de-4b79-9935-24359cb44086":{"last_changed":0,"last_checked":1788603281,"last_error":"EmptyReply: Status Code
+$ rm -rf /tmp/bootds /tmp/boot.log /tmp/boot2.log; cd /workspace/changedetection.io && git status --short
+M README.md
+ M changedetectionio/__init__.py
+ M changedetectionio/content_fetcher.py
+ M changedetectionio/fetch_site_status.py
+ M changedetectionio/forms.py
+ M changedetectionio/model/App.py
+ M changedetectionio/model/Watch.py
+ M changedetectionio/static/js/watch-settings.js
+ M changedetectionio/static/styles/styles.css
+ M changedetectionio/static/styles/styles.scss
+ M changedetectionio/store.py
+ M changedetectionio/templates/_helpers.jinja
+ M changedetectionio/templates/edit.html
+ M changedetectionio/templates/import.html
+ M changedetectionio/templates/settings.html
+ M changedetectionio/update_worker.py
+ M setup.py
+?? AGENTS.md
+?? changedetectionio/api/
+Task list has been updated with 8 item(s).
+$ cd /workspace/changedetection.io && grep -rn "url_for(" changedetectionio/templates/*.html changedetectionio/templates/*.jinja | grep -oE "url_for\('[a-z_]+'" | sort -u
+url_for('ajax_callback_send_notification_test'
+url_for('api_clone'
+url_for('api_delete'
+url_for('api_share_put_watch'
+url_for('api_watch_add'
+url_for('api_watch_checknow'
+url_for('diff_history_page'
+url_for('edit_page'
+url_for('get_backup'
+url_for('import_page'
+url_for('index'
+url_for('login'
+url_for('logout'
+url_for('mark_all_viewed'
+url_for('notification_logs'
+url_for('preview_page'
+url_for('rss'
+url_for('scrub_page'
+url_for('settings_page'
+url_for('static_content'
+$ cd /workspace/changedetection.io && python -u - <<'PYEOF' 2>&1 | tail -20
+$ import os, sys, shutil
+$ os.environ['PYTEST_CURRENT_TEST'] = 'x'
+$ p = "/tmp/mapds"; shutil.rmtree(p, ignore_errors=True); os.makedirs(p)
+$ from changedetectionio import changedetection_app, store
+$ ds = store.ChangeDetectionStore(datastore_path=p, include_default_watches=False)
+$ app = changedetection_app({'datastore_path': p}, ds)
+$ for r in sorted(app.url_map.iter_rules(), key=lambda x: str(x)):
+$     if '/api' in str(r):
+$         print(str(r), "->", r.endpoint, sorted(r.methods - {'HEAD', 'OPTIONS'}))
+$ ds.stop_thread = True; app.config.exit.set()
+$ sys.stdout.flush(); os._exit(0)
+$ PYEOF
+Applying update_1
+Saving JSON..
+/api/<string:uuid>/snapshot/current -> api_snapshot ['GET']
+/api/add -> api_watch_add ['POST']
+/api/checknow -> api_watch_checknow ['GET']
+/api/clone -> api_clone ['GET']
+/api/delete -> api_delete ['GET']
+/api/mark-all-viewed -> mark_all_viewed ['GET']
+/api/share-url -> api_share_put_watch ['GET']
+/api/v1/watch -> createwatch ['GET', 'POST']
+/api/v1/watch/<string:uuid> -> watch ['DELETE', 'GET']
+/api/v1/watch/<string:uuid>/history -> watchhistory ['GET']
+/api/v1/watch/<string:uuid>/history/<string:timestamp> -> watchsinglehistory ['GET']
+$ rm -rf /tmp/mapds; cd /workspace/changedetection.io && git status --short && echo "--- new files ---" && ls -la changedetectionio/api/
+M README.md
+ M changedetectionio/__init__.py
+ M changedetectionio/content_fetcher.py
+ M changedetectionio/fetch_site_status.py
+ M changedetectionio/forms.py
+ M changedetectionio/model/App.py
+ M changedetectionio/model/Watch.py
+ M changedetectionio/static/js/watch-settings.js
+ M changedetectionio/static/styles/styles.css
+ M changedetectionio/static/styles/styles.scss
+ M changedetectionio/store.py
+ M changedetectionio/templates/_helpers.jinja
+ M changedetectionio/templates/edit.html
+ M changedetectionio/templates/import.html
+ M changedetectionio/templates/settings.html
+ M changedetectionio/update_worker.py
+ M setup.py
+?? AGENTS.md
+?? changedetectionio/api/
+--- new files ---
+total 28
+drwxr-xr-x.  3 openhands openhands    76 Sep  5 10:14 .
+drwxr-xr-x. 10 openhands openhands 16384 Sep  5 10:04 ..
+-rw-r--r--.  1 openhands openhands     0 Sep  5 10:04 __init__.py
+drwxr-xr-x.  2 openhands openhands    93 Sep  5 10:14 __pycache__
+-rw-r--r--.  1 openhands openhands  4668 Sep  5 10:04 api_v1.py
+-rw-r--r--.  1 openhands openhands  1084 Sep  5 10:04 auth.py
+$ cd /workspace/changedetection.io && rm -rf changedetectionio/api/__pycache__ && ls changedetectionio/api/
+__init__.py  api_v1.py  auth.py
+All 7 issues from the description have been implemented and verified. Final tally: **7 addressed (DONE), 0 BLOCKED**.
+
+## Checklist and what was changed
+
+**1. #593 — `ModuleNotFoundError: No module named 'changedetectionio.model'`** (`setup.py`)
+`packages=['changedetectionio']` shipped only the top package. Now uses `find_packages(exclude=['changedetectionio.tests', 'changedetectionio.tests.*'])`. Reproduced by building a wheel (no `model/` inside) and confirmed fixed (`model/` and `api/` now included, tests excluded).
+
+**2. #599 — `PLAYWRIGHT_DRIVER_URL` default** (`content_fetcher.py`)
+The fetcher uses `connect_over_cdp()`, so the default is now the plain browser websocket endpoint `ws://playwright-chrome:3000` instead of the `/playwright` path (env override still stripped/honoured).
+
+**3. #214 — configurable delay before extracting text**
+`Fetcher.render_extract_delay` added and applied on top of `WEBDRIVER_DELAY_BEFORE_CONTENT_READY` in both the WebDriver (`time.sleep`) and Playwright (`wait_for_timeout`) fetchers; `webdriver_delay` added to the App + Watch models and to `commonSettingsForm` (so it appears globally *and* per watch); resolution order watch → global → 0 in `fetch_site_status.py`; UI in `edit.html` / `settings.html` plus `#webdriver-override-options` show/hide in `watch-settings.js`.
+
+**4. #608 — pages with no renderable content**
+New `content_fetcher.ReplyWithContentButNoText`, raised when the extracted text is empty and the new `empty_pages_are_a_change` application setting is off; `update_worker` catches it and records "Got HTML content but no text found." instead of a change; checkbox added to Global Filters. Verified end-to-end through the real update worker (no history entry / no `unviewed` when off, change recorded when on).
+
+**5. #610 — proxy "Default" option**
+Watch proxy radio now offers `('', 'Default')`, is stored back as `None`, and `set_proxy_from_list()` plus the global settings page treat empty/None as "use system proxy, else first in list". Removed the bogus `form.proxy.default='http://hello'`.
+
+**6. #611 — input field tidyup**
+Removed the dead duplicate `render_field` macro in `_helpers.jinja`, removed redundant inline textarea styling from `import.html` (already covered by `.monospaced-textarea`), consistent `m-d` class on the tag field, and CSS (scss + compiled css) so every input type stays inside its container and url/password inputs get full width on mobile like text inputs.
+
+**7. #617 — API interface**
+New `changedetectionio/api/` package: `auth.py` (`x-api-key` check, honouring `api_access_token_enabled`) and `api_v1.py` with `Watch`, `WatchHistory`, `WatchSingleHistory`, `CreateWatch`. Routes registered (CSRF-exempt) exactly as documented:
+`GET/POST /api/v1/watch` (`?recheck_all=1`), `GET/DELETE /api/v1/watch/<uuid>` (`?recheck=1`), `GET /api/v1/watch/<uuid>/history`, `GET /api/v1/watch/<uuid>/history/<timestamp|latest>` — endpoints named `createwatch`, `watch`, `watchhistory`, `watchsinglehistory`. The API key is generated in `store.py`, `api_access_token_enabled` defaults to on, and a new **API** tab in global settings shows the key (`<span id="api-key">…</span>`) with the enable/disable checkbox; README documents it. Implemented with `flask.views.MethodView` rather than `flask-restful` because that package is not installed and the environment has no network access — URLs, endpoint names, methods and JSON payloads are identical.
+
+## Verification
+- 7 reproduction scripts with 83 assertions (packaging, playwright URL, delay resolution, empty-page behaviour through the real worker, proxy defaults, template rendering, full API lifecycle incl. CSRF-enabled POST/DELETE and 403 handling) — all pass.
+- Every test file in the repo run individually (the whole graded list plus the rest): **0 failures**. `tests/test_security.py::test_file_access` fails identically before my changes (verified via `git stash`) — pre-existing/network related.
+- App boots via `./changedetection.py`: UI 200, `/api/v1/watch` 403 without a key and returns JSON with the key.
+- No test files, fixtures, CI, Docker or lockfiles were modified.

@@ -1,0 +1,97 @@
+{
+  "version": {
+    "quality": "quality-v1",
+    "prompt_digest": "6169e82413340627",
+    "manifest_digest": "d55b59e374bfca48"
+  },
+  "task_uuid": "5fee266c-fa53-41c7-bdbd-285e188670ac",
+  "model": "opus-5",
+  "run_id": "run_8",
+  "status": "scored",
+  "calibrated": false,
+  "judge": {
+    "member": "gpt-5.6-sol",
+    "model": "openai/responses/gpt-5.6-sol"
+  },
+  "patch": {
+    "source": "git",
+    "sha256": "79fc55899c44eb8b2f68a79852362aadcb304e7f3be4c03bb3b691580a06e55b",
+    "bytes": 38234,
+    "truncated": false
+  },
+  "evidence_digest": "d0c7431f04dfd762",
+  "quality_fingerprint": "7ee2b0f8c04be969",
+  "score": 0.5714,
+  "counts": {
+    "total": 7,
+    "passed": 4,
+    "failed": 3,
+    "undecided": 0
+  },
+  "reasons": [],
+  "items": [
+    {
+      "id": "Q1",
+      "dimension": "conventions",
+      "weight": 3,
+      "resolution": "unanimous",
+      "satisfied": true,
+      "rationale": "The additions follow the surrounding patterns: the new fetch exception is handled alongside `EmptyReply` with the same datastore update style, while unexpected exceptions continue to use the existing application logger. Imports in the new API module are also grouped as standard-library, third-party, then local imports.",
+      "evidence_ref": "`changedetectionio/update_worker.py` hunk around lines 57\u201370; `changedetectionio/api/api_v1.py` hunk at lines 1\u20137."
+    },
+    {
+      "id": "Q2",
+      "dimension": "minimal_diff",
+      "weight": 3,
+      "resolution": "unanimous",
+      "satisfied": false,
+      "rationale": "The new AGENTS.md contains repository layout and test-running notes rather than implementing or documenting any of the requested issue behaviors, so the diff includes unrelated material.",
+      "evidence_ref": "AGENTS.md, new-file hunk @@ -0,0 +1,21 @@, including \u201c# Repository notes (changedetection.io)\u201d and test-environment guidance."
+    },
+    {
+      "id": "Q3",
+      "dimension": "abstraction",
+      "weight": 3,
+      "resolution": "unanimous",
+      "satisfied": true,
+      "rationale": "The new abstractions consolidate genuinely repeated behavior: the shared API `Resource` base serves four endpoint classes, while `register_api_resource` centralizes identical view creation, CSRF exemption, and route registration across four routes. No unnecessary single-use layer is introduced.",
+      "evidence_ref": "`changedetectionio/api/api_v1.py` hunk defining `Resource` and its four subclasses; `changedetectionio/__init__.py` hunk defining `register_api_resource` and calling it four times."
+    },
+    {
+      "id": "Q4",
+      "dimension": "readability",
+      "weight": 3,
+      "resolution": "unanimous",
+      "satisfied": true,
+      "rationale": "The added API resources and fetch-setting logic use small, shallow methods with direct guard clauses, while comments generally explain intent such as default-proxy fallback and why empty rendered pages are ignored. No changed function introduces deep nesting or combines unrelated responsibilities.",
+      "evidence_ref": "`changedetectionio/api/api_v1.py` hunks adding `Watch`, `WatchHistory`, `WatchSingleHistory`, and `CreateWatch`; `changedetectionio/fetch_site_status.py` hunks adding proxy fallback, render delay, and empty-page handling."
+    },
+    {
+      "id": "Q5",
+      "dimension": "naming",
+      "weight": 3,
+      "resolution": "unanimous",
+      "satisfied": false,
+      "rationale": "The new authentication decorator uses the single-letter parameter `f` outside a tight loop, so not every introduced identifier clearly describes what it holds or does.",
+      "evidence_ref": "changedetectionio/api/auth.py, new `check_token` hunk: `def check_token(f):`"
+    },
+    {
+      "id": "Q6",
+      "dimension": "idiomaticity",
+      "weight": 3,
+      "resolution": "unanimous",
+      "satisfied": true,
+      "rationale": "The added API follows established Flask/Python idioms by using `MethodView.as_view`, `app.add_url_rule`, `jsonify`, and a `functools.wraps` authentication decorator rather than introducing foreign routing or authorization patterns.",
+      "evidence_ref": "`changedetectionio/__init__.py` hunk around API endpoint registration and `changedetectionio/api/auth.py` hunk defining `check_token`"
+    },
+    {
+      "id": "Q7",
+      "dimension": "dead_code",
+      "weight": 3,
+      "resolution": "unanimous",
+      "satisfied": false,
+      "rationale": "The new `ReplyWithContentButNoText` exception stores `self.url`, but the only added handler reads only `e.status_code`; the class also contains a redundant explicit `return` and trailing `pass`. These additions are unused/no-op code rather than code needed by an execution path shown in the diff.",
+      "evidence_ref": "`changedetectionio/content_fetcher.py`, hunk adding `ReplyWithContentButNoText`: `self.url = url`, `return`, and trailing `pass`; `changedetectionio/update_worker.py` handler uses only `e.status_code`."
+    }
+  ]
+}

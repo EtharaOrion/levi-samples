@@ -1,0 +1,97 @@
+{
+  "version": {
+    "quality": "quality-v1",
+    "prompt_digest": "6169e82413340627",
+    "manifest_digest": "d55b59e374bfca48"
+  },
+  "task_uuid": "5fee266c-fa53-41c7-bdbd-285e188670ac",
+  "model": "opus-5",
+  "run_id": "run_6",
+  "status": "scored",
+  "calibrated": false,
+  "judge": {
+    "member": "gpt-5.6-sol",
+    "model": "openai/responses/gpt-5.6-sol"
+  },
+  "patch": {
+    "source": "git",
+    "sha256": "5c5ab40153424eb23421e43a5a18edb4d3260a359d5601971661f429209aeb9d",
+    "bytes": 33801,
+    "truncated": false
+  },
+  "evidence_digest": "72f4c44e13ea4592",
+  "quality_fingerprint": "303130e570cfe81d",
+  "score": 0.5714,
+  "counts": {
+    "total": 7,
+    "passed": 4,
+    "failed": 3,
+    "undecided": 0
+  },
+  "reasons": [],
+  "items": [
+    {
+      "id": "Q1",
+      "dimension": "conventions",
+      "weight": 3,
+      "resolution": "unanimous",
+      "satisfied": false,
+      "rationale": "The new exception does not follow the concise style of the adjacent exception class: its constructor ends with a redundant explicit `return` followed by unreachable `pass`.",
+      "evidence_ref": "changedetectionio/content_fetcher.py, hunk around `ReplyWithContentButNoText`: `self.url = url`, `return`, then `pass`, versus adjacent `class EmptyReply(Exception): pass`"
+    },
+    {
+      "id": "Q2",
+      "dimension": "minimal_diff",
+      "weight": 3,
+      "resolution": "unanimous",
+      "satisfied": true,
+      "rationale": "The diff\u2019s hunks correspond directly to the listed issues: package discovery, Playwright URL, render delay, empty-page handling, default proxy selection, input-field cleanup, and API implementation/documentation; no unrelated file edits or broad mechanical churn are shown.",
+      "evidence_ref": "setup.py package-discovery hunk; changedetectionio/content_fetcher.py and fetch_site_status.py delay/empty-content hunks; changedetectionio/__init__.py proxy/API-registration hunks; changedetectionio/api/* API implementation; templates/forms hunks for settings and input cleanup"
+    },
+    {
+      "id": "Q3",
+      "dimension": "abstraction",
+      "weight": 3,
+      "resolution": "unanimous",
+      "satisfied": true,
+      "rationale": "The added abstractions consolidate genuinely repeated behavior: `_register_api_resource` handles common MethodView registration for four resources, while the API `abort` helper provides consistent JSON errors across several endpoints. No single-use indirection or unnecessary layer is evident in the diff.",
+      "evidence_ref": "changedetectionio/__init__.py hunk at lines 1146\u20131175, where `_register_api_resource` is defined once and called four times; changedetectionio/api/api_v1.py hunk at lines 10\u201312 and its repeated `abort(...)` calls."
+    },
+    {
+      "id": "Q4",
+      "dimension": "readability",
+      "weight": 3,
+      "resolution": "unanimous",
+      "satisfied": true,
+      "rationale": "The added API resource methods and registration helper use shallow, linear control flow with early aborts, while comments generally clarify API behavior, authentication, or configuration intent rather than complicating the implementation.",
+      "evidence_ref": "changedetectionio/api/api_v1.py, new-file hunk (MethodView handlers use direct validation and early aborts); changedetectionio/__init__.py hunk around `_register_api_resource` (a small helper cleanly centralizes route registration and CSRF exemption)."
+    },
+    {
+      "id": "Q5",
+      "dimension": "naming",
+      "weight": 3,
+      "resolution": "unanimous",
+      "satisfied": false,
+      "rationale": "The new authentication decorator uses the single-letter parameter `f` outside a tight loop, rather than a descriptive name such as `view_func`, despite clearer naming elsewhere in the change.",
+      "evidence_ref": "changedetectionio/api/auth.py, new `check_token` hunk: `def check_token(f):` and `return f(*args, **kwargs)`"
+    },
+    {
+      "id": "Q6",
+      "dimension": "idiomaticity",
+      "weight": 3,
+      "resolution": "unanimous",
+      "satisfied": true,
+      "rationale": "The added API uses standard Flask facilities\u2014`MethodView`, decorators, `jsonify`, `make_response`, and `app.add_url_rule`\u2014and the new settings use the existing WTForms field/validator patterns rather than introducing foreign abstractions.",
+      "evidence_ref": "changedetectionio/__init__.py hunk at lines 1146\u20131176 and changedetectionio/api/api_v1.py new-file hunk, especially `view.as_view(...)`, `csrf.exempt(view_func)`, `app.add_url_rule(...)`, and `class Watch(MethodView)`."
+    },
+    {
+      "id": "Q7",
+      "dimension": "dead_code",
+      "weight": 3,
+      "resolution": "unanimous",
+      "satisfied": false,
+      "rationale": "The new `ReplyWithContentButNoText` exception contains a redundant explicit `return` and class-level `pass`, and stores `status_code` and `url` even though the only added handler ignores the exception object entirely. These are dead or speculative additions rather than code needed by an shown execution path.",
+      "evidence_ref": "`changedetectionio/content_fetcher.py` hunk adding `ReplyWithContentButNoText` (`self.status_code = status_code`, `self.url = url`, `return`, and `pass`), together with `changedetectionio/update_worker.py` where `except content_fetcher.ReplyWithContentButNoText as e:` never uses `e`."
+    }
+  ]
+}

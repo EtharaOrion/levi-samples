@@ -1,0 +1,11 @@
+[
+  {
+    "source": "/logs/artifacts",
+    "destination": "artifacts",
+    "type": "directory",
+    "status": "present",
+    "files": [
+      "agent.patch"
+    ]
+  }
+]

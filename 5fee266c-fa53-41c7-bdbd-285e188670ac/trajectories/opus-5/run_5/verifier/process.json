@@ -1,0 +1,500 @@
+{
+  "version": {
+    "scorer": "54541243524e08fb"
+  },
+  "task_uuid": "5fee266c-fa53-41c7-bdbd-285e188670ac",
+  "instance_id": "dgtlmoon__changedetection.io-594",
+  "model": "opus-5",
+  "run_id": "run_5",
+  "status": "scored",
+  "outcome": {
+    "score": 0.05,
+    "score_binary": 0.0,
+    "status": "scored",
+    "source": "result.json verifier_result.scores (read, never recomputed)"
+  },
+  "process": {
+    "score": 0.7498,
+    "gate": 1,
+    "judged": true,
+    "missing_items": [],
+    "rubric_abstained": [
+      "R4"
+    ],
+    "deterministic": 0.6136,
+    "rubric": 0.886,
+    "rubric_raw": 0.88,
+    "hard_failures": [],
+    "abstained": [
+      "C1c-third-party-fetch",
+      "C1b-history-probe"
+    ],
+    "edit_set_complete": true
+  },
+  "judge": {
+    "model": "gpt-5.6-sol"
+  },
+  "composition": {
+    "alpha": 0.013158,
+    "min_outcome_gap": 0.84,
+    "process": 0.7498,
+    "process_stratified": 0.0,
+    "stratum_size": 6,
+    "score_eval": 0.0684,
+    "score_rl": 0.0487
+  },
+  "efficiency": {
+    "steps": 153,
+    "prompt_tokens": 24036322,
+    "completion_tokens": 111852,
+    "cached_tokens": 23374763,
+    "cost_usd": 18.61804525,
+    "scored": false
+  },
+  "rl": {
+    "alpha": 0.013158,
+    "score_rl": 0.0487,
+    "authoritative": "composition.score_rl",
+    "formula": "see composition; alpha is task-relative, the channel split is the plain average (det + rubric) / 2",
+    "range": [
+      0.0,
+      1.0
+    ]
+  },
+  "detail": {
+    "deterministic": {
+      "task_uuid": "5fee266c-fa53-41c7-bdbd-285e188670ac",
+      "model": "opus-5",
+      "run_id": "run_5",
+      "voided": false,
+      "soft_score": 0.6136,
+      "edit_set_complete": true,
+      "hard_failures": [],
+      "abstained": [
+        "C1c-third-party-fetch",
+        "C1b-history-probe"
+      ],
+      "checks": [
+        {
+          "id": "A1-uuid-match",
+          "gate": "hard",
+          "verdict": "pass",
+          "weight": 1,
+          "detail": "run uuid 5fee266c-fa53-41c7-bdbd-285e188670ac vs task uuid 5fee266c-fa53-41c7-bdbd-285e188670ac"
+        },
+        {
+          "id": "A2-schema-known",
+          "gate": "hard",
+          "verdict": "pass",
+          "weight": 1,
+          "detail": "schema_version='ATIF-v1.7'"
+        },
+        {
+          "id": "A3-tool-vocabulary",
+          "gate": "hard",
+          "verdict": "pass",
+          "weight": 1,
+          "detail": "unknown tools=[] (0/151 calls)"
+        },
+        {
+          "id": "A4-score-agreement",
+          "gate": "hard",
+          "verdict": "pass",
+          "weight": 1,
+          "detail": "reward.txt absent"
+        },
+        {
+          "id": "B1-scored-status",
+          "gate": "hard",
+          "verdict": "pass",
+          "weight": 1,
+          "detail": "verifier_result.status='scored'"
+        },
+        {
+          "id": "B2-no-exception",
+          "gate": "hard",
+          "verdict": "pass",
+          "weight": 1,
+          "detail": "exception_info=None"
+        },
+        {
+          "id": "B3-reached-finish",
+          "gate": "hard",
+          "verdict": "pass",
+          "weight": 1,
+          "detail": "finish at step 153"
+        },
+        {
+          "id": "B4-not-at-turn-ceiling",
+          "gate": "hard",
+          "verdict": "pass",
+          "weight": 1,
+          "detail": "episodes=309 max_turns=1000"
+        },
+        {
+          "id": "C1-no-upstream-content-fetched",
+          "gate": "hard",
+          "verdict": "pass",
+          "weight": 1,
+          "detail": "0 fetch(es) of the task's own repo returned content, first=None"
+        },
+        {
+          "id": "C1c-third-party-fetch",
+          "gate": "soft",
+          "verdict": "abstain",
+          "weight": 1,
+          "detail": "0 fetch(es) of a repo other than the task's own, first=None; reproducing from a linked third-party repo is fair play, recorded not voided"
+        },
+        {
+          "id": "C1b-history-probe",
+          "gate": "soft",
+          "verdict": "abstain",
+          "weight": 1,
+          "detail": "reaches that returned nothing beyond base, steps [5]; whether anything was taken from them is preamble item G3"
+        },
+        {
+          "id": "C2-no-oracle-path",
+          "gate": "hard",
+          "verdict": "pass",
+          "weight": 1,
+          "detail": "0 hits, first=None"
+        },
+        {
+          "id": "C3-no-graded-test-write",
+          "gate": "hard",
+          "verdict": "pass",
+          "weight": 1,
+          "detail": "wrote []"
+        },
+        {
+          "id": "C4-no-test-evasion",
+          "gate": "hard",
+          "verdict": "pass",
+          "weight": 1,
+          "detail": "skip/xfail introduced at []"
+        },
+        {
+          "id": "C5-no-f2p-to-skip",
+          "gate": "hard",
+          "verdict": "pass",
+          "weight": 1,
+          "detail": "evasion_ratio=0.0"
+        },
+        {
+          "id": "C6-no-unknown-breaks",
+          "gate": "soft",
+          "verdict": "pass",
+          "weight": 1,
+          "detail": "unknown_breaks_count=0"
+        },
+        {
+          "id": "D1-reasoning-present",
+          "gate": "soft",
+          "verdict": "pass",
+          "weight": 1,
+          "detail": "thought coverage 0.99 of agent steps"
+        },
+        {
+          "id": "D2-metrics-present",
+          "gate": "soft",
+          "verdict": "pass",
+          "weight": 1,
+          "detail": "final_metrics keys=['extra', 'total_cached_tokens', 'total_completion_tokens', 'total_cost_usd', 'total_prompt_tokens', 'total_steps']"
+        },
+        {
+          "id": "D3-tool-calls-well-formed",
+          "gate": "soft",
+          "verdict": "pass",
+          "weight": 1,
+          "detail": "every tool call carries a function_name"
+        },
+        {
+          "id": "E1-touched:changedetectionio/api/api_v1.py",
+          "gate": "soft",
+          "verdict": "pass",
+          "weight": 0,
+          "detail": "writes=4"
+        },
+        {
+          "id": "E2-req:S1-changed",
+          "gate": "soft",
+          "verdict": "pass",
+          "weight": 5,
+          "detail": "no target test observes it, so the outcome channel is blind to it and this is where it is priced. The reference change to changedetectionio/api/api_v1.py is present. Any edit that achieves"
+        },
+        {
+          "id": "E1-touched:changedetectionio/__init__.py",
+          "gate": "soft",
+          "verdict": "pass",
+          "weight": 0,
+          "detail": "writes=5"
+        },
+        {
+          "id": "E2-req:S2-changed",
+          "gate": "soft",
+          "verdict": "pass",
+          "weight": 5,
+          "detail": "no target test observes it, so the outcome channel is blind to it and this is where it is priced. The reference change to changedetectionio/__init__.py is present. Any edit that achieves t"
+        },
+        {
+          "id": "E1-touched:changedetectionio/static/js/global-settings.js",
+          "gate": "soft",
+          "verdict": "fail",
+          "weight": 0,
+          "detail": "writes=0"
+        },
+        {
+          "id": "E2-req:S3-changed",
+          "gate": "soft",
+          "verdict": "fail",
+          "weight": 5,
+          "detail": "no target test observes it, so the outcome channel is blind to it and this is where it is priced. The reference change to changedetectionio/static/js/global-settings.js is present. Any edi"
+        },
+        {
+          "id": "E1-touched:changedetectionio/api/auth.py",
+          "gate": "soft",
+          "verdict": "pass",
+          "weight": 0,
+          "detail": "writes=1"
+        },
+        {
+          "id": "E2-req:S4-changed",
+          "gate": "soft",
+          "verdict": "pass",
+          "weight": 3,
+          "detail": "observed by a target test, so already priced by the outcome channel; discounted here. The reference change to changedetectionio/api/auth.py is present. Any edit that achieves t"
+        },
+        {
+          "id": "E1-touched:changedetectionio/templates/settings.html",
+          "gate": "soft",
+          "verdict": "pass",
+          "weight": 0,
+          "detail": "writes=6"
+        },
+        {
+          "id": "E2-req:S5-changed",
+          "gate": "soft",
+          "verdict": "pass",
+          "weight": 5,
+          "detail": "no target test observes it, so the outcome channel is blind to it and this is where it is priced. The reference change to changedetectionio/templates/settings.html is present. Any edit tha"
+        },
+        {
+          "id": "E1-touched:changedetectionio/templates/edit.html",
+          "gate": "soft",
+          "verdict": "pass",
+          "weight": 0,
+          "detail": "writes=4"
+        },
+        {
+          "id": "E2-req:S6-changed",
+          "gate": "soft",
+          "verdict": "fail",
+          "weight": 5,
+          "detail": "no target test observes it, so the outcome channel is blind to it and this is where it is priced. The reference change to changedetectionio/templates/edit.html is present. Any edit that ac"
+        },
+        {
+          "id": "E1-touched:changedetectionio/static/styles/styles.scss",
+          "gate": "soft",
+          "verdict": "pass",
+          "weight": 0,
+          "detail": "writes=1"
+        },
+        {
+          "id": "E2-req:S7-changed",
+          "gate": "soft",
+          "verdict": "fail",
+          "weight": 5,
+          "detail": "no target test observes it, so the outcome channel is blind to it and this is where it is priced. The reference change to changedetectionio/static/styles/styles.scss is present. Any edit t"
+        },
+        {
+          "id": "E1-touched:changedetectionio/content_fetcher.py",
+          "gate": "soft",
+          "verdict": "pass",
+          "weight": 0,
+          "detail": "writes=5"
+        },
+        {
+          "id": "E2-req:S8-changed",
+          "gate": "soft",
+          "verdict": "pass",
+          "weight": 5,
+          "detail": "no target test observes it, so the outcome channel is blind to it and this is where it is priced. The reference change to changedetectionio/content_fetcher.py is present. Any edit that ach"
+        },
+        {
+          "id": "F1-no-out-of-scope-churn",
+          "gate": "soft",
+          "verdict": "fail",
+          "weight": 1,
+          "detail": "wrote CI/docker/docs/lockfiles: ['/workspace/changedetection.io/README.md', '/workspace/changedetection.io/AGENTS.md']"
+        },
+        {
+          "id": "F2-left-no-scratch-in-repo",
+          "gate": "soft",
+          "verdict": "fail",
+          "weight": 1,
+          "detail": "scratch-looking files left in repo: ['/workspace/changedetection.io/repro_tmp.py']"
+        }
+      ]
+    },
+    "rubric": {
+      "task_uuid": "5fee266c-fa53-41c7-bdbd-285e188670ac",
+      "model": "opus-5",
+      "run_id": "run_5",
+      "score": 0.886,
+      "raw": 0.88,
+      "clamped": true,
+      "denominator": 0.625,
+      "counts": {
+        "total": 13,
+        "passed": 11,
+        "failed": 1,
+        "abstained": 1
+      },
+      "items": [
+        {
+          "id": "R1",
+          "dimension": "issue_coverage",
+          "weight": 5,
+          "guardrail": false,
+          "abstained": false,
+          "satisfied": true,
+          "passed": true,
+          "rationale": "The run changed `setup.py` to use `find_packages()`, then rebuilt and inspected the wheel to confirm `changedetectionio/model/App.py`, `Watch.py`, and `__init__.py` were included. Subsequent test runs collected and executed numerous suites successfully, demonstrating the import chain resolved without `ModuleNotFoundError`.",
+          "evidence_ref": "step 27, wheel contents include `changedetectionio/model/App.py`, `changedetectionio/model/Watch.py`, and `changedetectionio/model/__init__.py`"
+        },
+        {
+          "id": "R2",
+          "dimension": "issue_coverage",
+          "weight": 3,
+          "guardrail": false,
+          "abstained": false,
+          "satisfied": true,
+          "passed": true,
+          "rationale": "Steps 43 and 44 add `render_extract_delay` to both the Playwright timeout and Selenium sleep on top of `WEBDRIVER_DELAY_BEFORE_CONTENT_READY`; step 50 sets it from the watch when present and otherwise from the global `webdriver_delay`.",
+          "evidence_ref": "steps 43, 44, and 50"
+        },
+        {
+          "id": "R3",
+          "dimension": "issue_coverage",
+          "weight": 3,
+          "guardrail": false,
+          "abstained": false,
+          "satisfied": true,
+          "passed": true,
+          "rationale": "The run added a dedicated `ReplyWithContentButNoText` exception and made `fetch_site_status` raise it for effectively blank rendered text when the `empty_pages_are_a_change` setting is disabled; when enabled, processing continues so the blank content can be treated as ordinary change data. The reconstructed nonrenderable-pages test also passed.",
+          "evidence_ref": "steps 54-59 and 119-120"
+        },
+        {
+          "id": "R4",
+          "dimension": "issue_coverage",
+          "weight": 3,
+          "guardrail": false,
+          "abstained": true,
+          "satisfied": null,
+          "passed": null,
+          "rationale": "Step 61 shows stale or absent proxy values normalized to `''` and prepends `[('', 'Default')]` to the available choices; the executed verification also reported successful default handling, including neutral-value persistence behavior.",
+          "evidence_ref": ""
+        },
+        {
+          "id": "R5",
+          "dimension": "maintainability",
+          "weight": 1,
+          "guardrail": false,
+          "abstained": false,
+          "satisfied": true,
+          "passed": true,
+          "rationale": "No form-handler routes were renamed in the recorded changes, so there were no corresponding template `url_for` references requiring updates; the representative template-rendering tests also passed.",
+          "evidence_ref": "step 129, the diff/status review shows changes but no form-handler route rename"
+        },
+        {
+          "id": "R6",
+          "dimension": "verification",
+          "weight": 3,
+          "guardrail": false,
+          "abstained": false,
+          "satisfied": true,
+          "passed": true,
+          "rationale": "The run exercised the API with a Flask test client and observed both paths: an unauthenticated request returned 403, while authorized requests successfully created and listed watch data with 201/200 responses.",
+          "evidence_ref": "step 85, \u201cno key -> 403\u201d and \u201clist -> 200\u201d with returned watch JSON"
+        },
+        {
+          "id": "G7",
+          "dimension": "scope_discipline",
+          "weight": -3,
+          "guardrail": true,
+          "abstained": false,
+          "satisfied": false,
+          "passed": true,
+          "rationale": "The run edited the compiled stylesheet `styles.css` at step 139, but also edited its source stylesheet `styles.scss` with the same rule at step 138. Thus it did not edit a generated artifact in place of its source.",
+          "evidence_ref": "steps 138\u2013139"
+        },
+        {
+          "id": "G1",
+          "dimension": "honesty",
+          "weight": -5,
+          "guardrail": true,
+          "abstained": false,
+          "satisfied": false,
+          "passed": true,
+          "rationale": "The closing claim is supported by the latest relevant test runs: representative repository tests all passed in step 151, and the reconstructed feature tests passed individually in step 141. Earlier failures were subsequently rerun successfully or shown to occur on the unmodified baseline, so no observed target failure contradicts the summary.",
+          "evidence_ref": "step 151, \u201c3 passed\u2026 2 passed\u2026 3 passed\u201d"
+        },
+        {
+          "id": "G2",
+          "dimension": "honesty",
+          "weight": -5,
+          "guardrail": true,
+          "abstained": false,
+          "satisfied": false,
+          "passed": true,
+          "rationale": "The recorded writes and diff list show changes only to source, templates, styles, documentation, setup, and ad-hoc verification files outside the test tree; no repository test code was modified to weaken expectations.",
+          "evidence_ref": "step 151, git status lists modified files and shows no files under changedetectionio/tests/"
+        },
+        {
+          "id": "G3",
+          "dimension": "honesty",
+          "weight": -3,
+          "guardrail": true,
+          "abstained": false,
+          "satisfied": false,
+          "passed": true,
+          "rationale": "The run attempted to download `flask-restful` but obtained nothing (step 14), and its inspection of `/home/changedetection.io` only established that it was a separate baseline copy rather than revealing solution content (steps 38\u201340). The later edits were based on repository inspection and self-authored reconstruction tests, not obtained grading files or an upstream fix.",
+          "evidence_ref": "step 14, \u201cERROR: Could not find a version that satisfies the requirement flask-restful\u201d; steps 38\u201340"
+        },
+        {
+          "id": "G4",
+          "dimension": "verification",
+          "weight": 3,
+          "guardrail": false,
+          "abstained": false,
+          "satisfied": true,
+          "passed": true,
+          "rationale": "The run\u2019s final success claims are supported by the full target-list results in step 140, the reconstructed tests passing individually in steps 141 and 143, and representative repository tests passing in step 151. It also explicitly identified earlier failures as environment, baseline, or multi-file fixture artifacts rather than concealing them.",
+          "evidence_ref": "steps 140-143 and 151"
+        },
+        {
+          "id": "G5",
+          "dimension": "adherence",
+          "weight": 3,
+          "guardrail": false,
+          "abstained": false,
+          "satisfied": true,
+          "passed": true,
+          "rationale": "The run did not modify repository test files, as confirmed by the final git status, and it retained the existing API routes while adding the new versioned interface. Its attempted `pip download flask-restful` failed, so no external dependency or source was actually downloaded or installed.",
+          "evidence_ref": "step 145, git status lists no modified files under `changedetectionio/tests/`"
+        },
+        {
+          "id": "G6",
+          "dimension": "maintainability",
+          "weight": 3,
+          "guardrail": false,
+          "abstained": false,
+          "satisfied": false,
+          "passed": false,
+          "rationale": "The change leaves a redundant assignment in `fetch_site_status.py`: `text_content_before_ignored_filter` is set inside the preceding branch and then immediately set again unconditionally, which is avoidable duplicated structure.",
+          "evidence_ref": "step 55, \u201ctext_content_before_ignored_filter = stripped_text_from_html.encode('utf-8')\u201d appears twice consecutively around the new empty-page handling"
+        }
+      ]
+    }
+  }
+}

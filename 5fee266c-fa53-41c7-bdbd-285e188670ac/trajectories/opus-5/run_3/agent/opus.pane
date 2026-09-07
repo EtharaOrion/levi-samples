@@ -1,0 +1,200 @@
+                          'last_changed': watch['last_changed'],
+                          'last_error': watch.get('last_error', False),
+                          'viewed': watch.get('viewed', False)}
+
+        if request.args.get('recheck_all'):
+            for uuid in self.datastore.data['watching'].keys():
+                self.update_q.put(uuid)
+            return {'status': "OK"}, 200
+
+        return jsonify(list)
+
+
+def register_api_routes(app, datastore, update_q, csrf=None):
+    """Attach the API resources to the Flask app, the endpoint names are the lowercase
+       class names so that url_for('createwatch') etc works as expected"""
+
+    resource_kwargs = {'datastore': datastore, 'update_q': update_q}
+
+    routes = [
+        (WatchSingleHistory, '/api/v1/watch/<string:uuid>/history/<string:timestamp>', ['GET']),
+        (WatchHistory, '/api/v1/watch/<string:uuid>/history', ['GET']),
+        (CreateWatch, '/api/v1/watch', ['GET', 'POST']),
+        (Watch, '/api/v1/watch/<string:uuid>', ['GET', 'DELETE']),
+    ]
+
+    for klass, url, methods in routes:
+        endpoint = klass.__name__.lower()
+        view = klass.as_view(endpoint, **resource_kwargs)
+
+        # The API uses the 'x-api-key' header for authentication, CSRF tokens don't apply here
+        if csrf is not None:
+            view = csrf.exempt(view)
+
+        app.add_url_rule(url, view_func=view, methods=methods)
+$ cd /workspace/changedetection.io && python - <<'EOF'
+$ p='changedetectionio/api/api_v1.py'
+$ s=open(p).read()
+$ s = s.replace("""from copy import deepcopy
+$ 
+$ from flask import jsonify, make_response, request
+$ from flask.views import MethodView
+$ """, """from copy import deepcopy
+$ 
+$ import validators
+$ from flask import jsonify, make_response, request
+$ from flask.views import MethodView
+$ """)
+$ s = s.replace("""    def post(self):
+$         import validators
+$ 
+$         json_data""", """    def post(self):
+$         json_data""")
+$ open(p,'w').write(s)
+$ EOF
+$ head -8 changedetectionio/api/api_v1.py && grep -n "import validators" changedetectionio/api/api_v1.py
+cd /workspace/changedetection.io && python - <<'EOF'
+p='changedetectionio/api/api_v1.py'
+s=open(p).read()
+s = s.replace("""from copy import deepcopy
+from flask import jsonify, make_response, request
+from flask.views import MethodView
+""", """from copy import deepcopy
+import validators
+from flask import jsonify, make_response, request
+from flask.views import MethodView
+""")
+s = s.replace("""    def post(self):
+        import validators
+        json_data""", """    def post(self):
+        json_data""")
+open(p,'w').write(s)
+EOF
+
+
+
+head -8 changedetectionio/api/api_v1.py && grep -n "import validators" changedetectionio/api/api_v1.py
+from copy import deepcopy
+
+import validators
+from flask import jsonify, make_response, request
+from flask.views import MethodView
+
+from . import auth
+
+3:import validators
+$ cd /workspace/changedetection.io && sed -n 105,125p changedetectionio/api/api_v1.py
+class CreateWatch(MethodView):
+    def __init__(self, **kwargs):
+        # datastore is a black box dependency
+        self.datastore = kwargs['datastore']
+        self.update_q = kwargs['update_q']
+
+    # Create a single watch
+    # curl http://localhost:4000/api/v1/watch -H "Content-Type: application/json" \
+    #      -d '{"url": "https://my-nice.com", "tag": "one, two", "title": "some title"}'
+    @auth.check_token
+    def post(self):
+        json_data = request.get_json(silent=True)
+        if not json_data or not json_data.get('url'):
+            return "Invalid or unsupported URL", 400
+
+        url = json_data.get('url').strip()
+
+        if not validators.url(url):
+            return "Invalid or unsupported URL", 400
+
+        tag = json_data.get('tag').strip() if json_data.get('tag') else ''
+$ cd /tmp/cdtests && env -u HTTP_PROXY -u HTTPS_PROXY -u http_proxy -u https_proxy PYTHONPATH=/workspace/changedetection.io timeout 300 python -m pytest test_api_new.py test_nonrenderable_pages.py -q -p no:cacheprovider --tb=short -o log_cli=false 2>&1 | tail -5
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+=========================== short test summary info ============================
+FAILED test_nonrenderable_pages.py::test_check_basic_change_detection_functionality
+1 failed, 3 passed, 3 warnings in 6.15s
+Shutting down datastore thread
+$ cd /tmp/cdtests && for f in test_api_new.py test_nonrenderable_pages.py; do echo "== $f"; env -u HTTP_PROXY -u HTTPS_PROXY -u http_proxy -u https_proxy PYTHONPATH=/workspace/changedetection.io timeout 300 python -m pytest $f -q -p no:cacheprovider --tb=line -o log_cli=false 2>&1 | tail -2; done
+== test_api_new.py
+3 passed, 3 warnings in 6.10s
+Shutting down datastore thread
+== test_nonrenderable_pages.py
+1 passed, 2 warnings in 12.12s
+Shutting down datastore thread
+$ cd /workspace/changedetection.io/changedetectionio && for f in tests/test_api.py tests/test_backend.py tests/test_watch_fields_storage.py tests/unit tests/test_clone.py; do echo -n "$f :: "; env -u HTTP_PROXY -u HTTPS_PROXY -u http_proxy -u https_proxy PYTHONPATH=/workspace/changedetection.io timeout 300 python -m pytest $f -q -p no:cacheprovider --tb=line -o log_cli=false 2>&1 | grep -E "passed|failed" | tail -1; done; rm -rf /tmp/cdtests /tmp/ds617 /tmp/ds617b /tmp/ds610 /tmp/dsui /tmp/dsdelay
+tests/test_api.py :: 3 passed, 2 warnings in 7.10s
+tests/test_backend.py :: 2 passed, 2 warnings in 26.17s
+tests/test_watch_fields_storage.py :: 2 passed, 4 warnings in 0.13s
+tests/unit :: 1 passed, 1 warning in 0.02s
+tests/test_clone.py :: 1 passed, 1 warning in 1.07s
+$ cd /workspace/changedetection.io && find . -name "__pycache__" -type d -exec rm -rf {} + 2>/dev/null; rm -rf changedetectionio/test-datastore 2>/dev/null; git status --porcelain
+M README.md
+ M changedetectionio/__init__.py
+ M changedetectionio/content_fetcher.py
+ M changedetectionio/fetch_site_status.py
+ M changedetectionio/forms.py
+ M changedetectionio/model/App.py
+ M changedetectionio/model/Watch.py
+ M changedetectionio/store.py
+ M changedetectionio/templates/_helpers.jinja
+ M changedetectionio/templates/edit.html
+ M changedetectionio/templates/settings.html
+ M changedetectionio/update_worker.py
+ M setup.py
+?? AGENTS.md
+?? changedetectionio/api/
+$ cd /workspace/changedetection.io && git --no-pager diff --stat && echo "--- untracked ---" && git status --porcelain | grep "??" && echo "--- test tree untouched ---" && git status --porcelain changedetectionio/tests | wc -l
+README.md                                  | 26 ++++++++++++++++++++++++++
+ changedetectionio/__init__.py              | 28 ++++++++++++++++++----------
+ changedetectionio/content_fetcher.py       | 25 ++++++++++++++++++++++---
+ changedetectionio/fetch_site_status.py     | 19 +++++++++++++++++--
+ changedetectionio/forms.py                 | 26 +++++++++++++++++++-------
+ changedetectionio/model/App.py             |  6 +++++-
+ changedetectionio/model/Watch.py           |  3 +++
+ changedetectionio/store.py                 |  6 ++++++
+ changedetectionio/templates/_helpers.jinja | 14 --------------
+ changedetectionio/templates/edit.html      | 10 +++++++++-
+ changedetectionio/templates/settings.html  | 25 ++++++++++++++++++++++++-
+ changedetectionio/update_worker.py         |  6 ++++++
+ setup.py                                   |  4 +++-
+ 13 files changed, 158 insertions(+), 40 deletions(-)
+--- untracked ---
+?? AGENTS.md
+?? changedetectionio/api/
+--- test tree untouched ---
+0
+## Checklist: 7 issues found — 7 DONE, 0 BLOCKED
+
+**1. #593 `ModuleNotFoundError: No module named 'changedetectionio.model'` — DONE**
+`setup.py` only listed `packages=['changedetectionio']`, so sub-packages were never shipped in the wheel/sdist. Now uses `find_packages(exclude=["changedetectionio.tests", "changedetectionio.tests.*"])`. Verified by building an sdist: `changedetectionio/model/*` and the new `changedetectionio/api/*` are now included.
+
+**2. #599 `PLAYWRIGHT_DRIVER_URL` default — DONE**
+Default changed from `ws://playwright-chrome:3000/playwright` to `ws://playwright-chrome:3000` (matches the documented docker-compose endpoint).
+
+**3. #214 Configurable delay before extracting text — DONE**
+- `Fetcher.render_extract_delay = 0` added; both the Playwright (`page.wait_for_timeout`) and WebDriver (`time.sleep`) fetchers add it on top of `WEBDRIVER_DELAY_BEFORE_CONTENT_READY`.
+- New `webdriver_delay` in `model/Watch.py` (per-watch, `None` = use global) and `model/App.py` (global default).
+- New `webdriver_delay` IntegerField in `commonSettingsForm` (so both the watch-edit and global settings forms get it) with `NumberRange(min=1)`, plus UI blocks in `edit.html` (Request tab) and `settings.html` (Fetching tab).
+- `fetch_site_status.py` resolves watch → global → 0. Verified saving 5/blank/invalid through the real forms.
+
+**4. #608 Pages with no renderable content — DONE**
+- New setting `application.empty_pages_are_a_change` (default `False`) + `empty_pages_are_a_change` checkbox on the settings page.
+- New `content_fetcher.ReplyWithContentButNoText` exception raised in `fetch_site_status.py` when a non-JSON reply produced zero renderable text and the option is off; handled in `update_worker.py` (records "Got HTML content but no text found (With 200 reply code)." instead of registering a change).
+- Verified with a live-server integration test: empty page = no change by default, and *is* a change once enabled.
+
+**5. #610 Proxy "Default" option on a watch — DONE**
+Watch proxy choices are now `[('', 'Default')] + proxy_list`; an unset/unknown proxy pre-selects `Default`, saving `Default` stores `None`, and `set_proxy_from_list()` falls through to the system/global proxy for empty values (removed the old `form.proxy.default='http://hello'` hack).
+
+**6. #611 Input field tidyup — DONE**
+Removed the dead/duplicate `render_field` macro in `_helpers.jinja`, removed a duplicated help sentence in `settings.html`, gave the watch `tag` field a consistent `m-d` width class + placeholder, and added a `cleanup_whitespace` filter to the URL/tag/title/CSS-filter/base-URL inputs so copy-pasted values with surrounding whitespace are stored cleanly.
+
+**7. #617 API interface — DONE**
+New `changedetectionio/api/` package (`api_v1.py`, `auth.py`) registered from the app factory and CSRF-exempt, implemented with Flask `MethodView` (no new dependency; the sandbox has no network to add one):
+- `GET/POST /api/v1/watch` (`createwatch`, `?recheck_all=1`, POST returns `{"uuid": ...}` 201, bad URL → 400)
+- `GET/DELETE /api/v1/watch/<uuid>` (`watch`, `?recheck=1`, DELETE → 204)
+- `GET /api/v1/watch/<uuid>/history` (`watchhistory`)
+- `GET /api/v1/watch/<uuid>/history/<timestamp|latest>` (`watchsinglehistory`)
+Auth via the `x-api-key` header; key auto-generated in the datastore (`application.api_access_token`) and shown on the settings page as `<span id="api-key">…</span>`, with an `api_access_token_enabled` toggle (on by default). README documents the endpoints.
+
+## Verification
+- Every test file in the repo was run individually (they must be, or `live_server_setup` collides): **all pass** except the pre-existing `tests/test_security.py::test_file_access` failure, which fails identically on the unmodified baseline (`validators.url('https://localhost')` rejects TLD-less hosts).
+- Note: the sandbox `HTTP_PROXY` env var must be unset or the fetchers route live-server requests through it and everything fails — this is also true at baseline.
+- I did not touch anything under `changedetectionio/tests/`; the integration tests I wrote for issues 4 and 7 were kept outside the repo (in `/tmp`) and deleted afterwards.
+- Added `AGENTS.md` with repository/test-running notes.

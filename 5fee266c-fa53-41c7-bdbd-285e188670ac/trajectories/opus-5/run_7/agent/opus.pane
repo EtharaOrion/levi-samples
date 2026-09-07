@@ -1,0 +1,200 @@
+CONTRIBUTING.md  Dockerfile  LICENSE  MANIFEST.in  Procfile  README-pip.md  README.md  app.json  btc-support.png  build  changedetection.io.egg-info  changedetection.py  changedetectionio  docker-compose.yml  heroku.yml  requirements-dev.txt  requirements.txt  runtime.txt  screenshot-diff.png  screenshot-notifications.png  screenshot.png  setup.py
+$ cd /workspace/changedetection.io && cat .gitignore && rm -rf build && find changedetectionio -name "__pycache__" -type d | head -3
+__pycache__
+.idea
+*.pyc
+datastore/url-watches.json
+datastore/*
+__pycache__
+.pytest_cache
+build
+dist
+venv
+*.egg-info*
+.vscode/settings.json
+changedetectionio/model/__pycache__
+changedetectionio/tests/unit/__pycache__
+changedetectionio/tests/__pycache__
+$ cd /workspace/changedetection.io && find . -name "__pycache__" -type d -not -path "./.git/*" -exec rm -rf {} + ; rm -rf test-datastore /tmp/verify-datastore /tmp/wheelout /tmp/repro_issue1.py /tmp/run_tests.sh /workspace/verify_issues.py; git status --short; ls
+M README.md
+ M changedetectionio/__init__.py
+ M changedetectionio/content_fetcher.py
+ M changedetectionio/fetch_site_status.py
+ M changedetectionio/forms.py
+ M changedetectionio/model/App.py
+ M changedetectionio/model/Watch.py
+ M changedetectionio/static/js/watch-settings.js
+ M changedetectionio/static/styles/styles.css
+ M changedetectionio/static/styles/styles.scss
+ M changedetectionio/store.py
+ M changedetectionio/templates/_helpers.jinja
+ M changedetectionio/templates/edit.html
+ M changedetectionio/templates/import.html
+ M changedetectionio/templates/login.html
+ M changedetectionio/templates/scrub.html
+ M changedetectionio/templates/settings.html
+ M changedetectionio/update_worker.py
+ M setup.py
+?? changedetectionio/api/
+CONTRIBUTING.md  Dockerfile  LICENSE  MANIFEST.in  Procfile  README-pip.md  README.md  app.json  btc-support.png  changedetection.io.egg-info  changedetection.py  changedetectionio  docker-compose.yml  heroku.yml  requirements-dev.txt  requirements.txt  runtime.txt  screenshot-diff.png  screenshot-notifications.png  screenshot.png  setup.py
+$ cd /workspace/changedetection.io && ls changedetectionio/ && git status --short --ignored | head -20
+__init__.py  api  changedetection.py  content_fetcher.py  dev-docker  diff.py  fetch_site_status.py  forms.py  html_tools.py  importer.py  model  notification.py  pytest.ini  run_all_tests.sh  static  store.py  templates  test-datastore  tests  update_worker.py
+ M README.md
+ M changedetectionio/__init__.py
+ M changedetectionio/content_fetcher.py
+ M changedetectionio/fetch_site_status.py
+ M changedetectionio/forms.py
+ M changedetectionio/model/App.py
+ M changedetectionio/model/Watch.py
+ M changedetectionio/static/js/watch-settings.js
+ M changedetectionio/static/styles/styles.css
+ M changedetectionio/static/styles/styles.scss
+ M changedetectionio/store.py
+ M changedetectionio/templates/_helpers.jinja
+ M changedetectionio/templates/edit.html
+ M changedetectionio/templates/import.html
+ M changedetectionio/templates/login.html
+ M changedetectionio/templates/scrub.html
+ M changedetectionio/templates/settings.html
+ M changedetectionio/update_worker.py
+ M setup.py
+?? changedetectionio/api/
+$ cd /workspace/changedetection.io && ls -la changedetectionio/test-datastore | head; git check-ignore -v changedetectionio/test-datastore
+total 116
+drwxr-xr-x. 76 openhands openhands 16384 Sep  5 09:30 .
+drwxr-xr-x. 10 openhands openhands 16384 Sep  5 09:32 ..
+drwxr-xr-x.  2 openhands openhands   120 Sep  5 09:21 036ab938-fa4f-45ff-9359-8692d20f1bac
+drwxr-xr-x.  2 openhands openhands   177 Sep  5 09:24 043d646a-ed0e-41dd-ab88-375585ccb855
+drwxr-xr-x.  2 openhands openhands   120 Sep  5 09:20 04d25b47-e998-4806-a1fa-5274fe408135
+drwxr-xr-x.  2 openhands openhands   120 Sep  5 09:23 071016b9-75ea-42b9-a51f-ee80f4bc2670
+drwxr-xr-x.  2 openhands openhands     6 Sep  5 09:26 097cb8be-6776-45ba-9a29-f6ee127a47aa
+drwxr-xr-x.  2 openhands openhands   120 Sep  5 09:19 0be0b843-eee4-4b72-8323-882ce4356d1a
+drwxr-xr-x.  2 openhands openhands 16384 Sep  5 09:19 0c3e75cf-aa5a-4f10-9584-42a746fd42ee
+changedetectionio/.gitignore:1:test-datastore   changedetectionio/test-datastore
+$ cd /workspace/changedetection.io && rm -rf changedetectionio/test-datastore && git status --short --ignored
+M README.md
+ M changedetectionio/__init__.py
+ M changedetectionio/content_fetcher.py
+ M changedetectionio/fetch_site_status.py
+ M changedetectionio/forms.py
+ M changedetectionio/model/App.py
+ M changedetectionio/model/Watch.py
+ M changedetectionio/static/js/watch-settings.js
+ M changedetectionio/static/styles/styles.css
+ M changedetectionio/static/styles/styles.scss
+ M changedetectionio/store.py
+ M changedetectionio/templates/_helpers.jinja
+ M changedetectionio/templates/edit.html
+ M changedetectionio/templates/import.html
+ M changedetectionio/templates/login.html
+ M changedetectionio/templates/scrub.html
+ M changedetectionio/templates/settings.html
+ M changedetectionio/update_worker.py
+ M setup.py
+?? changedetectionio/api/
+!! .pytest_cache/
+!! changedetection.io.egg-info/
+!! changedetectionio/.pytest_cache/
+$ cd /workspace/changedetection.io && rm -rf .pytest_cache changedetectionio/.pytest_cache && git status --short --ignored && cat changedetectionio/api/api_v1.py | head -20
+M README.md
+ M changedetectionio/__init__.py
+ M changedetectionio/content_fetcher.py
+ M changedetectionio/fetch_site_status.py
+ M changedetectionio/forms.py
+ M changedetectionio/model/App.py
+ M changedetectionio/model/Watch.py
+ M changedetectionio/static/js/watch-settings.js
+ M changedetectionio/static/styles/styles.css
+ M changedetectionio/static/styles/styles.scss
+ M changedetectionio/store.py
+ M changedetectionio/templates/_helpers.jinja
+ M changedetectionio/templates/edit.html
+ M changedetectionio/templates/import.html
+ M changedetectionio/templates/login.html
+ M changedetectionio/templates/scrub.html
+ M changedetectionio/templates/settings.html
+ M changedetectionio/update_worker.py
+ M setup.py
+?? changedetectionio/api/
+!! changedetection.io.egg-info/
+from copy import deepcopy
+
+from flask import abort, jsonify, make_response, request
+from flask.views import MethodView
+
+from . import auth
+
+
+def api_abort(status_code, message):
+    """Abort with a JSON body, so API clients always get JSON back"""
+    abort(make_response(jsonify(message=message), status_code))
+
+
+class APIResource(MethodView):
+    def __init__(self, **kwargs):
+        # datastore is a black box dependency
+        self.datastore = kwargs['datastore']
+        self.update_q = kwargs.get('update_q')
+$ cd /workspace/changedetection.io/changedetectionio && unset HTTP_PROXY http_proxy HTTPS_PROXY https_proxy; for t in tests/test_api.py tests/test_backend.py tests/test_errorhandling.py tests/test_source.py; do echo "== $t"; timeout 300 python -m pytest $t -q -p no:cacheprovider 2>&1 | grep -E "passed|failed"; done; rm -rf test-datastore .pytest_cache; find . -name __pycache__ -type d -exec rm -rf {} + 2>/dev/null; true
+== tests/test_api.py
+======================== 3 passed, 2 warnings in 7.11s =========================
+== tests/test_backend.py
+======================== 2 passed, 2 warnings in 26.18s ========================
+== tests/test_errorhandling.py
+======================== 3 passed, 2 warnings in 8.11s =========================
+== tests/test_source.py
+======================== 3 passed, 2 warnings in 16.13s ========================
+# file_editor: /workspace/changedetection.io/AGENTS.md
+File created successfully at: /workspace/changedetection.io/AGENTS.md
+$ cd /workspace/changedetection.io && git --no-pager diff --stat && ls changedetectionio/api
+README.md                                     | 23 +++++++++++++++++++++++
+ changedetectionio/__init__.py                 | 43 +++++++++++++++++++++++++++++++++----------
+ changedetectionio/content_fetcher.py          | 19 ++++++++++++++++---
+ changedetectionio/fetch_site_status.py        | 14 ++++++++++++++
+ changedetectionio/forms.py                    | 26 +++++++++++++++++++-------
+ changedetectionio/model/App.py                |  6 +++++-
+ changedetectionio/model/Watch.py              |  4 ++++
+ changedetectionio/static/js/watch-settings.js |  8 +++++---
+ changedetectionio/static/styles/styles.css    |  9 ++++++++-
+ changedetectionio/static/styles/styles.scss   | 13 ++++++++++++-
+ changedetectionio/store.py                    |  6 ++++++
+ changedetectionio/templates/_helpers.jinja    | 14 --------------
+ changedetectionio/templates/edit.html         | 11 +++++++++--
+ changedetectionio/templates/import.html       | 13 ++-----------
+ changedetectionio/templates/login.html        |  3 +--
+ changedetectionio/templates/scrub.html        |  2 +-
+ changedetectionio/templates/settings.html     | 32 ++++++++++++++++++++++++++++++++
+ changedetectionio/update_worker.py            |  6 ++++++
+ setup.py                                      |  4 +++-
+ 19 files changed, 199 insertions(+), 57 deletions(-)
+__init__.py  api_v1.py  auth.py
+**Checklist: 7 issues found — 7 DONE, 0 BLOCKED.**
+
+### 1. #593 — `ModuleNotFoundError: No module named 'changedetectionio.model'` — DONE
+`setup.py` only shipped `packages=['changedetectionio']`, so `changedetectionio/model` (and now `api`) were missing from the wheel. Switched to `find_packages(exclude=['changedetectionio.tests', 'changedetectionio.tests.*'])`. Verified by building a wheel before/after: `model/` and `api/` modules are now present.
+
+### 2. #599 — PLAYWRIGHT_DRIVER_URL default — DONE
+`content_fetcher.base_html_playwright` default changed from `ws://playwright-chrome:3000/playwright` to `ws://playwright-chrome:3000`, matching the documented docker-compose value.
+
+### 3. #214 — Configurable delay before extracting text — DONE
+* `Fetcher.render_extract_delay` added and applied in both the Playwright (`page.wait_for_timeout`) and WebDriver (`time.sleep`) fetchers, on top of `WEBDRIVER_DELAY_BEFORE_CONTENT_READY`.
+* New `webdriver_delay` in `model/Watch.py` (per watch, `None` = use global) and `model/App.py` (global).
+* `webdriver_delay` IntegerField added to `commonSettingsForm` (so both watch + global settings forms get it), rendered in `edit.html` (`#webdriver-override-options`, shown only for the Chrome fetcher via `watch-settings.js`) and in the settings *Fetching* tab.
+* `fetch_site_status.py` resolves watch value → global value → 0.
+
+### 4. #608 — Pages with no renderable content — DONE
+New `content_fetcher.ReplyWithContentButNoText`; `fetch_site_status` raises it when the extracted text is empty and the new global setting `empty_pages_are_a_change` (model + `globalSettingsApplicationForm` + settings *Global Filters* tab) is off. `update_worker` catches it and sets `last_error = "Got HTML content but no text found."` instead of recording a change.
+
+### 5. #610 — Proxy "Default" option on a watch — DONE
+Watch proxy radio now gets `[('', 'Default')] + proxy_list`; an unset/stale proxy pre-selects "Default" (removed the old `http://hello` hack and forced first-in-list behaviour), and saving "Default" stores `None` so the system default is followed.
+
+### 6. #611 — Input field tidyup — DONE
+Removed the dead duplicated `render_field` macro in `_helpers.jinja`; gave title/tag consistent `m-d` width + placeholders; removed redundant inline textarea styles in `import.html` (the page already uses `.monospaced-textarea`); replaced `size=` attributes in `login.html`/`scrub.html` with a new `input.small-input` CSS rule (project policy is width-via-CSS), added a compact width for number inputs, kept `styles.scss`/`styles.css` in sync, and added whitespace-stripping filters to URL/tag/title/css_filter/base_url inputs.
+
+### 7. #617 — API interface — DONE
+New `changedetectionio/api/` package (`auth.py` with the `x-api-key` `check_token` decorator, `api_v1.py` with `Watch`, `WatchHistory`, `WatchSingleHistory`, `CreateWatch`), registered CSRF-exempt with the flask-restful-compatible endpoint names `watch`, `watchhistory`, `watchsinglehistory`, `createwatch`:
+* `GET/POST /api/v1/watch` (`?recheck_all=1`), `GET/DELETE /api/v1/watch/<uuid>` (`?recheck=1`), `GET /api/v1/watch/<uuid>/history`, `GET /api/v1/watch/<uuid>/history/<timestamp|latest>`.
+* `api_access_token` generated in `store.py`, `api_access_token_enabled` setting, new **API** tab in the settings page showing `<span id="api-key">…</span>`, plus README docs.
+* Implemented on `flask.views.MethodView` because `flask_restful` is not installed and no network is available; no new dependency was added.
+
+**Verification:** a temporary end-to-end script (since I must not touch the tests tree) exercised all 40+ behaviours (API CRUD/auth/404/CSRF-exempt, delay propagation to the fetcher, empty-page handling through a real `update_worker` thread, proxy default round-trip, page rendering) — all passed, then deleted. The repo test-suite was run file-by-file (as `run_all_tests.sh` does, with proxy env vars unset): everything passes except the pre-existing `tests/test_security.py::test_file_access` failure, which also fails on the unmodified baseline because the installed `validators` release rejects `https://localhost`. Added `AGENTS.md` with these repo/test-running notes.

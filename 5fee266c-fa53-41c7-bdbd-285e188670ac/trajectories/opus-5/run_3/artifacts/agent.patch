@@ -1,0 +1,738 @@
+diff --git a/AGENTS.md b/AGENTS.md
+new file mode 100644
+index 0000000..00f6495
+--- /dev/null
++++ b/AGENTS.md
+@@ -0,0 +1,20 @@
++# Repository notes (persistent memory)
++
++## Layout
++- `changedetectionio/__init__.py` — Flask app factory (`changedetection_app`), all UI routes.
++- `changedetectionio/api/` — REST API (`/api/v1/watch...`), auth via the `x-api-key` header.
++- `changedetectionio/model/` — `App.py` (global settings defaults) and `Watch.py` (per-watch defaults).
++  New settings must be added to these models *and* to `forms.py` (+ the templates) to be editable.
++- `changedetectionio/fetch_site_status.py` — the check/diff pipeline, `changedetectionio/content_fetcher.py` — fetchers
++  (requests / WebDriver / Playwright), `changedetectionio/update_worker.py` — worker threads + error handling.
++- `setup.py` must list every sub-package (uses `find_packages()`), otherwise pip installs are missing modules.
++
++## Running the tests
++- Each test file must be run in its own pytest process: `live_server_setup()` registers the same Flask
++  endpoints again and a second file in the same session fails with
++  "View function mapping is overwriting an existing endpoint function: test_endpoint".
++  Example: `cd changedetectionio && for f in tests/test_*.py; do python -m pytest "$f"; done`
++- Unset `HTTP_PROXY`/`HTTPS_PROXY` before running the tests: the fetchers pass the env proxy explicitly to
++  `requests` (ignoring `no_proxy`), so the live server fetches fail with 403 when a sandbox proxy is set.
++- `tests/test_security.py::test_file_access` fails in some environments because `validators.url('https://localhost')`
++  rejects host names without a TLD (unrelated to application code).
+diff --git a/README.md b/README.md
+index defa0a5..abae8bf 100644
+--- a/README.md
++++ b/README.md
+@@ -157,6 +157,32 @@ When you enable a `json:` filter, you can even automatically extract and parse e
+ 
+ `json:$.price` would give `23.50`, or you can extract the whole structure
+ 
++## API Support
++
++Supports managing the website watch list [via our API](https://github.com/dgtlmoon/changedetection.io/wiki/API-Reference)
++
++Enable/Disable API access and copy your API key from the *SETTINGS* page, then always send the key in the
++`x-api-key` header of your request.
++
++```
++# List watches, add `?recheck_all=1` to force a recheck of all watches
++curl http://localhost:5000/api/v1/watch -H "x-api-key: <your-api-key>"
++
++# Create a watch
++curl http://localhost:5000/api/v1/watch -X POST -H "x-api-key: <your-api-key>" \
++     -H "Content-Type: application/json" \
++     -d '{"url": "https://my-nice.com", "tag": "optional one, optional two", "title": "optional title"}'
++
++# Get a single watch (append `?recheck=1` to force a recheck), or DELETE it
++curl http://localhost:5000/api/v1/watch/<uuid> -H "x-api-key: <your-api-key>"
++
++# List the history (timestamps) of a watch
++curl http://localhost:5000/api/v1/watch/<uuid>/history -H "x-api-key: <your-api-key>"
++
++# Fetch a single snapshot by timestamp, or use `latest` for the most recent one
++curl http://localhost:5000/api/v1/watch/<uuid>/history/latest -H "x-api-key: <your-api-key>"
++```
++
+ ## Proxy configuration
+ 
+ See the wiki https://github.com/dgtlmoon/changedetection.io/wiki/Proxy-configuration
+diff --git a/changedetectionio/__init__.py b/changedetectionio/__init__.py
+index afbe9d4..f4230de 100644
+--- a/changedetectionio/__init__.py
++++ b/changedetectionio/__init__.py
+@@ -39,6 +39,7 @@ from flask_login import login_required
+ from flask_wtf import CSRFProtect
+ 
+ from changedetectionio import html_tools
++from changedetectionio.api import api_v1
+ 
+ __version__ = '0.39.13'
+ 
+@@ -179,6 +180,12 @@ def changedetection_app(config=None, datastore_o=None):
+     login_manager.login_view = 'login'
+     app.secret_key = init_app_secret(config['datastore_path'])
+ 
++    # Re #617 - The REST API, access is protected by the 'x-api-key' header (see the settings page)
++    api_v1.register_api_routes(app=app,
++                               datastore=datastore,
++                               update_q=update_q,
++                               csrf=csrf)
++
+     # Setup cors headers to allow all domains
+     # https://flask-cors.readthedocs.io/en/latest/
+     #    CORS(app)
+@@ -520,13 +527,10 @@ def changedetection_app(config=None, datastore_o=None):
+ 
+         # Defaults for proxy choice
+         if datastore.proxy_list is not None:  # When enabled
+-            system_proxy = datastore.data['settings']['requests']['proxy']
+-            if default['proxy'] is None:
+-                default['proxy'] = system_proxy
+-            else:
+-                # Does the chosen one exist?
+-                if not any(default['proxy'] in tup for tup in datastore.proxy_list):
+-                    default['proxy'] = datastore.proxy_list[0][0]
++            # @todo
++            # Radio needs '' not None, or in the case that the chosen one no longer exists
++            if default['proxy'] is None or not any(default['proxy'] in tup for tup in datastore.proxy_list):
++                default['proxy'] = ''
+ 
+             # Used by the form handler to keep or remove the proxy settings
+             default['proxy_list'] = datastore.proxy_list
+@@ -540,9 +544,8 @@ def changedetection_app(config=None, datastore_o=None):
+             # @todo - Couldn't get setattr() etc dynamic addition working, so remove it instead
+             del form.proxy
+         else:
+-            form.proxy.choices = datastore.proxy_list
+-            if default['proxy'] is None:
+-                form.proxy.default='http://hello'
++            # Re #610 - When '' (Default) is chosen, the global/system proxy setting is used
++            form.proxy.choices = [('', 'Default')] + datastore.proxy_list
+ 
+         if request.method == 'POST' and form.validate():
+             extra_update_obj = {}
+@@ -562,6 +565,10 @@ def changedetection_app(config=None, datastore_o=None):
+             if form.fetch_backend.data == datastore.data['settings']['application']['fetch_backend']:
+                 extra_update_obj['fetch_backend'] = None
+ 
++            # Re #610 - "Default" was chosen in the proxy list, so use the system/global proxy setting
++            if datastore.proxy_list is not None and not form.proxy.data:
++                extra_update_obj['proxy'] = None
++
+             # Notification URLs
+             datastore.data['watching'][uuid]['notification_urls'] = form.notification_urls.data
+ 
+@@ -676,6 +683,7 @@ def changedetection_app(config=None, datastore_o=None):
+                                  form=form,
+                                  current_base_url = datastore.data['settings']['application']['base_url'],
+                                  hide_remove_pass=os.getenv("SALTED_PASS", False),
++                                 api_key=datastore.data['settings']['application'].get('api_access_token'),
+                                  emailprefix=os.getenv('NOTIFICATION_MAIL_BUTTON_PREFIX', False))
+ 
+         return output
+diff --git a/changedetectionio/api/__init__.py b/changedetectionio/api/__init__.py
+new file mode 100644
+index 0000000..e69de29
+diff --git a/changedetectionio/api/api_v1.py b/changedetectionio/api/api_v1.py
+new file mode 100644
+index 0000000..f0fce0d
+--- /dev/null
++++ b/changedetectionio/api/api_v1.py
+@@ -0,0 +1,178 @@
++from copy import deepcopy
++
++import validators
++from flask import jsonify, make_response, request
++from flask.views import MethodView
++
++from . import auth
++
++
++def abort_json(status_code, message):
++    """Same style of error output as the other (RESTful) API's out there"""
++    return make_response(jsonify(message=message), status_code)
++
++
++class Watch(MethodView):
++    def __init__(self, **kwargs):
++        # datastore is a black box dependency
++        self.datastore = kwargs['datastore']
++        self.update_q = kwargs['update_q']
++
++    # Get information about a single watch, excluding the history list (can be large)
++    # curl http://localhost:4000/api/v1/watch/<string:uuid>
++    # ?recheck=1
++    @auth.check_token
++    def get(self, uuid):
++        watch = deepcopy(self.datastore.data['watching'].get(uuid))
++        if not watch:
++            return abort_json(404, 'No watch exists with the UUID of {}'.format(uuid))
++
++        if request.args.get('recheck'):
++            self.update_q.put(uuid)
++            return "OK", 200
++
++        # Return without history, get that via another API call
++        watch['history_n'] = len(watch.get('history', {}))
++        if 'history' in watch:
++            del (watch['history'])
++
++        return jsonify(watch)
++
++    @auth.check_token
++    def delete(self, uuid):
++        if not self.datastore.data['watching'].get(uuid):
++            return abort_json(400, 'No watch exists with the UUID of {}'.format(uuid))
++
++        self.datastore.delete(uuid)
++        return 'OK', 204
++
++
++class WatchHistory(MethodView):
++    def __init__(self, **kwargs):
++        # datastore is a black box dependency
++        self.datastore = kwargs['datastore']
++        self.update_q = kwargs.get('update_q')
++
++    # Get a list of available history for a watch by UUID
++    # curl http://localhost:4000/api/v1/watch/<string:uuid>/history
++    @auth.check_token
++    def get(self, uuid):
++        watch = self.datastore.data['watching'].get(uuid)
++        if not watch:
++            return abort_json(404, 'No watch exists with the UUID of {}'.format(uuid))
++
++        return jsonify(watch.get('history', {}))
++
++
++class WatchSingleHistory(MethodView):
++    def __init__(self, **kwargs):
++        # datastore is a black box dependency
++        self.datastore = kwargs['datastore']
++        self.update_q = kwargs.get('update_q')
++
++    # Read a snapshot by timestamp, use 'latest' for the most recent one
++    # curl http://localhost:4000/api/v1/watch/<string:uuid>/history/<string:timestamp>
++    @auth.check_token
++    def get(self, uuid, timestamp):
++        watch = self.datastore.data['watching'].get(uuid)
++        if not watch:
++            return abort_json(404, 'No watch exists with the UUID of {}'.format(uuid))
++
++        history = watch.get('history', {})
++        if not len(history):
++            return abort_json(404, 'Watch found but no history exists for the UUID {}'.format(uuid))
++
++        # Always keyed by string(timestamp), sort them so 'latest' is really the latest
++        timestamps = sorted(history.keys(), key=lambda x: int(x))
++
++        if timestamp == 'latest':
++            timestamp = timestamps[-1]
++
++        if timestamp not in history:
++            return abort_json(404, 'No snapshot exists with the timestamp {}'.format(timestamp))
++
++        try:
++            with open(history[timestamp], 'r') as f:
++                content = f.read()
++        except (FileNotFoundError, IOError):
++            return abort_json(404, 'Snapshot file for timestamp {} could not be read'.format(timestamp))
++
++        response = make_response(content, 200)
++        response.mimetype = "text/plain"
++        return response
++
++
++class CreateWatch(MethodView):
++    def __init__(self, **kwargs):
++        # datastore is a black box dependency
++        self.datastore = kwargs['datastore']
++        self.update_q = kwargs['update_q']
++
++    # Create a single watch
++    # curl http://localhost:4000/api/v1/watch -H "Content-Type: application/json" \
++    #      -d '{"url": "https://my-nice.com", "tag": "one, two", "title": "some title"}'
++    @auth.check_token
++    def post(self):
++        json_data = request.get_json(silent=True)
++        if not json_data or not json_data.get('url'):
++            return "Invalid or unsupported URL", 400
++
++        url = json_data.get('url').strip()
++
++        if not validators.url(url):
++            return "Invalid or unsupported URL", 400
++
++        tag = json_data.get('tag').strip() if json_data.get('tag') else ''
++
++        extras = {}
++        if json_data.get('title'):
++            extras['title'] = json_data.get('title').strip()
++
++        new_uuid = self.datastore.add_watch(url=url, tag=tag, extras=extras)
++        self.update_q.put(new_uuid)
++        return {'uuid': new_uuid}, 201
++
++    # Return concise list of available watches and some very basic info
++    # curl http://localhost:4000/api/v1/watch|python -mjson.tool
++    # ?recheck_all=1 to recheck all
++    @auth.check_token
++    def get(self):
++        list = {}
++        for uuid, watch in self.datastore.data['watching'].items():
++            list[uuid] = {'url': watch['url'],
++                          'title': watch['title'],
++                          'last_checked': watch['last_checked'],
++                          'last_changed': watch['last_changed'],
++                          'last_error': watch.get('last_error', False),
++                          'viewed': watch.get('viewed', False)}
++
++        if request.args.get('recheck_all'):
++            for uuid in self.datastore.data['watching'].keys():
++                self.update_q.put(uuid)
++            return {'status': "OK"}, 200
++
++        return jsonify(list)
++
++
++def register_api_routes(app, datastore, update_q, csrf=None):
++    """Attach the API resources to the Flask app, the endpoint names are the lowercase
++       class names so that url_for('createwatch') etc works as expected"""
++
++    resource_kwargs = {'datastore': datastore, 'update_q': update_q}
++
++    routes = [
++        (WatchSingleHistory, '/api/v1/watch/<string:uuid>/history/<string:timestamp>', ['GET']),
++        (WatchHistory, '/api/v1/watch/<string:uuid>/history', ['GET']),
++        (CreateWatch, '/api/v1/watch', ['GET', 'POST']),
++        (Watch, '/api/v1/watch/<string:uuid>', ['GET', 'DELETE']),
++    ]
++
++    for klass, url, methods in routes:
++        endpoint = klass.__name__.lower()
++        view = klass.as_view(endpoint, **resource_kwargs)
++
++        # The API uses the 'x-api-key' header for authentication, CSRF tokens don't apply here
++        if csrf is not None:
++            view = csrf.exempt(view)
++
++        app.add_url_rule(url, view_func=view, methods=methods)
+diff --git a/changedetectionio/api/auth.py b/changedetectionio/api/auth.py
+new file mode 100644
+index 0000000..f3bbff7
+--- /dev/null
++++ b/changedetectionio/api/auth.py
+@@ -0,0 +1,33 @@
++from functools import wraps
++
++from flask import jsonify, make_response, request
++
++
++def check_token(f):
++    """Decorator for the API resources, checks the 'x-api-key' header against
++       the API key that was generated in the datastore (when enabled)"""
++
++    @wraps(f)
++    def decorated(*args, **kwargs):
++        datastore = args[0].datastore
++
++        config_api_token_enabled = datastore.data['settings']['application'].get('api_access_token_enabled')
++        if not config_api_token_enabled:
++            return f(*args, **kwargs)
++
++        api_key_header = request.headers.get('x-api-key')
++        if not api_key_header:
++            return make_response(
++                jsonify("No authorization x-api-key header."), 403
++            )
++
++        config_api_token = datastore.data['settings']['application'].get('api_access_token')
++
++        if api_key_header != config_api_token:
++            return make_response(
++                jsonify("Invalid access - API key invalid."), 403
++            )
++
++        return f(*args, **kwargs)
++
++    return decorated
+diff --git a/changedetectionio/content_fetcher.py b/changedetectionio/content_fetcher.py
+index 04276e6..5dfdfc6 100644
+--- a/changedetectionio/content_fetcher.py
++++ b/changedetectionio/content_fetcher.py
+@@ -17,6 +17,19 @@ class EmptyReply(Exception):
+     pass
+ 
+ 
++class ReplyWithContentButNoText(Exception):
++    """The reply had content (HTML elements etc) but no renderable text was found,
++       See #608 - some JS applications don't render any text sometimes"""
++
++    def __init__(self, status_code, url):
++        # Set this so we can use it in other parts of the app
++        self.status_code = status_code
++        self.url = url
++        return
++
++    pass
++
++
+ class Fetcher():
+     error = None
+     status_code = None
+@@ -28,6 +41,10 @@ class Fetcher():
+     system_http_proxy = os.getenv('HTTP_PROXY')
+     system_https_proxy = os.getenv('HTTPS_PROXY')
+ 
++    # Time ONTOP of the system defined env minimum time
++    # Re #214 - Some sites need a little more time for the JS to render the content
++    render_extract_delay = 0
++
+     @abstractmethod
+     def get_error(self):
+         return self.error
+@@ -95,9 +112,11 @@ class base_html_playwright(Fetcher):
+ 
+         # .strip('"') is going to save someone a lot of time when they accidently wrap the env value
+         self.browser_type = os.getenv("PLAYWRIGHT_BROWSER_TYPE", 'chromium').strip('"')
++        # Same as the docker-compose.yml example, the browserless/playwright websocket endpoint
++        # does not live under any sub-path (Re #587, #599)
+         self.command_executor = os.getenv(
+             "PLAYWRIGHT_DRIVER_URL",
+-            'ws://playwright-chrome:3000/playwright'
++            'ws://playwright-chrome:3000'
+         ).strip('"')
+ 
+         # If any proxy settings are enabled, then we should setup the proxy object
+@@ -147,7 +166,7 @@ class base_html_playwright(Fetcher):
+                 # - `'commit'` - consider operation to be finished when network response is received and the document started loading.
+                 # Better to not use any smarts from Playwright and just wait an arbitrary number of seconds
+                 # This seemed to solve nearly all 'TimeoutErrors'
+-                extra_wait = int(os.getenv("WEBDRIVER_DELAY_BEFORE_CONTENT_READY", 5))
++                extra_wait = int(os.getenv("WEBDRIVER_DELAY_BEFORE_CONTENT_READY", 5)) + self.render_extract_delay
+                 page.wait_for_timeout(extra_wait * 1000)
+             except playwright._impl._api_types.TimeoutError as e:
+                 raise EmptyReply(url=url, status_code=None)
+@@ -240,7 +259,7 @@ class base_html_webdriver(Fetcher):
+         # raise EmptyReply(url=url, status_code=r.status_code)
+ 
+         # @todo - dom wait loaded?
+-        time.sleep(int(os.getenv("WEBDRIVER_DELAY_BEFORE_CONTENT_READY", 5)))
++        time.sleep(int(os.getenv("WEBDRIVER_DELAY_BEFORE_CONTENT_READY", 5)) + self.render_extract_delay)
+         self.content = self.driver.page_source
+         self.headers = {}
+         self.screenshot = self.driver.get_screenshot_as_png()
+diff --git a/changedetectionio/fetch_site_status.py b/changedetectionio/fetch_site_status.py
+index 93e2166..d389a57 100644
+--- a/changedetectionio/fetch_site_status.py
++++ b/changedetectionio/fetch_site_status.py
+@@ -28,10 +28,11 @@ class perform_site_check():
+             return None
+ 
+         # If its a valid one
+-        if any([watch['proxy'] in p for p in self.datastore.proxy_list]):
++        # Re #610 - '' or None means "Default", so fall through to the system/global one
++        if watch.get('proxy') and any([watch['proxy'] in p for p in self.datastore.proxy_list]):
+             proxy_args = watch['proxy']
+ 
+-        # not valid (including None), try the system one
++        # not valid (including None/'Default'), try the system one
+         else:
+             system_proxy = self.datastore.data['settings']['requests']['proxy']
+             # Is not None and exists
+@@ -97,6 +98,14 @@ class perform_site_check():
+         proxy_args = self.set_proxy_from_list(watch)
+         fetcher = klass(proxy_override=proxy_args)
+ 
++        # Re #214 - Some sites need a bit more time for the JS/rendering to complete before we extract the text
++        # Watch setting overrides the global one, otherwise use the global one (if set)
++        system_webdriver_delay = self.datastore.data['settings']['application'].get('webdriver_delay', None)
++        if watch.get('webdriver_delay', None) is not None:
++            fetcher.render_extract_delay = watch.get('webdriver_delay')
++        elif system_webdriver_delay is not None:
++            fetcher.render_extract_delay = system_webdriver_delay
++
+         # Proxy List support
+         fetcher.run(url, timeout, request_headers, request_body, request_method, ignore_status_code)
+ 
+@@ -175,6 +184,12 @@ class perform_site_check():
+             # Re #340 - return the content before the 'ignore text' was applied
+             text_content_before_ignored_filter = stripped_text_from_html.encode('utf-8')
+ 
++        # Re #608 - Some sites don't render any text at all (JS webapps etc), by default we don't
++        # consider that a change, but it can be enabled in the global settings.
++        empty_pages_are_a_change = self.datastore.data['settings']['application'].get('empty_pages_are_a_change', False)
++        if not is_json and not empty_pages_are_a_change and len(stripped_text_from_html.strip()) == 0:
++            raise content_fetcher.ReplyWithContentButNoText(url=url, status_code=fetcher.get_last_status_code())
++
+         # Re #340 - return the content before the 'ignore text' was applied
+         text_content_before_ignored_filter = stripped_text_from_html.encode('utf-8')
+ 
+diff --git a/changedetectionio/forms.py b/changedetectionio/forms.py
+index 6d12267..35f24e7 100644
+--- a/changedetectionio/forms.py
++++ b/changedetectionio/forms.py
+@@ -38,6 +38,12 @@ valid_method = {
+ default_method = 'GET'
+ 
+ 
++# Re #611 - Tidy up the input, its very easy to accidentally copy/paste a URL or filter
++# with a leading/trailing space or newline, which then breaks the fetch/filter.
++def cleanup_whitespace(value):
++    return value.strip() if isinstance(value, str) else value
++
++
+ class StringListField(StringField):
+     widget = widgets.TextArea()
+ 
+@@ -306,8 +312,8 @@ class ValidateCSSJSONXPATHInput(object):
+ 
+ 
+ class quickWatchForm(Form):
+-    url = fields.URLField('URL', validators=[validateURL()])
+-    tag = StringField('Group tag', [validators.Optional(), validators.Length(max=35)])
++    url = fields.URLField('URL', validators=[validateURL()], filters=[cleanup_whitespace])
++    tag = StringField('Group tag', [validators.Optional(), validators.Length(max=35)], filters=[cleanup_whitespace])
+ 
+ # Common to a single watch and the global settings
+ class commonSettingsForm(Form):
+@@ -318,18 +324,22 @@ class commonSettingsForm(Form):
+     notification_format = SelectField('Notification format', choices=valid_notification_formats.keys(), default=default_notification_format)
+     fetch_backend = RadioField(u'Fetch method', choices=content_fetcher.available_fetchers(), validators=[ValidateContentFetcherIsReady()])
+     extract_title_as_title = BooleanField('Extract <title> from document and use as watch title', default=False)
++    # Re #214 - Some sites need a little more time before the text is extracted (JS/AJAX rendered content etc)
++    webdriver_delay = IntegerField('Wait seconds before extracting text',
++                                   validators=[validators.Optional(),
++                                               validators.NumberRange(min=1, message="Should contain one or more seconds")])
+ 
+ class watchForm(commonSettingsForm):
+ 
+-    url = fields.URLField('URL', validators=[validateURL()])
+-    tag = StringField('Group tag', [validators.Optional(), validators.Length(max=35)], default='')
++    url = fields.URLField('URL', validators=[validateURL()], filters=[cleanup_whitespace])
++    tag = StringField('Group tag', [validators.Optional(), validators.Length(max=35)], default='', filters=[cleanup_whitespace])
+ 
+     time_between_check = FormField(TimeBetweenCheckForm)
+ 
+-    css_filter = StringField('CSS/JSON/XPATH Filter', [ValidateCSSJSONXPATHInput()], default='')
++    css_filter = StringField('CSS/JSON/XPATH Filter', [ValidateCSSJSONXPATHInput()], default='', filters=[cleanup_whitespace])
+ 
+     subtractive_selectors = StringListField('Remove elements', [ValidateCSSJSONXPATHInput(allow_xpath=False, allow_json=False)])
+-    title = StringField('Title', default='')
++    title = StringField('Title', default='', filters=[cleanup_whitespace])
+ 
+     ignore_text = StringListField('Ignore text', [ValidateListRegex()])
+     headers = StringDictKeyValue('Request headers')
+@@ -364,7 +374,9 @@ class globalSettingsRequestForm(Form):
+ # datastore.data['settings']['application']..
+ class globalSettingsApplicationForm(commonSettingsForm):
+ 
+-    base_url = StringField('Base URL', validators=[validators.Optional()])
++    api_access_token_enabled = BooleanField('API access token security check enabled', default=True)
++    base_url = StringField('Base URL', validators=[validators.Optional()], filters=[cleanup_whitespace])
++    empty_pages_are_a_change = BooleanField('Treat empty pages as a change?', default=False)
+     global_subtractive_selectors = StringListField('Remove elements', [ValidateCSSJSONXPATHInput(allow_xpath=False, allow_json=False)])
+     global_ignore_text = StringListField('Ignore Text', [ValidateListRegex()])
+     ignore_whitespace = BooleanField('Ignore whitespace')
+diff --git a/changedetectionio/model/App.py b/changedetectionio/model/App.py
+index 21d53f7..a62da62 100644
+--- a/changedetectionio/model/App.py
++++ b/changedetectionio/model/App.py
+@@ -27,9 +27,11 @@ class model(dict):
+                     'proxy': None # Preferred proxy connection
+                 },
+                 'application': {
++                    'api_access_token_enabled': True,
+                     'password': False,
+                     'base_url' : None,
+                     'extract_title_as_title': False,
++                    'empty_pages_are_a_change': False,
+                     'fetch_backend': os.getenv("DEFAULT_FETCH_BACKEND", "html_requests"),
+                     'global_ignore_text': [], # List of text to ignore when calculating the comparison checksum
+                     'global_subtractive_selectors': [],
+@@ -41,7 +43,9 @@ class model(dict):
+                     'notification_body': default_notification_body,
+                     'notification_format': default_notification_format,
+                     'real_browser_save_screenshot': True,
+-                    'schema_version' : 0
++                    'schema_version' : 0,
++                    # Extra seconds to wait for the page to render (Chrome/WebDriver/Playwright only), Re #214
++                    'webdriver_delay': None
+                 }
+             }
+         }
+diff --git a/changedetectionio/model/Watch.py b/changedetectionio/model/Watch.py
+index 43d6b97..6b4662f 100644
+--- a/changedetectionio/model/Watch.py
++++ b/changedetectionio/model/Watch.py
+@@ -40,6 +40,9 @@ class model(dict):
+             'fetch_backend': None,
+             'extract_title_as_title': False,
+             'proxy': None, # Preferred proxy connection
++            # Re #214 - Extra seconds to wait for the page to render before extracting the text
++            # (Only used by the Chrome/WebDriver/Playwright type fetchers), None = use the global default
++            'webdriver_delay': None,
+             # Re #110, so then if this is set to None, we know to use the default value instead
+             # Requires setting to None on submit if it's the same as the default
+             # Should be all None by default, so we use the system default in this case.
+diff --git a/changedetectionio/store.py b/changedetectionio/store.py
+index a8ff356..436f5dd 100644
+--- a/changedetectionio/store.py
++++ b/changedetectionio/store.py
+@@ -112,6 +112,12 @@ class ChangeDetectionStore:
+             secret = secrets.token_hex(16)
+             self.__data['settings']['application']['rss_access_token'] = secret
+ 
++        # Generate the API access token, Re #617
++        if not 'api_access_token' in self.__data['settings']['application']:
++            import secrets
++            secret = secrets.token_hex(16)
++            self.__data['settings']['application']['api_access_token'] = secret
++
+ 
+         # Proxy list support - available as a selection in settings when text file is imported
+         # CSV list
+diff --git a/changedetectionio/templates/_helpers.jinja b/changedetectionio/templates/_helpers.jinja
+index 2b0d282..f026161 100644
+--- a/changedetectionio/templates/_helpers.jinja
++++ b/changedetectionio/templates/_helpers.jinja
+@@ -1,17 +1,3 @@
+-{% macro render_field(field) %}
+-  <div {% if field.errors %} class="error" {% endif %}>{{ field(**kwargs)|safe }}
+-  <div {% if field.errors %} class="error" {% endif %}>{{ field.label }}</div>
+-
+-  {% if field.errors %}
+-    <ul class=errors>
+-    {% for error in field.errors %}
+-      <li>{{ error }}</li>
+-    {% endfor %}
+-    </ul>
+-  {% endif %}
+-  </div>
+-{% endmacro %}
+-
+ {% macro render_checkbox_field(field) %}
+   <div class="checkbox {% if field.errors %} error {% endif %}">
+   {{ field(**kwargs)|safe }} {{ field.label }}
+diff --git a/changedetectionio/templates/edit.html b/changedetectionio/templates/edit.html
+index 98dedfb..137a347 100644
+--- a/changedetectionio/templates/edit.html
++++ b/changedetectionio/templates/edit.html
+@@ -38,7 +38,7 @@
+                         {{ render_field(form.title, class="m-d") }}
+                     </div>
+                     <div class="pure-control-group">
+-                        {{ render_field(form.tag) }}
++                        {{ render_field(form.tag, class="m-d", placeholder="Watch group name") }}
+                         <span class="pure-form-message-inline">Organisational tag/group name used in the main listing page</span>
+                     </div>
+                     <div class="pure-control-group">
+@@ -65,6 +65,14 @@
+                             <p>The <strong>Chrome/Javascript</strong> method requires a network connection to a running WebDriver+Chrome server, set by the ENV var 'WEBDRIVER_URL'. </p>
+                         </span>
+                     </div>
++                    <div class="pure-control-group">
++                        {{ render_field(form.webdriver_delay) }}
++                        <span class="pure-form-message-inline">
++                            Number of seconds to wait for the page to render (JavaScript etc) before the text is extracted,
++                            this is <strong>added</strong> to the default wait time of the Chrome/WebDriver/Playwright fetcher.<br/>
++                            Leave blank to use the <a href="{{ url_for('settings_page') }}#fetching">global default</a>.
++                        </span>
++                    </div>
+                 {% if form.proxy %}
+                     <div class="pure-control-group inline-radio">
+                         {{ render_field(form.proxy, class="fetch-backend-proxy") }}
+diff --git a/changedetectionio/templates/settings.html b/changedetectionio/templates/settings.html
+index 2b05298..ab6b042 100644
+--- a/changedetectionio/templates/settings.html
++++ b/changedetectionio/templates/settings.html
+@@ -60,6 +60,16 @@
+                         {{ render_checkbox_field(form.application.form.real_browser_save_screenshot) }}
+                         <span class="pure-form-message-inline">When using a Chrome browser, a screenshot from the last check will be available on the Diff page</span>
+                     </div>
++
++                    <div class="pure-control-group">
++                        {{ render_checkbox_field(form.application.form.api_access_token_enabled) }}
++                        <span class="pure-form-message-inline">Restrict API access to only requests that send the <code>x-api-key</code> header,
++                            <a href="https://github.com/dgtlmoon/changedetection.io/wiki/API-Reference">read more about the API here</a>.</span>
++                        <div class="pure-form-message-inline">
++                            <br/>API Key<br/>
++                            <span id="api-key">{{api_key}}</span>
++                        </div>
++                    </div>
+                 {% if form.requests.proxy %}
+                     <div class="pure-control-group inline-radio">
+                         {{ render_field(form.requests.form.proxy, class="fetch-backend-proxy") }}
+@@ -87,6 +97,14 @@
+                         <p>The <strong>Chrome/Javascript</strong> method requires a network connection to a running WebDriver+Chrome server, set by the ENV var 'WEBDRIVER_URL'. </p>
+                     </span>
+                 </div>
++                <fieldset class="pure-group">
++                    {{ render_field(form.application.form.webdriver_delay) }}
++                    <span class="pure-form-message-inline">
++                        Default number of seconds to wait for the page to render before the text is extracted, this is
++                        <strong>added</strong> to the minimum wait time of the Chrome/WebDriver/Playwright fetcher.<br/>
++                        Useful when a site takes a while to render its content with JavaScript, can also be set per-watch.
++                    </span>
++                </fieldset>
+             </div>
+ 
+ 
+@@ -98,6 +116,12 @@
+                     <i>Note:</i> Changing this will change the status of your existing watches, possibly trigger alerts etc.
+                     </span>
+                     </fieldset>
++                <fieldset class="pure-group">
++                    {{ render_checkbox_field(form.application.form.empty_pages_are_a_change) }}
++                    <span class="pure-form-message-inline">When a page has no renderable text (for example, a JavaScript webapp that sometimes renders nothing),
++                        should that be considered a change? Default is <strong>off</strong>, the watch will report an error instead.
++                    </span>
++                    </fieldset>
+                 <fieldset class="pure-group">
+                     {{ render_checkbox_field(form.application.form.render_anchor_tag_content) }}
+                     <span class="pure-form-message-inline">Render anchor tag content, default disabled, when enabled renders links as <code>(link text)[https://somesite.com]</code>
+@@ -121,7 +145,6 @@ nav
+                     {{ render_field(form.application.form.global_ignore_text, rows=5, placeholder="Some text to ignore in a line
+ /some.regex\d{2}/ for case-INsensitive regex
+                     ") }}
+-                    <span class="pure-form-message-inline">Note: This is applied globally in addition to the per-watch rules.</span><br/>
+                     <span class="pure-form-message-inline">
+                         <ul>
+                             <li>Note: This is applied globally in addition to the per-watch rules.</li>
+diff --git a/changedetectionio/update_worker.py b/changedetectionio/update_worker.py
+index 600cd23..7e1ae6c 100644
+--- a/changedetectionio/update_worker.py
++++ b/changedetectionio/update_worker.py
+@@ -57,6 +57,12 @@ class update_worker(threading.Thread):
+                         err_text = "EmptyReply: Status Code {}".format(e.status_code)
+                         self.datastore.update_watch(uuid=uuid, update_obj={'last_error': err_text,
+                                                                            'last_check_status': e.status_code})
++                    except content_fetcher.ReplyWithContentButNoText as e:
++                        # Re #608 - Page had elements/content but no renderable text
++                        # Not a change (unless they enabled 'empty pages are a change'), but let them know it happened
++                        err_text = "Got HTML content but no text found (With {} reply code).".format(e.status_code)
++                        self.datastore.update_watch(uuid=uuid, update_obj={'last_error': err_text,
++                                                                           'last_check_status': e.status_code})
+                     except Exception as e:
+                         self.app.logger.error("Exception reached processing watch UUID: %s - %s", uuid, str(e))
+                         self.datastore.update_watch(uuid=uuid, update_obj={'last_error': str(e)})
+diff --git a/setup.py b/setup.py
+index e661894..0fb5db8 100644
+--- a/setup.py
++++ b/setup.py
+@@ -37,7 +37,9 @@ setup(
+     scripts=["changedetection.py"],
+     author='dgtlmoon',
+     url='https://changedetection.io',
+-    packages=['changedetectionio'],
++    # Any sub-package/module MUST be listed here, otherwise it wont be included in the package
++    # (Re #593 - 'ModuleNotFoundError: No module named changedetectionio.model')
++    packages=find_packages(exclude=["changedetectionio.tests", "changedetectionio.tests.*"]),
+     include_package_data=True,
+     install_requires=install_requires,
+     license="Apache License 2.0",
