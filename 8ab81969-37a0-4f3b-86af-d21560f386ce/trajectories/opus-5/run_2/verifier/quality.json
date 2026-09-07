@@ -1,0 +1,97 @@
+{
+  "version": {
+    "quality": "quality-v1",
+    "prompt_digest": "6169e82413340627",
+    "manifest_digest": "d55b59e374bfca48"
+  },
+  "task_uuid": "8ab81969-37a0-4f3b-86af-d21560f386ce",
+  "model": "opus-5",
+  "run_id": "run_2",
+  "status": "scored",
+  "calibrated": false,
+  "judge": {
+    "member": "gpt-5.6-sol",
+    "model": "openai/responses/gpt-5.6-sol"
+  },
+  "patch": {
+    "source": "git",
+    "sha256": "5465d2cf66b65c1d6e94102f08f95c2cc4bc96fa00279baa0897c6bf2099e071",
+    "bytes": 121653,
+    "truncated": false
+  },
+  "evidence_digest": "9c69e6682a961ea8",
+  "quality_fingerprint": "a2f66edf5da76cfe",
+  "score": 0.5714,
+  "counts": {
+    "total": 7,
+    "passed": 4,
+    "failed": 3,
+    "undecided": 0
+  },
+  "reasons": [],
+  "items": [
+    {
+      "id": "Q1",
+      "dimension": "conventions",
+      "weight": 3,
+      "resolution": "unanimous",
+      "satisfied": true,
+      "rationale": "The additions follow the surrounding Python conventions: shared helpers are imported with existing fetcher helpers, logging uses the existing `loguru` logger with `debug`, and optional browser-locale failure is handled without disrupting fetches. Naming also matches nearby lowercase classes such as `fetcher` and `perform_site_check`.",
+      "evidence_ref": "changedetectionio/content_fetchers/playwright.py hunk around `class fetcher(Fetcher)` and changedetectionio/content_fetchers/puppeteer.py hunk around `manage_browser_locale` / `logger.debug`"
+    },
+    {
+      "id": "Q2",
+      "dimension": "minimal_diff",
+      "weight": 3,
+      "resolution": "unanimous",
+      "satisfied": false,
+      "rationale": "The diff adds an entire AGENTS.md file containing repository layout and local test-running notes, which does not implement any of the requested issue behaviors. This is unrelated documentation churn even though the remaining hunks generally correspond to listed issues.",
+      "evidence_ref": "AGENTS.md, new-file hunk @@ -0,0 +1,35 @@, including \u201c# Repository notes (changedetection.io)\u201d and test/layout guidance."
+    },
+    {
+      "id": "Q3",
+      "dimension": "abstraction",
+      "weight": 3,
+      "resolution": "unanimous",
+      "satisfied": true,
+      "rationale": "Repeated Accept-Language parsing is centralized in a shared helper and reused across all three browser-fetching paths, while content-type sniffing is isolated in a focused helper for the stated attachment-processing need. The backend-specific application of locale necessarily differs between Playwright contexts and Puppeteer\u2019s CDP API rather than duplicating the parsing logic.",
+      "evidence_ref": "changedetectionio/content_fetchers/base.py hunk adding manage_browser_locale, reused in changedetectionio/content_fetchers/playwright.py, changedetectionio/content_fetchers/puppeteer.py, and changedetectionio/blueprint/browser_steps/browser_steps.py"
+    },
+    {
+      "id": "Q4",
+      "dimension": "readability",
+      "weight": 3,
+      "resolution": "unanimous",
+      "satisfied": true,
+      "rationale": "The added content-type detection and processor integration use descriptive names, shallow conditional chains, and comments that explain the intent behind non-obvious handling such as generic download MIME types and preserving plaintext linefeeds. Other changed functions similarly remain short and direct, such as the unread counter and locale extraction.",
+      "evidence_ref": "changedetectionio/processors/magic.py, new-file hunk defining guess_stream_type; changedetectionio/processors/text_json_diff/processor.py, hunks around stream_content_type and strip_ignored_lines"
+    },
+    {
+      "id": "Q5",
+      "dimension": "naming",
+      "weight": 3,
+      "resolution": "unanimous",
+      "satisfied": false,
+      "rationale": "The new class `guess_stream_type` uses snake_case and reads like a function, conflicting with the conventional class-style naming used nearby, such as `Fetcher` and `ChangeDetectionStore`.",
+      "evidence_ref": "changedetectionio/processors/magic.py, new class hunk: `class guess_stream_type():`"
+    },
+    {
+      "id": "Q6",
+      "dimension": "idiomaticity",
+      "weight": 3,
+      "resolution": "unanimous",
+      "satisfied": true,
+      "rationale": "The added Python uses conventional helpers, properties, and framework APIs, including Playwright\u2019s `browser.new_context(locale=...)` and Flask\u2019s `@app.route`/`jsonify`, rather than introducing patterns foreign to the existing code.",
+      "evidence_ref": "changedetectionio/content_fetchers/playwright.py hunk around `context = await browser.new_context(..., locale=locale, ...)`; changedetectionio/flask_app.py hunk adding `@app.route('/health', methods=['GET'])`"
+    },
+    {
+      "id": "Q7",
+      "dimension": "dead_code",
+      "weight": 3,
+      "resolution": "unanimous",
+      "satisfied": false,
+      "rationale": "The new content-type helper maintains classification fields that no added production caller reads: `is_html`, `is_csv`, and `mime_type` are assigned, while the processor only consumes `is_json`, `is_plaintext`, `is_xml`, `is_rss`, and `is_pdf`. These unused attributes constitute dead code in the shown change.",
+      "evidence_ref": "`changedetectionio/processors/magic.py`, `guess_stream_type` hunk assigns `self.is_html`, `self.is_csv`, and `self.mime_type`; `changedetectionio/processors/text_json_diff/processor.py` hunk shows no reads of those attributes."
+    }
+  ]
+}

@@ -1,0 +1,200 @@
+ from changedetectionio.html_tools import PERL_STYLE_REGEX, cdata_in_document_to_text, TRANSLATE_WHITESPACE_TABLE
+ from changedetectionio import html_tools, content_fetchers
+ from changedetectionio.blueprint.price_data_follower import PRICE_DATA_TRACK_ACCEPT, PRICE_DATA_TRACK_REJECT
+@@ -54,7 +55,7 @@ class perform_site_check(difference_detection_processor):
+         self.xpath_data = self.fetcher.xpath_data
+
+         # Track the content type
+-        update_obj['content_type'] = self.fetcher.get_all_headers().get('content-type', '').lower()
++        update_obj['content_type'] = (self.fetcher.get_all_headers().get('content-type') or '').lower()
+
+         # Watches added automatically in the queue manager will skip if its the same checksum as the previous run
+         # Saves a lot of CPU
+@@ -69,16 +70,20 @@ class perform_site_check(difference_detection_processor):
+         # https://stackoverflow.com/questions/41817578/basic-method-chaining ?
+         # return content().textfilter().jsonextract().checksumcompare() ?
+
+-        is_json = 'application/json' in self.fetcher.get_all_headers().get('content-type', '').lower()
++        ctype_header = (self.fetcher.get_all_headers().get('content-type') or '').lower()
++
++        # The server may not be very helpful with the content-type (for example `application/octet-stream`
++        # is often used to force a download), so also sniff the content itself when needed.
++        # https://github.com/dgtlmoon/changedetection.io/issues/3434
++        stream_content_type = guess_stream_type(http_content_header=ctype_header, content=self.fetcher.content)
++
++        is_json = stream_content_type.is_json
+         is_html = not is_json
+-        is_rss = False
++        is_rss = stream_content_type.is_rss
+
+-        ctype_header = self.fetcher.get_all_headers().get('content-type', '').lower()
+         # Go into RSS preprocess for converting CDATA/comment to usable text
+-        if any(substring in ctype_header for substring in ['application/xml', 'application/rss', 'text/xml']):
+-            if '<rss' in self.fetcher.content[:100].lower():
+-                self.fetcher.content = cdata_in_document_to_text(html_content=self.fetcher.content)
+-                is_rss = True
++        if is_rss:
++            self.fetcher.content = cdata_in_document_to_text(html_content=self.fetcher.content)
+
+         # source: support, basically treat it as plaintext
+         if watch.is_source_type_url:
+@@ -86,7 +91,7 @@ class perform_site_check(difference_detection_processor):
+             is_json = False
+
+         inline_pdf = self.fetcher.get_all_headers().get('content-disposition', '') and '%PDF-1' in self.fetcher.content[:10]
+-        if watch.is_pdf or 'application/pdf' in self.fetcher.get_all_headers().get('content-type', '').lower() or inline_pdf:
++        if watch.is_pdf or stream_content_type.is_pdf or inline_pdf:
+             from shutil import which
+             tool = os.getenv("PDF_TO_HTML_TOOL", "pdftohtml")
+             if not which(tool):
+@@ -154,9 +159,11 @@ class perform_site_check(difference_detection_processor):
+             self.fetcher.content = html_tools.workarounds_for_obfuscations(self.fetcher.content)
+             html_content = self.fetcher.content
+
+-            # If not JSON,  and if it's not text/plain..
+-            if 'text/plain' in self.fetcher.get_all_headers().get('content-type', '').lower():
++            # If not JSON, and if it's not text/plain (or some other kind of plaintext document such as
++            # YAML/CSV/markdown, which could have been sent as `application/octet-stream`)
++            if stream_content_type.is_plaintext:
+                 # Don't run get_text or xpath/css filters on plaintext
++                # (Otherwise the line feeds etc are lost, see #3434)
+                 stripped_text_from_html = html_content
+             else:
+                 # Does it have some ld+json price data? used for easier monitoring
+@@ -302,6 +309,15 @@ class perform_site_check(difference_detection_processor):
+         if text_to_ignore:
+             text_for_checksuming = html_tools.strip_ignore_text(stripped_text_from_html, text_to_ignore)
+
++            # Optionally remove the ignored lines from the output/snapshot completely (and not just from the checksum)
++            # The watch can override the global setting ('None' means - use the global setting)
++            strip_ignored_lines = watch.get('strip_ignored_lines')
++            if strip_ignored_lines is None:
++                strip_ignored_lines = self.datastore.data['settings']['application'].get('strip_ignored_lines')
++
++            if strip_ignored_lines:
++                stripped_text_from_html = text_for_checksuming
++
+         # Re #133 - if we should strip whitespaces from triggering the change detected comparison
+         if text_for_checksuming and self.datastore.data['settings']['application'].get('ignore_whitespace', False):
+             fetched_md5 = hashlib.md5(text_for_checksuming.translate(TRANSLATE_WHITESPACE_TABLE).encode('utf-8')).hexdigest()
+diff --git a/changedetectionio/realtime/socket_server.py b/changedetectionio/realtime/socket_server.py
+index c7b5aa9..2c81b14 100644
+--- a/changedetectionio/realtime/socket_server.py
++++ b/changedetectionio/realtime/socket_server.py
+@@ -9,6 +9,20 @@ from blinker import signal
+ from changedetectionio import strtobool
+
+
++def get_general_stats(datastore):
++    """Stats about the whole watch list, so the UI counters can be updated in realtime"""
++    errored_count = 0
++    for watch_uuid_iter, watch_iter in datastore.data['watching'].items():
++        if watch_iter.get('last_error'):
++            errored_count += 1
++
++    return {
++        'count_errors': errored_count,
++        'has_unviewed': datastore.has_unviewed,
++        'unread_changes_count': datastore.unread_changes_count,
++    }
++
++
+ class SignalHandler:
+     """A standalone class to receive signals"""
+$ /workspace/scratch/run_tests.sh tests/test_basic_socketio.py tests/test_rss.py tests/test_xpath_selector.py tests/test_ui.py tests/test_backend.py tests/test_ignore_text.py tests/test_notification.py 2>&1 | cut -c1-150
+RESULT tests/test_basic_socketio.py ::  -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html ======================== 1 passed, 2 w
+RESULT tests/test_rss.py ::  -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html ======================== 4 passed, 4 warnings in
+RESULT tests/test_xpath_selector.py :: -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html ======================= 13 passed, 4 wa
+RESULT tests/test_ui.py ::  -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html ======================== 4 passed, 5 warnings in 6
+RESULT tests/test_backend.py ::  -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html ======================== 2 passed, 2 warnings
+RESULT tests/test_ignore_text.py ::  -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html ======================== 4 passed, 5 warn
+RESULT tests/test_notification.py :: -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html ======================== 5 passed, 5 warn
+$ cd /workspace/changedetection.io/changedetectionio && env -u HTTP_PROXY -u HTTPS_PROXY -u http_proxy -u https_proxy timeout 900 python -m pytest -c pytest.ini /workspace/scratch/verify_unread_test.py /workspace/scratch/verify_magic_test.py -q 2>&1 | tail -3
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+========================= 3 passed, 1 warning in 7.19s =========================
+# file_editor: Add AGENTS.md repo notes
+File created successfully at: /workspace/changedetection.io/AGENTS.md
+$ cd /workspace/changedetection.io && git status --short && rm -rf /workspace/scratch && echo "cleaned"
+M Dockerfile
+ M changedetectionio/api/api_schema.py
+ M changedetectionio/blueprint/browser_steps/browser_steps.py
+ M changedetectionio/blueprint/settings/templates/settings.html
+ M changedetectionio/blueprint/ui/templates/edit.html
+ M changedetectionio/blueprint/watchlist/__init__.py
+ M changedetectionio/blueprint/watchlist/templates/watch-overview.html
+ M changedetectionio/content_fetchers/base.py
+ M changedetectionio/content_fetchers/playwright.py
+ M changedetectionio/flask_app.py
+ M changedetectionio/forms.py
+ M changedetectionio/model/App.py
+ M changedetectionio/model/__init__.py
+ M changedetectionio/processors/text_json_diff/processor.py
+ M changedetectionio/realtime/socket_server.py
+ M changedetectionio/run_socks_proxy_tests.sh
+ M changedetectionio/static/js/realtime.js
+ M changedetectionio/store.py
+ M requirements.txt
+?? AGENTS.md
+?? changedetectionio/processors/magic.py
+cleaned
+$ cd /workspace/changedetection.io && python -m compileall -q changedetectionio -x '(\.git|__pycache__)' 2>&1 | tail -5; echo "compile exit: $?"
+compile exit: 0
+$ cd /workspace/changedetection.io/changedetectionio && env -u HTTP_PROXY -u HTTPS_PROXY -u http_proxy -u https_proxy timeout 600 python -m pytest tests/test_ignore.py tests/test_ignore_text.py -q 2>&1 | tail -3
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================== 5 passed, 5 warnings in 13.19s ========================
+$ cd /workspace/changedetection.io && git --no-pager diff --stat && echo "--- new files ---" && git status --short | grep "??"
+Dockerfile                                                          | 10 ++++++++--
+ changedetectionio/api/api_schema.py                                 |  1 +
+ changedetectionio/blueprint/browser_steps/browser_steps.py          |  4 +++-
+ changedetectionio/blueprint/settings/templates/settings.html        |  5 +++++
+ changedetectionio/blueprint/ui/templates/edit.html                  |  5 +++++
+ changedetectionio/blueprint/watchlist/__init__.py                   |  4 +++-
+ changedetectionio/blueprint/watchlist/templates/watch-overview.html |  4 ++--
+ changedetectionio/content_fetchers/base.py                          | 26 ++++++++++++++++++++++++++
+ changedetectionio/content_fetchers/playwright.py                    |  8 +++++++-
+ changedetectionio/flask_app.py                                      | 12 ++++++++++++
+ changedetectionio/forms.py                                          |  2 ++
+ changedetectionio/model/App.py                                      |  1 +
+ changedetectionio/model/__init__.py                                 |  1 +
+ changedetectionio/processors/text_json_diff/processor.py            | 38 +++++++++++++++++++++++++++-----------
+ changedetectionio/realtime/socket_server.py                         | 26 +++++++++++++++++---------
+ changedetectionio/run_socks_proxy_tests.sh                          | 32 ++++++++++++++++++++++++++++++--
+ changedetectionio/static/js/realtime.js                             | 18 ++++++++++++++----
+ changedetectionio/store.py                                          | 13 +++++++++++++
+ requirements.txt                                                    |  2 +-
+ 19 files changed, 178 insertions(+), 34 deletions(-)
+--- new files ---
+?? AGENTS.md
+?? changedetectionio/processors/magic.py
+**Checklist: 8 issues found — 8 addressed (1 partially blocked by the "no test paths" rule, noted below). No file under any test tree was modified.**
+
+---
+
+**1. #3433 – Unread counter + realtime updates (`?unread=1`) — DONE**
+- `store.py`: new `unread_changes_count` property.
+- `blueprint/watchlist/__init__.py`: passes `unread_changes_count` to the template; the `?unread=1` filter now uses `watch.has_unviewed` so it matches the counter exactly.
+- `watch-overview.html`: button now renders `Unread (n)` and gets `has-unviewed` from the count.
+- `realtime/socket_server.py`: extracted `get_general_stats()`, added `unread_changes_count`, and the stats are now also emitted on `watch_deleted` so counters stay live.
+- `static/js/realtime.js`: new shared `updateGeneralStats()` used by both `watch_update` and `watch_deleted`.
+- Verified end-to-end (0 → 1 → back to 0 after "mark all viewed", and `?unread=1` filtering).
+
+**2. #3434 – `application/octet-stream` / attachments sniffed for real content type — DONE**
+- New `changedetectionio/processors/magic.py` with `guess_stream_type(http_content_header, content)` exposing `is_html/is_json/is_plaintext/is_rss/is_xml/is_pdf/is_csv/is_yaml/is_text/is_binary`. When the header is generic (`application/octet-stream`, `application/binary`, `x-download`, empty…) it sniffs: `%PDF`, XML/RSS/Atom, HTML markers, JSON parse, then libmagic (with YAML/CSV refinement), falling back to plaintext.
+- `text_json_diff/processor.py` now drives JSON/RSS/PDF/plaintext decisions from it, so a YAML/text document sent as `octet-stream` keeps its line feeds (the reported bug) instead of being flattened by the HTML→text converter. Verified with a live watch (snapshot keeps all `\n`).
+
+**3. #3443 – Apprise 1.9.4 — DONE** (`requirements.txt` pin bumped; existing `apprise.utils.parse` usage is 1.9.x-compatible; nothing installed/downloaded).
+
+**4. #3446 – Socks test server test — PARTIALLY DONE / partly BLOCKED**
+`changedetectionio/run_socks_proxy_tests.sh` now removes stale containers, waits for both socks5 servers to accept connections before running the tests (the "connection refused because the proxy wasn't up yet" race) and dumps logs on failure. The test files themselves (`changedetectionio/tests/proxy_socks5/**`) and the CI workflow are under prohibited paths, so they were left untouched.
+
+**5. #1411 – Docker healthcheck — DONE** New lightweight, auth-exempt `/healthz` endpoint (`flask_app.py`, including the `check_authentication` exemption so it works with a password set) plus a `HEALTHCHECK` in the `Dockerfile` that uses python (image has no curl/wget) and honours `PORT`. Verified with and without password protection.
+
+**6. #1412 – `Accept-Language` ignored by Playwright — DONE** New `manage_accept_language()` in `content_fetchers/base.py` extracts the preferred language (`"de-DE,de;q=0.9"` → `de-DE`) and it is passed as `locale=` to `browser.new_context()` in both `content_fetchers/playwright.py` and the browser-steps UI context — Chromium ignores the header unless the context locale is set.
+
+**7. #3449 – "Strip ignored lines" filter option — DONE** New global setting (`model/App.py`, `globalSettingsApplicationForm`, settings.html "Filters" tab) and a per-watch ternary override (`model/__init__.py`, `processor_text_json_diff_form`, watch edit "Filters & Triggers"), applied in the processor so ignored lines are removed from the snapshot/diff/notification rather than only from the checksum; API schema updated to accept the boolean. Verified for global-on, watch-off override and watch-on override.
+
+**8. #3455 – Fixing build test — DONE (scoped to the Dockerfile)** `libmagic1` is now explicitly installed for the python-magic based content detection, and the two `RUN [ ! -d … ] && mkdir …` steps (which return non-zero and fail the image build if the directory already exists) are now `mkdir -p`. The CI workflow files and `.github/test/Dockerfile-alpine` are prohibited paths, so no changes there.
+
+---
+
+**Testing:** every test file in `changedetectionio/tests/` was run individually (as `run_basic_tests.sh` does) — all pass except the pre-existing failures also present on the untouched baseline (`test_pdf.py` / `test_preview_endpoints.py::test_fetch_pdf` need `pdftohtml`, plus `tests/unit/test_restock_logic.py` and `tests/unit/test_conditions.py::test_conditions_execution_pass`). `ruff check . --select E9,F63,F7,F82`, `python -m compileall`, and the OpenAPI spec validation all pass. Temporary verification scripts were deleted; `AGENTS.md` was added with repo/test-running notes.

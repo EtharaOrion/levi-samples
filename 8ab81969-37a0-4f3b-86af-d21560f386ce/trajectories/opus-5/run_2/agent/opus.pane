@@ -1,0 +1,200 @@
+    26	    'application/unknown',
+    27	    'application/x-download',
+    28	    'binary/octet-stream',
+    29	    'unknown/unknown',
+    30	]
+    31	
+    32	HTML_PATTERN_RE = re.compile(
+    33	    r'<\s*(!doctype\s+html|html|head|body|div|p|span|table|title|a\s|meta\s|script|style|br\s*/?)\s*[>/]?',
+    34	    re.IGNORECASE
+    35	)
+    36	
+    37	XML_DECLARATION_RE = re.compile(r'^\s*<\?xml[\s?]', re.IGNORECASE)
+    38	RSS_ROOT_RE = re.compile(r'<\s*(rss|feed)[\s>]', re.IGNORECASE)
+    39	
+    40	FILENAME_RE = re.compile(r'filename\*?=(?:utf-8\'\')?"?([^";]+)"?', re.IGNORECASE)
+    41	
+    42	# When the server forced a download, the filename can tell us what it really is
+    43	EXTENSION_MIME_TYPES = {
+    44	    'csv': 'text/csv',
+    45	    'htm': 'text/html',
+    46	    'html': 'text/html',
+    47	    'json': 'application/json',
+    48	    'md': 'text/plain',
+    49	    'pdf': 'application/pdf',
+    50	    'rss': 'application/rss+xml',
+    51	    'text': 'text/plain',
+    52	    'txt': 'text/plain',
+    53	    'xml': 'application/xml',
+    54	    'yaml': 'text/plain',
+    55	    'yml': 'text/plain',
+    56	}
+    57	
+    58	
+    59	class guess_stream_type():
+    60	    """Given the `content-type` header (and optionally the content-disposition) plus the
+$ cd /workspace/changedetection.io/changedetectionio && unset http_proxy https_proxy HTTP_PROXY HTTPS_PROXY && for f in tests/test_backend.py tests/test_ui.py tests/test_ignore_text.py tests/test_group.py; do r=$(timeout -k 30 300 python -m pytest "$f" -k "not webdriver and not pdf" -p no:cacheprovider -q --tb=line -o log_cli=false 2>&1 | grep -E "passed|failed" | tail -1); echo "$f -> $r"; done
+tests/test_backend.py -> 2 passed, 2 warnings in 10.20s
+tests/test_ui.py -> 4 passed, 5 warnings in 5.19s
+tests/test_ignore_text.py -> 4 passed, 5 warnings in 12.19s
+tests/test_group.py -> 8 passed, 4 warnings in 22.19s
+$ cd /workspace/changedetection.io && GIT_PAGER=cat git status --short && ls test-datastore 2>/dev/null | head -5; ls changedetectionio/test-datastore 2>/dev/null | head -5
+M Dockerfile
+ M changedetectionio/blueprint/browser_steps/browser_steps.py
+ M changedetectionio/blueprint/settings/templates/settings.html
+ M changedetectionio/blueprint/watchlist/__init__.py
+ M changedetectionio/blueprint/watchlist/templates/watch-overview.html
+ M changedetectionio/content_fetchers/base.py
+ M changedetectionio/content_fetchers/playwright.py
+ M changedetectionio/content_fetchers/puppeteer.py
+ M changedetectionio/flask_app.py
+ M changedetectionio/forms.py
+ M changedetectionio/model/App.py
+ M changedetectionio/model/__init__.py
+ M changedetectionio/processors/text_json_diff/processor.py
+ M changedetectionio/realtime/socket_server.py
+ M changedetectionio/run_socks_proxy_tests.sh
+ M changedetectionio/static/js/realtime.js
+ M changedetectionio/static/styles/scss/parts/_socket.scss
+ M changedetectionio/static/styles/styles.css
+ M changedetectionio/store.py
+ M changedetectionio/templates/edit/text-options.html
+ M changedetectionio/widgets/ternary_boolean.py
+ M requirements.txt
+?? AGENTS.md
+?? changedetectionio/processors/magic.py
+04f7d42f-a7d8-453b-badf-17e648926d01
+1ce23b79-444e-4278-b401-eed0acf20208
+1e3f765e-1645-4228-8dd5-0aac0cbd6fdc
+21c40f21-5601-4e16-9797-b594b6793642
+279ebb0c-6f16-4cdb-ad6d-1d9542ab2bdf
+01ea6d03-4fc2-4b45-82e4-bd407177e9ec
+021e9428-d083-43bc-bf5c-99d5c2d1c770
+0271cea8-1a25-4d24-b719-7668d621dffb
+072a03c3-e31e-40d3-a17f-4d2ce08c440b
+076c8366-79a3-48dc-90ea-07cc5f3f1709
+$ cd /workspace/changedetection.io && cat .gitignore && rm -rf test-datastore changedetectionio/test-datastore test-memory.log changedetectionio/test-memory.log && GIT_PAGER=cat git status --short --ignored | head -20
+# Byte-compiled / optimized / DLL files
+**/__pycache__
+**/*.py[cod]
+
+# Caches
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info*
+
+# Virtual environment
+.env
+.venv/
+venv/
+.python-version
+
+# IDEs
+.idea
+.vscode/settings.json
+
+# Datastore files
+datastore/
+test-datastore/
+
+# Memory consumption log
+test-memory.log
+ M Dockerfile
+ M changedetectionio/blueprint/browser_steps/browser_steps.py
+ M changedetectionio/blueprint/settings/templates/settings.html
+ M changedetectionio/blueprint/watchlist/__init__.py
+ M changedetectionio/blueprint/watchlist/templates/watch-overview.html
+ M changedetectionio/content_fetchers/base.py
+ M changedetectionio/content_fetchers/playwright.py
+ M changedetectionio/content_fetchers/puppeteer.py
+ M changedetectionio/flask_app.py
+ M changedetectionio/forms.py
+ M changedetectionio/model/App.py
+ M changedetectionio/model/__init__.py
+ M changedetectionio/processors/text_json_diff/processor.py
+ M changedetectionio/realtime/socket_server.py
+ M changedetectionio/run_socks_proxy_tests.sh
+ M changedetectionio/static/js/realtime.js
+ M changedetectionio/static/styles/scss/parts/_socket.scss
+ M changedetectionio/static/styles/styles.css
+ M changedetectionio/store.py
+ M changedetectionio/templates/edit/text-options.html
+$ cd /workspace/changedetection.io && GIT_PAGER=cat git status --short --ignored | grep "^!!" | head -20
+!! changedetection.io.egg-info/
+!! changedetectionio/.pytest_cache/
+!! changedetectionio/__pycache__/
+!! changedetectionio/api/__pycache__/
+!! changedetectionio/blueprint/__pycache__/
+!! changedetectionio/blueprint/backups/__pycache__/
+!! changedetectionio/blueprint/browser_steps/__pycache__/
+!! changedetectionio/blueprint/check_proxies/__pycache__/
+!! changedetectionio/blueprint/imports/__pycache__/
+!! changedetectionio/blueprint/price_data_follower/__pycache__/
+!! changedetectionio/blueprint/rss/__pycache__/
+!! changedetectionio/blueprint/settings/__pycache__/
+!! changedetectionio/blueprint/tags/__pycache__/
+!! changedetectionio/blueprint/ui/__pycache__/
+!! changedetectionio/blueprint/watchlist/__pycache__/
+!! changedetectionio/conditions/__pycache__/
+!! changedetectionio/conditions/plugins/__pycache__/
+!! changedetectionio/content_fetchers/__pycache__/
+!! changedetectionio/content_fetchers/exceptions/__pycache__/
+!! changedetectionio/content_fetchers/res/__pycache__/
+Task list has been updated with 9 item(s).
+$ cd /workspace/changedetection.io && GIT_PAGER=cat git --no-pager diff --stat && echo "--- new files ---" && git status --short | grep "??"
+Dockerfile                                                          | 10 ++++++++--
+ changedetectionio/blueprint/browser_steps/browser_steps.py          |  4 +++-
+ changedetectionio/blueprint/settings/templates/settings.html        |  4 ++++
+ changedetectionio/blueprint/watchlist/__init__.py                   |  3 ++-
+ changedetectionio/blueprint/watchlist/templates/watch-overview.html |  7 ++++---
+ changedetectionio/content_fetchers/base.py                          | 20 ++++++++++++++++++++
+ changedetectionio/content_fetchers/playwright.py                    |  9 ++++++++-
+ changedetectionio/content_fetchers/puppeteer.py                     | 11 ++++++++++-
+ changedetectionio/flask_app.py                                      | 10 ++++++++++
+ changedetectionio/forms.py                                          |  2 ++
+ changedetectionio/model/App.py                                      |  1 +
+ changedetectionio/model/__init__.py                                 |  1 +
+ changedetectionio/processors/text_json_diff/processor.py            | 33 +++++++++++++++++++++++++++------
+ changedetectionio/realtime/socket_server.py                         |  3 ++-
+ changedetectionio/run_socks_proxy_tests.sh                          | 21 +++++++++++++++++++++
+ changedetectionio/static/js/realtime.js                             |  7 +++++--
+ changedetectionio/static/styles/scss/parts/_socket.scss             |  6 ++++--
+ changedetectionio/static/styles/styles.css                          |  2 +-
+ changedetectionio/store.py                                          | 13 +++++++++++++
+ changedetectionio/templates/edit/text-options.html                  |  8 +++++++-
+ changedetectionio/widgets/ternary_boolean.py                        | 17 ++++++++++++-----
+ requirements.txt                                                    |  2 +-
+ 22 files changed, 166 insertions(+), 28 deletions(-)
+--- new files ---
+?? AGENTS.md
+?? changedetectionio/processors/magic.py
+**Checklist: 8 issues found — 8 addressed, 0 blocked.**
+
+### 1. #3433 — Unread counter + realtime updates (`?unread=1`) — DONE
+- `store.py`: new `unread_changes_count` property.
+- `blueprint/watchlist/__init__.py`: passes `unread_changes_count` to the template and the `?unread=1` filter now uses `watch.has_unviewed` (previously `viewed or last_changed == 0`, which mis-filtered watches).
+- `watch-overview.html`: button now reads **“Unread (N)”**, and the buttons get `has-unread-changes` (plus the legacy `has-unviewed` alias) when the counter is non-zero.
+- `realtime/socket_server.py`: `general_stats` now carries `unread_changes_count`; `static/js/realtime.js` live-updates the counter text and classes; `_socket.scss` + compiled `styles.css` updated.
+
+### 2. #3434 — `application/octet-stream` / attachments — DONE
+- New `changedetectionio/processors/magic.py` with `guess_stream_type(http_content_header, content, content_disposition)`: sniffs generic/unknown mime types (`application/octet-stream`, forced downloads, empty type) using the PDF magic header, the `content-disposition` filename extension, then the content itself (XML/RSS, JSON, HTML, else plaintext).
+- `text_json_diff/processor.py` now drives `is_json/is_plaintext/is_pdf/is_xml/is_rss` from it, so a YAML/plaintext document served as octet-stream keeps its line breaks instead of being pushed through HTML→text.
+
+### 3. #3443 — Apprise 1.9.4 — DONE (`requirements.txt` pin bumped; nothing in the apprise plugin code needed changes).
+
+### 4. #3446 — Socks test server — DONE (limited): `run_socks_proxy_tests.sh` now waits for the socks5 containers to actually accept connections before running the tests and dumps container logs on failure. The socks tests themselves live under `tests/proxy_socks5/` and were left untouched (prohibited test tree).
+
+### 5. #1411 — Docker healthcheck — DONE: new cheap, auth-exempt `/health` endpoint (`flask_app.py`) plus a `HEALTHCHECK` in the `Dockerfile` implemented with python (no curl/wget in the image), honouring `PORT`.
+
+### 6. #1412 — `Accept-Language` ignored by Playwright — DONE: new `manage_browser_locale()` helper (`content_fetchers/base.py`); the Playwright fetcher and browser-steps context are now created with `locale=` derived from the header (Chrome ignores it in `extra_http_headers`), and the Puppeteer fetcher issues `Emulation.setLocaleOverride`.
+
+### 7. #3449 — “Strip ignored lines” — DONE: per-watch tri-state `strip_ignored_lines` (`TernaryNoneBooleanField`, `None` = use global) + global `application-strip_ignored_lines` setting, model defaults, processor support (ignored lines removed from the snapshot/output, not just from the checksum), and UI in the watch/tag edit page and settings page. The ternary widget now also accepts `y/yes/on/1` & `n/no/off/0`.
+
+### 8. #3455 — Build test — DONE: `Dockerfile` `RUN [ ! -d X ] && mkdir X` replaced with `mkdir -p` (the old form returns non-zero and fails the build when the dir exists). CI workflow files were deliberately not modified (repository plumbing not named by the issue).
+
+**Verification**: every test file in the repo’s standard run list passes (`test_backend`, `test_ignore_text`, `test_ui`, `test_conditions`, `test_xpath_selector`, `test_jsonpath_jq_selector`, `test_restock_itemprop`, `test_source`, `test_rss`, `test_group`, `test_api`, `test_access_control`, …). Temporary verification tests I wrote for the unread flag/counter, octet-stream handling, `/health`, form rendering and strip-ignored-lines all passed and the scratch directory was deleted (no test files were modified). Pre-existing/environmental failures, confirmed against a stashed (clean) tree: `tests/test_pdf.py` (no `pdftohtml` installed) and `tests/test_notification.py::test_check_notification`. Notes for future sessions were added to `AGENTS.md` (notably: unset `*_proxy` env vars before running the live-server tests).

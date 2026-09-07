@@ -1,0 +1,855 @@
+diff --git a/AGENTS.md b/AGENTS.md
+new file mode 100644
+index 0000000..e0471e3
+--- /dev/null
++++ b/AGENTS.md
+@@ -0,0 +1,26 @@
++# Repository notes (changedetection.io)
++
++## Running the tests
++
++* Tests must be run from the `changedetectionio/` directory (they use relative paths like
++  `test-datastore/` and `tests/test.pdf`), e.g. `cd changedetectionio && pytest tests/test_backend.py`
++* Run **one test file per pytest invocation** (see `run_basic_tests.sh`) - the `live_server`
++  fixture is session scoped and tests interfere with each other when several files run together.
++* The live server runs on `localhost.localdomain:5005`, so any `HTTP_PROXY`/`HTTPS_PROXY`
++  environment variable must be unset (or `no_proxy` must include `localhost.localdomain`)
++  otherwise every fetch returns 403.
++* `tests/test_pdf.py` and `tests/test_preview_endpoints.py::test_fetch_pdf` need the
++  `pdftohtml` (poppler-utils) binary.
++
++## Layout / conventions
++
++* Flask app factory: `changedetectionio/flask_app.py`, blueprints under `changedetectionio/blueprint/`.
++* Fetchers: `changedetectionio/content_fetchers/` (`requests`, `playwright`, `puppeteer`, `webdriver_selenium`).
++* Change detection logic: `changedetectionio/processors/text_json_diff/processor.py`
++  (`changedetectionio/processors/magic.py` decides what kind of document was fetched).
++* Watch defaults live in `changedetectionio/model/__init__.py`, global/app settings in
++  `changedetectionio/model/App.py`, forms in `changedetectionio/forms.py`.
++* "Per watch, or fall back to the global setting" options use `TernaryNoneBooleanField`
++  (`None` = use main settings) and are rendered with the `render_ternary_field` macro.
++* Realtime UI updates: `changedetectionio/realtime/socket_server.py` emits `watch_update`
++  (+ `general_stats`) which is consumed by `changedetectionio/static/js/realtime.js`.
+diff --git a/Dockerfile b/Dockerfile
+index 3abf0bb..a955b31 100644
+--- a/Dockerfile
++++ b/Dockerfile
+@@ -71,7 +71,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
+ # https://stackoverflow.com/questions/58701233/docker-logs-erroneously-appears-empty-until-container-stops
+ ENV PYTHONUNBUFFERED=1
+ 
+-RUN [ ! -d "/datastore" ] && mkdir /datastore
++# `mkdir -p` so that the build doesnt fail (non-zero exit) when the directory already exists
++RUN mkdir -p /datastore
+ 
+ # Re #80, sets SECLEVEL=1 in openssl.conf to allow monitoring sites with weak/old cipher suites
+ RUN sed -i 's/^CipherString = .*/CipherString = DEFAULT@SECLEVEL=1/' /etc/ssl/openssl.cnf
+@@ -86,7 +87,7 @@ EXPOSE 5000
+ COPY changedetectionio /app/changedetectionio
+ 
+ # Also for OpenAPI validation wrapper - needs the YML
+-RUN [ ! -d "/app/docs" ] && mkdir /app/docs
++RUN mkdir -p /app/docs
+ COPY docs/api-spec.yaml /app/docs/api-spec.yaml
+ 
+ # Starting wrapper
+@@ -101,6 +102,12 @@ ENV LOGGER_LEVEL="$LOGGER_LEVEL"
+ ENV LC_ALL=en_US.UTF-8
+ 
+ WORKDIR /app
++
++# There is no curl or wget in this image, so use python to ask the app if it's alive
++# https://github.com/dgtlmoon/changedetection.io/issues/1411
++HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
++    CMD python -c "import os,sys,urllib.request; sys.exit(0 if urllib.request.urlopen('http://localhost:'+os.getenv('PORT','5000')+'/health', timeout=5).getcode() == 200 else 1)" || exit 1
++
+ CMD ["python", "./changedetection.py", "-d", "/datastore"]
+ 
+ 
+diff --git a/changedetectionio/api/api_schema.py b/changedetectionio/api/api_schema.py
+index 2ef10f6..a768711 100644
+--- a/changedetectionio/api/api_schema.py
++++ b/changedetectionio/api/api_schema.py
+@@ -88,6 +88,10 @@ def build_watch_json_schema(d):
+     # None or Boolean
+     schema['properties']['track_ldjson_price_data']['anyOf'].append({'type': 'boolean'})
+ 
++    # None (use the system/global setting) or Boolean
++    for v in ['strip_ignored_lines']:
++        schema['properties'][v]['anyOf'].append({'type': 'boolean'})
++
+     schema['properties']['method'] = {"type": "string",
+                                       "enum": ["GET", "POST", "DELETE", "PUT"]
+                                       }
+diff --git a/changedetectionio/blueprint/browser_steps/browser_steps.py b/changedetectionio/blueprint/browser_steps/browser_steps.py
+index ef3f0ab..30be49f 100644
+--- a/changedetectionio/blueprint/browser_steps/browser_steps.py
++++ b/changedetectionio/blueprint/browser_steps/browser_steps.py
+@@ -5,7 +5,7 @@ from random import randint
+ from loguru import logger
+ 
+ from changedetectionio.content_fetchers import SCREENSHOT_MAX_HEIGHT_DEFAULT
+-from changedetectionio.content_fetchers.base import manage_user_agent
++from changedetectionio.content_fetchers.base import manage_user_agent, manage_accept_language_locale
+ from changedetectionio.safe_jinja import render as jinja_render
+ 
+ 
+@@ -350,6 +350,8 @@ class browsersteps_live_ui(steppable_browser_interface):
+             bypass_csp=True,  # This is needed to enable JavaScript execution on GitHub and others
+             extra_http_headers=self.headers,
+             ignore_https_errors=True,
++            # Chromium ignores a 'Accept-Language' header unless the locale is set too - #1412
++            locale=manage_accept_language_locale(headers=self.headers),
+             proxy=proxy,
+             service_workers=os.getenv('PLAYWRIGHT_SERVICE_WORKERS', 'allow'),
+             # Should be `allow` or `block` - sites like YouTube can transmit large amounts of data via Service Workers
+diff --git a/changedetectionio/blueprint/check_proxies/__init__.py b/changedetectionio/blueprint/check_proxies/__init__.py
+index 28fe5eb..7c00128 100644
+--- a/changedetectionio/blueprint/check_proxies/__init__.py
++++ b/changedetectionio/blueprint/check_proxies/__init__.py
+@@ -31,6 +31,7 @@ def construct_blueprint(datastore: ChangeDetectionStore):
+ 
+     @threadpool
+     def long_task(uuid, preferred_proxy):
++        import asyncio
+         import time
+         from changedetectionio.content_fetchers import exceptions as content_fetcher_exceptions
+         from changedetectionio.safe_jinja import render as jinja_render
+@@ -45,7 +46,9 @@ def construct_blueprint(datastore: ChangeDetectionStore):
+                                                                  watch_uuid=uuid
+                                                                  )
+ 
+-            update_handler.call_browser(preferred_proxy_id=preferred_proxy)
++            # call_browser is async, we are in our own thread here so it's safe to run our own loop
++            asyncio.run(update_handler.call_browser(preferred_proxy_id=preferred_proxy))
++            contents = update_handler.fetcher.content or ''
+         # title, size is len contents not len xfer
+         except content_fetcher_exceptions.Non200ErrorCodeReceived as e:
+             if e.status_code == 404:
+diff --git a/changedetectionio/blueprint/settings/templates/settings.html b/changedetectionio/blueprint/settings/templates/settings.html
+index d00aad9..d8e2b87 100644
+--- a/changedetectionio/blueprint/settings/templates/settings.html
++++ b/changedetectionio/blueprint/settings/templates/settings.html
+@@ -191,6 +191,15 @@ nav
+                         </ul>
+                      </span>
+                     </fieldset>
++                    <fieldset class="pure-control-group">
++                        {{ render_checkbox_field(form.application.form.strip_ignored_lines) }}
++                        <span class="pure-form-message-inline">
++                            <ul>
++                                <li>Remove any lines that matched the "Ignore text" rules from the text snapshot completely (they will not be visible in the preview, history or notifications)</li>
++                                <li>Can be overridden per watch/group in the watch "Filters &amp; Triggers" settings.</li>
++                            </ul>
++                        </span>
++                    </fieldset>
+            </div>
+ 
+             <div class="tab-pane-inner" id="api">
+diff --git a/changedetectionio/blueprint/watchlist/__init__.py b/changedetectionio/blueprint/watchlist/__init__.py
+index d7cbe8e..a48103f 100644
+--- a/changedetectionio/blueprint/watchlist/__init__.py
++++ b/changedetectionio/blueprint/watchlist/__init__.py
+@@ -51,7 +51,7 @@ def construct_blueprint(datastore: ChangeDetectionStore, update_q, queuedWatchMe
+             if with_errors and not watch.get('last_error'):
+                 continue
+ 
+-            if unread_only and (watch.viewed or watch.last_changed == 0) :
++            if unread_only and not watch.has_unviewed:
+                 continue
+ 
+             if active_tag_uuid and not active_tag_uuid in watch['tags']:
+@@ -97,6 +97,7 @@ def construct_blueprint(datastore: ChangeDetectionStore, update_q, queuedWatchMe
+             sort_order=request.args.get('order') if request.args.get('order') else request.cookies.get('order'),
+             system_default_fetcher=datastore.data['settings']['application'].get('fetch_backend'),
+             tags=sorted_tags,
++            unread_changes_count=datastore.unread_changes_count,
+             watches=sorted_watches
+         )
+ 
+diff --git a/changedetectionio/blueprint/watchlist/templates/watch-overview.html b/changedetectionio/blueprint/watchlist/templates/watch-overview.html
+index df5bd5f..4a0d4b3 100644
+--- a/changedetectionio/blueprint/watchlist/templates/watch-overview.html
++++ b/changedetectionio/blueprint/watchlist/templates/watch-overview.html
+@@ -252,8 +252,8 @@ document.addEventListener('DOMContentLoaded', function() {
+                 <a href="{{url_for('ui.mark_all_viewed', tag=active_tag_uuid) }}" class="pure-button button-tag " id="mark-all-viewed">Mark all viewed in '{{active_tag.title}}'</a>
+             </li>
+         {%-  endif -%}
+-            <li id="post-list-unread" class="{%- if has_unviewed -%}has-unviewed{%- endif -%}" style="display: none;" >
+-                <a href="{{url_for('watchlist.index', unread=1, tag=request.args.get('tag')) }}" class="pure-button button-tag">Unread</a>
++            <li id="post-list-unread" class="{%- if unread_changes_count -%}has-unviewed{%- endif -%}" style="display: none;" >
++                <a href="{{url_for('watchlist.index', unread=1, tag=request.args.get('tag')) }}" class="pure-button button-tag">Unread ({{ unread_changes_count }})</a>
+             </li>
+             <li>
+                <a href="{{ url_for('ui.form_watch_checknow', tag=active_tag_uuid, with_errors=request.args.get('with_errors',0)) }}" class="pure-button button-tag" id="recheck-all">Recheck
+diff --git a/changedetectionio/content_fetchers/base.py b/changedetectionio/content_fetchers/base.py
+index 8be939e..bf22d95 100644
+--- a/changedetectionio/content_fetchers/base.py
++++ b/changedetectionio/content_fetchers/base.py
+@@ -39,6 +39,41 @@ def manage_user_agent(headers, current_ua=''):
+     return None
+ 
+ 
++def manage_accept_language_locale(headers):
++    """
++    Chromium will happily ignore an 'Accept-Language' header that was set via 'extra_http_headers',
++    the reliable way is to also set the browser context 'locale' (which sets Accept-Language AND
++    navigator.language etc), so extract the most preferred language from any given header.
++
++    https://github.com/dgtlmoon/changedetection.io/issues/1412
++
++    'de-DE,de;q=0.9,en;q=0.8' -> 'de-DE'
++
++    :param headers: dict/CaseInsensitiveDict of the request headers
++    :return: locale string or None
++    """
++    if not headers:
++        return None
++
++    accept_language = None
++    for k, v in headers.items():
++        if k and k.lower().strip() == 'accept-language':
++            accept_language = v
++            break
++
++    if not accept_language or not accept_language.strip():
++        return None
++
++    # 'de-DE,de;q=0.9,en;q=0.8' -> the first entry is the most preferred one (q=1 by default)
++    first = accept_language.split(',')[0].split(';')[0].strip()
++
++    # '*' means "anything will do", nothing for us to set
++    if not first or first == '*':
++        return None
++
++    return first
++
++
+ class Fetcher():
+     browser_connection_is_custom = None
+     browser_connection_url = None
+diff --git a/changedetectionio/content_fetchers/playwright.py b/changedetectionio/content_fetchers/playwright.py
+index 04fc3c0..1ce9b05 100644
+--- a/changedetectionio/content_fetchers/playwright.py
++++ b/changedetectionio/content_fetchers/playwright.py
+@@ -6,7 +6,7 @@ from loguru import logger
+ 
+ from changedetectionio.content_fetchers import SCREENSHOT_MAX_HEIGHT_DEFAULT, visualselector_xpath_selectors, \
+     SCREENSHOT_SIZE_STITCH_THRESHOLD, SCREENSHOT_MAX_TOTAL_HEIGHT, XPATH_ELEMENT_JS, INSTOCK_DATA_JS, FAVICON_FETCHER_JS
+-from changedetectionio.content_fetchers.base import Fetcher, manage_user_agent
++from changedetectionio.content_fetchers.base import Fetcher, manage_user_agent, manage_accept_language_locale
+ from changedetectionio.content_fetchers.exceptions import PageUnloadable, Non200ErrorCodeReceived, EmptyReply, ScreenshotUnavailable
+ 
+ async def capture_full_page_async(page):
+@@ -174,11 +174,14 @@ class fetcher(Fetcher):
+ 
+             # Set user agent to prevent Cloudflare from blocking the browser
+             # Use the default one configured in the App.py model that's passed from fetch_site_status.py
++            # Setting 'Accept-Language' in extra_http_headers alone is not enough, Chromium will
++            # override it, the context 'locale' must be set aswell - #1412
+             context = await browser.new_context(
+                 accept_downloads=False,  # Should never be needed
+                 bypass_csp=True,  # This is needed to enable JavaScript execution on GitHub and others
+                 extra_http_headers=request_headers,
+                 ignore_https_errors=True,
++                locale=manage_accept_language_locale(headers=request_headers),
+                 proxy=self.proxy,
+                 service_workers=os.getenv('PLAYWRIGHT_SERVICE_WORKERS', 'allow'), # Should be `allow` or `block` - sites like YouTube can transmit large amounts of data via Service Workers
+                 user_agent=manage_user_agent(headers=request_headers),
+diff --git a/changedetectionio/flask_app.py b/changedetectionio/flask_app.py
+index 6e52d4e..a3099b8 100644
+--- a/changedetectionio/flask_app.py
++++ b/changedetectionio/flask_app.py
+@@ -295,6 +295,9 @@ def changedetection_app(config=None, datastore_o=None):
+             # Socket.IO routes - need separate handling
+             elif request.path.startswith('/socket.io/'):
+                 return None
++            # Docker/kubernetes/loadbalancer healthcheck, contains no sensitive information
++            elif request.endpoint and request.endpoint == 'healthcheck':
++                return None
+             # API routes - use their own auth mechanism (@auth.check_token)
+             elif request.path.startswith('/api/'):
+                 return None
+@@ -535,6 +538,15 @@ def changedetection_app(config=None, datastore_o=None):
+         logger.info("Socket.IO server disabled via settings")
+         socketio_server = None
+ 
++    # Simple healthcheck endpoint, used by the docker HEALTHCHECK (the image contains no curl/wget)
++    # and any loadbalancer/kubernetes probe, deliberately does not require a login.
++    @app.route('/health', methods=['GET'])
++    def healthcheck():
++        from flask import make_response
++        response = make_response('OK', 200)
++        response.mimetype = "text/plain"
++        return response
++
+     # Memory cleanup endpoint
+     @app.route('/gc-cleanup', methods=['GET'])
+     @login_optionally_required
+diff --git a/changedetectionio/forms.py b/changedetectionio/forms.py
+index 1630907..3c36862 100644
+--- a/changedetectionio/forms.py
++++ b/changedetectionio/forms.py
+@@ -752,6 +752,7 @@ class processor_text_json_diff_form(commonSettingsForm):
+     title = StringField('Title', default='')
+ 
+     ignore_text = StringListField('Ignore lines containing', [ValidateListRegex()])
++    strip_ignored_lines = TernaryNoneBooleanField('Strip ignored lines', default=None)
+     headers = StringDictKeyValue('Request headers')
+     body = TextAreaField('Request body', [validators.Optional()])
+     method = SelectField('Request method', choices=valid_method, default=default_method)
+@@ -923,6 +924,7 @@ class globalSettingsApplicationForm(commonSettingsForm):
+     empty_pages_are_a_change =  BooleanField('Treat empty pages as a change?', default=False)
+     fetch_backend = RadioField('Fetch Method', default="html_requests", choices=content_fetchers.available_fetchers(), validators=[ValidateContentFetcherIsReady()])
+     global_ignore_text = StringListField('Ignore Text', [ValidateListRegex()])
++    strip_ignored_lines = BooleanField('Strip ignored lines', default=False)
+     global_subtractive_selectors = StringListField('Remove elements', [ValidateCSSJSONXPATHInput(allow_json=False)])
+     ignore_whitespace = BooleanField('Ignore whitespace')
+     password = SaltyPasswordField()
+diff --git a/changedetectionio/model/App.py b/changedetectionio/model/App.py
+index b87e048..8f78fd7 100644
+--- a/changedetectionio/model/App.py
++++ b/changedetectionio/model/App.py
+@@ -57,6 +57,7 @@ class model(dict):
+                     'rss_hide_muted_watches': True,
+                     'schema_version' : 0,
+                     'shared_diff_access': False,
++                    'strip_ignored_lines': False, # Should the lines that are 'ignored' be removed from the text snapshot?
+                     'tags': {}, #@todo use Tag.model initialisers
+                     'timezone': None, # Default IANA timezone name
+                     'webdriver_delay': None , # Extra delay in seconds before extracting text
+diff --git a/changedetectionio/model/__init__.py b/changedetectionio/model/__init__.py
+index 62024bc..37cb8f5 100644
+--- a/changedetectionio/model/__init__.py
++++ b/changedetectionio/model/__init__.py
+@@ -58,6 +58,7 @@ class watch_base(dict):
+             'proxy': None,  # Preferred proxy connection
+             'remote_server_reply': None,  # From 'server' reply header
+             'sort_text_alphabetically': False,
++            'strip_ignored_lines': None, # None = use system settings
+             'subtractive_selectors': [],
+             'tag': '',  # Old system of text name for a tag, to be removed
+             'tags': [],  # list of UUIDs to App.Tags
+diff --git a/changedetectionio/processors/magic.py b/changedetectionio/processors/magic.py
+new file mode 100644
+index 0000000..75afdc5
+--- /dev/null
++++ b/changedetectionio/processors/magic.py
+@@ -0,0 +1,243 @@
++"""
++Content Type Detection and Stream Classification
++
++Not all webservers send the correct 'Content-Type' header, many will send
++'application/octet-stream' (or 'application/force-download', 'binary/octet-stream' etc) simply
++to force the browser to show a "Download file" dialog, some send no content-type at all.
++
++When that happens we should not just blindly assume that the document is HTML (and then run it
++through the HTML-to-text converter, which will strip all the line feeds out of a plaintext
++document, see #3434), instead we should look at the content itself and figure out what it
++really is so that the right processing is applied.
++
++Usage:
++
++    stream_content_type = guess_stream_type(http_content_header=headers.get('content-type'),
++                                            content=fetched_content)
++    if stream_content_type.is_plaintext:
++        ...
++"""
++
++import json
++import re
++
++from loguru import logger
++
++# Content-Type headers which tell us nothing about the actual content, in these cases we should
++# look at the content itself (attachments/downloads are usually sent with one of these)
++GENERIC_CONTENT_TYPES = {
++    '',
++    'application/binary',
++    'application/download',
++    'application/force-download',
++    'application/octet-stream',
++    'application/octetstream',
++    'application/unknown',
++    'application/x-binary',
++    'application/x-download',
++    'application/x-force-download',
++    'application/x-octet-stream',
++    'application/x-unknown',
++    'binary/octet-stream',
++    'unknown/unknown',
++}
++
++# Sniffing the content itself
++HTML_START_PATTERN = re.compile(
++    r'^\s*(<!doctype\s+html|<html[\s>]|<head[\s>]|<body[\s>]|<!--.*?-->\s*<html)',
++    re.IGNORECASE | re.DOTALL
++)
++# A bit looser, for HTML fragments/snippets that dont start with <html> etc
++HTML_FRAGMENT_PATTERN = re.compile(
++    r'<(a|b|br|div|font|h1|h2|h3|hr|i|img|li|meta|ol|p|script|span|strong|style|table|td|title|tr|ul)[\s/>]',
++    re.IGNORECASE
++)
++XML_START_PATTERN = re.compile(r'^\s*(<\?xml[\s?]|<!doctype\s+(?!html)|<[a-z_][\w:.-]*[\s>/])', re.IGNORECASE)
++RSS_PATTERN = re.compile(r'<(rss|feed|rdf:rdf)[\s>]', re.IGNORECASE)
++
++PDF_MAGIC = '%PDF-'
++
++# YAML is really hard to detect reliably, so keep it to the obvious stuff
++YAML_DOCUMENT_START_PATTERN = re.compile(r'^\s*---\s*$', re.MULTILINE)
++YAML_KEY_PATTERN = re.compile(r'^\s*(-\s+)?[\w.$-]+\s*:(\s|$)', re.MULTILINE)
++
++
++def _as_text(content, limit=4096):
++    """Content could be bytes (raw_content) or str (decoded content)"""
++    if content is None:
++        return ''
++    if isinstance(content, bytes):
++        return content[:limit].decode('utf-8', errors='ignore')
++    return content[:limit]
++
++
++def _as_bytes(content, limit=4096):
++    if content is None:
++        return b''
++    if isinstance(content, bytes):
++        return content[:limit]
++    return content[:limit].encode('utf-8', errors='ignore')
++
++
++class guess_stream_type():
++    """Given the reported content-type header and the actual content, figure out what we really got"""
++
++    is_binary = False
++    is_csv = False
++    is_html = False
++    is_json = False
++    is_pdf = False
++    is_plaintext = False
++    is_rss = False
++    is_text = False
++    is_xml = False  # Generic XML, not RSS/Atom
++    is_yaml = False
++
++    def __init__(self, http_content_header, content, is_binary=False):
++
++        self.is_binary = is_binary
++        # 'text/html; charset=utf-8' -> 'text/html'
++        self.reported_content_type = (http_content_header or '').split(';')[0].strip().lower()
++        magic_content_header = self.reported_content_type
++
++        test_content = _as_text(content)
++        test_content_stripped = test_content.strip()
++
++        # The server didnt tell us anything useful about the content, so look at the content itself
++        if magic_content_header in GENERIC_CONTENT_TYPES:
++            detected = self.__detect_from_content(content=content, text=test_content_stripped)
++            if detected:
++                logger.debug(
++                    f"Detected content type '{detected}' from content (reported by server as '{self.reported_content_type}')")
++                magic_content_header = detected
++
++        self.detected_content_type = magic_content_header
++
++        # PDF can always be detected by its magic bytes, no matter what the server said
++        if test_content_stripped[:len(PDF_MAGIC)] == PDF_MAGIC or 'pdf' in magic_content_header:
++            self.is_pdf = True
++        elif 'json' in magic_content_header:  # application/json, application/ld+json, text/json ..
++            self.is_json = True
++        elif 'csv' in magic_content_header:
++            self.is_csv = True
++        elif 'yaml' in magic_content_header or 'yml' in magic_content_header:
++            self.is_yaml = True
++        elif 'html' in magic_content_header:  # text/html, application/xhtml+xml ..
++            self.is_html = True
++        elif 'xml' in magic_content_header or 'rss' in magic_content_header or 'atom' in magic_content_header:
++            if RSS_PATTERN.search(test_content[:500]):
++                self.is_rss = True
++            else:
++                self.is_xml = True
++        elif magic_content_header.startswith('text/'):
++            # 'text/plain', 'text/x-shellscript', 'text/markdown' etc
++            self.is_plaintext = True
++        elif magic_content_header in GENERIC_CONTENT_TYPES and self.__looks_like_text(test_content):
++            # Nothing (not even libmagic) could tell us what it was, but it reads like text
++            self.is_plaintext = True
++        elif magic_content_header in GENERIC_CONTENT_TYPES:
++            self.is_binary = True
++
++        # Handy catch-all for "this is something we can read/diff as text"
++        self.is_text = bool(
++            self.is_csv or self.is_html or self.is_json or self.is_plaintext or self.is_rss or self.is_xml or self.is_yaml)
++
++    def __detect_from_content(self, content, text):
++        """Returns a mime type (or None) based on the content itself"""
++
++        if not text and not content:
++            return None
++
++        if text[:len(PDF_MAGIC)] == PDF_MAGIC:
++            return 'application/pdf'
++
++        lowered = text[:1000].lower()
++
++        # Order matters here, HTML/RSS are also XML-ish
++        if RSS_PATTERN.search(text[:500]):
++            return 'application/rss+xml'
++
++        if HTML_START_PATTERN.match(text) or '<html' in lowered:
++            return 'text/html'
++
++        if lowered.startswith('<?xml') or XML_START_PATTERN.match(text):
++            # Could still be XHTML/HTML served without a proper doctype
++            if HTML_FRAGMENT_PATTERN.search(lowered):
++                return 'text/html'
++            return 'application/xml'
++
++        if HTML_FRAGMENT_PATTERN.search(lowered):
++            return 'text/html'
++
++        if self.__looks_like_json(text):
++            return 'application/json'
++
++        # Ask libmagic (python-magic) as a last resort, it knows about a lot of binary formats
++        magic_result = self.__magic_mime(content)
++
++        # libmagic just says 'text/plain' for YAML/CSV etc, so have a quick look ourselves
++        if not magic_result or magic_result.startswith('text/'):
++            if self.__looks_like_yaml(text):
++                return 'application/yaml'
++
++        if magic_result:
++            return magic_result
++
++        return None
++
++    @staticmethod
++    def __looks_like_text(text):
++        """Rough check that this is something a human could read (and that we can diff)"""
++        if not text:
++            return False
++        if '\x00' in text:
++            return False
++
++        printable = sum(1 for c in text if c.isprintable() or c in '\r\n\t')
++        return (printable / len(text)) > 0.9
++
++    @staticmethod
++    def __looks_like_yaml(text):
++        """Very light YAML sniffing - '---' document start or a few 'key: value' lines"""
++        if not text:
++            return False
++
++        if YAML_DOCUMENT_START_PATTERN.search(text[:200]):
++            return True
++
++        lines = [l for l in text.splitlines() if l.strip() and not l.strip().startswith('#')]
++        if len(lines) < 2:
++            return False
++
++        key_lines = len(YAML_KEY_PATTERN.findall("\n".join(lines)))
++
++        # Most of the document should be 'something: ..' type lines
++        return key_lines >= 2 and (key_lines / len(lines)) > 0.5
++
++    @staticmethod
++    def __looks_like_json(text):
++        stripped = text.strip()
++        if not stripped or stripped[0] not in '{[':
++            return False
++        try:
++            json.loads(stripped)
++        except Exception:
++            # Could be a truncated snippet of JSON (we only look at the start of the document)
++            return bool(re.match(r'^[{\[]\s*("|\'|\d|\[|{|\]|})', stripped))
++        return True
++
++    @staticmethod
++    def __magic_mime(content):
++        try:
++            import magic
++        except ImportError:
++            logger.debug("python-magic is not available, skipping content sniffing")
++            return None
++
++        try:
++            mime = magic.from_buffer(_as_bytes(content), mime=True)
++        except Exception as e:
++            logger.warning(f"Error detecting content type with magic - {str(e)}")
++            return None
++
++        return mime.split(';')[0].strip().lower() if mime else None
+diff --git a/changedetectionio/processors/text_json_diff/__init__.py b/changedetectionio/processors/text_json_diff/__init__.py
+index 1405337..a97bb02 100644
+--- a/changedetectionio/processors/text_json_diff/__init__.py
++++ b/changedetectionio/processors/text_json_diff/__init__.py
+@@ -73,7 +73,8 @@ def prepare_filter_prevew(datastore, watch_uuid, form_data):
+             # Use the last loaded HTML as the input
+             update_handler.datastore = datastore
+             update_handler.fetcher.content = str(decompressed_data) # str() because playwright/puppeteer/requests return string
+-            update_handler.fetcher.headers['content-type'] = tmp_watch.get('content-type')
++            # 'content_type' is the key that the processor stores the last seen content-type header as
++            update_handler.fetcher.headers['content-type'] = tmp_watch.get('content_type', '')
+ 
+             # Process our watch with filters and the HTML from disk, and also a blank watch with no filters but also with the same HTML from disk
+             # Do this as a parallel process because it could take some time
+diff --git a/changedetectionio/processors/text_json_diff/processor.py b/changedetectionio/processors/text_json_diff/processor.py
+index 6a7d27d..1f26c81 100644
+--- a/changedetectionio/processors/text_json_diff/processor.py
++++ b/changedetectionio/processors/text_json_diff/processor.py
+@@ -8,6 +8,7 @@ import urllib3
+ 
+ from changedetectionio.conditions import execute_ruleset_against_all_plugins
+ from changedetectionio.processors import difference_detection_processor
++from changedetectionio.processors.magic import guess_stream_type
+ from changedetectionio.html_tools import PERL_STYLE_REGEX, cdata_in_document_to_text, TRANSLATE_WHITESPACE_TABLE
+ from changedetectionio import html_tools, content_fetchers
+ from changedetectionio.blueprint.price_data_follower import PRICE_DATA_TRACK_ACCEPT, PRICE_DATA_TRACK_REJECT
+@@ -69,24 +70,33 @@ class perform_site_check(difference_detection_processor):
+         # https://stackoverflow.com/questions/41817578/basic-method-chaining ?
+         # return content().textfilter().jsonextract().checksumcompare() ?
+ 
+-        is_json = 'application/json' in self.fetcher.get_all_headers().get('content-type', '').lower()
+-        is_html = not is_json
++        ctype_header = self.fetcher.get_all_headers().get('content-type', '').lower()
++
++        # The server may have sent 'application/octet-stream' (or nothing at all) to force a download,
++        # in that case we sniff the content itself so that plaintext documents dont get mangled
++        # by the HTML to text converter (#3434)
++        stream_content_type = guess_stream_type(http_content_header=ctype_header,
++                                                content=self.fetcher.content)
++
++        is_json = stream_content_type.is_json
++        # Anything that isnt JSON or obviously plaintext-ish gets treated as markup (HTML/XML/RSS)
++        is_plaintext = stream_content_type.is_plaintext or stream_content_type.is_csv or stream_content_type.is_yaml
++        is_html = not is_json and not is_plaintext
+         is_rss = False
+ 
+-        ctype_header = self.fetcher.get_all_headers().get('content-type', '').lower()
+         # Go into RSS preprocess for converting CDATA/comment to usable text
+-        if any(substring in ctype_header for substring in ['application/xml', 'application/rss', 'text/xml']):
+-            if '<rss' in self.fetcher.content[:100].lower():
+-                self.fetcher.content = cdata_in_document_to_text(html_content=self.fetcher.content)
+-                is_rss = True
++        if stream_content_type.is_rss:
++            self.fetcher.content = cdata_in_document_to_text(html_content=self.fetcher.content)
++            is_rss = True
+ 
+         # source: support, basically treat it as plaintext
+         if watch.is_source_type_url:
+             is_html = False
+             is_json = False
++            is_plaintext = False
+ 
+         inline_pdf = self.fetcher.get_all_headers().get('content-disposition', '') and '%PDF-1' in self.fetcher.content[:10]
+-        if watch.is_pdf or 'application/pdf' in self.fetcher.get_all_headers().get('content-type', '').lower() or inline_pdf:
++        if watch.is_pdf or stream_content_type.is_pdf or inline_pdf:
+             from shutil import which
+             tool = os.getenv("PDF_TO_HTML_TOOL", "pdftohtml")
+             if not which(tool):
+@@ -148,14 +158,14 @@ class perform_site_check(difference_detection_processor):
+                     stripped_text_from_html += html_tools.extract_json_as_string(content=self.fetcher.content, json_filter=filter)
+                     is_html = False
+ 
+-        if is_html or watch.is_source_type_url:
++        if is_html or is_plaintext or watch.is_source_type_url:
+ 
+             # CSS Filter, extract the HTML that matches and feed that into the existing inscriptis::get_text
+             self.fetcher.content = html_tools.workarounds_for_obfuscations(self.fetcher.content)
+             html_content = self.fetcher.content
+ 
+-            # If not JSON,  and if it's not text/plain..
+-            if 'text/plain' in self.fetcher.get_all_headers().get('content-type', '').lower():
++            # If not JSON, and if it's not text/plain (or something that was detected as plaintext)..
++            if is_plaintext:
+                 # Don't run get_text or xpath/css filters on plaintext
+                 stripped_text_from_html = html_content
+             else:
+@@ -302,6 +312,16 @@ class perform_site_check(difference_detection_processor):
+         if text_to_ignore:
+             text_for_checksuming = html_tools.strip_ignore_text(stripped_text_from_html, text_to_ignore)
+ 
++            # 'Strip ignored lines' - Some people prefer that the ignored lines are also removed from
++            # the snapshot/preview/notification and not only from the checksum calculation
++            strip_ignored_lines = watch.get('strip_ignored_lines')
++            if strip_ignored_lines is None:
++                # None = use the system/global setting
++                strip_ignored_lines = self.datastore.data['settings']['application'].get('strip_ignored_lines')
++
++            if strip_ignored_lines:
++                stripped_text_from_html = text_for_checksuming
++
+         # Re #133 - if we should strip whitespaces from triggering the change detected comparison
+         if text_for_checksuming and self.datastore.data['settings']['application'].get('ignore_whitespace', False):
+             fetched_md5 = hashlib.md5(text_for_checksuming.translate(TRANSLATE_WHITESPACE_TABLE).encode('utf-8')).hexdigest()
+diff --git a/changedetectionio/realtime/socket_server.py b/changedetectionio/realtime/socket_server.py
+index c7b5aa9..bf3b286 100644
+--- a/changedetectionio/realtime/socket_server.py
++++ b/changedetectionio/realtime/socket_server.py
+@@ -88,7 +88,9 @@ class SignalHandler:
+             # Emit the queue size to all connected clients
+             self.socketio_instance.emit("watch_deleted", {
+                 "uuid": watch_uuid,
+-                "event_timestamp": time.time()
++                "event_timestamp": time.time(),
++                # So that the "Unread" counter etc stays correct after a delete
++                "unread_changes_count": self.datastore.unread_changes_count
+             })
+         logger.debug(f"Watch UUID {watch_uuid} was deleted")
+ 
+@@ -243,6 +245,7 @@ def handle_watch_update(socketio, **kwargs):
+ 
+         general_stats = {
+             'count_errors': errored_count,
++            'unread_changes_count': datastore.unread_changes_count,
+             'has_unviewed': datastore.has_unviewed
+         }
+ 
+diff --git a/changedetectionio/run_socks_proxy_tests.sh b/changedetectionio/run_socks_proxy_tests.sh
+index 6db4bb4..f156c0d 100755
+--- a/changedetectionio/run_socks_proxy_tests.sh
++++ b/changedetectionio/run_socks_proxy_tests.sh
+@@ -11,6 +11,25 @@ set -x
+ docker run --network changedet-network -d --hostname socks5proxy --rm  --name socks5proxy -p 1080:1080 -e PROXY_USER=proxy_user123 -e PROXY_PASSWORD=proxy_pass123 serjs/go-socks5-proxy
+ docker run --network changedet-network -d --hostname socks5proxy-noauth --rm  -p 1081:1080 --name socks5proxy-noauth  serjs/go-socks5-proxy
+ 
++# The socks5 servers can take a moment before they accept connections, without this the tests
++# can start too early and fail with 'connection refused' (flakey tests)
++wait_for_socks_server() {
++  local port=$1
++  local i
++  for i in $(seq 1 30); do
++    if timeout 1 bash -c "cat < /dev/null > /dev/tcp/127.0.0.1/${port}" 2>/dev/null; then
++      echo "SOCKS5 server on port ${port} is accepting connections"
++      return 0
++    fi
++    sleep 1
++  done
++  echo "WARNING: SOCKS5 server on port ${port} did not come up in time"
++  return 1
++}
++
++wait_for_socks_server 1080 || true
++wait_for_socks_server 1081 || true
++
+ echo "---------------------------------- SOCKS5 -------------------"
+ # SOCKS5 related - test from proxies.json
+ docker run --network changedet-network \
+diff --git a/changedetectionio/static/js/realtime.js b/changedetectionio/static/js/realtime.js
+index 3503d4b..2a6f0f3 100644
+--- a/changedetectionio/static/js/realtime.js
++++ b/changedetectionio/static/js/realtime.js
+@@ -102,6 +102,10 @@ $(document).ready(function () {
+                 $('tr[data-watch-uuid="' + data.uuid + '"] td').fadeOut(500, function () {
+                     $(this).closest('tr').remove();
+                 });
++                if (typeof data.unread_changes_count !== 'undefined') {
++                    $('#post-list-unread').toggleClass("has-unviewed", data.unread_changes_count !== 0);
++                    $('#post-list-unread a').text(`Unread (${ data.unread_changes_count })`);
++                }
+             });
+ 
+             // So that the favicon is only updated when the server has written the scraped favicon to disk.
+@@ -153,7 +157,8 @@ $(document).ready(function () {
+ 
+                 // Tabs at bottom of list
+                 $('#post-list-mark-views').toggleClass("has-unviewed", general_stats.has_unviewed);
+-                $('#post-list-unread').toggleClass("has-unviewed", general_stats.has_unviewed);
++                $('#post-list-unread').toggleClass("has-unviewed", general_stats.unread_changes_count !== 0);
++                $('#post-list-unread a').text(`Unread (${ general_stats.unread_changes_count })`);
+                 $('#post-list-with-errors').toggleClass("has-error", general_stats.count_errors !== 0)
+                 $('#post-list-with-errors a').text(`With errors (${ general_stats.count_errors })`);
+ 
+diff --git a/changedetectionio/store.py b/changedetectionio/store.py
+index 88e369e..7d4540b 100644
+--- a/changedetectionio/store.py
++++ b/changedetectionio/store.py
+@@ -211,6 +211,20 @@ class ChangeDetectionStore:
+                 return True
+         return False
+ 
++    @property
++    def unread_changes_count(self):
++        """How many watches have a change that was not viewed yet?"""
++        unread_changes_count = 0
++        if not self.__data.get('watching'):
++            return 0
++
++        for uuid, watch in self.__data['watching'].items():
++            # has_unviewed also takes into account that there should be atleast 2 snapshots
++            if watch.has_unviewed:
++                unread_changes_count += 1
++
++        return unread_changes_count
++
+     @property
+     def data(self):
+         # Re #152, Return env base_url if not overriden
+diff --git a/changedetectionio/templates/edit/text-options.html b/changedetectionio/templates/edit/text-options.html
+index 73118cb..90e98b7 100644
+--- a/changedetectionio/templates/edit/text-options.html
++++ b/changedetectionio/templates/edit/text-options.html
+@@ -28,6 +28,15 @@
+                 </span>
+ 
+                 </fieldset>
++                <fieldset class="pure-control-group">
++                    {{ render_ternary_field(form.strip_ignored_lines) }}
++                    <span class="pure-form-message-inline">
++                        <ul>
++                            <li>Remove any lines that matched the "Ignore lines containing" rules above from the text snapshot completely (they will not be visible in the preview, history or notifications)</li>
++                            <li>When set to <i>Main settings</i>, the global "Strip ignored lines" setting is used</li>
++                        </ul>
++                    </span>
++                </fieldset>
+ 
+                 <fieldset>
+                     <div class="pure-control-group">
+diff --git a/changedetectionio/widgets/ternary_boolean.py b/changedetectionio/widgets/ternary_boolean.py
+index c000c05..e4e1ed5 100644
+--- a/changedetectionio/widgets/ternary_boolean.py
++++ b/changedetectionio/widgets/ternary_boolean.py
+@@ -77,18 +77,25 @@ class TernaryNoneBooleanField(Field):
+         else:
+             self.false_values = false_values
+ 
++    # Also accept the usual HTML checkbox/'yes' style values so that these fields can be set
++    # from a simple form post (or the API) without having to know about the radio group values
++    TRUE_VALUES = {'true', 'y', 'yes', 'on', '1', 'checked'}
++    FALSE_VALUES = {'false', 'n', 'no', 'off', '0'}
++
+     def process_formdata(self, valuelist):
+         if not valuelist or not valuelist[0]:
+             # In boolean mode, default to False instead of None
+             self.data = False if self.boolean_mode else None
+-        elif valuelist[0].lower() == 'true':
++            return
++
++        value = str(valuelist[0]).lower().strip()
++
++        if value in self.TRUE_VALUES:
+             self.data = True
+-        elif valuelist[0].lower() == 'false':
++        elif value in self.FALSE_VALUES:
+             self.data = False
+-        elif valuelist[0].lower() == 'none':
+-            # In boolean mode, treat 'none' as False
+-            self.data = False if self.boolean_mode else None
+         else:
++            # 'none'/'default'/anything else, in boolean mode treat it as False
+             self.data = False if self.boolean_mode else None
+ 
+     def _value(self):
+diff --git a/requirements.txt b/requirements.txt
+index cb22009..fa8fe84 100644
+--- a/requirements.txt
++++ b/requirements.txt
+@@ -39,7 +39,7 @@ jsonpath-ng~=1.5.3
+ # jq not available on Windows so must be installed manually
+ 
+ # Notification library
+-apprise==1.9.3
++apprise==1.9.4
+ 
+ # - Needed for apprise/spush, and maybe others? hopefully doesnt trigger a rust compile.
+ # - Requires extra wheel for rPi, adds build time for arm/v8 which is not in piwheels

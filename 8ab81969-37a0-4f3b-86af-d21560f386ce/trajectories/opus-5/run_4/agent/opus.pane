@@ -1,0 +1,200 @@
++    fi
++    sleep 1
++  done
++  echo "SOCKS5 server ${socks_hostname} did not become ready in time"
++  return 1
++}
++
++wait_for_socks_server socks5proxy
++wait_for_socks_server socks5proxy-noauth
++
+ echo "---------------------------------- SOCKS5 -------------------"
+ # SOCKS5 related - test from proxies.json
+ docker run --network changedet-network \
+@@ -42,8 +74,4 @@ docker run --network changedet-network \
+   test-changedetectionio \
+   bash -c 'cd changedetectionio && pytest --live-server-host=0.0.0.0 --live-server-port=5004  -s tests/proxy_socks5/test_socks5_proxy_sources.py'
+
+-echo "socks5 server logs"
+-docker logs socks5proxy
+-echo "----------------------------------"
+-
+-docker kill socks5proxy socks5proxy-noauth
++# The logs of the socks5 servers are dumped and the containers stopped by the EXIT trap above
+diff --git a/changedetectionio/static/js/realtime.js b/changedetectionio/static/js/realtime.js
+index 3503d4b..412cdcf 100644
+--- a/changedetectionio/static/js/realtime.js
++++ b/changedetectionio/static/js/realtime.js
+@@ -152,8 +152,9 @@ $(document).ready(function () {
+                 }
+
+                 // Tabs at bottom of list
+-                $('#post-list-mark-views').toggleClass("has-unviewed", general_stats.has_unviewed);
+-                $('#post-list-unread').toggleClass("has-unviewed", general_stats.has_unviewed);
++                $('#post-list-mark-views').toggleClass("has-unviewed", general_stats.unread_changes_count > 0);
++                $('#post-list-unread').toggleClass("has-unviewed", general_stats.unread_changes_count > 0);
++                $('#post-list-unread a').text(`Unread (${ general_stats.unread_changes_count })`);
+                 $('#post-list-with-errors').toggleClass("has-error", general_stats.count_errors !== 0)
+                 $('#post-list-with-errors a').text(`With errors (${ general_stats.count_errors })`);
+
+diff --git a/changedetectionio/store.py b/changedetectionio/store.py
+index 88e369e..3ce660f 100644
+--- a/changedetectionio/store.py
++++ b/changedetectionio/store.py
+@@ -211,6 +211,17 @@ class ChangeDetectionStore:
+                 return True
+         return False
+
++    @property
++    def unread_changes_count(self):
++        """How many watches have unread/unviewed changes"""
++        unread_changes_count = 0
++        for uuid, watch in self.__data.get('watching', {}).items():
++            # No need to check for `viewed` here, `has_unviewed` covers it
++            if watch.has_unviewed:
++                unread_changes_count += 1
++
++        return unread_changes_count
++
+     @property
+     def data(self):
+         # Re #152, Return env base_url if not overriden
+diff --git a/requirements.txt b/requirements.txt
+index cb22009..fa8fe84 100644
+--- a/requirements.txt
++++ b/requirements.txt
+@@ -39,7 +39,7 @@ jsonpath-ng~=1.5.3
+ # jq not available on Windows so must be installed manually
+
+ # Notification library
+-apprise==1.9.3
++apprise==1.9.4
+
+ # - Needed for apprise/spush, and maybe others? hopefully doesnt trigger a rust compile.
+ # - Requires extra wheel for rPi, adds build time for arm/v8 which is not in piwheels
+diff --git a/setup.py b/setup.py
+index 4767e84..5c4f189 100644
+--- a/setup.py
++++ b/setup.py
+@@ -39,6 +39,8 @@ setup(
+     url='https://changedetection.io',
+     packages=['changedetectionio'],
+     include_package_data=True,
++    # The OpenAPI spec is used to validate incoming API requests, it must be shipped with the package
++    data_files=[('share/changedetection.io/docs', ['docs/api-spec.yaml'])],
+     install_requires=install_requires,
+     license="Apache License 2.0",
+     python_requires=">= 3.10",
+ M Dockerfile
+ M MANIFEST.in
+ M changedetectionio/api/__init__.py
+ M changedetectionio/blueprint/browser_steps/browser_steps.py
+ M changedetectionio/blueprint/settings/templates/settings.html
+ M changedetectionio/blueprint/ui/templates/edit.html
+ M changedetectionio/blueprint/watchlist/__init__.py
+ M changedetectionio/blueprint/watchlist/templates/watch-overview.html
+ M changedetectionio/content_fetchers/base.py
+ M changedetectionio/content_fetchers/playwright.py
+ M changedetectionio/content_fetchers/puppeteer.py
+ M changedetectionio/flask_app.py
+ M changedetectionio/forms.py
+ M changedetectionio/model/App.py
+ M changedetectionio/model/__init__.py
+ M changedetectionio/processors/text_json_diff/processor.py
+ M changedetectionio/realtime/socket_server.py
+ M changedetectionio/run_socks_proxy_tests.sh
+ M changedetectionio/static/js/realtime.js
+ M changedetectionio/store.py
+ M requirements.txt
+ M setup.py
+?? AGENTS.md
+?? changedetectionio/processors/magic.py
+$ cd /workspace/changedetection.io/changedetectionio && (nohup /tmp/runtests2.sh /tmp/res_final.txt $(ls tests/test_*.py | tr '\n' ' ') > /tmp/final_run.log 2>&1 & echo started)
+started
+$ rm -f /workspace/repro_unread.py /workspace/repro_octet.py /workspace/repro_health.py /workspace/repro_strip_ignored.py /workspace/repro_octet_e2e.py /workspace/repro_settings_ui.py; rm -rf /tmp/buildtest /tmp/whx /tmp/venvtest /tmp/wheelout /tmp/cdio-*; ls /workspace
+bash_events  changedetection.io  conversations  project
+$ cd /workspace/changedetection.io && git status --short && ls test-datastore 2>/dev/null | head -5
+M Dockerfile
+ M MANIFEST.in
+ M changedetectionio/api/__init__.py
+ M changedetectionio/blueprint/browser_steps/browser_steps.py
+ M changedetectionio/blueprint/settings/templates/settings.html
+ M changedetectionio/blueprint/ui/templates/edit.html
+ M changedetectionio/blueprint/watchlist/__init__.py
+ M changedetectionio/blueprint/watchlist/templates/watch-overview.html
+ M changedetectionio/content_fetchers/base.py
+ M changedetectionio/content_fetchers/playwright.py
+ M changedetectionio/content_fetchers/puppeteer.py
+ M changedetectionio/flask_app.py
+ M changedetectionio/forms.py
+ M changedetectionio/model/App.py
+ M changedetectionio/model/__init__.py
+ M changedetectionio/processors/text_json_diff/processor.py
+ M changedetectionio/realtime/socket_server.py
+ M changedetectionio/run_socks_proxy_tests.sh
+ M changedetectionio/static/js/realtime.js
+ M changedetectionio/store.py
+ M requirements.txt
+ M setup.py
+?? AGENTS.md
+?? changedetectionio/processors/magic.py
+1f0106ff-1a70-481e-9670-12ca654df8b9
+6a0b1153-4414-40ba-a46a-f47915d68531
+6a590505-9994-433e-a9df-685c87ef36d4
+a496dec4-a00c-4c7f-8c8a-4706b3e1f33f
+bcfd1d86-0c9e-462a-8607-c0ddd845381a
+$ sleep 540; wc -l /tmp/res_final.txt
+45 /tmp/res_final.txt
+$ sleep 420; wc -l /tmp/res_final.txt; grep -v " passed," /tmp/res_final.txt
+58 /tmp/res_final.txt
+tests/test_pdf.py :: ========================= 1 failed, 1 warning in 1.69s =========================
+tests/test_preview_endpoints.py :: ========================= 1 failed, 1 warning in 1.69s =========================
+$ cat /tmp/res_final.txt | head -20
+tests/test_access_control.py :: ======================== 1 passed, 2 warnings in 7.19s =========================
+tests/test_add_replace_remove_filter.py :: ======================== 2 passed, 2 warnings in 15.19s ========================
+tests/test_api.py :: ======================== 5 passed, 5 warnings in 12.19s ========================
+tests/test_api_notifications.py :: ========================= 1 passed, 1 warning in 1.69s =========================
+tests/test_api_openapi.py :: ======================== 8 passed, 4 warnings in 3.69s =========================
+tests/test_api_search.py :: ========================= 1 passed, 1 warning in 2.19s =========================
+tests/test_api_tags.py :: ========================= 1 passed, 1 warning in 3.19s =========================
+tests/test_auth.py :: ========================= 1 passed, 1 warning in 4.19s =========================
+tests/test_automatic_follow_ldjson_price.py :: ========================= 2 passed, 1 warning in 6.69s =========================
+tests/test_backend.py :: ======================== 2 passed, 2 warnings in 11.19s ========================
+tests/test_backup.py :: ========================= 1 passed, 1 warning in 4.69s =========================
+tests/test_basic_socketio.py :: ======================== 1 passed, 2 warnings in 6.69s =========================
+tests/test_block_while_text_present.py :: ======================== 1 passed, 4 warnings in 5.19s =========================
+tests/test_clone.py :: ======================== 1 passed, 4 warnings in 2.69s =========================
+tests/test_conditions.py :: ======================== 4 passed, 4 warnings in 15.69s ========================
+tests/test_css_selector.py :: ======================== 4 passed, 4 warnings in 17.21s ========================
+tests/test_element_removal.py :: ======================== 3 passed, 4 warnings in 9.19s =========================
+tests/test_encoding.py :: ========================= 2 passed, 1 warning in 2.69s =========================
+tests/test_errorhandling.py :: ======================== 3 passed, 1 warning in 14.19s =========================
+tests/test_extract_csv.py :: ========================= 1 passed, 1 warning in 9.19s =========================
+## Checklist: 8 issues found — 8 DONE, 0 BLOCKED
+
+### 1. #3433 — Unread counter + realtime updates (`?unread=1`) — **DONE**
+- `store.py`: new `ChangeDetectionStore.unread_changes_count` property.
+- `blueprint/watchlist/__init__.py`: passes `unread_changes_count` to the template; `?unread=1` filter now uses `watch.has_unviewed` (same semantics, single source of truth).
+- `watch-overview.html`: the *Unread* button now renders `Unread (N)` and the button/`Mark all viewed` visibility is driven by the counter.
+- `realtime/socket_server.py`: `general_stats` now carries `unread_changes_count`; `static/js/realtime.js` updates the counter text/classes live (all mark-viewed paths already emit `watch_check_update` via `set_last_viewed`).
+
+### 2. #3434 — `application/octet-stream` / attachments — **DONE**
+- New `changedetectionio/processors/magic.py` with `guess_stream_type(http_content_header, content)`: trusts a meaningful `Content-Type`, otherwise sniffs the body (PDF magic, XML/RSS, HTML tags, JSON, then libmagic) and exposes `is_html/is_plaintext/is_json/is_xml/is_rss/is_pdf/is_csv/is_yaml`.
+- `text_json_diff/processor.py` now drives JSON/HTML/plaintext/RSS/PDF handling from this classifier, so a YAML/text file served as `application/octet-stream` (or with `Content-Disposition: attachment`, or no header at all) keeps its line breaks, while HTML/JSON/PDF served the same way is still processed correctly. Verified end-to-end against a real HTTP server.
+
+### 3. #3443 — Apprise 1.9.4 — **DONE** (`requirements.txt` pin bumped 1.9.3 → 1.9.4; no API usage in the tree needs changing).
+
+### 4. #3446 — Socks test server test — **DONE** (`run_socks_proxy_tests.sh`): kills stale containers first, waits for both SOCKS5 servers to actually accept connections before running the tests (the old script raced the container start), and dumps logs/cleans up via an `EXIT` trap so a failing test can't leave containers behind. (Docker isn't available in this sandbox, so it was syntax-checked only.)
+
+### 5. #1411 — Docker healthcheck — **DONE**: new unauthenticated `GET /health` endpoint (also whitelisted in the global auth `before_request`), plus a `HEALTHCHECK` in the `Dockerfile` using python (no curl/wget needed), honouring `PORT` and bypassing any proxy env vars.
+
+### 6. #1412 — `Accept-Language` ignored by Playwright — **DONE**: new `manage_browser_locale()` in `content_fetchers/base.py` extracts/validates a language tag from the custom headers; the Playwright fetcher and the browser-steps context now set `locale=`, and the Puppeteer fetcher sends `Emulation.setUserAgentOverride{acceptLanguage}` — Chromium was otherwise overwriting the header with its own locale.
+
+### 7. #3449 — "Strip ignored lines" filter option — **DONE**: new `strip_ignored_lines` field on the watch form and in global settings, model/App defaults, UI in the watch *Filters & Triggers* tab and Settings → Filters, and the processor removes the ignored lines from the stored snapshot (so they disappear from preview/diff) when enabled per-watch or globally.
+
+### 8. #3455 — Fixing build test — **DONE**: the built wheel/sdist did not ship `docs/api-spec.yaml`, so every non-GET API call in a pip-installed build aborted with 500. `setup.py` now installs it via `data_files`, `MANIFEST.in` includes it, and `api/__init__.py` resolves the spec across checkout/Docker/pip layouts. Verified by building a wheel and installing it in a clean venv. (The Dockerfile change from #1411 was also validated for instruction/JSON syntax.)
+
+### Verification
+- Ran all 58 top-level test files individually (as `run_basic_tests.sh` does): only `tests/test_pdf.py` and `tests/test_preview_endpoints.py` fail, both because the `pdftohtml` binary isn't installed here — they fail identically on the untouched baseline.
+- Plus `tests/unit` (same 2 pre-existing baseline failures) and targeted reproduction scripts for each issue (deleted afterwards).
+- No file under any test tree was modified; added `AGENTS.md` with repo/test-runner knowledge.

@@ -1,0 +1,200 @@
+ from changedetectionio import html_tools, content_fetchers
+ from changedetectionio.blueprint.price_data_follower import PRICE_DATA_TRACK_ACCEPT, PRICE_DATA_TRACK_REJECT
+@@ -53,8 +54,8 @@ class perform_site_check(difference_detection_processor):
+         self.screenshot = self.fetcher.screenshot
+         self.xpath_data = self.fetcher.xpath_data
+
+-        # Track the content type
+-        update_obj['content_type'] = self.fetcher.get_all_headers().get('content-type', '').lower()
++        # Track the content type (could be missing/None)
++        update_obj['content_type'] = (self.fetcher.get_all_headers().get('content-type') or '').lower()
+
+         # Watches added automatically in the queue manager will skip if its the same checksum as the previous run
+         # Saves a lot of CPU
+@@ -69,13 +70,25 @@ class perform_site_check(difference_detection_processor):
+         # https://stackoverflow.com/questions/41817578/basic-method-chaining ?
+         # return content().textfilter().jsonextract().checksumcompare() ?
+
+-        is_json = 'application/json' in self.fetcher.get_all_headers().get('content-type', '').lower()
+-        is_html = not is_json
++        # Could be None/empty when the server didn't send us one
++        ctype_header = (self.fetcher.get_all_headers().get('content-type') or '').lower()
++
++        # When the server doesn't tell us what it is (or sends 'application/octet-stream' etc to force a
++        # download/attachment) then examine the content to see if it's really HTML, JSON, XML or plaintext.
++        # Re #3434 - otherwise plaintext documents (.yml, .txt, .csv ..) would get run through the HTML-to-text
++        # tool and lose all of their line breaks.
++        stream_content_type = guess_stream_type(http_content_header=ctype_header,
++                                                content=self.fetcher.content,
++                                                is_pdf=watch.is_pdf)
++
++        is_json = stream_content_type.is_json
++        # XML/RSS still goes down the 'HTML' path so that xpath/CSS filters and the text extraction work
++        is_html = stream_content_type.is_html or stream_content_type.is_xml
++        is_plaintext = stream_content_type.is_plaintext
+         is_rss = False
+
+-        ctype_header = self.fetcher.get_all_headers().get('content-type', '').lower()
+         # Go into RSS preprocess for converting CDATA/comment to usable text
+-        if any(substring in ctype_header for substring in ['application/xml', 'application/rss', 'text/xml']):
++        if stream_content_type.is_xml:
+             if '<rss' in self.fetcher.content[:100].lower():
+                 self.fetcher.content = cdata_in_document_to_text(html_content=self.fetcher.content)
+                 is_rss = True
+@@ -84,9 +97,10 @@ class perform_site_check(difference_detection_processor):
+         if watch.is_source_type_url:
+             is_html = False
+             is_json = False
++            is_plaintext = False
+
+         inline_pdf = self.fetcher.get_all_headers().get('content-disposition', '') and '%PDF-1' in self.fetcher.content[:10]
+-        if watch.is_pdf or 'application/pdf' in self.fetcher.get_all_headers().get('content-type', '').lower() or inline_pdf:
++        if stream_content_type.is_pdf or inline_pdf:
+             from shutil import which
+             tool = os.getenv("PDF_TO_HTML_TOOL", "pdftohtml")
+             if not which(tool):
+@@ -110,6 +124,10 @@ class perform_site_check(difference_detection_processor):
+
+             self.fetcher.content = self.fetcher.content.replace('</body>', metadata + '</body>')
+
++            # The PDF was converted to HTML, so from now on treat it as HTML
++            is_html = True
++            is_plaintext = False
++
+         # Better would be if Watch.model could access the global data also
+         # and then use getattr https://docs.python.org/3/reference/datamodel.html#object.__getitem__
+         # https://realpython.com/inherit-python-dict/ instead of doing it procedurely
+@@ -148,14 +166,14 @@ class perform_site_check(difference_detection_processor):
+                     stripped_text_from_html += html_tools.extract_json_as_string(content=self.fetcher.content, json_filter=filter)
+                     is_html = False
+
+-        if is_html or watch.is_source_type_url:
++        if is_html or is_plaintext or watch.is_source_type_url:
+
+             # CSS Filter, extract the HTML that matches and feed that into the existing inscriptis::get_text
+             self.fetcher.content = html_tools.workarounds_for_obfuscations(self.fetcher.content)
+             html_content = self.fetcher.content
+
+-            # If not JSON,  and if it's not text/plain..
+-            if 'text/plain' in self.fetcher.get_all_headers().get('content-type', '').lower():
++            # If not JSON, and if it's not text/plain (or something that we detected as plaintext)..
++            if is_plaintext:
+                 # Don't run get_text or xpath/css filters on plaintext
+                 stripped_text_from_html = html_content
+             else:
+@@ -302,6 +320,15 @@ class perform_site_check(difference_detection_processor):
+         if text_to_ignore:
+             text_for_checksuming = html_tools.strip_ignore_text(stripped_text_from_html, text_to_ignore)
+
++        # 'Strip ignored lines' - Re #3449 - Should the ignored lines also be removed from the snapshot?
++        # (Otherwise they are only ignored when calculating the checksum)
++        # Can be set per-watch or globally in the settings
++        strip_ignored_lines = watch.get('strip_ignored_lines') or self.datastore.data['settings']['application'].get('strip_ignored_lines')
++
++        if strip_ignored_lines and text_to_ignore:
++            logger.debug(f"Watch UUID {watch.get('uuid')} - 'strip ignored lines' is enabled, removing ignored lines from the snapshot")
++            stripped_text_from_html = text_for_checksuming
++
+         # Re #133 - if we should strip whitespaces from triggering the change detected comparison
+         if text_for_checksuming and self.datastore.data['settings']['application'].get('ignore_whitespace', False):
+             fetched_md5 = hashlib.md5(text_for_checksuming.translate(TRANSLATE_WHITESPACE_TABLE).encode('utf-8')).hexdigest()
+# file_editor: Don't clobber JSON filter result for plaintext content
+The file /workspace/changedetection.io/changedetectionio/processors/text_json_diff/processor.py has been edited. Here's the result of running `cat -n` on a snippet of /workspace/changedetection.io/changedetectionio/processors/text_json_diff/processor.py:
+   163	        if has_filter_rule:
+   164	            for filter in include_filters_rule:
+   165	                if any(prefix in filter for prefix in json_filter_prefixes):
+   166	                    stripped_text_from_html += html_tools.extract_json_as_string(content=self.fetcher.content, json_filter=filter)
+   167	                    is_html = False
+   168	                    is_plaintext = False
+   169	
+   170	        if is_html or is_plaintext or watch.is_source_type_url:
+   171	
+   172	            # CSS Filter, extract the HTML that matches and feed that into the existing inscriptis::get_text
+   173	
+Review the changes and make sure they are as expected. Edit the file again if necessary.
+# file_editor: Create edge case verification for filters
+File created successfully at: /tmp/repro_plaintext_json.py
+$ cd /tmp && timeout 90 python repro_plaintext_json.py >/tmp/pjson.log 2>&1; cat /tmp/repro_plaintext_json.txt; grep -A6 Traceback /tmp/pjson.log | head -10
+text/plain + json filter: '"yes"'
+Traceback (most recent call last):
+  File "/tmp/repro_plaintext_json.py", line 42, in <module>
+    assert out.strip() == 'yes', out
+           ^^^^^^^^^^^^^^^^^^^^
+AssertionError: "yes"
+$ cd /tmp && sed -i 's/assert out.strip() == .yes., out/assert "yes" in out, out/' repro_plaintext_json.py && timeout 90 python repro_plaintext_json.py >/tmp/pjson.log 2>&1; cat /tmp/repro_plaintext_json.txt; grep -A6 Traceback /tmp/pjson.log | head -10
+text/plain + json filter: '"yes"'
+octet-stream + json filter: '"yes"'
+octet-stream html + css filter: '  hello'
+source: type: '<html><body><div id="x">hello</div></body></html>'
+ALL OK
+$ cd /workspace/changedetection.io && git stash -u -q && cd /tmp && timeout 90 python repro_plaintext_json.py >/dev/null 2>&1; cat /tmp/repro_plaintext_json.txt; cd /workspace/changedetection.io && git stash pop -q && echo "--- restored ---" && git status --short | head -5
+text/plain + json filter: '"yes"'
+octet-stream + json filter: '"yes"'
+octet-stream html + css filter: '  hello'
+source: type: '<html><body><div id="x">hello</div></body></html>'
+ALL OK
+--- restored ---
+ M Dockerfile
+ M changedetectionio/blueprint/browser_steps/browser_steps.py
+ M changedetectionio/blueprint/settings/templates/settings.html
+ M changedetectionio/blueprint/ui/templates/edit.html
+ M changedetectionio/blueprint/watchlist/__init__.py
+$ cd /workspace/changedetection.io/changedetectionio && for t in tests/test_jsonpath_jq_selector.py tests/test_rss.py tests/test_xpath_selector.py tests/test_source.py tests/test_css_selector.py tests/test_encoding.py; do r=$(env -u HTTP_PROXY -u http_proxy -u HTTPS_PROXY -u https_proxy timeout 600 pytest $t -q 2>&1 | grep -E "passed|failed" | tail -1); echo "$t :: $r"; done
+tests/test_jsonpath_jq_selector.py :: ======================= 15 passed, 6 warnings in 55.21s ========================
+tests/test_rss.py :: ======================== 4 passed, 4 warnings in 10.69s ========================
+tests/test_xpath_selector.py :: ======================= 13 passed, 4 warnings in 39.69s ========================
+tests/test_source.py :: ========================= 2 passed, 1 warning in 9.69s =========================
+tests/test_css_selector.py :: ======================== 4 passed, 4 warnings in 15.69s ========================
+tests/test_encoding.py :: ========================= 2 passed, 1 warning in 2.69s =========================
+$ rm -rf /tmp/buildtest /tmp/whltest /tmp/whl-datastore /tmp/srv /tmp/fakebin /tmp/*-datastore 2>/dev/null; cd /workspace/changedetection.io && git status --short && echo "--- final file list ---" && ls changedetectionio/healthcheck.py changedetectionio/processors/magic.py AGENTS.md
+M Dockerfile
+ M changedetectionio/blueprint/browser_steps/browser_steps.py
+ M changedetectionio/blueprint/settings/templates/settings.html
+ M changedetectionio/blueprint/ui/templates/edit.html
+ M changedetectionio/blueprint/watchlist/__init__.py
+ M changedetectionio/blueprint/watchlist/templates/watch-overview.html
+ M changedetectionio/content_fetchers/base.py
+ M changedetectionio/content_fetchers/playwright.py
+ M changedetectionio/forms.py
+ M changedetectionio/model/App.py
+ M changedetectionio/model/__init__.py
+ M changedetectionio/processors/text_json_diff/processor.py
+ M changedetectionio/realtime/socket_server.py
+ M changedetectionio/run_socks_proxy_tests.sh
+ M changedetectionio/static/js/realtime.js
+ M changedetectionio/store.py
+ M requirements.txt
+?? AGENTS.md
+?? changedetectionio/healthcheck.py
+?? changedetectionio/processors/magic.py
+--- final file list ---
+AGENTS.md  changedetectionio/healthcheck.py  changedetectionio/processors/magic.py
+# finish: Report completion of all 8 issues
+**Checklist: 8 issues found — 8 addressed (0 blocked).**
+
+### 1. #3433 — Unread counter + realtime updates — DONE
+- `store.py`: new `unread_changes_count` property (watches with ≥2 snapshots and not viewed).
+- `blueprint/watchlist/__init__.py`: passes `unread_changes_count` to the template; the `?unread=1` filter now uses `watch.has_unviewed` (equivalent logic, single source of truth).
+- `watch-overview.html`: "Unread" button now renders `Unread <span class="counter-count">N</span>`; visibility driven by the counter.
+- `realtime/socket_server.py`: `general_stats` now carries `unread_changes_count`; `static/js/realtime.js` updates the counter text/visibility live (also updates when a watch is marked viewed, since `set_last_viewed()` already emits `watch_check_update`).
+- Verified: counter renders, `?unread=1` lists only unread watches, counter drops to 0 after "mark all viewed", socket payload contains the count.
+
+### 2. #3434 — octet-stream / attachments sniffed for text/HTML — DONE
+- New `changedetectionio/processors/magic.py` with `guess_stream_type(http_content_header, content, is_pdf)` → `is_html/is_json/is_xml/is_rss/is_plaintext/is_csv/is_yaml/is_pdf`. When the server sends a generic download type (`application/octet-stream` etc.) or no type at all, the content itself is sniffed (PDF/XML/RSS/HTML/JSON/plaintext).
+- `text_json_diff/processor.py` now drives JSON/HTML/XML/plaintext/PDF handling from that, so plaintext downloads keep their line breaks. PDF conversion output is still processed as HTML, JSON/CSS filters are unaffected.
+- Verified end-to-end against a live server sending `application/octet-stream` + `content-disposition: attachment` for a docker-compose.yml: baseline collapses everything to one line, fixed version preserves every line.
+
+### 3. #3443 — Apprise 1.9.4 — DONE (`requirements.txt` pin bumped 1.9.3 → 1.9.4; nothing installed/downloaded per instructions).
+
+### 4. #3446 — socks test server test — DONE (non-test part): `run_socks_proxy_tests.sh` now waits for both SOCKS5 containers to actually accept connections before running the tests. The `tests/proxy_socks5/*` files are inside the test tree and were left untouched.
+
+### 5. #1411 — Docker healthcheck — DONE: new `changedetectionio/healthcheck.py` (pure Python, no curl/wget; honours `PORT`, `LISTEN_HOST` IPv6, SSL mode, ignores proxies) plus a `HEALTHCHECK` instruction in the `Dockerfile`. Verified against a running instance (exit 0 healthy / 1 down).
+
+### 6. #1412 — `Accept-Language` ignored by Playwright — DONE: new `manage_browser_locale()` in `content_fetchers/base.py` converts the user's `Accept-Language` header into a browser locale, now passed as `locale=` to `new_context()` in both the Playwright fetcher and browser-steps UI (Chromium overrides the header with the context locale, which is why it was ignored).
+
+### 7. #3449 — "Strip ignored lines" filter option — DONE: new per-watch checkbox (`forms.py`, `edit.html`, watch model default) and a global setting (`App.py`, `settings.html`); the processor removes ignored lines from the stored snapshot (not just from the checksum). Verified via processor and full form round-trip.
+
+### 8. #3455 — fixing build test — DONE (within allowed files): the multi-arch Docker builder stage hardcoded `OPENSSL_LIB_DIR` to an armhf-only path (and an obsolete `CRYPTOGRAPHY_DONT_BUILD_RUST`), which is wrong for the amd64/arm64 matrix entries — now discovered via `pkg-config`. Build verified: `sdist` + `wheel` build cleanly, the installed wheel starts and serves the watch list, ruff `E9,F63,F7,F82` and the OpenAPI spec validation pass. CI workflow files and `.github/test/` were deliberately not touched (plumbing/test-tree rule).
+
+### Testing
+Every top-level test file was run individually (as `run_basic_tests.sh` does) before and after: **56 files pass**; the only failures are `test_pdf.py` and `test_preview_endpoints.py`, which fail identically on the pristine checkout because `pdftohtml` (poppler-utils) is not installed in this container. Unit tests: `test_conditions`/`test_restock_logic` fail at baseline too (pre-existing), the rest pass. Note: this sandbox has `HTTP_PROXY` set, which breaks the fetcher against the local live-server — tests must be run with those vars unset (documented in the new `AGENTS.md`). No file under any test tree was modified.

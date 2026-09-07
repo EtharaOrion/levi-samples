@@ -1,0 +1,40 @@
+schema_version = "1.0"
+
+[task]
+uuid_v5 = "8ab81969-37a0-4f3b-86af-d21560f386ce"
+project_id = "Levi-007"
+authors = [
+    { email = "suryansh@ethara.ai" },
+    { email = "sarvex@ethara.ai" },
+    { email = "gurpreet.singh2037@ethara.ai" },
+    { email = "navya.arora@ethara.ai" },
+    { email = "ankit.porwal@ethara.ai" },
+    { email = "abhijeet.chaurasiya@ethara.ai" },
+    { email = "gaurav.k@ethara.ai" },
+    { email = "dimple.soni@ethara.ai" },
+    { email = "rishav.kumar49@ethara.ai" },
+]
+keywords = ["python", "issue-resolving", "changedetection.io"]
+
+[metadata]
+difficulty = "hard"
+category = "feature_development"
+
+[verifier]
+# V-001: neither the verifier nor the agent needs external network. The verifier
+# runs the deterministic post-fix test cmd offline; the agent solves under the
+# harness full egress block (only LLM API endpoints reachable). Both are "none",
+# which seals oracle-solution exfiltration via either the verifier or agent path.
+network_mode = "none"
+timeout_sec = 7200.0
+
+[agent]
+network_mode = "none"
+timeout_sec = 14400.0
+
+[environment]
+build_timeout_sec = 1800.0
+cpus = 8
+memory_mb = 12288
+storage_mb = 10240
+gpus = 0

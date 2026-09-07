@@ -1,0 +1,97 @@
+{
+  "version": {
+    "quality": "quality-v1",
+    "prompt_digest": "6169e82413340627",
+    "manifest_digest": "d55b59e374bfca48"
+  },
+  "task_uuid": "8ab81969-37a0-4f3b-86af-d21560f386ce",
+  "model": "opus-5",
+  "run_id": "run_8",
+  "status": "scored",
+  "calibrated": false,
+  "judge": {
+    "member": "gpt-5.6-sol",
+    "model": "openai/responses/gpt-5.6-sol"
+  },
+  "patch": {
+    "source": "git",
+    "sha256": "e5febe7d282707c881f4977f686fadb735502db9effb96768d2ee868fb1396a0",
+    "bytes": 45392,
+    "truncated": false
+  },
+  "evidence_digest": "c287da9ab08fc61a",
+  "quality_fingerprint": "68d8b5bdb1dabcbc",
+  "score": 0.7143,
+  "counts": {
+    "total": 7,
+    "passed": 5,
+    "failed": 2,
+    "undecided": 0
+  },
+  "reasons": [],
+  "items": [
+    {
+      "id": "Q1",
+      "dimension": "conventions",
+      "weight": 3,
+      "resolution": "unanimous",
+      "satisfied": true,
+      "rationale": "The additions follow the surrounding conventions: snake_case helpers and properties, Loguru-based logging, guarded optional dependency handling, and existing import/class patterns. The realtime refactor also preserves the existing explicit iteration and dictionary construction style while extracting it into a helper.",
+      "evidence_ref": "changedetectionio/processors/magic.py, new-file hunk: `logger.debug(...)` with `try`/`except Exception`; changedetectionio/realtime/socket_server.py, hunk adding `get_general_stats(datastore)`"
+    },
+    {
+      "id": "Q2",
+      "dimension": "minimal_diff",
+      "weight": 3,
+      "resolution": "unanimous",
+      "satisfied": true,
+      "rationale": "Every changed hunk maps to one of the listed issues: unread counters, attachment content detection, Apprise upgrade, SOCKS test reliability, Docker healthcheck/build fixes, Playwright locale handling, or stripping ignored lines; no unrelated reformatting, renames, or file churn is shown.",
+      "evidence_ref": "Dockerfile hunks; changedetectionio/processors/magic.py and text_json_diff/processor.py hunks; changedetectionio/realtime/socket_server.py and static/js/realtime.js hunks; requirements.txt hunk"
+    },
+    {
+      "id": "Q3",
+      "dimension": "abstraction",
+      "weight": 3,
+      "resolution": "unanimous",
+      "satisfied": false,
+      "rationale": "The diff introduces a substantial `guess_stream_type` class as a new abstraction, but it is instantiated from only one place in the text/JSON diff processor. Other extracted helpers have multiple callers, but this single-use classification layer fails the stated criterion.",
+      "evidence_ref": "`changedetectionio/processors/magic.py` new `class guess_stream_type`, used only in `changedetectionio/processors/text_json_diff/processor.py` hunk around `stream_content_type = guess_stream_type(...)`"
+    },
+    {
+      "id": "Q4",
+      "dimension": "readability",
+      "weight": 3,
+      "resolution": "unanimous",
+      "satisfied": true,
+      "rationale": "The change keeps new responsibilities in focused helpers such as `guess_stream_type`, `manage_locale_from_headers`, and `get_general_stats`, while the processor uses explicit, shallow content-type branches. Comments generally explain browser quirks or processing intent rather than merely narrating syntax.",
+      "evidence_ref": "`changedetectionio/processors/magic.py` new-file hunk (`guess_stream_type` and its focused sniffing helpers), and `changedetectionio/processors/text_json_diff/processor.py` hunk around lines 70-126"
+    },
+    {
+      "id": "Q5",
+      "dimension": "naming",
+      "weight": 3,
+      "resolution": "unanimous",
+      "satisfied": true,
+      "rationale": "New identifiers such as `manage_locale_from_headers`, `unread_changes_count`, `get_general_stats`, `updateGeneralStats`, and `strip_ignored_lines` clearly describe their roles and follow the surrounding Python snake_case and JavaScript camelCase conventions.",
+      "evidence_ref": "`changedetectionio/content_fetchers/base.py` hunk adding `manage_locale_from_headers`; `changedetectionio/store.py` hunk adding `unread_changes_count`; `changedetectionio/static/js/realtime.js` hunk adding `updateGeneralStats`."
+    },
+    {
+      "id": "Q6",
+      "dimension": "idiomaticity",
+      "weight": 3,
+      "resolution": "unanimous",
+      "satisfied": true,
+      "rationale": "The additions consistently use existing Python and framework idioms: Flask\u2019s route decorator for the health endpoint, datastore properties for computed state, WTForms fields for settings, and Playwright context options rather than custom mechanisms. The processor integration also follows the repository\u2019s existing class-and-helper structure.",
+      "evidence_ref": "changedetectionio/flask_app.py hunk adding `@app.route('/healthcheck', methods=['GET'])`; changedetectionio/store.py hunk adding `@property def unread_changes_count`; changedetectionio/forms.py hunks adding WTForms fields; changedetectionio/content_fetchers/playwright.py hunk passing `locale` to `new_context`"
+    },
+    {
+      "id": "Q7",
+      "dimension": "dead_code",
+      "weight": 3,
+      "resolution": "unanimous",
+      "satisfied": false,
+      "rationale": "The new stream-classification code computes and stores `detected_content_type` and `is_text`, but the diff shows no consumer of either value; the processor only reads specific flags such as `is_json`, `is_html`, and `is_plaintext`. These added assignments are therefore dead code in the shown change.",
+      "evidence_ref": "changedetectionio/processors/magic.py, `guess_stream_type.__init__` hunk: `self.detected_content_type = content_type` and `self.is_text = any([...])`"
+    }
+  ]
+}

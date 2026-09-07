@@ -1,0 +1,641 @@
+{
+  "instance_id": "dgtlmoon__changedetection.io-3433",
+  "org": "dgtlmoon",
+  "repo": "changedetection.io",
+  "number": 3433,
+  "number_interval": "changedetection.io",
+  "tag": "",
+  "language": "python",
+  "base_commit": "cbeefeccbb5c69a71c1946efd99402649af2f465",
+  "repo_dir": "/workspace/changedetection.io",
+  "home_repo_dir": "/home/changedetection.io",
+  "test_patch_path": "/tests/test.patch",
+  "home_test_patch": "/home/test.patch",
+  "run_cmd": "bash /home/run.sh",
+  "test_cmd": "bash /home/test-run.sh",
+  "fix_cmd": "bash /home/fix-run.sh",
+  "run_result": {
+    "passed_count": 83,
+    "failed_count": 0,
+    "skipped_count": 0,
+    "passed_tests": [
+      "tests/test_xpath_selector.py::test_check_xpath_text_function_utf8",
+      "tests/test_element_removal.py::test_element_removal_nth_offset_no_shift",
+      "tests/test_restock_itemprop.py::test_restock_itemprop_with_tag",
+      "tests/test_basic_socketio.py::test_everything",
+      "tests/test_restock_itemprop.py::test_restock_itemprop_minmax",
+      "tests/test_ui.py::test_page_title_listing_behaviour",
+      "tests/test_xpath_selector.py::test_xpath_20_function_count2",
+      "tests/test_block_while_text_present.py::test_check_block_changedetection_text_NOT_present",
+      "tests/test_jsonpath_jq_selector.py::test_check_jsonpath_filter",
+      "tests/test_unique_lines.py::test_unique_lines_functionality",
+      "tests/test_css_selector.py::test_filter_is_empty_help_suggestion",
+      "tests/test_backend.py::test_check_basic_change_detection_functionality",
+      "tests/test_extract_regex.py::test_regex_error_handling",
+      "tests/test_xpath_selector.py::test_xpath_validation",
+      "tests/test_jinja2.py::test_jinja2_security_url_query",
+      "tests/test_jsonpath_jq_selector.py::test_ignore_json_order",
+      "tests/test_unique_lines.py::test_extra_filters",
+      "tests/test_errorhandling.py::test_low_level_errors_clear_correctly",
+      "tests/test_xpath_selector.py::test_xpath_20",
+      "tests/test_xpath_selector.py::test_xpath1_validation",
+      "tests/test_jsonpath_jq_selector.py::test_check_jqraw_ext_filter",
+      "tests/test_conditions.py::test_conditions_with_text_and_number",
+      "tests/test_ignorehyperlinks.py::test_render_anchor_tag_content_true",
+      "tests/test_ui.py::test_checkbox_open_diff_in_new_tab",
+      "tests/test_ignore_text.py::test_check_global_ignore_text_functionality",
+      "tests/test_restock_itemprop.py::test_change_with_notification_values",
+      "tests/test_xpath_selector.py::test_various_rules",
+      "tests/test_errorhandling.py::test_DNS_errors",
+      "tests/test_restock_itemprop.py::test_special_prop_examples",
+      "tests/test_jsonpath_jq_selector.py::test_correct_header_detect",
+      "tests/test_conditions.py::test_condition_validate_rule_row",
+      "tests/test_source.py::test_check_ignore_elements",
+      "tests/test_xpath_selector.py::test_xpath23_prefix_validation",
+      "tests/test_xpath_selector.py::test_check_with_prefix_include_filters",
+      "tests/test_jsonpath_jq_selector.py::test_unittest_inline_html_extract",
+      "tests/test_xpath_selector.py::test_xpath_20_function_count",
+      "tests/test_trigger.py::test_trigger_functionality",
+      "tests/test_ignorewhitespace.py::test_check_ignore_whitespace",
+      "tests/test_conditions.py::test_lev_conditions_plugin",
+      "tests/test_errorhandling.py::test_http_error_handler",
+      "tests/test_ui.py::test_recheck_time_field_validation_global_settings",
+      "tests/test_jsonpath_jq_selector.py::test_check_jq_filter",
+      "tests/test_extract_regex.py::test_check_filter_multiline",
+      "tests/test_jsonpath_jq_selector.py::test_check_jsonpath_ext_filter",
+      "tests/test_jsonpath_jq_selector.py::test_check_jq_ext_filter",
+      "tests/test_backend.py::test_inscriptus",
+      "tests/test_xpath_selector.py::test_xpath1_lxml",
+      "tests/test_nonrenderable_pages.py::test_check_basic_change_detection_functionality",
+      "tests/test_restock_itemprop.py::test_restock_itemprop_basic",
+      "tests/test_jsonpath_jq_selector.py::test_unittest_inline_extract_body",
+      "tests/test_jsonpath_jq_selector.py::test_check_jqraw_filter_bool_val",
+      "tests/test_jsonpath_jq_selector.py::test_check_jq_filter_bool_val",
+      "tests/test_element_removal.py::test_element_removal_full",
+      "tests/test_source.py::test_check_basic_change_detection_functionality_source",
+      "tests/test_ignore_text.py::test_strip_text_func",
+      "tests/test_jsonpath_jq_selector.py::test_check_json_without_filter",
+      "tests/test_jsonpath_jq_selector.py::test_jsonpath_BOM_utf8",
+      "tests/test_add_replace_remove_filter.py::test_check_removed_line_contains_trigger",
+      "tests/test_ui.py::test_recheck_time_field_validation_single_watch",
+      "tests/test_xpath_selector.py::test_xpath_20_function_string_join_matches",
+      "tests/test_restock_itemprop.py::test_data_sanity",
+      "tests/test_restock_itemprop.py::test_itemprop_price_change",
+      "tests/test_css_selector.py::test_check_markup_include_filters_restriction",
+      "tests/test_trigger_regex.py::test_trigger_regex_functionality",
+      "tests/test_css_selector.py::test_check_multiple_filters",
+      "tests/test_ignorestatuscode.py::test_403_page_check_works_with_ignore_status_code",
+      "tests/test_xpath_selector.py::test_check_markup_xpath_filter_restriction",
+      "tests/test_jsonpath_jq_selector.py::test_check_jsonpath_filter_bool_val",
+      "tests/test_extract_regex.py::test_check_filter_and_regex_extract",
+      "tests/test_conditions.py::test_wordcount_conditions_plugin",
+      "tests/test_jinja2.py::test_jinja2_in_url_query",
+      "tests/test_ignorestatuscode.py::test_normal_page_check_works_with_ignore_status_code",
+      "tests/test_jsonpath_jq_selector.py::test_check_jqraw_filter",
+      "tests/test_ignore_text.py::test_check_ignore_text_functionality",
+      "tests/test_element_removal.py::test_element_removal_output",
+      "tests/test_css_selector.py::test_include_filters_output",
+      "tests/test_add_replace_remove_filter.py::test_check_add_line_contains_trigger",
+      "tests/test_restock_itemprop.py::test_itemprop_percent_threshold",
+      "tests/test_ignore_text.py::test_check_global_ignore_text_functionality_as_source",
+      "tests/test_trigger_regex_with_filter.py::test_trigger_regex_functionality_with_filter",
+      "tests/test_ignore.py::test_ignore",
+      "tests/test_xpath_selector.py::test_check_xpath_filter_utf8",
+      "tests/test_unique_lines.py::test_sort_lines_functionality"
+    ],
+    "failed_tests": [],
+    "skipped_tests": []
+  },
+  "test_patch_result": {
+    "passed_count": 51,
+    "failed_count": 35,
+    "skipped_count": 0,
+    "passed_tests": [
+      "tests/test_jsonpath_jq_selector.py::test_check_json_without_filter",
+      "tests/test_errorhandling.py::test_low_level_errors_clear_correctly",
+      "tests/test_jsonpath_jq_selector.py::test_jsonpath_BOM_utf8",
+      "tests/test_xpath_selector.py::test_check_xpath_text_function_utf8",
+      "tests/test_xpath_selector.py::test_xpath_20",
+      "tests/test_element_removal.py::test_element_removal_nth_offset_no_shift",
+      "tests/test_xpath_selector.py::test_xpath1_validation",
+      "tests/test_ignorehyperlinks.py::test_render_anchor_tag_content_true",
+      "tests/test_ui.py::test_checkbox_open_diff_in_new_tab",
+      "tests/test_ui.py::test_recheck_time_field_validation_single_watch",
+      "tests/test_xpath_selector.py::test_xpath_20_function_string_join_matches",
+      "tests/test_restock_itemprop.py::test_data_sanity",
+      "tests/test_errorhandling.py::test_http_error_handler",
+      "tests/test_ui.py::test_recheck_time_field_validation_global_settings",
+      "tests/test_ui.py::test_page_title_listing_behaviour",
+      "tests/test_css_selector.py::test_check_multiple_filters",
+      "tests/test_extract_regex.py::test_check_filter_multiline",
+      "tests/test_xpath_selector.py::test_xpath_20_function_count2",
+      "tests/test_restock_itemprop.py::test_change_with_notification_values",
+      "tests/test_xpath_selector.py::test_check_markup_xpath_filter_restriction",
+      "tests/test_jsonpath_jq_selector.py::test_check_jsonpath_filter_bool_val",
+      "tests/test_backend.py::test_inscriptus",
+      "tests/test_xpath_selector.py::test_various_rules",
+      "tests/test_errorhandling.py::test_DNS_errors",
+      "tests/test_restock_itemprop.py::test_special_prop_examples",
+      "tests/test_xpath_selector.py::test_xpath1_lxml",
+      "tests/test_jsonpath_jq_selector.py::test_correct_header_detect",
+      "tests/test_conditions.py::test_wordcount_conditions_plugin",
+      "tests/test_restock_itemprop.py::test_restock_itemprop_basic",
+      "tests/test_conditions.py::test_condition_validate_rule_row",
+      "tests/test_jinja2.py::test_jinja2_in_url_query",
+      "tests/test_css_selector.py::test_filter_is_empty_help_suggestion",
+      "tests/test_source.py::test_check_ignore_elements",
+      "tests/test_element_removal.py::test_element_removal_output",
+      "tests/test_jsonpath_jq_selector.py::test_unittest_inline_extract_body",
+      "tests/test_css_selector.py::test_include_filters_output",
+      "tests/test_jsonpath_jq_selector.py::test_check_jqraw_filter_bool_val",
+      "tests/test_xpath_selector.py::test_xpath23_prefix_validation",
+      "tests/test_xpath_selector.py::test_check_with_prefix_include_filters",
+      "tests/test_jsonpath_jq_selector.py::test_unittest_inline_html_extract",
+      "tests/test_jsonpath_jq_selector.py::test_check_jq_filter_bool_val",
+      "tests/test_extract_regex.py::test_regex_error_handling",
+      "tests/test_xpath_selector.py::test_xpath_validation",
+      "tests/test_jinja2.py::test_jinja2_security_url_query",
+      "tests/test_element_removal.py::test_element_removal_full",
+      "tests/test_xpath_selector.py::test_xpath_20_function_count",
+      "tests/test_ignore.py::test_ignore",
+      "tests/test_unique_lines.py::test_extra_filters",
+      "tests/test_ignore_text.py::test_strip_text_func",
+      "tests/test_xpath_selector.py::test_check_xpath_filter_utf8",
+      "tests/test_ignorewhitespace.py::test_check_ignore_whitespace"
+    ],
+    "failed_tests": [
+      "tests/test_jsonpath_jq_selector.py::test_check_jqraw_ext_filter",
+      "tests/test_add_replace_remove_filter.py::test_check_removed_line_contains_trigger",
+      "tests/test_restock_itemprop.py::test_restock_itemprop_with_tag",
+      "tests/test_conditions.py::test_conditions_with_text_and_number",
+      "tests/test_basic_socketio.py::test_everything",
+      "tests/test_restock_itemprop.py::test_restock_itemprop_minmax",
+      "tests/test_restock_itemprop.py::test_itemprop_price_change",
+      "tests/test_css_selector.py::test_check_markup_include_filters_restriction",
+      "tests/test_trigger_regex.py::test_trigger_regex_functionality",
+      "tests/test_ignore.py::test_strip_ignore_lines",
+      "tests/test_jsonpath_jq_selector.py::test_check_jq_filter",
+      "tests/test_ignore_text.py::test_check_global_ignore_text_functionality",
+      "tests/test_ignorestatuscode.py::test_403_page_check_works_with_ignore_status_code",
+      "tests/test_block_while_text_present.py::test_check_block_changedetection_text_NOT_present",
+      "tests/test_jsonpath_jq_selector.py::test_check_jsonpath_ext_filter",
+      "tests/test_jsonpath_jq_selector.py::test_check_jq_ext_filter",
+      "tests/test_extract_regex.py::test_check_filter_and_regex_extract",
+      "tests/test_nonrenderable_pages.py::test_check_basic_change_detection_functionality",
+      "tests/test_jsonpath_jq_selector.py::test_check_jsonpath_filter",
+      "tests/test_backend.py::test_non_text_mime_or_downloads",
+      "tests/test_unique_lines.py::test_unique_lines_functionality",
+      "tests/test_ignorestatuscode.py::test_normal_page_check_works_with_ignore_status_code",
+      "tests/test_jsonpath_jq_selector.py::test_check_jqraw_filter",
+      "tests/test_backend.py::test_check_basic_change_detection_functionality",
+      "tests/test_ignore_text.py::test_check_ignore_text_functionality",
+      "tests/test_add_replace_remove_filter.py::test_check_add_line_contains_trigger",
+      "tests/test_restock_itemprop.py::test_itemprop_percent_threshold",
+      "tests/test_ui.py::test_ui_viewed_unread_flag",
+      "tests/test_ignore_text.py::test_check_global_ignore_text_functionality_as_source",
+      "tests/test_trigger_regex_with_filter.py::test_trigger_regex_functionality_with_filter",
+      "tests/test_jsonpath_jq_selector.py::test_ignore_json_order",
+      "tests/test_source.py::test_check_basic_change_detection_functionality_source",
+      "tests/test_trigger.py::test_trigger_functionality",
+      "tests/test_unique_lines.py::test_sort_lines_functionality",
+      "tests/test_conditions.py::test_lev_conditions_plugin"
+    ],
+    "skipped_tests": []
+  },
+  "p2p_tests": {
+    "tests/test_xpath_selector.py::test_check_xpath_text_function_utf8": {
+      "run": "PASS",
+      "test": "PASS",
+      "fix": "PASS"
+    },
+    "tests/test_element_removal.py::test_element_removal_nth_offset_no_shift": {
+      "run": "PASS",
+      "test": "PASS",
+      "fix": "PASS"
+    },
+    "tests/test_errorhandling.py::test_http_error_handler": {
+      "run": "PASS",
+      "test": "PASS",
+      "fix": "PASS"
+    },
+    "tests/test_ui.py::test_recheck_time_field_validation_global_settings": {
+      "run": "PASS",
+      "test": "PASS",
+      "fix": "PASS"
+    },
+    "tests/test_ui.py::test_page_title_listing_behaviour": {
+      "run": "PASS",
+      "test": "PASS",
+      "fix": "PASS"
+    },
+    "tests/test_extract_regex.py::test_check_filter_multiline": {
+      "run": "PASS",
+      "test": "PASS",
+      "fix": "PASS"
+    },
+    "tests/test_xpath_selector.py::test_xpath_20_function_count2": {
+      "run": "PASS",
+      "test": "PASS",
+      "fix": "PASS"
+    },
+    "tests/test_backend.py::test_inscriptus": {
+      "run": "PASS",
+      "test": "PASS",
+      "fix": "PASS"
+    },
+    "tests/test_xpath_selector.py::test_xpath1_lxml": {
+      "run": "PASS",
+      "test": "PASS",
+      "fix": "PASS"
+    },
+    "tests/test_restock_itemprop.py::test_restock_itemprop_basic": {
+      "run": "PASS",
+      "test": "PASS",
+      "fix": "PASS"
+    },
+    "tests/test_css_selector.py::test_filter_is_empty_help_suggestion": {
+      "run": "PASS",
+      "test": "PASS",
+      "fix": "PASS"
+    },
+    "tests/test_jsonpath_jq_selector.py::test_unittest_inline_extract_body": {
+      "run": "PASS",
+      "test": "PASS",
+      "fix": "PASS"
+    },
+    "tests/test_jsonpath_jq_selector.py::test_check_jqraw_filter_bool_val": {
+      "run": "PASS",
+      "test": "PASS",
+      "fix": "PASS"
+    },
+    "tests/test_jsonpath_jq_selector.py::test_check_jq_filter_bool_val": {
+      "run": "PASS",
+      "test": "PASS",
+      "fix": "PASS"
+    },
+    "tests/test_extract_regex.py::test_regex_error_handling": {
+      "run": "PASS",
+      "test": "PASS",
+      "fix": "PASS"
+    },
+    "tests/test_xpath_selector.py::test_xpath_validation": {
+      "run": "PASS",
+      "test": "PASS",
+      "fix": "PASS"
+    },
+    "tests/test_jinja2.py::test_jinja2_security_url_query": {
+      "run": "PASS",
+      "test": "PASS",
+      "fix": "PASS"
+    },
+    "tests/test_element_removal.py::test_element_removal_full": {
+      "run": "PASS",
+      "test": "PASS",
+      "fix": "PASS"
+    },
+    "tests/test_unique_lines.py::test_extra_filters": {
+      "run": "PASS",
+      "test": "PASS",
+      "fix": "PASS"
+    },
+    "tests/test_ignore_text.py::test_strip_text_func": {
+      "run": "PASS",
+      "test": "PASS",
+      "fix": "PASS"
+    },
+    "tests/test_jsonpath_jq_selector.py::test_check_json_without_filter": {
+      "run": "PASS",
+      "test": "PASS",
+      "fix": "PASS"
+    },
+    "tests/test_errorhandling.py::test_low_level_errors_clear_correctly": {
+      "run": "PASS",
+      "test": "PASS",
+      "fix": "PASS"
+    },
+    "tests/test_jsonpath_jq_selector.py::test_jsonpath_BOM_utf8": {
+      "run": "PASS",
+      "test": "PASS",
+      "fix": "PASS"
+    },
+    "tests/test_xpath_selector.py::test_xpath_20": {
+      "run": "PASS",
+      "test": "PASS",
+      "fix": "PASS"
+    },
+    "tests/test_xpath_selector.py::test_xpath1_validation": {
+      "run": "PASS",
+      "test": "PASS",
+      "fix": "PASS"
+    },
+    "tests/test_ignorehyperlinks.py::test_render_anchor_tag_content_true": {
+      "run": "PASS",
+      "test": "PASS",
+      "fix": "PASS"
+    },
+    "tests/test_ui.py::test_checkbox_open_diff_in_new_tab": {
+      "run": "PASS",
+      "test": "PASS",
+      "fix": "PASS"
+    },
+    "tests/test_ui.py::test_recheck_time_field_validation_single_watch": {
+      "run": "PASS",
+      "test": "PASS",
+      "fix": "PASS"
+    },
+    "tests/test_xpath_selector.py::test_xpath_20_function_string_join_matches": {
+      "run": "PASS",
+      "test": "PASS",
+      "fix": "PASS"
+    },
+    "tests/test_restock_itemprop.py::test_data_sanity": {
+      "run": "PASS",
+      "test": "PASS",
+      "fix": "PASS"
+    },
+    "tests/test_css_selector.py::test_check_multiple_filters": {
+      "run": "PASS",
+      "test": "PASS",
+      "fix": "PASS"
+    },
+    "tests/test_restock_itemprop.py::test_change_with_notification_values": {
+      "run": "PASS",
+      "test": "PASS",
+      "fix": "PASS"
+    },
+    "tests/test_xpath_selector.py::test_check_markup_xpath_filter_restriction": {
+      "run": "PASS",
+      "test": "PASS",
+      "fix": "PASS"
+    },
+    "tests/test_xpath_selector.py::test_various_rules": {
+      "run": "PASS",
+      "test": "PASS",
+      "fix": "PASS"
+    },
+    "tests/test_jsonpath_jq_selector.py::test_check_jsonpath_filter_bool_val": {
+      "run": "PASS",
+      "test": "PASS",
+      "fix": "PASS"
+    },
+    "tests/test_errorhandling.py::test_DNS_errors": {
+      "run": "PASS",
+      "test": "PASS",
+      "fix": "PASS"
+    },
+    "tests/test_restock_itemprop.py::test_special_prop_examples": {
+      "run": "PASS",
+      "test": "PASS",
+      "fix": "PASS"
+    },
+    "tests/test_jsonpath_jq_selector.py::test_correct_header_detect": {
+      "run": "PASS",
+      "test": "PASS",
+      "fix": "PASS"
+    },
+    "tests/test_conditions.py::test_wordcount_conditions_plugin": {
+      "run": "PASS",
+      "test": "PASS",
+      "fix": "PASS"
+    },
+    "tests/test_conditions.py::test_condition_validate_rule_row": {
+      "run": "PASS",
+      "test": "PASS",
+      "fix": "PASS"
+    },
+    "tests/test_jinja2.py::test_jinja2_in_url_query": {
+      "run": "PASS",
+      "test": "PASS",
+      "fix": "PASS"
+    },
+    "tests/test_source.py::test_check_ignore_elements": {
+      "run": "PASS",
+      "test": "PASS",
+      "fix": "PASS"
+    },
+    "tests/test_element_removal.py::test_element_removal_output": {
+      "run": "PASS",
+      "test": "PASS",
+      "fix": "PASS"
+    },
+    "tests/test_css_selector.py::test_include_filters_output": {
+      "run": "PASS",
+      "test": "PASS",
+      "fix": "PASS"
+    },
+    "tests/test_xpath_selector.py::test_xpath23_prefix_validation": {
+      "run": "PASS",
+      "test": "PASS",
+      "fix": "PASS"
+    },
+    "tests/test_xpath_selector.py::test_check_with_prefix_include_filters": {
+      "run": "PASS",
+      "test": "PASS",
+      "fix": "PASS"
+    },
+    "tests/test_jsonpath_jq_selector.py::test_unittest_inline_html_extract": {
+      "run": "PASS",
+      "test": "PASS",
+      "fix": "PASS"
+    },
+    "tests/test_xpath_selector.py::test_xpath_20_function_count": {
+      "run": "PASS",
+      "test": "PASS",
+      "fix": "PASS"
+    },
+    "tests/test_ignore.py::test_ignore": {
+      "run": "PASS",
+      "test": "PASS",
+      "fix": "PASS"
+    },
+    "tests/test_xpath_selector.py::test_check_xpath_filter_utf8": {
+      "run": "PASS",
+      "test": "PASS",
+      "fix": "PASS"
+    },
+    "tests/test_ignorewhitespace.py::test_check_ignore_whitespace": {
+      "run": "PASS",
+      "test": "PASS",
+      "fix": "PASS"
+    }
+  },
+  "f2p_tests": {
+    "tests/test_restock_itemprop.py::test_restock_itemprop_with_tag": {
+      "run": "PASS",
+      "test": "FAIL",
+      "fix": "PASS"
+    },
+    "tests/test_basic_socketio.py::test_everything": {
+      "run": "PASS",
+      "test": "FAIL",
+      "fix": "PASS"
+    },
+    "tests/test_restock_itemprop.py::test_restock_itemprop_minmax": {
+      "run": "PASS",
+      "test": "FAIL",
+      "fix": "PASS"
+    },
+    "tests/test_ignore.py::test_strip_ignore_lines": {
+      "run": "NONE",
+      "test": "FAIL",
+      "fix": "PASS"
+    },
+    "tests/test_jsonpath_jq_selector.py::test_check_jq_filter": {
+      "run": "PASS",
+      "test": "FAIL",
+      "fix": "PASS"
+    },
+    "tests/test_block_while_text_present.py::test_check_block_changedetection_text_NOT_present": {
+      "run": "PASS",
+      "test": "FAIL",
+      "fix": "PASS"
+    },
+    "tests/test_jsonpath_jq_selector.py::test_check_jsonpath_ext_filter": {
+      "run": "PASS",
+      "test": "FAIL",
+      "fix": "PASS"
+    },
+    "tests/test_jsonpath_jq_selector.py::test_check_jq_ext_filter": {
+      "run": "PASS",
+      "test": "FAIL",
+      "fix": "PASS"
+    },
+    "tests/test_nonrenderable_pages.py::test_check_basic_change_detection_functionality": {
+      "run": "PASS",
+      "test": "FAIL",
+      "fix": "PASS"
+    },
+    "tests/test_jsonpath_jq_selector.py::test_check_jsonpath_filter": {
+      "run": "PASS",
+      "test": "FAIL",
+      "fix": "PASS"
+    },
+    "tests/test_backend.py::test_non_text_mime_or_downloads": {
+      "run": "NONE",
+      "test": "FAIL",
+      "fix": "PASS"
+    },
+    "tests/test_unique_lines.py::test_unique_lines_functionality": {
+      "run": "PASS",
+      "test": "FAIL",
+      "fix": "PASS"
+    },
+    "tests/test_backend.py::test_check_basic_change_detection_functionality": {
+      "run": "PASS",
+      "test": "FAIL",
+      "fix": "PASS"
+    },
+    "tests/test_jsonpath_jq_selector.py::test_ignore_json_order": {
+      "run": "PASS",
+      "test": "FAIL",
+      "fix": "PASS"
+    },
+    "tests/test_source.py::test_check_basic_change_detection_functionality_source": {
+      "run": "PASS",
+      "test": "FAIL",
+      "fix": "PASS"
+    },
+    "tests/test_jsonpath_jq_selector.py::test_check_jqraw_ext_filter": {
+      "run": "PASS",
+      "test": "FAIL",
+      "fix": "PASS"
+    },
+    "tests/test_add_replace_remove_filter.py::test_check_removed_line_contains_trigger": {
+      "run": "PASS",
+      "test": "FAIL",
+      "fix": "PASS"
+    },
+    "tests/test_conditions.py::test_conditions_with_text_and_number": {
+      "run": "PASS",
+      "test": "FAIL",
+      "fix": "PASS"
+    },
+    "tests/test_restock_itemprop.py::test_itemprop_price_change": {
+      "run": "PASS",
+      "test": "FAIL",
+      "fix": "PASS"
+    },
+    "tests/test_css_selector.py::test_check_markup_include_filters_restriction": {
+      "run": "PASS",
+      "test": "FAIL",
+      "fix": "PASS"
+    },
+    "tests/test_trigger_regex.py::test_trigger_regex_functionality": {
+      "run": "PASS",
+      "test": "FAIL",
+      "fix": "PASS"
+    },
+    "tests/test_ignore_text.py::test_check_global_ignore_text_functionality": {
+      "run": "PASS",
+      "test": "FAIL",
+      "fix": "PASS"
+    },
+    "tests/test_ignorestatuscode.py::test_403_page_check_works_with_ignore_status_code": {
+      "run": "PASS",
+      "test": "FAIL",
+      "fix": "PASS"
+    },
+    "tests/test_extract_regex.py::test_check_filter_and_regex_extract": {
+      "run": "PASS",
+      "test": "FAIL",
+      "fix": "PASS"
+    },
+    "tests/test_ignorestatuscode.py::test_normal_page_check_works_with_ignore_status_code": {
+      "run": "PASS",
+      "test": "FAIL",
+      "fix": "PASS"
+    },
+    "tests/test_jsonpath_jq_selector.py::test_check_jqraw_filter": {
+      "run": "PASS",
+      "test": "FAIL",
+      "fix": "PASS"
+    },
+    "tests/test_ignore_text.py::test_check_ignore_text_functionality": {
+      "run": "PASS",
+      "test": "FAIL",
+      "fix": "PASS"
+    },
+    "tests/test_add_replace_remove_filter.py::test_check_add_line_contains_trigger": {
+      "run": "PASS",
+      "test": "FAIL",
+      "fix": "PASS"
+    },
+    "tests/test_restock_itemprop.py::test_itemprop_percent_threshold": {
+      "run": "PASS",
+      "test": "FAIL",
+      "fix": "PASS"
+    },
+    "tests/test_ui.py::test_ui_viewed_unread_flag": {
+      "run": "NONE",
+      "test": "FAIL",
+      "fix": "PASS"
+    },
+    "tests/test_ignore_text.py::test_check_global_ignore_text_functionality_as_source": {
+      "run": "PASS",
+      "test": "FAIL",
+      "fix": "PASS"
+    },
+    "tests/test_trigger_regex_with_filter.py::test_trigger_regex_functionality_with_filter": {
+      "run": "PASS",
+      "test": "FAIL",
+      "fix": "PASS"
+    },
+    "tests/test_trigger.py::test_trigger_functionality": {
+      "run": "PASS",
+      "test": "FAIL",
+      "fix": "PASS"
+    },
+    "tests/test_unique_lines.py::test_sort_lines_functionality": {
+      "run": "PASS",
+      "test": "FAIL",
+      "fix": "PASS"
+    },
+    "tests/test_conditions.py::test_lev_conditions_plugin": {
+      "run": "PASS",
+      "test": "FAIL",
+      "fix": "PASS"
+    }
+  },
+  "s2p_tests": {},
+  "n2p_tests": {}
+}
