@@ -188,7 +188,7 @@ three tasks by codebase, `dgtlmoon/changedetection.io` 2 and `reflex-dev/reflex`
 │   ├── recording.cast                # terminal recording
 │   └── opus.pane                     # pane snapshot
 ├── artifacts/
-│   ├── agent.patch                   # recorded agent diff, when present
+│   ├── agent.patch                   # recorded agent diff
 │   └── manifest.json                 # artifact index
 └── verifier/
     ├── score.md                      # recorded outcome
@@ -196,8 +196,8 @@ three tasks by codebase, `dgtlmoon/changedetection.io` 2 and `reflex-dev/reflex`
     ├── test-stdout.md                # test execution output
     ├── process.json                  # detailed process and composed scores
     ├── verdicts.jsonl                # process judge log
-    ├── quality.json                  # present for runs 2–8; may be unjudged
-    └── quality_verdicts.jsonl         # present for runs 2–8
+    ├── quality.json                  # seven-item quality result; may be unjudged
+    └── quality_verdicts.jsonl         # quality judge log
 ```
 
 Outcome and process values come from `result.json → verifier_result.scores`; their detailed
