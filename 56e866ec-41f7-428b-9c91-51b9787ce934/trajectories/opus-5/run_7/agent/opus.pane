@@ -1,0 +1,200 @@
+-  setState(state => ({ ...state, events: state.events }));
++  // Set new events to avoid reprocessing the same event. The event is removed
++  // by identity, because the queue may have been replaced by a new array since
++  // this event loop iteration was scheduled.
++  setState(state => ({
++    ...state,
++    events: state.events.filter((e) => e !== event),
++  }));
+
+   // Process events with handlers via REST and all others via websockets.
+   let eventSent = false;
+@@ -234,6 +245,7 @@ export const processEvent = async (
+
+   // If no event was sent, set processing to false.
+   if (!eventSent) {
++    event_processing = false;
+     setResult({ ...result, final: true, processing: false });
+   }
+ };
+@@ -281,6 +293,9 @@ export const connect = async (
+   socket.current.on("event", update => {
+     update = JSON5.parse(update);
+     applyDelta(state, update.delta);
++    // The backend is done with this event when the update is final, so the
++    // next event in the queue can be processed.
++    event_processing = !update.final;
+     setResult(result => ({
+       state: state,
+       events: [...result.events, ...update.events],
+diff --git a/reflex/app.py b/reflex/app.py
+index c0850c4..10825be 100644
+--- a/reflex/app.py
++++ b/reflex/app.py
+@@ -130,7 +130,7 @@ class App(Base):
+         self.socket_app = ASGIApp(self.sio, socketio_path="")
+
+         # Create the event namespace and attach the main app. Not related to any paths.
+-        self.event_namespace = EventNamespace("/event", self)
++        self.event_namespace = EventNamespace(config.get_event_namespace(), self)
+
+         # Register the event namespace with the socket.
+         self.sio.register_namespace(self.event_namespace)
+diff --git a/reflex/components/datadisplay/table.py b/reflex/components/datadisplay/table.py
+index 57a4c23..731dfb5 100644
+--- a/reflex/components/datadisplay/table.py
++++ b/reflex/components/datadisplay/table.py
+@@ -104,7 +104,16 @@ class Tbody(ChakraComponent):
+             Component: _description_
+         """
+         if len(children) == 0:
+-            children = [Tr.create(cell_type="data", cells=row) for row in rows or []]
++            if isinstance(rows, Var):
++                children = [
++                    Foreach.create(
++                        rows, lambda row: Tr.create(cell_type="data", cells=row)
++                    )
++                ]
++            else:
++                children = [
++                    Tr.create(cell_type="data", cells=row) for row in rows or []
++                ]
+         return super().create(*children, **props)
+
+
+diff --git a/reflex/components/tags/iter_tag.py b/reflex/components/tags/iter_tag.py
+index 675a152..4a28c51 100644
+--- a/reflex/components/tags/iter_tag.py
++++ b/reflex/components/tags/iter_tag.py
+@@ -5,7 +5,7 @@ import inspect
+ from typing import TYPE_CHECKING, Callable, List
+
+ from reflex.components.tags.tag import Tag
+-from reflex.vars import Var
++from reflex.vars import BaseVar, Var
+
+ if TYPE_CHECKING:
+     from reflex.components.component import Component
+@@ -30,20 +30,26 @@ class IterTag(Tag):
+         Returns:
+             The index var.
+         """
+-        index = Var.create(INDEX_VAR, is_local=False)
+-        assert index is not None
+-        return index
++        return BaseVar(
++            name=INDEX_VAR,
++            type_=int,
++            is_local=False,
++        )
+
+     @staticmethod
+     def get_index_var_arg() -> Var:
+-        """Get the index var for the tag.
++        """Get the index var for the tag (with curly braces).
++
++        This is used to render the index var in the .map() function.
+
+         Returns:
+             The index var.
+         """
+-        arg = Var.create(INDEX_VAR)
+-        assert arg is not None
+-        return arg
++        return BaseVar(
++            name=INDEX_VAR,
++            type_=int,
++            is_local=True,
++        )
+
+     @staticmethod
+     def render_component(render_fn: Callable, arg: Var) -> Component:
+diff --git a/reflex/utils/build.py b/reflex/utils/build.py
+index bf36f85..8f0f641 100644
+--- a/reflex/utils/build.py
++++ b/reflex/utils/build.py
+@@ -79,6 +79,9 @@ def generate_sitemap_config(deploy_url: str):
+         {
+             "siteUrl": deploy_url,
+             "generateRobotsTxt": True,
++            # The sitemap must be written to the exported static directory,
++            # otherwise it is not included in the deployed frontend.
++            "outDir": constants.STATIC_DIR,
+         }
+     )
+# file_editor: Clarify index var docstrings
+The file /workspace/reflex/reflex/components/tags/iter_tag.py has been edited. Here's the result of running `cat -n` on a snippet of /workspace/reflex/reflex/components/tags/iter_tag.py:
+    23	    # The component render function for each item in the iterable.
+    24	    render_fn: Callable
+    25	
+    26	    @staticmethod
+    27	    def get_index_var() -> Var:
+    28	        """Get the index var for the tag, as used inside the render function.
+    29	
+    30	        Returns:
+    31	            The index var.
+    32	        """
+    33	        return BaseVar(
+    34	            name=INDEX_VAR,
+    35	            type_=int,
+    36	            is_local=False,
+    37	        )
+    38	
+    39	    @staticmethod
+    40	    def get_index_var_arg() -> Var:
+    41	        """Get the index var for the tag, as declared in the .map() arg list.
+    42	
+    43	        Returns:
+    44	            The index var.
+    45	        """
+    46	        return BaseVar(
+    47	            name=INDEX_VAR,
+    48	            type_=int,
+    49	            is_local=True,
+    50	
+Review the changes and make sure they are as expected. Edit the file again if necessary.
+$ cd /workspace/reflex && black --check reflex/components/tags/iter_tag.py && darglint reflex/components/tags/iter_tag.py && ruff reflex/ && python -m pytest tests -q 2>&1 | tail -3 && git status --short
+All done! ✨ 🍰 ✨
+1 file would be left unchanged.
+=========================== short test summary info ============================
+FAILED tests/test_testing.py::test_app_harness - click.exceptions.Exit
+1 failed, 518 passed in 3.89s
+ M reflex/.templates/web/utils/state.js
+ M reflex/app.py
+ M reflex/components/datadisplay/table.py
+ M reflex/components/tags/iter_tag.py
+ M reflex/config.py
+ M reflex/constants.py
+ M reflex/model.py
+ M reflex/testing.py
+ M reflex/utils/build.py
+# finish: Report completion of all six issues
+**Checklist: 6 issues found — 6 DONE, 0 BLOCKED.**
+
+### 1. (#1351) Expose `SQLALCHEMY_ECHO` — DONE
+- `reflex/constants.py`: added `SQLALCHEMY_ECHO = get_value("SQLALCHEMY_ECHO", "False")`.
+- `reflex/model.py`: `get_engine()` now builds the engine with `echo=echo_db_query`, read from the `SQLALCHEMY_ECHO` env var at call time (accepts `true/1/yes`, case-insensitive; falls back to the constant). Verified `True/true/1/yes → echo=True`, `False/false/0/""/unset → echo=False`.
+
+### 2. (#1342) Websocket namespace when api_url is not at the root — DONE
+- `reflex/config.py`: new `Config.get_event_namespace()` deriving the namespace from the path of `api_url` (`https://www.domain.com/api` → `/api/event`, default → `/event`), plus an optional `event_namespace` config field (env `EVENT_NAMESPACE`) to override.
+- `reflex/app.py`: `EventNamespace(config.get_event_namespace(), self)` instead of a hardcoded `"/event"`, so backend and frontend (which derives its namespace from the event URL path) agree.
+- `reflex/testing.py`: `AppHarness.emit_state_updates()` looks up the configured namespace instead of hardcoded `"/event"`.
+
+### 3. (#1374) `table`: allow rows to be a Var — DONE
+- `reflex/components/datadisplay/table.py`: `Tbody.create()` now wraps a `Var` `rows` in a `Foreach` that renders a `Tr` per row (each `Tr` already renders its cells with a nested `Foreach`). Static rows keep working. Verified compiled JSX: `{state.rows.map((row, i) => (<Tr key={i}>{row.map((c, i) => (<Td key={i}>{c}</Td>))}</Tr>))}`.
+
+### 4. (#1329) `on_change` sent twice when `on_key_down` is used — DONE
+- `reflex/.templates/web/utils/state.js`: the duplicate came from stale React closures: an effect from an older render dequeued (via in-place `shift()`) from an array that had already been replaced by a newer render, so the same event stayed in the live queue and was sent again. Fixes: a module-level `event_processing` flag that serializes event processing regardless of stale `result.processing`, removal of the processed event from the *latest* queue by identity (`filter(e => e !== event)`), and release of the flag on the final backend update / when no event was sent.
+- Validated with a Python simulation of the react queue: old logic → `[on_key_down, on_key_down, on_change]`, new logic → `[on_key_down, on_change]`.
+
+### 5. (#1382) Fix sitemap output dir — DONE
+- `reflex/constants.py`: added `STATIC_DIR = "_static"` (used to build `WEB_STATIC_DIR`).
+- `reflex/utils/build.py`: `generate_sitemap_config()` now emits `"outDir": "_static"` so `next-sitemap` writes sitemap/robots into the exported static build (which is what gets zipped/deployed) instead of `.web/public`.
+
+### 6. (#1389) Fix foreach index type — DONE
+- `reflex/components/tags/iter_tag.py`: `get_index_var()` / `get_index_var_arg()` now return `BaseVar(name="i", type_=int, ...)` instead of str-typed vars; rendering is unchanged (`{i}` / `i`), but arithmetic/type checks on the index now behave as `int`.
+
+### Verification
+- Full unit suite: `518 passed, 1 failed` — the single failure (`tests/test_testing.py::test_app_harness`) is a pre-existing environment problem (Node.js is not installed); confirmed it fails identically on a stashed (unmodified) tree.
+- `black`, `ruff`, and `darglint` are clean on all touched files; all touched modules compile. `pyright` could not run (it requires downloading a node env, unavailable offline).
+- No test files/directories were modified; all scratch reproduction scripts were deleted.

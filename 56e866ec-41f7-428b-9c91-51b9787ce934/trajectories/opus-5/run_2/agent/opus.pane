@@ -1,0 +1,200 @@
+........................................................................ [ 97%]
+..............                                                           [100%]
+518 passed, 1 deselected in 3.82s
+imports ok
+/event
+$ cd /workspace/reflex && rm -f repro1.py && git status --short
+M reflex/.templates/web/utils/state.js
+ M reflex/app.py
+ M reflex/components/datadisplay/table.py
+ M reflex/components/tags/iter_tag.py
+ M reflex/config.py
+ M reflex/constants.py
+ M reflex/model.py
+ M reflex/utils/build.py
+$ cd /workspace/reflex && grep -n "namespace\|event" reflex/testing.py | head -30
+354:        event_ns: EventNamespace = cast(
+356:            self.app_instance.sio.namespace_handlers["/event"],
+362:                update = reflex.state.StateUpdate(delta=delta, events=[], final=True)
+364:                # Emit the event.
+366:                    event_ns.emit(
+$ cd /workspace/reflex && sed -n 335,380p reflex/testing.py
+)
+        if self.frontend_url is None:
+            raise RuntimeError("Frontend is not running.")
+        driver = driver_clz() if driver_clz is not None else webdriver.Chrome()
+        driver.get(self.frontend_url)
+        self._frontends.append(driver)
+        return driver
+
+    async def emit_state_updates(self) -> list[Any]:
+        """Send any backend state deltas to the frontend.
+
+        Returns:
+            List of awaited response from each EventNamespace.emit() call.
+
+        Raises:
+            RuntimeError: when the app hasn't started running
+        """
+        if self.app_instance is None or self.app_instance.sio is None:
+            raise RuntimeError("App is not running.")
+        event_ns: EventNamespace = cast(
+            EventNamespace,
+            self.app_instance.sio.namespace_handlers["/event"],
+        )
+        pending: list[Coroutine[Any, Any, Any]] = []
+        for state in self.app_instance.state_manager.states.values():
+            delta = state.get_delta()
+            if delta:
+                update = reflex.state.StateUpdate(delta=delta, events=[], final=True)
+                state.clean()
+                # Emit the event.
+                pending.append(
+                    event_ns.emit(
+                        str(reflex.constants.SocketEvent.EVENT),
+                        update.json(),
+                        to=state.get_sid(),
+                    ),
+                )
+        responses = []
+        for request in pending:
+            responses.append(await request)
+        return responses
+
+    def poll_for_content(
+        self,
+        element: "WebElement",
+        timeout: TimeoutType = None,
+$ cd /workspace/reflex && python -c "import esprima" 2>&1 | tail -1; python -c "import pyjsparser" 2>&1 | tail -1; pip download esprima 2>&1 | tail -1
+ModuleNotFoundError: No module named 'esprima'
+ModuleNotFoundError: No module named 'pyjsparser'
+ERROR: No matching distribution found for esprima
+$ cd /workspace/reflex && python - <<'PYEOF'
+$ import subprocess
+$ old = subprocess.run(["git","show","HEAD:reflex/.templates/web/utils/state.js"],capture_output=True,text=True).stdout
+$ new = open("reflex/.templates/web/utils/state.js").read()
+$ for ch in "{}()[]":
+$     print(ch, old.count(ch), new.count(ch))
+$ PYEOF
+{ 65 65
+} 65 65
+( 119 122
+) 119 122
+[ 14 15
+] 14 15
+$ cd /workspace/reflex && cat reflex/.templates/web/next.config.js 2>/dev/null; grep -rn "next.config\|_static" reflex/utils/prerequisites.py reflex/utils/build.py reflex/compiler/*.py | head
+module.exports = {
+  reactStrictMode: true,
+  compress: true,
+};
+reflex/utils/prerequisites.py:215:    next_config_file = os.path.join(constants.WEB_DIR, constants.NEXT_CONFIG_FILE)
+reflex/utils/prerequisites.py:217:    with open(next_config_file, "r") as file:
+reflex/utils/prerequisites.py:226:    with open(next_config_file, "w") as file:
+reflex/utils/build.py:195:        cmd = r'''powershell -Command "Set-Location .web/_static; Compress-Archive -Path .\* -DestinationPath ..\..\frontend.zip -Force"'''
+reflex/utils/build.py:211:        cmd = r"cd .web/_static && zip -r ../../frontend.zip ./*"
+$ cd /workspace/reflex && cat reflex/.templates/web/package.json
+{
+  "name": "reflex",
+  "scripts": {
+    "dev": "next dev",
+    "export": "next build && next export -o _static",
+    "prod": "next start"
+  },
+  "dependencies": {
+    "@chakra-ui/icons": "^2.0.19",
+    "@chakra-ui/react": "^2.6.0",
+    "@chakra-ui/system": "^2.5.6",
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
+    "axios": "^1.4.0",
+    "chakra-react-select": "^4.6.0",
+    "focus-visible": "^5.2.0",
+    "framer-motion": "^10.12.4",
+    "gridjs": "^6.0.6",
+    "gridjs-react": "^6.0.1",
+    "json5": "^2.2.3",
+    "next": "^13.3.1",
+    "next-sitemap": "^4.1.8",
+    "plotly.js": "^2.22.0",
+    "react": "^18.2.0",
+    "react-debounce-input": "^3.3.0",
+    "react-dom": "^18.2.0",
+    "react-dropzone": "^14.2.3",
+    "react-markdown": "^8.0.7",
+    "react-player": "^2.12.0",
+    "react-plotly.js": "^2.6.0",
+    "react-syntax-highlighter": "^15.5.0",
+    "rehype-katex": "^6.0.3",
+    "rehype-raw": "^6.1.1",
+    "remark-gfm": "^3.0.1",
+    "remark-math": "^5.1.1",
+    "socket.io-client": "^4.6.1",
+    "universal-cookie": "^4.0.4",
+    "victory": "^36.6.8"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.14",
+    "postcss": "^8.4.24",
+    "tailwindcss": "^3.3.2"
+  }
+}
+$ cd /workspace/reflex && python -m compileall -q reflex > /dev/null && echo "compile ok" && python -m pytest tests -q --deselect tests/test_testing.py 2>&1 | tail -2 && rm -f /tmp/scratch_test.py /tmp/repro*.py /tmp/render_test.py && rm -rf /tmp/smtest && find . -name "__pycache__" -newer pyproject.toml -path "./reflex/*" | head -3
+compile ok
+..............                                                           [100%]
+518 passed, 1 deselected in 3.91s
+./reflex/compiler/__pycache__
+./reflex/components/tags/__pycache__
+./reflex/components/base/__pycache__
+$ cd /workspace/reflex && find . -name "__pycache__" -path "./reflex/*" -exec rm -rf {} + 2>/dev/null; git status --short
+M reflex/.templates/web/utils/state.js
+ M reflex/app.py
+ M reflex/components/datadisplay/table.py
+ M reflex/components/tags/iter_tag.py
+ M reflex/config.py
+ M reflex/constants.py
+ M reflex/model.py
+ M reflex/utils/build.py
+$ cd /workspace/reflex && ls AGENTS.md 2>/dev/null || echo "no AGENTS.md"
+no AGENTS.md
+$ cd /workspace/reflex && git --no-pager diff --stat
+reflex/.templates/web/utils/state.js   | 23 ++++++++++++++++++-----
+ reflex/app.py                          |  9 ++++++++-
+ reflex/components/datadisplay/table.py | 11 ++++++++++-
+ reflex/components/tags/iter_tag.py     | 26 +++++++++++++++++---------
+ reflex/config.py                       | 19 +++++++++++++++++++
+ reflex/constants.py                    |  6 +++++-
+ reflex/model.py                        |  4 +++-
+ reflex/utils/build.py                  |  3 +++
+ 8 files changed, 83 insertions(+), 18 deletions(-)
+# finish: Report completion of all six issues
+**Checklist: 6 issues found — 6 DONE, 0 BLOCKED.**
+
+### 1. (#1351) Expose `SQLALCHEMY_ECHO` — DONE
+`reflex/model.py::get_engine()` now reads the `SQLALCHEMY_ECHO` environment variable (accepts `true`/`1`, case-insensitive) and passes it as `echo=` to `sqlmodel.create_engine`, instead of the hard-coded `echo=False`. Verified: unset → `False`, `"True"`/`"true"`/`"1"` → `True`, `"False"`/`"false"` → `False`.
+
+### 2. (#1342) Websocket namespace routing when api_url is not at root — DONE
+- `reflex/constants.py`: new `EVENT_NAMESPACE = get_value("EVENT_NAMESPACE")`.
+- `reflex/config.py`: new `Config.event_namespace` field (explicit override) plus `Config.get_event_namespace()`, which derives the namespace from the path of `Endpoint.EVENT.get_url()` (i.e. from `api_url`).
+- `reflex/app.py`: `EventNamespace` is now created with that namespace (falling back to `"/"`), instead of the hard-coded `"/event"`.
+Verified: `api_url="https://www.domain.com/api"` → backend namespace `/api/event` (matching what the socket.io client derives from `eventUrl`); default config still yields `/event`.
+
+### 3. (#1374) `table`: allow `rows` to be a Var — DONE
+`Tbody.create()` now wraps a Var `rows` in a `Foreach` that renders each row as `Tr(cell_type="data", cells=row)` (rows that are plain lists behave exactly as before). The example from the issue previously raised `TypeError: Children of Reflex components must be...`; it now compiles to nested `.map()` JSX (`{state.rows.map((r, i) => <Tr key={i}>{r.map(...)}</Tr>)}`). Var headers/footers already worked and still do.
+
+### 4. (#1329) `on_change` sent twice when `on_key_down` is also used — DONE
+Root cause is the frontend event queue: `processEvent` mutated `state.events` in place with `shift()` while React can recompute/replay state updaters from a stale base (Next.js runs with `reactStrictMode: true`), so with two events queued in one keystroke an event could survive dequeuing and be emitted twice. In `reflex/.templates/web/utils/state.js`:
+- added a module-level `event_processing` flag (synchronous, cannot go stale like the React `result.processing` state) guarding `processEvent`;
+- the queue is no longer mutated: the next event is read with `state.events[0]` and removed with an identity-based `setState(state => ({...state, events: state.events.filter(e => e !== event)}))`, which is idempotent under updater replay;
+- the flag is cleared for locally handled events and when a final update arrives over the socket (`event_processing = !update.final`), mirroring the existing `processing: !result.final` semantics.
+The Python-side event-chain rendering (`Event([...], _e)`) is unchanged, so existing tests remain valid.
+
+### 5. (#1382) Fix sitemap output dir — DONE
+`next-sitemap` defaults to writing into `public/`, so the sitemap/robots.txt never landed in the exported/zipped build. `generate_sitemap_config()` now emits `"outDir": constants.STATIC_DIR` (`_static`, relative to `.web`, which is the cwd used by `generate_sitemap()` and the target of `next export -o _static`). Added `constants.STATIC_DIR` and reused it for `WEB_STATIC_DIR`.
+
+### 6. (#1389) Fix foreach index type — DONE
+`IterTag.get_index_var()` / `get_index_var_arg()` now return `BaseVar(name="i", type_=int, ...)` (preserving the previous `is_local` semantics, so rendering is unchanged: `key={i}` and `.map((arg, i) => ...)`). Besides making type checking happy, indexing a list var with the foreach index (`State.colors[index]`) now works instead of raising “Index must be an integer or an integer var”.
+
+### Verification
+- Full test suite: `518 passed` (`tests/test_testing.py` deselected — it requires Node.js, which is absent in this environment; it failed identically before my changes).
+- `black --check`, `ruff`, `darglint` clean on the changed files; `python -m compileall reflex` clean. (`pyright` cannot run here: it needs to download a node env, and there is no network/node.)
+- Wrote and ran a scratch test file (in `/tmp`, since repo tests must not be modified) covering the event namespace derivation/override, `SQLALCHEMY_ECHO` parsing, index-var typing, Var-backed table rows, and the sitemap `outDir` — 13 passed; then deleted it. No test-tree files were touched.

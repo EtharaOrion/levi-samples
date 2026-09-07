@@ -1,0 +1,200 @@
+   232	  // If every event in the queue was already processed, only clean up the queue.
+   233	  if (event === undefined) {
+   234	    setState(state => ({
+   235	      ...state,
+   236	      events: state.events.filter(e => !processedEvents.has(e)),
+   237	    }));
+   238	    return;
+   239	  }
+   240	
+   241	  // Mark the event as processed so that it is never sent twice.
+   242	  processedEvents.add(event);
+   243	
+   244	  // Set processing to true to block other events from being processed.
+   245	  setResult({ ...result, processing: true });
+   246	
+   247	  // Set new events to avoid reprocessing the same event.
+   248	  setState(state => ({
+   249	    ...state,
+   250	    events: state.events.filter(e => !processedEvents.has(e)),
+   251	  }));
+   252	
+   253	  // Process events with handlers via REST and all others via websockets.
+   254	  let eventSent = false;
+   255	  if (event.handler) {
+   256	
+Review the changes and make sure they are as expected. Edit the file again if necessary.
+# file_editor: /workspace/reflex/sim4.py
+File created successfully at: /workspace/reflex/sim4.py
+$ cd /workspace/reflex && python sim4.py && rm sim4.py
+without dedupe: [keydown, keydown]
+with dedupe:    [keydown, change]
+# file_editor: /workspace/reflex/repro3b.py
+File created successfully at: /workspace/reflex/repro3b.py
+$ cd /workspace/reflex && python repro3b.py 2>&1 | tail -8
+{'name': 'Tbody', 'props': [], 'contents': '', 'args': None, 'special_props': set(), 'children': [{'name': '', 'props': [], 'contents': '', 'args': None, 'special_props': set(), 'children': [{'name': 'Tr', 'props': ['key={i}'], 'contents': '', 'args': None, 'special_props': set(), 'children': [{'name': '', 'props': [], 'contents': '', 'args': None, 'special_props': set(), 'children': [{'name': 'Td', 'props': ['key={i}'], 'contents': '', 'args': None, 'special_props': set(), 'children': [{'name': '', 'props': [], 'contents': '{pthufaun}', 'args': None, 'special_props': set(), 'children': [], 'autofocus': False}], 'autofocus': False}], 'iterable': BaseVar(name='lalwrdqx', type_=<class 'list'>, state='', is_local=False, is_string=False), 'render_fn': <bound method Component.create of <class 'reflex.components.datadisplay.table.Td'>>, 'iterable_state': 'lalwrdqx', 'arg_name': 'pthufaun', 'arg_index': BaseVar(name='i', type_=<class 'int'>, state='', is_local=True, is_string=False), 'iterable_type': 'list'}], 'autofocus': False}], 'iterable': <reflex.vars.ComputedVar object at 0xffff8b79be20>, 'render_fn': <function Tbody.create.<locals>.<lambda> at 0xffff912abd90>, 'iterable_state': 'state.table_rows', 'arg_name': 'lalwrdqx', 'arg_index': BaseVar(name='i', type_=<class 'int'>, state='', is_local=True, is_string=False), 'iterable_type': 'list'}], 'autofocus': False}
+$ cd /workspace/reflex && rm -f repro3b.py && python -m pytest tests/ -q 2>&1 | tail -4
+Node.js version 16.8.0 or higher is required to run Reflex.
+=========================== short test summary info ============================
+FAILED tests/test_testing.py::test_app_harness - click.exceptions.Exit
+1 failed, 518 passed in 4.00s
+$ cd /workspace/reflex && git stash && python -m pytest tests/test_testing.py -q 2>&1 | tail -3; git stash pop
+Saved working directory and index state WIP on (no branch): bfec196 Expose Script component from next/script (#1355)
+=========================== short test summary info ============================
+FAILED tests/test_testing.py::test_app_harness - click.exceptions.Exit
+1 failed in 0.36s
+Not currently on any branch.
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   reflex/.templates/web/utils/state.js
+        modified:   reflex/app.py
+        modified:   reflex/components/datadisplay/table.py
+        modified:   reflex/components/tags/iter_tag.py
+        modified:   reflex/config.py
+        modified:   reflex/constants.py
+        modified:   reflex/model.py
+        modified:   reflex/utils/build.py
+
+no changes added to commit (use "git add" and/or "git commit -a")
+Dropped refs/stash@{0} (1e0acf1725b2407daa32841e356d32216c2c6b84)
+# file_editor: /workspace/reflex/verify_issues.py
+File created successfully at: /workspace/reflex/verify_issues.py
+$ cd /workspace/reflex && python verify_issues.py
+Database is not initialized, run reflex db init first.
+PASS: issue1 default echo off
+Database is not initialized, run reflex db init first.
+PASS: issue1 echo on
+Database is not initialized, run reflex db init first.
+PASS: issue1 echo off
+PASS: issue2 root namespace
+PASS: issue2 sub-path namespace
+PASS: issue2 explicit namespace
+FAIL: issue2 app namespace /event
+PASS: issue3 tbody foreach
+PASS: issue3 iterable state table_state.rows
+PASS: issue3 static rows still work
+PASS: issue5 no outDir by default module.exports = {"siteUrl": "https://example.com", "generateRobotsTxt": true}
+PASS: issue5 outDir on export module.exports = {"siteUrl": "https://example.com", "generateRobotsTxt": true, "outDir": "_static"}
+PASS: issue6 arg is var
+PASS: issue6 arg name
+PASS: issue6 arg type <class 'int'>
+PASS: issue6 index type <class 'int'>
+PASS: issue6 index render {i}
+PASS: issue6 arg render i
+
+failures: ['issue2 app namespace']
+$ cd /workspace/reflex && sed -i 's/    "reflex.config.get_config",/    "reflex.app.get_config",/' verify_issues.py && python verify_issues.py 2>&1 | grep -E "issue2|failures"
+PASS: issue2 root namespace
+PASS: issue2 sub-path namespace
+PASS: issue2 explicit namespace
+PASS: issue2 app namespace /api/event
+failures: []
+# file_editor: /workspace/reflex/reflex/utils/build.py
+The file /workspace/reflex/reflex/utils/build.py has been edited. Here's the result of running `cat -n` on a snippet of /workspace/reflex/reflex/utils/build.py:
+    66	        os.environ[key.upper()] = value
+    67	
+    68	
+    69	def generate_sitemap_config(deploy_url: str, export: bool = False):
+    70	    """Generate the sitemap config file.
+    71	
+    72	    Args:
+    73	        deploy_url: The URL of the deployed app.
+    74	
+Review the changes and make sure they are as expected. Edit the file again if necessary.
+$ cd /workspace/reflex && python verify_issues.py 2>&1 | tail -3 && ruff check reflex/ && black --check reflex/ 2>&1 | tail -2 && darglint reflex/utils/build.py reflex/config.py reflex/app.py reflex/model.py reflex/components/datadisplay/table.py reflex/components/tags/iter_tag.py; echo "lint ok"
+PASS: issue6 arg render i
+
+failures: []
+All done! ✨ 🍰 ✨
+153 files would be left unchanged.
+lint ok
+# file_editor: /workspace/reflex/verify_compile.py
+File created successfully at: /workspace/reflex/verify_compile.py
+$ cd /workspace/reflex && python verify_compile.py 2>&1 | tail -40
+<Thead>
+  <Tr>
+  <Th>
+  {`a`}
+</Th>
+  <Th>
+  {`b`}
+</Th>
+</Tr>
+</Thead>
+  <Tbody>
+  {state.rows.map((hqgenemh, i) => (
+  <Tr key={i}>
+  {hqgenemh.map((poadyxif, i) => (
+  <Td key={i}>
+  {poadyxif}
+</Td>
+))}
+</Tr>
+))}
+</Tbody>
+</Table>
+  {state.rows.map((sxpvknem, i) => (
+  <Text key={i}>
+  {i}
+</Text>
+))}
+</VStack>
+  <NextHead>
+  <title>
+  {`Reflex App`}
+</title>
+  <meta content="A Reflex app." name="description"/>
+  <meta content="favicon.ico" property="og:image"/>
+</NextHead>
+</Fragment>
+    </Fragment>
+  )
+}
+$ cd /workspace/reflex && python verify_compile.py 2>&1 | grep -n "onChange\|onKeyDown" 
+11:  <Input onChange={_e => Event([E("state.on_change", {value:_e.target.value})], _e)} onKeyDown={_e => Event([E("state.on_key_down", {key:_e.key})], _e)} type="text"/>
+$ cd /workspace/reflex && rm -f verify_issues.py verify_compile.py && git status --short && python -m pytest tests/ -q 2>&1 | tail -3
+M reflex/.templates/web/utils/state.js
+ M reflex/app.py
+ M reflex/components/datadisplay/table.py
+ M reflex/components/tags/iter_tag.py
+ M reflex/config.py
+ M reflex/constants.py
+ M reflex/model.py
+ M reflex/utils/build.py
+=========================== short test summary info ============================
+FAILED tests/test_testing.py::test_app_harness - click.exceptions.Exit
+1 failed, 518 passed in 3.95s
+$ cd /workspace/reflex && git --no-pager diff --stat
+reflex/.templates/web/utils/state.js   | 34 ++++++++++++++++++++++++++++++----
+ reflex/app.py                          |  9 ++++++++-
+ reflex/components/datadisplay/table.py | 13 +++++++++++--
+ reflex/components/tags/iter_tag.py     | 18 +++++++++++-------
+ reflex/config.py                       | 21 +++++++++++++++++++++
+ reflex/constants.py                    |  6 +++++-
+ reflex/model.py                        |  5 ++++-
+ reflex/utils/build.py                  | 20 ++++++++++++--------
+ 8 files changed, 102 insertions(+), 24 deletions(-)
+Checklist: 6 issues found — all 6 DONE, 0 BLOCKED.
+
+**1. Expose `SQLALCHEMY_ECHO` (#1351) — DONE**
+`reflex/model.py`: `get_engine()` now reads the `SQLALCHEMY_ECHO` environment variable at call time and passes it to `sqlmodel.create_engine(..., echo=echo_db_query)` (accepts `True`/`true`, defaults off). Verified with a script: default `echo=False`, `SQLALCHEMY_ECHO=True` → `echo=True`.
+
+**2. Websocket namespace when api_url is not root (#1342) — DONE**
+- `reflex/config.py`: new `Config.get_event_namespace()` that derives the namespace from the path of `api_url` (`http://host:8000` → `/event`, `https://www.domain.com/api` → `/api/event`), plus an optional `event_namespace` config field (normalised to a leading `/`) for explicit overrides.
+- `reflex/constants.py`: new `EVENT_NAMESPACE` env-driven constant.
+- `reflex/app.py`: `EventNamespace` is now created with `config.get_event_namespace()` (raising `ValueError` if empty) instead of the hardcoded `"/event"`, so the backend namespace matches what the socket.io client derives from `eventUrl`.
+
+**3. `table` rows as a Var (#1374) — DONE**
+`reflex/components/datadisplay/table.py`: `Tbody.create` now wraps a `Var` in a `Foreach` (`rows → Tr(cell_type="data", cells=row)`) instead of iterating it (which previously raised `TypeError`). Static rows behave exactly as before. Compiled output verified: `{state.table_rows.map((r, i) => (<Tr key={i}>{r.map(...)}</Tr>))}`.
+
+**4. `on_change` sent twice with `on_key_down` (#1329) — DONE**
+Root cause: React state updates are asynchronous, so when two DOM events (keydown + input) commit before the passive effects flush, two effect runs both observe `result.processing === false` and one holds a *stale copy* of the event queue that still contains the already-sent event → the event is emitted twice. `reflex/.templates/web/utils/state.js`: `processEvent` now tracks dispatched events in a module-level `WeakSet` (`processedEvents`), skips already-processed events when popping the queue, and filters them out of the latest queue. A Python simulation of the two-commit race reproduces `[keydown, keydown]` before the fix and `[keydown, change]` after.
+
+**5. Sitemap output dir (#1382) — DONE**
+`reflex/utils/build.py`: `generate_sitemap_config(deploy_url, export=False)` adds `"outDir": "_static"` when generating for an export, and `export_app` passes `export=True`, so `next-sitemap` writes into `.web/_static` (the directory that is zipped) instead of `.web/public`. Added `constants.STATIC_DIR` (and reused it for `WEB_STATIC_DIR`).
+
+**6. Foreach index type (#1389) — DONE**
+`reflex/components/tags/iter_tag.py`: `get_index_var()`/`get_index_var_arg()` now return `BaseVar(name="i", type_=int, ...)` instead of string-typed vars (rendering is unchanged: `{i}` / `i`).
+
+Validation: `python -m pytest tests/ -q` → 518 passed, 1 failed (`tests/test_testing.py::test_app_harness`, a pre-existing failure caused by Node.js not being installed — it fails identically on the unmodified tree). `ruff`, `black --check` and `darglint` are clean (pyright cannot run: it requires Node). No test files or repository plumbing were touched.

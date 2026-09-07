@@ -1,0 +1,200 @@
+def check(name, cond, extra=""):
+    print(f"{'PASS' if cond else 'FAIL'}: {name} {extra}")
+    if not cond:
+        failures.append(name)
+# ---- Issue 1: SQLALCHEMY_ECHO -------------------------------------------------
+os.environ.pop("SQLALCHEMY_ECHO", None)
+check("1 default echo off", get_engine("sqlite:///:memory:").echo is False)
+for value in ("True", "true", "TRUE"):
+    os.environ["SQLALCHEMY_ECHO"] = value
+    check(f"1 echo on for {value!r}", get_engine("sqlite:///:memory:").echo is True)
+os.environ["SQLALCHEMY_ECHO"] = "False"
+check("1 echo off for 'False'", get_engine("sqlite:///:memory:").echo is False)
+os.environ.pop("SQLALCHEMY_ECHO")
+# ---- Issue 2: websocket namespace --------------------------------------------
+c = Config(app_name="x")
+check("2 default namespace", c.get_event_namespace() == "/event", c.get_event_namespace())
+c2 = Config(app_name="x", api_url="https://www.domain.com/api")
+check("2 sub-path namespace", c2.get_event_namespace() == "/api/event", c2.get_event_namespace())
+c3 = Config(app_name="x", api_url="http://localhost:8000/deep/path")
+check("2 deep path namespace", c3.get_event_namespace() == "/deep/path/event", c3.get_event_namespace())
+c4 = Config(app_name="x", api_url="https://www.domain.com/api", event_namespace="/custom/")
+check("2 explicit namespace", c4.get_event_namespace() == "/custom", c4.get_event_namespace())
+import reflex.app as rx_app
+orig_get_config = rx_app.get_config
+rx_app.get_config = lambda: c2
+try:
+    app = rx.App()
+    check("2 app uses config namespace", app.event_namespace.namespace == "/api/event", app.event_namespace.namespace)
+    check("2 sio registered ns", "/api/event" in app.sio.namespace_handlers)
+finally:
+    rx_app.get_config = orig_get_config
+app = rx.App()
+check("2 default app namespace", app.event_namespace.namespace == "/event", app.event_namespace.namespace)
+# ---- Issue 3: table rows as Var -----------------------------------------------
+class TableState(rx.State):
+    rows: List[List[str]] = [["a", "b"]]
+    headers: List[str] = ["h1", "h2"]
+    footers: List[str] = ["f1", "f2"]
+tbl = Table.create(headers=TableState.headers, rows=TableState.rows, footers=TableState.footers)
+tbody = [c for c in tbl.children if isinstance(c, Tbody)][0]
+check("3 tbody child is Foreach", isinstance(tbody.children[0], Foreach))
+code = _compile_page(rx.fragment(tbl), TableState, None)
+check("3 rows map rendered", "state.rows.map(" in code)
+check("3 nested cells map rendered", len(re.findall(r"\.map\(", code)) == 4, str(re.findall(r"\.map\(", code)))
+# static rows still work
+static = Table.create(headers=["h"], rows=[["a"], ["b"]], footers=["f"], caption="c")
+static_body = [c for c in static.children if isinstance(c, Tbody)][0]
+check("3 static rows unchanged", len(static_body.children) == 2 and all(isinstance(c, Tr) for c in static_body.children))
+# mixed: static rows containing a Var cell list
+mixed = Tbody.create(rows=[TableState.headers])
+check("3 mixed static row with var cells", isinstance(mixed.children[0], Tr))
+# ---- Issue 5: sitemap out dir -------------------------------------------------
+cwd = os.getcwd()
+tmp = tempfile.mkdtemp()
+try:
+    os.chdir(tmp)
+    os.makedirs(constants.WEB_DIR, exist_ok=True)
+    build.generate_sitemap_config("https://example.com")
+    cfg = json.loads(open(constants.SITEMAP_CONFIG_FILE).read().split("=", 1)[1])
+    check("5 no outDir without export", "outDir" not in cfg, str(cfg))
+    build.generate_sitemap_config("https://example.com", export=True)
+    cfg = json.loads(open(constants.SITEMAP_CONFIG_FILE).read().split("=", 1)[1])
+    check("5 outDir on export", cfg.get("outDir") == constants.STATIC_DIR, str(cfg))
+    check("5 static dir consistent", constants.WEB_STATIC_DIR.endswith(constants.STATIC_DIR))
+finally:
+    os.chdir(cwd)
+# ---- Issue 6: foreach index type ----------------------------------------------
+check("6 index var type int", IterTag.get_index_var().type_ is int)
+check("6 index arg type int", IterTag.get_index_var_arg().type_ is int)
+check("6 index var not local", IterTag.get_index_var().is_local is False)
+check("6 index arg local", IterTag.get_index_var_arg().is_local is True)
+class FEState(rx.State):
+    items: List[str] = ["a", "b"]
+comp = rx.foreach(FEState.items, lambda item, i: rx.text(item))
+rend = comp.render()
+check("6 arg_index renders as i", str(rend["arg_index"]) == "i", str(rend["arg_index"]))
+check("6 arg_index type int", rend["arg_index"].type_ is int)
+code = _compile_page(rx.fragment(comp), FEState, None)
+check("6 map signature", "map((" in code and ", i) => (" in code)
+# ---- Issue 4: js template (static inspection) ---------------------------------
+js = open("reflex/.templates/web/utils/state.js").read()
+check("4 removes event by identity", "events: state.events.filter(e => e !== event)" in js)
+check("4 skips already sent events", "sentEvents.has(event)" in js and "new WeakSet()" in js)
+check("4 no stale queue reassign", "events: state.events }));" not in js)
+print()
+print("FAILURES:", failures if failures else "none")
+PYEOF
+
+
+PYTHONPATH=/workspace/reflex python /tmp/verify_all.py
+$ cd /workspace/reflex && PYTHONPATH=/workspace/reflex python /tmp/verify_all.py
+Database is not initialized, run reflex db init first.
+PASS: 1 default echo off
+Database is not initialized, run reflex db init first.
+PASS: 1 echo on for 'True'
+Database is not initialized, run reflex db init first.
+PASS: 1 echo on for 'true'
+Database is not initialized, run reflex db init first.
+PASS: 1 echo on for 'TRUE'
+Database is not initialized, run reflex db init first.
+PASS: 1 echo off for 'False'
+PASS: 2 default namespace /event
+PASS: 2 sub-path namespace /api/event
+PASS: 2 deep path namespace /deep/path/event
+PASS: 2 explicit namespace /custom
+PASS: 2 app uses config namespace /api/event
+PASS: 2 sio registered ns
+PASS: 2 default app namespace /event
+PASS: 3 tbody child is Foreach
+PASS: 3 rows map rendered
+PASS: 3 nested cells map rendered ['.map(', '.map(', '.map(', '.map(']
+PASS: 3 static rows unchanged
+PASS: 3 mixed static row with var cells
+PASS: 5 no outDir without export {'siteUrl': 'https://example.com', 'generateRobotsTxt': True}
+PASS: 5 outDir on export {'siteUrl': 'https://example.com', 'generateRobotsTxt': True, 'outDir': '_static'}
+PASS: 5 static dir consistent
+PASS: 6 index var type int
+PASS: 6 index arg type int
+PASS: 6 index var not local
+PASS: 6 index arg local
+PASS: 6 arg_index renders as i i
+PASS: 6 arg_index type int
+PASS: 6 map signature
+PASS: 4 removes event by identity
+PASS: 4 skips already sent events
+PASS: 4 no stale queue reassign
+
+FAILURES: none
+$ cd /workspace/reflex && python -m compileall -q reflex/config.py reflex/app.py reflex/model.py reflex/constants.py reflex/utils/build.py reflex/components/tags/iter_tag.py reflex/components/datadisplay/table.py && python -m pytest tests -q --deselect tests/test_testing.py::test_app_harness 2>&1 | tail -3
+........................................................................ [ 97%]
+..............                                                           [100%]
+518 passed, 1 deselected in 3.81s
+$ cd /workspace/reflex && ls -a | head -20 && cat AGENTS.md 2>/dev/null
+.
+..
+.coveragerc
+.git
+.github
+.gitignore
+.pre-commit-config.yaml
+.pytest_cache
+.ruff_cache
+CODE_OF_CONDUCT.md
+CONTRIBUTING.md
+LICENSE
+README.md
+SECURITY.md
+docker-example
+docs
+integration
+poetry.lock
+pyproject.toml
+reflex
+$ cd /workspace/reflex && ls .github/workflows && grep -rn "prettier\|eslint" .github/ package.json 2>/dev/null | head
+build.yml  integration_examples.yml  integration_website.yml
+$ cd /workspace/reflex && rm -f /tmp/repro*.py /tmp/sim4*.py /tmp/r1.py /tmp/verify_all.py && git status --short
+M reflex/.templates/web/utils/state.js
+ M reflex/app.py
+ M reflex/components/datadisplay/table.py
+ M reflex/components/tags/iter_tag.py
+ M reflex/config.py
+ M reflex/constants.py
+ M reflex/model.py
+ M reflex/utils/build.py
+$ cd /workspace/reflex && git --no-pager diff --stat && python -m pytest tests -q --deselect tests/test_testing.py::test_app_harness 2>&1 | tail -3
+reflex/.templates/web/utils/state.js   | 26 +++++++++++++++++++++-----
+ reflex/app.py                          |  4 ++--
+ reflex/components/datadisplay/table.py | 11 ++++++++++-
+ reflex/components/tags/iter_tag.py     | 25 ++++++++++++++++---------
+ reflex/config.py                       | 19 +++++++++++++++++++
+ reflex/constants.py                    |  4 +++-
+ reflex/model.py                        |  5 ++++-
+ reflex/utils/build.py                  | 21 ++++++++++++---------
+ 8 files changed, 87 insertions(+), 28 deletions(-)
+........................................................................ [ 97%]
+..............                                                           [100%]
+518 passed, 1 deselected in 3.89s
+**Checklist: 6 issues found — 6 DONE, 0 BLOCKED.**
+
+### 1. Expose `SQLALCHEMY_ECHO` (#1351) — DONE
+`reflex/model.py`: `get_engine()` now reads the `SQLALCHEMY_ECHO` environment variable at engine-creation time (`"true"`, case-insensitive) and passes it as `echo=` to `sqlmodel.create_engine`. Default behaviour (echo off) is unchanged.
+
+### 2. Websocket namespace when backend is not at root (#1342) — DONE
+- `reflex/config.py`: added `Config.event_namespace` option and `Config.get_event_namespace()`, which derives the namespace from `api_url` (`https://d.com/api` → `/api/event`), matching what socket.io-client on the frontend derives from the event URL. An explicit `event_namespace` config value overrides it (normalised to a leading `/`, no trailing `/`).
+- `reflex/app.py`: `App.__init__` now creates `EventNamespace(config.get_event_namespace(), self)` instead of hard-coding `"/event"`; `EventNamespace.__init__` accepts `Optional[str]`.
+Verified: default config still yields `/event`; `api_url="https://www.domain.com/api"` yields `/api/event` and is what gets registered with `sio`.
+
+### 3. `table`: allow `rows` to be a Var (#1374) — DONE
+`reflex/components/datadisplay/table.py`: `Tbody.create` wraps a `Var` of rows in a `Foreach` that renders each row as `Tr.create(cell_type="data", cells=row)`, which in turn renders the cells with the existing nested-`Foreach` support. Static rows behave exactly as before. Compiles to `{state.rows.map((row, i) => (<Tr ...>{row.map((cell, i) => (<Td .../>))}</Tr>))}`.
+
+### 4. `on_change` sent twice with `on_key_down` (#1329) — DONE
+`reflex/.templates/web/utils/state.js`: the queue was dequeued by mutating (`shift()`) a possibly-stale copy of `state.events`, while `setState(state => ({...state, events: state.events}))` re-set the *latest* (unmutated) queue — so when a second event was queued in between (key_down + change), the event stayed queued and was sent again. Now the processed event is removed from the latest state by identity (`filter(e => e !== event)`), and a module-level `WeakSet` of already-sent events guarantees an event is never emitted twice even from a stale queue copy. Modelled the React update flow to confirm the old code duplicates and the new code does not, while the single-handler path is unchanged.
+
+### 5. Fix sitemap output dir (#1382) — DONE
+`reflex/constants.py`: added `STATIC_DIR = "_static"` (now used to build `WEB_STATIC_DIR`). `reflex/utils/build.py`: `generate_sitemap_config(deploy_url, export=False)` adds `"outDir": constants.STATIC_DIR` when generating for an export, and `export_app` calls it with `export=True`, so `next-sitemap` writes `sitemap.xml`/`robots.txt` into the exported static build instead of `.web/public`.
+
+### 6. Fix foreach index type (#1389) — DONE
+`reflex/components/tags/iter_tag.py`: `get_index_var()` / `get_index_var_arg()` now return `BaseVar(name="i", type_=int, ...)` (previously `str`), keeping their `is_local` semantics so the generated JS (`map((item, i) => ...)`, `key={i}`) is byte-for-byte identical.
+
+**Verification:** wrote and ran a repro for every issue before/after the change, plus a combined verification script (30 assertions, all passing, since deleted). `pytest tests` passes: 518 passed; `tests/test_testing.py::test_app_harness` was deselected because it fails on the pristine checkout too (no Node.js in this environment). `black`, `ruff` and `darglint` are clean on the changed files; `pyright` cannot run here (it needs to download node). No test files, CI files or other repo plumbing were touched.

@@ -1,0 +1,288 @@
+diff --git a/reflex/.templates/web/utils/state.js b/reflex/.templates/web/utils/state.js
+index 299aab0..d7dfd73 100644
+--- a/reflex/.templates/web/utils/state.js
++++ b/reflex/.templates/web/utils/state.js
+@@ -23,6 +23,13 @@ const cookies = new Cookies();
+ // Dictionary holding component references.
+ export const refs = {};
+ 
++// Events that have already been processed.
++// Since react state updates are asynchronous, the event queue that a render
++// (or an effect) is holding may be a stale copy that still contains events
++// which have already been sent to the server. Keeping track of the events that
++// were processed (by identity) ensures that each event is only sent once.
++const processedEvents = new WeakSet();
++
+ /**
+  * Generate a UUID (Used for session tokens).
+  * Taken from: https://stackoverflow.com/questions/105034/how-do-i-create-a-guid-uuid
+@@ -215,14 +222,33 @@ export const processEvent = async (
+     return;
+   }
+ 
++  // Get the next event to apply, skipping any event that was already processed
++  // (the event queue held by this render may be a stale copy).
++  let event = state.events.shift();
++  while (event !== undefined && processedEvents.has(event)) {
++    event = state.events.shift();
++  }
++
++  // If every event in the queue was already processed, only clean up the queue.
++  if (event === undefined) {
++    setState(state => ({
++      ...state,
++      events: state.events.filter(e => !processedEvents.has(e)),
++    }));
++    return;
++  }
++
++  // Mark the event as processed so that it is never sent twice.
++  processedEvents.add(event);
++
+   // Set processing to true to block other events from being processed.
+   setResult({ ...result, processing: true });
+ 
+-  // Apply the next event in the queue.
+-  const event = state.events.shift();
+-
+   // Set new events to avoid reprocessing the same event.
+-  setState(state => ({ ...state, events: state.events }));
++  setState(state => ({
++    ...state,
++    events: state.events.filter(e => !processedEvents.has(e)),
++  }));
+ 
+   // Process events with handlers via REST and all others via websockets.
+   let eventSent = false;
+diff --git a/reflex/app.py b/reflex/app.py
+index c0850c4..235c0d8 100644
+--- a/reflex/app.py
++++ b/reflex/app.py
+@@ -97,6 +97,9 @@ class App(Base):
+         Args:
+             *args: Args to initialize the app with.
+             **kwargs: Kwargs to initialize the app with.
++
++        Raises:
++            ValueError: If the event namespace is not provided in the config.
+         """
+         super().__init__(*args, **kwargs)
+ 
+@@ -128,9 +131,13 @@ class App(Base):
+ 
+         # Create the socket app. Note event endpoint constant replaces the default 'socket.io' path.
+         self.socket_app = ASGIApp(self.sio, socketio_path="")
++        namespace = config.get_event_namespace()
++
++        if not namespace:
++            raise ValueError("event namespace must be provided in the config.")
+ 
+         # Create the event namespace and attach the main app. Not related to any paths.
+-        self.event_namespace = EventNamespace("/event", self)
++        self.event_namespace = EventNamespace(namespace, self)
+ 
+         # Register the event namespace with the socket.
+         self.sio.register_namespace(self.event_namespace)
+diff --git a/reflex/components/datadisplay/table.py b/reflex/components/datadisplay/table.py
+index 57a4c23..6039f0d 100644
+--- a/reflex/components/datadisplay/table.py
++++ b/reflex/components/datadisplay/table.py
+@@ -101,10 +101,19 @@ class Tbody(ChakraComponent):
+             rows (list[list], optional): The rows of the table body. Defaults to None.
+ 
+         Returns:
+-            Component: _description_
++            Component: The table body component
+         """
+         if len(children) == 0:
+-            children = [Tr.create(cell_type="data", cells=row) for row in rows or []]
++            if isinstance(rows, Var):
++                children = [
++                    Foreach.create(
++                        rows, lambda row: Tr.create(cell_type="data", cells=row)
++                    )
++                ]
++            else:
++                children = [
++                    Tr.create(cell_type="data", cells=row) for row in rows or []
++                ]
+         return super().create(*children, **props)
+ 
+ 
+diff --git a/reflex/components/tags/iter_tag.py b/reflex/components/tags/iter_tag.py
+index 675a152..81aefe5 100644
+--- a/reflex/components/tags/iter_tag.py
++++ b/reflex/components/tags/iter_tag.py
+@@ -5,7 +5,7 @@ import inspect
+ from typing import TYPE_CHECKING, Callable, List
+ 
+ from reflex.components.tags.tag import Tag
+-from reflex.vars import Var
++from reflex.vars import BaseVar, Var
+ 
+ if TYPE_CHECKING:
+     from reflex.components.component import Component
+@@ -30,9 +30,11 @@ class IterTag(Tag):
+         Returns:
+             The index var.
+         """
+-        index = Var.create(INDEX_VAR, is_local=False)
+-        assert index is not None
+-        return index
++        return BaseVar(
++            name=INDEX_VAR,
++            type_=int,
++            is_local=False,
++        )
+ 
+     @staticmethod
+     def get_index_var_arg() -> Var:
+@@ -41,9 +43,11 @@ class IterTag(Tag):
+         Returns:
+             The index var.
+         """
+-        arg = Var.create(INDEX_VAR)
+-        assert arg is not None
+-        return arg
++        return BaseVar(
++            name=INDEX_VAR,
++            type_=int,
++            is_local=True,
++        )
+ 
+     @staticmethod
+     def render_component(render_fn: Callable, arg: Var) -> Component:
+diff --git a/reflex/config.py b/reflex/config.py
+index 4e2345b..7f309b9 100644
+--- a/reflex/config.py
++++ b/reflex/config.py
+@@ -206,6 +206,11 @@ class Config(Base):
+     # Whether to enable or disable nextJS gzip compression.
+     next_compression: bool = True
+ 
++    # The event namespace for websocket connections. Defaults to the path of the
++    # backend api_url, e.g. `/event` or `/api/event` if the backend is not
++    # served from the root directory.
++    event_namespace: Optional[str] = constants.EVENT_NAMESPACE
++
+     def __init__(self, *args, **kwargs):
+         """Initialize the config values.
+ 
+@@ -251,6 +256,22 @@ class Config(Base):
+             except AttributeError:
+                 pass
+ 
++    def get_event_namespace(self) -> Optional[str]:
++        """Get the websocket event namespace.
++
++        The namespace is the path of the backend api url, so that the frontend
++        and backend agree on the namespace even when the backend is not served
++        from the root directory, e.g. `https://example.com/api`.
++
++        Returns:
++            The namespace for websocket.
++        """
++        if self.event_namespace:
++            return f'/{self.event_namespace.strip("/")}'
++
++        event_url = f"{self.api_url}{constants.Endpoint.EVENT}"
++        return urllib.parse.urlsplit(event_url).path
++
+ 
+ def get_config() -> Config:
+     """Get the app config.
+diff --git a/reflex/constants.py b/reflex/constants.py
+index 1255e96..ad943e6 100644
+--- a/reflex/constants.py
++++ b/reflex/constants.py
+@@ -75,8 +75,10 @@ STATE_PATH = "/".join([UTILS_DIR, "state"])
+ COMPONENTS_PATH = "/".join([UTILS_DIR, "components"])
+ # The directory where the app pages are compiled to.
+ WEB_PAGES_DIR = os.path.join(WEB_DIR, "pages")
++# The name of the static build directory.
++STATIC_DIR = "_static"
+ # The directory where the static build is located.
+-WEB_STATIC_DIR = os.path.join(WEB_DIR, "_static")
++WEB_STATIC_DIR = os.path.join(WEB_DIR, STATIC_DIR)
+ # The directory where the utils file is located.
+ WEB_UTILS_DIR = os.path.join(WEB_DIR, UTILS_DIR)
+ # The directory where the assets are located.
+@@ -108,6 +110,8 @@ BACKEND_PORT = get_value("BACKEND_PORT", "8000")
+ API_URL = get_value("API_URL", "http://localhost:8000")
+ # The deploy url
+ DEPLOY_URL = get_value("DEPLOY_URL")
++# The websocket event namespace. If not set, it is derived from the api url.
++EVENT_NAMESPACE = get_value("EVENT_NAMESPACE")
+ # bun root location
+ BUN_ROOT_PATH = "$HOME/.bun"
+ # The default path where bun is installed.
+diff --git a/reflex/model.py b/reflex/model.py
+index 2575be3..325f0f8 100644
+--- a/reflex/model.py
++++ b/reflex/model.py
+@@ -1,5 +1,6 @@
+ """Database built into Reflex."""
+ 
++import os
+ from collections import defaultdict
+ from pathlib import Path
+ from typing import Any, Optional
+@@ -40,9 +41,11 @@ def get_engine(url: Optional[str] = None):
+         console.print(
+             "[red]Database is not initialized, run [bold]reflex db init[/bold] first."
+         )
++    # Print the SQL queries if the SQLALCHEMY_ECHO env var is set.
++    echo_db_query = os.environ.get("SQLALCHEMY_ECHO", "False").lower() == "true"
+     return sqlmodel.create_engine(
+         url,
+-        echo=False,
++        echo=echo_db_query,
+         connect_args={"check_same_thread": False} if conf.admin_dash else {},
+     )
+ 
+diff --git a/reflex/utils/build.py b/reflex/utils/build.py
+index bf36f85..041f9a1 100644
+--- a/reflex/utils/build.py
++++ b/reflex/utils/build.py
+@@ -66,21 +66,25 @@ def set_os_env(**kwargs):
+         os.environ[key.upper()] = value
+ 
+ 
+-def generate_sitemap_config(deploy_url: str):
++def generate_sitemap_config(deploy_url: str, export: bool = False):
+     """Generate the sitemap config file.
+ 
+     Args:
+         deploy_url: The URL of the deployed app.
++        export: If the sitemap are generated for an export.
+     """
+     # Import here to avoid circular imports.
+     from reflex.compiler import templates
+ 
+-    config = json.dumps(
+-        {
+-            "siteUrl": deploy_url,
+-            "generateRobotsTxt": True,
+-        }
+-    )
++    config = {
++        "siteUrl": deploy_url,
++        "generateRobotsTxt": True,
++    }
++
++    if export:
++        config["outDir"] = constants.STATIC_DIR
++
++    config = json.dumps(config)
+ 
+     with open(constants.SITEMAP_CONFIG_FILE, "w") as f:
+         f.write(templates.SITEMAP_CONFIG(config=config))
+@@ -116,7 +120,7 @@ def export_app(
+ 
+     # Generate the sitemap file.
+     if deploy_url is not None:
+-        generate_sitemap_config(deploy_url)
++        generate_sitemap_config(deploy_url, export=True)
+ 
+     # Create a progress object
+     progress = Progress(
