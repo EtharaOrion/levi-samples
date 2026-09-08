@@ -1,4 +1,4 @@
-FROM debian:bookworm-slim AS python-fetch
+FROM debian:bookworm-slim@sha256:88200866dfff7ea7f5cbcb6ec7c8a701889efe6fe859fe64d6990e4b07ea4171 AS python-fetch
 
 # S-002 (partial): pipefail makes the curl|tar pipeline fail loud on curl errors;
 # SHA256 verification deferred per user constraint (curl|tar format required).
@@ -20,7 +20,7 @@ RUN mkdir -p /opt/python && \
     | tar -xzC /opt/python --strip-components=1
 
 # ============================================
-FROM 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-milo/dgtlmoon_m_changedetection.io:pr-3433
+FROM 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-milo/dgtlmoon_m_changedetection.io:pr-3433@sha256:7277e71db6f82f6a6bd6749c1d0a6e91b4396ad02cb6215c933d79fae10e1be9
 
 USER root
 
