@@ -14,7 +14,7 @@ The whole project in six numbers. Every section after this one expands one of th
 
 | metric | value | plain meaning |
 | --- | --- | --- |
-| worst disposition | HOLD (waiting on a person or an open gap) | the worst outcome any run reached |
+| worst disposition | BLOCK (refused until a new candidate is built) | the worst outcome any run reached |
 | open gates | 0 | stops waiting for a human signature |
 | open runs | 1 | sittings that have not finished |
 | samples occupancy | 0 of 30 (0%) | how full the public shelf of thirty is |
@@ -63,12 +63,12 @@ How the runs of each instrument ended. The worst outcome is shown first because 
 | --- | --- | --- | --- | --- | --- |
 | ENGRAM | no run | no run | no run | no run | no run |
 | FORGE | no run | no run | no run | no run | no run |
-| CRUCIBLE | HOLD (waiting on a person or an open gap) | 0 | 1 | 0 | 1 |
+| CRUCIBLE | BLOCK (refused until a new candidate is built) | 1 | 0 | 0 | 1 |
 
 ```mermaid
 pie showData
     title Dispositions
-    "HOLD" : 1
+    "BLOCK" : 1
 ```
 
 ## Decisions needed
@@ -146,7 +146,16 @@ xychart-beta
 
 What is standing in the way: gaps are required work nothing covers yet, escalations are runs that raised a problem, and open gates are stops waiting for a signature.
 
-no blocker is recorded
+| instrument | gaps | runs with escalations | open gate names |
+| --- | --- | --- | --- |
+| CRUCIBLE | 0 | 1 | none |
+
+```mermaid
+xychart-beta
+    x-axis ["CRUCIBLE gaps", "CRUCIBLE gates"]
+    y-axis 0 --> 1
+    bar [0, 0]
+```
 
 ## Sign-off log
 
@@ -184,7 +193,7 @@ FORGE is the author. It writes new tasks in batches, proves each one against its
 
 CRUCIBLE is the inspector. It audits finished work against recorded evidence and never sees the difficulty targets FORGE was aiming at.
 
-- status: HOLD (waiting on a person or an open gap)
+- status: BLOCK (refused until a new candidate is built)
 - phase: 1
 - progress: phases 2 of 4 (50%), gates 1 of 1 (100%)
 - pending: 0 open gates, 0 gaps
@@ -198,7 +207,7 @@ xychart-beta
 
 | run | principal | started | closed | run elapsed, including waits | disposition | phase | closure |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| crucible-ankitporwal04-20260923t005222z-dba1b1 | porwalankit443@gmail.com | 2026-09-23T00:53:07Z | unknown | open | HOLD | 1 | open |
+| crucible-ankitporwal04-20260923t005222z-dba1b1 | porwalankit443@gmail.com | 2026-09-23T00:53:07Z | unknown | open | BLOCK | 1 | open |
 
 ## History
 
@@ -206,7 +215,7 @@ Every run ever recorded, in the order it started. A run that arrives late is ins
 
 | started | instrument | run | principal | disposition | phase | closed | closure |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 2026-09-23T00:53:07Z | CRUCIBLE | crucible-ankitporwal04-20260923t005222z-dba1b1 | porwalankit443@gmail.com | HOLD | 1 | unknown | open |
+| 2026-09-23T00:53:07Z | CRUCIBLE | crucible-ankitporwal04-20260923t005222z-dba1b1 | porwalankit443@gmail.com | BLOCK | 1 | unknown | open |
 
 ## Flag legend
 

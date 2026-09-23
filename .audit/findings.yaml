@@ -2126,7 +2126,7 @@ disposition: BLOCK
 disposition_basis: The harness computed BLOCK as the cap over every instrument result. Block-capable findings
   stand from fifteen instruments and the selfcheck receipt carries seven required rows that never ran,
   which principle 7 treats as broken instruments rather than gaps. No waiver promotes this to SHIP.
-evidence_content_digest: a5c9f0a37a2d9719cc95ef39cd37c3d2dacc0a566c4f4c6030bef1499c90b480
+evidence_content_digest: d7c89fddc16e5985ad4838442ff0df73ee4d8cbc5a7a81cac854b04a0c651438
 findings:
 - bucket: deterministic
   caps: BLOCK
