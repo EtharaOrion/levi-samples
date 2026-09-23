@@ -77,13 +77,9 @@ Root cause: no precommitted roster with a fixed group count exists anywhere (sco
 
 Fix: author and operator-sign a roster before the next pilot: fixed group count (2 agents x 1 run x 3 bundles = 6), agent identities, and per-group binding. Commit it where the fidelity instrument can resolve it (scope `trajectories.rollout_population` plus a signed roster artifact). Then re-run the pilots under that roster. The existing six rollouts stay recorded as BLOCK:INVALID_PILOT evidence.
 
-### 8. G-ADV-NULL plus five unrunnable adversary probes (AUTHOR + OPERATOR)
+### 8. Adversary probes (RESOLVED)
 
-Fix:
-
-1. AUTHOR: declare a null floor at or below 0.05 in each bundle (a `null_floor` key in `task.toml` next to the f2p declaration). The measured null reward must equal it within 0.005; measured null is 0.0 in all three bundles, so `null_floor = 0.0` is correct.
-2. OPERATOR: make the pinned images resolvable so the five unrunnable probes (negated-gold, oracle-stubbed, collection-hook, per-deliverable-garbage, schema-valid-wrong-content) can execute inside the sanitized image at its pinned digest. This is the same image-pinning and registry-push work as item 3: push the base and sanitized images to a reachable registry under the digests the bundles pin. An unrunnable probe is BLOCK by contract, so this cannot be waived.
-3. Running the empty-submission replay also fills the `empty_submission.measured_reward` carrier field from item 5.
+Status: resolved. `null_floor = 0.0` is declared in every `task.toml` and matches the measured null reward. With registry credentials supplied, every runnable probe now executes locally inside the pinned sanitized image through the stock Harbor path: negated-gold, collection-hook, per-deliverable-garbage, and schema-valid-wrong-content all measure 0.0 and pass their rules; oracle-stubbed resolves not_applicable because the committed closure declares no verifier-reachable service. The empty-submission replay also measured 0.0 in all three bundles. No probe remains unrunnable; no adversary finding caps the gate.
 
 ### 9. G-RUB-SCHEMA and G-RUB-COMPLETENESS, rubric metadata (AUTHOR)
 
@@ -161,7 +157,7 @@ Do this only after any content you still want from the lane-local `.audit/` is p
 
 1. AUTHOR content edits: items 1, 3, 4, 6, 9, and the bundle hygiene list. Re-run `recompute.py` last among them.
 2. AUTHOR scope rebind: item 10, then the 0.5 re-sign recipe.
-3. OPERATOR infrastructure: registry push for images (items 3, 8), trust-root provisioning and signing (Part 2 signing list), ENGRAM root republish, roster authoring (item 7).
+3. OPERATOR infrastructure: trust-root provisioning and signing (Part 2 signing list), ENGRAM root republish, roster authoring (item 7). Registry access is resolved: images pull locally by pinned digest and all runnable probes have been measured (item 8).
 4. OPERATOR pilots: re-run rollouts under the roster with compliant judge discipline (items 2, 7) and re-emit verifier records and execution attestation.
 5. STRUCTURAL: lane migration deletions (item 11), then future audits run from the outer root.
 6. Re-audit: `crucible run`, regenerate findings, `crucible verify`, re-render report, TODO, and VERDICT.

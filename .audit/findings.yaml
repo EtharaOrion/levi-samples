@@ -24,7 +24,7 @@ adversary_probes:
   ran: true
   rule: measured reward must be exactly 0.0
 - bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-  disposition_cap: BLOCK
+  disposition_cap: SHIP
   instrument: G-ADV-NEGATED
   measured_reward: 0.0
   outcome: null
@@ -32,65 +32,65 @@ adversary_probes:
   ran: true
   rule: measured reward must be at or below the declared null floor 0.0
 - bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-  disposition_cap: BLOCK
+  disposition_cap: SHIP
   instrument: G-ADV-NEGATED
+  measured_reward: 0.0
+  outcome: null
+  probe: negated-gold
+  ran: true
+  rule: measured reward must be at or below the declared null floor 0.0
+- bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+  disposition_cap: SHIP
+  instrument: G-ADV-NEGATED
+  measured_reward: 0.0
+  outcome: null
+  probe: negated-gold
+  ran: true
+  rule: measured reward must be at or below the declared null floor 0.0
+- bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+  disposition_cap: SHIP
+  instrument: G-ADV-IDENTIFIERS
+  measured_reward: 0.0
+  outcome: null
+  probe: truth-identifier-list
+  ran: true
+  rule: measured reward must be at or below the declared null floor 0.0
+- bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+  disposition_cap: SHIP
+  instrument: G-ADV-IDENTIFIERS
+  measured_reward: 0.0
+  outcome: null
+  probe: truth-identifier-list
+  ran: true
+  rule: measured reward must be at or below the declared null floor 0.0
+- bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+  disposition_cap: SHIP
+  instrument: G-ADV-IDENTIFIERS
+  measured_reward: 0.0
+  outcome: null
+  probe: truth-identifier-list
+  ran: true
+  rule: measured reward must be at or below the declared null floor 0.0
+- bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+  disposition_cap: SHIP
+  instrument: G-ADV-STUBBED
   measured_reward: null
   outcome: null
-  probe: negated-gold
-  ran: true
-  rule: measured reward must be at or below the declared null floor 0.0
-- bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-  disposition_cap: BLOCK
-  instrument: G-ADV-NEGATED
-  measured_reward: 0.0
-  outcome: null
-  probe: negated-gold
-  ran: true
-  rule: measured reward must be at or below the declared null floor 0.0
-- bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-  disposition_cap: SHIP
-  instrument: G-ADV-IDENTIFIERS
-  measured_reward: 0.0
-  outcome: null
-  probe: truth-identifier-list
-  ran: true
-  rule: measured reward must be at or below the declared null floor 0.0
-- bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-  disposition_cap: SHIP
-  instrument: G-ADV-IDENTIFIERS
-  measured_reward: 0.0
-  outcome: null
-  probe: truth-identifier-list
-  ran: true
-  rule: measured reward must be at or below the declared null floor 0.0
-- bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-  disposition_cap: SHIP
-  instrument: G-ADV-IDENTIFIERS
-  measured_reward: 0.0
-  outcome: null
-  probe: truth-identifier-list
-  ran: true
-  rule: measured reward must be at or below the declared null floor 0.0
-- bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-  disposition_cap: BLOCK
-  instrument: G-ADV-STUBBED
-  measured_reward: 1.0
-  outcome: null
   probe: oracle-stubbed
   ran: true
   rule: measured reward must be at or below the declared null floor 0.0
 - bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-  disposition_cap: BLOCK
+  disposition_cap: SHIP
   instrument: G-ADV-STUBBED
-  measured_reward: 1.0
+  measured_reward: null
   outcome: null
   probe: oracle-stubbed
   ran: true
   rule: measured reward must be at or below the declared null floor 0.0
 - bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-  disposition_cap: BLOCK
+  disposition_cap: SHIP
   instrument: G-ADV-STUBBED
-  measured_reward: 1.0
+  measured_reward: null
   outcome: null
   probe: oracle-stubbed
   ran: true
@@ -120,25 +120,25 @@ adversary_probes:
   ran: true
   rule: measured reward must be at or below the declared null floor 0.0
 - bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-  disposition_cap: BLOCK
+  disposition_cap: SHIP
   instrument: G-ADV-PER-DELIVERABLE
-  measured_reward: 1.0
+  measured_reward: 0.0
   outcome: null
   probe: per-deliverable-garbage
   ran: true
   rule: measured reward must lose at least 0.2 against the oracle reward
 - bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-  disposition_cap: BLOCK
+  disposition_cap: SHIP
   instrument: G-ADV-PER-DELIVERABLE
-  measured_reward: 1.0
+  measured_reward: 0.0
   outcome: null
   probe: per-deliverable-garbage
   ran: true
   rule: measured reward must lose at least 0.05555555555555555 against the oracle reward
 - bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-  disposition_cap: BLOCK
+  disposition_cap: SHIP
   instrument: G-ADV-PER-DELIVERABLE
-  measured_reward: 1.0
+  measured_reward: 0.0
   outcome: null
   probe: per-deliverable-garbage
   ran: true
@@ -193,9 +193,9 @@ adversary_probes:
   rule: measured reward must be at or below the declared null floor 0.0
 counts:
   coverage_gaps_total: 116
-  findings_block: 14
+  findings_block: 7
   findings_hold: 46
-  findings_total: 60
+  findings_total: 53
   instruments_not_run: 6
   instruments_total: 60
   ledger_rows: 88
@@ -1332,19 +1332,6 @@ coverage_gaps:
   surface: verifier_robustness
 critical_classes:
 - caps:
-    BLOCK: 7
-  class_cap: BLOCK
-  critical_class: adversarial-probe-discrimination
-  finding_count: 7
-  finding_ids:
-  - ADV-ABOVE-RULE-G-ADV-PER-DELIVERABLE-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-  - ADV-ABOVE-RULE-G-ADV-PER-DELIVERABLE-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-  - ADV-ABOVE-RULE-G-ADV-PER-DELIVERABLE-873914cf-93b2-57a0-a5c8-264bfa2d3b66
-  - ADV-ABOVE-RULE-G-ADV-STUBBED-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-  - ADV-ABOVE-RULE-G-ADV-STUBBED-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-  - ADV-ABOVE-RULE-G-ADV-STUBBED-873914cf-93b2-57a0-a5c8-264bfa2d3b66
-  - ADV-UNRUNNABLE-G-ADV-NEGATED-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-- caps:
     HOLD: 2
   class_cap: HOLD
   critical_class: contamination-screening
@@ -1469,298 +1456,8 @@ disposition: BLOCK
 disposition_basis: The harness computed BLOCK as the cap over every instrument result. Block-capable findings
   stand from fifteen instruments and the selfcheck receipt carries seven required rows that never ran,
   which principle 7 treats as broken instruments rather than gaps. No waiver promotes this to SHIP.
-evidence_content_digest: d772d751831ad0ccd584c4eca6f0e98744954cf395c0cf0c8d6e2c2ff5312f53
+evidence_content_digest: af041d3732c761e459d4ea167aa5f734d64cfce354f29b26572fa2399c4dc7b1
 findings:
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: adversarial-probe-discrimination
-  evidence:
-    artifact_detail: oracle plus garbage beside 66 declared deliverables
-    artifact_sha256: 170826c2dd7e435565effad4dd1679d0d1554e8badc4973b50ec6bb1e572a3d6
-    bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    declared_floor:
-      declared: true
-      nearest_numeric: ''
-      searched:
-      - task.toml [metadata] and [verifier]
-      source: task.toml null_floor
-      value: 0.0
-    derivability: live_execution
-    instrument: G-ADV-PER-DELIVERABLE
-    measured_reason: graded
-    measured_reward: 1.0
-    measurement_basis: 'live execution through the stock Harbor path: the probe diff was applied inside
-      the pinned sanitized image with the network disabled, tests/test.sh drove the committed run_tests.py,
-      and the reward was read from the bound reward contract path'
-    measurement_cache: .audit/adversary/live/4c7b8d6f-c500-585d-b7b2-3519df55b1b3/G-ADV-PER-DELIVERABLE-170826c2dd7e.json
-    probe: per-deliverable-garbage
-    rule: measured reward must lose at least 0.2 against the oracle reward
-    status: fail
-    unrunnable_reason: ''
-    weight:
-      declared: true
-      declared_value: 0.2
-      graded_denominator: 5
-      implied_value: 0.2
-  finding_id: ADV-ABOVE-RULE-G-ADV-PER-DELIVERABLE-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-  instrument: G-ADV-PER-DELIVERABLE
-  severity: critical
-  statement: 'Probe per-deliverable-garbage measured 1.0 against bundle 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    with committed reason ''graded'', which is above its step 8t rule: measured reward must lose at least
-    0.2 against the oracle reward. Step 8t caps any probe above its rule at BLOCK. live execution through
-    the stock Harbor path: the probe diff was applied inside the pinned sanitized image with the network
-    disabled, tests/test.sh drove the committed run_tests.py, and the reward was read from the bound reward
-    contract path.'
-  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: adversarial-probe-discrimination
-  evidence:
-    artifact_detail: oracle plus garbage beside 43 declared deliverables
-    artifact_sha256: 57b20dd53f8eb2fa0074958895a8b3f5550cab65f30d47177ae7059e988d5a9d
-    bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    declared_floor:
-      declared: true
-      nearest_numeric: ''
-      searched:
-      - task.toml [metadata] and [verifier]
-      source: task.toml null_floor
-      value: 0.0
-    derivability: live_execution
-    instrument: G-ADV-PER-DELIVERABLE
-    measured_reason: graded
-    measured_reward: 1.0
-    measurement_basis: 'live execution through the stock Harbor path: the probe diff was applied inside
-      the pinned sanitized image with the network disabled, tests/test.sh drove the committed run_tests.py,
-      and the reward was read from the bound reward contract path'
-    measurement_cache: .audit/adversary/live/6bf0c918-e9ad-5397-bb76-cf3e238f2df1/G-ADV-PER-DELIVERABLE-57b20dd53f8e.json
-    probe: per-deliverable-garbage
-    rule: measured reward must lose at least 0.05555555555555555 against the oracle reward
-    status: fail
-    unrunnable_reason: ''
-    weight:
-      declared: true
-      declared_value: 0.05555555555555555
-      graded_denominator: 18
-      implied_value: 0.05555555555555555
-  finding_id: ADV-ABOVE-RULE-G-ADV-PER-DELIVERABLE-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-  instrument: G-ADV-PER-DELIVERABLE
-  severity: critical
-  statement: 'Probe per-deliverable-garbage measured 1.0 against bundle 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    with committed reason ''graded'', which is above its step 8t rule: measured reward must lose at least
-    0.05555555555555555 against the oracle reward. Step 8t caps any probe above its rule at BLOCK. live
-    execution through the stock Harbor path: the probe diff was applied inside the pinned sanitized image
-    with the network disabled, tests/test.sh drove the committed run_tests.py, and the reward was read
-    from the bound reward contract path.'
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: adversarial-probe-discrimination
-  evidence:
-    artifact_detail: oracle plus garbage beside 34 declared deliverables
-    artifact_sha256: 645c130aa39d85fc8f820cb46cd34a23b7cee5bbb6f0a6b817168d7f878b1f36
-    bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    declared_floor:
-      declared: true
-      nearest_numeric: ''
-      searched:
-      - task.toml [metadata] and [verifier]
-      source: task.toml null_floor
-      value: 0.0
-    derivability: live_execution
-    instrument: G-ADV-PER-DELIVERABLE
-    measured_reason: graded
-    measured_reward: 1.0
-    measurement_basis: 'live execution through the stock Harbor path: the probe diff was applied inside
-      the pinned sanitized image with the network disabled, tests/test.sh drove the committed run_tests.py,
-      and the reward was read from the bound reward contract path'
-    measurement_cache: .audit/adversary/live/873914cf-93b2-57a0-a5c8-264bfa2d3b66/G-ADV-PER-DELIVERABLE-645c130aa39d.json
-    probe: per-deliverable-garbage
-    rule: measured reward must lose at least 0.125 against the oracle reward
-    status: fail
-    unrunnable_reason: ''
-    weight:
-      declared: true
-      declared_value: 0.125
-      graded_denominator: 8
-      implied_value: 0.125
-  finding_id: ADV-ABOVE-RULE-G-ADV-PER-DELIVERABLE-873914cf-93b2-57a0-a5c8-264bfa2d3b66
-  instrument: G-ADV-PER-DELIVERABLE
-  severity: critical
-  statement: 'Probe per-deliverable-garbage measured 1.0 against bundle 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    with committed reason ''graded'', which is above its step 8t rule: measured reward must lose at least
-    0.125 against the oracle reward. Step 8t caps any probe above its rule at BLOCK. live execution through
-    the stock Harbor path: the probe diff was applied inside the pinned sanitized image with the network
-    disabled, tests/test.sh drove the committed run_tests.py, and the reward was read from the bound reward
-    contract path.'
-  subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: adversarial-probe-discrimination
-  evidence:
-    artifact_detail: oracle plus a stub for every service
-    artifact_sha256: 88a1497effa8850d36e11f2ac41e536260392f94bdd998cf80fcf7d93b94e8c2
-    bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    declared_floor:
-      declared: true
-      nearest_numeric: ''
-      searched:
-      - task.toml [metadata] and [verifier]
-      source: task.toml null_floor
-      value: 0.0
-    derivability: live_execution
-    instrument: G-ADV-STUBBED
-    measured_reason: graded
-    measured_reward: 1.0
-    measurement_basis: 'live execution through the stock Harbor path: the probe diff was applied inside
-      the pinned sanitized image with the network disabled, tests/test.sh drove the committed run_tests.py,
-      and the reward was read from the bound reward contract path'
-    measurement_cache: .audit/adversary/live/4c7b8d6f-c500-585d-b7b2-3519df55b1b3/G-ADV-STUBBED-88a1497effa8.json
-    probe: oracle-stubbed
-    rule: measured reward must be at or below the declared null floor 0.0
-    status: fail
-    unrunnable_reason: ''
-    weight:
-      declared: true
-      declared_value: 0.2
-      graded_denominator: 5
-      implied_value: 0.2
-  finding_id: ADV-ABOVE-RULE-G-ADV-STUBBED-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-  instrument: G-ADV-STUBBED
-  severity: critical
-  statement: 'Probe oracle-stubbed measured 1.0 against bundle 4c7b8d6f-c500-585d-b7b2-3519df55b1b3 with
-    committed reason ''graded'', which is above its step 8t rule: measured reward must be at or below
-    the declared null floor 0.0. Step 8t caps any probe above its rule at BLOCK. live execution through
-    the stock Harbor path: the probe diff was applied inside the pinned sanitized image with the network
-    disabled, tests/test.sh drove the committed run_tests.py, and the reward was read from the bound reward
-    contract path.'
-  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: adversarial-probe-discrimination
-  evidence:
-    artifact_detail: oracle plus a stub for every service
-    artifact_sha256: 340d304dff105bb1b7638d7e74fdea6c0caa0875d75ccfa6a5acb820e3ac098d
-    bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    declared_floor:
-      declared: true
-      nearest_numeric: ''
-      searched:
-      - task.toml [metadata] and [verifier]
-      source: task.toml null_floor
-      value: 0.0
-    derivability: live_execution
-    instrument: G-ADV-STUBBED
-    measured_reason: graded
-    measured_reward: 1.0
-    measurement_basis: 'live execution through the stock Harbor path: the probe diff was applied inside
-      the pinned sanitized image with the network disabled, tests/test.sh drove the committed run_tests.py,
-      and the reward was read from the bound reward contract path'
-    measurement_cache: .audit/adversary/live/6bf0c918-e9ad-5397-bb76-cf3e238f2df1/G-ADV-STUBBED-340d304dff10.json
-    probe: oracle-stubbed
-    rule: measured reward must be at or below the declared null floor 0.0
-    status: fail
-    unrunnable_reason: ''
-    weight:
-      declared: true
-      declared_value: 0.05555555555555555
-      graded_denominator: 18
-      implied_value: 0.05555555555555555
-  finding_id: ADV-ABOVE-RULE-G-ADV-STUBBED-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-  instrument: G-ADV-STUBBED
-  severity: critical
-  statement: 'Probe oracle-stubbed measured 1.0 against bundle 6bf0c918-e9ad-5397-bb76-cf3e238f2df1 with
-    committed reason ''graded'', which is above its step 8t rule: measured reward must be at or below
-    the declared null floor 0.0. Step 8t caps any probe above its rule at BLOCK. live execution through
-    the stock Harbor path: the probe diff was applied inside the pinned sanitized image with the network
-    disabled, tests/test.sh drove the committed run_tests.py, and the reward was read from the bound reward
-    contract path.'
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: adversarial-probe-discrimination
-  evidence:
-    artifact_detail: oracle plus a stub for every service
-    artifact_sha256: 18da803af6e4bffd1f77182cf838e69a856481f82b6da71daf28e26336449fc6
-    bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    declared_floor:
-      declared: true
-      nearest_numeric: ''
-      searched:
-      - task.toml [metadata] and [verifier]
-      source: task.toml null_floor
-      value: 0.0
-    derivability: live_execution
-    instrument: G-ADV-STUBBED
-    measured_reason: graded
-    measured_reward: 1.0
-    measurement_basis: 'live execution through the stock Harbor path: the probe diff was applied inside
-      the pinned sanitized image with the network disabled, tests/test.sh drove the committed run_tests.py,
-      and the reward was read from the bound reward contract path'
-    measurement_cache: .audit/adversary/live/873914cf-93b2-57a0-a5c8-264bfa2d3b66/G-ADV-STUBBED-18da803af6e4.json
-    probe: oracle-stubbed
-    rule: measured reward must be at or below the declared null floor 0.0
-    status: fail
-    unrunnable_reason: ''
-    weight:
-      declared: true
-      declared_value: 0.125
-      graded_denominator: 8
-      implied_value: 0.125
-  finding_id: ADV-ABOVE-RULE-G-ADV-STUBBED-873914cf-93b2-57a0-a5c8-264bfa2d3b66
-  instrument: G-ADV-STUBBED
-  severity: critical
-  statement: 'Probe oracle-stubbed measured 1.0 against bundle 873914cf-93b2-57a0-a5c8-264bfa2d3b66 with
-    committed reason ''graded'', which is above its step 8t rule: measured reward must be at or below
-    the declared null floor 0.0. Step 8t caps any probe above its rule at BLOCK. live execution through
-    the stock Harbor path: the probe diff was applied inside the pinned sanitized image with the network
-    disabled, tests/test.sh drove the committed run_tests.py, and the reward was read from the bound reward
-    contract path.'
-  subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: adversarial-probe-discrimination
-  evidence:
-    artifact_detail: reverse of solution/fix.patch
-    artifact_sha256: 6da07908cd205d9ce36b361c297f690454da204760f58eb8a9d2ceb33a9537ff
-    bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    declared_floor: 0.0
-    derivability: live_execution
-    image_state:
-      base_image_digest: sha256:060777d77ed2fd5a68721b916e006e9bf699c4064d4f28d92efe2cfa9a2d7596
-      base_image_digest_empty: false
-      base_image_ref: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-milo/reflex-dev_m_reflex:pr-1891@sha256:060777d77ed2fd5a68721b916e006e9bf699c4064d4f28d92efe2cfa9a2d7596
-      bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-      daemon_blocked_reason: ''
-      local_present: true
-      runtime_digest_pinned: true
-      runtime_reference: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:b4d482d8e163d741ac086af764c04daabcd6aee412850fee8a80d8881d90f4ab
-    instrument: G-ADV-NEGATED
-    measured_reason: ''
-    measured_reward: null
-    measurement_basis: ''
-    probe: negated-gold
-    rule: measured reward must be at or below the declared null floor 0.0
-    status: unrunnable
-    unrunnable_reason: the probe artifact does not apply to the workspace inside the pinned image, so
-      no graded execution was possible
-    weight:
-      declared: true
-      declared_value: 0.05555555555555555
-      graded_denominator: 18
-      implied_value: 0.05555555555555555
-  finding_id: ADV-UNRUNNABLE-G-ADV-NEGATED-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-  instrument: G-ADV-NEGATED
-  severity: critical
-  statement: 'Probe negated-gold is UNRUNNABLE against bundle 6bf0c918-e9ad-5397-bb76-cf3e238f2df1 and
-    step 8t makes an unrunnable probe BLOCK rather than a coverage gap. the probe artifact does not apply
-    to the workspace inside the pinned image, so no graded execution was possible. The pinned image cannot
-    be resolved here: bundle 6bf0c918-e9ad-5397-bb76-cf3e238f2df1 carries base_image_digest sha256:060777d77ed2fd5a68721b916e006e9bf699c4064d4f28d92efe2cfa9a2d7596,
-    its runtime reference 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:b4d482d8e163d741ac086af764c04daabcd6aee412850fee8a80d8881d90f4ab
-    does not resolve in the local daemon (local_present=True, daemon=reachable), and Phase 1 item 4 forbids
-    pulling it because that would cross the firewall. No score is recorded for this probe because none
-    was measured, and the contract''s BLOCK is recorded rather than downgraded to a HOLD.'
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
 - bucket: deterministic
   caps: HOLD
   critical_class: contamination-screening

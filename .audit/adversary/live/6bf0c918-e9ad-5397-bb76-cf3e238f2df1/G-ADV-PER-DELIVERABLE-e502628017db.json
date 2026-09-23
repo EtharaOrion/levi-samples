@@ -1,0 +1,10 @@
+{
+  "artifact_sha256": "e502628017db50a1d2923ee036dc8aa5ec379031ad57153847e3abe3963eb90f",
+  "probe": "G-ADV-PER-DELIVERABLE",
+  "row_update": {
+    "measured_reason": "declared-targets-absent-from-output",
+    "measured_reward": 0.0,
+    "measurement_basis": "live execution through the stock Harbor path: the oracle diff was applied and every declared deliverable was then overwritten with garbage bytes inside the pinned sanitized image with the network disabled, tests/test.sh drove the committed run_tests.py, and the reward was read from the bound reward contract path",
+    "unrunnable_reason": ""
+  }
+}

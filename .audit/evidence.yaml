@@ -1,4 +1,4 @@
-content_digest: d772d751831ad0ccd584c4eca6f0e98744954cf395c0cf0c8d6e2c2ff5312f53
+content_digest: af041d3732c761e459d4ea167aa5f734d64cfce354f29b26572fa2399c4dc7b1
 coverage_gaps:
 - caps: HOLD
   gap_id: D-BUD-BLOCK-DECLARATION-CONFLICT
@@ -1130,296 +1130,6 @@ coverage_gaps:
 disposition: BLOCK
 findings:
 - bucket: deterministic
-  caps: BLOCK
-  critical_class: adversarial-probe-discrimination
-  evidence: &id061
-    artifact_detail: oracle plus garbage beside 66 declared deliverables
-    artifact_sha256: 170826c2dd7e435565effad4dd1679d0d1554e8badc4973b50ec6bb1e572a3d6
-    bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    declared_floor:
-      declared: true
-      nearest_numeric: ''
-      searched:
-      - task.toml [metadata] and [verifier]
-      source: task.toml null_floor
-      value: 0.0
-    derivability: live_execution
-    instrument: G-ADV-PER-DELIVERABLE
-    measured_reason: graded
-    measured_reward: 1.0
-    measurement_basis: 'live execution through the stock Harbor path: the probe diff was applied inside
-      the pinned sanitized image with the network disabled, tests/test.sh drove the committed run_tests.py,
-      and the reward was read from the bound reward contract path'
-    measurement_cache: .audit/adversary/live/4c7b8d6f-c500-585d-b7b2-3519df55b1b3/G-ADV-PER-DELIVERABLE-170826c2dd7e.json
-    probe: per-deliverable-garbage
-    rule: measured reward must lose at least 0.2 against the oracle reward
-    status: fail
-    unrunnable_reason: ''
-    weight: &id064
-      declared: true
-      declared_value: 0.2
-      graded_denominator: 5
-      implied_value: 0.2
-  finding_id: ADV-ABOVE-RULE-G-ADV-PER-DELIVERABLE-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-  instrument: G-ADV-PER-DELIVERABLE
-  severity: critical
-  statement: 'Probe per-deliverable-garbage measured 1.0 against bundle 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    with committed reason ''graded'', which is above its step 8t rule: measured reward must lose at least
-    0.2 against the oracle reward. Step 8t caps any probe above its rule at BLOCK. live execution through
-    the stock Harbor path: the probe diff was applied inside the pinned sanitized image with the network
-    disabled, tests/test.sh drove the committed run_tests.py, and the reward was read from the bound reward
-    contract path.'
-  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: adversarial-probe-discrimination
-  evidence: &id062
-    artifact_detail: oracle plus garbage beside 43 declared deliverables
-    artifact_sha256: 57b20dd53f8eb2fa0074958895a8b3f5550cab65f30d47177ae7059e988d5a9d
-    bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    declared_floor:
-      declared: true
-      nearest_numeric: ''
-      searched:
-      - task.toml [metadata] and [verifier]
-      source: task.toml null_floor
-      value: 0.0
-    derivability: live_execution
-    instrument: G-ADV-PER-DELIVERABLE
-    measured_reason: graded
-    measured_reward: 1.0
-    measurement_basis: 'live execution through the stock Harbor path: the probe diff was applied inside
-      the pinned sanitized image with the network disabled, tests/test.sh drove the committed run_tests.py,
-      and the reward was read from the bound reward contract path'
-    measurement_cache: .audit/adversary/live/6bf0c918-e9ad-5397-bb76-cf3e238f2df1/G-ADV-PER-DELIVERABLE-57b20dd53f8e.json
-    probe: per-deliverable-garbage
-    rule: measured reward must lose at least 0.05555555555555555 against the oracle reward
-    status: fail
-    unrunnable_reason: ''
-    weight: &id065
-      declared: true
-      declared_value: 0.05555555555555555
-      graded_denominator: 18
-      implied_value: 0.05555555555555555
-  finding_id: ADV-ABOVE-RULE-G-ADV-PER-DELIVERABLE-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-  instrument: G-ADV-PER-DELIVERABLE
-  severity: critical
-  statement: 'Probe per-deliverable-garbage measured 1.0 against bundle 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    with committed reason ''graded'', which is above its step 8t rule: measured reward must lose at least
-    0.05555555555555555 against the oracle reward. Step 8t caps any probe above its rule at BLOCK. live
-    execution through the stock Harbor path: the probe diff was applied inside the pinned sanitized image
-    with the network disabled, tests/test.sh drove the committed run_tests.py, and the reward was read
-    from the bound reward contract path.'
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: adversarial-probe-discrimination
-  evidence: &id063
-    artifact_detail: oracle plus garbage beside 34 declared deliverables
-    artifact_sha256: 645c130aa39d85fc8f820cb46cd34a23b7cee5bbb6f0a6b817168d7f878b1f36
-    bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    declared_floor:
-      declared: true
-      nearest_numeric: ''
-      searched:
-      - task.toml [metadata] and [verifier]
-      source: task.toml null_floor
-      value: 0.0
-    derivability: live_execution
-    instrument: G-ADV-PER-DELIVERABLE
-    measured_reason: graded
-    measured_reward: 1.0
-    measurement_basis: 'live execution through the stock Harbor path: the probe diff was applied inside
-      the pinned sanitized image with the network disabled, tests/test.sh drove the committed run_tests.py,
-      and the reward was read from the bound reward contract path'
-    measurement_cache: .audit/adversary/live/873914cf-93b2-57a0-a5c8-264bfa2d3b66/G-ADV-PER-DELIVERABLE-645c130aa39d.json
-    probe: per-deliverable-garbage
-    rule: measured reward must lose at least 0.125 against the oracle reward
-    status: fail
-    unrunnable_reason: ''
-    weight: &id066
-      declared: true
-      declared_value: 0.125
-      graded_denominator: 8
-      implied_value: 0.125
-  finding_id: ADV-ABOVE-RULE-G-ADV-PER-DELIVERABLE-873914cf-93b2-57a0-a5c8-264bfa2d3b66
-  instrument: G-ADV-PER-DELIVERABLE
-  severity: critical
-  statement: 'Probe per-deliverable-garbage measured 1.0 against bundle 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    with committed reason ''graded'', which is above its step 8t rule: measured reward must lose at least
-    0.125 against the oracle reward. Step 8t caps any probe above its rule at BLOCK. live execution through
-    the stock Harbor path: the probe diff was applied inside the pinned sanitized image with the network
-    disabled, tests/test.sh drove the committed run_tests.py, and the reward was read from the bound reward
-    contract path.'
-  subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: adversarial-probe-discrimination
-  evidence: &id055
-    artifact_detail: oracle plus a stub for every service
-    artifact_sha256: 88a1497effa8850d36e11f2ac41e536260392f94bdd998cf80fcf7d93b94e8c2
-    bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    declared_floor:
-      declared: true
-      nearest_numeric: ''
-      searched:
-      - task.toml [metadata] and [verifier]
-      source: task.toml null_floor
-      value: 0.0
-    derivability: live_execution
-    instrument: G-ADV-STUBBED
-    measured_reason: graded
-    measured_reward: 1.0
-    measurement_basis: 'live execution through the stock Harbor path: the probe diff was applied inside
-      the pinned sanitized image with the network disabled, tests/test.sh drove the committed run_tests.py,
-      and the reward was read from the bound reward contract path'
-    measurement_cache: .audit/adversary/live/4c7b8d6f-c500-585d-b7b2-3519df55b1b3/G-ADV-STUBBED-88a1497effa8.json
-    probe: oracle-stubbed
-    rule: measured reward must be at or below the declared null floor 0.0
-    status: fail
-    unrunnable_reason: ''
-    weight: &id058
-      declared: true
-      declared_value: 0.2
-      graded_denominator: 5
-      implied_value: 0.2
-  finding_id: ADV-ABOVE-RULE-G-ADV-STUBBED-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-  instrument: G-ADV-STUBBED
-  severity: critical
-  statement: 'Probe oracle-stubbed measured 1.0 against bundle 4c7b8d6f-c500-585d-b7b2-3519df55b1b3 with
-    committed reason ''graded'', which is above its step 8t rule: measured reward must be at or below
-    the declared null floor 0.0. Step 8t caps any probe above its rule at BLOCK. live execution through
-    the stock Harbor path: the probe diff was applied inside the pinned sanitized image with the network
-    disabled, tests/test.sh drove the committed run_tests.py, and the reward was read from the bound reward
-    contract path.'
-  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: adversarial-probe-discrimination
-  evidence: &id056
-    artifact_detail: oracle plus a stub for every service
-    artifact_sha256: 340d304dff105bb1b7638d7e74fdea6c0caa0875d75ccfa6a5acb820e3ac098d
-    bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    declared_floor:
-      declared: true
-      nearest_numeric: ''
-      searched:
-      - task.toml [metadata] and [verifier]
-      source: task.toml null_floor
-      value: 0.0
-    derivability: live_execution
-    instrument: G-ADV-STUBBED
-    measured_reason: graded
-    measured_reward: 1.0
-    measurement_basis: 'live execution through the stock Harbor path: the probe diff was applied inside
-      the pinned sanitized image with the network disabled, tests/test.sh drove the committed run_tests.py,
-      and the reward was read from the bound reward contract path'
-    measurement_cache: .audit/adversary/live/6bf0c918-e9ad-5397-bb76-cf3e238f2df1/G-ADV-STUBBED-340d304dff10.json
-    probe: oracle-stubbed
-    rule: measured reward must be at or below the declared null floor 0.0
-    status: fail
-    unrunnable_reason: ''
-    weight: &id059
-      declared: true
-      declared_value: 0.05555555555555555
-      graded_denominator: 18
-      implied_value: 0.05555555555555555
-  finding_id: ADV-ABOVE-RULE-G-ADV-STUBBED-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-  instrument: G-ADV-STUBBED
-  severity: critical
-  statement: 'Probe oracle-stubbed measured 1.0 against bundle 6bf0c918-e9ad-5397-bb76-cf3e238f2df1 with
-    committed reason ''graded'', which is above its step 8t rule: measured reward must be at or below
-    the declared null floor 0.0. Step 8t caps any probe above its rule at BLOCK. live execution through
-    the stock Harbor path: the probe diff was applied inside the pinned sanitized image with the network
-    disabled, tests/test.sh drove the committed run_tests.py, and the reward was read from the bound reward
-    contract path.'
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: adversarial-probe-discrimination
-  evidence: &id057
-    artifact_detail: oracle plus a stub for every service
-    artifact_sha256: 18da803af6e4bffd1f77182cf838e69a856481f82b6da71daf28e26336449fc6
-    bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    declared_floor:
-      declared: true
-      nearest_numeric: ''
-      searched:
-      - task.toml [metadata] and [verifier]
-      source: task.toml null_floor
-      value: 0.0
-    derivability: live_execution
-    instrument: G-ADV-STUBBED
-    measured_reason: graded
-    measured_reward: 1.0
-    measurement_basis: 'live execution through the stock Harbor path: the probe diff was applied inside
-      the pinned sanitized image with the network disabled, tests/test.sh drove the committed run_tests.py,
-      and the reward was read from the bound reward contract path'
-    measurement_cache: .audit/adversary/live/873914cf-93b2-57a0-a5c8-264bfa2d3b66/G-ADV-STUBBED-18da803af6e4.json
-    probe: oracle-stubbed
-    rule: measured reward must be at or below the declared null floor 0.0
-    status: fail
-    unrunnable_reason: ''
-    weight: &id060
-      declared: true
-      declared_value: 0.125
-      graded_denominator: 8
-      implied_value: 0.125
-  finding_id: ADV-ABOVE-RULE-G-ADV-STUBBED-873914cf-93b2-57a0-a5c8-264bfa2d3b66
-  instrument: G-ADV-STUBBED
-  severity: critical
-  statement: 'Probe oracle-stubbed measured 1.0 against bundle 873914cf-93b2-57a0-a5c8-264bfa2d3b66 with
-    committed reason ''graded'', which is above its step 8t rule: measured reward must be at or below
-    the declared null floor 0.0. Step 8t caps any probe above its rule at BLOCK. live execution through
-    the stock Harbor path: the probe diff was applied inside the pinned sanitized image with the network
-    disabled, tests/test.sh drove the committed run_tests.py, and the reward was read from the bound reward
-    contract path.'
-  subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: adversarial-probe-discrimination
-  evidence: &id053
-    artifact_detail: reverse of solution/fix.patch
-    artifact_sha256: 6da07908cd205d9ce36b361c297f690454da204760f58eb8a9d2ceb33a9537ff
-    bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    declared_floor: 0.0
-    derivability: live_execution
-    image_state:
-      base_image_digest: sha256:060777d77ed2fd5a68721b916e006e9bf699c4064d4f28d92efe2cfa9a2d7596
-      base_image_digest_empty: false
-      base_image_ref: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-milo/reflex-dev_m_reflex:pr-1891@sha256:060777d77ed2fd5a68721b916e006e9bf699c4064d4f28d92efe2cfa9a2d7596
-      bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-      daemon_blocked_reason: ''
-      local_present: true
-      runtime_digest_pinned: true
-      runtime_reference: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:b4d482d8e163d741ac086af764c04daabcd6aee412850fee8a80d8881d90f4ab
-    instrument: G-ADV-NEGATED
-    measured_reason: ''
-    measured_reward: null
-    measurement_basis: ''
-    probe: negated-gold
-    rule: measured reward must be at or below the declared null floor 0.0
-    status: unrunnable
-    unrunnable_reason: the probe artifact does not apply to the workspace inside the pinned image, so
-      no graded execution was possible
-    weight: &id054
-      declared: true
-      declared_value: 0.05555555555555555
-      graded_denominator: 18
-      implied_value: 0.05555555555555555
-  finding_id: ADV-UNRUNNABLE-G-ADV-NEGATED-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-  instrument: G-ADV-NEGATED
-  severity: critical
-  statement: 'Probe negated-gold is UNRUNNABLE against bundle 6bf0c918-e9ad-5397-bb76-cf3e238f2df1 and
-    step 8t makes an unrunnable probe BLOCK rather than a coverage gap. the probe artifact does not apply
-    to the workspace inside the pinned image, so no graded execution was possible. The pinned image cannot
-    be resolved here: bundle 6bf0c918-e9ad-5397-bb76-cf3e238f2df1 carries base_image_digest sha256:060777d77ed2fd5a68721b916e006e9bf699c4064d4f28d92efe2cfa9a2d7596,
-    its runtime reference 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:b4d482d8e163d741ac086af764c04daabcd6aee412850fee8a80d8881d90f4ab
-    does not resolve in the local daemon (local_present=True, daemon=reachable), and Phase 1 item 4 forbids
-    pulling it because that would cross the firewall. No score is recorded for this probe because none
-    was measured, and the contract''s BLOCK is recorded rather than downgraded to a HOLD.'
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-- bucket: deterministic
   caps: HOLD
   critical_class: contamination-screening
   evidence: &id031
@@ -1732,11 +1442,11 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: execution-attestation
-  evidence: &id095
+  evidence: &id081
     crucible_view_digest: a619b70101345155265126a381cc07048acce9993f6ca1e3639deebcb1217d85
     execution_operator_trust_policy: null
-    principals_bearing_required_role: &id099 []
-    source_root_declared_roles: &id101
+    principals_bearing_required_role: &id085 []
+    source_root_declared_roles: &id087
     - auditor_signer
     - checkpoint_signer
     - cohort_registry_issuer
@@ -1756,8 +1466,8 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: execution-attestation
-  evidence: &id096
-    absent_roots: &id097
+  evidence: &id082
+    absent_roots: &id083
     - identity: null
       kind: source_attestation_trust_root
       limitation: the source-attestation root above is ENGRAM-signed under a project-local key; no independent
@@ -1766,8 +1476,8 @@ findings:
       root_number: 6
       status: ABSENT
     crucible_view_digest: a619b70101345155265126a381cc07048acce9993f6ca1e3639deebcb1217d85
-    external_trust_roots_available: &id098 []
-    signature_trust_roots: &id100
+    external_trust_roots_available: &id084 []
+    signature_trust_roots: &id086
     - authorized_roles:
       - checkpoint_signer
       - pilot_signer
@@ -1814,7 +1524,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: execution-fidelity
-  evidence: &id068
+  evidence: &id054
     adequacy_approved: false
     approval: &id001
       adequacy_approved: false
@@ -1845,7 +1555,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: execution-fidelity
-  evidence: &id070
+  evidence: &id056
     adequacy_approved: false
     approval: &id003
       adequacy_approved: false
@@ -1876,7 +1586,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: execution-fidelity
-  evidence: &id072
+  evidence: &id058
     adequacy_approved: false
     approval: &id005
       adequacy_approved: false
@@ -1907,7 +1617,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: execution-fidelity
-  evidence: &id074
+  evidence: &id060
     adequacy_approved: false
     approval: &id007
       adequacy_approved: false
@@ -1938,7 +1648,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: execution-fidelity
-  evidence: &id076
+  evidence: &id062
     adequacy_approved: false
     approval: &id009
       adequacy_approved: false
@@ -1969,7 +1679,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: execution-fidelity
-  evidence: &id078
+  evidence: &id064
     adequacy_approved: false
     approval: &id011
       adequacy_approved: false
@@ -2000,7 +1710,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: execution-fidelity
-  evidence: &id067
+  evidence: &id053
     adequacy_approved: false
     approval: *id001
     approved: false
@@ -2023,7 +1733,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: execution-fidelity
-  evidence: &id069
+  evidence: &id055
     adequacy_approved: false
     approval: *id003
     approved: false
@@ -2046,7 +1756,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: execution-fidelity
-  evidence: &id071
+  evidence: &id057
     adequacy_approved: false
     approval: *id005
     approved: false
@@ -2069,7 +1779,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: execution-fidelity
-  evidence: &id073
+  evidence: &id059
     adequacy_approved: false
     approval: *id007
     approved: false
@@ -2092,7 +1802,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: execution-fidelity
-  evidence: &id075
+  evidence: &id061
     adequacy_approved: false
     approval: *id009
     approved: false
@@ -2115,7 +1825,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: execution-fidelity
-  evidence: &id077
+  evidence: &id063
     adequacy_approved: false
     approval: *id011
     approved: false
@@ -2138,7 +1848,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: execution-fidelity
-  evidence: &id086
+  evidence: &id072
     bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
     diff_comparison:
       reason: the scorer's submission and the agent's final state share no path
@@ -2163,7 +1873,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: execution-fidelity
-  evidence: &id087
+  evidence: &id073
     bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
     diff_comparison:
       reason: the scorer's submission and the agent's final state share no path
@@ -2187,7 +1897,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: execution-fidelity
-  evidence: &id088
+  evidence: &id074
     bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
     diff_comparison:
       reason: the scorer's submission and the agent's final state share no path
@@ -2211,22 +1921,22 @@ findings:
 - bucket: deterministic
   caps: BLOCK
   critical_class: execution-fidelity
-  evidence: &id081
+  evidence: &id067
     author_lane_record: BLOCK:INVALID_PILOT
-    roster_search: &id082
+    roster_search: &id068
       found: []
       realized_group_count:
         4c7b8d6f-c500-585d-b7b2-3519df55b1b3: 2
         6bf0c918-e9ad-5397-bb76-cf3e238f2df1: 2
         873914cf-93b2-57a0-a5c8-264bfa2d3b66: 2
       realized_groups:
-        4c7b8d6f-c500-585d-b7b2-3519df55b1b3: &id083
+        4c7b8d6f-c500-585d-b7b2-3519df55b1b3: &id069
         - claude-opus-5
         - zai__glm-5.3
-        6bf0c918-e9ad-5397-bb76-cf3e238f2df1: &id084
+        6bf0c918-e9ad-5397-bb76-cf3e238f2df1: &id070
         - claude-opus-5
         - zai__glm-5.3
-        873914cf-93b2-57a0-a5c8-264bfa2d3b66: &id085
+        873914cf-93b2-57a0-a5c8-264bfa2d3b66: &id071
         - claude-opus-5
         - zai__glm-5.3
       roster_found: false
@@ -2305,7 +2015,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: execution-fidelity
-  evidence: &id080
+  evidence: &id066
     bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
     conformance_predicate: trinity.trial-conformance/v1
     coverage: &id013
@@ -2419,7 +2129,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: execution-fidelity
-  evidence: &id079
+  evidence: &id065
     bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
     conformance_predicate: trinity.trial-conformance/v1
     coverage: *id013
@@ -2510,14 +2220,14 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: reference-fidelity
-  evidence: &id089
+  evidence: &id075
     classification_mode: static-specification
     entry_count: 1
     interface_mode: names-only
     issue_keys:
     - issue_7
     manifest_digest: 3985474ac79d3c15cc92360386cf0583496f2ac2cafdce6fcc5a08656eb88aa6
-    per_class_counts: &id092
+    per_class_counts: &id078
       exit-code-contract: 0
       invented-or-assumed-interface: 1
       output-literal: 0
@@ -2535,7 +2245,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: reference-fidelity
-  evidence: &id090
+  evidence: &id076
     classification_mode: static-specification
     entry_count: 13
     interface_mode: names-only
@@ -2545,7 +2255,7 @@ findings:
     - issue_19
     - issue_29
     manifest_digest: 7883edfe9a2d90c76cde292b16650ff89a4307c2acdddb34d285e4c1710776fd
-    per_class_counts: &id093
+    per_class_counts: &id079
       exit-code-contract: 0
       invented-or-assumed-interface: 13
       output-literal: 0
@@ -2563,7 +2273,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: reference-fidelity
-  evidence: &id091
+  evidence: &id077
     classification_mode: static-specification
     entry_count: 15
     interface_mode: names-only
@@ -2574,7 +2284,7 @@ findings:
     - issue_16
     - issue_4
     manifest_digest: fb8f0ce15c6e11dd2abaf37a8267ca24f9f99ae0a1904ad2a8b3b80ff8563aef
-    per_class_counts: &id094
+    per_class_counts: &id080
       exit-code-contract: 0
       invented-or-assumed-interface: 15
       output-literal: 0
@@ -2592,8 +2302,8 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: reward-coverage-ledger
-  evidence: &id102
-    attestation_clauses: &id104 []
+  evidence: &id088
+    attestation_clauses: &id090 []
   finding_id: F-LEDGER-NO-EXTERNAL-ENFORCEMENT
   instrument: G-REWARD-COVERAGE-LEDGER
   severity: high
@@ -2604,7 +2314,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: reward-coverage-ledger
-  evidence: &id103
+  evidence: &id089
     ledger_channels:
     - read
     - write
@@ -2881,7 +2591,7 @@ findings:
   statement: 8 declared preserve target(s) do not execute on the unmodified base and were dropped from
     the preserve set, so those non-target tests are unobserved at base rather than observed green.
   subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-generated_at: '2026-09-23T10:51:11+00:00'
+generated_at: '2026-09-23T13:36:47+00:00'
 instruments:
 - coverage_gaps:
   - caps: HOLD
@@ -3095,7 +2805,7 @@ instruments:
     - /Users/macbookpro/levi/samples/873914cf-93b2-57a0-a5c8-264bfa2d3b66/environment/sanitize-entrypoint.sh
     artifact_id: scanner-semgrep
     blocked_reason: null
-    elapsed_seconds: 1.277979
+    elapsed_seconds: 1.159871
     exit_code: 1
     stderr_bytes: 2199
     stderr_sha256: 6628ccd44bc1c41a71aadbd634275c2e0b06521b3474ac24c36bad03e2b12c93
@@ -5260,7 +4970,7 @@ instruments:
     - solution/recompute.py
     artifact_id: truth-regen-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-alpha
     blocked_reason: null
-    elapsed_seconds: 0.021184
+    elapsed_seconds: 0.021966
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -5272,7 +4982,7 @@ instruments:
     - solution/recompute.py
     artifact_id: truth-regen-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-bravo
     blocked_reason: null
-    elapsed_seconds: 0.019456
+    elapsed_seconds: 0.020552
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -5284,7 +4994,7 @@ instruments:
     - solution/recompute.py
     artifact_id: truth-regen-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-alpha
     blocked_reason: null
-    elapsed_seconds: 0.020008
+    elapsed_seconds: 0.020799
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -5296,7 +5006,7 @@ instruments:
     - solution/recompute.py
     artifact_id: truth-regen-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-bravo
     blocked_reason: null
-    elapsed_seconds: 0.020231
+    elapsed_seconds: 0.020467
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -5308,7 +5018,7 @@ instruments:
     - solution/recompute.py
     artifact_id: truth-regen-873914cf-93b2-57a0-a5c8-264bfa2d3b66-alpha
     blocked_reason: null
-    elapsed_seconds: 0.0194
+    elapsed_seconds: 0.01974
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -5320,7 +5030,7 @@ instruments:
     - solution/recompute.py
     artifact_id: truth-regen-873914cf-93b2-57a0-a5c8-264bfa2d3b66-bravo
     blocked_reason: null
-    elapsed_seconds: 0.020069
+    elapsed_seconds: 0.019379
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -5375,7 +5085,7 @@ instruments:
     - 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/jdx_m_mise@sha256:8548f5c7004d60da6a8eaca625e5fb7152c40e355eada9a6bdea339b73fff6bf
     artifact_id: docker-inspect-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
     blocked_reason: null
-    elapsed_seconds: 0.03003
+    elapsed_seconds: 0.029856
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -5389,7 +5099,7 @@ instruments:
     - 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:b4d482d8e163d741ac086af764c04daabcd6aee412850fee8a80d8881d90f4ab
     artifact_id: docker-inspect-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
     blocked_reason: null
-    elapsed_seconds: 0.026424
+    elapsed_seconds: 0.025627
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -5403,7 +5113,7 @@ instruments:
     - 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:eca2d8710d1baffad6f1d273610bbce183857c73bed6574dce2252fb3fb446aa
     artifact_id: docker-inspect-873914cf-93b2-57a0-a5c8-264bfa2d3b66
     blocked_reason: null
-    elapsed_seconds: 0.024473
+    elapsed_seconds: 0.027416
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -5852,7 +5562,7 @@ instruments:
     - 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/jdx_m_mise@sha256:8548f5c7004d60da6a8eaca625e5fb7152c40e355eada9a6bdea339b73fff6bf
     artifact_id: docker-inspect-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
     blocked_reason: null
-    elapsed_seconds: 0.027863
+    elapsed_seconds: 0.02817
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -5866,7 +5576,7 @@ instruments:
     - 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:b4d482d8e163d741ac086af764c04daabcd6aee412850fee8a80d8881d90f4ab
     artifact_id: docker-inspect-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
     blocked_reason: null
-    elapsed_seconds: 0.022686
+    elapsed_seconds: 0.026993
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -5880,7 +5590,7 @@ instruments:
     - 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:eca2d8710d1baffad6f1d273610bbce183857c73bed6574dce2252fb3fb446aa
     artifact_id: docker-inspect-873914cf-93b2-57a0-a5c8-264bfa2d3b66
     blocked_reason: null
-    elapsed_seconds: 0.02367
+    elapsed_seconds: 0.023549
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -5949,7 +5659,7 @@ instruments:
     - 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/jdx_m_mise@sha256:8548f5c7004d60da6a8eaca625e5fb7152c40e355eada9a6bdea339b73fff6bf
     artifact_id: docker-inspect-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
     blocked_reason: null
-    elapsed_seconds: 0.022712
+    elapsed_seconds: 0.020455
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -5963,7 +5673,7 @@ instruments:
     - 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:b4d482d8e163d741ac086af764c04daabcd6aee412850fee8a80d8881d90f4ab
     artifact_id: docker-inspect-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
     blocked_reason: null
-    elapsed_seconds: 0.023753
+    elapsed_seconds: 0.026129
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -5977,7 +5687,7 @@ instruments:
     - 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:eca2d8710d1baffad6f1d273610bbce183857c73bed6574dce2252fb3fb446aa
     artifact_id: docker-inspect-873914cf-93b2-57a0-a5c8-264bfa2d3b66
     blocked_reason: null
-    elapsed_seconds: 0.023798
+    elapsed_seconds: 0.023959
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -6632,10 +6342,10 @@ instruments:
   raw_artifacts:
   - argv:
     - python3
-    - /var/folders/4v/7wd4855j6vb0qwdxksrh28500000gn/T/crucible-rub-regen-2oao3n9m/run-0/solution/recompute.py
+    - /var/folders/4v/7wd4855j6vb0qwdxksrh28500000gn/T/crucible-rub-regen-l4d5hpbh/run-0/solution/recompute.py
     artifact_id: rub-regen-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-0
     blocked_reason: null
-    elapsed_seconds: 0.020633
+    elapsed_seconds: 0.021709
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -6644,10 +6354,10 @@ instruments:
     timed_out: false
   - argv:
     - python3
-    - /var/folders/4v/7wd4855j6vb0qwdxksrh28500000gn/T/crucible-rub-regen-2oao3n9m/run-1/solution/recompute.py
+    - /var/folders/4v/7wd4855j6vb0qwdxksrh28500000gn/T/crucible-rub-regen-l4d5hpbh/run-1/solution/recompute.py
     artifact_id: rub-regen-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-1
     blocked_reason: null
-    elapsed_seconds: 0.019924
+    elapsed_seconds: 0.020173
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -6656,10 +6366,10 @@ instruments:
     timed_out: false
   - argv:
     - python3
-    - /var/folders/4v/7wd4855j6vb0qwdxksrh28500000gn/T/crucible-rub-regen-6ah_67y4/run-0/solution/recompute.py
+    - /var/folders/4v/7wd4855j6vb0qwdxksrh28500000gn/T/crucible-rub-regen-j2nn7fln/run-0/solution/recompute.py
     artifact_id: rub-regen-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-0
     blocked_reason: null
-    elapsed_seconds: 0.020688
+    elapsed_seconds: 0.019551
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -6668,10 +6378,10 @@ instruments:
     timed_out: false
   - argv:
     - python3
-    - /var/folders/4v/7wd4855j6vb0qwdxksrh28500000gn/T/crucible-rub-regen-6ah_67y4/run-1/solution/recompute.py
+    - /var/folders/4v/7wd4855j6vb0qwdxksrh28500000gn/T/crucible-rub-regen-j2nn7fln/run-1/solution/recompute.py
     artifact_id: rub-regen-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-1
     blocked_reason: null
-    elapsed_seconds: 0.020059
+    elapsed_seconds: 0.020461
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -6680,10 +6390,10 @@ instruments:
     timed_out: false
   - argv:
     - python3
-    - /var/folders/4v/7wd4855j6vb0qwdxksrh28500000gn/T/crucible-rub-regen-byklm3s1/run-0/solution/recompute.py
+    - /var/folders/4v/7wd4855j6vb0qwdxksrh28500000gn/T/crucible-rub-regen-kvdhtpfc/run-0/solution/recompute.py
     artifact_id: rub-regen-873914cf-93b2-57a0-a5c8-264bfa2d3b66-0
     blocked_reason: null
-    elapsed_seconds: 0.020254
+    elapsed_seconds: 0.020941
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -6692,10 +6402,10 @@ instruments:
     timed_out: false
   - argv:
     - python3
-    - /var/folders/4v/7wd4855j6vb0qwdxksrh28500000gn/T/crucible-rub-regen-byklm3s1/run-1/solution/recompute.py
+    - /var/folders/4v/7wd4855j6vb0qwdxksrh28500000gn/T/crucible-rub-regen-kvdhtpfc/run-1/solution/recompute.py
     artifact_id: rub-regen-873914cf-93b2-57a0-a5c8-264bfa2d3b66-1
     blocked_reason: null
-    elapsed_seconds: 0.019986
+    elapsed_seconds: 0.019982
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -6779,7 +6489,7 @@ instruments:
     - --no-header
     artifact_id: rub-replay-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-claude-opus-5-run_1
     blocked_reason: null
-    elapsed_seconds: 0.501362
+    elapsed_seconds: 0.492017
     exit_code: 4
     stderr_bytes: 95
     stderr_sha256: 6edf8ba8794a576d6c82cc200671f318f833ece6e882776f5182f26cf606f8ea
@@ -6797,7 +6507,7 @@ instruments:
     - --no-header
     artifact_id: rub-replay-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-zai__glm-5.3-run_1
     blocked_reason: null
-    elapsed_seconds: 0.408973
+    elapsed_seconds: 0.40539
     exit_code: 4
     stderr_bytes: 95
     stderr_sha256: 6edf8ba8794a576d6c82cc200671f318f833ece6e882776f5182f26cf606f8ea
@@ -6815,7 +6525,7 @@ instruments:
     - --no-header
     artifact_id: rub-replay-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-claude-opus-5-run_1
     blocked_reason: null
-    elapsed_seconds: 0.412131
+    elapsed_seconds: 0.401382
     exit_code: 4
     stderr_bytes: 95
     stderr_sha256: 168168825aaeae41a2776f08646a8748e425f5127999b1e934bc2f7b302c2f5f
@@ -6833,7 +6543,7 @@ instruments:
     - --no-header
     artifact_id: rub-replay-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-zai__glm-5.3-run_1
     blocked_reason: null
-    elapsed_seconds: 0.429731
+    elapsed_seconds: 0.418246
     exit_code: 4
     stderr_bytes: 95
     stderr_sha256: 168168825aaeae41a2776f08646a8748e425f5127999b1e934bc2f7b302c2f5f
@@ -6851,7 +6561,7 @@ instruments:
     - --no-header
     artifact_id: rub-replay-873914cf-93b2-57a0-a5c8-264bfa2d3b66-claude-opus-5-run_1
     blocked_reason: null
-    elapsed_seconds: 0.4175
+    elapsed_seconds: 0.401523
     exit_code: 4
     stderr_bytes: 95
     stderr_sha256: bf7d6c402b4576d1392832c2cf15271c4f308b74cd84de4704af069625cf9339
@@ -6946,7 +6656,7 @@ instruments:
     effective_root_digest: 6ef5c83e7951ac5c84faa97fc729bb7c587cdeefbd2504cfcd7e3dd7d163e727
     freshness:
       4c7b8d6f-c500-585d-b7b2-3519df55b1b3:
-        comparison_instant: '2026-09-23T10:51:07.066759+00:00'
+        comparison_instant: '2026-09-23T13:36:43.788570+00:00'
         declared_expiry: '2026-12-03T00:00:00+00:00'
         declared_expiry_agrees: true
         derived_expiry: '2026-12-03T00:00:00+00:00'
@@ -6954,7 +6664,7 @@ instruments:
         origin: '2026-09-04T00:00:00+00:00'
         overdue: false
       6bf0c918-e9ad-5397-bb76-cf3e238f2df1:
-        comparison_instant: '2026-09-23T10:51:07.066759+00:00'
+        comparison_instant: '2026-09-23T13:36:43.788570+00:00'
         declared_expiry: '2026-12-03T00:00:00+00:00'
         declared_expiry_agrees: true
         derived_expiry: '2026-12-03T00:00:00+00:00'
@@ -6962,7 +6672,7 @@ instruments:
         origin: '2026-09-04T00:00:00+00:00'
         overdue: false
       873914cf-93b2-57a0-a5c8-264bfa2d3b66:
-        comparison_instant: '2026-09-23T10:51:07.066759+00:00'
+        comparison_instant: '2026-09-23T13:36:43.788570+00:00'
         declared_expiry: '2026-12-03T00:00:00+00:00'
         declared_expiry_agrees: true
         derived_expiry: '2026-12-03T00:00:00+00:00'
@@ -7509,7 +7219,7 @@ instruments:
       declared_canonical_bundle_hash: 03aa306c4f584650a31ad57b7a54e669db2d3c9b2fe88a89f543a1b2855b7652
       free_form_prose_fields: []
       freshness:
-        comparison_instant: '2026-09-23T10:51:07.066759+00:00'
+        comparison_instant: '2026-09-23T13:36:43.788570+00:00'
         declared_expiry: '2026-12-03T00:00:00+00:00'
         declared_expiry_agrees: true
         derived_expiry: '2026-12-03T00:00:00+00:00'
@@ -7535,7 +7245,7 @@ instruments:
       declared_canonical_bundle_hash: 10cb07aefb91b15c92125b980e429ccb46420074467ee8581774146d65f82ba1
       free_form_prose_fields: []
       freshness:
-        comparison_instant: '2026-09-23T10:51:07.066759+00:00'
+        comparison_instant: '2026-09-23T13:36:43.788570+00:00'
         declared_expiry: '2026-12-03T00:00:00+00:00'
         declared_expiry_agrees: true
         derived_expiry: '2026-12-03T00:00:00+00:00'
@@ -7561,7 +7271,7 @@ instruments:
       declared_canonical_bundle_hash: 8b0cdb100a78d89ef46315af507dab3058bbc6a497520713a9d8ae6142670b83
       free_form_prose_fields: []
       freshness:
-        comparison_instant: '2026-09-23T10:51:07.066759+00:00'
+        comparison_instant: '2026-09-23T13:36:43.788570+00:00'
         declared_expiry: '2026-12-03T00:00:00+00:00'
         declared_expiry_agrees: true
         derived_expiry: '2026-12-03T00:00:00+00:00'
@@ -8131,24 +7841,8 @@ instruments:
   raw_artifacts: []
   standing: demonstrated_coverage
 - coverage_gaps: []
-  disposition_cap: BLOCK
-  findings:
-  - bucket: deterministic
-    caps: BLOCK
-    critical_class: adversarial-probe-discrimination
-    evidence: *id053
-    finding_id: ADV-UNRUNNABLE-G-ADV-NEGATED-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    instrument: G-ADV-NEGATED
-    severity: critical
-    statement: 'Probe negated-gold is UNRUNNABLE against bundle 6bf0c918-e9ad-5397-bb76-cf3e238f2df1 and
-      step 8t makes an unrunnable probe BLOCK rather than a coverage gap. the probe artifact does not
-      apply to the workspace inside the pinned image, so no graded execution was possible. The pinned
-      image cannot be resolved here: bundle 6bf0c918-e9ad-5397-bb76-cf3e238f2df1 carries base_image_digest
-      sha256:060777d77ed2fd5a68721b916e006e9bf699c4064d4f28d92efe2cfa9a2d7596, its runtime reference 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:b4d482d8e163d741ac086af764c04daabcd6aee412850fee8a80d8881d90f4ab
-      does not resolve in the local daemon (local_present=True, daemon=reachable), and Phase 1 item 4
-      forbids pulling it because that would cross the firewall. No score is recorded for this probe because
-      none was measured, and the contract''s BLOCK is recorded rather than downgraded to a HOLD.'
-    subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+  disposition_cap: SHIP
+  findings: []
   instrument: G-ADV-NEGATED
   notes:
     adversary_probe_rows:
@@ -8180,15 +7874,22 @@ instruments:
       declared_floor: 0.0
       derivability: live_execution
       instrument: G-ADV-NEGATED
-      measured_reason: ''
-      measured_reward: null
-      measurement_basis: ''
+      measured_reason: no-target-resolved
+      measured_reward: 0.0
+      measurement_basis: 'live execution through the stock Harbor path: the gold fix was applied and then
+        reverted with git apply -R, realizing the negated gold workspace on the only tree where the inversion
+        is defined, inside the pinned sanitized image with the network disabled, tests/test.sh drove the
+        committed run_tests.py, and the reward was read from the bound reward contract path'
+      measurement_cache: .audit/adversary/live/6bf0c918-e9ad-5397-bb76-cf3e238f2df1/G-ADV-NEGATED-6da07908cd20.json
       probe: negated-gold
       rule: measured reward must be at or below the declared null floor 0.0
-      status: unrunnable
-      unrunnable_reason: the probe artifact does not apply to the workspace inside the pinned image, so
-        no graded execution was possible
-      weight: *id054
+      status: pass
+      unrunnable_reason: ''
+      weight:
+        declared: true
+        declared_value: 0.05555555555555555
+        graded_denominator: 18
+        implied_value: 0.05555555555555555
     - artifact_detail: reverse of solution/fix.patch
       artifact_sha256: f6c15944a0d291c8bc3db050f9a53eba0329c48ba83c3201cea9abf1c0d3efc4
       bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
@@ -8214,33 +7915,8 @@ instruments:
     contract_step: 8t
     probe: negated-gold
   ran: true
-  raw_artifacts:
-  - argv:
-    - docker
-    - run
-    - --rm
-    - --network
-    - none
-    - -v
-    - /var/folders/4v/7wd4855j6vb0qwdxksrh28500000gn/T/crucible-adv-vi6ok0m_/probework:/probework:ro
-    - -v
-    - /var/folders/4v/7wd4855j6vb0qwdxksrh28500000gn/T/crucible-adv-vi6ok0m_/logs:/logs
-    - crucible-adv-6bf0c918
-    - bash
-    - -c
-    - cd /home/reflex && git apply --whitespace=nowarn /probework/forward.patch || exit 97; if test -s
-      /probework/probe.diff; then git apply --whitespace=nowarn /probework/probe.diff || exit 97; fi;
-      bash /tests/test.sh
-    artifact_id: adv-live-run-6bf0c918-G-ADV-NEGATED
-    blocked_reason: null
-    elapsed_seconds: 0.239707
-    exit_code: 97
-    stderr_bytes: 72
-    stderr_sha256: 99b55a24dd528dc3102ac386e83d3c9dc1c7f432596aacd7252d142f30d45448
-    stdout_bytes: 0
-    stdout_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
-    timed_out: false
-  standing: observed_violation
+  raw_artifacts: []
+  standing: demonstrated_coverage
 - coverage_gaps: []
   disposition_cap: SHIP
   findings: []
@@ -8319,109 +7995,94 @@ instruments:
   raw_artifacts: []
   standing: demonstrated_coverage
 - coverage_gaps: []
-  disposition_cap: BLOCK
-  findings:
-  - bucket: deterministic
-    caps: BLOCK
-    critical_class: adversarial-probe-discrimination
-    evidence: *id055
-    finding_id: ADV-ABOVE-RULE-G-ADV-STUBBED-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    instrument: G-ADV-STUBBED
-    severity: critical
-    statement: 'Probe oracle-stubbed measured 1.0 against bundle 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-      with committed reason ''graded'', which is above its step 8t rule: measured reward must be at or
-      below the declared null floor 0.0. Step 8t caps any probe above its rule at BLOCK. live execution
-      through the stock Harbor path: the probe diff was applied inside the pinned sanitized image with
-      the network disabled, tests/test.sh drove the committed run_tests.py, and the reward was read from
-      the bound reward contract path.'
-    subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-  - bucket: deterministic
-    caps: BLOCK
-    critical_class: adversarial-probe-discrimination
-    evidence: *id056
-    finding_id: ADV-ABOVE-RULE-G-ADV-STUBBED-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    instrument: G-ADV-STUBBED
-    severity: critical
-    statement: 'Probe oracle-stubbed measured 1.0 against bundle 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-      with committed reason ''graded'', which is above its step 8t rule: measured reward must be at or
-      below the declared null floor 0.0. Step 8t caps any probe above its rule at BLOCK. live execution
-      through the stock Harbor path: the probe diff was applied inside the pinned sanitized image with
-      the network disabled, tests/test.sh drove the committed run_tests.py, and the reward was read from
-      the bound reward contract path.'
-    subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-  - bucket: deterministic
-    caps: BLOCK
-    critical_class: adversarial-probe-discrimination
-    evidence: *id057
-    finding_id: ADV-ABOVE-RULE-G-ADV-STUBBED-873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    instrument: G-ADV-STUBBED
-    severity: critical
-    statement: 'Probe oracle-stubbed measured 1.0 against bundle 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-      with committed reason ''graded'', which is above its step 8t rule: measured reward must be at or
-      below the declared null floor 0.0. Step 8t caps any probe above its rule at BLOCK. live execution
-      through the stock Harbor path: the probe diff was applied inside the pinned sanitized image with
-      the network disabled, tests/test.sh drove the committed run_tests.py, and the reward was read from
-      the bound reward contract path.'
-    subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+  disposition_cap: SHIP
+  findings: []
   instrument: G-ADV-STUBBED
   notes:
     adversary_probe_rows:
-    - artifact_detail: oracle plus a stub for every service
-      artifact_sha256: 88a1497effa8850d36e11f2ac41e536260392f94bdd998cf80fcf7d93b94e8c2
-      bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+    - bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
       declared_floor: 0.0
-      derivability: live_execution
+      derivability: committed_closure_derivation
       instrument: G-ADV-STUBBED
-      measured_reason: graded
-      measured_reward: 1.0
-      measurement_basis: 'live execution through the stock Harbor path: the probe diff was applied inside
-        the pinned sanitized image with the network disabled, tests/test.sh drove the committed run_tests.py,
-        and the reward was read from the bound reward contract path'
-      measurement_cache: .audit/adversary/live/4c7b8d6f-c500-585d-b7b2-3519df55b1b3/G-ADV-STUBBED-88a1497effa8.json
+      measured_reason: ''
+      measured_reward: null
+      measurement_basis: 'derived from committed bytes: task.toml declares no service table, environment/
+        carries no compose file, and the declared network modes are environment=no-network and verifier=no-network'
       probe: oracle-stubbed
       rule: measured reward must be at or below the declared null floor 0.0
-      status: fail
+      service_set:
+        compose_files: []
+        derivation: 'derived from committed bytes: task.toml declares no service table, environment/ carries
+          no compose file, and the declared network modes are environment=no-network and verifier=no-network'
+        network_modes:
+          environment: no-network
+          verifier: no-network
+        reachable: false
+        services: []
+      status: not_applicable
       unrunnable_reason: ''
-      weight: *id058
-    - artifact_detail: oracle plus a stub for every service
-      artifact_sha256: 340d304dff105bb1b7638d7e74fdea6c0caa0875d75ccfa6a5acb820e3ac098d
-      bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+      weight:
+        declared: true
+        declared_value: 0.2
+        graded_denominator: 5
+        implied_value: 0.2
+    - bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
       declared_floor: 0.0
-      derivability: live_execution
+      derivability: committed_closure_derivation
       instrument: G-ADV-STUBBED
-      measured_reason: graded
-      measured_reward: 1.0
-      measurement_basis: 'live execution through the stock Harbor path: the probe diff was applied inside
-        the pinned sanitized image with the network disabled, tests/test.sh drove the committed run_tests.py,
-        and the reward was read from the bound reward contract path'
-      measurement_cache: .audit/adversary/live/6bf0c918-e9ad-5397-bb76-cf3e238f2df1/G-ADV-STUBBED-340d304dff10.json
+      measured_reason: ''
+      measured_reward: null
+      measurement_basis: 'derived from committed bytes: task.toml declares no service table, environment/
+        carries no compose file, and the declared network modes are environment=no-network and verifier=no-network'
       probe: oracle-stubbed
       rule: measured reward must be at or below the declared null floor 0.0
-      status: fail
+      service_set:
+        compose_files: []
+        derivation: 'derived from committed bytes: task.toml declares no service table, environment/ carries
+          no compose file, and the declared network modes are environment=no-network and verifier=no-network'
+        network_modes:
+          environment: no-network
+          verifier: no-network
+        reachable: false
+        services: []
+      status: not_applicable
       unrunnable_reason: ''
-      weight: *id059
-    - artifact_detail: oracle plus a stub for every service
-      artifact_sha256: 18da803af6e4bffd1f77182cf838e69a856481f82b6da71daf28e26336449fc6
-      bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+      weight:
+        declared: true
+        declared_value: 0.05555555555555555
+        graded_denominator: 18
+        implied_value: 0.05555555555555555
+    - bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
       declared_floor: 0.0
-      derivability: live_execution
+      derivability: committed_closure_derivation
       instrument: G-ADV-STUBBED
-      measured_reason: graded
-      measured_reward: 1.0
-      measurement_basis: 'live execution through the stock Harbor path: the probe diff was applied inside
-        the pinned sanitized image with the network disabled, tests/test.sh drove the committed run_tests.py,
-        and the reward was read from the bound reward contract path'
-      measurement_cache: .audit/adversary/live/873914cf-93b2-57a0-a5c8-264bfa2d3b66/G-ADV-STUBBED-18da803af6e4.json
+      measured_reason: ''
+      measured_reward: null
+      measurement_basis: 'derived from committed bytes: task.toml declares no service table, environment/
+        carries no compose file, and the declared network modes are environment=no-network and verifier=no-network'
       probe: oracle-stubbed
       rule: measured reward must be at or below the declared null floor 0.0
-      status: fail
+      service_set:
+        compose_files: []
+        derivation: 'derived from committed bytes: task.toml declares no service table, environment/ carries
+          no compose file, and the declared network modes are environment=no-network and verifier=no-network'
+        network_modes:
+          environment: no-network
+          verifier: no-network
+        reachable: false
+        services: []
+      status: not_applicable
       unrunnable_reason: ''
-      weight: *id060
+      weight:
+        declared: true
+        declared_value: 0.125
+        graded_denominator: 8
+        implied_value: 0.125
     contract_step: 8t
     probe: oracle-stubbed
   ran: true
   raw_artifacts: []
-  standing: observed_violation
+  standing: demonstrated_coverage
 - coverage_gaps: []
   disposition_cap: SHIP
   findings: []
@@ -8497,109 +8158,85 @@ instruments:
   raw_artifacts: []
   standing: demonstrated_coverage
 - coverage_gaps: []
-  disposition_cap: BLOCK
-  findings:
-  - bucket: deterministic
-    caps: BLOCK
-    critical_class: adversarial-probe-discrimination
-    evidence: *id061
-    finding_id: ADV-ABOVE-RULE-G-ADV-PER-DELIVERABLE-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    instrument: G-ADV-PER-DELIVERABLE
-    severity: critical
-    statement: 'Probe per-deliverable-garbage measured 1.0 against bundle 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-      with committed reason ''graded'', which is above its step 8t rule: measured reward must lose at
-      least 0.2 against the oracle reward. Step 8t caps any probe above its rule at BLOCK. live execution
-      through the stock Harbor path: the probe diff was applied inside the pinned sanitized image with
-      the network disabled, tests/test.sh drove the committed run_tests.py, and the reward was read from
-      the bound reward contract path.'
-    subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-  - bucket: deterministic
-    caps: BLOCK
-    critical_class: adversarial-probe-discrimination
-    evidence: *id062
-    finding_id: ADV-ABOVE-RULE-G-ADV-PER-DELIVERABLE-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    instrument: G-ADV-PER-DELIVERABLE
-    severity: critical
-    statement: 'Probe per-deliverable-garbage measured 1.0 against bundle 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-      with committed reason ''graded'', which is above its step 8t rule: measured reward must lose at
-      least 0.05555555555555555 against the oracle reward. Step 8t caps any probe above its rule at BLOCK.
-      live execution through the stock Harbor path: the probe diff was applied inside the pinned sanitized
-      image with the network disabled, tests/test.sh drove the committed run_tests.py, and the reward
-      was read from the bound reward contract path.'
-    subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-  - bucket: deterministic
-    caps: BLOCK
-    critical_class: adversarial-probe-discrimination
-    evidence: *id063
-    finding_id: ADV-ABOVE-RULE-G-ADV-PER-DELIVERABLE-873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    instrument: G-ADV-PER-DELIVERABLE
-    severity: critical
-    statement: 'Probe per-deliverable-garbage measured 1.0 against bundle 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-      with committed reason ''graded'', which is above its step 8t rule: measured reward must lose at
-      least 0.125 against the oracle reward. Step 8t caps any probe above its rule at BLOCK. live execution
-      through the stock Harbor path: the probe diff was applied inside the pinned sanitized image with
-      the network disabled, tests/test.sh drove the committed run_tests.py, and the reward was read from
-      the bound reward contract path.'
-    subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+  disposition_cap: SHIP
+  findings: []
   instrument: G-ADV-PER-DELIVERABLE
   notes:
     adversary_probe_rows:
-    - artifact_detail: oracle plus garbage beside 66 declared deliverables
-      artifact_sha256: 170826c2dd7e435565effad4dd1679d0d1554e8badc4973b50ec6bb1e572a3d6
+    - artifact_detail: oracle applied, then each of 66 declared deliverables overwritten with garbage
+        inside the container before grading
+      artifact_sha256: bebfb772b81172229953e869553ecca9e7ebe9ed2bdcfba38df8a6fad0569578
       bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
       declared_floor: 0.0
       derivability: live_execution
       instrument: G-ADV-PER-DELIVERABLE
-      measured_reason: graded
-      measured_reward: 1.0
-      measurement_basis: 'live execution through the stock Harbor path: the probe diff was applied inside
-        the pinned sanitized image with the network disabled, tests/test.sh drove the committed run_tests.py,
-        and the reward was read from the bound reward contract path'
-      measurement_cache: .audit/adversary/live/4c7b8d6f-c500-585d-b7b2-3519df55b1b3/G-ADV-PER-DELIVERABLE-170826c2dd7e.json
+      measured_reason: declared-targets-absent-from-output
+      measured_reward: 0.0
+      measurement_basis: 'live execution through the stock Harbor path: the oracle diff was applied and
+        every declared deliverable was then overwritten with garbage bytes inside the pinned sanitized
+        image with the network disabled, tests/test.sh drove the committed run_tests.py, and the reward
+        was read from the bound reward contract path'
+      measurement_cache: .audit/adversary/live/4c7b8d6f-c500-585d-b7b2-3519df55b1b3/G-ADV-PER-DELIVERABLE-bebfb772b811.json
       probe: per-deliverable-garbage
       rule: measured reward must lose at least 0.2 against the oracle reward
-      status: fail
+      status: pass
       unrunnable_reason: ''
-      weight: *id064
-    - artifact_detail: oracle plus garbage beside 43 declared deliverables
-      artifact_sha256: 57b20dd53f8eb2fa0074958895a8b3f5550cab65f30d47177ae7059e988d5a9d
+      weight:
+        declared: true
+        declared_value: 0.2
+        graded_denominator: 5
+        implied_value: 0.2
+    - artifact_detail: oracle applied, then each of 43 declared deliverables overwritten with garbage
+        inside the container before grading
+      artifact_sha256: e502628017db50a1d2923ee036dc8aa5ec379031ad57153847e3abe3963eb90f
       bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
       declared_floor: 0.0
       derivability: live_execution
       instrument: G-ADV-PER-DELIVERABLE
-      measured_reason: graded
-      measured_reward: 1.0
-      measurement_basis: 'live execution through the stock Harbor path: the probe diff was applied inside
-        the pinned sanitized image with the network disabled, tests/test.sh drove the committed run_tests.py,
-        and the reward was read from the bound reward contract path'
-      measurement_cache: .audit/adversary/live/6bf0c918-e9ad-5397-bb76-cf3e238f2df1/G-ADV-PER-DELIVERABLE-57b20dd53f8e.json
+      measured_reason: declared-targets-absent-from-output
+      measured_reward: 0.0
+      measurement_basis: 'live execution through the stock Harbor path: the oracle diff was applied and
+        every declared deliverable was then overwritten with garbage bytes inside the pinned sanitized
+        image with the network disabled, tests/test.sh drove the committed run_tests.py, and the reward
+        was read from the bound reward contract path'
+      measurement_cache: .audit/adversary/live/6bf0c918-e9ad-5397-bb76-cf3e238f2df1/G-ADV-PER-DELIVERABLE-e502628017db.json
       probe: per-deliverable-garbage
       rule: measured reward must lose at least 0.05555555555555555 against the oracle reward
-      status: fail
+      status: pass
       unrunnable_reason: ''
-      weight: *id065
-    - artifact_detail: oracle plus garbage beside 34 declared deliverables
-      artifact_sha256: 645c130aa39d85fc8f820cb46cd34a23b7cee5bbb6f0a6b817168d7f878b1f36
+      weight:
+        declared: true
+        declared_value: 0.05555555555555555
+        graded_denominator: 18
+        implied_value: 0.05555555555555555
+    - artifact_detail: oracle applied, then each of 34 declared deliverables overwritten with garbage
+        inside the container before grading
+      artifact_sha256: 81756470dbb6bb072a4dd7dc7375a167ba4b83410ac6dc04ea55c19cedc073d1
       bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
       declared_floor: 0.0
       derivability: live_execution
       instrument: G-ADV-PER-DELIVERABLE
-      measured_reason: graded
-      measured_reward: 1.0
-      measurement_basis: 'live execution through the stock Harbor path: the probe diff was applied inside
-        the pinned sanitized image with the network disabled, tests/test.sh drove the committed run_tests.py,
-        and the reward was read from the bound reward contract path'
-      measurement_cache: .audit/adversary/live/873914cf-93b2-57a0-a5c8-264bfa2d3b66/G-ADV-PER-DELIVERABLE-645c130aa39d.json
+      measured_reason: declared-targets-absent-from-output
+      measured_reward: 0.0
+      measurement_basis: 'live execution through the stock Harbor path: the oracle diff was applied and
+        every declared deliverable was then overwritten with garbage bytes inside the pinned sanitized
+        image with the network disabled, tests/test.sh drove the committed run_tests.py, and the reward
+        was read from the bound reward contract path'
+      measurement_cache: .audit/adversary/live/873914cf-93b2-57a0-a5c8-264bfa2d3b66/G-ADV-PER-DELIVERABLE-81756470dbb6.json
       probe: per-deliverable-garbage
       rule: measured reward must lose at least 0.125 against the oracle reward
-      status: fail
+      status: pass
       unrunnable_reason: ''
-      weight: *id066
+      weight:
+        declared: true
+        declared_value: 0.125
+        graded_denominator: 8
+        implied_value: 0.125
     contract_step: 8t
     probe: per-deliverable-garbage
   ran: true
   raw_artifacts: []
-  standing: observed_violation
+  standing: demonstrated_coverage
 - coverage_gaps: []
   disposition_cap: SHIP
   findings: []
@@ -8757,7 +8394,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: execution-fidelity
-    evidence: *id067
+    evidence: *id053
     finding_id: FID-CONFIG-UNAPPROVED-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-claude-opus-5-run_1
     instrument: G-FID-CONFIG
     severity: high
@@ -8770,7 +8407,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: execution-fidelity
-    evidence: *id068
+    evidence: *id054
     finding_id: FID-CONFIG-INADEQUATE-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-claude-opus-5-run_1
     instrument: G-FID-CONFIG
     severity: medium
@@ -8782,7 +8419,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: execution-fidelity
-    evidence: *id069
+    evidence: *id055
     finding_id: FID-CONFIG-UNAPPROVED-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-zai__glm-5.3-run_1
     instrument: G-FID-CONFIG
     severity: high
@@ -8795,7 +8432,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: execution-fidelity
-    evidence: *id070
+    evidence: *id056
     finding_id: FID-CONFIG-INADEQUATE-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-zai__glm-5.3-run_1
     instrument: G-FID-CONFIG
     severity: medium
@@ -8807,7 +8444,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: execution-fidelity
-    evidence: *id071
+    evidence: *id057
     finding_id: FID-CONFIG-UNAPPROVED-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-claude-opus-5-run_1
     instrument: G-FID-CONFIG
     severity: high
@@ -8820,7 +8457,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: execution-fidelity
-    evidence: *id072
+    evidence: *id058
     finding_id: FID-CONFIG-INADEQUATE-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-claude-opus-5-run_1
     instrument: G-FID-CONFIG
     severity: medium
@@ -8832,7 +8469,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: execution-fidelity
-    evidence: *id073
+    evidence: *id059
     finding_id: FID-CONFIG-UNAPPROVED-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-zai__glm-5.3-run_1
     instrument: G-FID-CONFIG
     severity: high
@@ -8845,7 +8482,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: execution-fidelity
-    evidence: *id074
+    evidence: *id060
     finding_id: FID-CONFIG-INADEQUATE-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-zai__glm-5.3-run_1
     instrument: G-FID-CONFIG
     severity: medium
@@ -8857,7 +8494,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: execution-fidelity
-    evidence: *id075
+    evidence: *id061
     finding_id: FID-CONFIG-UNAPPROVED-873914cf-93b2-57a0-a5c8-264bfa2d3b66-claude-opus-5-run_1
     instrument: G-FID-CONFIG
     severity: high
@@ -8870,7 +8507,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: execution-fidelity
-    evidence: *id076
+    evidence: *id062
     finding_id: FID-CONFIG-INADEQUATE-873914cf-93b2-57a0-a5c8-264bfa2d3b66-claude-opus-5-run_1
     instrument: G-FID-CONFIG
     severity: medium
@@ -8882,7 +8519,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: execution-fidelity
-    evidence: *id077
+    evidence: *id063
     finding_id: FID-CONFIG-UNAPPROVED-873914cf-93b2-57a0-a5c8-264bfa2d3b66-zai__glm-5.3-run_1
     instrument: G-FID-CONFIG
     severity: high
@@ -8895,7 +8532,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: execution-fidelity
-    evidence: *id078
+    evidence: *id064
     finding_id: FID-CONFIG-INADEQUATE-873914cf-93b2-57a0-a5c8-264bfa2d3b66-zai__glm-5.3-run_1
     instrument: G-FID-CONFIG
     severity: medium
@@ -8982,7 +8619,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: execution-fidelity
-    evidence: *id079
+    evidence: *id065
     finding_id: FID-TRACE-SUPPRESSING-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-zai__glm-5.3-run_1
     instrument: G-FID-TRACE
     severity: high
@@ -8994,7 +8631,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: execution-fidelity
-    evidence: *id080
+    evidence: *id066
     finding_id: FID-TRACE-STATUS-DISAGREEMENT-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-zai__glm-5.3-run_1
     instrument: G-FID-TRACE
     severity: high
@@ -9138,7 +8775,7 @@ instruments:
   - bucket: deterministic
     caps: BLOCK
     critical_class: execution-fidelity
-    evidence: *id081
+    evidence: *id067
     finding_id: FID-POPULATION-UNPROVABLE
     instrument: G-FID-POPULATION
     severity: critical
@@ -9159,7 +8796,7 @@ instruments:
     author_lane_record: BLOCK:INVALID_PILOT
     contract_step: 8u
     core_control_evidence_for: execution_fidelity
-    roster_search: *id082
+    roster_search: *id068
     rows:
     - bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
       fixed_group_count: null
@@ -9167,7 +8804,7 @@ instruments:
       instrument: G-FID-POPULATION
       precommitted_roster: null
       realized_group_count: 2
-      realized_groups: *id083
+      realized_groups: *id069
       reconciled: false
     - bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
       fixed_group_count: null
@@ -9175,7 +8812,7 @@ instruments:
       instrument: G-FID-POPULATION
       precommitted_roster: null
       realized_group_count: 2
-      realized_groups: *id084
+      realized_groups: *id070
       reconciled: false
     - bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
       fixed_group_count: null
@@ -9183,7 +8820,7 @@ instruments:
       instrument: G-FID-POPULATION
       precommitted_roster: null
       realized_group_count: 2
-      realized_groups: *id085
+      realized_groups: *id071
       reconciled: false
   ran: true
   raw_artifacts: []
@@ -9194,7 +8831,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: execution-fidelity
-    evidence: *id086
+    evidence: *id072
     finding_id: FID-HANDOFF-UNVERIFIED-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-zai__glm-5.3-run_1
     instrument: G-FID-HANDOFF
     severity: high
@@ -9206,7 +8843,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: execution-fidelity
-    evidence: *id087
+    evidence: *id073
     finding_id: FID-HANDOFF-UNVERIFIED-873914cf-93b2-57a0-a5c8-264bfa2d3b66-claude-opus-5-run_1
     instrument: G-FID-HANDOFF
     severity: high
@@ -9218,7 +8855,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: execution-fidelity
-    evidence: *id088
+    evidence: *id074
     finding_id: FID-HANDOFF-UNVERIFIED-873914cf-93b2-57a0-a5c8-264bfa2d3b66-zai__glm-5.3-run_1
     instrument: G-FID-HANDOFF
     severity: high
@@ -9274,9 +8911,9 @@ instruments:
       instrument: G-FID-HANDOFF
       rollout: claude-opus-5/run_1
       verified: true
-    - *id086
-    - *id087
-    - *id088
+    - *id072
+    - *id073
+    - *id074
   ran: true
   raw_artifacts: []
   standing: observed_violation
@@ -9583,7 +9220,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: reference-fidelity
-    evidence: *id089
+    evidence: *id075
     finding_id: REF-NAMES-ONLY-INTERFACE-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
     instrument: G-REF-DIVERGENCE-TAXONOMY
     severity: high
@@ -9597,7 +9234,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: reference-fidelity
-    evidence: *id090
+    evidence: *id076
     finding_id: REF-NAMES-ONLY-INTERFACE-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
     instrument: G-REF-DIVERGENCE-TAXONOMY
     severity: high
@@ -9611,7 +9248,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: reference-fidelity
-    evidence: *id091
+    evidence: *id077
     finding_id: REF-NAMES-ONLY-INTERFACE-873914cf-93b2-57a0-a5c8-264bfa2d3b66
     instrument: G-REF-DIVERGENCE-TAXONOMY
     severity: high
@@ -9666,7 +9303,7 @@ instruments:
           - key: preserve_cmd
             value: bash /tests/graded/run.sh
       interface_mode: names-only
-      per_class_counts: *id092
+      per_class_counts: *id078
       shape_histogram:
         bare-symbol: 0
         cli-flag: 1
@@ -9799,7 +9436,7 @@ instruments:
           - key: preserve_cmd
             value: bash /tests/graded/run.sh
       interface_mode: names-only
-      per_class_counts: *id093
+      per_class_counts: *id079
       shape_histogram:
         bare-symbol: 4
         cli-flag: 0
@@ -9946,7 +9583,7 @@ instruments:
           - key: preserve_cmd
             value: bash /tests/graded/run.sh
       interface_mode: names-only
-      per_class_counts: *id094
+      per_class_counts: *id080
       shape_histogram:
         bare-symbol: 5
         cli-flag: 0
@@ -10401,7 +10038,7 @@ instruments:
         write_state: preexisting
       uuid: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
       verification: {}
-    recon_git_sha: 29f2f596bb4eee849f7c6546d0b5f3385c11696c
+    recon_git_sha: acc0327f9eba4b1ed82cec14f75f1277da0fc3f5
     registry_roots:
       fingerprints: .audit/fingerprints
       lineage: .audit/lineage
@@ -10583,7 +10220,7 @@ instruments:
     - --json
     artifact_id: collision-check-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
     blocked_reason: null
-    elapsed_seconds: 0.035197
+    elapsed_seconds: 0.055587
     exit_code: 1
     stderr_bytes: 550
     stderr_sha256: ee931a1c2ffae35d9dd3908df791ab8cbbf86f779fef2d0d67f87b54319f6116
@@ -10599,7 +10236,7 @@ instruments:
     - --json
     artifact_id: collision-check-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
     blocked_reason: null
-    elapsed_seconds: 0.034783
+    elapsed_seconds: 0.03393
     exit_code: 1
     stderr_bytes: 550
     stderr_sha256: ee931a1c2ffae35d9dd3908df791ab8cbbf86f779fef2d0d67f87b54319f6116
@@ -10615,7 +10252,7 @@ instruments:
     - --json
     artifact_id: collision-check-873914cf-93b2-57a0-a5c8-264bfa2d3b66
     blocked_reason: null
-    elapsed_seconds: 0.033905
+    elapsed_seconds: 0.033552
     exit_code: 1
     stderr_bytes: 550
     stderr_sha256: ee931a1c2ffae35d9dd3908df791ab8cbbf86f779fef2d0d67f87b54319f6116
@@ -10642,7 +10279,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: execution-attestation
-    evidence: *id095
+    evidence: *id081
     finding_id: ATT-EXECUTION-OPERATOR-POLICY-UNBOUND
     instrument: G-EXEC-ATTESTATION
     severity: high
@@ -10655,7 +10292,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: execution-attestation
-    evidence: *id096
+    evidence: *id082
     finding_id: ATT-NO-EXTERNAL-TRUST-ROOT
     instrument: G-EXEC-ATTESTATION
     severity: high
@@ -10725,11 +10362,11 @@ instruments:
       live_digest: 6d4f0d32e68ad71b144bf702a0aec75bad4f68cd8572c2f312d951d3c8557e58
       matches: true
     trust_policy:
-      absent_roots: *id097
+      absent_roots: *id083
       execution_operator_in_declared_roles: false
       execution_operator_policy_bound: false
       execution_operator_trust_policy: null
-      external_trust_roots_available: *id098
+      external_trust_roots_available: *id084
       principals:
       - bears_required_role: false
         expires: '2027-09-16T00:00:00Z'
@@ -10768,9 +10405,9 @@ instruments:
         name: levi-clearer-01
         roles:
         - sentinel_clearer
-      principals_bearing_required_role: *id099
-      signature_trust_roots: *id100
-      source_root_declared_roles: *id101
+      principals_bearing_required_role: *id085
+      signature_trust_roots: *id086
+      source_root_declared_roles: *id087
       view_digest: a619b70101345155265126a381cc07048acce9993f6ca1e3639deebcb1217d85
       view_path: /Users/macbookpro/levi/.memory/crucible_view.yaml
       view_present: true
@@ -11356,7 +10993,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: reward-coverage-ledger
-    evidence: *id102
+    evidence: *id088
     finding_id: F-LEDGER-NO-EXTERNAL-ENFORCEMENT
     instrument: G-REWARD-COVERAGE-LEDGER
     severity: high
@@ -11367,7 +11004,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: reward-coverage-ledger
-    evidence: *id103
+    evidence: *id089
     finding_id: F-LEDGER-PRODUCER-VOCABULARY-DIVERGENT
     instrument: G-REWARD-COVERAGE-LEDGER
     severity: medium
@@ -11378,7 +11015,7 @@ instruments:
   instrument: G-REWARD-COVERAGE-LEDGER
   notes:
     applicable_pairs: 88
-    attestation_clauses: *id104
+    attestation_clauses: *id090
     boundaries:
     - definition
     - input
@@ -11568,24 +11205,21 @@ recon:
     path: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
     task_manifest_digest: fb8f0ce15c6e11dd2abaf37a8267ca24f9f99ae0a1904ad2a8b3b80ff8563aef
     uuid: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-  captured_at: '2026-09-23T10:50:59+00:00'
+  captured_at: '2026-09-23T13:36:36+00:00'
   dirty_bit: true
   dirty_entries:
-  - M .audit/calibration.py
-  - ' M .audit/contamination.py'
-  - ' M .audit/reward.py'
-  - ' M .audit/verifier.py'
-  - ?? .audit/adversary/live/4c7b8d6f-c500-585d-b7b2-3519df55b1b3/exec-empty-0e7d07ee6ebe.json
-  - ?? .audit/adversary/live/4c7b8d6f-c500-585d-b7b2-3519df55b1b3/exec-oracle-e3c484e7ea09.json
-  - ?? .audit/adversary/live/6bf0c918-e9ad-5397-bb76-cf3e238f2df1/exec-empty-0e7d07ee6ebe.json
-  - ?? .audit/adversary/live/6bf0c918-e9ad-5397-bb76-cf3e238f2df1/exec-oracle-17e8fc3bed33.json
-  - ?? .audit/adversary/live/873914cf-93b2-57a0-a5c8-264bfa2d3b66/exec-empty-0e7d07ee6ebe.json
-  - ?? .audit/adversary/live/873914cf-93b2-57a0-a5c8-264bfa2d3b66/exec-oracle-fe9a0828b109.json
-  - ?? .audit/liveexec.py
+  - M .audit/adversary.py
+  - ' M .audit/runs/crucible-ankitporwal04-20260923t005222z-dba1b1/feedback.chain.jsonl'
+  - ' M .audit/runs/crucible-ankitporwal04-20260923t005222z-dba1b1/feedback.yaml'
+  - ?? .audit/adversary/live/4c7b8d6f-c500-585d-b7b2-3519df55b1b3/G-ADV-PER-DELIVERABLE-bebfb772b811.json
+  - ?? .audit/adversary/live/6bf0c918-e9ad-5397-bb76-cf3e238f2df1/G-ADV-NEGATED-6da07908cd20.json
+  - ?? .audit/adversary/live/6bf0c918-e9ad-5397-bb76-cf3e238f2df1/G-ADV-PER-DELIVERABLE-e502628017db.json
+  - ?? .audit/adversary/live/873914cf-93b2-57a0-a5c8-264bfa2d3b66/G-ADV-PER-DELIVERABLE-81756470dbb6.json
+  - ?? .audit/runs/crucible-ankitporwal04-20260923t005222z-dba1b1/reasoning-feedback-0010.txt
   - ?? .sentinel/
   - ?? .trinity/install/
-  git_sha: 29f2f596bb4eee849f7c6546d0b5f3385c11696c
-  history_depth: 35
+  git_sha: acc0327f9eba4b1ed82cec14f75f1277da0fc3f5
+  history_depth: 36
   root: .
   runtime:
     implementation: CPython

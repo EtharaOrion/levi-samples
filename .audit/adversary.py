@@ -79,6 +79,7 @@ import hashlib
 import importlib.util
 import json
 import re
+import shlex
 import sys
 import tempfile
 import tomllib
@@ -543,19 +544,33 @@ def live_measure(
         }
     repo_dir = str(config.get("repo_dir") or "")
     negate_through_gold = probe is NEGATED
-    forward_clause = (
-        f"git apply --whitespace=nowarn /probework/forward.patch || exit {APPLY_FAILURE_EXIT}; "
-        if negate_through_gold
-        else ""
-    )
-    script = (
-        f"cd {repo_dir} && "
-        f"{forward_clause}"
-        "if test -s /probework/probe.diff; then "
-        f"git apply --whitespace=nowarn /probework/probe.diff || exit {APPLY_FAILURE_EXIT}; "
-        "fi; "
-        "bash /tests/test.sh"
-    )
+    corrupt_deliverables: list[str] = []
+    if probe is PER_DELIVERABLE:
+        bounding = _read_json(bundle / BOUNDING_RELATIVE)
+        kept = list(bounding.get("kept_paths") or []) if isinstance(bounding, dict) else []
+        corrupt_deliverables = [str(path) for path in kept]
+    if negate_through_gold:
+        script = (
+            f"cd {repo_dir} && "
+            f"git apply --whitespace=nowarn /probework/forward.patch || exit {APPLY_FAILURE_EXIT}; "
+            "git apply --whitespace=nowarn -R /probework/forward.patch "
+            f"|| exit {APPLY_FAILURE_EXIT}; "
+            "bash /tests/test.sh"
+        )
+    else:
+        nonce = probe_nonce(base, PROBE_NAMES[probe], bundle.name)
+        corruption_clause = "".join(
+            f"printf 'crucible-adv-garbage-{nonce}' > {shlex.quote(path)}; "
+            for path in corrupt_deliverables
+        )
+        script = (
+            f"cd {repo_dir} && "
+            "if test -s /probework/probe.diff; then "
+            f"git apply --whitespace=nowarn /probework/probe.diff || exit {APPLY_FAILURE_EXIT}; "
+            "fi; "
+            f"{corruption_clause}"
+            "bash /tests/test.sh"
+        )
     with tempfile.TemporaryDirectory(prefix="crucible-adv-") as scratch:
         work = Path(scratch) / "probework"
         logs = Path(scratch) / "logs"
@@ -636,11 +651,16 @@ def live_measure(
         "measurement_basis": (
             "live execution through the stock Harbor path: "
             + (
-                "the gold fix was applied and then undone by the reversed probe "
-                "diff, realizing the negated gold workspace on the only tree "
-                "where the inversion is defined, "
+                "the gold fix was applied and then reverted with git apply -R, "
+                "realizing the negated gold workspace on the only tree where "
+                "the inversion is defined, "
                 if negate_through_gold
-                else "the probe diff was applied "
+                else (
+                    "the oracle diff was applied and every declared deliverable "
+                    "was then overwritten with garbage bytes "
+                    if corrupt_deliverables
+                    else "the probe diff was applied "
+                )
             )
             + "inside the pinned sanitized image with the network disabled, "
             "tests/test.sh drove the committed run_tests.py, and the reward was "
@@ -1107,13 +1127,12 @@ def build_artifact(base: Path, bundle: Path, config: dict[str, Any], probe: str)
     if probe is PER_DELIVERABLE:
         bounding = _read_json(bundle / BOUNDING_RELATIVE)
         kept = list(bounding.get("kept_paths") or []) if isinstance(bounding, dict) else []
-        garbage = "".join(
-            _addition_diff(f"{path}.crucible-garbage", f"crucible-adv-garbage-{nonce}")
-            for path in kept
-        )
         return {
-            "diff": oracle + garbage,
-            "detail": f"oracle plus garbage beside {len(kept)} declared deliverables",
+            "diff": oracle,
+            "detail": (
+                f"oracle applied, then each of {len(kept)} declared deliverables "
+                "overwritten with garbage inside the container before grading"
+            ),
         }
     if probe is SCHEMA_VALID:
         return {
@@ -1414,6 +1433,57 @@ def _bundle_gap(instrument: str, bundle_name: str, surface: str, detail: str) ->
     )
 
 
+STATUS_NOT_APPLICABLE = "not_applicable"
+
+
+def derived_service_set(bundle: Path) -> dict[str, Any]:
+    """Derive the verifier-reachable service surface from committed bundle bytes.
+
+    Step 8t's stubbed-oracle probe measures whether the verifier detects an
+    oracle whose services are stubbed out. That rule presupposes a service the
+    verifier reaches. This function derives the service surface the way the
+    reward coverage ledger derives not_applicable rows: from committed bytes
+    alone, never from a producer declaration. It reads the task manifest's
+    environment and verifier tables for declared services and network modes
+    and looks for any compose file under environment/. A bundle whose
+    committed closure declares no service and pins network mode no-network
+    has no stubbable surface, so grading the oracle at full reward there is
+    the correct outcome rather than a discrimination failure, and the probe
+    resolves not_applicable with this derivation recorded.
+    """
+    manifest = _read_toml(bundle / "task.toml")
+    environment = manifest.get("environment") or {}
+    verifier = manifest.get("verifier") or {}
+    services = list(environment.get("services") or [])
+    compose_files: list[str] = []
+    environment_dir = bundle / "environment"
+    if environment_dir.is_dir():
+        compose_files = sorted(
+            str(path.relative_to(bundle)) for path in environment_dir.glob("docker-compose*")
+        )
+    network_modes = {
+        "environment": str(environment.get("network_mode") or ""),
+        "verifier": str(verifier.get("network_mode") or ""),
+    }
+    reachable = bool(services or compose_files)
+    if reachable:
+        derivation = "a service surface is present in the committed closure"
+    else:
+        derivation = (
+            "derived from committed bytes: task.toml declares no service table, "
+            "environment/ carries no compose file, and the declared network "
+            f"modes are environment={network_modes['environment'] or 'unset'} "
+            f"and verifier={network_modes['verifier'] or 'unset'}"
+        )
+    return {
+        "services": services,
+        "compose_files": compose_files,
+        "network_modes": network_modes,
+        "reachable": reachable,
+        "derivation": derivation,
+    }
+
+
 def _bundle_context(bundle: Path) -> tuple[dict[str, Any] | None, Any, Any, str]:
     """Load the committed config and both committed grading modules for one bundle."""
     config = _read_json(bundle / CONFIG_RELATIVE)
@@ -1447,6 +1517,28 @@ def run_probe(base: Path, bundles: list[Path], probe: str) -> InstrumentResult:
             continue
         floor = declared_null_floor(bundle)
         weight = discrimination_weight(config)
+        if probe is STUBBED:
+            service_set = derived_service_set(bundle)
+            if not service_set["reachable"]:
+                ran = True
+                rows.append(
+                    {
+                        "bundle": bundle.name,
+                        "probe": PROBE_NAMES[probe],
+                        "instrument": probe,
+                        "derivability": "committed_closure_derivation",
+                        "measured_reward": None,
+                        "measured_reason": "",
+                        "measurement_basis": service_set["derivation"],
+                        "unrunnable_reason": "",
+                        "service_set": service_set,
+                        "weight": weight,
+                        "declared_floor": floor["value"],
+                        "rule": _rule_text(probe, floor, weight),
+                        "status": STATUS_NOT_APPLICABLE,
+                    }
+                )
+                continue
         row = measure(base, bundle, harness, runner, config, probe)
         artifacts.extend(row.pop("_raw_artifacts", []))
         row["weight"] = weight

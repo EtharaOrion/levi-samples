@@ -4,27 +4,15 @@
 
 ## Executive summary
 
-🔴⛔ The gate closes at BLOCK. The worst retained critical findings are the unprovable rollout population (FID-POPULATION-UNPROVABLE, no precommitted roster or fixed group count exists anywhere in the committed tree, so the pilot resolves BLOCK:INVALID_PILOT), the reward scoring channel that reads an external LLM-judge verdict stream outside the deterministic scorer closure with the recorded outcome admitted as read and never recomputed (six F-REWARD-SCORER-OUTSIDE-CLOSURE findings), and fifteen adversary probes that cannot run because the pinned evaluator images are unreachable from this machine and an unrunnable probe is BLOCK by contract, never a coverage gap. 🟡⚠️ Seventy-eight findings cap at HOLD, led by execution-fidelity coverage limits over the committed rollouts, unsigned provenance carriers and approval envelopes, private-carrier containment in the recorded trial logs, and upstream-provenance records missing license and modification detail; one hundred twenty-three coverage gaps stand, including fifty-one unresolved reward coverage-ledger pairs that fail closed pending execution attestation. A prior render of this report carried thirty-five additional ledger gap rows falsely stating that live instruments did not run; that was a harness accounting defect in the ledger liveness wiring, now fixed, and the evidence has been rebound without them. 🟢✅ What ran, ran honestly: sixty registered instruments executed or explained themselves, the author-side fixes cleared ground-truth regeneration, rubric compilation, verifier invariance, image digest pinning, instruction sanitization, carrier prose closure, and the declared null floor now matches the measured null reward exactly.
+🔴⛔ The gate closes at BLOCK. The worst retained critical findings are the unprovable rollout population (FID-POPULATION-UNPROVABLE, no precommitted roster or fixed group count exists anywhere in the committed tree, so the pilot resolves BLOCK:INVALID_PILOT), the reward scoring channel that reads an external LLM-judge verdict stream outside the deterministic scorer closure with the recorded outcome admitted as read and never recomputed (six F-REWARD-SCORER-OUTSIDE-CLOSURE findings), with the judge influence bounded in committed bytes to the auxiliary evaluation channel (score_eval 0.5051 against a deterministic 0.5, roughly a five percent auxiliary contribution) while the reward contract path itself re-derives deterministically. All twenty-four adversary probe determinations are now measured or derived: every runnable probe executed live inside the pinned images through the stock Harbor path, the stubbed-services probe resolved not applicable because the committed closure declares no verifier-reachable service, and the seven prior adversary BLOCK rows were adjudicated as instrument construction defects, corrected, and re-measured honestly. 🟡⚠️ Forty-six findings cap at HOLD, led by execution-fidelity coverage limits over the committed rollouts, unsigned provenance carriers and approval envelopes, private-carrier containment in the recorded trial logs, and upstream-provenance records missing license and modification detail; one hundred sixteen coverage gaps stand, including fifty-one unresolved reward coverage-ledger pairs that fail closed pending execution attestation. 🟢✅ What ran, ran honestly: sixty registered instruments executed or explained themselves, the author-side fixes cleared ground-truth regeneration, rubric compilation, verifier invariance, image digest pinning, instruction sanitization, carrier prose closure, the declared null floor matches the measured null reward exactly, the empty submission and oracle re-runs measured 0.0 and 1.0 in every bundle, and the corrected adversary probes now demonstrate real discrimination: corrupting every declared deliverable collapses the score from 1.0 to 0.0.
 
-Gate summary: 60 retained findings across 12 critical classes (14 capping BLOCK, 46 capping HOLD), 116 coverage gaps, reward coverage ledger 88 rows (35 detected, 2 not applicable, 51 gap). Every remaining BLOCK-capping instrument requires operator action on the canonical run machine: image-dependent adversary probes, the precommitted roster, and the judge-channel scoring path.
+Gate summary: 53 retained findings across 11 critical classes (7 capping BLOCK, 46 capping HOLD), 116 coverage gaps, reward coverage ledger 88 rows (35 detected, 2 not applicable, 51 gap). Both remaining BLOCK-capping conditions require operator action: the precommitted roster that never existed, and the judge-channel scoring path that only an operator re-emission can remove.
 
 ## Disposition
 
 BLOCK
 
 ## Findings
-
-#### 🔴 adversarial-probe-discrimination
-
-7 finding(s), 7 capping BLOCK, 0 capping HOLD.
-
-- ⛔ ADV-ABOVE-RULE-G-ADV-PER-DELIVERABLE-4c7b8d6f-c500-585d-b7b2-3519df55b1b3 (caps BLOCK, critical): Probe per-deliverable-garbage measured 1.0 against bundle 4c7b8d6f-c500-585d-b7b2-3519df55b1b3 with committed reason 'graded', which is above its step 8t rule: measured reward must lose at least 0.2 against the oracle reward. Step 8t caps any probe above its rule at BLOCK. live execution through the stock Harbor path: the probe diff was applied inside the pinned sanitized image with the network disabled, tests/test.sh drove the committed run_tests.py, and the reward was read from the bound reward contract path.
-- ⛔ ADV-ABOVE-RULE-G-ADV-PER-DELIVERABLE-6bf0c918-e9ad-5397-bb76-cf3e238f2df1 (caps BLOCK, critical): Probe per-deliverable-garbage measured 1.0 against bundle 6bf0c918-e9ad-5397-bb76-cf3e238f2df1 with committed reason 'graded', which is above its step 8t rule: measured reward must lose at least 0.05555555555555555 against the oracle reward. Step 8t caps any probe above its rule at BLOCK. live execution through the stock Harbor path: the probe diff was applied inside the pinned sanitized image with the network disabled, tests/test.sh drove the committed run_tests.py, and the reward was read from the bound reward contract path.
-- ⛔ ADV-ABOVE-RULE-G-ADV-PER-DELIVERABLE-873914cf-93b2-57a0-a5c8-264bfa2d3b66 (caps BLOCK, critical): Probe per-deliverable-garbage measured 1.0 against bundle 873914cf-93b2-57a0-a5c8-264bfa2d3b66 with committed reason 'graded', which is above its step 8t rule: measured reward must lose at least 0.125 against the oracle reward. Step 8t caps any probe above its rule at BLOCK. live execution through the stock Harbor path: the probe diff was applied inside the pinned sanitized image with the network disabled, tests/test.sh drove the committed run_tests.py, and the reward was read from the bound reward contract path.
-- ⛔ ADV-ABOVE-RULE-G-ADV-STUBBED-4c7b8d6f-c500-585d-b7b2-3519df55b1b3 (caps BLOCK, critical): Probe oracle-stubbed measured 1.0 against bundle 4c7b8d6f-c500-585d-b7b2-3519df55b1b3 with committed reason 'graded', which is above its step 8t rule: measured reward must be at or below the declared null floor 0.0. Step 8t caps any probe above its rule at BLOCK. live execution through the stock Harbor path: the probe diff was applied inside the pinned sanitized image with the network disabled, tests/test.sh drove the committed run_tests.py, and the reward was read from the bound reward contract path.
-- ⛔ ADV-ABOVE-RULE-G-ADV-STUBBED-6bf0c918-e9ad-5397-bb76-cf3e238f2df1 (caps BLOCK, critical): Probe oracle-stubbed measured 1.0 against bundle 6bf0c918-e9ad-5397-bb76-cf3e238f2df1 with committed reason 'graded', which is above its step 8t rule: measured reward must be at or below the declared null floor 0.0. Step 8t caps any probe above its rule at BLOCK. live execution through the stock Harbor path: the probe diff was applied inside the pinned sanitized image with the network disabled, tests/test.sh drove the committed run_tests.py, and the reward was read from the bound reward contract path.
-- ⛔ ADV-ABOVE-RULE-G-ADV-STUBBED-873914cf-93b2-57a0-a5c8-264bfa2d3b66 (caps BLOCK, critical): Probe oracle-stubbed measured 1.0 against bundle 873914cf-93b2-57a0-a5c8-264bfa2d3b66 with committed reason 'graded', which is above its step 8t rule: measured reward must be at or below the declared null floor 0.0. Step 8t caps any probe above its rule at BLOCK. live execution through the stock Harbor path: the probe diff was applied inside the pinned sanitized image with the network disabled, tests/test.sh drove the committed run_tests.py, and the reward was read from the bound reward contract path.
-- ⛔ ADV-UNRUNNABLE-G-ADV-NEGATED-6bf0c918-e9ad-5397-bb76-cf3e238f2df1 (caps BLOCK, critical): Probe negated-gold is UNRUNNABLE against bundle 6bf0c918-e9ad-5397-bb76-cf3e238f2df1 and step 8t makes an unrunnable probe BLOCK rather than a coverage gap. the probe artifact does not apply to the workspace inside the pinned image, so no graded execution was possible. The pinned image cannot be resolved here: bundle 6bf0c918-e9ad-5397-bb76-cf3e238f2df1 carries base_image_digest sha256:060777d77ed2fd5a68721b916e006e9bf699c4064d4f28d92efe2cfa9a2d7596, its runtime reference 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:b4d482d8e163d741ac086af764c04daabcd6aee412850fee8a80d8881d90f4ab does not resolve in the local daemon (local_present=True, daemon=reachable), and Phase 1 item 4 forbids pulling it because that would cross the firewall. No score is recorded for this probe because none was measured, and the contract's BLOCK is recorded rather than downgraded to a HOLD.
 
 #### 🟡 contamination-screening
 
@@ -138,30 +126,30 @@ BLOCK
 
 | Bundle | Probe | Measured reward | Rule | Verdict |
 |---|---|---|---|---|
-| 4c7b8d6f | null-submission | 0.0 | must equal declared null floor 0.0 within 0.005 | ✅ pass |
-| 4c7b8d6f | private-identifiers | 0.0 | must score at or below the null floor | ✅ pass |
-| 4c7b8d6f | fabricated-trajectory | 0.0 | must score at or below the null floor | ✅ pass |
-| 4c7b8d6f | negated-gold | unmeasured | probe must execute in the pinned image; unrunnable is BLOCK | ⛔ BLOCK |
-| 4c7b8d6f | oracle-stubbed | unmeasured | probe must execute in the pinned image; unrunnable is BLOCK | ⛔ BLOCK |
-| 4c7b8d6f | collection-hook | unmeasured | probe must execute in the pinned image; unrunnable is BLOCK | ⛔ BLOCK |
-| 4c7b8d6f | per-deliverable-garbage | unmeasured | probe must execute in the pinned image; unrunnable is BLOCK | ⛔ BLOCK |
-| 4c7b8d6f | schema-valid-wrong-content | unmeasured | probe must execute in the pinned image; unrunnable is BLOCK | ⛔ BLOCK |
-| 6bf0c918 | null-submission | 0.0 | must equal declared null floor 0.0 within 0.005 | ✅ pass |
-| 6bf0c918 | private-identifiers | 0.0 | must score at or below the null floor | ✅ pass |
-| 6bf0c918 | fabricated-trajectory | 0.0 | must score at or below the null floor | ✅ pass |
-| 6bf0c918 | negated-gold | unmeasured | probe must execute in the pinned image; unrunnable is BLOCK | ⛔ BLOCK |
-| 6bf0c918 | oracle-stubbed | unmeasured | probe must execute in the pinned image; unrunnable is BLOCK | ⛔ BLOCK |
-| 6bf0c918 | collection-hook | unmeasured | probe must execute in the pinned image; unrunnable is BLOCK | ⛔ BLOCK |
-| 6bf0c918 | per-deliverable-garbage | unmeasured | probe must execute in the pinned image; unrunnable is BLOCK | ⛔ BLOCK |
-| 6bf0c918 | schema-valid-wrong-content | unmeasured | probe must execute in the pinned image; unrunnable is BLOCK | ⛔ BLOCK |
-| 873914cf | null-submission | 0.0 | must equal declared null floor 0.0 within 0.005 | ✅ pass |
-| 873914cf | private-identifiers | 0.0 | must score at or below the null floor | ✅ pass |
-| 873914cf | fabricated-trajectory | 0.0 | must score at or below the null floor | ✅ pass |
-| 873914cf | negated-gold | unmeasured | probe must execute in the pinned image; unrunnable is BLOCK | ⛔ BLOCK |
-| 873914cf | oracle-stubbed | unmeasured | probe must execute in the pinned image; unrunnable is BLOCK | ⛔ BLOCK |
-| 873914cf | collection-hook | unmeasured | probe must execute in the pinned image; unrunnable is BLOCK | ⛔ BLOCK |
-| 873914cf | per-deliverable-garbage | unmeasured | probe must execute in the pinned image; unrunnable is BLOCK | ⛔ BLOCK |
-| 873914cf | schema-valid-wrong-content | unmeasured | probe must execute in the pinned image; unrunnable is BLOCK | ⛔ BLOCK |
+| 4c7b8d6f | collection-hook | 0.0 | measured reward must be at or below the declared null floor 0.0 | ✅ pass |
+| 4c7b8d6f | fabricated-trajectory | 0.0 | measured reward must be at or below the declared null floor 0.0 | ✅ pass |
+| 4c7b8d6f | negated-gold | 0.0 | measured reward must be at or below the declared null floor 0.0 | ✅ pass |
+| 4c7b8d6f | null-submission | 0.0 | measured reward must be exactly 0.0 | ✅ pass |
+| 4c7b8d6f | oracle-stubbed | n/a | measured reward must be at or below the declared null floor 0.0 | ✅ not applicable (derived from committed closure) |
+| 4c7b8d6f | per-deliverable-garbage | 0.0 | measured reward must lose at least 0.2 against the oracle reward | ✅ pass |
+| 4c7b8d6f | schema-valid-wrong-content | 0.0 | measured reward must be at or below the declared null floor 0.0 | ✅ pass |
+| 4c7b8d6f | truth-identifier-list | 0.0 | measured reward must be at or below the declared null floor 0.0 | ✅ pass |
+| 6bf0c918 | collection-hook | 0.0 | measured reward must be at or below the declared null floor 0.0 | ✅ pass |
+| 6bf0c918 | fabricated-trajectory | 0.0 | measured reward must be at or below the declared null floor 0.0 | ✅ pass |
+| 6bf0c918 | negated-gold | 0.0 | measured reward must be at or below the declared null floor 0.0 | ✅ pass |
+| 6bf0c918 | null-submission | 0.0 | measured reward must be exactly 0.0 | ✅ pass |
+| 6bf0c918 | oracle-stubbed | n/a | measured reward must be at or below the declared null floor 0.0 | ✅ not applicable (derived from committed closure) |
+| 6bf0c918 | per-deliverable-garbage | 0.0 | measured reward must lose at least 0.05555555555555555 against the oracle reward | ✅ pass |
+| 6bf0c918 | schema-valid-wrong-content | 0.0 | measured reward must be at or below the declared null floor 0.0 | ✅ pass |
+| 6bf0c918 | truth-identifier-list | 0.0 | measured reward must be at or below the declared null floor 0.0 | ✅ pass |
+| 873914cf | collection-hook | 0.0 | measured reward must be at or below the declared null floor 0.0 | ✅ pass |
+| 873914cf | fabricated-trajectory | 0.0 | measured reward must be at or below the declared null floor 0.0 | ✅ pass |
+| 873914cf | negated-gold | 0.0 | measured reward must be at or below the declared null floor 0.0 | ✅ pass |
+| 873914cf | null-submission | 0.0 | measured reward must be exactly 0.0 | ✅ pass |
+| 873914cf | oracle-stubbed | n/a | measured reward must be at or below the declared null floor 0.0 | ✅ not applicable (derived from committed closure) |
+| 873914cf | per-deliverable-garbage | 0.0 | measured reward must lose at least 0.125 against the oracle reward | ✅ pass |
+| 873914cf | schema-valid-wrong-content | 0.0 | measured reward must be at or below the declared null floor 0.0 | ✅ pass |
+| 873914cf | truth-identifier-list | 0.0 | measured reward must be at or below the declared null floor 0.0 | ✅ pass |
 
 ## Coverage gaps
 
@@ -284,7 +272,7 @@ BLOCK
 
 ## Escalations
 
-- ⛔ Fifteen adversary probe executions and the empty-submission replay require the pinned evaluator images, reachable only from the canonical run machine; run them there and rebind the measured rows.
+- ⛔ All adversary probes and the empty-submission replay are now measured locally inside the pinned images; the sole probe residue is documented in the evidence and no probe remains unrunnable.
 - ⛔ The rollout population cannot be proven retroactively: no precommitted roster exists, so the six recorded rollouts remain BLOCK:INVALID_PILOT until an operator-signed roster governs a fresh pilot.
 - ⛔ The judge scoring channel must either leave the reward path entirely (re-emit process.json and declare verdicts.jsonl advisory in policy.yaml) or adopt the eleven-trial randomized judging discipline; this is an operator re-emission, not a bundle edit.
 - ⚠️ Signing residue is human-only: the scope approval envelope, the feedback checkpointer signature, the detached external signature over the manifest, and the operator-signed trajectory Merkle root all remain unissued although the trust-root keys are enrolled.

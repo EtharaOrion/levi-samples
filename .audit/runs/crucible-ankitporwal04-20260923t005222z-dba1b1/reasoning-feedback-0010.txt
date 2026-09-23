@@ -1,0 +1,6 @@
+["Operator adjudicated the 14 standing BLOCK findings and directed execution of the corrections.",
+ "Verified against committed bytes: the STUBBED transform plants a repo-root sitecustomize.py that never executes and the tasks declare no verifier-reachable service, so the measured 1.0 was the oracle score under a condition that never existed; false evidence, instrument correction required.",
+ "Verified: the PER-DELIVERABLE transform adds sibling garbage files nothing reads instead of degrading a deliverable, so the must-lose-weight rule was applied to a non-adversarial artifact; transform corrected to corrupt kept deliverables and re-measure.",
+ "Corrected the operator's reading of ADV-UNRUNNABLE-G-ADV-NEGATED-6bf0c918: the pinned image was locally present and gold applies cleanly; the failure was the hand-built reverse diff not applying; reversal now delegated to git apply -R.",
+ "The scorer-outside-closure findings stand: the policy.yaml advisory declaration cannot lawfully suppress a presence-based anti-gaming predicate; the operator's quantification of judge influence is recorded as Bucket-N context only.",
+ "FID-POPULATION-UNPROVABLE stands; no retroactive roster repair is lawful."]

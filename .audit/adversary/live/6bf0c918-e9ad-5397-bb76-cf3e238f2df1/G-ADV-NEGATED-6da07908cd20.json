@@ -1,0 +1,10 @@
+{
+  "artifact_sha256": "6da07908cd205d9ce36b361c297f690454da204760f58eb8a9d2ceb33a9537ff",
+  "probe": "G-ADV-NEGATED",
+  "row_update": {
+    "measured_reason": "no-target-resolved",
+    "measured_reward": 0.0,
+    "measurement_basis": "live execution through the stock Harbor path: the gold fix was applied and then reverted with git apply -R, realizing the negated gold workspace on the only tree where the inversion is defined, inside the pinned sanitized image with the network disabled, tests/test.sh drove the committed run_tests.py, and the reward was read from the bound reward contract path",
+    "unrunnable_reason": ""
+  }
+}
