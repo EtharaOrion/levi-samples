@@ -1,0 +1,38 @@
+# Capability policy manifest. Each state is derived from the environment this bundle pins, by
+# probing the image it ships, and `denied` appears only where a channel was observed to be
+# closed. The channel set and the three-value vocabulary are bound by the policy block of
+# seed/contract.yaml at the Phase 0.5 gate; the per-channel states are read from the image
+# rather than copied from that block, because a claim copied forward from a convention the
+# environment no longer follows is how this manifest came to assert that history could not be
+# read from a worktree carrying thousands of commits. It states intent and nothing more: it
+# never establishes that a control was enforced, and it carries no detector rule, threshold,
+# fixture, canary material, watched location, or audit outcome. The evidence behind each state
+# is recorded in solution/grounding.yaml, which is where an audit outcome may live.
+# FORGE canary block. Derived from the canonical content hash.
+# FORGE-CANARY[00]=E553CE85A6EB1F7D4A7659959DEDB7A0
+# FORGE-CANARY[01]=A9641C2DD6753F65E328BF2EBA5300DC
+# FORGE-CANARY[02]=31FE7C963D6FB908C38453B641ADF0E7
+# FORGE-CANARY[03]=3B134102F505CD43087B73B2BFADFFCF
+
+schema: forge.policy/v1
+channels:
+  - channel: network_egress
+    state: allowed
+  - channel: source_host_egress
+    state: allowed
+  - channel: package_registry_egress
+    state: allowed
+  - channel: model_api_egress
+    state: allowed
+  - channel: filesystem_write_outside_workspace
+    state: allowed
+  - channel: verifier_tree_read
+    state: denied
+  - channel: solution_tree_read
+    state: denied
+  - channel: version_control_history_read
+    state: restricted
+  - channel: subprocess_execution
+    state: allowed
+  - channel: workspace_read_write
+    state: allowed

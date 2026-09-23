@@ -1,0 +1,112 @@
+{
+  "dropped": [
+    {
+      "path": "docs/es/README.md",
+      "reason": "documentation-or-ci-tree"
+    },
+    {
+      "path": "docs/in/README.md",
+      "reason": "documentation-or-ci-tree"
+    },
+    {
+      "path": "docs/it/README.md",
+      "reason": "documentation-or-ci-tree"
+    },
+    {
+      "path": "docs/kr/README.md",
+      "reason": "documentation-or-ci-tree"
+    },
+    {
+      "path": "docs/pt/pt_br/README.md",
+      "reason": "documentation-or-ci-tree"
+    },
+    {
+      "path": "docs/tr/README.md",
+      "reason": "documentation-or-ci-tree"
+    },
+    {
+      "path": "docs/zh/zh_cn/README.md",
+      "reason": "documentation-or-ci-tree"
+    },
+    {
+      "path": "docs/zh/zh_tw/README.md",
+      "reason": "documentation-or-ci-tree"
+    },
+    {
+      "path": "poetry.lock",
+      "reason": "dependency-manifest-cannot-build-offline"
+    }
+  ],
+  "dropped_count": 9,
+  "full_reference_binary_dropped": [],
+  "kept_count": 43,
+  "kept_paths": [
+    ".devcontainer/devcontainer.json",
+    "CONTRIBUTING.md",
+    "README.md",
+    "docker-example/Dockerfile",
+    "pyproject.toml",
+    "reflex/.templates/apps/sidebar/README.md",
+    "reflex/.templates/apps/sidebar/assets/favicon.ico",
+    "reflex/.templates/apps/sidebar/assets/github.svg",
+    "reflex/.templates/apps/sidebar/assets/icon.svg",
+    "reflex/.templates/apps/sidebar/assets/logo.svg",
+    "reflex/.templates/apps/sidebar/assets/paneleft.svg",
+    "reflex/.templates/apps/sidebar/code/__init__.py",
+    "reflex/.templates/apps/sidebar/code/components/__init__.py",
+    "reflex/.templates/apps/sidebar/code/components/sidebar.py",
+    "reflex/.templates/apps/sidebar/code/pages/__init__.py",
+    "reflex/.templates/apps/sidebar/code/pages/dashboard.py",
+    "reflex/.templates/apps/sidebar/code/pages/index.py",
+    "reflex/.templates/apps/sidebar/code/pages/settings.py",
+    "reflex/.templates/apps/sidebar/code/sidebar.py",
+    "reflex/.templates/apps/sidebar/code/state.py",
+    "reflex/.templates/apps/sidebar/code/styles.py",
+    "reflex/.templates/apps/sidebar/code/templates/__init__.py",
+    "reflex/.templates/apps/sidebar/code/templates/template.py",
+    "reflex/.templates/web/utils/helpers/dataeditor.js",
+    "reflex/.templates/web/utils/state.js",
+    "reflex/__init__.py",
+    "reflex/components/component.py",
+    "reflex/components/datadisplay/dataeditor.py",
+    "reflex/components/datadisplay/dataeditor.pyi",
+    "reflex/components/forms/form.py",
+    "reflex/components/forms/iconbutton.py",
+    "reflex/components/layout/foreach.py",
+    "reflex/components/navigation/stepper.py",
+    "reflex/components/tags/iter_tag.py",
+    "reflex/config.py",
+    "reflex/config.pyi",
+    "reflex/event.py",
+    "reflex/reflex.py",
+    "reflex/utils/exec.py",
+    "reflex/utils/format.py",
+    "reflex/utils/hosting.py",
+    "reflex/utils/prerequisites.py",
+    "integration/init-test/in_docker_test_script.sh"
+  ],
+  "manifests_kept": false,
+  "proof_obligation": "This reduction is declared, not proven. Phase 2 item 7a must show the reduced reference still turns every fail-to-pass identifier from failing to passing and breaks no pass-to-pass identifier. Until that runs, the bundle carries reason golden-patch-bounding-unproven.",
+  "reference_choice": "the bounded reference is REPLACED by the full span patch: bounded executes 0 parsed identifier(s) under the oracle condition against 0 for the full span, so the reduction removed something the graded code needs to build. The grant asks for a sufficient reference, not a minimal one, and a reference that does not build grades every solver at zero",
+  "reference_choice_stats": {
+    "bounded_parsed": 0,
+    "full_parsed": 0
+  },
+  "rule_set": "binary-without-content, vendored-tree, dependency-manifest unless the image carries the fix closure, documentation-or-ci-tree",
+  "sufficiency_over_minimality": "The grant asks for a reference bounded to the stated objective, not a minimal one. Every rule here drops bytes that cannot affect whether the graded code compiles or what it does. A rule that drops a file the kept code depends on makes the reference unbuildable, which fails the obligation it was meant to serve.",
+  "test_patch_split": {
+    "kept_count": 12,
+    "manifests_kept": [],
+    "moved": [
+      {
+        "named_by_issue": false,
+        "new": "integration/init-test/in_docker_test_script.sh",
+        "old": "integration/init-test/in_docker_test_script.sh",
+        "path": "integration/init-test/in_docker_test_script.sh"
+      }
+    ],
+    "moved_count": 1,
+    "named_test_paths_kept": [],
+    "targets_kept": []
+  }
+}

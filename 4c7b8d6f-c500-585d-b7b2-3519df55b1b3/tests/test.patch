@@ -1,0 +1,1519 @@
+diff --git a/e2e-win/npm_backend.Tests.ps1 b/e2e-win/npm_backend.Tests.ps1
+index b998965bc9..e6fad6fb37 100644
+--- a/e2e-win/npm_backend.Tests.ps1
++++ b/e2e-win/npm_backend.Tests.ps1
+@@ -3,8 +3,8 @@ Describe 'npm_backend' {
+         mise x node@24.4.1 npm:prettier@3.6.2 -- prettier --version | Should -be "3.6.2"
+     }
+     It 'installs npm:cowsay 1.6.0 with bun' {
+-        $env:MISE_NPM_BUN = "true"
++        $env:MISE_NPM_PACKAGE_MANAGER = "bun"
+         mise x node@24.4.1 bun@1.2.19 npm:cowsay@1.6.0 -- cowsay --version | Should -be "1.6.0"
+-        Remove-Item Env:MISE_NPM_BUN
++        Remove-Item Env:MISE_NPM_PACKAGE_MANAGER
+     }
+ }
+diff --git a/e2e/backend/test_aqua_cosign b/e2e/backend/test_aqua_cosign
+index 839b5e721e..93b5ace888 100644
+--- a/e2e/backend/test_aqua_cosign
++++ b/e2e/backend/test_aqua_cosign
+@@ -1,23 +1,26 @@
+ #!/usr/bin/env bash
+ # Test native Cosign verification for aqua packages
++# Uses fork-cleaner which has bundle-based cosign (native verification),
++# unlike sops which only has opts-based cosign (CLI pass-through).
+ 
+ set -euo pipefail
+ 
+ export MISE_EXPERIMENTAL=1
+ export MISE_AQUA_COSIGN=true
+ export MISE_AQUA_SLSA=false
++export MISE_AQUA_GITHUB_ATTESTATIONS=false
+ 
+ echo "=== Testing Native Cosign Verification ==="
+ 
+-# Test: Install sops which has cosign signatures configured (v3.8.0+)
+-echo "Installing sops with native Cosign verification..."
++# Test: Install fork-cleaner which has cosign bundle verification configured
++echo "Installing fork-cleaner with native Cosign verification..."
+ 
+ # Capture the installation output to verify the native verification is being used
+-output=$(mise install aqua:getsops/sops@3.9.0 2>&1)
++output=$(mise install aqua:caarlos0/fork-cleaner@2.4.0 2>&1)
+ echo "$output"
+ 
+ # Verify the native Cosign verification was used
+-if echo "$output" | grep -q "verify checksums with cosign"; then
++if echo "$output" | grep -q "Cosign"; then
+ 	echo "✅ Native Cosign verification was used"
+ else
+ 	echo "❌ ERROR: Cosign verification message not found in output"
+@@ -27,11 +30,11 @@ else
+ fi
+ 
+ # Verify the tool works
+-assert_contains "mise x aqua:getsops/sops@3.9.0 -- sops --version" "3.9.0"
+-echo "✓ sops installed and working correctly"
++assert_contains "mise x aqua:caarlos0/fork-cleaner@2.4.0 -- fork-cleaner --version" "2.4.0"
++echo "✓ fork-cleaner installed and working correctly"
+ 
+ # Cleanup
+-mise uninstall aqua:getsops/sops@3.9.0 || true
++mise uninstall aqua:caarlos0/fork-cleaner@2.4.0 || true
+ 
+ echo ""
+ echo "=== Native Cosign Verification Test Passed ✓ ==="
+diff --git a/e2e/backend/test_backend_missing_deps b/e2e/backend/test_backend_missing_deps
+index bb77baad68..42f679231e 100644
+--- a/e2e/backend/test_backend_missing_deps
++++ b/e2e/backend/test_backend_missing_deps
+@@ -69,11 +69,11 @@ test_npm() {
+ 
+ 	# Test with bun mode enabled but npm still missing
+ 	echo "Testing npm backend with bun mode enabled but npm missing..."
+-	export MISE_NPM_BUN=true
++	export MISE_NPM_PACKAGE_MANAGER=bun
+ 	test_backend_warning "npm (bun mode)" "mise ls-remote npm:test-package" "npm may be required but was not found"
+ 	output=$(mise ls-remote npm:test-package 2>&1 || true)
+ 	test_error_message "npm (bun mode) shows npm is required for queries" "$output" "npm is required for querying package information"
+-	unset MISE_NPM_BUN
++	unset MISE_NPM_PACKAGE_MANAGER
+ }
+ 
+ # Test cargo backend
+diff --git a/e2e/backend/test_dev_version_filter b/e2e/backend/test_dev_version_filter
+new file mode 100644
+index 0000000000..70b31fe949
+--- /dev/null
++++ b/e2e/backend/test_dev_version_filter
+@@ -0,0 +1,48 @@
++#!/usr/bin/env bash
++
++# Test that PEP 440 .dev versions are filtered out during fuzzy version matching
++# Regression test for https://github.com/jdx/mise/discussions/8784
++#
++# The bug: VERSION_REGEX only catches "-dev" (hyphen) but not ".dev" (dot),
++# so PEP 440 dev versions like "2026.3.3.162408.dev0" slip through the
++# pre-release filter and incorrectly satisfy a request for "2026.3.3".
++
++# Create a custom plugin that returns versions including .dev suffixes
++PLUGIN_DIR="$MISE_DATA_DIR/plugins/devtest"
++mkdir -p "$PLUGIN_DIR/bin"
++
++cat <<'LISTALL' >"$PLUGIN_DIR/bin/list-all"
++#!/usr/bin/env bash
++echo "2026.3.2 2026.3.3.dev0 2026.3.3 2026.3.3.162408.dev0 2026.3.4.dev1"
++LISTALL
++chmod +x "$PLUGIN_DIR/bin/list-all"
++
++cat <<'INSTALL' >"$PLUGIN_DIR/bin/install"
++#!/usr/bin/env bash
++mkdir -p "$ASDF_INSTALL_PATH/bin"
++cat <<EOF >"$ASDF_INSTALL_PATH/bin/devtest"
++#!/usr/bin/env bash
++echo "devtest $ASDF_INSTALL_VERSION"
++EOF
++chmod +x "$ASDF_INSTALL_PATH/bin/devtest"
++INSTALL
++chmod +x "$PLUGIN_DIR/bin/install"
++
++# Test 1: latest for "2026.3.3" should return exactly "2026.3.3", not a dev version
++assert "mise latest devtest@2026.3.3" "2026.3.3"
++
++# Test 2: latest for "2026.3" should return "2026.3.3" (highest stable), not a dev version
++assert "mise latest devtest@2026.3" "2026.3.3"
++
++# Test 3: If user explicitly requests a dev version by exact match, it should work
++mise install devtest@2026.3.3.dev0
++assert_contains "mise x devtest@2026.3.3.dev0 -- devtest" "2026.3.3.dev0"
++
++# Test 4: Install stable version, then verify it resolves correctly even with
++# the dev version already installed (core bug from the discussion)
++mise install devtest@2026.3.3
++assert_contains "mise x devtest@2026.3.3 -- devtest" "devtest 2026.3.3"
++assert_not_contains "mise x devtest@2026.3.3 -- devtest" "dev0"
++
++# Test 5: latest for a version that only has dev releases should return nothing
++assert_empty "mise latest devtest@2026.3.4"
+diff --git a/e2e/backend/test_github_filter_bins b/e2e/backend/test_github_filter_bins
+index d7dac9302f..67957ee772 100755
+--- a/e2e/backend/test_github_filter_bins
++++ b/e2e/backend/test_github_filter_bins
+@@ -19,3 +19,6 @@ bins=$(find "$bin_path" -maxdepth 1 \( -type l -o -type f \) -print0 | xargs -0
+ assert_contains "echo '$bins'" "pandoc"
+ assert_not_contains "echo '$bins'" "pandoc-lua"
+ assert_not_contains "echo '$bins'" "pandoc-server"
++
++# Verify bin-paths respects filter_bins when version is explicitly provided via CLI
++assert "mise bin-paths github:jgm/pandoc@3.8.2" "$bin_path"
+diff --git a/e2e/backend/test_github_tool_alias_asset_pattern b/e2e/backend/test_github_tool_alias_asset_pattern
+new file mode 100644
+index 0000000000..7f48ef8d42
+--- /dev/null
++++ b/e2e/backend/test_github_tool_alias_asset_pattern
+@@ -0,0 +1,28 @@
++#!/usr/bin/env bash
++# Test that tool_alias with asset_pattern uses the alias-specific options
++# Regression test for https://github.com/jdx/mise/discussions/8847
++# When both the original tool and an aliased tool are configured with different
++# asset_pattern values, each should use its own pattern.
++
++cat <<'EOF' >mise.toml
++[tool_alias]
++hw2 = "github:jdx/mise-test-fixtures"
++
++[tools."github:jdx/mise-test-fixtures"]
++version = "1.0.0"
++asset_pattern = "hello-world-1.0.0.tar.gz"
++bin_path = "hello-world-1.0.0/bin"
++postinstall = "chmod +x $MISE_TOOL_INSTALL_PATH/hello-world-1.0.0/bin/hello-world"
++
++[tools.hw2]
++version = "1.0.0"
++asset_pattern = "hello-world-2.0.0.tar.gz"
++bin_path = "hello-world-2.0.0/bin"
++postinstall = "chmod +x $MISE_TOOL_INSTALL_PATH/hello-world-2.0.0/bin/hello-world"
++EOF
++
++mise install
++# Both should install successfully with the correct asset
++assert_contains "mise x -- hello-world" "hello world"
++# The aliased tool should have installed using hello-world-2.0.0.tar.gz
++assert "test -d ~/.local/share/mise/installs/hw2/1.0.0/hello-world-2.0.0"
+diff --git a/e2e/backend/test_npm_package_manager b/e2e/backend/test_npm_package_manager
+index bdf2f7b8a0..3065c9e930 100644
+--- a/e2e/backend/test_npm_package_manager
++++ b/e2e/backend/test_npm_package_manager
+@@ -1,6 +1,8 @@
+ #!/usr/bin/env bash
+ 
+-# Test that npm backend properly uses npm.package_manager and legacy npm.bun settings
++# Test that npm backend properly uses npm.package_manager settings
++
++export MISE_INSTALL_BEFORE=1d
+ 
+ # Ensure npm is available by installing node if needed
+ if ! command -v npm >/dev/null 2>&1; then
+@@ -34,7 +36,8 @@ echo "✓ npm backend lists versions using npm"
+ 
+ # Test installation using npm (default)
+ mise uninstall npm:tiny@latest >/dev/null 2>&1 || true
+-assert_succeed "mise install npm:tiny@latest >/dev/null 2>&1"
++assert_succeed "MISE_DEBUG=1 mise install npm:tiny@latest >/tmp/npm_debug.log 2>&1"
++assert_contains "cat /tmp/npm_debug.log" "--before"
+ echo "✓ npm backend successfully installs package using npm (default)"
+ mise uninstall npm:tiny@latest >/dev/null 2>&1 || true
+ 
+@@ -42,7 +45,8 @@ mise uninstall npm:tiny@latest >/dev/null 2>&1 || true
+ echo "Testing npm.package_manager=bun..."
+ export MISE_NPM_PACKAGE_MANAGER=bun
+ 
+-assert_succeed "mise install npm:tiny@latest >/dev/null 2>&1"
++assert_succeed "MISE_DEBUG=1 mise install npm:tiny@latest >/tmp/bun_debug.log 2>&1"
++assert_contains "cat /tmp/bun_debug.log" "--minimum-release-age"
+ echo "✓ npm backend successfully installs package using bun (package_manager=bun)"
+ mise uninstall npm:tiny@latest >/dev/null 2>&1 || true
+ 
+@@ -50,37 +54,15 @@ mise uninstall npm:tiny@latest >/dev/null 2>&1 || true
+ echo "Testing npm.package_manager=pnpm..."
+ export MISE_NPM_PACKAGE_MANAGER=pnpm
+ 
+-if ! mise install npm:tiny@latest >/tmp/pnpm_debug.log 2>&1; then
++if ! MISE_DEBUG=1 mise install npm:tiny@latest >/tmp/pnpm_debug.log 2>&1; then
+ 	echo "Command failed. Output:"
+ 	cat /tmp/pnpm_debug.log
+ 	exit 1
+ fi
++assert_contains "cat /tmp/pnpm_debug.log" "--config.minimumReleaseAge="
+ echo "✓ npm backend successfully installs package using pnpm (package_manager=pnpm)"
+ mise uninstall npm:tiny@latest >/dev/null 2>&1 || true
+ 
+-# Test 4: Legacy npm.bun = true (should override package_manager=npm default)
+-echo "Testing legacy npm.bun=true..."
+-unset MISE_NPM_PACKAGE_MANAGER
+-export MISE_NPM_BUN=true
+-
+-assert_succeed "mise install npm:tiny@latest >/dev/null 2>&1"
+-echo "✓ npm backend successfully installs package using bun (legacy npm.bun=true)"
+-mise uninstall npm:tiny@latest >/dev/null 2>&1 || true
+-
+-unset MISE_NPM_BUN
+-
+-# Test 5: npm.bun = true overrides package_manager="npm"
+-echo "Testing npm.bun=true overrides npm.package_manager=npm..."
+-export MISE_NPM_BUN=true
+-export MISE_NPM_PACKAGE_MANAGER=npm
+-
+-assert_succeed "mise install npm:tiny@latest >/dev/null 2>&1"
+-# Verify it actually used bun? The output might show it, or we rely on logic.
+-# Since installation succeeds, at least it works.
+-echo "✓ npm backend successfully installs package (priority check)"
+-mise uninstall npm:tiny@latest >/dev/null 2>&1 || true
+-
+-unset MISE_NPM_BUN
+ unset MISE_NPM_PACKAGE_MANAGER
+ 
+ echo "✓ npm package manager behavior test completed"
+diff --git a/e2e/cli/test_env_flag_forms b/e2e/cli/test_env_flag_forms
+new file mode 100644
+index 0000000000..9894c985ae
+--- /dev/null
++++ b/e2e/cli/test_env_flag_forms
+@@ -0,0 +1,59 @@
++#!/usr/bin/env bash
++
++# Test various forms of the -E/--env flag:
++# - Space-separated: --env production, -E production
++# - Equals-sign: --env=production, -E=production
++# - Comma-separated: --env=dev,staging, -E dev,staging
++# - Interaction with `mise run` (task args should not be confused with -E)
++# See: https://github.com/jdx/mise/issues/8883
++
++cat >mise.toml <<EOF
++[env]
++TTT_BASE = "base"
++
++[tasks.show-env]
++run = 'echo "TTT_DEV=\${TTT_DEV:-unset}"'
++EOF
++
++cat >mise.dev.toml <<EOF
++[env]
++TTT_DEV = "dev-value"
++EOF
++
++cat >mise.staging.toml <<EOF
++[env]
++TTT_STG = "staging-value"
++EOF
++
++# === Equals-sign forms (the main fix in this PR) ===
++
++assert_contains "mise -E=dev env" "TTT_DEV=dev-value"
++assert_contains "mise --env=dev env" "TTT_DEV=dev-value"
++assert_contains "mise -E=dev,staging env" "TTT_DEV=dev-value"
++assert_contains "mise -E=dev,staging env" "TTT_STG=staging-value"
++assert_contains "mise --env=dev,staging env" "TTT_DEV=dev-value"
++assert_contains "mise --env=dev,staging env" "TTT_STG=staging-value"
++assert_contains "mise --profile=dev env" "TTT_DEV=dev-value"
++assert_contains "mise -P=dev env" "TTT_DEV=dev-value"
++
++# === Space-separated forms (already worked, regression tests) ===
++
++assert_contains "mise -E dev env" "TTT_DEV=dev-value"
++assert_contains "mise --env dev env" "TTT_DEV=dev-value"
++assert_contains "mise -E dev,staging env" "TTT_DEV=dev-value"
++assert_contains "mise -E dev,staging env" "TTT_STG=staging-value"
++
++# === With `mise run`: -E BEFORE task name works ===
++
++assert_contains "mise -E dev run show-env" "TTT_DEV=dev-value"
++assert_contains "mise --env dev run show-env" "TTT_DEV=dev-value"
++assert_contains "mise --env=dev run show-env" "TTT_DEV=dev-value"
++assert_contains "mise run -E dev show-env" "TTT_DEV=dev-value"
++assert_contains "mise run --env dev show-env" "TTT_DEV=dev-value"
++assert_contains "mise run --env=dev show-env" "TTT_DEV=dev-value"
++
++# === With `mise run`: -E AFTER task name should NOT set env ===
++# These are task arguments, not global flags.
++
++assert_contains "mise run show-env -E dev" "TTT_DEV=unset"
++assert_contains "mise run show-env --env dev" "TTT_DEV=unset"
+diff --git a/e2e/cli/test_tool_depends b/e2e/cli/test_tool_depends
+new file mode 100644
+index 0000000000..96ee705914
+--- /dev/null
++++ b/e2e/cli/test_tool_depends
+@@ -0,0 +1,44 @@
++#!/usr/bin/env bash
++
++# Test that user-specified `depends` field in tool options controls install ordering.
++# Uses the `needs-dummy` plugin whose install script checks that dummy is already
++# installed on disk — simulating a real runtime dependency like pipx:ruff needing python.
++
++# First: WITHOUT depends, needs-dummy can fail because dummy may not be installed yet
++cat <<EOF >mise.toml
++[tools]
++dummy = "2.0.0"
++needs-dummy = "1.0.0"
++EOF
++
++rm -rf "$MISE_DATA_DIR/installs/dummy"
++rm -rf "$MISE_DATA_DIR/installs/needs-dummy"
++
++assert_fail "mise install"
++
++# Now: WITH depends, needs-dummy waits for dummy to finish first
++cat <<EOF >mise.toml
++[tools]
++dummy = "2.0.0"
++needs-dummy = { version = "1.0.0", depends = ["dummy"] }
++EOF
++
++rm -rf "$MISE_DATA_DIR/installs/dummy"
++rm -rf "$MISE_DATA_DIR/installs/needs-dummy"
++
++assert "mise install"
++
++assert_contains "mise ls --installed dummy" "2.0.0"
++assert_contains "mise ls --installed needs-dummy" "1.0.0"
++
++# Test that circular dependencies are detected
++cat <<EOF >mise.toml
++[tools]
++dummy = { version = "2.0.0", depends = ["needs-dummy"] }
++needs-dummy = { version = "1.0.0", depends = ["dummy"] }
++EOF
++
++rm -rf "$MISE_DATA_DIR/installs/dummy"
++rm -rf "$MISE_DATA_DIR/installs/needs-dummy"
++
++assert_fail "mise install"
+diff --git a/e2e/cli/test_watch b/e2e/cli/test_watch
+index 18bdea3ab2..a596bd5f95 100644
+--- a/e2e/cli/test_watch
++++ b/e2e/cli/test_watch
+@@ -26,8 +26,12 @@ test_mise_watch() {
+ # Test with original mise
+ test_mise_watch "mise"
+ 
+-# Test when mise is not in PATH
++# Test when mise is not in PATH by temporarily removing its directory from PATH
+ original_mise="$(which mise)"
+-mkdir -p ./bin && mv "$original_mise" ./bin/mise
++mise_dir="$(dirname "$original_mise")"
++mkdir -p ./bin && cp "$original_mise" ./bin/mise
++OLD_PATH="$PATH"
++PATH="$(echo "$PATH" | tr ':' '\n' | grep -v "^${mise_dir}$" | tr '\n' ':')"
++PATH="${PATH%:}" # remove trailing colon
+ test_mise_watch "./bin/mise"
+-mv ./bin/mise "$original_mise"
++PATH="$OLD_PATH"
+diff --git a/e2e/cli/test_zsh_precmd_runs_once b/e2e/cli/test_zsh_precmd_runs_once
+new file mode 100644
+index 0000000000..b2ab0d8b82
+--- /dev/null
++++ b/e2e/cli/test_zsh_precmd_runs_once
+@@ -0,0 +1,111 @@
++#!/usr/bin/env zsh
++# shellcheck disable=SC1071
++set -euo pipefail
++
++# Reproduces the case where entering an untrusted project triggers hook-env from
++# both chpwd and precmd. The user-visible symptom is a duplicate `mise trust`
++# warning after a single `cd`.
++#
++# The expected zsh behavior is:
++# - `precmd` remains registered after activation and after directory changes
++# - the prompt immediately following `cd` does not repeat the same trust warning
++# - zsh does not fall back to chpwd-only behavior after the startup prompt
++
++# The e2e harness trusts the isolated workspace by default; clear that so this
++# test exercises the real untrusted-config warning path.
++export MISE_TRUSTED_CONFIG_PATHS=""
++
++# In CI, mise auto-trusts configs via ci_info::is_ci(); clear the common CI vars
++# so hook-env follows the normal interactive trust-check behavior.
++unset CI GITHUB_ACTIONS GITHUB_ACTION
++
++run_hooks_to_file() {
++	local outfile="$1"
++	shift
++	local hook
++	: >"$outfile"
++	for hook in "$@"; do
++		"$hook" >>"$outfile" 2>&1 || true
++	done
++}
++
++contains_trust_warning() {
++	local file="$1"
++	grep -q "Config files in" "$file" && grep -q "are not trusted" "$file"
++}
++
++contains_mise_precmd_hook() {
++	[[ " ${precmd_functions[*]-} " == *" _mise_hook_precmd "* ]]
++}
++
++mkdir -p project
++cat >project/.mise.toml <<'EOF'
++[env]
++FOO = "bar"
++EOF
++
++eval "$(mise activate zsh --status)"
++
++startup_file="$(mktemp)"
++chpwd_file="$(mktemp)"
++precmd_file="$(mktemp)"
++trap 'rm -f "$startup_file" "$chpwd_file" "$precmd_file"' EXIT
++
++# A persistent mise precmd hook should be registered immediately after activation.
++if ! contains_mise_precmd_hook; then
++	echo "expected mise precmd hook to be registered after activation"
++	printf 'precmd_functions:\n'
++	printf '%s\n' ${precmd_functions[@]-}
++	printf 'chpwd_functions:\n'
++	printf '%s\n' ${chpwd_functions[@]-}
++	exit 1
++fi
++
++# Simulate the first prompt after activation before entering the untrusted
++# project.
++run_hooks_to_file "$startup_file" "${precmd_functions[@]}"
++if contains_trust_warning "$startup_file"; then
++	echo "startup precmd should not hit an untrusted project before cd"
++	cat "$startup_file"
++	exit 1
++fi
++
++# The mise precmd hook should remain registered after the startup prompt so zsh
++# can continue checking for later environment changes on subsequent prompts.
++if ! contains_mise_precmd_hook; then
++	echo "expected mise precmd hook to remain registered after the startup prompt"
++	printf '%s\n' ${precmd_functions[@]-}
++	exit 1
++fi
++
++# In an interactive zsh session, `cd` would trigger `chpwd` hooks and the next
++# prompt would trigger `precmd` hooks automatically. In this non-interactive
++# test script, we invoke both hook lists manually.
++cd project
++
++# Crucially, `run_hooks_to_file` executes the hooks in the current shell rather
++# than via command substitution, so hook functions can still mutate shell state.
++run_hooks_to_file "$chpwd_file" "${chpwd_functions[@]}"
++run_hooks_to_file "$precmd_file" "${precmd_functions[@]-}"
++
++# The chpwd hook should surface the untrusted-config warning on directory entry.
++if ! contains_trust_warning "$chpwd_file"; then
++	echo "expected chpwd hook to report untrusted config"
++	cat "$chpwd_file"
++	exit 1
++fi
++
++# The subsequent prompt should not repeat the same warning.
++if contains_trust_warning "$precmd_file"; then
++	echo "precmd hook should not repeat untrusted config error after chpwd"
++	cat "$precmd_file"
++	exit 1
++fi
++
++# The mise precmd hook should still remain registered after the prompt following
++# `cd`, so later prompts can continue to notice config/watch-file changes.
++if ! contains_mise_precmd_hook; then
++	echo "expected mise precmd hook to remain registered after chpwd + precmd"
++	printf '%s\n' ${precmd_functions[@]-}
++	exit 1
++fi
+diff --git a/e2e/config/test_config_ignore b/e2e/config/test_config_ignore
+index 4d2c800d37..67b06d4e3c 100644
+--- a/e2e/config/test_config_ignore
++++ b/e2e/config/test_config_ignore
+@@ -7,13 +7,13 @@ cat <<EOF >mise.toml
+ [tools]
+ dummy = "1.0.0"
+ [settings]
+-go_download_mirror = "mise.toml"
++go.download_mirror = "mise.toml"
+ EOF
+ cat <<EOF >subdir/mise.toml
+ [tools]
+ dummy = "2.0.0"
+ [settings]
+-go_download_mirror = "subdir/mise.toml"
++go.download_mirror = "subdir/mise.toml"
+ EOF
+ 
+ cd subdir || exit 1
+@@ -22,10 +22,10 @@ assert "mise trust --all"
+ assert "mise cfg" "~/workdir/mise.toml         dummy
+ ~/workdir/subdir/mise.toml  dummy"
+ assert "mise ls dummy" "dummy  2.0.0 (missing)  ~/workdir/subdir/mise.toml  2.0.0"
+-assert "mise settings get go_download_mirror" "subdir/mise.toml"
++assert "mise settings get go.download_mirror" "subdir/mise.toml"
+ assert "mise trust --ignore"
+ assert "mise cfg" "~/workdir/mise.toml  dummy"
+-assert "mise settings get go_download_mirror" "mise.toml"
++assert "mise settings get go.download_mirror" "mise.toml"
+ assert "mise ls dummy" "dummy  1.0.0 (missing)  ~/workdir/mise.toml  1.0.0"
+ assert "mise trust ."
+ assert "mise cfg" "~/workdir/mise.toml         dummy
+diff --git a/e2e/core/test_dotnet b/e2e/core/test_dotnet
+index 48707fa1ec..82af9fbf94 100644
+--- a/e2e/core/test_dotnet
++++ b/e2e/core/test_dotnet
+@@ -16,3 +16,18 @@ cat <<EOF >global.json
+ EOF
+ 
+ assert_contains "mise x -- dotnet --version" "8.0.408"
++
++# Prepare and test environment is clean for runtime-only install tests
++mise uninstall "dotnet[runtime=dotnet]@8.0.13" 2>/dev/null || true
++assert_not_contains "mise x dotnet@8.0.408 -- dotnet --list-runtimes" "Microsoft.NETCore.App 8.0.13"
++
++# Test runtime-only install: version NOT bundled by SDK 8.0.408, `--list-runtimes`
++assert_contains "mise x dotnet[runtime=dotnet]@8.0.13 -- dotnet --list-runtimes" "Microsoft.NETCore.App 8.0.13"
++
++# Test runtime uninstall cleans up shared directory
++mise uninstall "dotnet[runtime=dotnet]@8.0.13"
++assert_not_contains "mise x dotnet@8.0.408 -- dotnet --list-runtimes" "Microsoft.NETCore.App 8.0.13"
++
++# Prepare by removing any stale install and test (uncached) invalid runtime option returns a validation error
++mise uninstall "dotnet[runtime=invalid]@8.0.12" 2>/dev/null || mise uninstall "dotnet@8.0.12" 2>/dev/null || true
++assert_fail_contains "mise x dotnet[runtime=invalid]@8.0.12 -- true" "Invalid runtime option"
+diff --git a/e2e/core/test_node_slow b/e2e/core/test_node_slow
+index 45eb367087..2719ec95e0 100644
+--- a/e2e/core/test_node_slow
++++ b/e2e/core/test_node_slow
+@@ -4,8 +4,9 @@ export MISE_NODE_COREPACK=1
+ export MISE_NODE_DEFAULT_PACKAGES_FILE="$PWD/.default-npm-packages"
+ export NPM_CONFIG_FUND=false
+ 
+-latest=$(mise latest node)
+-echo "v$latest" >.node-version
++# Use Node 24 (LTS) for corepack tests since Node 25+ removed corepack
++corepack_version=$(mise latest node@24)
++echo "v$corepack_version" >.node-version
+ echo "zx" >"$MISE_NODE_DEFAULT_PACKAGES_FILE"
+ 
+ # Enable idiomatic version files for node
+@@ -14,7 +15,7 @@ mise settings set idiomatic_version_file_enable_tools node
+ mise i node@lts/hydrogen
+ mise i -f node
+ assert_contains "mise x node@lts/hydrogen -- node --version" "v18."
+-assert "mise x -- node --version" "v$latest"
++assert "mise x -- node --version" "v$corepack_version"
+ assert_contains "mise x -- which yarn" "yarn"
+ assert_contains "mise x -- which zx" "zx"
+ 
+diff --git a/e2e/core/test_rust b/e2e/core/test_rust
+index 8f85ae061a..7a5dd13e01 100644
+--- a/e2e/core/test_rust
++++ b/e2e/core/test_rust
+@@ -5,6 +5,8 @@ export MISE_CARGO_HOME="$MISE_DATA_DIR/cargo"
+ 
+ assert_contains "mise x rust@1.81.0 -- rustc --version" "rustc 1.81.0"
+ 
++mise settings set idiomatic_version_file_enable_tools rust
++
+ cat <<EOF >rust-toolchain.toml
+ [toolchain]
+ channel = "1.81.0"
+diff --git a/e2e/core/test_swift_slow b/e2e/core/test_swift_slow
+index d98871bf39..aed430ff46 100644
+--- a/e2e/core/test_swift_slow
++++ b/e2e/core/test_swift_slow
+@@ -6,8 +6,10 @@ export MISE_USE_VERSIONS_HOST=0
+ MISE_DEBUG=1 mise use swift@6
+ assert_matches "mise x -- swift --version" 'Swift version 6\.'
+ 
+-assert "mise x spm:nicklockwood/SwiftFormat@0.53.10 -- swiftformat --version" "0.53.10"
+-assert "mise x spm:https://github.com/nicklockwood/SwiftFormat.git@0.53.10 -- swiftformat --version" "0.53.10"
++# TODO: re-enable once Swift provides Ubuntu 26.04 binaries
++# Swift 24.04 binaries link against libxml2.so.2 but Ubuntu 26.04 ships libxml2.so.16 (ABI mismatch)
++#assert "mise x spm:nicklockwood/SwiftFormat@0.53.10 -- swiftformat --version" "0.53.10"
++#assert "mise x spm:https://github.com/nicklockwood/SwiftFormat.git@0.53.10 -- swiftformat --version" "0.53.10"
+ 
+ # test package with resources (`templates list` command depends on resources being installed)
+ #assert "mise x spm:SwiftGen/SwiftGen@6.6.2 --verbose -- swiftgen templates list --only colors" "colors:
+diff --git a/e2e/env/test_fish_path_move_bug b/e2e/env/test_fish_path_move_bug
+index 8e5506d8cf..24fcc8ea95 100755
+--- a/e2e/env/test_fish_path_move_bug
++++ b/e2e/env/test_fish_path_move_bug
+@@ -11,15 +11,15 @@ require_cmd fish
+ mkdir -p project
+ 
+ # Create test script
+-cat >"$TEST_DIR/test.fish" <<'EOF'
++cat >"$HOME/test.fish" <<'EOF'
+ #!/usr/bin/env fish
+ 
+ # Ensure we use the debug mise binary, not homebrew mise
+ # The e2e framework sets PATH with the debug binary first, but we override it below
+ # So we need to preserve the debug binary path
+-set -l debug_mise_path (string match -r ".*/target/debug" $PATH | head -1)
++set -l debug_mise_path (which mise | xargs dirname)
+ if test -z "$debug_mise_path"
+-    echo "ERROR: Could not find debug mise in PATH"
++    echo "ERROR: Could not find mise in PATH"
+     echo "PATH: $PATH"
+     exit 1
+ end
+@@ -90,4 +90,4 @@ end
+ echo "SUCCESS: /opt/homebrew/bin remained in PATH after leaving directory"
+ EOF
+ 
+-exec fish "$TEST_DIR/test.fish"
++exec fish "$HOME/test.fish"
+diff --git a/e2e/env/test_zsh_consecutive_precmd_runs b/e2e/env/test_zsh_consecutive_precmd_runs
+new file mode 100644
+index 0000000000..0794094ee1
+--- /dev/null
++++ b/e2e/env/test_zsh_consecutive_precmd_runs
+@@ -0,0 +1,43 @@
++#!/usr/bin/env zsh
++# shellcheck disable=SC1071
++set -eu
++
++# Verify that zsh does not fall into an every-other-prompt pattern after the
++# first precmd run. Two consecutive precmd runs without a directory change
++# should both run hook-env normally.
++
++eval "$(mise activate zsh --status)"
++
++if [[ ${__MISE_ZSH_PRECMD_RUN:-unset} != "0" ]]; then
++	echo "expected __MISE_ZSH_PRECMD_RUN=0 after activation"
++	exit 1
++fi
++
++if [[ ${__MISE_ZSH_CHPWD_RAN:-unset} != "0" ]]; then
++	echo "expected __MISE_ZSH_CHPWD_RAN=0 after activation"
++	exit 1
++fi
++
++_mise_hook_precmd >/dev/null 2>&1
++
++if [[ ${__MISE_ZSH_PRECMD_RUN:-unset} != "1" ]]; then
++	echo "expected first precmd to run hook-env and set __MISE_ZSH_PRECMD_RUN=1"
++	exit 1
++fi
++
++if [[ ${__MISE_ZSH_CHPWD_RAN:-unset} != "0" ]]; then
++	echo "expected no chpwd skip flag after the first precmd"
++	exit 1
++fi
++
++_mise_hook_precmd >/dev/null 2>&1
++
++if [[ ${__MISE_ZSH_PRECMD_RUN:-unset} != "1" ]]; then
++	echo "expected second consecutive precmd to run normally"
++	exit 1
++fi
++
++if [[ ${__MISE_ZSH_CHPWD_RAN:-unset} != "0" ]]; then
++	echo "expected no chpwd skip flag after the second precmd"
++	exit 1
++fi
+diff --git a/e2e/env/test_zsh_first_precmd_after_activate b/e2e/env/test_zsh_first_precmd_after_activate
+new file mode 100644
+index 0000000000..340a4f0dda
+--- /dev/null
++++ b/e2e/env/test_zsh_first_precmd_after_activate
+@@ -0,0 +1,21 @@
++#!/usr/bin/env zsh
++# shellcheck disable=SC1071
++set -eu
++
++# Verify that the first precmd after `mise activate zsh` still runs hook-env.
++# This protects the startup path where zsh may mutate PATH during shell
++# initialization before the first prompt is rendered.
++
++eval "$(mise activate zsh --status)"
++
++if [[ ${__MISE_ZSH_PRECMD_RUN:-unset} != "0" ]]; then
++	echo "expected __MISE_ZSH_PRECMD_RUN=0 after activation"
++	exit 1
++fi
++
++_mise_hook_precmd >/dev/null 2>&1
++
++if [[ ${__MISE_ZSH_PRECMD_RUN:-unset} != "1" ]]; then
++	echo "expected first precmd after activation to run hook-env"
++	exit 1
++fi
+diff --git a/e2e/generate/test_generate_bootstrap b/e2e/generate/test_generate_bootstrap
+index b7a2fbeba2..d3be7809cf 100644
+--- a/e2e/generate/test_generate_bootstrap
++++ b/e2e/generate/test_generate_bootstrap
+@@ -15,7 +15,10 @@ assert_contains "cat ./bin/mise" 'exec -a "$0" "$MISE_INSTALL_PATH" "$@"'
+ 
+ # ensure that that the commands don't rely on the global mise bin
+ original_mise="$(which mise)"
+-mv "$original_mise" "original_mise"
++mise_dir="$(dirname "$original_mise")"
++OLD_PATH="$PATH"
++PATH="$(echo "$PATH" | tr ':' '\n' | grep -v "^${mise_dir}$" | tr '\n' ':')"
++PATH="${PATH%:}" # remove trailing colon
+ 
+ assert_contains "./bin/mise tasks ls" "xxx"
+ 
+@@ -31,4 +34,4 @@ run = ["{{mise_bin}} run other_task"]
+ 
+ assert_contains "./bin/mise run my_task" "running other_task"
+ 
+-mv "original_mise" "$original_mise"
++PATH="$OLD_PATH"
+diff --git a/e2e/helpers.sh b/e2e/helpers.sh
+new file mode 100644
+index 0000000000..ef1f3a8d44
+--- /dev/null
++++ b/e2e/helpers.sh
+@@ -0,0 +1,22 @@
++#!/usr/bin/env bash
++
++SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
++ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
++
++resolve_mise_bin() {
++	if [[ -n ${MISE_E2E_BIN:-} ]]; then
++		printf '%s\n' "$MISE_E2E_BIN"
++		return
++	fi
++	local candidate="${CARGO_TARGET_DIR:-$ROOT/target}/debug/mise"
++	if [[ -x $candidate ]]; then
++		printf '%s\n' "$candidate"
++		return
++	fi
++	local mise_path
++	if ! mise_path="$(command -v mise 2>/dev/null)"; then
++		err "Could not find 'mise' in PATH and no local debug build was found. Set MISE_E2E_BIN or build/install mise."
++		return 1
++	fi
++	printf '%s\n' "$mise_path"
++}
+diff --git a/e2e/lockfile/test_lockfile_lock_filtered_prune_stale_versions b/e2e/lockfile/test_lockfile_lock_filtered_prune_stale_versions
+new file mode 100644
+index 0000000000..60f8690b5e
+--- /dev/null
++++ b/e2e/lockfile/test_lockfile_lock_filtered_prune_stale_versions
+@@ -0,0 +1,39 @@
++#!/usr/bin/env bash
++
++# Test that `mise lock <tool>` prunes stale version entries when the resolved
++# version changes. This is a regression test for the bug where filtered lock
++# runs appended a new [[tools.X]] section instead of replacing the old one.
++
++export MISE_LOCKFILE=1
++
++rm -f mise.toml mise.lock
++
++echo "=== Setup: lock dummy at 1.0.0 ==="
++cat <<'EOF' >mise.toml
++[tools]
++dummy = "1.0.0"
++EOF
++
++mise install dummy@1.0.0
++mise lock --platform linux-x64
++assert_contains "cat mise.lock" 'version = "1.0.0"'
++assert_not_contains "cat mise.lock" 'version = "1.1.0"'
++
++echo "=== Change config to 1.1.0 and re-lock with filter ==="
++cat <<'EOF' >mise.toml
++[tools]
++dummy = "1.1.0"
++EOF
++
++mise install dummy@1.1.0
++
++# Filtered lock run targeting only dummy
++mise lock dummy --platform linux-x64
++
++# Should have the new version
++assert_contains "cat mise.lock" 'version = "1.1.0"'
++# Should NOT have the old version (this was the bug: both would be present)
++assert_not_contains "cat mise.lock" 'version = "1.0.0"'
++
++echo "=== Cleanup ==="
++rm -f mise.toml mise.lock
+diff --git a/e2e/lockfile/test_lockfile_lock_unfiltered_prune_stale_versions b/e2e/lockfile/test_lockfile_lock_unfiltered_prune_stale_versions
+new file mode 100644
+index 0000000000..8510117209
+--- /dev/null
++++ b/e2e/lockfile/test_lockfile_lock_unfiltered_prune_stale_versions
+@@ -0,0 +1,38 @@
++#!/usr/bin/env bash
++
++# Test that `mise lock` (unfiltered) prunes stale version entries when the
++# resolved version changes. This matches the behavior of filtered runs.
++
++export MISE_LOCKFILE=1
++
++rm -f mise.toml mise.lock
++
++echo "=== Setup: lock dummy at 1.0.0 ==="
++cat <<'EOF' >mise.toml
++[tools]
++dummy = "1.0.0"
++EOF
++
++mise install dummy@1.0.0
++mise lock --platform linux-x64
++assert_contains "cat mise.lock" 'version = "1.0.0"'
++assert_not_contains "cat mise.lock" 'version = "1.1.0"'
++
++echo "=== Change config to 1.1.0 and re-lock (unfiltered) ==="
++cat <<'EOF' >mise.toml
++[tools]
++dummy = "1.1.0"
++EOF
++
++mise install dummy@1.1.0
++
++# Unfiltered lock run (no tool specified)
++mise lock --platform linux-x64
++
++# Should have the new version
++assert_contains "cat mise.lock" 'version = "1.1.0"'
++# Should NOT have the old version (this was the bug: both would be present)
++assert_not_contains "cat mise.lock" 'version = "1.0.0"'
++
++echo "=== Cleanup ==="
++rm -f mise.toml mise.lock
+diff --git a/e2e/lockfile/test_lockfile_provenance b/e2e/lockfile/test_lockfile_provenance
+index 1f368fc670..f6e62eb19e 100644
+--- a/e2e/lockfile/test_lockfile_provenance
++++ b/e2e/lockfile/test_lockfile_provenance
+@@ -16,7 +16,8 @@ EOF
+ mise lock --platform "$PLATFORM"
+ assert "test -f mise.lock"
+ # sops has SLSA provenance configured in the aqua registry
+-assert_contains "cat mise.lock" 'provenance = "slsa"'
++# Lock-time verification records the SLSA provenance URL (intoto.jsonl)
++assert_contains "cat mise.lock" 'provenance.slsa'
+ 
+ echo "=== Testing provenance downgrade attack detection ==="
+ rm -f mise.lock mise.toml
+diff --git a/e2e/lockfile/test_lockfile_python b/e2e/lockfile/test_lockfile_python
+index 9225ff1433..cd417e6edb 100644
+--- a/e2e/lockfile/test_lockfile_python
++++ b/e2e/lockfile/test_lockfile_python
+@@ -33,6 +33,27 @@ assert_contains "cat mise.lock" "sha256:"
+ echo "Lockfile content after mise install:"
+ cat mise.lock
+ 
++echo "=== Testing that install obeys the lockfile URL (not recomputed) ==="
++# Replace the URL in the lockfile with a deliberately wrong URL.
++# If install obeys the lockfile URL, it will try to download from
++# this fake URL and fail. If it recomputes the URL, it would succeed.
++awk '
++    /^url = "https:\/\/github.com\/astral-sh\/python-build-standalone/ {
++        print "url = \"https://github.com/astral-sh/python-build-standalone/releases/download/fake-tag/fake-python.tar.gz\""
++        next
++    }
++    { print }
++' mise.lock >mise.lock.tmp && mv mise.lock.tmp mise.lock
++
++assert_contains "cat mise.lock" "fake-tag/fake-python.tar.gz"
++
++rm -rf "$MISE_DATA_DIR/installs/python"
++assert_fail_contains "mise install python -f" "fake-tag/fake-python.tar.gz"
++
++# Regenerate a fresh lockfile for subsequent tests
++rm -f mise.lock
++mise lock --platform "$MISE_PLATFORM"
++
+ echo "=== Testing checksum verification rejects corrupted checksums ==="
+ # Corrupt the checksum in the lockfile to verify that install catches it.
+ # Replace the real sha256 hash with a bogus value using awk.
+diff --git a/e2e/plugins/test_plugin_link b/e2e/plugins/test_plugin_link
+index 188756cce8..8e6834af28 100644
+--- a/e2e/plugins/test_plugin_link
++++ b/e2e/plugins/test_plugin_link
+@@ -2,6 +2,8 @@
+ 
+ assert "mise plugin link -f tiny-link $MISE_DATA_DIR/plugins/dummy" ""
+ assert "mise plugin ls" "dummy
++needs-dummy
+ tiny-link"
+ assert "mise plugin uninstall tiny-link" ""
+-assert "mise plugin ls" "dummy"
++assert "mise plugin ls" "dummy
++needs-dummy"
+diff --git a/e2e/run_all_tests b/e2e/run_all_tests
+index b85198b1cd..8b4f5f0111 100755
+--- a/e2e/run_all_tests
++++ b/e2e/run_all_tests
+@@ -5,24 +5,8 @@ ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+ 
+ # shellcheck source-path=SCRIPTDIR
+ source "$SCRIPT_DIR/style.sh"
+-
+-resolve_mise_bin() {
+-	if [[ -n ${MISE_E2E_BIN:-} ]]; then
+-		printf '%s\n' "$MISE_E2E_BIN"
+-		return
+-	fi
+-	local candidate="${CARGO_TARGET_DIR:-$ROOT/target}/debug/mise"
+-	if [[ -x $candidate ]]; then
+-		printf '%s\n' "$candidate"
+-		return
+-	fi
+-	local mise_path
+-	if ! mise_path="$(command -v mise 2>/dev/null)"; then
+-		err "Could not find 'mise' in PATH and no local debug build was found. Set MISE_E2E_BIN or build/install mise."
+-		return 1
+-	fi
+-	printf '%s\n' "$mise_path"
+-}
++# shellcheck source-path=SCRIPTDIR
++source "$SCRIPT_DIR/helpers.sh"
+ 
+ mise_wait_for_gh_rate_limit() {
+ 	local mise_bin="$1"
+diff --git a/e2e/run_test b/e2e/run_test
+index 22d826c072..96c09483d4 100755
+--- a/e2e/run_test
++++ b/e2e/run_test
+@@ -5,6 +5,8 @@ ROOT="$(cd "$SCRIPT_DIR"/.. && pwd)"
+ 
+ # shellcheck source-path=SCRIPTDIR
+ source "$SCRIPT_DIR/style.sh"
++# shellcheck source-path=SCRIPTDIR
++source "$SCRIPT_DIR/helpers.sh"
+ 
+ TEST="$1"
+ # Handle both relative and absolute paths
+@@ -46,9 +48,10 @@ create_isolated_env() {
+ 	# Create the required directories
+ 	mkdir -p "$TEST_HOME/bin" "$TEST_WORKDIR" "$TEST_TMPDIR" "$MISE_SYSTEM_DIR" "$MISE_DATA_DIR" "$MISE_STATE_DIR" "$MISE_CACHE_DIR" "$MISE_CONFIG_DIR"
+ 
+-	# The dummy plugin is required for some tests
++	# The dummy and needs-dummy plugins are required for some tests
+ 	mkdir -p "$MISE_DATA_DIR/plugins"
+ 	ln -s "$ROOT/test/data/plugins/dummy" "$MISE_DATA_DIR/plugins/dummy"
++	ln -s "$ROOT/test/data/plugins/needs-dummy" "$MISE_DATA_DIR/plugins/needs-dummy"
+ }
+ 
+ remove_isolated_env() {
+@@ -111,6 +114,7 @@ within_isolated_env() {
+ 		TEST_SCRIPT="$TEST_SCRIPT" \
+ 		TMPDIR="$TEST_TMPDIR" \
+ 		EXCLUDE_FROM_CI="${CI:-}" \
++		MISE_E2E_INSIDE_DOCKER="${MISE_E2E_INSIDE_DOCKER:-}" \
+ 		"$@" || return $?
+ }
+ 
+@@ -171,4 +175,39 @@ os() {
+ 	esac
+ }
+ 
+-as_group "E2E $TEST" run_test
++run_in_docker() {
++	local image="${MISE_E2E_DOCKER_IMAGE:-ghcr.io/jdx/mise:e2e}"
++	local mise_bin
++	mise_bin="$(resolve_mise_bin)"
++
++	if ! file "$mise_bin" | grep -q "ELF"; then
++		err "The mise binary at '$mise_bin' is not a Linux ELF. On macOS, set MISE_E2E_BIN to a Linux-compiled mise binary."
++		return 1
++	fi
++
++	local docker_args=(
++		docker run --rm
++		-v "$ROOT:/mise-src:ro"
++		-v "$mise_bin:/usr/local/lib/mise/debug/mise:ro"
++		-e ROOT=/mise-src
++		-e CI="${CI:-}"
++		-e GITHUB_ACTION="${GITHUB_ACTION:-}"
++		-e GITHUB_TOKEN="${GITHUB_TOKEN:-}"
++		-e MISE_DEBUG="${MISE_DEBUG:-0}"
++		-e MISE_TRACE="${MISE_TRACE:-0}"
++		-e MISE_LOG_LEVEL="${MISE_LOG_LEVEL:-}"
++		-e RUST_BACKTRACE="${RUST_BACKTRACE:-1}"
++		-e MISE_E2E_INSIDE_DOCKER=1
++		-e CARGO_TARGET_DIR=/usr/local/lib/mise
++	)
++
++	"${docker_args[@]}" "$image" /mise-src/e2e/run_test "$TEST"
++}
++
++if [[ ${MISE_E2E_DOCKER:-0} == 1 ]]; then
++	as_group "E2E $TEST" run_in_docker
++elif [[ ${MISE_E2E_INSIDE_DOCKER:-0} == 1 ]]; then
++	run_test
++else
++	as_group "E2E $TEST" run_test
++fi
+diff --git a/e2e/tasks/test_task_dep_args b/e2e/tasks/test_task_dep_args
+new file mode 100644
+index 0000000000..872632aa72
+--- /dev/null
++++ b/e2e/tasks/test_task_dep_args
+@@ -0,0 +1,94 @@
++#!/usr/bin/env bash
++
++# Test passing arguments to task dependencies via {{usage.*}} templates
++
++# Basic test: parent task passes its arg to a dependency
++cat <<'EOF' >mise.toml
++[tasks.build]
++usage = 'arg "<app>"'
++run = 'echo "building {{usage.app}}"'
++
++[tasks.deploy]
++usage = 'arg "<app>"'
++depends = [{ task = "build", args = ["{{usage.app}}"] }]
++run = 'echo "deploying {{usage.app}}"'
++EOF
++
++assert_contains "mise run deploy myapp" "building myapp"
++assert_contains "mise run deploy myapp" "deploying myapp"
++
++# Test with flag syntax
++cat <<'EOF' >mise.toml
++[tasks.compile]
++usage = 'flag "--target <target>"'
++run = 'echo "compiling for $usage_target"'
++
++[tasks.package]
++usage = 'flag "--target <target>"'
++depends = [{ task = "compile", args = ["--target", "{{usage.target}}"] }]
++run = 'echo "packaging for $usage_target"'
++EOF
++
++assert_contains "mise run package --target linux" "compiling for linux"
++assert_contains "mise run package --target linux" "packaging for linux"
++
++# Test with multiple args
++cat <<'EOF' >mise.toml
++[tasks.start-backend]
++usage = 'arg "<app>"'
++run = 'echo "backend {{usage.app}}"'
++
++[tasks.start-frontend]
++usage = 'arg "<app>"'
++run = 'echo "frontend {{usage.app}}"'
++
++[tasks.start]
++usage = 'arg "<app>"'
++depends = [
++    { task = "start-backend", args = ["{{usage.app}}"] },
++    { task = "start-frontend", args = ["{{usage.app}}"] },
++]
++run = 'echo "started {{usage.app}}"'
++EOF
++
++output=$(mise run start myapp 2>&1)
++assert_contains "echo \"$output\"" "backend myapp"
++assert_contains "echo \"$output\"" "frontend myapp"
++assert_contains "echo \"$output\"" "started myapp"
++
++# Test with string syntax for depends args
++cat <<'EOF' >mise.toml
++[tasks.greet]
++usage = 'arg "<name>"'
++run = 'echo "hello {{usage.name}}"'
++
++[tasks.welcome]
++usage = 'arg "<name>"'
++depends = ["greet {{usage.name}}"]
++run = 'echo "welcome {{usage.name}}"'
++EOF
++
++assert_contains "mise run welcome world" "hello world"
++assert_contains "mise run welcome world" "welcome world"
++
++# Test dependency chaining: A -> B -> C, args flow through
++cat <<'EOF' >mise.toml
++[tasks.step1]
++usage = 'arg "<val>"'
++run = 'echo "step1 {{usage.val}}"'
++
++[tasks.step2]
++usage = 'arg "<val>"'
++depends = [{ task = "step1", args = ["{{usage.val}}"] }]
++run = 'echo "step2 {{usage.val}}"'
++
++[tasks.step3]
++usage = 'arg "<val>"'
++depends = [{ task = "step2", args = ["{{usage.val}}"] }]
++run = 'echo "step3 {{usage.val}}"'
++EOF
++
++output=$(mise run step3 hello 2>&1)
++assert_contains "echo \"$output\"" "step1 hello"
++assert_contains "echo \"$output\"" "step2 hello"
++assert_contains "echo \"$output\"" "step3 hello"
+diff --git a/e2e/tasks/test_task_monorepo_file_tasks b/e2e/tasks/test_task_monorepo_file_tasks
+index 4c02c14cfa..f3c5649df0 100755
+--- a/e2e/tasks/test_task_monorepo_file_tasks
++++ b/e2e/tasks/test_task_monorepo_file_tasks
+@@ -47,11 +47,11 @@ print("backend api tests")
+ EOF
+ chmod +x projects/backend/mise-tasks/test-api.py
+ 
+-cat <<'EOF' >projects/backend/mise-tasks/migrate.rb
+-#!/usr/bin/env ruby
+-puts "backend migrations"
++cat <<'EOF' >projects/backend/mise-tasks/migrate.sh
++#!/usr/bin/env bash
++echo "backend migrations"
+ EOF
+-chmod +x projects/backend/mise-tasks/migrate.rb
++chmod +x projects/backend/mise-tasks/migrate.sh
+ 
+ # Verify file tasks are discovered with --all
+ # Note: Tasks are displayed WITHOUT extensions in listings (display_name strips them)
+@@ -70,7 +70,7 @@ assert_contains "mise run '//projects/backend:migrate'" "backend migrations"
+ assert_contains "mise run '//projects/frontend:test-e2e.js'" "frontend e2e tests"
+ assert_contains "mise run '//projects/frontend:lint.sh'" "frontend linting"
+ assert_contains "mise run '//projects/backend:test-api.py'" "backend api tests"
+-assert_contains "mise run '//projects/backend:migrate.rb'" "backend migrations"
++assert_contains "mise run '//projects/backend:migrate.sh'" "backend migrations"
+ 
+ # Test wildcard patterns with file tasks
+ assert_contains "mise run '//projects/frontend:test*'" "frontend e2e tests"
+diff --git a/e2e/tasks/test_task_remote_git_https b/e2e/tasks/test_task_remote_git_https
+index 4490ffc238..8cc046bf40 100644
+--- a/e2e/tasks/test_task_remote_git_https
++++ b/e2e/tasks/test_task_remote_git_https
+@@ -41,7 +41,7 @@ REMOTE_TASKS_DIR="${MISE_CACHE_DIR}/remote-git-tasks-cache"
+ LOCAL_CACHE_HASH=$(echo -n "${LOCAL_GIT_URL}v2025.1.17" | shasum -a 256 | cut -d' ' -f1)
+ MISE_LOCAL_CACHE_DIR="${REMOTE_TASKS_DIR}/${LOCAL_CACHE_HASH}"
+ 
+-cargo init --name hello_cargo
++git init
+ 
+ # Ensure cleanup on exit
+ cleanup() {
+diff --git a/e2e/tasks/test_task_remote_git_includes b/e2e/tasks/test_task_remote_git_includes
+index abbb9428d5..bd15334513 100755
+--- a/e2e/tasks/test_task_remote_git_includes
++++ b/e2e/tasks/test_task_remote_git_includes
+@@ -38,7 +38,7 @@ LOCAL_GIT_URL="http://localhost:${SERVER_PORT}/repo.git"
+ # Update cache directory paths for local server
+ REMOTE_TASKS_DIR="${MISE_CACHE_DIR}/remote-git-tasks-cache"
+ 
+-cargo init --name hello_cargo
++git init
+ 
+ # Ensure cleanup on exit
+ cleanup() {
+diff --git a/e2e/tasks/test_task_remote_git_ssh b/e2e/tasks/test_task_remote_git_ssh
+index 91f1b55982..3eac26da9f 100644
+--- a/e2e/tasks/test_task_remote_git_ssh
++++ b/e2e/tasks/test_task_remote_git_ssh
+@@ -12,7 +12,7 @@ fi
+ REMOTE_TASKS_DIR="${MISE_CACHE_DIR}/remote-git-tasks-cache"
+ #MISE_V2025117_CACHE_DIR="${REMOTE_TASKS_DIR}/27d097acd7d7d15682b9d5f22bfa7c363b1951a50bbbd2aff3923eb949be0ef0"
+ 
+-cargo init --name hello_cargo
++git init
+ 
+ #################################################################################
+ # Test remote tasks with no ref
+diff --git a/e2e/tasks/test_tool_versions_trust b/e2e/tasks/test_tool_versions_trust
+new file mode 100644
+index 0000000000..79da2c2bfd
+--- /dev/null
++++ b/e2e/tasks/test_tool_versions_trust
+@@ -0,0 +1,9 @@
++#!/usr/bin/env bash
++
++# .tool-versions files can't define tasks, so plain ones should never
++# trigger a trust error in the task runner.
++
++export MISE_TRUSTED_CONFIG_PATHS=""
++
++echo "tiny 3.1.0" >.tool-versions
++assert_not_contains "MISE_YES=0 mise task ls" "not trusted"
+diff --git a/packaging/e2e/Dockerfile b/packaging/e2e/Dockerfile
+new file mode 100644
+index 0000000000..bccc80b50f
+--- /dev/null
++++ b/packaging/e2e/Dockerfile
+@@ -0,0 +1,61 @@
++FROM ubuntu:26.04@sha256:a072b64036a738e55bff8f9a9682cbb893bf20c213772effc1de8dee8df1cea9
++
++LABEL maintainer="jdx"
++LABEL org.opencontainers.image.source=https://github.com/jdx/mise
++LABEL org.opencontainers.image.description="mise e2e test environment"
++LABEL org.opencontainers.image.licenses=MIT
++
++ENV DEBIAN_FRONTEND=noninteractive
++ENV PATH="/opt/node/bin:$PATH"
++
++SHELL ["/bin/bash", "-o", "pipefail", "-c"]
++
++RUN <<EOT
++set -euxo pipefail
++mkdir -p /opt/node
++
++apt-get update && apt-get install -y --no-install-recommends \
++    autoconf \
++    bash \
++    bison \
++    build-essential \
++    cargo \
++    curl \
++    direnv \
++    fd-find \
++    fish \
++    git \
++    jq \
++    libffi-dev \
++    libicu-dev \
++    libncurses-dev \
++    libreadline-dev \
++    libssl-dev \
++    libxml2-dev \
++    libyaml-dev \
++    pipx \
++    pkg-config \
++    python3-full \
++    python3-venv \
++    unzip \
++    xz-utils \
++    zlib1g-dev \
++    zsh
++
++ln -sf /usr/bin/fdfind /usr/bin/fd
++
++# Install Node.js to /opt/node (not /usr/bin) so test_backend_missing_deps
++# can verify missing-npm behavior with its restricted PATH=/usr/bin:/bin
++NODE_VERSION=22.22.1
++ARCH=$(dpkg --print-architecture)
++curl -fsSL "https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-${ARCH/amd64/x64}.tar.xz" \
++    | tar -xJ --strip-components=1 -C /opt/node
++/opt/node/bin/npm install -g nushell
++ln -sf /opt/node/bin/node /usr/local/bin/node
++ln -sf /opt/node/bin/npm /usr/local/bin/npm
++ln -sf /opt/node/bin/npx /usr/local/bin/npx
++ln -sf /opt/node/bin/nu /usr/local/bin/nu
++
++apt-get clean
++rm -rf /var/lib/apt/lists/*
++EOT
+diff --git a/src/config/config_file/snapshots/mise__config__config_file__mise_toml__tests__env_var_in_tool.snap b/src/config/config_file/snapshots/mise__config__config_file__mise_toml__tests__env_var_in_tool.snap
+index 3c0e86d1d9..dfb49b1b86 100644
+--- a/src/config/config_file/snapshots/mise__config__config_file__mise_toml__tests__env_var_in_tool.snap
++++ b/src/config/config_file/snapshots/mise__config__config_file__mise_toml__tests__env_var_in_tool.snap
+@@ -9,6 +9,7 @@ expression: "replace_path(&format!(\"{:#?}\", cf.to_tool_request_set().unwrap().
+             version: "1.0.0",
+             options: ToolVersionOptions {
+                 os: None,
++                depends: None,
+                 install_env: {},
+                 opts: {},
+             },
+@@ -23,6 +24,7 @@ expression: "replace_path(&format!(\"{:#?}\", cf.to_tool_request_set().unwrap().
+             prefix: "1.6",
+             options: ToolVersionOptions {
+                 os: None,
++                depends: None,
+                 install_env: {},
+                 opts: {},
+             },
+diff --git a/src/config/config_file/snapshots/mise__config__config_file__mise_toml__tests__fixture-3.snap b/src/config/config_file/snapshots/mise__config__config_file__mise_toml__tests__fixture-3.snap
+index 86dddce94c..87f68e7935 100644
+--- a/src/config/config_file/snapshots/mise__config__config_file__mise_toml__tests__fixture-3.snap
++++ b/src/config/config_file/snapshots/mise__config__config_file__mise_toml__tests__fixture-3.snap
+@@ -10,6 +10,7 @@ ToolRequestSet {
+                 version: "1.0.0",
+                 options: ToolVersionOptions {
+                     os: None,
++                    depends: None,
+                     install_env: {},
+                     opts: {},
+                 },
+@@ -24,6 +25,7 @@ ToolRequestSet {
+                 version: "18",
+                 options: ToolVersionOptions {
+                     os: None,
++                    depends: None,
+                     install_env: {},
+                     opts: {},
+                 },
+@@ -36,6 +38,7 @@ ToolRequestSet {
+                 prefix: "20",
+                 options: ToolVersionOptions {
+                     os: None,
++                    depends: None,
+                     install_env: {},
+                     opts: {},
+                 },
+@@ -49,6 +52,7 @@ ToolRequestSet {
+                 ref_type: "ref",
+                 options: ToolVersionOptions {
+                     os: None,
++                    depends: None,
+                     install_env: {},
+                     opts: {},
+                 },
+@@ -61,6 +65,7 @@ ToolRequestSet {
+                 path: "~/.nodes/18",
+                 options: ToolVersionOptions {
+                     os: None,
++                    depends: None,
+                     install_env: {},
+                     opts: {},
+                 },
+@@ -75,6 +80,7 @@ ToolRequestSet {
+                 prefix: "1.6",
+                 options: ToolVersionOptions {
+                     os: None,
++                    depends: None,
+                     install_env: {},
+                     opts: {},
+                 },
+@@ -89,6 +95,7 @@ ToolRequestSet {
+                 version: "0.9.0",
+                 options: ToolVersionOptions {
+                     os: None,
++                    depends: None,
+                     install_env: {},
+                     opts: {},
+                 },
+@@ -103,6 +110,7 @@ ToolRequestSet {
+                 version: "3.10.0",
+                 options: ToolVersionOptions {
+                     os: None,
++                    depends: None,
+                     install_env: {},
+                     opts: {
+                         "venv": String(
+@@ -119,6 +127,7 @@ ToolRequestSet {
+                 version: "3.9.0",
+                 options: ToolVersionOptions {
+                     os: None,
++                    depends: None,
+                     install_env: {},
+                     opts: {},
+                 },
+diff --git a/src/config/config_file/snapshots/mise__config__config_file__mise_toml__tests__replace_versions.snap b/src/config/config_file/snapshots/mise__config__config_file__mise_toml__tests__replace_versions.snap
+index d754d77441..4178cc90c0 100644
+--- a/src/config/config_file/snapshots/mise__config__config_file__mise_toml__tests__replace_versions.snap
++++ b/src/config/config_file/snapshots/mise__config__config_file__mise_toml__tests__replace_versions.snap
+@@ -13,6 +13,7 @@ Toolset {
+                     version: "16.0.1",
+                     options: ToolVersionOptions {
+                         os: None,
++                        depends: None,
+                         install_env: {},
+                         opts: {},
+                     },
+@@ -25,6 +26,7 @@ Toolset {
+                     version: "18.0.1",
+                     options: ToolVersionOptions {
+                         os: None,
++                        depends: None,
+                         install_env: {},
+                         opts: {},
+                     },
+diff --git a/src/shell/snapshots/mise__shell__zsh__tests__activate.snap b/src/shell/snapshots/mise__shell__zsh__tests__activate.snap
+index 0469720972..6d81ab1029 100644
+--- a/src/shell/snapshots/mise__shell__zsh__tests__activate.snap
++++ b/src/shell/snapshots/mise__shell__zsh__tests__activate.snap
+@@ -7,6 +7,7 @@ if [ -z "${__MISE_ORIG_PATH:-}" ]; then
+   export __MISE_ORIG_PATH="$PATH"
+ fi
+ export __MISE_ZSH_PRECMD_RUN=0
++export __MISE_ZSH_CHPWD_RAN=0
+ 
+ mise() {
+   local command
+@@ -29,23 +30,23 @@ mise() {
+   command /some/dir/mise "$command" "$@"
+ }
+ 
++autoload -Uz add-zsh-hook
+ _mise_hook() {
+   eval "$(/some/dir/mise hook-env --status -s zsh)";
+ }
+ _mise_hook_precmd() {
++  if [[ "${__MISE_ZSH_CHPWD_RAN:-0}" == "1" ]]; then
++    export __MISE_ZSH_CHPWD_RAN=0
++    return
++  fi
+   eval "$(/some/dir/mise hook-env --status -s zsh --reason precmd)";
+ }
+ _mise_hook_chpwd() {
++  export __MISE_ZSH_CHPWD_RAN=1
+   eval "$(/some/dir/mise hook-env --status -s zsh --reason chpwd)";
+ }
+-typeset -ag precmd_functions;
+-if [[ -z "${precmd_functions[(r)_mise_hook_precmd]+1}" ]]; then
+-  precmd_functions=( _mise_hook_precmd ${precmd_functions[@]} )
+-fi
+-typeset -ag chpwd_functions;
+-if [[ -z "${chpwd_functions[(r)_mise_hook_chpwd]+1}" ]]; then
+-  chpwd_functions=( _mise_hook_chpwd ${chpwd_functions[@]} )
+-fi
++add-zsh-hook precmd _mise_hook_precmd
++add-zsh-hook chpwd _mise_hook_chpwd
+ 
+ _mise_hook
+ if [ -z "${_mise_cmd_not_found:-}" ]; then
+diff --git a/src/shell/snapshots/mise__shell__zsh__tests__deactivate.snap b/src/shell/snapshots/mise__shell__zsh__tests__deactivate.snap
+index ba35ac6f73..c71b833a2f 100644
+--- a/src/shell/snapshots/mise__shell__zsh__tests__deactivate.snap
++++ b/src/shell/snapshots/mise__shell__zsh__tests__deactivate.snap
+@@ -2,8 +2,9 @@
+ source: src/shell/zsh.rs
+ expression: replace_path(&deactivate)
+ ---
+-precmd_functions=( ${precmd_functions:#_mise_hook_precmd} )
+-chpwd_functions=( ${chpwd_functions:#_mise_hook_chpwd} )
++autoload -Uz add-zsh-hook
++add-zsh-hook -d precmd _mise_hook_precmd 2>/dev/null
++add-zsh-hook -d chpwd _mise_hook_chpwd 2>/dev/null
+ (( $+functions[_mise_hook_precmd] )) && unset -f _mise_hook_precmd
+ (( $+functions[_mise_hook_chpwd] )) && unset -f _mise_hook_chpwd
+ (( $+functions[_mise_hook] )) && unset -f _mise_hook
+@@ -12,3 +13,4 @@ unset MISE_SHELL
+ unset __MISE_DIFF
+ unset __MISE_SESSION
+ unset __MISE_ZSH_PRECMD_RUN
++unset __MISE_ZSH_CHPWD_RAN
+diff --git a/test/data/plugins/needs-dummy/bin/download b/test/data/plugins/needs-dummy/bin/download
+new file mode 100755
+index 0000000000..742e13d6fd
+--- /dev/null
++++ b/test/data/plugins/needs-dummy/bin/download
+@@ -0,0 +1,2 @@
++#!/usr/bin/env bash
++exit 0
+diff --git a/test/data/plugins/needs-dummy/bin/install b/test/data/plugins/needs-dummy/bin/install
+new file mode 100755
+index 0000000000..e9e79c1dcf
+--- /dev/null
++++ b/test/data/plugins/needs-dummy/bin/install
+@@ -0,0 +1,30 @@
++#!/usr/bin/env bash
++set -eu -o pipefail
++
++# This plugin requires dummy to be installed first.
++# It checks that a completed dummy installation exists on disk,
++# simulating a real runtime dependency (e.g., pipx:ruff needing a custom python).
++#
++# ASDF_INSTALL_PATH is like .../installs/needs-dummy/1.0.0
++# We go up to .../installs/ and check for a completed dummy install.
++INSTALLS_DIR="$(dirname "$(dirname "$ASDF_INSTALL_PATH")")"
++
++found_dummy=0
++for d in "$INSTALLS_DIR"/dummy/*/bin/dummy; do
++    if [ -x "$d" ] 2>/dev/null; then
++        found_dummy=1
++        break
++    fi
++done
++
++if [ "$found_dummy" -eq 0 ]; then
++    echo "needs-dummy: ERROR dummy is not installed, cannot install" >&2
++    exit 1
++fi
++
++mkdir -p "$ASDF_INSTALL_PATH/bin"
++cat <<EOF >"$ASDF_INSTALL_PATH/bin/needs-dummy"
++#!/usr/bin/env bash
++echo "needs-dummy v${ASDF_INSTALL_VERSION}"
++EOF
++chmod +x "$ASDF_INSTALL_PATH/bin/needs-dummy"
+diff --git a/test/data/plugins/needs-dummy/bin/latest-stable b/test/data/plugins/needs-dummy/bin/latest-stable
+new file mode 100755
+index 0000000000..53e71a4176
+--- /dev/null
++++ b/test/data/plugins/needs-dummy/bin/latest-stable
+@@ -0,0 +1,2 @@
++#!/usr/bin/env bash
++echo "1.0.0"
+diff --git a/test/data/plugins/needs-dummy/bin/list-all b/test/data/plugins/needs-dummy/bin/list-all
+new file mode 100755
+index 0000000000..53e71a4176
+--- /dev/null
++++ b/test/data/plugins/needs-dummy/bin/list-all
+@@ -0,0 +1,2 @@
++#!/usr/bin/env bash
++echo "1.0.0"

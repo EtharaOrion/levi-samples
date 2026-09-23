@@ -1,0 +1,728 @@
+diff --git a/integration/test_call_script.py b/integration/test_call_script.py
+index d2162d34c0c..8b24ce19b7c 100644
+--- a/integration/test_call_script.py
++++ b/integration/test_call_script.py
+@@ -28,6 +28,10 @@ def CallScript():
+         inline_counter += 1
+         return {inline3: 42, a: [1, 2, 3], s: 'js', o: {a: 1, b: 2}}
+     }
++    async function inline4() {
++        inline_counter += 1
++        return "async inline4"
++    }
+     """
+ 
+     external_scripts = inline_scripts.replace("inline", "external")
+@@ -47,6 +51,7 @@ def call_scripts_inline_yield(self):
+             yield rx.call_script("inline1()")
+             yield rx.call_script("inline2()")
+             yield rx.call_script("inline3()")
++            yield rx.call_script("inline4()")
+ 
+         def call_script_inline_return(self):
+             return rx.call_script("inline2()")
+@@ -61,6 +66,9 @@ def call_scripts_inline_yield_callback(self):
+             yield rx.call_script(
+                 "inline3()", callback=CallScriptState.call_script_callback
+             )
++            yield rx.call_script(
++                "inline4()", callback=CallScriptState.call_script_callback
++            )
+ 
+         def call_script_inline_return_callback(self):
+             return rx.call_script(
+@@ -85,6 +93,7 @@ def call_scripts_external_yield(self):
+             yield rx.call_script("external1()")
+             yield rx.call_script("external2()")
+             yield rx.call_script("external3()")
++            yield rx.call_script("external4()")
+ 
+         def call_script_external_return(self):
+             return rx.call_script("external2()")
+@@ -99,6 +108,9 @@ def call_scripts_external_yield_callback(self):
+             yield rx.call_script(
+                 "external3()", callback=CallScriptState.call_script_callback
+             )
++            yield rx.call_script(
++                "external4()", callback=CallScriptState.call_script_callback
++            )
+ 
+         def call_script_external_return_callback(self):
+             return rx.call_script(
+@@ -300,7 +312,7 @@ def test_call_script(
+ 
+     yield_button.click()
+     update_counter_button.click()
+-    assert call_script.poll_for_value(counter, exp_not_equal="0") == "3"
++    assert call_script.poll_for_value(counter, exp_not_equal="0") == "4"
+     reset_button.click()
+     assert call_script.poll_for_value(counter, exp_not_equal="3") == "0"
+     return_button.click()
+@@ -311,10 +323,11 @@ def test_call_script(
+ 
+     yield_callback_button.click()
+     update_counter_button.click()
+-    assert call_script.poll_for_value(counter, exp_not_equal="0") == "3"
++    assert call_script.poll_for_value(counter, exp_not_equal="0") == "4"
+     assert call_script.poll_for_value(
+         results, exp_not_equal="[]"
+-    ) == '["%s1",null,{"%s3":42,"a":[1,2,3],"s":"js","o":{"a":1,"b":2}}]' % (
++    ) == '["%s1",null,{"%s3":42,"a":[1,2,3],"s":"js","o":{"a":1,"b":2}},"async %s4"]' % (
++        script,
+         script,
+         script,
+     )
+diff --git a/integration/test_event_actions.py b/integration/test_event_actions.py
+new file mode 100644
+index 00000000000..8f5e0788b44
+--- /dev/null
++++ b/integration/test_event_actions.py
+@@ -0,0 +1,276 @@
++"""Ensure stopPropagation and preventDefault work as expected."""
++
++import asyncio
++from typing import Callable, Coroutine, Generator
++
++import pytest
++from selenium.webdriver.common.by import By
++
++from reflex.testing import AppHarness, WebDriver
++
++
++def TestEventAction():
++    """App for testing event_actions."""
++    import reflex as rx
++
++    class EventActionState(rx.State):
++        order: list[str]
++
++        def on_click(self, ev):
++            self.order.append(f"on_click:{ev}")
++
++        def on_click2(self):
++            self.order.append("on_click2")
++
++    class EventFiringComponent(rx.Component):
++        """A component that fires onClick event without passing DOM event."""
++
++        tag = "EventFiringComponent"
++
++        def _get_custom_code(self) -> str | None:
++            return """
++                function EventFiringComponent(props) {
++                    return (
++                        <div id={props.id} onClick={(e) => props.onClick("foo")}>
++                            Event Firing Component
++                        </div>
++                    )
++                }"""
++
++        def get_event_triggers(self):
++            return {"on_click": lambda: []}
++
++    def index():
++        return rx.vstack(
++            rx.input(
++                value=EventActionState.router.session.client_token,
++                is_read_only=True,
++                id="token",
++            ),
++            rx.button("No events", id="btn-no-events"),
++            rx.button(
++                "Stop Prop Only",
++                id="btn-stop-prop-only",
++                on_click=rx.stop_propagation,  # type: ignore
++            ),
++            rx.button(
++                "Click event",
++                on_click=EventActionState.on_click("no_event_actions"),  # type: ignore
++                id="btn-click-event",
++            ),
++            rx.button(
++                "Click stop propagation",
++                on_click=EventActionState.on_click("stop_propagation").stop_propagation,  # type: ignore
++                id="btn-click-stop-propagation",
++            ),
++            rx.button(
++                "Click stop propagation2",
++                on_click=EventActionState.on_click2.stop_propagation,
++                id="btn-click-stop-propagation2",
++            ),
++            rx.button(
++                "Click event 2",
++                on_click=EventActionState.on_click2,
++                id="btn-click-event2",
++            ),
++            rx.link(
++                "Link",
++                href="#",
++                on_click=EventActionState.on_click("link_no_event_actions"),  # type: ignore
++                id="link",
++            ),
++            rx.link(
++                "Link Stop Propagation",
++                href="#",
++                on_click=EventActionState.on_click(  # type: ignore
++                    "link_stop_propagation"
++                ).stop_propagation,
++                id="link-stop-propagation",
++            ),
++            rx.link(
++                "Link Prevent Default Only",
++                href="/invalid",
++                on_click=rx.prevent_default,  # type: ignore
++                id="link-prevent-default-only",
++            ),
++            rx.link(
++                "Link Prevent Default",
++                href="/invalid",
++                on_click=EventActionState.on_click(  # type: ignore
++                    "link_prevent_default"
++                ).prevent_default,
++                id="link-prevent-default",
++            ),
++            rx.link(
++                "Link Both",
++                href="/invalid",
++                on_click=EventActionState.on_click(  # type: ignore
++                    "link_both"
++                ).stop_propagation.prevent_default,
++                id="link-stop-propagation-prevent-default",
++            ),
++            EventFiringComponent.create(
++                id="custom-stop-propagation",
++                on_click=EventActionState.on_click(  # type: ignore
++                    "custom-stop-propagation"
++                ).stop_propagation,
++            ),
++            EventFiringComponent.create(
++                id="custom-prevent-default",
++                on_click=EventActionState.on_click(  # type: ignore
++                    "custom-prevent-default"
++                ).prevent_default,
++            ),
++            rx.list(
++                rx.foreach(
++                    EventActionState.order,  # type: ignore
++                    rx.list_item,
++                ),
++            ),
++            on_click=EventActionState.on_click("outer"),  # type: ignore
++        )
++
++    app = rx.App(state=EventActionState)
++    app.add_page(index)
++    app.compile()
++
++
++@pytest.fixture(scope="session")
++def event_action(tmp_path_factory) -> Generator[AppHarness, None, None]:
++    """Start TestEventAction app at tmp_path via AppHarness.
++
++    Args:
++        tmp_path_factory: pytest tmp_path_factory fixture
++
++    Yields:
++        running AppHarness instance
++    """
++    with AppHarness.create(
++        root=tmp_path_factory.mktemp(f"event_action"),
++        app_source=TestEventAction,  # type: ignore
++    ) as harness:
++        yield harness
++
++
++@pytest.fixture
++def driver(event_action: AppHarness) -> Generator[WebDriver, None, None]:
++    """Get an instance of the browser open to the event_action app.
++
++    Args:
++        event_action: harness for TestEventAction app
++
++    Yields:
++        WebDriver instance.
++    """
++    assert event_action.app_instance is not None, "app is not running"
++    driver = event_action.frontend()
++    try:
++        yield driver
++    finally:
++        driver.quit()
++
++
++@pytest.fixture()
++def token(event_action: AppHarness, driver: WebDriver) -> str:
++    """Get the token associated with backend state.
++
++    Args:
++        event_action: harness for TestEventAction app.
++        driver: WebDriver instance.
++
++    Returns:
++        The token visible in the driver browser.
++    """
++    assert event_action.app_instance is not None
++    token_input = driver.find_element(By.ID, "token")
++    assert token_input
++
++    # wait for the backend connection to send the token
++    token = event_action.poll_for_value(token_input)
++    assert token is not None
++
++    return token
++
++
++@pytest.fixture()
++def poll_for_order(
++    event_action: AppHarness, token: str
++) -> Callable[[list[str]], Coroutine[None, None, None]]:
++    """Poll for the order list to match the expected order.
++
++    Args:
++        event_action: harness for TestEventAction app.
++        token: The token visible in the driver browser.
++
++    Returns:
++        An async function that polls for the order list to match the expected order.
++    """
++
++    async def _poll_for_order(exp_order: list[str]):
++        async def _backend_state():
++            return await event_action.get_state(token)
++
++        async def _check():
++            return (await _backend_state()).order == exp_order
++
++        await AppHarness._poll_for_async(_check)
++        assert (await _backend_state()).order == exp_order
++
++    return _poll_for_order
++
++
++@pytest.mark.parametrize(
++    ("element_id", "exp_order"),
++    [
++        ("btn-no-events", ["on_click:outer"]),
++        ("btn-stop-prop-only", []),
++        ("btn-click-event", ["on_click:no_event_actions", "on_click:outer"]),
++        ("btn-click-stop-propagation", ["on_click:stop_propagation"]),
++        ("btn-click-stop-propagation2", ["on_click2"]),
++        ("btn-click-event2", ["on_click2", "on_click:outer"]),
++        ("link", ["on_click:link_no_event_actions", "on_click:outer"]),
++        ("link-stop-propagation", ["on_click:link_stop_propagation"]),
++        ("link-prevent-default", ["on_click:link_prevent_default", "on_click:outer"]),
++        ("link-prevent-default-only", ["on_click:outer"]),
++        ("link-stop-propagation-prevent-default", ["on_click:link_both"]),
++        (
++            "custom-stop-propagation",
++            ["on_click:custom-stop-propagation", "on_click:outer"],
++        ),
++        (
++            "custom-prevent-default",
++            ["on_click:custom-prevent-default", "on_click:outer"],
++        ),
++    ],
++)
++@pytest.mark.usefixtures("token")
++@pytest.mark.asyncio
++async def test_event_actions(
++    driver: WebDriver,
++    poll_for_order: Callable[[list[str]], Coroutine[None, None, None]],
++    element_id: str,
++    exp_order: list[str],
++):
++    """Click links and buttons and assert on fired events.
++
++    Args:
++        driver: WebDriver instance.
++        poll_for_order: function that polls for the order list to match the expected order.
++        element_id: The id of the element to click.
++        exp_order: The expected order of events.
++    """
++    el = driver.find_element(By.ID, element_id)
++    assert el
++
++    prev_url = driver.current_url
++
++    el.click()
++    if "on_click:outer" not in exp_order:
++        # really make sure the outer event is not fired
++        await asyncio.sleep(0.5)
++    await poll_for_order(exp_order)
++
++    if element_id.startswith("link") and "prevent-default" not in element_id:
++        assert driver.current_url != prev_url
++    else:
++        assert driver.current_url == prev_url
+diff --git a/integration/test_form_submit.py b/integration/test_form_submit.py
+index ebaec955ba0..25296b3d4eb 100644
+--- a/integration/test_form_submit.py
++++ b/integration/test_form_submit.py
+@@ -53,6 +53,7 @@ def index():
+                     rx.button("Submit", type_="submit"),
+                 ),
+                 on_submit=FormState.form_submit,
++                custom_attrs={"action": "/invalid"},
+             ),
+             rx.spacer(),
+             height="100vh",
+@@ -145,6 +146,8 @@ async def test_submit(driver, form_submit: AppHarness):
+ 
+     time.sleep(1)
+ 
++    prev_url = driver.current_url
++
+     submit_input = driver.find_element(By.CLASS_NAME, "chakra-button")
+     submit_input.click()
+ 
+@@ -166,3 +169,6 @@ async def get_form_data():
+     assert form_data["select_input"] == "option1"
+     assert form_data["text_area_input"] == "Some\nText"
+     assert form_data["debounce_input"] == "bar baz"
++
++    # submitting the form should NOT change the url (preventDefault on_submit event)
++    assert driver.current_url == prev_url
+diff --git a/tests/components/base/test_script.py b/tests/components/base/test_script.py
+index ffee64b6e3c..cc16ab7185a 100644
+--- a/tests/components/base/test_script.py
++++ b/tests/components/base/test_script.py
+@@ -57,14 +57,14 @@ def test_script_event_handler():
+     )
+     render_dict = component.render()
+     assert (
+-        'onReady={(_e) => addEvents([Event("ev_state.on_ready", {})], (_e))}'
++        'onReady={(_e) => addEvents([Event("ev_state.on_ready", {})], (_e), {})}'
+         in render_dict["props"]
+     )
+     assert (
+-        'onLoad={(_e) => addEvents([Event("ev_state.on_load", {})], (_e))}'
++        'onLoad={(_e) => addEvents([Event("ev_state.on_load", {})], (_e), {})}'
+         in render_dict["props"]
+     )
+     assert (
+-        'onError={(_e) => addEvents([Event("ev_state.on_error", {})], (_e))}'
++        'onError={(_e) => addEvents([Event("ev_state.on_error", {})], (_e), {})}'
+         in render_dict["props"]
+     )
+diff --git a/tests/components/layout/test_foreach.py b/tests/components/layout/test_foreach.py
+index 5b407d77fbe..11c8be56386 100644
+--- a/tests/components/layout/test_foreach.py
++++ b/tests/components/layout/test_foreach.py
+@@ -78,6 +78,9 @@ def display_nested_list_element(element: str, index: int):
+     return box(text(element[index]))
+ 
+ 
++seen_index_vars = set()
++
++
+ @pytest.mark.parametrize(
+     "state_var, render_fn, render_dict",
+     [
+@@ -86,7 +89,6 @@ def display_nested_list_element(element: str, index: int):
+             display_color,
+             {
+                 "iterable_state": "for_each_state.colors_list",
+-                "arg_index": "i",
+                 "iterable_type": "list",
+             },
+         ),
+@@ -95,7 +97,6 @@ def display_nested_list_element(element: str, index: int):
+             display_color_name,
+             {
+                 "iterable_state": "for_each_state.colors_dict_list",
+-                "arg_index": "i",
+                 "iterable_type": "list",
+             },
+         ),
+@@ -104,7 +105,6 @@ def display_nested_list_element(element: str, index: int):
+             display_shade,
+             {
+                 "iterable_state": "for_each_state.colors_nested_dict_list",
+-                "arg_index": "i",
+                 "iterable_type": "list",
+             },
+         ),
+@@ -113,7 +113,6 @@ def display_nested_list_element(element: str, index: int):
+             display_primary_colors,
+             {
+                 "iterable_state": "for_each_state.primary_color",
+-                "arg_index": "i",
+                 "iterable_type": "dict",
+             },
+         ),
+@@ -122,7 +121,6 @@ def display_nested_list_element(element: str, index: int):
+             display_color_with_shades,
+             {
+                 "iterable_state": "for_each_state.color_with_shades",
+-                "arg_index": "i",
+                 "iterable_type": "dict",
+             },
+         ),
+@@ -131,7 +129,6 @@ def display_nested_list_element(element: str, index: int):
+             display_nested_color_with_shades,
+             {
+                 "iterable_state": "for_each_state.nested_colors_with_shades",
+-                "arg_index": "i",
+                 "iterable_type": "dict",
+             },
+         ),
+@@ -140,7 +137,6 @@ def display_nested_list_element(element: str, index: int):
+             display_nested_color_with_shades_v2,
+             {
+                 "iterable_state": "for_each_state.nested_colors_with_shades",
+-                "arg_index": "i",
+                 "iterable_type": "dict",
+             },
+         ),
+@@ -149,7 +145,6 @@ def display_nested_list_element(element: str, index: int):
+             display_color_tuple,
+             {
+                 "iterable_state": "for_each_state.color_tuple",
+-                "arg_index": "i",
+                 "iterable_type": "tuple",
+             },
+         ),
+@@ -158,7 +153,6 @@ def display_nested_list_element(element: str, index: int):
+             display_colors_set,
+             {
+                 "iterable_state": "for_each_state.colors_set",
+-                "arg_index": "i",
+                 "iterable_type": "set",
+             },
+         ),
+@@ -167,7 +161,6 @@ def display_nested_list_element(element: str, index: int):
+             lambda el, i: display_nested_list_element(el, i),
+             {
+                 "iterable_state": "for_each_state.nested_colors_list",
+-                "arg_index": "i",
+                 "iterable_type": "list",
+             },
+         ),
+@@ -184,8 +177,11 @@ def test_foreach_render(state_var, render_fn, render_dict):
+     component = Foreach.create(state_var, render_fn)
+ 
+     rend = component.render()
+-    arg_index = rend["arg_index"]
+     assert rend["iterable_state"] == render_dict["iterable_state"]
+-    assert arg_index._var_name == render_dict["arg_index"]
+-    assert arg_index._var_type == int
+     assert rend["iterable_type"] == render_dict["iterable_type"]
++
++    # Make sure the index vars are unique.
++    arg_index = rend["arg_index"]
++    assert arg_index._var_name not in seen_index_vars
++    assert arg_index._var_type == int
++    seen_index_vars.add(arg_index._var_name)
+diff --git a/tests/components/test_component.py b/tests/components/test_component.py
+index 998f55c468d..c8f83fc42de 100644
+--- a/tests/components/test_component.py
++++ b/tests/components/test_component.py
+@@ -425,7 +425,7 @@ def get_event_triggers(self) -> Dict[str, Any]:
+     assert comp.render()["props"][0] == (
+         "onFoo={(__e,_alpha,_bravo,_charlie) => addEvents("
+         '[Event("c1_state.mock_handler", {_e:__e.target.value,_bravo:_bravo["nested"],_charlie:(_charlie.custom + 42)})], '
+-        "(__e,_alpha,_bravo,_charlie))}"
++        "(__e,_alpha,_bravo,_charlie), {})}"
+     )
+ 
+ 
+diff --git a/tests/test_app.py b/tests/test_app.py
+index 024a76dbefd..619b2775f4e 100644
+--- a/tests/test_app.py
++++ b/tests/test_app.py
+@@ -308,7 +308,7 @@ def test_initialize_with_custom_admin_dashboard(
+ 
+ 
+ def test_initialize_admin_dashboard_with_view_overrides(test_model):
+-    """Test setting the admin dashboard of an app with view class overriden.
++    """Test setting the admin dashboard of an app with view class overridden.
+ 
+     Args:
+         test_model: The default model.
+diff --git a/tests/test_config.py b/tests/test_config.py
+index 5f17a11357d..bc35314122c 100644
+--- a/tests/test_config.py
++++ b/tests/test_config.py
+@@ -139,7 +139,7 @@ def test_event_namespace(mocker, kwargs, expected):
+                 "frontend_port": 3001,
+             },
+         ),
+-        # Ports set in environment take precendence
++        # Ports set in environment take precedence
+         (
+             {"backend_port": 8001, "frontend_port": 3001},
+             {"BACKEND_PORT": 8002},
+@@ -151,7 +151,7 @@ def test_event_namespace(mocker, kwargs, expected):
+                 "frontend_port": 3001,
+             },
+         ),
+-        # Ports set on the command line take precendence
++        # Ports set on the command line take precedence
+         (
+             {"backend_port": 8001, "frontend_port": 3001},
+             {"BACKEND_PORT": 8002},
+diff --git a/tests/test_event.py b/tests/test_event.py
+index 7dcb3ef1882..69e69905fa3 100644
+--- a/tests/test_event.py
++++ b/tests/test_event.py
+@@ -4,6 +4,7 @@
+ 
+ from reflex import event
+ from reflex.event import Event, EventHandler, EventSpec, fix_events
++from reflex.state import State
+ from reflex.utils import format
+ from reflex.vars import Var
+ 
+@@ -261,3 +262,54 @@ def test_remove_local_storage():
+     assert (
+         format.format_event(spec) == 'Event("_remove_local_storage", {key:`testkey`})'
+     )
++
++
++def test_event_actions():
++    """Test DOM event actions, like stopPropagation and preventDefault."""
++    # EventHandler
++    handler = EventHandler(fn=lambda: None)
++    assert not handler.event_actions
++    sp_handler = handler.stop_propagation
++    assert handler is not sp_handler
++    assert sp_handler.event_actions == {"stopPropagation": True}
++    pd_handler = handler.prevent_default
++    assert handler is not pd_handler
++    assert pd_handler.event_actions == {"preventDefault": True}
++    both_handler = sp_handler.prevent_default
++    assert both_handler is not sp_handler
++    assert both_handler.event_actions == {
++        "stopPropagation": True,
++        "preventDefault": True,
++    }
++    assert not handler.event_actions
++
++    # Convert to EventSpec should carry event actions
++    sp_handler2 = handler.stop_propagation
++    spec = sp_handler2()
++    assert spec.event_actions == {"stopPropagation": True}
++    assert spec.event_actions == sp_handler2.event_actions
++    assert spec.event_actions is not sp_handler2.event_actions
++    # But it should be a copy!
++    assert spec.event_actions is not sp_handler2.event_actions
++    spec2 = spec.prevent_default
++    assert spec is not spec2
++    assert spec2.event_actions == {"stopPropagation": True, "preventDefault": True}
++    assert spec2.event_actions != spec.event_actions
++
++    # The original handler should still not be touched.
++    assert not handler.event_actions
++
++
++def test_event_actions_on_state():
++    class EventActionState(State):
++        def handler(self):
++            pass
++
++    handler = EventActionState.handler
++    assert isinstance(handler, EventHandler)
++    assert not handler.event_actions
++
++    sp_handler = EventActionState.handler.stop_propagation
++    assert sp_handler.event_actions == {"stopPropagation": True}
++    # should NOT affect other references to the handler
++    assert not handler.event_actions
+diff --git a/tests/test_reflex.py b/tests/test_reflex.py
+index 44d3980d3a0..a0667e3e624 100644
+--- a/tests/test_reflex.py
++++ b/tests/test_reflex.py
+@@ -118,7 +118,7 @@ def test_deploy_non_interactive_success(
+         ),
+     )
+     mocker.patch("reflex.utils.hosting.wait_for_server_to_pick_up_request")
+-    mocker.patch("reflex.utils.hosting.display_deploy_milestones")
++    mocker.patch("reflex.utils.hosting.poll_deploy_milestones")
+     mocker.patch("reflex.utils.hosting.poll_backend", return_value=True)
+     mocker.patch("reflex.utils.hosting.poll_frontend", return_value=True)
+     # TODO: typer option default not working in test for app name
+@@ -351,7 +351,7 @@ def test_deploy_interactive(
+         ),
+     )
+     mocker.patch("reflex.utils.hosting.wait_for_server_to_pick_up_request")
+-    mocker.patch("reflex.utils.hosting.display_deploy_milestones")
++    mocker.patch("reflex.utils.hosting.poll_deploy_milestones")
+     mocker.patch("reflex.utils.hosting.poll_backend", return_value=True)
+     mocker.patch("reflex.utils.hosting.poll_frontend", return_value=True)
+ 
+diff --git a/tests/utils/test_format.py b/tests/utils/test_format.py
+index a6809cf29e3..768cc353abd 100644
+--- a/tests/utils/test_format.py
++++ b/tests/utils/test_format.py
+@@ -4,7 +4,7 @@
+ import pytest
+ 
+ from reflex.components.tags.tag import Tag
+-from reflex.event import EventChain, EventHandler, EventSpec
++from reflex.event import EventChain, EventHandler, EventSpec, FrontendEvent
+ from reflex.style import Style
+ from reflex.utils import format
+ from reflex.vars import BaseVar, Var
+@@ -290,6 +290,49 @@ def test_format_cond(condition: str, true_value: str, false_value: str, expected
+             },
+             r'{{"a": "foo \"{ \"bar\" }\" baz", "b": val}}',
+         ),
++        (
++            EventChain(
++                events=[EventSpec(handler=EventHandler(fn=mock_event))],
++                args_spec=lambda: [],
++            ),
++            '{(_e) => addEvents([Event("mock_event", {})], (_e), {})}',
++        ),
++        (
++            EventChain(
++                events=[
++                    EventSpec(
++                        handler=EventHandler(fn=mock_event),
++                        args=(
++                            (
++                                Var.create_safe("arg"),
++                                BaseVar(
++                                    _var_name="_e",
++                                    _var_type=FrontendEvent,
++                                ).target.value,
++                            ),
++                        ),
++                    )
++                ],
++                args_spec=lambda: [],
++            ),
++            '{(_e) => addEvents([Event("mock_event", {arg:_e.target.value})], (_e), {})}',
++        ),
++        (
++            EventChain(
++                events=[EventSpec(handler=EventHandler(fn=mock_event))],
++                args_spec=lambda: [],
++                event_actions={"stopPropagation": True},
++            ),
++            '{(_e) => addEvents([Event("mock_event", {})], (_e), {"stopPropagation": true})}',
++        ),
++        (
++            EventChain(
++                events=[EventSpec(handler=EventHandler(fn=mock_event))],
++                args_spec=lambda: [],
++                event_actions={"preventDefault": True},
++            ),
++            '{(_e) => addEvents([Event("mock_event", {})], (_e), {"preventDefault": true})}',
++        ),
+         ({"a": "red", "b": "blue"}, '{{"a": "red", "b": "blue"}}'),
+         (BaseVar(_var_name="var", _var_type="int"), "{var}"),
+         (
+diff --git a/tests/utils/test_hosting.py b/tests/utils/test_hosting.py
+index d1961f8c436..7f6e2fda30f 100644
+--- a/tests/utils/test_hosting.py
++++ b/tests/utils/test_hosting.py
+@@ -194,7 +194,7 @@ def test_prepare_deploy_success(mocker):
+ 
+ def test_deploy(mocker):
+     mocker.patch(
+-        "reflex.utils.hosting.requires_authenticated", return_value="fake_token"
++        "reflex.utils.hosting.requires_access_token", return_value="fake_token"
+     )
+     mocker.patch("builtins.open")
+     mocker.patch(

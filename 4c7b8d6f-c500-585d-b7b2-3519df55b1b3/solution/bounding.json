@@ -1,0 +1,189 @@
+{
+  "dropped": [
+    {
+      "path": ".github/workflows/auto-draft-pr.yml",
+      "reason": "documentation-or-ci-tree"
+    },
+    {
+      "path": ".github/workflows/docker.yml",
+      "reason": "documentation-or-ci-tree"
+    },
+    {
+      "path": ".github/workflows/release.yml",
+      "reason": "documentation-or-ci-tree"
+    },
+    {
+      "path": ".github/workflows/semantic-pr-lint.yml",
+      "reason": "documentation-or-ci-tree"
+    },
+    {
+      "path": ".github/workflows/vendored-file-warning.yml",
+      "reason": "documentation-or-ci-tree"
+    },
+    {
+      "path": "CHANGELOG.md",
+      "reason": "documentation-or-ci-tree"
+    },
+    {
+      "path": "docs/.vitepress/theme/custom.css",
+      "reason": "documentation-or-ci-tree"
+    },
+    {
+      "path": "docs/backend-plugin-development.md",
+      "reason": "documentation-or-ci-tree"
+    },
+    {
+      "path": "docs/configuration.md",
+      "reason": "documentation-or-ci-tree"
+    },
+    {
+      "path": "docs/dev-tools/backends/npm.md",
+      "reason": "documentation-or-ci-tree"
+    },
+    {
+      "path": "docs/dev-tools/index.md",
+      "reason": "documentation-or-ci-tree"
+    },
+    {
+      "path": "docs/dev-tools/mise-lock.md",
+      "reason": "documentation-or-ci-tree"
+    },
+    {
+      "path": "docs/lang/dotnet.md",
+      "reason": "documentation-or-ci-tree"
+    },
+    {
+      "path": "docs/paranoid.md",
+      "reason": "documentation-or-ci-tree"
+    },
+    {
+      "path": "docs/tasks/file-tasks.md",
+      "reason": "documentation-or-ci-tree"
+    },
+    {
+      "path": "docs/tasks/task-arguments.md",
+      "reason": "documentation-or-ci-tree"
+    },
+    {
+      "path": "docs/tasks/task-configuration.md",
+      "reason": "documentation-or-ci-tree"
+    },
+    {
+      "path": "docs/tips-and-tricks.md",
+      "reason": "documentation-or-ci-tree"
+    },
+    {
+      "path": ".github/workflows/test.yml",
+      "reason": "documentation-or-ci-tree"
+    }
+  ],
+  "dropped_count": 19,
+  "full_reference_binary_dropped": [],
+  "kept_count": 66,
+  "kept_paths": [
+    "Cargo.lock",
+    "Cargo.toml",
+    "README.md",
+    "bun.lock",
+    "completions/_mise",
+    "completions/mise.bash",
+    "completions/mise.fish",
+    "completions/mise.ps1",
+    "crates/aqua-registry/Cargo.toml",
+    "crates/aqua-registry/aqua-registry/pkgs/ahkohd/oyo/registry.yaml",
+    "crates/aqua-registry/aqua-registry/pkgs/bellicose100xp/jiq/registry.yaml",
+    "crates/aqua-registry/aqua-registry/pkgs/kurama/dealve-tui/registry.yaml",
+    "crates/aqua-registry/aqua-registry/pkgs/micahkepe/jsongrep/registry.yaml",
+    "crates/aqua-registry/aqua-registry/pkgs/sigstore/cosign/registry.yaml",
+    "crates/aqua-registry/aqua-registry/pkgs/textfuel/lazyjira/registry.yaml",
+    "crates/aqua-registry/aqua-registry/pkgs/ubugeeei/vize/registry.yaml",
+    "crates/vfox/Cargo.toml",
+    "crates/vfox/src/hooks/backend_exec_env.rs",
+    "crates/vfox/src/hooks/backend_install.rs",
+    "crates/vfox/src/hooks/backend_list_versions.rs",
+    "crates/vfox/src/vfox.rs",
+    "default.nix",
+    "deny.toml",
+    "flake.lock",
+    "mise.lock",
+    "packaging/copr/build-copr.sh",
+    "registry/carp.toml",
+    "registry/turso.toml",
+    "schema/mise.json",
+    "settings.toml",
+    "snapcraft.yaml",
+    "src/backend/aqua.rs",
+    "src/backend/github.rs",
+    "src/backend/npm.rs",
+    "src/backend/vfox.rs",
+    "src/cli/hook_env.rs",
+    "src/cli/install_into.rs",
+    "src/cli/lock.rs",
+    "src/cli/run.rs",
+    "src/cli/tool_stub.rs",
+    "src/cli/uninstall.rs",
+    "src/config/config_file/mise_toml.rs",
+    "src/config/mod.rs",
+    "src/config/settings.rs",
+    "src/direnv.rs",
+    "src/env.rs",
+    "src/github.rs",
+    "src/install_context.rs",
+    "src/lockfile.rs",
+    "src/plugins/core/dotnet.rs",
+    "src/plugins/core/go.rs",
+    "src/plugins/core/python.rs",
+    "src/plugins/core/ruby.rs",
+    "src/plugins/core/swift.rs",
+    "src/plugins/mod.rs",
+    "src/sandbox/seccomp.rs",
+    "src/shell/zsh.rs",
+    "src/task/deps.rs",
+    "src/task/mod.rs",
+    "src/task/task_list.rs",
+    "src/toolset/builder.rs",
+    "src/toolset/tool_deps.rs",
+    "src/toolset/tool_request.rs",
+    "src/toolset/tool_version_options.rs",
+    "src/toolset/toolset_install.rs",
+    "packaging/rpm/mise.spec"
+  ],
+  "manifests_kept": true,
+  "proof_obligation": "This reduction is declared, not proven. Phase 2 item 7a must show the reduced reference still turns every fail-to-pass identifier from failing to passing and breaks no pass-to-pass identifier. Until that runs, the bundle carries reason golden-patch-bounding-unproven.",
+  "reference_choice": "the bounded reference is REPLACED by the full span patch: bounded executes 0 parsed identifier(s) under the oracle condition against 0 for the full span, so the reduction removed something the graded code needs to build. The grant asks for a sufficient reference, not a minimal one, and a reference that does not build grades every solver at zero",
+  "reference_choice_stats": {
+    "bounded_parsed": 0,
+    "full_parsed": 0
+  },
+  "rule_set": "binary-without-content, vendored-tree, dependency-manifest unless the image carries the fix closure, documentation-or-ci-tree",
+  "sufficiency_over_minimality": "The grant asks for a reference bounded to the stated objective, not a minimal one. Every rule here drops bytes that cannot affect whether the graded code compiles or what it does. A rule that drops a file the kept code depends on makes the reference unbuildable, which fails the obligation it was meant to serve.",
+  "test_patch_split": {
+    "kept_count": 44,
+    "manifests_kept": [],
+    "moved": [
+      {
+        "named_by_issue": true,
+        "new": ".github/workflows/test.yml",
+        "old": ".github/workflows/test.yml",
+        "path": ".github/workflows/test.yml"
+      },
+      {
+        "named_by_issue": false,
+        "new": "packaging/rpm/mise.spec",
+        "old": "packaging/rpm/mise.spec",
+        "path": "packaging/rpm/mise.spec"
+      }
+    ],
+    "moved_count": 2,
+    "named_test_paths_kept": [
+      "e2e/core/test_dotnet",
+      "e2e/core/test_node_slow",
+      "e2e/core/test_swift_slow",
+      "e2e/helpers.sh",
+      "e2e/run_all_tests",
+      "e2e/run_test",
+      "packaging/e2e/Dockerfile"
+    ],
+    "targets_kept": []
+  }
+}

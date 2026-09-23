@@ -1,0 +1,131 @@
+schema_version = "1.4"
+
+artifacts = ["/logs/verifier/summary.json", "/logs/verifier/final.diff", "/logs/verifier/target-stdout.md", "/logs/verifier/reward_reason.json"]
+
+[task]
+name = "levi/t15-reflex"
+version = "1.0.0"
+description = "Reflex applications build interactive UIs by attaching event handlers to component event triggers, and those triggers ultimately fire from DOM events in the browser. Today an appli"
+authors = [{ name = "FORGE", email = "forge@trinity.invalid" }]
+keywords = ["python", "issue-resolving", "reflex", "agent:openhands-sdk"]
+
+[metadata]
+# The agent a consumer must select, machine-readable rather than prose. Harbor
+# registers `openhands` and `openhands-sdk` as two separate agents, adjacent in
+# agents/factory.py, with different venv paths and different packages. An external
+# consumer ran `--agent openhands` against a levi bundle on 2026-09-22, hit the
+# missing venv, and concluded from the resulting PyPI and astral.sh denials that the
+# network policy was wrong; the policy was correct and only the agent name was not.
+# This field is in [metadata] and not [agent] deliberately: TaskConfig.metadata is
+# dict[str, Any] and survives the load, while AgentConfig declares only timeout_sec,
+# user and the phase network fields, so an unknown key under [agent] is accepted and
+# silently discarded. A field Harbor drops is worse than a comment, because it reads
+# as binding and is not.
+required_agent = "openhands-sdk"
+required_agent_basis = "harbor run --agent openhands-sdk; the neighbouring `openhands` agent cannot install in this bundle and fails as a network error"
+agent_sdk_version_metadata = "1.49.1"
+slot_id = "T15"
+milestone = "batch-2026-09-22-twenty"
+language = "python"
+primary_archetype = "AR1"
+difficulty_band = "unmeasured"
+target_tier = "frontier-defeat"
+source_hunks = 192
+source_files = 6
+delivery_format = "levi"
+# Two identities, because the Dockerfile form has two artefacts and only one of
+# them is a registry object. `base_image_ref` is what `environment/Dockerfile`
+# builds FROM: a fully qualified reference carrying registry, repository, readable
+# tag and the index manifest digest, so it resolves for any consumer holding
+# credentials and cannot drift when the tag is overwritten. The digest is the
+# multi-arch index digest rather than a platform sub-manifest, so an amd64
+# consumer resolves its own platform; `base_image_platform_manifest_digest`
+# records the arm64 sub-manifest this host actually measured, which is evidence
+# and never a substitute for the reference.
+#
+# The image that Dockerfile produces is built once, for linux/amd64 and
+# linux/arm64, by .seed/push_image.py and pushed as one index under the levi
+# namespace; `[environment].docker_image` pins that index by digest. The build
+# fetches a pinned uv, a Python interpreter and PyPI packages, so two builds of
+# these bytes are not the same image, and the pin is what makes every consumer
+# run the one that was checked. `environment_build_digest` is a SHA-256 over the
+# bytes this bundle carries to build it, inside `canonical_content_hash`, and it
+# is the digest the pushed image was built from.
+image_pin_kind = "pushed-sanitized-index-digest"
+image_pin_portable = true
+base_image_ref = "pr-1891"
+base_image_digest = ""
+base_image_platform_manifest_digest = "sha256:060777d77ed2fd5a68721b916e006e9bf699c4064d4f28d92efe2cfa9a2d7596"
+base_image_registry_namespace = ""
+environment_build_digest = "ddd25e73627e8cab928cc1ee7c278985856ae31b36fc644954762da7702ad894"
+# No instruction-following carrier ships this cycle. requirements/client-requirements.md
+# defers the overlay and states that a manifest naming a carrier it does not ship is
+# itself a defect, so the manifest names none and cites the recorded deferral instead.
+instruction_following_carrier = "none"
+instruction_following_state = "deferred"
+instruction_following_gap = "if-overlay-deferred"
+signals_shipped = ["outcome"]
+signals_authored_unconsumed = ["instruction_following"]
+
+[environment]
+# docker_image is the sanitized image environment/Dockerfile builds, pushed as a
+# linux/amd64 + linux/arm64 index and pinned by index digest, never by tag. Harbor's
+# should_use_prebuilt_docker_image returns True whenever it is set, so Harbor pulls this
+# image and does not build environment/Dockerfile, which stays in the bundle as the
+# recomputable derivation of it. It is never the milo base: that image carries the
+# evaluator's /home/fix.patch. The arm64 half is the one Phase 2 measures on the
+# authoring host; the amd64 half is built under emulation and is unmeasured until an
+# amd64 host runs Phase 2 (gap amd64-half-unmeasured).
+docker_image = "426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:b4d482d8e163d741ac086af764c04daabcd6aee412850fee8a80d8881d90f4ab"
+#
+# The local image id of the image the authoring build produced on this host. NOT a
+# registry digest; the registry identity is docker_image above.
+local_image_id = "sha256:95bceab8aacc6575fd5f1424d6e0569df2b77dfd5ab110e7e88a54f17e1593a5"
+network_mode = "no-network"
+build_timeout_sec = 3600.0
+cpus = 8
+memory_mb = 16384
+storage_mb = 20480
+gpus = 0
+workdir = "/home/reflex"
+
+[agent]
+# The agent reaches the model and nothing else. Harbor installs the openhands-sdk agent
+# INSIDE this environment and drives it with environment.exec, so the provider enforces
+# this policy against the agent's own traffic. no-network here does not mean the agent
+# cannot cheat; it means the agent cannot reach a model at all and never runs.
+#
+# The runtime is pre-baked into environment/Dockerfile at a pinned version, so nothing
+# here needs a package index, a Python download service or a distro repository at run
+# time. Grading is unaffected: [environment] and [verifier] stay no-network.
+#
+# allowed_hosts entries are what a CONSUMER needs. Harbor admits hostnames, IP addresses
+# and CIDR only, with no port, so these are host-level grants and cannot be narrowed to
+# a single service. 
+network_mode = "allowlist"
+allowed_hosts = ["api.anthropic.com", "172.17.0.1/32"]
+agent_sdk_version = "1.49.1"
+timeout_sec = 57600.0
+
+[verifier]
+environment_mode = "shared"
+network_mode = "no-network"
+timeout_sec = 3600.0
+
+[span_provenance]
+instance_identity = "reflex-dev/reflex v0.3.1..v0.3.2"
+span_label = "v0.3.1..v0.3.2"
+number_interval = "1891-2028-2062-2068-2069-2072-2076-2082-2084-2085-2086-2089-2090-2092-2094-2095-2097-2099-2102-2104-2109-2116-2117-2118-2121-2122-2124-2125-2126-2128"
+pr_count = 30
+enumerated_issue_count = 30
+realized_breadth_subsystems = 6
+f2p_count = 18
+objective_f2p_reconciliation = "Every fail-to-pass identifier resolves to a subsystem the stated objective names, and the objective names no behaviour outside the graded set. Declared here and proven by the Phase 2 feasibility bundle, not by this record."
+image_reference_is_not_provenance = "Upstream image tags name one representative pull request of a span, so a tag naming a single pull request is never read as evidence that the task is single-pull-request work, and it never substitutes for the recorded span."
+
+[interface_spec]
+mode = "names-only"
+issue_1 = ["EventActionState.handler", "EventHandler.event_actions", "EventActionsMixin.event_actions", "EventActionsMixin.prevent_default(self)", "EventActionsMixin.stop_propagation(self)", "EventHandler.prevent_default", "EventHandler.stop_propagation", "prevent_default", "stop_propagation"]
+issue_10 = ["def poll_deploy_milestones(key: str, from_iso_timestamp: datetime) -> bool | None"]
+issue_19 = ["def requires_access_token() -> str"]
+issue_29 = ["_var_type", "_var_name"]

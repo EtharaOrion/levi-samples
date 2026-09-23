@@ -1,0 +1,747 @@
+Running command: /opt/openhands-sdk-venv/bin/python /installed-agent/run_agent.py     --instruction='You are working in the Python repository at `/workspace/reflex`.
+
+When a Pynecone application is started in production mode, the framework spins up the backend server using a process manager suited for serving many concurrent requests. On Linux and other Unix-like systems this works as expected, but on Windows the production launch fails outright because the chosen server cannot run on that platform. The observable defect is that a Windows user who tries to run their app in production mode gets a broken or non-starting backend, while the same command succeeds elsewhere. The required behaviour is that production mode must launch a working backend server on Windows, so that the production start command behaves usefully on every supported operating system.
+
+To achieve this, the production launch must detect the platform it is running on and pick a backend server that is actually available there. On Windows it must fall back to a server that runs natively on that system, supplying it the correct host, port, application entry point, worker count, and log level arguments so that the app is served the same way a user expects. On non-Windows platforms the existing production server and its argument style must continue to be used exactly as before, since switching everyone to the alternate server is not a desirable trade. The log level and worker count configuration must continue to be honored in both cases.
+
+The port-cleanup behaviour that runs before starting the server should also become more tolerant. When the framework attempts to free a port that is already in use, it must not crash if the operating system refuses permission to terminate the process holding that port; instead it should proceed gracefully. This matters most on Windows, where such permission errors are more common, but the tolerant behaviour is correct on any platform.
+
+This is not a breaking change for application authors. Apps that already run in production mode on Unix-like systems must continue to start and serve identically, with no change to their configuration, their entry point, or the arguments passed to the server. Only the Windows path, which previously did not work, gains new working behaviour, and the port-cleanup path gains resilience against permission errors.
+
+Because parts of the frontend and app scaffolding are produced from templates rather than written by hand, any generated output that changes as a result of this work must be regenerated so that a freshly initialized or freshly built app reflects the updated behaviour rather than stale generated content. Everything else about how apps compile, render, and run must keep working exactly as it does today.
+
+The description below carries several separate issues. Every issue in it is in scope. Work through all of them.
+
+## Issue 1
+
+Pull request #515: Production mode not working on Windows OS
+
+**Describe the bug**
+```
+import fcntl
+ModuleNotFoundError: No module named '"'"'fcntl'"'"'
+```
+Sollution: https://stackoverflow.com/questions/45228395/error-no-module-named-fcntl
+
+**To Reproduce**
+Try production mode on windows
+
+**Expected behavior**
+Production Mode to work
+
+## Issue 2
+
+Pull request #571: High Level API for list, accordion, tabs, table etc supports State Vars
+
+### All Submissions:
+
+- [x] Have you followed the guidelines stated in [CONTRIBUTING.md](https://github.com/pynecone-io/pynecone/blob/main/CONTRIBUTING.md) file?
+- [x] Have you checked to ensure there aren'"'"'t any other open [Pull Requests](https://github.com/pynecone-io/pynecone/pulls ) for the desired changed?
+
+<!-- You can erase any parts of this template not applicable to your Pull Request. -->
+
+### Type of change
+
+- [x] Bug fix (non-breaking change which fixes an issue)
+- [x] Does your submission pass the tests? 
+- [x] Have you linted your code locally prior to submission?
+- [x] Have you added an explanation of what your changes do and why you'"'"'d like us to include them?
+- [x] Have you written new tests for your core changes, as applicable?
+- [x] Have you successfully run tests with your changes locally?
+
+### Description
+    
+[Fix issue 541](https://github.com/pynecone-io/pynecone/issues/541)
+The high level api for list, accordion, tabs, table etc needs to support state vars.
+
+## Issue 3
+
+Pull request #522: Restarting Pynecone Server
+
+**Describe the bug**
+Executing `pc run` again right after terminating the previous `pc run` with CTRL+C leads to an error.
+
+> Something is already running on port 3000. This is the port the frontend runs on.
+
+If it asks you to kill it
+
+> Kill it? [y/n]: y
+
+you will get another two errors saying 
+
+> ...
+
+> PermissionError: [Errno 13] assume access denied (originated from automatically set for PID 0)
+
+> ...
+
+> psutil.AccessDenied: (pid=0, name='"'"'System Idle Process'"'"')
+
+**To Reproduce**
+
+1. open a terminal and `pc run`
+2. end execution of step one with CTRL+C
+3. restart the program: `pc run`
+
+**Expected behavior**
+Terminating the previous execution and restarting it will start everything as expected instead of giving an error.
+
+** Specifics (please complete the following information):**
+ - Python Version: Python 3.10.4
+ - Pynecone Version: pynecone 0.1.14
+ - OS: Windows
+ 
+**Additional context**
+The program doesn'"'"'t get closed properly. After killing it, something is still blocking the port to re-run the program. After some time it closes itself and you can `pc run` again, but you have to wait since you have no permission to kill it.
+
+## Issue 4
+
+Pull request #588: [Fix: issue 582] Icon tag should work despite case sensitivity.
+
+### All Submissions:
+
+- [x] Have you followed the guidelines stated in [CONTRIBUTING.md](https://github.com/pynecone-io/pynecone/blob/main/CONTRIBUTING.md) file?
+- [x] Have you checked to ensure there aren'"'"'t any other open [Pull Requests](https://github.com/pynecone-io/pynecone/pulls ) for the desired changed?
+
+<!-- You can erase any parts of this template not applicable to your Pull Request. -->
+
+### Type of change
+
+- [x] Bug fix (non-breaking change which fixes an issue)
+- [x] Does your submission pass the tests? 
+- [x] Have you linted your code locally prior to submission?
+- [x] Have you added an explanation of what your changes do and why you'"'"'d like us to include them?
+- [x] Have you written new tests for your core changes, as applicable?
+- [x] Have you successfully run tests with your changes locally?
+
+### Description
+    
+[Fix issue 582](https://github.com/pynecone-io/pynecone/issues/582)
+Icon tag should work despite case sensitivity.
+
+Interface (names the hidden tests import; implementation is yours):
+- `Icon.create(cls, *children, **props)`
+- `Icon.tag`
+
+## Issue 5
+
+Pull request #563: Add argument for meta keys to `add_page` method.
+
+Currently only title, image and description are available as metadata arguments. Being able to change others like `theme-color` would be very useful.
+
+A help thread in the Discord server about this can be found [here](https://discord.com/channels/1029853095527727165/1076284753768108153)
+
+## Issue 6
+
+Pull request #591: fix needed following the PR that changed Icon usage
+
+### All Submissions:
+
+- [x] Have you followed the guidelines stated in [CONTRIBUTING.md](https://github.com/pynecone-io/pynecone/blob/main/CONTRIBUTING.md) file?
+- [x] Have you checked to ensure there aren'"'"'t any other open [Pull Requests](https://github.com/pynecone-io/pynecone/pulls ) for the desired changed?
+
+### Type of change
+
+Please delete options that are not relevant.
+
+- [x] Bug fix (non-breaking change which fixes an issue)
+
+### **After** these steps, you'"'"'re ready to open a pull request.
+
+The PRs that changed usage of the `pc.icon()` broke the multiple Overlay components when they are using `on_close` event trigger.
+
+This PR fix it.
+
+## Issue 7
+
+Pull request #593: [Improvement] pcconfig.py supports a separate backend_port from api_url
+
+### All Submissions:
+
+- [x] Have you followed the guidelines stated in [CONTRIBUTING.md](https://github.com/pynecone-io/pynecone/blob/main/CONTRIBUTING.md) file?
+- [x] Have you checked to ensure there aren'"'"'t any other open [Pull Requests](https://github.com/pynecone-io/pynecone/pulls ) for the desired changed?
+
+<!-- You can erase any parts of this template not applicable to your Pull Request. -->
+
+### Type of change
+
+- [ ] Bug fix (non-breaking change which fixes an issue)
+- [x] Does your submission pass the tests? 
+- [x] Have you linted your code locally prior to submission?
+- [x] Have you added an explanation of what your changes do and why you'"'"'d like us to include them?
+- [x] Have you written new tests for your core changes, as applicable?
+- [x] Have you successfully run tests with your changes locally?
+
+### Description
+    
+[Improvement issue](https://github.com/pynecone-io/pynecone/issues/441)
+pcconfig.py supports a separate backend_port from api_url
+
+## Issue 8
+
+Pull request #257: Loglevel doesn'"'"'t work in prod mode
+
+**Describe the bug**
+Debug logs don'"'"'t work in prod mode.
+
+**To Reproduce**
+`pc run --loglevel debug --env prod`
+
+**Expected behavior**
+I should see the debug logs, but I don'"'"'t.
+
+**Screenshots**
+If applicable, add screenshots to help explain your problem.
+
+** Specifics (please complete the following information):**
+ - Python Version: 3.11
+ - Pynecone Version: 0.1.12
+ - OS: Mac
+ - Browser (Optional):
+ 
+**Additional context**
+Add any other context about the problem here.
+
+## Issue 9
+
+Pull request #596: Multiple Page Load Events Added
+
+Previously only a single State event handler could be called when loading a page. 
+
+Now either a single event handler or a list of event handlers can be passed. This allows multiple actions to be performed when loading a page which significantly enhances code re-usability in the State classes.
+
+
+### All Submissions:
+
+- [x] Have you followed the guidelines stated in [CONTRIBUTING.md](https://github.com/pynecone-io/pynecone/blob/main/CONTRIBUTING.md) file?
+- [x] Have you checked to ensure there aren'"'"'t any other open [Pull Requests](https://github.com/pynecone-io/pynecone/pulls ) for the desired changed?
+
+<!-- You can erase any parts of this template not applicable to your Pull Request. -->
+
+### Type of change
+
+- [x] New feature (non-breaking change which adds functionality)
+
+### New Feature Submission:
+
+- [x] Does your submission pass the tests? 
+- [x] Have you linted your code locally prior to submission?
+
+## Issue 10
+
+Pull request #601: Call special events from event triggers
+
+After this PR you can now do something like this:
+
+```python
+pc.button("redirect", on_click=pc.redirect("https://google.com")),
+pc.button("console", on_click=pc.console_log("hello")),
+pc.button("alert", on_click=pc.window_alert("hello")),
+```
+
+The server side returns will still work if you need to reference state vars, but for constants you can bind them directly to event triggers.
+
+Interface (names the hidden tests import; implementation is yours):
+- `_alert`
+- `_console`
+- `_redirect`
+- `def console_log(message: str) -> EventSpec`
+- `def fn()`
+- `def redirect(path: str) -> EventSpec`
+- `def window_alert(message: str) -> EventSpec`
+
+## Issue 11
+
+Pull request #614: [Tests] add unit test for event
+
+### All Submissions:
+
+- [x] Have you followed the guidelines stated in [CONTRIBUTING.md](https://github.com/pynecone-io/pynecone/blob/main/CONTRIBUTING.md) file?
+- [x] Have you checked to ensure there aren'"'"'t any other open [Pull Requests](https://github.com/pynecone-io/pynecone/pulls ) for the desired changed?
+
+<!-- You can erase any parts of this template not applicable to your Pull Request. -->
+
+### Type of change
+
+- [x] Unit test
+
+
+### New Feature Submission:
+
+- [x] Does your submission pass the tests? 
+- [x] Have you linted your code locally prior to submission?
+
+### Changes To Core Features:
+
+- [x] Have you added an explanation of what your changes do and why you'"'"'d like us to include them?
+- [x] Have you written new tests for your core changes, as applicable?
+- [x] Have you successfully ran tests with your changes locally?
+
+### Description
+Add unit test for event.py .
+
+## Issue 12
+
+Pull request #615: [Tests] add unit test for style
+
+### All Submissions:
+
+- [x] Have you followed the guidelines stated in [CONTRIBUTING.md](https://github.com/pynecone-io/pynecone/blob/main/CONTRIBUTING.md) file?
+- [x] Have you checked to ensure there aren'"'"'t any other open [Pull Requests](https://github.com/pynecone-io/pynecone/pulls ) for the desired changed?
+
+<!-- You can erase any parts of this template not applicable to your Pull Request. -->
+
+### Type of change
+
+- [x] Unit test
+
+
+### New Feature Submission:
+
+- [x] Does your submission pass the tests? 
+- [x] Have you linted your code locally prior to submission?
+
+### Changes To Core Features:
+
+- [x] Have you added an explanation of what your changes do and why you'"'"'d like us to include them?
+- [x] Have you written new tests for your core changes, as applicable?
+- [x] Have you successfully ran tests with your changes locally?
+
+### Description
+Add unit test for style.py .
+
+## Issue 13
+
+Pull request #597: Issues with inheritance of backend vars
+
+**Describe the bug**
+When creating a child state from a parent state the inherited backend variables become decoupled between the parent and child states. 
+
+**To Reproduce**
+```
+import pynecone as pc
+
+
+class ParentState(pc.State):
+    
+    count: int = 0
+    _backend_count: int = 0
+
+    def increment_parent_frontend(self):
+        self.count += 1
+
+
+    def increment_parent_backend(self):
+        self._backend_count += 1
+
+
+    def print_parent_frontend(self):
+        return pc.console_log(self.count)
+
+
+    def print_parent_backend(self):
+        return pc.console_log(self._backend_count)
+
+
+class ChildState(ParentState):
+
+    def increment_child_frontend(self):
+        self.count += 1
+
+
+    def increment_child_backend(self):
+        self._backend_count += 1
+
+
+    def print_child_frontend(self):
+        return pc.console_log(self.count)
+
+
+    def print_child_backend(self):
+        return pc.console_log(self._backend_count)
+
+
+def index():
+    return pc.box(
+        pc.hstack(
+            pc.vstack(
+                pc.button("Increment Parent Frontend",
+                        on_click=ParentState.increment_parent_frontend),
+                pc.button("Print Parent Frontend", 
+                        on_click=ParentState.print_parent_frontend),
+            ),
+            pc.vstack(
+                pc.button("Increment Child Frontend",
+                        on_click=ChildState.increment_child_frontend),
+                pc.button("Print Child Frontend", 
+                        on_click=ChildState.print_child_frontend),
+            ),
+            pc.center(
+                pc.divider(
+                    orientation="vertical", border_color="black"
+                ),
+                height="8em",
+            ),
+            pc.vstack(
+                pc.button("Increment Parent Backend",
+                        on_click=ParentState.increment_parent_backend),
+                pc.button("Print Parent Backend", 
+                        on_click=ParentState.print_parent_backend),
+            ),
+            pc.vstack(
+                pc.button("Increment Child Backend",
+                        on_click=ChildState.increment_child_backend),
+                pc.button("Print Child Backend", 
+                        on_click=ChildState.print_child_backend),
+            ),
+        )
+    )  
+
+app = pc.App(state=ParentState)
+app.add_page(index)
+app.compile()
+```
+
+In this example we can increment the frontend variable using either parent of child function. When we print the frontend variable to the console using either the parent of child print function, the value is the same for both.
+
+However, if we increment the backend variable using either the parent or child function, only one of states is updated.
+
+
+** Specifics (please complete the following information):**
+ - Python Version: Python 3.10
+ - Pynecone Version: 0.1.18
+ - OS: Ubuntu 20.04
+
+## Issue 14
+
+Pull request #617: Fixed Pycharm highlighting issue.
+
+### All Submissions:
+
+- [ ] Have you followed the guidelines stated in [CONTRIBUTING.md](https://github.com/pynecone-io/pynecone/blob/main/CONTRIBUTING.md) file?
+- [ ] Have you checked to ensure there aren'"'"'t any other open [Pull Requests](https://github.com/pynecone-io/pynecone/pulls ) for the desired changed?
+
+<!-- You can erase any parts of this template not applicable to your Pull Request. -->
+
+### Type of change
+
+Please delete options that are not relevant.
+
+- [ ] Bug fix (non-breaking change which fixes an issue)
+- [ ] New feature (non-breaking change which adds functionality)
+- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
+- [ ] This change requires a documentation update
+
+
+### New Feature Submission:
+
+- [ ] Does your submission pass the tests? 
+- [ ] Have you linted your code locally prior to submission?
+
+### Changes To Core Features:
+
+- [ ] Have you added an explanation of what your changes do and why you'"'"'d like us to include them?
+- [ ] Have you written new tests for your core changes, as applicable?
+- [ ] Have you successfully ran tests with your changes locally?
+
+### **After** these steps, you'"'"'re ready to open a pull request.
+
+    a. Give a descriptive title to your PR.
+
+    b. Describe your changes.
+
+    c. Put `closes #XXXX` in your comment to auto-close the issue that your PR fixes (if such).
+
+Interface (names the hidden tests import; implementation is yours):
+- `alert`
+- `icon`
+
+## Issue 15
+
+Pull request #618: Fix issubclass check
+
+Interface (names the hidden tests import; implementation is yours):
+- `utils._issubclass(cls: GenericType, cls_check: GenericType) -> bool`
+
+## Issue 16
+
+Pull request #622: Add upload component
+
+Example app showcasing new component:
+
+```python
+import pynecone as pc
+
+class State(pc.State):
+    """The app state."""
+
+    # The image to show.
+    img: str
+
+    async def handle_upload(self, file: pc.UploadFile):
+        """Handle the upload of a file.
+        
+        Args:
+            file: The uploaded file.
+        """
+        upload_data = await file.read()
+        outfile = f".web/public/{file.filename}"
+
+        # Save the file.
+        with open(outfile, "wb") as file_object:
+            file_object.write(upload_data)
+
+        # Update the img var.
+        self.img = file.filename
+
+
+def index():
+    """The main view."""
+    return pc.vstack(
+        pc.upload(
+            pc.button("Select File"),
+            pc.text("Drag and drop files here or click to select files"),
+            border="1px dotted black",
+            padding="20em",
+        ),
+        pc.button(
+            "Upload", 
+            on_click=lambda: State.handle_upload(pc.upload_files())
+        ),
+        pc.image(src=State.img),
+    )
+
+
+# Add state and page to the app.
+app = pc.App(state=State)
+app.add_page(index, title="Upload")
+app.compile()
+```
+
+https://user-images.githubusercontent.com/6270214/222860861-4da6e59c-47f8-42cb-ab8b-98efe9bedf82.mov
+
+Interface (names the hidden tests import; implementation is yours):
+- `Upload.create(cls, *children, **props) -> Component`
+- `Upload.tag`
+- `Tag.args`
+
+## Issue 17
+
+Pull request #624: Factor out responsive helpers
+
+## Issue 18
+
+Pull request #625: Update poetry version
+
+## Issue 19
+
+Pull request #282: Stream did not contain valid UTF-8
+
+**Describe the bug**
+When characters such as Chinese characters and Hangul are initially rendered, they are converted into invalid characters and entered in index.js. Therefore, a stream did not contain valid UTF-8 error occurs.
+
+For example:
+```
+def index():
+    return pc.container(
+        pc.text("한글")
+    )
+
+app = pc.App()
+app.add_page(index)
+app.compile()
+```
+this code makes an error
+
+```
+class State(pc.State):
+    text = "한글"
+
+def index():
+    return pc.container(
+        pc.text(State.text)
+    )
+
+app = pc.App(state=State)
+app.add_page(index)
+app.compile()
+```
+
+but this works.
+This obviously looks like a bug.
+
+
+**Screenshots**
+![invalid](https://user-images.githubusercontent.com/103271471/213213765-b5fc0353-9138-4b2d-aabd-945d87047282.png)
+
+index.js when the first code was compiled
+
+** Specifics (please complete the following information):**
+ - Python Version: 3.10.xx
+ - Pynecone Version: 0.1.12
+ - OS: Windows
+
+## Issue 20
+
+Pull request #629: Add props for upload component
+
+* add props for upload
+* fix import errors for responsive components
+
+## Issue 21
+
+Pull request #630: Update README
+
+
+
+## Paths the verifier owns
+
+The grader applies its own version of the 5 path(s) below. Leave every one of them exactly as
+it is, including any file a tool of yours would rewrite as a side effect: a submission that changes
+one is rejected before a single test runs, and the whole session scores zero however good the rest
+of it is. The issue text does not ask for any of them, and neither does anything else here.
+
+- `tests/components/layout/test_cond.py`
+- `tests/components/media/test_icon.py`
+- `tests/test_event.py`
+- `tests/test_style.py`
+- `tests/test_utils.py`
+
+Everything else the issues ask for still applies, including changes to non-test code these paths
+exercise. If a command of yours regenerates one of them, restore it before you finish.
+## Working instructions
+
+The issue sections above usually describe MANY separate issues, not one. Your job is to implement the changes required by EVERY issue they contain — not just the one that looks most tractable, most self-contained, or easiest to identify. There is no single "real" issue hidden among the others; treat all of them as in scope.
+
+The tests that grade this task are hidden: the updated test files are applied only when your work is graded. The tests you can see in the repository may be outdated and may contradict the issues above, so when a visible test disagrees with an issue, follow the issue text, not the visible test. You MUST NOT modify the testing logic or any of the tests in any way. This prohibition covers not only `_test` files but also test helper packages, fixtures, fakes, stubs, mocks, and example or integration applications that exist to support tests under the test paths described next. If a visible test fails because it asserts behaviour an issue asks you to change, leave the test as it is and implement what the issue asks.
+
+The prohibition is by path, not by file type. Do not write to anything inside a test directory — for example `tests/`, `test/`, `e2e/`, `testdata/`, or any path nested beneath one — even when the file is a README, a markdown document, a diagram, or a config that plainly cannot affect a test result. A submission that touches any path under the graded test tree is rejected in full and scores nothing, however correct the rest of the work is. If an issue on your checklist asks for a change under such a path, mark it BLOCKED with that reason and move to the next issue.
+
+Leave repository plumbing alone on the same terms unless an issue names the file directly: CI workflow definitions, issue and pull-request templates, Helm charts, container manifests, and dependency lockfiles. Treat dependency manifests such as requirements files, package.json, or go.mod as plumbing too, except that a change an issue explicitly asks for, such as a version bump, is in scope, and if that change cannot be built without downloading anything, mark the issue BLOCKED with that reason.
+
+The development environment is already set up for you (i.e., all dependencies are already installed). Do not download or install any package or dependency, including a different, newer, or "fixed" version of the package(s) under test, and do not fetch any external source, release, or patch to obtain the solution.
+
+Your task is to make thorough, complete changes to non-test files in the repository that address EVERY issue above. Do not optimise for a small diff — breadth of coverage across all the issues matters more than the size of any individual change. At the same time, scope each edit to what its issue actually calls for; do not refactor unrelated code for style.
+
+Solve this using only the code already present in the repository; do not retrieve the reference solution from any external source (do not clone, fetch, or pull the upstream repository or a mirror; do not download or install a different, newer, or "fixed" version of the package(s) under test; do not fetch pull-request or commit diffs; and do not read post-baseline git history, tags, stashes, or remotes to locate the change). A solution derived from a retrieved reference is invalid and will not be scored.
+
+Step 0 — Enumerate before you edit.
+Read the issues above from beginning to end and write out a numbered checklist of every distinct issue they describe (one entry per `## Issue N` header). State the total explicitly, for example: "Checklist: 34 issues found." Do not begin editing until this checklist exists. Do not attempt to guess which issue is "the important one" — you cannot tell, and guessing is the single most common way this task is failed.
+
+Then work the checklist in order. For each issue, announce which one you are on ("Working on issue N of M: <short title>") and carry out the following:
+
+1. Explore the repo to locate the code responsible for this issue. On the first issue, take extra time to familiarise yourself with the overall structure.
+2. Create a script to reproduce the behavior described and execute it using the appropriate command for the repository'"'"'s language, to confirm it.
+3. Edit the source code of the repo to make the change this issue calls for.
+4. Rerun your reproduction and check the behavior.
+5. Build or compile every package you touched and confirm it compiles cleanly. A change that does not compile scores nothing, and it can break packages that were passing before you started. If you change a function signature, an interface, or a type, find and update every caller and every implementer of it in non-test code before moving on; visible test files that still use the old form are the exception, since you may not edit them.
+6. Think about edge cases, add checks for them in your reproduction script, and run them to see how your change handles them.
+7. Mark this issue DONE on your checklist, then move to the next one. If an issue genuinely cannot be worked — because it is a pre-existing environment failure unrelated to your changes, or it would require retrieving external code — mark it BLOCKED, state the specific reason in one sentence, and move to the next issue. A blocked issue never ends the session; it only ends work on that issue.
+
+Do not stop early, and do not end the session without calling the `finish` tool: work that is never submitted with `finish` is discarded unscored. Finishing after addressing only one issue, or only a handful, is the primary failure mode on this task — work every item on the checklist, not just the first tractable one. Do not pad with busywork either: every step should be locating, editing, building, or testing real code for a real checklist item. Do not call the `finish` tool until every item on your checklist is marked either DONE or BLOCKED with a stated reason and you have completed the review pass described below. When you finish, report the final tally: how many issues you addressed, and which ones you marked BLOCKED and why.
+
+Once you have made a first pass over the whole checklist, carefully re-read the issues above and review your own changes with `git diff`. For each issue, check whether the change you made matches what it asked for. Write scratch checks outside every test directory and every `_test` file to probe the correctness of your changes, specifically focusing on checks that may point out remaining gaps. Run the tests in the repo related to what you changed and check whether any fail — pay particular attention to tests that were passing before your changes and are failing now, since breaking working code costs more than leaving an issue unaddressed, unless the failing test asserts behaviour an issue asks you to change. Repeat this process of re-reading, testing, and adjusting until you have attempted every checklist item and the packages you touched build cleanly. Find and run any tests in the repo that are related to:
+   - Each issue on your checklist
+   - The files you modified
+   - The functions you changed
+
+Your thinking should be thorough and so it'"'"'s fine if it'"'"'s very long. Think carefully before each edit about which issue it serves and what else it might break.
+
+When the review pass is complete and every checklist item is marked DONE or BLOCKED, call the `finish` tool to end the session.
+
+Calling `finish` is what submits your work. The session is scored only if you call it: a session that stops without calling `finish` is discarded, and every change you made scores nothing, however complete it was. Running out of things to say is not finishing. When the checklist is done, call `finish` as your last action, and if you are ever unsure whether you have more to do, call `finish` rather than stopping silently.
+'     --logs-dir="$AGENT_LOGS_DIR"     --trajectory-path="$TRAJECTORY_PATH"     2>&1 | stdbuf -oL tee /logs/agent/openhands_sdk.txt
+Command outputs captured
+Collecting main service artifacts
+compose cp failed; retrying download with engine cp: Docker compose command failed for environment t06-reflex. Command: docker compose --project-name 873914cf-93b2-57a0-a5c8-264bfa2d__qqokepq__env --project-directory /home/ec2-user/harbor-probe/pass8-20260922t/873914cf-93b2-57a0-a5c8-264bfa2d3b66/environment -f /tmp/tmp4u0n86ds/873914cf-93b2-57a0-a5c8-264bfa2d__qqokEPq__env-docker-compose-resources.json -f /home/ec2-user/.local/share/uv/tools/harbor/lib/python3.14/site-packages/harbor/environments/docker/docker-compose-prebuilt.yaml -f /tmp/tmpye2mi12k/docker-compose-environment.json -f /tmp/tmp7opbbw5j/docker-compose-mounts.json -f /home/ec2-user/.local/share/uv/tools/harbor/lib/python3.14/site-packages/harbor/environments/docker/docker-compose-egress-control.yaml -f /tmp/tmpycn0j8m7/docker-compose-egress-control-services.json cp main:/logs/verifier/summary.json /home/ec2-user/harbor-jobs/pass8-batch-2026-09-22-twenty-20260922a-six-t06-a1/873914cf-93b2-57a0-a5c8-264bfa2d__qqokEPq/artifacts/logs/verifier/summary.json. Return code: 1. Stdout:  873914cf-93b2-57a0-a5c8-264bfa2d__qqokepq__env-main-1 copy 873914cf-93b2-57a0-a5c8-264bfa2d__qqokepq__env-main-1:/logs/verifier/summary.json to /home/ec2-user/harbor-jobs/pass8-batch-2026-09-22-twenty-20260922a-six-t06-a1/873914cf-93b2-57a0-a5c8-264bfa2d__qqokEPq/artifacts/logs/verifier/summary.json Copying
+Error response from daemon: Could not find the file /logs/verifier/summary.json in container 0857e6d90bdc2de8725c0fbac425ece558f424f58839acb70234dc224b622197
+. Stderr: None. 
+Failed to download artifact '/logs/verifier/summary.json' from service 'main' (best-effort)
+Traceback (most recent call last):
+  File "/home/ec2-user/.local/share/uv/tools/harbor/lib/python3.14/site-packages/harbor/trial/artifact_handler.py", line 313, in _download_artifact
+    await source_env.service_download_file(
+    ...<3 lines>...
+    )
+  File "/home/ec2-user/.local/share/uv/tools/harbor/lib/python3.14/site-packages/harbor/environments/docker/docker.py", line 1205, in service_download_file
+    await self.download_file(source_path, target_path)
+  File "/home/ec2-user/.local/share/uv/tools/harbor/lib/python3.14/site-packages/harbor/environments/docker/docker.py", line 1190, in download_file
+    await self._platform.download_file(source_path, target_path)
+  File "/home/ec2-user/.local/share/uv/tools/harbor/lib/python3.14/site-packages/harbor/environments/docker/docker_unix.py", line 256, in download_file
+    await self._download_via_engine_cp(source_path, target_path, service)
+  File "/home/ec2-user/.local/share/uv/tools/harbor/lib/python3.14/site-packages/harbor/environments/docker/docker_unix.py", line 235, in _download_via_engine_cp
+    await self._engine_cp(f"{container}:{container_path}", str(target_path))
+  File "/home/ec2-user/.local/share/uv/tools/harbor/lib/python3.14/site-packages/harbor/environments/docker/docker_unix.py", line 226, in _engine_cp
+    raise RuntimeError(
+        f"Engine cp failed ({source!r} -> {destination!r}): {output}"
+    )
+RuntimeError: Engine cp failed ('0857e6d90bdc:/logs/verifier/summary.json' -> '/home/ec2-user/harbor-jobs/pass8-batch-2026-09-22-twenty-20260922a-six-t06-a1/873914cf-93b2-57a0-a5c8-264bfa2d__qqokEPq/artifacts/logs/verifier/summary.json'): Error response from daemon: Could not find the file /logs/verifier/summary.json in container 0857e6d90bdc
+
+compose cp failed; retrying download with engine cp: Docker compose command failed for environment t06-reflex. Command: docker compose --project-name 873914cf-93b2-57a0-a5c8-264bfa2d__qqokepq__env --project-directory /home/ec2-user/harbor-probe/pass8-20260922t/873914cf-93b2-57a0-a5c8-264bfa2d3b66/environment -f /tmp/tmp4u0n86ds/873914cf-93b2-57a0-a5c8-264bfa2d__qqokEPq__env-docker-compose-resources.json -f /home/ec2-user/.local/share/uv/tools/harbor/lib/python3.14/site-packages/harbor/environments/docker/docker-compose-prebuilt.yaml -f /tmp/tmpye2mi12k/docker-compose-environment.json -f /tmp/tmp7opbbw5j/docker-compose-mounts.json -f /home/ec2-user/.local/share/uv/tools/harbor/lib/python3.14/site-packages/harbor/environments/docker/docker-compose-egress-control.yaml -f /tmp/tmpycn0j8m7/docker-compose-egress-control-services.json cp main:/logs/verifier/final.diff /home/ec2-user/harbor-jobs/pass8-batch-2026-09-22-twenty-20260922a-six-t06-a1/873914cf-93b2-57a0-a5c8-264bfa2d__qqokEPq/artifacts/logs/verifier/final.diff. Return code: 1. Stdout:  873914cf-93b2-57a0-a5c8-264bfa2d__qqokepq__env-main-1 copy 873914cf-93b2-57a0-a5c8-264bfa2d__qqokepq__env-main-1:/logs/verifier/final.diff to /home/ec2-user/harbor-jobs/pass8-batch-2026-09-22-twenty-20260922a-six-t06-a1/873914cf-93b2-57a0-a5c8-264bfa2d__qqokEPq/artifacts/logs/verifier/final.diff Copying
+Error response from daemon: Could not find the file /logs/verifier/final.diff in container 0857e6d90bdc2de8725c0fbac425ece558f424f58839acb70234dc224b622197
+. Stderr: None. 
+Failed to download artifact '/logs/verifier/final.diff' from service 'main' (best-effort)
+Traceback (most recent call last):
+  File "/home/ec2-user/.local/share/uv/tools/harbor/lib/python3.14/site-packages/harbor/trial/artifact_handler.py", line 313, in _download_artifact
+    await source_env.service_download_file(
+    ...<3 lines>...
+    )
+  File "/home/ec2-user/.local/share/uv/tools/harbor/lib/python3.14/site-packages/harbor/environments/docker/docker.py", line 1205, in service_download_file
+    await self.download_file(source_path, target_path)
+  File "/home/ec2-user/.local/share/uv/tools/harbor/lib/python3.14/site-packages/harbor/environments/docker/docker.py", line 1190, in download_file
+    await self._platform.download_file(source_path, target_path)
+  File "/home/ec2-user/.local/share/uv/tools/harbor/lib/python3.14/site-packages/harbor/environments/docker/docker_unix.py", line 256, in download_file
+    await self._download_via_engine_cp(source_path, target_path, service)
+  File "/home/ec2-user/.local/share/uv/tools/harbor/lib/python3.14/site-packages/harbor/environments/docker/docker_unix.py", line 235, in _download_via_engine_cp
+    await self._engine_cp(f"{container}:{container_path}", str(target_path))
+  File "/home/ec2-user/.local/share/uv/tools/harbor/lib/python3.14/site-packages/harbor/environments/docker/docker_unix.py", line 226, in _engine_cp
+    raise RuntimeError(
+        f"Engine cp failed ({source!r} -> {destination!r}): {output}"
+    )
+RuntimeError: Engine cp failed ('0857e6d90bdc:/logs/verifier/final.diff' -> '/home/ec2-user/harbor-jobs/pass8-batch-2026-09-22-twenty-20260922a-six-t06-a1/873914cf-93b2-57a0-a5c8-264bfa2d__qqokEPq/artifacts/logs/verifier/final.diff'): Error response from daemon: Could not find the file /logs/verifier/final.diff in container 0857e6d90bdc
+
+compose cp failed; retrying download with engine cp: Docker compose command failed for environment t06-reflex. Command: docker compose --project-name 873914cf-93b2-57a0-a5c8-264bfa2d__qqokepq__env --project-directory /home/ec2-user/harbor-probe/pass8-20260922t/873914cf-93b2-57a0-a5c8-264bfa2d3b66/environment -f /tmp/tmp4u0n86ds/873914cf-93b2-57a0-a5c8-264bfa2d__qqokEPq__env-docker-compose-resources.json -f /home/ec2-user/.local/share/uv/tools/harbor/lib/python3.14/site-packages/harbor/environments/docker/docker-compose-prebuilt.yaml -f /tmp/tmpye2mi12k/docker-compose-environment.json -f /tmp/tmp7opbbw5j/docker-compose-mounts.json -f /home/ec2-user/.local/share/uv/tools/harbor/lib/python3.14/site-packages/harbor/environments/docker/docker-compose-egress-control.yaml -f /tmp/tmpycn0j8m7/docker-compose-egress-control-services.json cp main:/logs/verifier/target-stdout.md /home/ec2-user/harbor-jobs/pass8-batch-2026-09-22-twenty-20260922a-six-t06-a1/873914cf-93b2-57a0-a5c8-264bfa2d__qqokEPq/artifacts/logs/verifier/target-stdout.md. Return code: 1. Stdout:  873914cf-93b2-57a0-a5c8-264bfa2d__qqokepq__env-main-1 copy 873914cf-93b2-57a0-a5c8-264bfa2d__qqokepq__env-main-1:/logs/verifier/target-stdout.md to /home/ec2-user/harbor-jobs/pass8-batch-2026-09-22-twenty-20260922a-six-t06-a1/873914cf-93b2-57a0-a5c8-264bfa2d__qqokEPq/artifacts/logs/verifier/target-stdout.md Copying
+Error response from daemon: Could not find the file /logs/verifier/target-stdout.md in container 0857e6d90bdc2de8725c0fbac425ece558f424f58839acb70234dc224b622197
+. Stderr: None. 
+Failed to download artifact '/logs/verifier/target-stdout.md' from service 'main' (best-effort)
+Traceback (most recent call last):
+  File "/home/ec2-user/.local/share/uv/tools/harbor/lib/python3.14/site-packages/harbor/trial/artifact_handler.py", line 313, in _download_artifact
+    await source_env.service_download_file(
+    ...<3 lines>...
+    )
+  File "/home/ec2-user/.local/share/uv/tools/harbor/lib/python3.14/site-packages/harbor/environments/docker/docker.py", line 1205, in service_download_file
+    await self.download_file(source_path, target_path)
+  File "/home/ec2-user/.local/share/uv/tools/harbor/lib/python3.14/site-packages/harbor/environments/docker/docker.py", line 1190, in download_file
+    await self._platform.download_file(source_path, target_path)
+  File "/home/ec2-user/.local/share/uv/tools/harbor/lib/python3.14/site-packages/harbor/environments/docker/docker_unix.py", line 256, in download_file
+    await self._download_via_engine_cp(source_path, target_path, service)
+  File "/home/ec2-user/.local/share/uv/tools/harbor/lib/python3.14/site-packages/harbor/environments/docker/docker_unix.py", line 235, in _download_via_engine_cp
+    await self._engine_cp(f"{container}:{container_path}", str(target_path))
+  File "/home/ec2-user/.local/share/uv/tools/harbor/lib/python3.14/site-packages/harbor/environments/docker/docker_unix.py", line 226, in _engine_cp
+    raise RuntimeError(
+        f"Engine cp failed ({source!r} -> {destination!r}): {output}"
+    )
+RuntimeError: Engine cp failed ('0857e6d90bdc:/logs/verifier/target-stdout.md' -> '/home/ec2-user/harbor-jobs/pass8-batch-2026-09-22-twenty-20260922a-six-t06-a1/873914cf-93b2-57a0-a5c8-264bfa2d__qqokEPq/artifacts/logs/verifier/target-stdout.md'): Error response from daemon: Could not find the file /logs/verifier/target-stdout.md in container 0857e6d90bdc
+
+compose cp failed; retrying download with engine cp: Docker compose command failed for environment t06-reflex. Command: docker compose --project-name 873914cf-93b2-57a0-a5c8-264bfa2d__qqokepq__env --project-directory /home/ec2-user/harbor-probe/pass8-20260922t/873914cf-93b2-57a0-a5c8-264bfa2d3b66/environment -f /tmp/tmp4u0n86ds/873914cf-93b2-57a0-a5c8-264bfa2d__qqokEPq__env-docker-compose-resources.json -f /home/ec2-user/.local/share/uv/tools/harbor/lib/python3.14/site-packages/harbor/environments/docker/docker-compose-prebuilt.yaml -f /tmp/tmpye2mi12k/docker-compose-environment.json -f /tmp/tmp7opbbw5j/docker-compose-mounts.json -f /home/ec2-user/.local/share/uv/tools/harbor/lib/python3.14/site-packages/harbor/environments/docker/docker-compose-egress-control.yaml -f /tmp/tmpycn0j8m7/docker-compose-egress-control-services.json cp main:/logs/verifier/reward_reason.json /home/ec2-user/harbor-jobs/pass8-batch-2026-09-22-twenty-20260922a-six-t06-a1/873914cf-93b2-57a0-a5c8-264bfa2d__qqokEPq/artifacts/logs/verifier/reward_reason.json. Return code: 1. Stdout:  873914cf-93b2-57a0-a5c8-264bfa2d__qqokepq__env-main-1 copy 873914cf-93b2-57a0-a5c8-264bfa2d__qqokepq__env-main-1:/logs/verifier/reward_reason.json to /home/ec2-user/harbor-jobs/pass8-batch-2026-09-22-twenty-20260922a-six-t06-a1/873914cf-93b2-57a0-a5c8-264bfa2d__qqokEPq/artifacts/logs/verifier/reward_reason.json Copying
+Error response from daemon: Could not find the file /logs/verifier/reward_reason.json in container 0857e6d90bdc2de8725c0fbac425ece558f424f58839acb70234dc224b622197
+. Stderr: None. 
+Failed to download artifact '/logs/verifier/reward_reason.json' from service 'main' (best-effort)
+Traceback (most recent call last):
+  File "/home/ec2-user/.local/share/uv/tools/harbor/lib/python3.14/site-packages/harbor/trial/artifact_handler.py", line 313, in _download_artifact
+    await source_env.service_download_file(
+    ...<3 lines>...
+    )
+  File "/home/ec2-user/.local/share/uv/tools/harbor/lib/python3.14/site-packages/harbor/environments/docker/docker.py", line 1205, in service_download_file
+    await self.download_file(source_path, target_path)
+  File "/home/ec2-user/.local/share/uv/tools/harbor/lib/python3.14/site-packages/harbor/environments/docker/docker.py", line 1190, in download_file
+    await self._platform.download_file(source_path, target_path)
+  File "/home/ec2-user/.local/share/uv/tools/harbor/lib/python3.14/site-packages/harbor/environments/docker/docker_unix.py", line 256, in download_file
+    await self._download_via_engine_cp(source_path, target_path, service)
+  File "/home/ec2-user/.local/share/uv/tools/harbor/lib/python3.14/site-packages/harbor/environments/docker/docker_unix.py", line 235, in _download_via_engine_cp
+    await self._engine_cp(f"{container}:{container_path}", str(target_path))
+  File "/home/ec2-user/.local/share/uv/tools/harbor/lib/python3.14/site-packages/harbor/environments/docker/docker_unix.py", line 226, in _engine_cp
+    raise RuntimeError(
+        f"Engine cp failed ({source!r} -> {destination!r}): {output}"
+    )
+RuntimeError: Engine cp failed ('0857e6d90bdc:/logs/verifier/reward_reason.json' -> '/home/ec2-user/harbor-jobs/pass8-batch-2026-09-22-twenty-20260922a-six-t06-a1/873914cf-93b2-57a0-a5c8-264bfa2d__qqokEPq/artifacts/logs/verifier/reward_reason.json'): Error response from daemon: Could not find the file /logs/verifier/reward_reason.json in container 0857e6d90bdc
+

@@ -1,0 +1,2035 @@
+diff --git a/CONTRIBUTING.md b/CONTRIBUTING.md
+index feb7761..16f29cb 100644
+--- a/CONTRIBUTING.md
++++ b/CONTRIBUTING.md
+@@ -5,7 +5,7 @@ For an extensive guide on the different ways to contribute to Reflex see our [Co
+ 
+ 
+ ## Running a Local Build of Reflex 
+-Here is a quick guide to how the run Reflex repo locally so you can start contributing to the project.
++Here is a quick guide on how to run the Reflex repo locally so you can start contributing to the project.
+ 
+ **Prerequisites:**
+ - Python >= 3.8
+@@ -64,16 +64,16 @@ Within the 'test' directory of Reflex you can add to a test file already there o
+ What to unit test?
+ - Any feature or significant change that has been added.
+ - Any edge cases or potential problem areas.
+- -Any interactions between different parts of the code.
++- Any interactions between different parts of the code.
+ 
+ 
+ ## ✅ Making a PR
+ 
+-Once you solve a current issue or improvement to Reflex, you can make a pr, and we will review the changes. 
++Once you solve a current issue or improvement to Reflex, you can make a PR, and we will review the changes. 
+ 
+-Before submitting, a pull request, ensure the following steps are taken and test passing.
++Before submitting a pull request, ensure the following steps are taken and tests are passing.
+ 
+-In your `reflex` directory run make sure all the unit tests are still passing using the following command.
++In your `reflex` directory, make sure all the unit tests are still passing using the following command.
+ This will fail if code coverage is below 80%.
+ ``` bash
+ poetry run pytest tests --cov --no-cov-on-fail --cov-report= 
+@@ -95,4 +95,4 @@ Note that pre-commit will only be installed when you use a Python version >= 3.8
+ pre-commit install
+ ```
+ 
+-That's it you can now submit your pr. Thanks for contributing to Reflex!
++That's it! You can now submit your PR. Thanks for contributing to Reflex!
+diff --git a/README.md b/README.md
+index 5929e4e..23462f7 100644
+--- a/README.md
++++ b/README.md
+@@ -12,12 +12,12 @@
+ [![PyPI version](https://badge.fury.io/py/reflex.svg)](https://badge.fury.io/py/reflex)
+ ![tests](https://github.com/pynecone-io/pynecone/actions/workflows/integration.yml/badge.svg)
+ ![versions](https://img.shields.io/pypi/pyversions/reflex.svg)
+-[![Documentaiton](https://img.shields.io/badge/Documentation%20-Introduction%20-%20%23007ec6)](https://reflex.dev/docs/getting-started/introduction)
++[![Documentation](https://img.shields.io/badge/Documentation%20-Introduction%20-%20%23007ec6)](https://reflex.dev/docs/getting-started/introduction)
+ [![Discord](https://img.shields.io/discord/1029853095527727165?color=%237289da&label=Discord)](https://discord.gg/T5WSbC2YtQ)
+ </div>
+ 
+ ---
+-[English](https://github.com/reflex-dev/reflex/blob/main/README.md) | [简体中文](https://github.com/reflex-dev/reflex/blob/main/docs/zh/zh_cn/README.md) | [繁體中文](https://github.com/reflex-dev/reflex/blob/main/docs/zh/zh_tw/README.md) | [Türkçe](https://github.com/reflex-dev/reflex/blob/main/docs/tr/README.md) | [हिंदी](https://github.com/reflex-dev/reflex/blob/main/docs/in/README.md) | [Português (Brasil)](https://github.com/reflex-dev/reflex/blob/main/docs/pt/pt_br/README.md) | [Italiano](https://github.com/reflex-dev/reflex/blob/main/docs/it/README.md) | [한국어](https://github.com/reflex-dev/reflex/blob/main/docs/kr/README.md)
++[English](https://github.com/reflex-dev/reflex/blob/main/README.md) | [简体中文](https://github.com/reflex-dev/reflex/blob/main/docs/zh/zh_cn/README.md) | [繁體中文](https://github.com/reflex-dev/reflex/blob/main/docs/zh/zh_tw/README.md) | [Türkçe](https://github.com/reflex-dev/reflex/blob/main/docs/tr/README.md) | [हिंदी](https://github.com/reflex-dev/reflex/blob/main/docs/in/README.md) | [Português (Brasil)](https://github.com/reflex-dev/reflex/blob/main/docs/pt/pt_br/README.md) | [Italiano](https://github.com/reflex-dev/reflex/blob/main/docs/it/README.md) | [한국어](https://github.com/reflex-dev/reflex/blob/main/docs/kr/README.md) | [Español](https://github.com/reflex-dev/reflex/blob/main/docs/es/README.md)
+ ---
+ ## ⚙️ Installation
+ 
+@@ -54,7 +54,7 @@ Now you can modify the source code in `my_app_name/my_app_name.py`. Reflex has f
+ 
+ ## 🫧 Example App
+ 
+-Let's go over an example: creating an image generation UI around DALL·E. For simplicity, we just call the OpenAI API, but you could replace this with an ML model run locally.
++Let's go over an example: creating an image generation UI around [DALL·E](https://platform.openai.com/docs/guides/images/image-generation?context=node). For simplicity, we just call the [OpenAI API](https://platform.openai.com/docs/api-reference/authentication), but you could replace this with an ML model run locally.
+ 
+ &nbsp;
+ 
+@@ -142,7 +142,7 @@ This `index` function defines the frontend of the app.
+ We use different components such as `center`, `vstack`, `input`, and `button` to build the frontend. Components can be nested within each other
+ to create complex layouts. And you can use keyword args to style them with the full power of CSS.
+ 
+-Reflex comes with [60+ built-in components](https://reflex.dev/docs/library) to help you get started. We are actively adding more components, and it's easy to [create your own components](https://reflex.dev/docs/advanced-guide/wrapping-react).
++Reflex comes with [60+ built-in components](https://reflex.dev/docs/library) to help you get started. We are actively adding more components, and it's easy to [create your own components](https://reflex.dev/docs/wrapping-react/overview/).
+ 
+ ### **State**
+ 
+@@ -178,7 +178,7 @@ def get_image(self):
+ 
+ Within the state, we define functions called event handlers that change the state vars. Event handlers are the way that we can modify the state in Reflex. They can be called in response to user actions, such as clicking a button or typing in a text box. These actions are called events.
+ 
+-Our DALL·E. app has an event handler, `get_image` to which get this image from the OpenAI API. Using `yield` in the middle of an event handler will cause the UI to update. Otherwise the UI will update at the end of the event handler.
++Our DALL·E app has an event handler, `get_image`, to get this image from the OpenAI API. Using `yield` in the middle of an event handler will cause the UI to update. Otherwise the UI will update at the end of the event handler.
+ 
+ ### **Routing**
+ 
+@@ -228,9 +228,9 @@ We welcome contributions of any size! Below are some good ways to get started in
+ 
+ -   **Join Our Discord**: Our [Discord](https://discord.gg/T5WSbC2YtQ) is the best place to get help on your Reflex project and to discuss how you can contribute.
+ -   **GitHub Discussions**: A great way to talk about features you want added or things that are confusing/need clarification.
+--   **GitHub Issues**: These are an excellent way to report bugs. Additionally, you can try and solve an existing issue and submit a PR.
++-   **GitHub Issues**: [Issues](https://github.com/reflex-dev/reflex/issues) are an excellent way to report bugs. Additionally, you can try and solve an existing issue and submit a PR.
+ 
+-We are actively looking for contributors, no matter your skill level or experience.
++We are actively looking for contributors, no matter your skill level or experience. To contribute, check out [CONTRIBUTING.md](https://github.com/reflex-dev/reflex/blob/main/CONTRIBUTING.md).
+ 
+ ## License
+ 
+diff --git a/docker-example/Dockerfile b/docker-example/Dockerfile
+index a0c6894..bc90933 100644
+--- a/docker-example/Dockerfile
++++ b/docker-example/Dockerfile
+@@ -17,7 +17,7 @@ RUN python3 -m venv $VIRTUAL_ENV
+ RUN pip install -r requirements.txt
+ 
+ # Deploy templates and prepare app
+-RUN reflex init
++RUN reflex init --template blank
+ 
+ # Export static copy of frontend to /app/.web/_static
+ RUN reflex export --frontend-only --no-zip
+diff --git a/docker-example/README.md b/docker-example/README.md
+index e377b7f..abfadf0 100644
+--- a/docker-example/README.md
++++ b/docker-example/README.md
+@@ -25,9 +25,12 @@ will be hosted.
+ Finally, you can start your Reflex container service as follows:
+ 
+ ```bash
+-docker run -p 3000:3000 -p 8000:8000 --name app reflex-app:latest
++docker run -p 8000:8000 --name app reflex-app:latest
+ ```
+ 
++The container only exposes the backend on port 8000; the frontend is exported as
++static files (see the production example below for how to serve them).
++
+ It may take a few seconds for the service to become available.
+ 
+ # Production Service with Docker Compose and Caddy
+diff --git a/docker-example/compose.yaml b/docker-example/compose.yaml
+index 4d89290..a910a85 100644
+--- a/docker-example/compose.yaml
++++ b/docker-example/compose.yaml
+@@ -18,4 +18,4 @@ services:
+       context: .
+       dockerfile: Caddy.Dockerfile
+     depends_on:
+-      - app
+\ No newline at end of file
++      - app
+diff --git a/docs/es/README.md b/docs/es/README.md
+new file mode 100644
+index 0000000..390826b
+--- /dev/null
++++ b/docs/es/README.md
+@@ -0,0 +1,233 @@
++```diff
+++ ¿Buscas Pynecone? Estás en el repositorio correcto. Pynecone ha sido renombrado a Reflex. +
++```
++
++<div align="center">
++<img src="https://raw.githubusercontent.com/reflex-dev/reflex/main/docs/images/reflex_dark.svg#gh-light-mode-only" alt="Reflex Logo" width="300px">
++<img src="https://raw.githubusercontent.com/reflex-dev/reflex/main/docs/images/reflex_light.svg#gh-dark-mode-only" alt="Reflex Logo" width="300px">
++
++<hr>
++
++### **✨ Aplicaciones web personalizables y de alto rendimiento en Python puro. Despliega en segundos. ✨**
++[![PyPI version](https://badge.fury.io/py/reflex.svg)](https://badge.fury.io/py/reflex)
++![tests](https://github.com/pynecone-io/pynecone/actions/workflows/integration.yml/badge.svg)
++![versions](https://img.shields.io/pypi/pyversions/reflex.svg)
++[![Documentation](https://img.shields.io/badge/Documentation%20-Introduction%20-%20%23007ec6)](https://reflex.dev/docs/getting-started/introduction)
++[![Discord](https://img.shields.io/discord/1029853095527727165?color=%237289da&label=Discord)](https://discord.gg/T5WSbC2YtQ)
++</div>
++
++---
++[English](https://github.com/reflex-dev/reflex/blob/main/README.md) | [简体中文](https://github.com/reflex-dev/reflex/blob/main/docs/zh/zh_cn/README.md) | [繁體中文](https://github.com/reflex-dev/reflex/blob/main/docs/zh/zh_tw/README.md) | [Türkçe](https://github.com/reflex-dev/reflex/blob/main/docs/tr/README.md) | [हिंदी](https://github.com/reflex-dev/reflex/blob/main/docs/in/README.md) | [Português (Brasil)](https://github.com/reflex-dev/reflex/blob/main/docs/pt/pt_br/README.md) | [Italiano](https://github.com/reflex-dev/reflex/blob/main/docs/it/README.md) | [한국어](https://github.com/reflex-dev/reflex/blob/main/docs/kr/README.md) | [Español](https://github.com/reflex-dev/reflex/blob/main/docs/es/README.md)
++---
++## ⚙️ Instalación
++
++Abre un terminal y ejecuta (Requiere Python 3.8+):
++
++```bash
++pip install reflex
++```
++
++## 🥳 Crea tu primera aplicación
++
++Al instalar `reflex` también se instala la herramienta de línea de comandos `reflex`.
++
++Comprueba que la instalación ha sido exitosa creando un nuevo proyecto. (Sustituye `my_app_name` por el nombre de tu proyecto):
++
++```bash
++mkdir my_app_name
++cd my_app_name
++reflex init
++```
++
++Este comando inicializa una plantilla de aplicación en tu nuevo directorio.
++
++Puedes ejecutar esta aplicación en modo de desarrollo:
++
++```bash
++reflex run
++```
++
++Deberías ver tu aplicación ejecutándose en http://localhost:3000.
++
++Ahora puedes modificar el código fuente en `my_app_name/my_app_name.py`. Reflex se actualiza rápidamente, así que puedes ver los cambios al instante cuando guardas el código.
++
++
++## 🫧 Ejemplo de una aplicación
++
++Veamos un ejemplo: crear una interfaz de generación de imágenes con [DALL·E](https://platform.openai.com/docs/guides/images/image-generation?context=node). Para simplificar, sólo llamamos a la [API de OpenAI](https://platform.openai.com/docs/api-reference/authentication), pero puedes sustituirla por un modelo de aprendizaje automático (ML) ejecutado localmente.
++
++&nbsp;
++
++<div align="center">
++<img src="https://raw.githubusercontent.com/reflex-dev/reflex/main/docs/images/dalle.gif" alt="Una envoltura de interfaz para DALL·E, mostrada en el proceso de generación de una imagen." width="550" />
++</div>
++
++&nbsp;
++
++Aquí está el código completo para crear esto. ¡Todo esto se hace en un archivo de Python!
++
++```python
++import reflex as rx
++import openai
++
++openai.api_key = "YOUR_API_KEY"
++
++class State(rx.State):
++    """El estado de la aplicación."""
++    prompt = ""
++    image_url = ""
++    processing = False
++    complete = False
++
++    def get_image(self):
++        """Obtiene la imagen a partir del prompt."""
++        if self.prompt == "":
++            return rx.window_alert("El prompt está vacío")
++
++        self.processing, self.complete = True, False
++        yield
++        response = openai.Image.create(prompt=self.prompt, n=1, size="1024x1024")
++        self.image_url = response["data"][0]["url"]
++        self.processing, self.complete = False, True
++
++
++def index():
++    return rx.center(
++        rx.vstack(
++            rx.heading("DALL·E"),
++            rx.input(placeholder="Introduce un prompt", on_blur=State.set_prompt),
++            rx.button(
++                "Generar imagen",
++                on_click=State.get_image,
++                is_loading=State.processing,
++                width="100%",
++            ),
++            rx.cond(
++                State.complete,
++                     rx.image(
++                         src=State.image_url,
++                         height="25em",
++                         width="25em",
++                    )
++            ),
++            padding="2em",
++            shadow="lg",
++            border_radius="lg",
++        ),
++        width="100%",
++        height="100vh",
++    )
++
++# Añade el estado y la página a la aplicación.
++app = rx.App()
++app.add_page(index, title="reflex:DALL·E")
++app.compile()
++```
++
++## Analicemos el código.
++
++### **Interfaz gráfica (UI) en Reflex**
++
++Empecemos por la interfaz gráfica.
++
++```python
++def index():
++    return rx.center(
++        ...
++    )
++```
++
++Esta función `index` define la interfaz (frontend) de la aplicación.
++
++Utilizamos diferentes componentes como `center`, `vstack`, `input` y `button` para construir el frontend. Los componentes pueden anidarse unos dentro de otros
++para crear diseños complejos. Además, puedes usar argumentos de palabras clave (keyword args) para darles estilo con toda la potencia de CSS.
++
++Reflex viene con [más de 60 componentes integrados](https://reflex.dev/docs/library) para ayudarte a empezar. Estamos añadiendo activamente más componentes, y es fácil [crear tus propios componentes](https://reflex.dev/docs/wrapping-react/overview/).
++
++### **Estado**
++
++Reflex representa tu interfaz gráfica como una función de tu estado.
++
++```python
++class State(rx.State):
++    """El estado de la aplicación."""
++    prompt = ""
++    image_url = ""
++    processing = False
++    complete = False
++```
++
++El estado define todas las variables (llamadas vars) de una aplicación que pueden cambiar, así como las funciones que las modifican.
++
++Aquí el estado se compone de `prompt` e `image_url`. También están los booleanos `processing` y `complete` para indicar cuándo mostrar el círculo de progreso y la imagen.
++
++### **Manejadores de eventos**
++
++```python
++def get_image(self):
++    """Obtiene la imagen a partir del prompt."""
++    if self.prompt == "":
++        return rx.window_alert("El prompt está vacío")
++
++    self.processing, self.complete = True, False
++    yield
++    response = openai.Image.create(prompt=self.prompt, n=1, size="1024x1024")
++    self.image_url = response["data"][0]["url"]
++    self.processing, self.complete = False, True
++```
++
++Dentro del estado, definimos funciones llamadas manejadores de eventos (event handlers) que modifican las variables de estado. Los manejadores de eventos son la forma en que podemos modificar el estado en Reflex. Pueden ser llamados como respuesta a acciones del usuario, como hacer clic en un botón o escribir en un cuadro de texto. Estas acciones se denominan eventos.
++
++Nuestra aplicación DALL·E tiene un manejador de eventos, `get_image`, para obtener esta imagen de la API de OpenAI. Usar `yield` en medio de un manejador de eventos hará que la interfaz gráfica se actualice. En caso contrario, la interfaz se actualizará al final del manejador de eventos.
++
++### **Enrutamiento**
++
++Finalmente, definimos nuestra aplicación.
++
++```python
++app = rx.App()
++```
++
++Añadimos una página desde la raíz de la aplicación al componente index. También añadimos un título que aparecerá en la vista previa de la página o en la pestaña del navegador.
++
++```python
++app.add_page(index, title="DALL-E")
++app.compile()
++```
++
++Puedes crear una aplicación con varias páginas añadiendo más páginas.
++
++## 📑 Recursos
++
++<div align="center">
++
++📑 [Documentación](https://reflex.dev/docs/getting-started/introduction) &nbsp; |  &nbsp; 🗞️ [Blog](https://reflex.dev/blog) &nbsp; |  &nbsp; 📱 [Librería de Componentes](https://reflex.dev/docs/library) &nbsp; |  &nbsp; 🖼️ [Galería](https://reflex.dev/docs/gallery) &nbsp; |  &nbsp; 🛸 [Despliegue](https://reflex.dev/docs/hosting/deploy)  &nbsp;
++
++</div>
++
++## ✅ Estado del proyecto
++
++Reflex se lanzó en diciembre de 2022 con el nombre de Pynecone.
++
++Desde julio de 2023, estamos en la fase de **Beta Pública**.
++
++-   :white_check_mark: **Alfa Pública**: Cualquiera puede instalar y usar Reflex. Puede haber problemas, pero estamos trabajando activamente para resolverlos.
++-   :large_orange_diamond: **Beta Pública**: Suficientemente estable para casos de uso no empresariales.
++-   **Beta Pública de Hosting**: _Opcionalmente_, ¡despliega y aloja tus aplicaciones en Reflex!
++-   **Pública**: Reflex está listo para producción.
++
++¡Reflex tiene nuevas versiones y funcionalidades cada semana! Asegúrate de :star: marcar como favorito y :eyes: seguir este repositorio para mantenerte al día.
++
++## Contribuciones
++
++¡Damos la bienvenida a contribuciones de cualquier tamaño! A continuación te indicamos algunas buenas formas de empezar en la comunidad de Reflex.
++
++-   **Únete a nuestro Discord**: Nuestro [Discord](https://discord.gg/T5WSbC2YtQ) es el mejor lugar para obtener ayuda con tu proyecto de Reflex y discutir cómo puedes contribuir.
++-   **Discusiones en GitHub**: Una excelente forma de hablar sobre las funcionalidades que quieres que se añadan o las cosas que te resultan confusas o necesitan aclaración.
++-   **Issues en GitHub**: Los [Issues](https://github.com/reflex-dev/reflex/issues) son una forma excelente de reportar errores. Además, puedes intentar resolver un issue existente y enviar un PR.
++
++Buscamos activamente colaboradores, sin importar tu nivel de conocimientos o experiencia. Para contribuir, consulta [CONTRIBUTING.md](https://github.com/reflex-dev/reflex/blob/main/CONTRIBUTING.md).
++
++## Licencia
++
++Reflex es de código abierto y está licenciado bajo la [Apache License 2.0](LICENSE).
+diff --git a/docs/in/README.md b/docs/in/README.md
+index 9a7fd71..b0c1405 100644
+--- a/docs/in/README.md
++++ b/docs/in/README.md
+@@ -11,12 +11,12 @@ Pynecone की तलाश हैं? आप सही रेपो में
+ [![PyPI version](https://badge.fury.io/py/reflex.svg)](https://badge.fury.io/py/reflex)
+ ![tests](https://github.com/pynecone-io/pynecone/actions/workflows/integration.yml/badge.svg)
+ ![versions](https://img.shields.io/pypi/pyversions/reflex.svg)
+-[![Documentaiton](https://img.shields.io/badge/Documentation%20-Introduction%20-%20%23007ec6)](https://reflex.dev/docs/getting-started/introduction)
++[![Documentation](https://img.shields.io/badge/Documentation%20-Introduction%20-%20%23007ec6)](https://reflex.dev/docs/getting-started/introduction)
+ [![Discord](https://img.shields.io/discord/1029853095527727165?color=%237289da&label=Discord)](https://discord.gg/T5WSbC2YtQ)
+ </div>
+ 
+ ---
+-[English](https://github.com/reflex-dev/reflex/blob/main/README.md) | [简体中文](https://github.com/reflex-dev/reflex/blob/main/docs/zh/zh_cn/README.md) | [繁體中文](https://github.com/reflex-dev/reflex/blob/main/docs/zh/zh_tw/README.md) | [Türkçe](https://github.com/reflex-dev/reflex/blob/main/docs/tr/README.md) | [हिंदी](https://github.com/reflex-dev/reflex/blob/main/docs/in/README.md) | [한국어](https://github.com/reflex-dev/reflex/blob/main/docs/kr/README.md)
++[English](https://github.com/reflex-dev/reflex/blob/main/README.md) | [简体中文](https://github.com/reflex-dev/reflex/blob/main/docs/zh/zh_cn/README.md) | [繁體中文](https://github.com/reflex-dev/reflex/blob/main/docs/zh/zh_tw/README.md) | [Türkçe](https://github.com/reflex-dev/reflex/blob/main/docs/tr/README.md) | [हिंदी](https://github.com/reflex-dev/reflex/blob/main/docs/in/README.md) | [한국어](https://github.com/reflex-dev/reflex/blob/main/docs/kr/README.md) | [Español](https://github.com/reflex-dev/reflex/blob/main/docs/es/README.md)
+ ---
+ 
+ ## ⚙️ इंस्टॉलेशन 
+@@ -140,7 +140,7 @@ def index():
+ 
+ हम फ़्रंटएंड बनाने के लिए `center`, `vstack`, `input`, और `button` जैसे विभिन्न components का उपयोग करते हैं। Components को एक-दूसरे के भीतर डाल सकते हैं विस्तारित लेआउट बनाने के लिए। और आप CSS की पूरी ताक़त के साथ इन्हें स्टाइल करने के लिए कीवर्ड आर्ग्यूमेंट (keyword args) का उपयोग कर सकते हैं।
+ 
+-रिफ़्लेक्स के पास [60+ built-in components](https://reflex.dev/docs/library) हैं जो आपको शुरुआती मदद के लिए हैं। हम बहुत से components जोड़ रहे हैं, और अपने खुद के components बनाना भी आसान है। [create your own components](https://reflex.dev/docs/advanced-guide/wrapping-react)
++रिफ़्लेक्स के पास [60+ built-in components](https://reflex.dev/docs/library) हैं जो आपको शुरुआती मदद के लिए हैं। हम बहुत से components जोड़ रहे हैं, और अपने खुद के components बनाना भी आसान है। [create your own components](https://reflex.dev/docs/wrapping-react/overview/)
+ 
+ ### **स्टेट (State)**
+ 
+@@ -228,4 +228,4 @@ app.compile()
+ 
+ ## लाइसेंस (License)
+ 
+-रिफ्लेक्स ओपन-सोर्स है और [अपाचे लाइसेंस 2.0] (लाइसेंस) के तहत लाइसेंस प्राप्त है।
++रिफ्लेक्स ओपन-सोर्स है और [अपाचे लाइसेंस 2.0](LICENSE) के तहत लाइसेंस प्राप्त है।
+diff --git a/docs/it/README.md b/docs/it/README.md
+index c195438..0ea6ba1 100644
+--- a/docs/it/README.md
++++ b/docs/it/README.md
+@@ -12,13 +12,13 @@
+ [![PyPI version](https://badge.fury.io/py/reflex.svg)](https://badge.fury.io/py/reflex)
+ ![tests](https://github.com/pynecone-io/pynecone/actions/workflows/integration.yml/badge.svg)
+ ![versions](https://img.shields.io/pypi/pyversions/reflex.svg)
+-[![Documentaiton](https://img.shields.io/badge/Documentation%20-Introduction%20-%20%23007ec6)](https://reflex.dev/docs/getting-started/introduction)
++[![Documentation](https://img.shields.io/badge/Documentation%20-Introduction%20-%20%23007ec6)](https://reflex.dev/docs/getting-started/introduction)
+ [![Discord](https://img.shields.io/discord/1029853095527727165?color=%237289da&label=Discord)](https://discord.gg/T5WSbC2YtQ)
+ </div>
+ 
+ ---
+ [English](https://github.com/reflex-dev/reflex/blob/main/README.md) | [简体中文](https://github.com/reflex-dev/reflex/blob/main/docs/zh/zh_cn/README.md) | [繁體中文](https://github.com/reflex-dev/reflex/blob/main/docs/zh/zh_tw/README.md) | [Türkçe](https://github.com/reflex-dev/reflex/blob/main/docs/tr/README.md) | [हिंदी](https://github.com/reflex-dev/reflex/blob/main/docs/in/README.md) | [Português (Brasil)](https://github.com/reflex-dev/reflex/blob/main/docs/pt/pt_br/README.md) |
+-[Italiano](https://github.com/reflex-dev/reflex/blob/main/docs/it/README.md) | [한국어](https://github.com/reflex-dev/reflex/blob/main/docs/kr/README.md)
++[Italiano](https://github.com/reflex-dev/reflex/blob/main/docs/it/README.md) | [한국어](https://github.com/reflex-dev/reflex/blob/main/docs/kr/README.md) | [Español](https://github.com/reflex-dev/reflex/blob/main/docs/es/README.md)
+ ---
+ 
+ ## ⚙️ Installazione
+@@ -141,7 +141,7 @@ Questo `index` definisce il frontend dell'app.
+ 
+ Utilizziamo diversi componenti come `center`, `vstack`, `input`, e `button` per costruire il frontend. I componenti possono essere annidati gli uni negli altri per creare layout complessi. Puoi utilizzare argomenti chiave per stilizzarli con tutta la potenza di CSS.
+ 
+-Reflex offre [più di 60 componenti integrati](https://reflex.dev/docs/library) per aiutarti a iniziare. Stiamo attivamente aggiungendo più componenti ed è facile [creare i tuoi componenti](https://reflex.dev/docs/advanced-guide/wrapping-react).
++Reflex offre [più di 60 componenti integrati](https://reflex.dev/docs/library) per aiutarti a iniziare. Stiamo attivamente aggiungendo più componenti ed è facile [creare i tuoi componenti](https://reflex.dev/docs/wrapping-react/overview/).
+ 
+ ### **Stato (State)**
+ 
+diff --git a/docs/kr/README.md b/docs/kr/README.md
+index 0cd139c..8426c26 100644
+--- a/docs/kr/README.md
++++ b/docs/kr/README.md
+@@ -12,12 +12,12 @@
+ [![PyPI version](https://badge.fury.io/py/reflex.svg)](https://badge.fury.io/py/reflex)
+ ![tests](https://github.com/pynecone-io/pynecone/actions/workflows/integration.yml/badge.svg)
+ ![versions](https://img.shields.io/pypi/pyversions/reflex.svg)
+-[![Documentaiton](https://img.shields.io/badge/Documentation%20-Introduction%20-%20%23007ec6)](https://reflex.dev/docs/getting-started/introduction)
++[![Documentation](https://img.shields.io/badge/Documentation%20-Introduction%20-%20%23007ec6)](https://reflex.dev/docs/getting-started/introduction)
+ [![Discord](https://img.shields.io/discord/1029853095527727165?color=%237289da&label=Discord)](https://discord.gg/T5WSbC2YtQ)
+ </div>
+ 
+ ---
+-[English](https://github.com/reflex-dev/reflex/blob/main/README.md) | [简体中文](https://github.com/reflex-dev/reflex/blob/main/docs/zh/zh_cn/README.md) | [繁體中文](https://github.com/reflex-dev/reflex/blob/main/docs/zh/zh_tw/README.md) | [Türkçe](https://github.com/reflex-dev/reflex/blob/main/docs/tr/README.md) | [हिंदी](https://github.com/reflex-dev/reflex/blob/main/docs/in/README.md) | [Português (Brasil)](https://github.com/reflex-dev/reflex/blob/main/docs/pt/pt_br/README.md) | [Italiano](https://github.com/reflex-dev/reflex/blob/main/docs/it/README.md) | [한국어](https://github.com/reflex-dev/reflex/blob/main/docs/kr/README.md)
++[English](https://github.com/reflex-dev/reflex/blob/main/README.md) | [简体中文](https://github.com/reflex-dev/reflex/blob/main/docs/zh/zh_cn/README.md) | [繁體中文](https://github.com/reflex-dev/reflex/blob/main/docs/zh/zh_tw/README.md) | [Türkçe](https://github.com/reflex-dev/reflex/blob/main/docs/tr/README.md) | [हिंदी](https://github.com/reflex-dev/reflex/blob/main/docs/in/README.md) | [Português (Brasil)](https://github.com/reflex-dev/reflex/blob/main/docs/pt/pt_br/README.md) | [Italiano](https://github.com/reflex-dev/reflex/blob/main/docs/it/README.md) | [한국어](https://github.com/reflex-dev/reflex/blob/main/docs/kr/README.md) | [Español](https://github.com/reflex-dev/reflex/blob/main/docs/es/README.md)
+ ---
+ ## ⚙️ 설치
+ 
+@@ -144,7 +144,7 @@ def index():
+ 그리고 키워드 인자를 사용하여 CSS의 모든 기능을 사용하여 스타일을 지정할 수 있습니다.
+ 
+ 
+-Reflex는 시작하기 위한 [60개 이상의 기본 컴포넌트](https://reflex.dev/docs/library)를 제공하고 있습니다. 더 많은 컴포넌트를 추가하고 있으며, [자신만의 컴포넌트를 생성하는 것](https://reflex.dev/docs/advanced-guide/wrapping-react)도 쉽습니다.
++Reflex는 시작하기 위한 [60개 이상의 기본 컴포넌트](https://reflex.dev/docs/library)를 제공하고 있습니다. 더 많은 컴포넌트를 추가하고 있으며, [자신만의 컴포넌트를 생성하는 것](https://reflex.dev/docs/wrapping-react/overview/)도 쉽습니다.
+ 
+ ### **State**
+ 
+diff --git a/docs/pt/pt_br/README.md b/docs/pt/pt_br/README.md
+index ce61540..5c378f8 100644
+--- a/docs/pt/pt_br/README.md
++++ b/docs/pt/pt_br/README.md
+@@ -17,7 +17,7 @@
+ </div>
+ 
+ ---
+-[English](https://github.com/reflex-dev/reflex/blob/main/README.md) | [简体中文](https://github.com/reflex-dev/reflex/blob/main/docs/zh/zh_cn/README.md) | [繁體中文](https://github.com/reflex-dev/reflex/blob/main/docs/zh/zh_tw/README.md) | [Türkçe](https://github.com/reflex-dev/reflex/blob/main/docs/tr/README.md) | [हिंदी](https://github.com/reflex-dev/reflex/blob/main/docs/in/README.md) | [Português (Brasil)](https://github.com/reflex-dev/reflex/blob/main/docs/pt/pt_br/README.md) | [한국어](https://github.com/reflex-dev/reflex/blob/main/docs/kr/README.md)
++[English](https://github.com/reflex-dev/reflex/blob/main/README.md) | [简体中文](https://github.com/reflex-dev/reflex/blob/main/docs/zh/zh_cn/README.md) | [繁體中文](https://github.com/reflex-dev/reflex/blob/main/docs/zh/zh_tw/README.md) | [Türkçe](https://github.com/reflex-dev/reflex/blob/main/docs/tr/README.md) | [हिंदी](https://github.com/reflex-dev/reflex/blob/main/docs/in/README.md) | [Português (Brasil)](https://github.com/reflex-dev/reflex/blob/main/docs/pt/pt_br/README.md) | [한국어](https://github.com/reflex-dev/reflex/blob/main/docs/kr/README.md) | [Español](https://github.com/reflex-dev/reflex/blob/main/docs/es/README.md)
+ ---
+ ## ⚙️ Instalação
+ 
+@@ -142,7 +142,7 @@ Esta função `index` define o frontend do app.
+ Usamos diferentes componentes, como `center`, `vstack`, `input` e `button`, para construir o frontend. Componentes podem ser aninhados um no do outro
+ para criar layouts mais complexos. E você pode usar argumentos de chave-valor para estilizá-los com todo o poder do CSS.
+ 
+-O Reflex vem com [60+ componentes nativos](https://reflex.dev/docs/library) para te ajudar. Estamos adicionando ativamente mais componentes, mas também é fácil [criar seus próprios componentes](https://reflex.dev/docs/advanced-guide/wrapping-react). 
++O Reflex vem com [60+ componentes nativos](https://reflex.dev/docs/library) para te ajudar. Estamos adicionando ativamente mais componentes, mas também é fácil [criar seus próprios componentes](https://reflex.dev/docs/wrapping-react/overview/). 
+ 
+ ### **Estado**
+ 
+diff --git a/docs/tr/README.md b/docs/tr/README.md
+index cfbfdff..4e28ec0 100644
+--- a/docs/tr/README.md
++++ b/docs/tr/README.md
+@@ -12,12 +12,12 @@
+ [![PyPI version](https://badge.fury.io/py/reflex.svg)](https://badge.fury.io/py/reflex)
+ ![tests](https://github.com/pynecone-io/pynecone/actions/workflows/integration.yml/badge.svg)
+ ![versions](https://img.shields.io/pypi/pyversions/reflex.svg)
+-[![Documentaiton](https://img.shields.io/badge/Documentation%20-Introduction%20-%20%23007ec6)](https://reflex.dev/docs/getting-started/introduction)
++[![Documentation](https://img.shields.io/badge/Documentation%20-Introduction%20-%20%23007ec6)](https://reflex.dev/docs/getting-started/introduction)
+ [![Discord](https://img.shields.io/discord/1029853095527727165?color=%237289da&label=Discord)](https://discord.gg/T5WSbC2YtQ)
+ </div>
+ 
+ ---
+-[English](https://github.com/reflex-dev/reflex/blob/main/README.md) | [简体中文](https://github.com/reflex-dev/reflex/blob/main/docs/zh/zh_cn/README.md) | [繁體中文](https://github.com/reflex-dev/reflex/blob/main/docs/zh/zh_tw/README.md) | [Türkçe](https://github.com/reflex-dev/reflex/blob/main/docs/tr/README.md) | [한국어](https://github.com/reflex-dev/reflex/blob/main/docs/kr/README.md)
++[English](https://github.com/reflex-dev/reflex/blob/main/README.md) | [简体中文](https://github.com/reflex-dev/reflex/blob/main/docs/zh/zh_cn/README.md) | [繁體中文](https://github.com/reflex-dev/reflex/blob/main/docs/zh/zh_tw/README.md) | [Türkçe](https://github.com/reflex-dev/reflex/blob/main/docs/tr/README.md) | [한국어](https://github.com/reflex-dev/reflex/blob/main/docs/kr/README.md) | [Español](https://github.com/reflex-dev/reflex/blob/main/docs/es/README.md)
+ ---
+ ## ⚙️ İndirme
+ 
+@@ -142,7 +142,7 @@ Bu `index` fonkisyonu uygulamanın frontend'ini tanımlar.
+ Farklı bileşenler kullanıyoruz misal `center`, `vstack`, `input`, ve `button` frontend'i oluşturmak için kullanıyoruz. Bileşenler birbirinin içine yerleştirilebilir
+ karmaşık düzenler oluşturmak için. Ayrıca bunları CSS'nin tüm gücüyle şekillendirmek için args'ı kullanabilirsiniz.
+ 
+-Reflex size yardım için [60'tan fazla yerleşik bileşen](https://reflex.dev/docs/library) içerir. Aktif olarak çok daha fazla yeni bileşen ekliyoruz, ve bunları oluşturmak çok kolay [Kendi bileşenlerinizi oluşturun](https://reflex.dev/docs/advanced-guide/wrapping-react).
++Reflex size yardım için [60'tan fazla yerleşik bileşen](https://reflex.dev/docs/library) içerir. Aktif olarak çok daha fazla yeni bileşen ekliyoruz, ve bunları oluşturmak çok kolay [Kendi bileşenlerinizi oluşturun](https://reflex.dev/docs/wrapping-react/overview/).
+ 
+ ### **Durum**
+ 
+diff --git a/docs/zh/zh_cn/README.md b/docs/zh/zh_cn/README.md
+index ab278db..a8576bf 100644
+--- a/docs/zh/zh_cn/README.md
++++ b/docs/zh/zh_cn/README.md
+@@ -14,13 +14,13 @@
+ [![PyPI version](https://badge.fury.io/py/reflex.svg)](https://badge.fury.io/py/reflex)
+ ![tests](https://github.com/pynecone-io/pynecone/actions/workflows/integration.yml/badge.svg)
+ ![versions](https://img.shields.io/pypi/pyversions/reflex.svg)
+-[![Documentaiton](https://img.shields.io/badge/Documentation%20-Introduction%20-%20%23007ec6)](https://reflex.dev/docs/getting-started/introduction)
++[![Documentation](https://img.shields.io/badge/Documentation%20-Introduction%20-%20%23007ec6)](https://reflex.dev/docs/getting-started/introduction)
+ [![Discord](https://img.shields.io/discord/1029853095527727165?color=%237289da&label=Discord)](https://discord.gg/T5WSbC2YtQ)
+ 
+ </div>
+ 
+ ---
+-[English](https://github.com/reflex-dev/reflex/blob/main/README.md) | [简体中文](https://github.com/reflex-dev/reflex/blob/main/docs/zh/zh_cn/README.md) | [繁體中文](https://github.com/reflex-dev/reflex/blob/main/docs/zh/zh_tw/README.md) | [Türkçe](https://github.com/reflex-dev/reflex/blob/main/docs/tr/README.md) | [한국어](https://github.com/reflex-dev/reflex/blob/main/docs/kr/README.md)
++[English](https://github.com/reflex-dev/reflex/blob/main/README.md) | [简体中文](https://github.com/reflex-dev/reflex/blob/main/docs/zh/zh_cn/README.md) | [繁體中文](https://github.com/reflex-dev/reflex/blob/main/docs/zh/zh_tw/README.md) | [Türkçe](https://github.com/reflex-dev/reflex/blob/main/docs/tr/README.md) | [한국어](https://github.com/reflex-dev/reflex/blob/main/docs/kr/README.md) | [Español](https://github.com/reflex-dev/reflex/blob/main/docs/es/README.md)
+ ---
+ ## ⚙️ 安装
+ 
+@@ -143,7 +143,7 @@ def index():
+ 我们用不同的组件比如 `center`, `vstack`, `input`, 和 `button` 来创建前端, 组件之间可以相互嵌入,来创建复杂的布局.
+ 并且您可以使用关键字参数来使用 CSS 的全部功能.
+ 
+-Reflex 拥有 [60+ 个内置组件](https://reflex.dev/docs/library) 来帮助您开始创建应用程序. 我们正在积极添加组件, 但是您也可以 [创建自己的组件](https://reflex.dev/docs/advanced-guide/wrapping-react).
++Reflex 拥有 [60+ 个内置组件](https://reflex.dev/docs/library) 来帮助您开始创建应用程序. 我们正在积极添加组件, 但是您也可以 [创建自己的组件](https://reflex.dev/docs/wrapping-react/overview/).
+ 
+ ### **State**
+ 
+diff --git a/docs/zh/zh_tw/README.md b/docs/zh/zh_tw/README.md
+index 37e48d4..dcacd8d 100644
+--- a/docs/zh/zh_tw/README.md
++++ b/docs/zh/zh_tw/README.md
+@@ -13,12 +13,12 @@
+ [![PyPI version](https://badge.fury.io/py/reflex.svg)](https://badge.fury.io/py/reflex)
+ ![tests](https://github.com/pynecone-io/pynecone/actions/workflows/integration.yml/badge.svg)
+ ![versions](https://img.shields.io/pypi/pyversions/reflex.svg)
+-[![Documentaiton](https://img.shields.io/badge/Documentation%20-Introduction%20-%20%23007ec6)](https://reflex.dev/docs/getting-started/introduction)
++[![Documentation](https://img.shields.io/badge/Documentation%20-Introduction%20-%20%23007ec6)](https://reflex.dev/docs/getting-started/introduction)
+ [![Discord](https://img.shields.io/discord/1029853095527727165?color=%237289da&label=Discord)](https://discord.gg/T5WSbC2YtQ)
+ </div>
+ 
+ ---
+-[English](https://github.com/reflex-dev/reflex/blob/main/README.md) | [简体中文](https://github.com/reflex-dev/reflex/blob/main/docs/zh/zh_cn/README.md) | [繁體中文](https://github.com/reflex-dev/reflex/blob/main/docs/zh/zh_tw/README.md) | [Türkçe](https://github.com/reflex-dev/reflex/blob/main/docs/tr/README.md) | [한국어](https://github.com/reflex-dev/reflex/blob/main/docs/kr/README.md)
++[English](https://github.com/reflex-dev/reflex/blob/main/README.md) | [简体中文](https://github.com/reflex-dev/reflex/blob/main/docs/zh/zh_cn/README.md) | [繁體中文](https://github.com/reflex-dev/reflex/blob/main/docs/zh/zh_tw/README.md) | [Türkçe](https://github.com/reflex-dev/reflex/blob/main/docs/tr/README.md) | [한국어](https://github.com/reflex-dev/reflex/blob/main/docs/kr/README.md) | [Español](https://github.com/reflex-dev/reflex/blob/main/docs/es/README.md)
+ ---
+ ## ⚙️ 安裝
+ 
+@@ -140,7 +140,7 @@ def index():
+ 
+ 我們用不同的元件像是 `center`, `vstack`, `input`, 和 `button` 來建立前端，元件之間可互相套入以建立出複雜的版面配置。並且您可使用關鍵字引數 *keyword args* 運行 CSS 全部功能來設計這些元件們的樣式。
+ 
+-Reflex 擁有 [60+ 內建元件](https://reflex.dev/docs/library) 來幫助你開始建立應用程式。我們正積極添加元件，你也可以簡單地 [創建自己所屬的元件](https://reflex.dev/docs/advanced-guide/wrapping-react)。
++Reflex 擁有 [60+ 內建元件](https://reflex.dev/docs/library) 來幫助你開始建立應用程式。我們正積極添加元件，你也可以簡單地 [創建自己所屬的元件](https://reflex.dev/docs/wrapping-react/overview/)。
+ 
+ ### **應用程式狀態**
+ 
+diff --git a/pyproject.toml b/pyproject.toml
+index 2187939..d489593 100644
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -1,6 +1,6 @@
+ [tool.poetry]
+ name = "reflex"
+-version = "0.2.9"
++version = "0.3.2"
+ description = "Web apps in pure Python."
+ license = "Apache-2.0"
+ authors = [
+@@ -39,7 +39,7 @@ python-socketio = "^5.7.0"
+ redis = "^4.3.5"
+ rich = "^13.0.0"
+ sqlmodel = "^0.0.8"
+-typer = "0.4.2"
++typer = ">=0.4.2,<1.0.0"
+ uvicorn = "^0.20.0"
+ watchdog = "^2.3.1"
+ watchfiles = "^0.19.0"
+diff --git a/reflex/.templates/apps/base/README.md b/reflex/.templates/apps/sidebar/README.md
+similarity index 96%
+rename from reflex/.templates/apps/base/README.md
+rename to reflex/.templates/apps/sidebar/README.md
+index 1b34b63..d7e1e54 100644
+--- a/reflex/.templates/apps/base/README.md
++++ b/reflex/.templates/apps/sidebar/README.md
+@@ -1,6 +1,6 @@
+ # Welcome to Reflex!
+ 
+-This is the base Reflex template - installed when you run `reflex init`.
++This is the sidebar Reflex template - installed when you run `reflex init --template sidebar`.
+ 
+ If you want to use a different template, pass the `--template` flag to `reflex init`.
+ For example, if you want a more basic starting point, you can run:
+diff --git a/reflex/.templates/apps/base/assets/favicon.ico b/reflex/.templates/apps/sidebar/assets/favicon.ico
+similarity index 100%
+rename from reflex/.templates/apps/base/assets/favicon.ico
+rename to reflex/.templates/apps/sidebar/assets/favicon.ico
+diff --git a/reflex/.templates/apps/base/assets/github.svg b/reflex/.templates/apps/sidebar/assets/github.svg
+similarity index 100%
+rename from reflex/.templates/apps/base/assets/github.svg
+rename to reflex/.templates/apps/sidebar/assets/github.svg
+diff --git a/reflex/.templates/apps/base/assets/icon.svg b/reflex/.templates/apps/sidebar/assets/icon.svg
+similarity index 100%
+rename from reflex/.templates/apps/base/assets/icon.svg
+rename to reflex/.templates/apps/sidebar/assets/icon.svg
+diff --git a/reflex/.templates/apps/base/assets/logo.svg b/reflex/.templates/apps/sidebar/assets/logo.svg
+similarity index 100%
+rename from reflex/.templates/apps/base/assets/logo.svg
+rename to reflex/.templates/apps/sidebar/assets/logo.svg
+diff --git a/reflex/.templates/apps/base/assets/paneleft.svg b/reflex/.templates/apps/sidebar/assets/paneleft.svg
+similarity index 100%
+rename from reflex/.templates/apps/base/assets/paneleft.svg
+rename to reflex/.templates/apps/sidebar/assets/paneleft.svg
+diff --git a/reflex/.templates/apps/base/code/__init__.py b/reflex/.templates/apps/sidebar/code/__init__.py
+similarity index 100%
+rename from reflex/.templates/apps/base/code/__init__.py
+rename to reflex/.templates/apps/sidebar/code/__init__.py
+diff --git a/reflex/.templates/apps/base/code/components/__init__.py b/reflex/.templates/apps/sidebar/code/components/__init__.py
+similarity index 100%
+rename from reflex/.templates/apps/base/code/components/__init__.py
+rename to reflex/.templates/apps/sidebar/code/components/__init__.py
+diff --git a/reflex/.templates/apps/base/code/components/sidebar.py b/reflex/.templates/apps/sidebar/code/components/sidebar.py
+similarity index 100%
+rename from reflex/.templates/apps/base/code/components/sidebar.py
+rename to reflex/.templates/apps/sidebar/code/components/sidebar.py
+diff --git a/reflex/.templates/apps/base/code/pages/__init__.py b/reflex/.templates/apps/sidebar/code/pages/__init__.py
+similarity index 100%
+rename from reflex/.templates/apps/base/code/pages/__init__.py
+rename to reflex/.templates/apps/sidebar/code/pages/__init__.py
+diff --git a/reflex/.templates/apps/base/code/pages/dashboard.py b/reflex/.templates/apps/sidebar/code/pages/dashboard.py
+similarity index 100%
+rename from reflex/.templates/apps/base/code/pages/dashboard.py
+rename to reflex/.templates/apps/sidebar/code/pages/dashboard.py
+diff --git a/reflex/.templates/apps/base/code/pages/index.py b/reflex/.templates/apps/sidebar/code/pages/index.py
+similarity index 100%
+rename from reflex/.templates/apps/base/code/pages/index.py
+rename to reflex/.templates/apps/sidebar/code/pages/index.py
+diff --git a/reflex/.templates/apps/base/code/pages/settings.py b/reflex/.templates/apps/sidebar/code/pages/settings.py
+similarity index 100%
+rename from reflex/.templates/apps/base/code/pages/settings.py
+rename to reflex/.templates/apps/sidebar/code/pages/settings.py
+diff --git a/reflex/.templates/apps/base/code/base.py b/reflex/.templates/apps/sidebar/code/sidebar.py
+similarity index 100%
+rename from reflex/.templates/apps/base/code/base.py
+rename to reflex/.templates/apps/sidebar/code/sidebar.py
+diff --git a/reflex/.templates/apps/base/code/state.py b/reflex/.templates/apps/sidebar/code/state.py
+similarity index 100%
+rename from reflex/.templates/apps/base/code/state.py
+rename to reflex/.templates/apps/sidebar/code/state.py
+diff --git a/reflex/.templates/apps/base/code/styles.py b/reflex/.templates/apps/sidebar/code/styles.py
+similarity index 97%
+rename from reflex/.templates/apps/base/code/styles.py
+rename to reflex/.templates/apps/sidebar/code/styles.py
+index 6261d3f..ca94b8d 100644
+--- a/reflex/.templates/apps/base/code/styles.py
++++ b/reflex/.templates/apps/sidebar/code/styles.py
+@@ -13,10 +13,9 @@ hover_accent_bg = {"_hover": {"bg": accent_color}}
+ content_width_vw = "90vw"
+ sidebar_width = "20em"
+ 
+-template_page_style = {"padding_top": "5em", "padding_x": ["auto", "2em"]}
++template_page_style = {"padding_top": "5em", "padding_x": ["auto", "2em"], "flex": "1"}
+ 
+ template_content_style = {
+-    "width": "100%",
+     "align_items": "flex-start",
+     "box_shadow": box_shadow,
+     "border_radius": border_radius,
+diff --git a/reflex/.templates/apps/base/code/templates/__init__.py b/reflex/.templates/apps/sidebar/code/templates/__init__.py
+similarity index 100%
+rename from reflex/.templates/apps/base/code/templates/__init__.py
+rename to reflex/.templates/apps/sidebar/code/templates/__init__.py
+diff --git a/reflex/.templates/apps/base/code/templates/template.py b/reflex/.templates/apps/sidebar/code/templates/template.py
+similarity index 97%
+rename from reflex/.templates/apps/base/code/templates/template.py
+rename to reflex/.templates/apps/sidebar/code/templates/template.py
+index 03111d6..a1d5b44 100644
+--- a/reflex/.templates/apps/base/code/templates/template.py
++++ b/reflex/.templates/apps/sidebar/code/templates/template.py
+@@ -77,7 +77,7 @@ def template(
+         title: The title of the page.
+         image: The favicon of the page.
+         description: The description of the page.
+-        meta: Additionnal meta to add to the page.
++        meta: Additional meta to add to the page.
+         on_load: The event handler(s) called when the page load.
+         script_tags: Scripts to attach to the page.
+ 
+@@ -116,7 +116,6 @@ def template(
+                     ),
+                     **styles.template_page_style,
+                 ),
+-                rx.spacer(),
+                 menu_button(),
+                 align_items="flex-start",
+                 transition="left 0.5s, width 0.5s",
+diff --git a/reflex/.templates/web/utils/helpers/dataeditor.js b/reflex/.templates/web/utils/helpers/dataeditor.js
+index bd8ce89..7dbe95f 100644
+--- a/reflex/.templates/web/utils/helpers/dataeditor.js
++++ b/reflex/.templates/web/utils/helpers/dataeditor.js
+@@ -1,9 +1,8 @@
+ import { GridCellKind } from "@glideapps/glide-data-grid"
+ 
+ export function getDEColumn(columns, col) {
+-    let c = columns[col];
+-    c.pos = col;
+-    return c;
++    // Return a copy of the column, so the state data is not mutated.
++    return { ...columns[col], pos: col };
+ }
+ 
+ export function getDERow(data, row) {
+@@ -19,7 +18,7 @@ export function locateCell(row, column) {
+ }
+ 
+ export function formatCell(value, column) {
+-    const editable = column.editable || true
++    const editable = column.editable ?? true
+     switch (column.type) {
+         case "int":
+         case "float":
+@@ -31,7 +30,7 @@ export function formatCell(value, column) {
+                 allowOverlay: editable,
+             }
+         case "datetime":
+-        // value = moment format?
++        // TODO: use the moment format for datetime values.
+         case "str":
+             return {
+                 kind: GridCellKind.Text,
+diff --git a/reflex/.templates/web/utils/state.js b/reflex/.templates/web/utils/state.js
+index 1c0c637..0bdf185 100644
+--- a/reflex/.templates/web/utils/state.js
++++ b/reflex/.templates/web/utils/state.js
+@@ -67,24 +67,55 @@ export const getToken = () => {
+   return token;
+ };
+ 
++// Domains where each forwarded port is exposed on its own hostname.
++const PORT_FORWARDING_DOMAINS = ["app.github.dev", "githubpreview.dev"];
++
+ /**
+- * Get the URL for the websocket connection
+- * @returns The websocket URL object.
++ * Get the URL to reach the backend from the browser.
++ * @param url_str The backend URL as configured in the app.
++ * @returns The backend URL object.
+  */
+-export const getEventURL = () => {
++export const getBackendURL = (url_str) => {
+   // Get backend URL object from the endpoint.
+-  const endpoint = new URL(EVENTURL);
++  const endpoint = new URL(url_str);
++  if (typeof window === "undefined") {
++    return endpoint;
++  }
+   if (endpoint.hostname === "localhost") {
+     // If the backend URL references localhost, and the frontend is not on localhost,
+     // then use the frontend host.
+     const frontend_hostname = window.location.hostname;
+     if (frontend_hostname !== "localhost") {
+-      endpoint.hostname = frontend_hostname;
++      const port_forwarded =
++        endpoint.port &&
++        PORT_FORWARDING_DOMAINS.some((domain) =>
++          frontend_hostname.endsWith(domain)
++        );
++      if (port_forwarded) {
++        // Services like Github Codespaces forward each port on its own hostname,
++        // so the backend port has to be swapped into the frontend hostname.
++        endpoint.hostname = frontend_hostname.replace(
++          /-\d+\./,
++          `-${endpoint.port}.`
++        );
++        endpoint.port = "";
++        endpoint.protocol = window.location.protocol;
++      } else {
++        endpoint.hostname = frontend_hostname;
++      }
+     }
+   }
+   return endpoint
+ }
+ 
++/**
++ * Get the URL for the websocket connection
++ * @returns The websocket URL object.
++ */
++export const getEventURL = () => {
++  return getBackendURL(EVENTURL)
++}
++
+ /**
+  * Apply a delta to the state.
+  * @param state The state to apply the delta to.
+@@ -200,7 +231,11 @@ export const applyEvent = async (event, socket) => {
+     try {
+       const eval_result = eval(event.payload.javascript_code);
+       if (event.payload.callback) {
+-        eval(event.payload.callback)(eval_result)
++        if (!!eval_result && typeof eval_result.then === "function") {
++          eval(event.payload.callback)(await eval_result)
++        } else {
++          eval(event.payload.callback)(eval_result)
++        }
+       }
+     } catch (e) {
+       console.log("_call_script", e);
+@@ -362,7 +397,7 @@ export const uploadFiles = async (handler, files) => {
+   }
+ 
+   // Send the file to the server.
+-  await axios.post(UPLOADURL, formdata, headers)
++  await axios.post(getBackendURL(UPLOADURL).href, formdata, headers)
+     .then(() => { return true; })
+     .catch(
+       error => {
+@@ -486,8 +521,13 @@ export const useEventLoop = (
+   const [connectError, setConnectError] = useState(null)
+ 
+   // Function to add new events to the event queue.
+-  const addEvents = (events, _e) => {
+-    preventDefault(_e);
++  const addEvents = (events, _e, event_actions) => {
++    if (event_actions?.preventDefault && _e?.preventDefault) {
++      _e.preventDefault();
++    }
++    if (event_actions?.stopPropagation && _e?.stopPropagation) {
++      _e.stopPropagation();
++    }
+     queueEvents(events, socket)
+   }
+ 
+diff --git a/reflex/__init__.py b/reflex/__init__.py
+index 34f9e9b..017d7b7 100644
+--- a/reflex/__init__.py
++++ b/reflex/__init__.py
+@@ -24,12 +24,14 @@ from .event import call_script as call_script
+ from .event import clear_local_storage as clear_local_storage
+ from .event import console_log as console_log
+ from .event import download as download
++from .event import prevent_default as prevent_default
+ from .event import redirect as redirect
+ from .event import remove_cookie as remove_cookie
+ from .event import remove_local_storage as remove_local_storage
+ from .event import set_clipboard as set_clipboard
+ from .event import set_focus as set_focus
+ from .event import set_value as set_value
++from .event import stop_propagation as stop_propagation
+ from .event import window_alert as window_alert
+ from .middleware import Middleware as Middleware
+ from .model import Model as Model
+diff --git a/reflex/components/component.py b/reflex/components/component.py
+index ee9c99a..a61f268 100644
+--- a/reflex/components/component.py
++++ b/reflex/components/component.py
+@@ -20,6 +20,7 @@ from reflex.event import (
+ )
+ from reflex.style import Style
+ from reflex.utils import console, format, imports, types
++from reflex.utils.serializers import serializer
+ from reflex.vars import BaseVar, ImportVar, Var
+ 
+ 
+@@ -219,7 +220,12 @@ class Component(Base, ABC):
+         self,
+         event_trigger: str,
+         value: Union[
+-            Var, EventHandler, EventSpec, List[Union[EventHandler, EventSpec]], Callable
++            Var,
++            EventHandler,
++            EventSpec,
++            List[Union[EventHandler, EventSpec]],
++            Callable,
++            EventChain,
+         ],
+     ) -> Union[EventChain, Var]:
+         """Create an event chain from a variety of input types.
+@@ -251,8 +257,13 @@ class Component(Base, ABC):
+             wrapped = True
+             value = [value]
+ 
++        # If the input is an event chain, take its events and actions as is.
++        if isinstance(value, EventChain):
++            events = value.events
++            chain_event_actions = value.event_actions
++
+         # If the input is a list of event handlers, create an event chain.
+-        if isinstance(value, List):
++        elif isinstance(value, List):
+             if not wrapped:
+                 console.deprecate(
+                     feature_name="EventChain",
+@@ -261,6 +272,7 @@ class Component(Base, ABC):
+                     removal_version="0.3.0",
+                 )
+             events = []
++            chain_event_actions = {}
+             for v in value:
+                 if isinstance(v, EventHandler):
+                     # Call the event handler to get the event.
+@@ -285,26 +297,31 @@ class Component(Base, ABC):
+         # If the input is a callable, create an event chain.
+         elif isinstance(value, Callable):
+             events = call_event_fn(value, arg_spec)  # type: ignore
++            chain_event_actions = {}
+ 
+         # Otherwise, raise an error.
+         else:
+             raise ValueError(f"Invalid event chain: {value}")
+ 
+         # Add args to the event specs if necessary.
+-        events = [
+-            EventSpec(
+-                handler=e.handler,
+-                args=get_handler_args(e),
+-                client_handler_name=e.client_handler_name,
+-            )
+-            for e in events
+-        ]
++        events = [e.with_args(get_handler_args(e)) for e in events]
++
++        # Collect event_actions from each spec
++        event_actions = {**chain_event_actions}
++        for e in events:
++            event_actions.update(e.event_actions)
+ 
+         # Return the event chain.
+         if isinstance(arg_spec, Var):
+-            return EventChain(events=events, args_spec=None)
++            return EventChain(
++                events=events, args_spec=None, event_actions=event_actions
++            )
+         else:
+-            return EventChain(events=events, args_spec=arg_spec)  # type: ignore
++            return EventChain(
++                events=events,
++                args_spec=arg_spec,  # type: ignore
++                event_actions=event_actions,
++            )
+ 
+     def get_event_triggers(self) -> Dict[str, Any]:
+         """Get the event triggers for the component.
+@@ -382,6 +399,20 @@ class Component(Base, ABC):
+         """
+         return set(cls.get_fields()) - set(Component.get_fields())
+ 
++    @classmethod
++    def get_component_props(cls) -> set[str]:
++        """Get the props that expected a component as value.
++
++        Returns:
++            The set of component props.
++        """
++        return {
++            name
++            for name, field in cls.get_fields().items()
++            if name in cls.get_props()
++            and types._issubclass(field.outer_type_, Component)
++        }
++
+     @classmethod
+     def get_initial_props(cls) -> Set[str]:
+         """Get the initial props to set for the component.
+@@ -592,11 +623,27 @@ class Component(Base, ABC):
+             dep: {ImportVar(tag=None, render=False)} for dep in self.lib_dependencies
+         }
+ 
++    def _get_props_imports(self) -> List[imports.ImportDict]:
++        """Get the imports needed for components props.
++
++        Returns:
++            The imports for the components props of the component.
++        """
++        return [
++            getattr(self, prop).get_imports()
++            for prop in self.get_component_props()
++            if getattr(self, prop) is not None
++        ]
++
+     def _get_imports(self) -> imports.ImportDict:
+-        imports = {}
++        _imports = {}
+         if self.library is not None and self.tag is not None:
+-            imports[self.library] = {self.import_var}
+-        return {**self._get_dependencies_imports(), **imports}
++            _imports[self.library] = {self.import_var}
++        return imports.merge_imports(
++            *self._get_props_imports(),
++            self._get_dependencies_imports(),
++            _imports,
++        )
+ 
+     def get_imports(self) -> imports.ImportDict:
+         """Get all the libraries and fields that are used by the component.
+@@ -979,3 +1026,16 @@ class NoSSRComponent(Component):
+             else ""
+         )
+         return "".join((library_import, mod_import, opts_fragment))
++
++
++@serializer
++def serialize_component(comp: Component) -> str:
++    """Serialize a component.
++
++    Args:
++        comp: The component to serialize.
++
++    Returns:
++        The serialized component.
++    """
++    return str(comp)
+diff --git a/reflex/components/datadisplay/dataeditor.py b/reflex/components/datadisplay/dataeditor.py
+index 6f4fc8c..c6111a7 100644
+--- a/reflex/components/datadisplay/dataeditor.py
++++ b/reflex/components/datadisplay/dataeditor.py
+@@ -211,11 +211,10 @@ class DataEditor(NoSSRComponent):
+                 },
+                 self.library: {ImportVar(tag="GridCellKind")},
+                 "/utils/helpers/dataeditor.js": {
+-                    ImportVar(tag=f"getDEColumn", is_default=False, install=False),
+-                    ImportVar(tag=f"getDERow", is_default=False, install=False),
+-                    ImportVar(tag=f"locateCell", is_default=False, install=False),
+-                    ImportVar(tag=f"formatCell", is_default=False, install=False),
+-                    ImportVar(tag=f"onEditCell", is_default=False, install=False),
++                    ImportVar(tag="getDEColumn", is_default=False, install=False),
++                    ImportVar(tag="getDERow", is_default=False, install=False),
++                    ImportVar(tag="locateCell", is_default=False, install=False),
++                    ImportVar(tag="formatCell", is_default=False, install=False),
+                 },
+             },
+         )
+@@ -246,6 +245,7 @@ class DataEditor(NoSSRComponent):
+             "on_finished_editing": lambda new_value, movement: [new_value, movement],
+             "on_row_appended": lambda: [],
+             "on_selection_cleared": lambda: [],
++            "on_column_resize": lambda col, width: [col, width],
+         }
+ 
+     def _get_hooks(self) -> str | None:
+@@ -258,23 +258,42 @@ class DataEditor(NoSSRComponent):
+ 
+         code = [f"function {data_callback}([col, row])" "{"]
+ 
++        columns_path = self.columns._var_full_name
++        data_path = self.data._var_full_name
++
+         code.extend(
+             [
+-                f"  if (row < {self.data._var_full_name}.length && col < {self.columns._var_full_name}.length)"
+-                " {",
+-                f"    const column = getDEColumn({self.columns._var_full_name}, col);",
+-                f"    const rowData = getDERow({self.data._var_full_name}, row);",
+-                f"    const cellData = locateCell(rowData, column);",
++                f"  if (row < {data_path}.length && col < {columns_path}.length)" " {",
++                f"    const column = getDEColumn({columns_path}, col);",
++                f"    const rowData = getDERow({data_path}, row);",
++                "    const cellData = locateCell(rowData, column);",
+                 "    return formatCell(cellData, column);",
+                 "  }",
+-                "  return { kind: GridCellKind.Loading};",
++                "  return { kind: GridCellKind.Loading };",
++                "}",
+             ]
+         )
+ 
+-        code.append("}")
+-
+         return "\n".join(code)
+ 
++    def _get_app_wrap_components(self) -> dict[tuple[int, str], Component]:
++        """Get the app wrap components for the component.
++
++        Returns:
++            The app wrap components.
++        """
++        from reflex.el.elements import Div
++
++        return {
++            (-1, "DataEditorPortal"): Div.create(
++                id="portal",
++                position="fixed",
++                top=0,
++                left=0,
++                z_index=9999,
++            )
++        }
++
+     @classmethod
+     def create(cls, *children, **props) -> Component:
+         """Create the DataEditor component.
+@@ -335,7 +354,6 @@ class DataEditor(NoSSRComponent):
+         grid = super().create(*children, **props)
+         return Div.create(
+             grid,
+-            Div.create(id="portal"),
+             width=props.pop("width", "100%"),
+             height=props.pop("height", "100%"),
+         )
+diff --git a/reflex/components/datadisplay/dataeditor.pyi b/reflex/components/datadisplay/dataeditor.pyi
+index 756215e..670c80c 100644
+--- a/reflex/components/datadisplay/dataeditor.pyi
++++ b/reflex/components/datadisplay/dataeditor.pyi
+@@ -3,7 +3,7 @@
+ # This file was generated by `scripts/pyi_generator.py`!
+ # ------------------------------------------------------
+ 
+-from typing import Dict, Union, Literal, overload, List, Any, Optional
++from typing import overload, Optional, Any, Union, List, Literal, Dict
+ from reflex.vars import Var, BaseVar, ComputedVar
+ from reflex.event import EventChain, EventHandler, EventSpec
+ from reflex.style import Style
+@@ -115,6 +115,9 @@ class DataEditor(NoSSRComponent):
+         on_cell_edited: Optional[
+             Union[EventHandler, EventSpec, List, function, BaseVar]
+         ] = None,
++        on_column_resize: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
+         on_delete: Optional[
+             Union[EventHandler, EventSpec, List, function, BaseVar]
+         ] = None,
+diff --git a/reflex/components/datadisplay/moment.py b/reflex/components/datadisplay/moment.py
+index 9ae8381..7ee31e5 100644
+--- a/reflex/components/datadisplay/moment.py
++++ b/reflex/components/datadisplay/moment.py
+@@ -29,7 +29,7 @@ class Moment(NoSSRComponent):
+ 
+     # NOT IMPLEMENTED :
+     # add
+-    # substract
++    # subtract
+ 
+     # Displays the date as the time from now, e.g. "5 minutes ago".
+     from_now: Var[bool]
+diff --git a/reflex/components/forms/form.py b/reflex/components/forms/form.py
+index 2572c57..030d752 100644
+--- a/reflex/components/forms/form.py
++++ b/reflex/components/forms/form.py
+@@ -1,10 +1,11 @@
+ """Form components."""
+ 
+-from typing import Any, Dict
++from typing import Any, Callable, Dict, List, Union
+ 
+ from reflex.components.component import Component
+ from reflex.components.libs.chakra import ChakraComponent
+ from reflex.constants import EventTriggers
++from reflex.event import EventChain, EventHandler, EventSpec
+ from reflex.vars import Var
+ 
+ 
+@@ -16,6 +17,32 @@ class Form(ChakraComponent):
+     # What the form renders to.
+     as_: Var[str] = "form"  # type: ignore
+ 
++    def _create_event_chain(
++        self,
++        event_trigger: str,
++        value: Union[
++            Var,
++            EventHandler,
++            EventSpec,
++            List[Union[EventHandler, EventSpec]],
++            Callable,
++            EventChain,
++        ],
++    ) -> Union[EventChain, Var]:
++        """Override the event chain creation to preventDefault for on_submit.
++
++        Args:
++            event_trigger: The event trigger.
++            value: The value of the event trigger.
++
++        Returns:
++            The event chain.
++        """
++        chain = super()._create_event_chain(event_trigger, value)
++        if event_trigger == EventTriggers.ON_SUBMIT and isinstance(chain, EventChain):
++            return chain.prevent_default
++        return chain
++
+     def get_event_triggers(self) -> Dict[str, Any]:
+         """Get the event triggers that pass the component's value to the handler.
+ 
+diff --git a/reflex/components/forms/iconbutton.py b/reflex/components/forms/iconbutton.py
+index 59f5b60..4562932 100644
+--- a/reflex/components/forms/iconbutton.py
++++ b/reflex/components/forms/iconbutton.py
+@@ -1,5 +1,7 @@
+ """An icon button component."""
++from typing import Optional
+ 
++from reflex.components.component import Component
+ from reflex.components.typography.text import Text
+ from reflex.vars import Var
+ 
+@@ -16,7 +18,7 @@ class IconButton(Text):
+     aria_label: Var[str]
+ 
+     # The icon to be used in the button.
+-    icon: Var[str]
++    icon: Optional[Component]
+ 
+     # If true, the button will be styled in its active state.
+     is_active: Var[bool]
+diff --git a/reflex/components/forms/iconbutton.pyi b/reflex/components/forms/iconbutton.pyi
+index 9d50c91..c95992c 100644
+--- a/reflex/components/forms/iconbutton.pyi
++++ b/reflex/components/forms/iconbutton.pyi
+@@ -12,7 +12,7 @@ from reflex.event import EventHandler, EventChain, EventSpec
+ class IconButton(Text):
+     @overload
+     @classmethod
+-    def create(cls, *children, type: Optional[Union[Var[str], str]] = None, aria_label: Optional[Union[Var[str], str]] = None, icon: Optional[Union[Var[str], str]] = None, is_active: Optional[Union[Var[bool], bool]] = None, is_disabled: Optional[Union[Var[bool], bool]] = None, is_loading: Optional[Union[Var[bool], bool]] = None, is_round: Optional[Union[Var[bool], bool]] = None, spinner: Optional[Union[Var[str], str]] = None, on_blur: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_click: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_context_menu: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_double_click: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_focus: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mount: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_down: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_enter: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_leave: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_move: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_out: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_over: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_up: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_scroll: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_unmount: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, **props) -> "IconButton":  # type: ignore
++    def create(cls, *children, type: Optional[Union[Var[str], str]] = None, aria_label: Optional[Union[Var[str], str]] = None, icon: Optional[Component] = None, is_active: Optional[Union[Var[bool], bool]] = None, is_disabled: Optional[Union[Var[bool], bool]] = None, is_loading: Optional[Union[Var[bool], bool]] = None, is_round: Optional[Union[Var[bool], bool]] = None, spinner: Optional[Union[Var[str], str]] = None, on_blur: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_click: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_context_menu: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_double_click: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_focus: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mount: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_down: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_enter: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_leave: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_move: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_out: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_over: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_up: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_scroll: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_unmount: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, **props) -> "IconButton":  # type: ignore
+         """Create the component.
+ 
+         Args:
+diff --git a/reflex/components/forms/pininput.py b/reflex/components/forms/pininput.py
+index 4d81df7..62eb5d0 100644
+--- a/reflex/components/forms/pininput.py
++++ b/reflex/components/forms/pininput.py
+@@ -16,7 +16,7 @@ class PinInput(ChakraComponent):
+ 
+     tag = "PinInput"
+ 
+-    # State var to bind the the input.
++    # State var to bind the input.
+     value: Var[str]
+ 
+     # If true, the pin input receives focus on mount
+diff --git a/reflex/components/forms/pininput.pyi b/reflex/components/forms/pininput.pyi
+index aff296a..f6d0224 100644
+--- a/reflex/components/forms/pininput.pyi
++++ b/reflex/components/forms/pininput.pyi
+@@ -20,7 +20,7 @@ class PinInput(ChakraComponent):
+ 
+         Args:
+             *children: The children of the component.
+-            value: State var to bind the the input.
++            value: State var to bind the input.
+             auto_focus: If true, the pin input receives focus on mount
+             default_value: The default value of the pin input
+             error_border_color: The border color when the input is invalid.
+diff --git a/reflex/components/forms/radio.py b/reflex/components/forms/radio.py
+index 81fdcb2..c33a2d8 100644
+--- a/reflex/components/forms/radio.py
++++ b/reflex/components/forms/radio.py
+@@ -17,7 +17,7 @@ class RadioGroup(ChakraComponent):
+ 
+     tag = "RadioGroup"
+ 
+-    # State var to bind the the input.
++    # State var to bind the input.
+     value: Var[Any]
+ 
+     # The default value.
+diff --git a/reflex/components/forms/radio.pyi b/reflex/components/forms/radio.pyi
+index 769f9e9..be321ca 100644
+--- a/reflex/components/forms/radio.pyi
++++ b/reflex/components/forms/radio.pyi
+@@ -18,7 +18,7 @@ class RadioGroup(ChakraComponent):
+ 
+         Args:
+             *children: The children of the component.
+-            value: State var to bind the the input.
++            value: State var to bind the input.
+             default_value: The default value.
+             **props: The props of the component.
+ 
+diff --git a/reflex/components/forms/rangeslider.py b/reflex/components/forms/rangeslider.py
+index 9879d0c..4802fec 100644
+--- a/reflex/components/forms/rangeslider.py
++++ b/reflex/components/forms/rangeslider.py
+@@ -15,7 +15,7 @@ class RangeSlider(ChakraComponent):
+ 
+     tag = "RangeSlider"
+ 
+-    # State var to bind the the input.
++    # State var to bind the input.
+     value: Var[List[int]]
+ 
+     # The default values.
+diff --git a/reflex/components/forms/rangeslider.pyi b/reflex/components/forms/rangeslider.pyi
+index 5e2c01f..ffd6a81 100644
+--- a/reflex/components/forms/rangeslider.pyi
++++ b/reflex/components/forms/rangeslider.pyi
+@@ -19,7 +19,7 @@ class RangeSlider(ChakraComponent):
+ 
+         Args:
+             *children: The children of the component.
+-            value: State var to bind the the input.
++            value: State var to bind the input.
+             default_value: The default values.
+             direction: The writing mode ("ltr" | "rtl")
+             focus_thumb_on_change: If false, the slider handle will not capture focus when value changes.
+diff --git a/reflex/components/graphing/recharts/charts.py b/reflex/components/graphing/recharts/charts.py
+index bc598b5..afec62c 100644
+--- a/reflex/components/graphing/recharts/charts.py
++++ b/reflex/components/graphing/recharts/charts.py
+@@ -282,10 +282,10 @@ class RadarChart(ChartBase):
+ 
+     alias = "RechartsRadarChart"
+ 
+-    # The The x-coordinate of center. If set a percentage, the final value is obtained by multiplying the percentage of width. Number | Percentage
++    # The x-coordinate of center. If set a percentage, the final value is obtained by multiplying the percentage of width. Number | Percentage
+     cx: Var[Union[int, str]]
+ 
+-    # The The y-coordinate of center. If set a percentage, the final value is obtained by multiplying the percentage of height. Number | Percentage
++    # The y-coordinate of center. If set a percentage, the final value is obtained by multiplying the percentage of height. Number | Percentage
+     cy: Var[Union[int, str]]
+ 
+     # The angle of first radial direction line.
+@@ -331,10 +331,10 @@ class RadialBarChart(ChartBase):
+ 
+     alias = "RechartsRadialBarChart"
+ 
+-    # The The x-coordinate of center. If set a percentage, the final value is obtained by multiplying the percentage of width. Number | Percentage
++    # The x-coordinate of center. If set a percentage, the final value is obtained by multiplying the percentage of width. Number | Percentage
+     cx: Var[Union[int, str]]
+ 
+-    # The The y-coordinate of center. If set a percentage, the final value is obtained by multiplying the percentage of height. Number | Percentage
++    # The y-coordinate of center. If set a percentage, the final value is obtained by multiplying the percentage of height. Number | Percentage
+     cy: Var[Union[int, str]]
+ 
+     # The angle of first radial direction line.
+diff --git a/reflex/components/graphing/recharts/charts.pyi b/reflex/components/graphing/recharts/charts.pyi
+index 3db7ce5..aa921bc 100644
+--- a/reflex/components/graphing/recharts/charts.pyi
++++ b/reflex/components/graphing/recharts/charts.pyi
+@@ -133,8 +133,8 @@ class RadarChart(ChartBase):
+ 
+         Args:
+             *children: The children of the chart component.
+-            cx: The The x-coordinate of center. If set a percentage, the final value is obtained by multiplying the percentage of width. Number | Percentage
+-            cy: The The y-coordinate of center. If set a percentage, the final value is obtained by multiplying the percentage of height. Number | Percentage
++            cx: The x-coordinate of center. If set a percentage, the final value is obtained by multiplying the percentage of width. Number | Percentage
++            cy: The y-coordinate of center. If set a percentage, the final value is obtained by multiplying the percentage of height. Number | Percentage
+             start_angle: The angle of first radial direction line.
+             end_angle: The angle of last point in the circle which should be startAngle - 360 or startAngle + 360. We'll calculate the direction of chart by 'startAngle' and 'endAngle'.
+             inner_radius: The inner radius of first circle grid. If set a percentage, the final value is obtained by multiplying the percentage of maxRadius which is calculated by the width, height, cx, cy. Number | Percentage
+@@ -155,8 +155,8 @@ class RadialBarChart(ChartBase):
+ 
+         Args:
+             *children: The children of the chart component.
+-            cx: The The x-coordinate of center. If set a percentage, the final value is obtained by multiplying the percentage of width. Number | Percentage
+-            cy: The The y-coordinate of center. If set a percentage, the final value is obtained by multiplying the percentage of height. Number | Percentage
++            cx: The x-coordinate of center. If set a percentage, the final value is obtained by multiplying the percentage of width. Number | Percentage
++            cy: The y-coordinate of center. If set a percentage, the final value is obtained by multiplying the percentage of height. Number | Percentage
+             start_angle: The angle of first radial direction line.
+             end_angle: The angle of last point in the circle which should be startAngle - 360 or startAngle + 360. We'll calculate the direction of chart by 'startAngle' and 'endAngle'.
+             inner_radius: The inner radius of first circle grid. If set a percentage, the final value is obtained by multiplying the percentage of maxRadius which is calculated by the width, height, cx, cy. Number | Percentage
+diff --git a/reflex/components/layout/foreach.py b/reflex/components/layout/foreach.py
+index 3256155..7f6fc7a 100644
+--- a/reflex/components/layout/foreach.py
++++ b/reflex/components/layout/foreach.py
+@@ -6,6 +6,7 @@ from typing import Any, Callable, Iterable
+ from reflex.components.component import Component
+ from reflex.components.layout.fragment import Fragment
+ from reflex.components.tags import IterTag
++from reflex.components.tags.iter_tag import INDEX_VAR
+ from reflex.vars import BaseVar, Var, get_unique_variable_name
+ 
+ 
+@@ -18,6 +19,10 @@ class Foreach(Component):
+     # A function from the render args to the component.
+     render_fn: Callable = Fragment.create
+ 
++    # The name of the index var in the rendered javascript, unique per component
++    # so that nested foreach loops do not overshadow each other.
++    index_var_name: str = INDEX_VAR
++
+     @classmethod
+     def create(cls, iterable: Var[Iterable], render_fn: Callable, **props) -> Foreach:
+         """Create a foreach component.
+@@ -47,15 +52,20 @@ class Foreach(Component):
+                 f"Could not foreach over var of type Any. (If you are trying to foreach over a state var, add a type annotation to the var.)"
+             )
+         arg = BaseVar(_var_name="_", _var_type=type_, _var_is_local=True)
+-        return cls(
++        component = cls(
+             iterable=iterable,
+             render_fn=render_fn,
+-            children=[IterTag.render_component(render_fn, arg=arg)],
+             **props,
+         )
++        component.children = [component._render().render_component(render_fn, arg=arg)]
++        return component
+ 
+     def _render(self) -> IterTag:
+-        return IterTag(iterable=self.iterable, render_fn=self.render_fn)
++        return IterTag(
++            iterable=self.iterable,
++            render_fn=self.render_fn,
++            index_var_name=self.index_var_name,
++        )
+ 
+     def render(self):
+         """Render the component.
+diff --git a/reflex/components/libs/chakra.py b/reflex/components/libs/chakra.py
+index 1664d49..d77eba2 100644
+--- a/reflex/components/libs/chakra.py
++++ b/reflex/components/libs/chakra.py
+@@ -182,6 +182,7 @@ LiteralInputNumberMode = [
+ LiteralChakraDirection = Literal["ltr", "rtl"]
+ LiteralCardVariant = Literal["outline", "filled", "elevated", "unstyled"]
+ LiteralStackDirection = Literal["row", "column"]
++LiteralStepperOrientation = Literal["vertical", "horizontal"]
+ LiteralImageLoading = Literal["eager", "lazy"]
+ LiteralTagSize = Literal["sm", "md", "lg"]
+ LiteralSpinnerSize = Literal[Literal[LiteralTagSize], "xs", "xl"]
+diff --git a/reflex/components/navigation/stepper.py b/reflex/components/navigation/stepper.py
+index e99e9e8..6439471 100644
+--- a/reflex/components/navigation/stepper.py
++++ b/reflex/components/navigation/stepper.py
+@@ -3,7 +3,11 @@
+ from typing import List, Optional, Tuple
+ 
+ from reflex.components.component import Component
+-from reflex.components.libs.chakra import ChakraComponent, LiteralColorScheme
++from reflex.components.libs.chakra import (
++    ChakraComponent,
++    LiteralColorScheme,
++    LiteralStepperOrientation,
++)
+ from reflex.vars import Var
+ 
+ 
+@@ -24,6 +28,9 @@ class Stepper(ChakraComponent):
+     # The size of the steps in the stepper.
+     size: Var[str]
+ 
++    # The orientation of the stepper.
++    orientation: Var[LiteralStepperOrientation]
++
+     @classmethod
+     def create(
+         cls, *children, items: Optional[List[Tuple]] = None, **props
+diff --git a/reflex/components/navigation/stepper.pyi b/reflex/components/navigation/stepper.pyi
+index 8cb4dc8..27563a5 100644
+--- a/reflex/components/navigation/stepper.pyi
++++ b/reflex/components/navigation/stepper.pyi
+@@ -12,7 +12,7 @@ from reflex.event import EventHandler, EventChain, EventSpec
+ class Stepper(ChakraComponent):
+     @overload
+     @classmethod
+-    def create(cls, *children, items: Optional[List[Tuple]] = None, colorScheme: Optional[Union[Var[Literal["gray", "red", "orange", "yellow", "green", "teal", "blue", "cyan", "purple", "pink", "whiteAlpha", "blackAlpha", "linkedin", "facebook", "messenger", "whatsapp", "twitter", "telegram"]], Literal["gray", "red", "orange", "yellow", "green", "teal", "blue", "cyan", "purple", "pink", "whiteAlpha", "blackAlpha", "linkedin", "facebook", "messenger", "whatsapp", "twitter", "telegram"]]] = None, index: Optional[Union[Var[int], int]] = None, size: Optional[Union[Var[str], str]] = None, on_blur: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_click: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_context_menu: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_double_click: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_focus: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mount: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_down: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_enter: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_leave: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_move: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_out: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_over: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_up: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_scroll: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_unmount: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, **props) -> "Stepper":  # type: ignore
++    def create(cls, *children, items: Optional[List[Tuple]] = None, colorScheme: Optional[Union[Var[Literal["gray", "red", "orange", "yellow", "green", "teal", "blue", "cyan", "purple", "pink", "whiteAlpha", "blackAlpha", "linkedin", "facebook", "messenger", "whatsapp", "twitter", "telegram"]], Literal["gray", "red", "orange", "yellow", "green", "teal", "blue", "cyan", "purple", "pink", "whiteAlpha", "blackAlpha", "linkedin", "facebook", "messenger", "whatsapp", "twitter", "telegram"]]] = None, index: Optional[Union[Var[int], int]] = None, size: Optional[Union[Var[str], str]] = None, orientation: Optional[Union[Var[Literal["vertical", "horizontal"]], Literal["vertical", "horizontal"]]] = None, on_blur: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_click: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_context_menu: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_double_click: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_focus: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mount: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_down: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_enter: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_leave: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_move: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_out: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_over: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_up: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_scroll: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_unmount: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, **props) -> "Stepper":  # type: ignore
+         """Create a Stepper component.
+ 
+                If the kw-args `items` is provided and is a list, they will be added as children.
+@@ -24,6 +24,7 @@ class Stepper(ChakraComponent):
+         Instead, use an integer state value to set progress in the stepper.
+         The index of the current step.
+                    size: The size of the steps in the stepper.
++                   orientation: The orientation of the stepper.
+                    items (list): The child components for each step.
+                    **props: The properties of the component.
+ 
+diff --git a/reflex/components/tags/iter_tag.py b/reflex/components/tags/iter_tag.py
+index e70e241..e5367ec 100644
+--- a/reflex/components/tags/iter_tag.py
++++ b/reflex/components/tags/iter_tag.py
+@@ -5,7 +5,7 @@ import inspect
+ from typing import TYPE_CHECKING, Callable, List
+ 
+ from reflex.components.tags.tag import Tag
+-from reflex.vars import BaseVar, Var
++from reflex.vars import BaseVar, Var, get_unique_variable_name
+ 
+ if TYPE_CHECKING:
+     from reflex.components.component import Component
+@@ -23,33 +23,33 @@ class IterTag(Tag):
+     # The component render function for each item in the iterable.
+     render_fn: Callable
+ 
+-    @staticmethod
+-    def get_index_var() -> Var:
++    # The name of the index var used when rendering this iteration.
++    index_var_name: str = INDEX_VAR
++
++    def get_index_var(self) -> Var:
+         """Get the index var for the tag.
+ 
+         Returns:
+             The index var.
+         """
+         return BaseVar(
+-            _var_name=INDEX_VAR,
++            _var_name=self.index_var_name,
+             _var_type=int,
+         )
+ 
+-    @staticmethod
+-    def get_index_var_arg() -> Var:
++    def get_index_var_arg(self) -> Var:
+         """Get the index var for the tag.
+ 
+         Returns:
+             The index var.
+         """
+         return BaseVar(
+-            _var_name=INDEX_VAR,
++            _var_name=self.index_var_name,
+             _var_type=int,
+             _var_is_local=True,
+         )
+ 
+-    @staticmethod
+-    def render_component(render_fn: Callable, arg: Var) -> Component:
++    def render_component(self, render_fn: Callable, arg: Var) -> Component:
+         """Render the component.
+ 
+         Args:
+@@ -66,7 +66,7 @@ class IterTag(Tag):
+ 
+         # Get the render function arguments.
+         args = inspect.getfullargspec(render_fn).args
+-        index = IterTag.get_index_var()
++        index = self.get_index_var()
+ 
+         if len(args) == 1:
+             # If the render function doesn't take the index as an argument.
+@@ -84,4 +84,23 @@ class IterTag(Tag):
+         if component.key is None:
+             component.key = index
+ 
++        # Nested iterations get their own index var, so they do not
++        # overshadow the index var of this iteration.
++        set_nested_index_var_names(component)
++
+         return component
++
++
++def set_nested_index_var_names(component: Component):
++    """Give a unique index var name to each nested iteration of the component.
++
++    Args:
++        component: The component to search for nested iterations.
++    """
++    # Import here to avoid circular imports.
++    from reflex.components.layout.foreach import Foreach
++
++    for child in component.children:
++        if isinstance(child, Foreach):
++            child.index_var_name = get_unique_variable_name()
++        set_nested_index_var_names(child)
+diff --git a/reflex/config.py b/reflex/config.py
+index 9ab7dd5..137a247 100644
+--- a/reflex/config.py
++++ b/reflex/config.py
+@@ -185,6 +185,9 @@ class Config(Base):
+     # Additional frontend packages to install.
+     frontend_packages: List[str] = []
+ 
++    # The worker class used in production mode
++    gunicorn_worker_class: str = "uvicorn.workers.UvicornH11Worker"
++
+     # Params to remove eventually.
+     # For rest are for deploy only.
+     # The rxdeploy url.
+diff --git a/reflex/config.pyi b/reflex/config.pyi
+index ebe015f..f1efaf5 100644
+--- a/reflex/config.pyi
++++ b/reflex/config.pyi
+@@ -65,6 +65,7 @@ class Config(Base):
+     next_compression: bool
+     event_namespace: Optional[str]
+     frontend_packages: List[str]
++    gunicorn_worker_class: str
+     rxdeploy_url: Optional[str]
+     cp_backend_url: str
+     cp_web_url: str
+@@ -91,6 +92,7 @@ class Config(Base):
+         next_compression: Optional[bool] = None,
+         event_namespace: Optional[str] = None,
+         frontend_packages: Optional[List[str]] = None,
++        gunicorn_worker_class: Optional[str] = None,
+         rxdeploy_url: Optional[str] = None,
+         cp_backend_url: Optional[str] = None,
+         cp_web_url: Optional[str] = None,
+diff --git a/reflex/event.py b/reflex/event.py
+index 4221832..76993f2 100644
+--- a/reflex/event.py
++++ b/reflex/event.py
+@@ -101,7 +101,36 @@ def _no_chain_background_task(
+     raise TypeError(f"{fn} is marked as a background task, but is not async.")
+ 
+ 
+-class EventHandler(Base):
++class EventActionsMixin(Base):
++    """Mixin for DOM event actions."""
++
++    # Whether to `preventDefault` or `stopPropagation` on the event.
++    event_actions: Dict[str, bool] = {}
++
++    @property
++    def stop_propagation(self):
++        """Stop the event from bubbling up the DOM tree.
++
++        Returns:
++            New EventHandler-like with stopPropagation set to True.
++        """
++        return self.copy(
++            update={"event_actions": {"stopPropagation": True, **self.event_actions}},
++        )
++
++    @property
++    def prevent_default(self):
++        """Prevent the default behavior of the event.
++
++        Returns:
++            New EventHandler-like with preventDefault set to True.
++        """
++        return self.copy(
++            update={"event_actions": {"preventDefault": True, **self.event_actions}},
++        )
++
++
++class EventHandler(EventActionsMixin):
+     """An event handler responds to an event to update the state."""
+ 
+     # The function to call in response to the event.
+@@ -150,6 +179,7 @@ class EventHandler(Base):
+                     client_handler_name="uploadFiles",
+                     # `files` is defined in the Upload component's _use_hooks
+                     args=((Var.create_safe("files"), Var.create_safe("files")),),
++                    event_actions=self.event_actions.copy(),
+                 )
+ 
+             # Otherwise, convert to JSON.
+@@ -162,10 +192,12 @@ class EventHandler(Base):
+         payload = tuple(zip(fn_args, values))
+ 
+         # Return the event spec.
+-        return EventSpec(handler=self, args=payload)
++        return EventSpec(
++            handler=self, args=payload, event_actions=self.event_actions.copy()
++        )
+ 
+ 
+-class EventSpec(Base):
++class EventSpec(EventActionsMixin):
+     """An event specification.
+ 
+     Whereas an Event object is passed during runtime, a spec is used
+@@ -187,8 +219,24 @@ class EventSpec(Base):
+         # Required to allow tuple fields.
+         frozen = True
+ 
++    def with_args(self, args: Tuple[Tuple[Var, Var], ...]) -> EventSpec:
++        """Copy the event spec, with updated args.
+ 
+-class EventChain(Base):
++        Args:
++            args: The new args to pass to the function.
++
++        Returns:
++            The event spec with updated args.
++        """
++        return type(self)(
++            handler=self.handler,
++            client_handler_name=self.client_handler_name,
++            args=args,
++            event_actions=self.event_actions.copy(),
++        )
++
++
++class EventChain(EventActionsMixin):
+     """Container for a chain of events that will be executed in order."""
+ 
+     events: List[EventSpec]
+@@ -381,7 +429,7 @@ def set_clipboard(content: str) -> EventSpec:
+     )
+ 
+ 
+-def download(url: str, filename: Optional[str] = None) -> EventSpec:
++def download(url: str | Var, filename: Optional[str | Var] = None) -> EventSpec:
+     """Download the file at a given path.
+ 
+     Args:
+@@ -394,12 +442,16 @@ def download(url: str, filename: Optional[str] = None) -> EventSpec:
+     Returns:
+         EventSpec: An event to download the associated file.
+     """
+-    if not url.startswith("/"):
+-        raise ValueError("The URL argument should start with a /")
++    if isinstance(url, str):
++        if not url.startswith("/"):
++            raise ValueError("The URL argument should start with a /")
++
++        # if filename is not provided, infer it from url
++        if filename is None:
++            filename = url.rpartition("/")[-1]
+ 
+-    # if filename is not provided, infer it from url
+     if filename is None:
+-        filename = url.rpartition("/")[-1]
++        filename = ""
+ 
+     return server_side(
+         "_download",
+@@ -687,3 +739,8 @@ def get_fn_signature(fn: Callable) -> inspect.Signature:
+         "state", inspect.Parameter.POSITIONAL_OR_KEYWORD, annotation=Any
+     )
+     return signature.replace(parameters=(new_param, *signature.parameters.values()))
++
++
++# These chains can be used for their side effects when no other events are desired.
++stop_propagation = EventChain(events=[], args_spec=lambda: []).stop_propagation
++prevent_default = EventChain(events=[], args_spec=lambda: []).prevent_default
+diff --git a/reflex/page.py b/reflex/page.py
+index 784b4ee..d60b8eb 100644
+--- a/reflex/page.py
++++ b/reflex/page.py
+@@ -31,7 +31,7 @@ def page(
+         title: The title of the page.
+         image: The favicon of the page.
+         description: The description of the page.
+-        meta: Additionnal meta to add to the page.
++        meta: Additional meta to add to the page.
+         on_load: The event handler(s) called when the page load.
+         script_tags: scripts to attach to the page
+ 
+diff --git a/reflex/reflex.py b/reflex/reflex.py
+index dca9a16..eb95770 100644
+--- a/reflex/reflex.py
++++ b/reflex/reflex.py
+@@ -31,7 +31,11 @@ from reflex.utils import (
+ )
+ 
+ # Create the app.
+-cli = typer.Typer(add_completion=False)
++try:
++    cli = typer.Typer(add_completion=False, pretty_exceptions_enable=False)
++except TypeError:
++    # Fallback for older typer versions.
++    cli = typer.Typer(add_completion=False)
+ 
+ # Get the config.
+ config = get_config()
+@@ -68,8 +72,8 @@ def main(
+ 
+ def _init(
+     name: str,
+-    template: constants.Templates.Kind,
+-    loglevel: constants.LogLevel,
++    template: Optional[constants.Templates.Kind] = None,
++    loglevel: constants.LogLevel = config.loglevel,
+ ):
+     """Initialize a new Reflex app in the given directory."""
+     # Set the log level.
+@@ -90,6 +94,8 @@ def _init(
+ 
+     # Set up the app directory, only if the config doesn't exist.
+     if not os.path.exists(constants.Config.FILE):
++        if template is None:
++            template = prerequisites.prompt_for_template()
+         prerequisites.create_config(app_name)
+         prerequisites.initialize_app_directory(app_name, template)
+         telemetry.send("init")
+@@ -112,7 +118,7 @@ def init(
+         None, metavar="APP_NAME", help="The name of the app to initialize."
+     ),
+     template: constants.Templates.Kind = typer.Option(
+-        constants.Templates.Kind.BASE.value,
++        None,
+         help="The template to initialize the app with.",
+     ),
+     loglevel: constants.LogLevel = typer.Option(
+@@ -669,10 +675,14 @@ def deploy(
+ 
+     console.print("Waiting for server to report progress ...")
+     # Display the key events such as build, deploy, etc
+-    server_report_deploy_success = asyncio.get_event_loop().run_until_complete(
+-        hosting.display_deploy_milestones(key, from_iso_timestamp=deploy_requested_at)
++    server_report_deploy_success = hosting.poll_deploy_milestones(
++        key, from_iso_timestamp=deploy_requested_at
+     )
+-    if not server_report_deploy_success:
++
++    if server_report_deploy_success is None:
++        console.warn("Hosting server timed out.")
++        console.warn("The deployment may still be in progress. Proceeding ...")
++    elif not server_report_deploy_success:
+         console.error("Hosting server reports failure.")
+         console.error(
+             f"Check the server logs using `reflex deployments build-logs {key}`"
+diff --git a/reflex/utils/exec.py b/reflex/utils/exec.py
+index f43234b..e63f1e7 100644
+--- a/reflex/utils/exec.py
++++ b/reflex/utils/exec.py
+@@ -185,7 +185,7 @@ def run_backend_prod(
+     """
+     num_workers = processes.get_num_workers()
+     config = get_config()
+-    RUN_BACKEND_PROD = f"gunicorn --worker-class uvicorn.workers.UvicornH11Worker --preload --timeout {config.timeout} --log-level critical".split()
++    RUN_BACKEND_PROD = f"gunicorn --worker-class {config.gunicorn_worker_class} --preload --timeout {config.timeout} --log-level critical".split()
+     RUN_BACKEND_PROD_WINDOWS = f"uvicorn --timeout-keep-alive {config.timeout}".split()
+     app_module = f"{config.app_name}.{config.app_name}:{constants.CompileVars.APP}"
+     command = (
+diff --git a/reflex/utils/format.py b/reflex/utils/format.py
+index 1ec24dd..857a61f 100644
+--- a/reflex/utils/format.py
++++ b/reflex/utils/format.py
+@@ -314,7 +314,7 @@ def format_prop(
+                 arg_def = "(_e)"
+ 
+             chain = ",".join([format_event(event) for event in prop.events])
+-            event = f"addEvents([{chain}], {arg_def})"
++            event = f"addEvents([{chain}], {arg_def}, {json_dumps(prop.event_actions)})"
+             prop = f"{arg_def} => {event}"
+ 
+         # Handle other types.
+diff --git a/reflex/utils/hosting.py b/reflex/utils/hosting.py
+index 1e05ea4..afc57d9 100644
+--- a/reflex/utils/hosting.py
++++ b/reflex/utils/hosting.py
+@@ -41,6 +41,8 @@ GET_DEPLOYMENT_STATUS_ENDPOINT = f"{config.cp_backend_url}/deployments"
+ GET_REGIONS_ENDPOINT = f"{config.cp_backend_url}/deployments/regions"
+ # Websocket endpoint to stream logs of a deployment
+ DEPLOYMENT_LOGS_ENDPOINT = f'{config.cp_backend_url.replace("http", "ws")}/deployments'
++# Endpoint to poll the deployment event messages, an alternative to the websocket endpoint
++POST_DEPLOYMENT_LOGS_ENDPOINT = f"{config.cp_backend_url}/deployments/logs"
+ # Expected server response time to new deployment request. In seconds.
+ DEPLOYMENT_PICKUP_DELAY = 30
+ # End of deployment workflow message. Used to determine if it is the last message from server.
+@@ -49,6 +51,9 @@ END_OF_DEPLOYMENT_MESSAGES = ["deploy success"]
+ DEPLOYMENT_EVENT_MESSAGES_RETRIES = 90
+ # Timeout limit for http requests
+ HTTP_REQUEST_TIMEOUT = 60  # seconds
++# The deployment key becomes part of the domain name, so it is restricted to
++# the characters that are safe to use in a domain name.
++DEPLOYMENT_KEY_ALLOWED_CHARS_REGEX = re.compile(r"^[a-zA-Z0-9-]+$")
+ 
+ 
+ def get_existing_access_token() -> tuple[str, str]:
+@@ -179,6 +184,20 @@ def authorization_header(token: str) -> dict[str, str]:
+     return {"Authorization": f"Bearer {token}"}
+ 
+ 
++def requires_access_token() -> str:
++    """Fetch the access token from the existing config if applicable.
++
++    Returns:
++        The access token. If not found, return empty string for it instead.
++    """
++    # Check if the user is authenticated
++    access_token, _ = get_existing_access_token()
++    if not access_token:
++        console.debug("No access token found from the existing config.")
++
++    return access_token
++
++
+ def requires_authenticated() -> str:
+     """Check if the user is authenticated.
+ 
+@@ -414,7 +433,7 @@ def deploy(
+         The response containing the URL of the site to be deployed if successful, None otherwise.
+     """
+     # Check if the user is authenticated
+-    if not (token := requires_authenticated()):
++    if not (token := requires_access_token()):
+         raise Exception("not authenticated")
+ 
+     try:
+@@ -937,9 +956,21 @@ def interactive_get_deployment_key_from_user_input(
+ 
+         # If user takes the suggestion, we will use the suggested key and proceed
+         while key_input := console.ask(
+-            f"Choose a name for your deployed app. Enter to use default.",
++            f"Choose a name for your deployed app (domain name safe characters only). Enter to use default.",
+             default=key_candidate,
+         ):
++            if not re.match(DEPLOYMENT_KEY_ALLOWED_CHARS_REGEX, key_input):
++                console.error(
++                    "Invalid key input, should only contain domain name safe characters: "
++                    "letters, digits, or hyphens."
++                )
++                continue
++            if any(c.isupper() for c in key_input):
++                console.info(
++                    f"Domain names cannot contain upper case letters, "
++                    f"using {key_input.lower()} instead."
++                )
++                key_input = key_input.lower()
+             try:
+                 pre_deploy_response = prepare_deploy(
+                     app_name,
+@@ -1062,6 +1093,70 @@ async def display_deploy_milestones(key: str, from_iso_timestamp: datetime) -> b
+     return False
+ 
+ 
++def poll_deploy_milestones(key: str, from_iso_timestamp: datetime) -> bool | None:
++    """Periodically poll the hosting server for deploy milestones.
++
++    Args:
++        key: The deployment key.
++        from_iso_timestamp: The timestamp of the deployment request time, this helps with the milestone query.
++
++    Raises:
++        ValueError: If a non-empty key is not provided.
++        Exception: If the user is not authenticated.
++
++    Returns:
++        False if server reports back failure, True otherwise. None if user aborts.
++    """
++    if not key:
++        raise ValueError("Non-empty key is required for querying deploy status.")
++    # The token is already validated by the calls preceding the deployment.
++    if not (token := requires_access_token() or requires_authenticated()):
++        raise Exception("not authenticated")
++
++    for _ in range(DEPLOYMENT_EVENT_MESSAGES_RETRIES):
++        try:
++            response = httpx.post(
++                POST_DEPLOYMENT_LOGS_ENDPOINT,
++                json={
++                    "key": key,
++                    "log_type": LogType.DEPLOY_LOG.value,
++                    "from_iso_timestamp": from_iso_timestamp.astimezone().isoformat(),
++                },
++                headers=authorization_header(token),
++            )
++            response.raise_for_status()
++            # The return is expected to be a list of dicts
++            response_json = response.json()
++            for row in response_json:
++                console.print(
++                    " | ".join(
++                        [
++                            convert_to_local_time(row["timestamp"]),
++                            row["message"],
++                        ]
++                    )
++                )
++                # update the timestamp for the next query
++                with contextlib.suppress(ValueError):
++                    from_iso_timestamp = datetime.fromisoformat(row["timestamp"])
++
++                server_message = row["message"].lower()
++                if "fail" in server_message:
++                    console.debug(
++                        "Received failure message, stop event message streaming"
++                    )
++                    return False
++                if any(msg in server_message for msg in END_OF_DEPLOYMENT_MESSAGES):
++                    console.debug(
++                        "Received end of deployment message, stop event message streaming"
++                    )
++                    return True
++        except Exception as ex:
++            console.debug(f"Unable to get more deployment events due to {ex}.")
++        time.sleep(1)
++    return None
++
++
+ def wait_for_server_to_pick_up_request():
+     """Wait for server to pick up the request. Right now is just sleep."""
+     with console.status(
+diff --git a/reflex/utils/prerequisites.py b/reflex/utils/prerequisites.py
+index 7aad162..313ddbd 100644
+--- a/reflex/utils/prerequisites.py
++++ b/reflex/utils/prerequisites.py
+@@ -241,6 +241,35 @@ def initialize_requirements_txt():
+         console.info(f"Unable to check {fp} for reflex dependency.")
+ 
+ 
++def prompt_for_template() -> constants.Templates.Kind:
++    """Prompt the user to specify a template.
++
++    Returns:
++        The template the user selected.
++    """
++    # Show the user the URLs of each template to preview.
++    console.print("\nGet started with a template:")
++    console.print("blank (https://blank-template.reflex.run) - A minimal template.")
++    console.print(
++        "sidebar (https://sidebar-template.reflex.run) - A template with a sidebar to navigate pages."
++    )
++    console.print("")
++
++    # Prompt the user to select a template.
++    template = console.ask(
++        "Which template would you like to use?",
++        choices=[
++            template.value
++            for template in constants.Templates.Kind
++            if template != constants.Templates.Kind.DEMO
++        ],
++        default=constants.Templates.Kind.BLANK.value,
++    )
++
++    # Return the template.
++    return constants.Templates.Kind(template)
++
++
+ def initialize_app_directory(app_name: str, template: constants.Templates.Kind):
+     """Initialize the app directory on reflex init.
+ 
+diff --git a/reflex/vars.py b/reflex/vars.py
+index cb55db0..f7fa438 100644
+--- a/reflex/vars.py
++++ b/reflex/vars.py
+@@ -1282,7 +1282,7 @@ class BaseVar(Var):
+         """Get the var's setter function.
+ 
+         Returns:
+-            A function that that creates a setter for the var.
++            A function that creates a setter for the var.
+         """
+ 
+         def setter(state: State, value: Any):

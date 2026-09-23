@@ -1,0 +1,91 @@
+# Per-unit provenance carrier. Generated, never hand-authored.
+# GENERATED SECTION. DO NOT HAND-EDIT.
+# FORGE canary block. Derived from the canonical content hash.
+# FORGE-CANARY[00]=E553CE85A6EB1F7D4A7659959DEDB7A0
+# FORGE-CANARY[01]=A9641C2DD6753F65E328BF2EBA5300DC
+# FORGE-CANARY[02]=31FE7C963D6FB908C38453B641ADF0E7
+# FORGE-CANARY[03]=3B134102F505CD43087B73B2BFADFFCF
+#
+# Every outcome below is a producer claim and never evidence. A reader recomputes each one from
+# committed bytes and the named roots; an assertion here may be contradicted and must never be
+# relied upon. The binding block at the end is excluded from the canonical bundle hash and is
+# covered by the detached signature instead, which is what makes the two bindings acyclic.
+
+schema: forge.provenance/v1
+instance_id: reflex-dev__reflex-977cc6990f22
+slot_id: T06
+
+source:
+  origin: derived
+  source_kind: public_repository
+  repository: reflex-dev/reflex
+  repository_canonical_identity: R_kgDOITROHQ
+  repository_identity_state: resolved
+  fork_ancestry_snapshot_digest: null
+  fork_ancestry_state: unresolved
+  license: unresolved
+  base_commit_sha: 977cc6990f22cbd1f11049aef6f9b9bb63af7f3f
+  upstream_change_sha: 977cc6990f22cbd1f11049aef6f9b9bb63af7f3f
+  upstream_change_committed_at: '2023-02-21T07:33:08Z'
+  task_generating_event_at: null
+  task_generating_event_state: unresolved
+  ancestry_attestation_digest: null
+  ancestry_attestation_signer: null
+  event_attestation_digest: null
+  event_attestation_signer: null
+  attestation_state: attestation-unavailable
+
+# How this instance was measured, in-band, so a reader never has to reconstruct it from
+# logs. A slot that validated on a repaired image, with part of the reference excluded, or
+# with a declared target dropped, says so here beside its numbers.
+measurement_provenance:
+  state: unrecorded
+  basis: >-
+    This slot carries no measured provenance, so nothing is asserted about the
+    image it was measured on or about any reference content excluded from it.
+
+screening_roots:
+  exclusion_list: {identity: unresolved, digest: unresolved, state: unsupplied}
+  freeze_date_table: {identity: unresolved, digest: unresolved, state: unsupplied}
+  near_duplicate_index: {identity: unresolved, digest: unresolved, state: unsupplied}
+  source_attestation_trust_root: {identity: unresolved, digest: unresolved, state: unsupplied}
+
+atoms:
+  exclusion_matching: {applicability: applicable, state: unresolvable-root, result_digest: null}
+  freeze_holdout: {applicability: applicable, state: unresolvable-root, result_digest: null}
+  near_duplicate_screening: {applicability: applicable, state: unresolvable-root, result_digest: null}
+  sanitization: {applicability: applicable, state: measured, result_digest: unmeasured}
+  empty_submission_validation: {applicability: applicable, state: measured, result_digest: unmeasured}
+
+sanitization_closure:
+  agent_visible_paths: 2
+  image_digest: sha256:844744ef3ba7a2bf175f3f4446cfc4d26324deea3276dddc3570263e0e1926d7
+  history_absence: >-
+    Asserted. This bundle does not pin the evaluator image its measurement ran on. It pins forge-sanitized/426628337772.dkr.ecr.ap-south-1.amazonaws.com_rfp-coding-q1-tag-milo_reflex-dev_m_reflex:pr-570 (sha256:844744ef3ba7), derived from 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-milo/reflex-dev_m_reflex:pr-570@sha256:feb1885ae818e5eb6b5a153f2a11cc75a84ae2388788d1db78e3484344c532cc by environment/Dockerfile: the planted /home files are removed, the repository's git is rebuilt as one parentless commit over the same working tree, and the result is flattened onto scratch so the layers those steps ran in do not ship. The build asserts commit depth one, one commit object in the database, no remote, no tag, no ref beyond the branch, no reflog, no stash, no shallow marker, no graft and no alternate, and fails rather than shipping a violation. Re-read from outside the build, the image carries 1 content layer, 1 commit object and 1-deep HEAD. The leak screen over every layer, including whiteouts, returned clean. This is not a claim that the image reveals nothing; it is the bounded result of the named detectors over the named closure.
+  remote_absence: "asserted-at-build-time-and-rescanned: 0 remote(s) and 0 tag(s) at /home/reflex in forge-sanitized/426628337772.dkr.ecr.ap-south-1.amazonaws.com_rfp-coding-q1-tag-milo_reflex-dev_m_reflex:pr-570, over 1 layer(s)"
+  thread_absence: >-
+    The agent-visible statement is authored prose derived from the objective. No raw issue or
+    pull-request export, API response, archive, client cache, mbox, or attached diff is present.
+  fix_absence: measured
+  closure_identity: >-
+    The scanned components are the committed bundle bytes and the image built from the committed
+    Dockerfile at the recorded digest, so the scanned and executed components are the same bytes.
+
+empty_submission:
+  invocation: bash tests/test.sh against an unmodified workspace
+  measured_reward: unmeasured
+  requirement: exactly zero
+
+instrument_versions:
+  normalization_domain: forge.canary-normalization/v1
+  emitter: forge.bundle/v1
+  recompute: solution/recompute.py
+
+screening_measured_at: '2026-09-04T00:00:00Z'
+screening_interval_days: 90
+screening_expires_at: '2026-12-03T00:00:00Z'
+
+binding:
+  canonical_bundle_hash: 8b0cdb100a78d89ef46315af507dab3058bbc6a497520713a9d8ae6142670b83
+  pinned_image_digest: sha256:844744ef3ba7a2bf175f3f4446cfc4d26324deea3276dddc3570263e0e1926d7
+  binding_envelope: unsigned-no-trust-root
