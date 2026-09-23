@@ -203,20 +203,20 @@ FORGE is the author. It writes new tasks in batches, proves each one against its
 CRUCIBLE is the inspector. It audits finished work against recorded evidence and never sees the difficulty targets FORGE was aiming at.
 
 - status: HOLD (waiting on a person or an open gap)
-- phase: 0
-- progress: phases 1 of 4 (25%), gates 0 of 1 (0%)
+- phase: 0.5
+- progress: phases 2 of 4 (50%), gates 0 of 1 (0%)
 - pending: 1 open gate (scope sign-off gate), 0 gaps
 
 ```mermaid
 xychart-beta
     x-axis ["phases done", "phases left", "gates done", "gates left", "open gates", "gaps"]
-    y-axis 0 --> 3
-    bar [1, 3, 0, 1, 1, 0]
+    y-axis 0 --> 2
+    bar [2, 2, 0, 1, 1, 0]
 ```
 
 | run | principal | started | closed | run elapsed, including waits | disposition | phase | closure |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| crucible-ankitporwal04-20260923t005222z-dba1b1 | porwalankit443@gmail.com | 2026-09-23T00:53:07Z | unknown | open | HOLD | 0 | open |
+| crucible-ankitporwal04-20260923t005222z-dba1b1 | porwalankit443@gmail.com | 2026-09-23T00:53:07Z | unknown | open | HOLD | 0.5 | open |
 
 ## History
 
@@ -224,7 +224,7 @@ Every run ever recorded, in the order it started. A run that arrives late is ins
 
 | started | instrument | run | principal | disposition | phase | closed | closure |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 2026-09-23T00:53:07Z | CRUCIBLE | crucible-ankitporwal04-20260923t005222z-dba1b1 | porwalankit443@gmail.com | HOLD | 0 | unknown | open |
+| 2026-09-23T00:53:07Z | CRUCIBLE | crucible-ankitporwal04-20260923t005222z-dba1b1 | porwalankit443@gmail.com | HOLD | 0.5 | unknown | open |
 
 ## Flag legend
 
