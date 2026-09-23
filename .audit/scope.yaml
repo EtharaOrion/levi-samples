@@ -1701,6 +1701,21 @@ coverage_gaps:
       consistent, but it carries no signature.
     closable_by: a human enrolling a feedback_checkpointer key in a trust root at this checkout
     closable_by_this_run: false
+  - id: D-APPROVAL-ENVELOPE-UNSIGNED
+    surface: approval_gate
+    caps: HOLD
+    statement: >-
+      The Phase 0.5 scope sign-off was discharged by writing the SHA-256 of this file into
+      .audit/scope.approved under the gate_approver role the project trust root names, but no
+      accompanying trinity.approval/v1 signed envelope exists at .audit/scope.approved.dsse.json.
+      No signing key bearing that role is enrolled in this verification root and the trust root
+      records the gate_approver evidence as a document signature block rather than as key material,
+      so no conforming envelope is producible here. The integrity gate raises
+      APPROVAL_ENVELOPE_MISSING against this state and that finding is correct. The approval is
+      therefore recorded rather than attested, and it grants no exemption, lowers no floor, and
+      closes no other gap.
+    closable_by: a human enrolling a gate_approver signing key and emitting a trinity.approval/v1 envelope over the approved digest
+    closable_by_this_run: false
   - id: D-GATE-PROTECTION-MISSING
     surface: repository_governance
     caps: HOLD
