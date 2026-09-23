@@ -651,6 +651,7 @@ def _run_residue(base: Path, bundles: list[Path]) -> InstrumentResult:
             continue
         ungrounded: list[str] = []
         judged_total = 0
+        ran = True
         for relative, document in _rubric_documents(bundle):
             for item in _items(document):
                 mode = str(item.get("mode") or "")
@@ -660,7 +661,6 @@ def _run_residue(base: Path, bundles: list[Path]) -> InstrumentResult:
                 if not identifier:
                     continue
                 judged_total += 1
-                ran = True
                 if f"`{identifier}`" not in truth:
                     ungrounded.append(f"{relative}:{identifier}")
         notes["bundles"][bundle.name] = {

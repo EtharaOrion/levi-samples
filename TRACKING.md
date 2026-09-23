@@ -4,7 +4,7 @@
 >
 > Every byte below is rendered by `trinity/tools/pipeline.py render-reports` from the run reports and per-run tracker cards already on disk. Anything typed into this file is erased by the next render, so change the work this page reports rather than the page.
 
-As of 2026-09-23T05:30:45Z UTC, derived from recorded activity; every age and interval below is relative to that instant and no wall clock is read.
+As of 2026-09-23T00:53:07Z UTC, derived from recorded activity; every age and interval below is relative to that instant and no wall clock is read.
 
 Three instruments do the work. ENGRAM remembers what earlier tasks cost and tells the other two where to aim, FORGE writes new tasks, and CRUCIBLE inspects finished tasks for defects. A run is one sitting of one instrument. A gate is a stop that waits for a person to sign. A gap is required work that nothing has covered yet. Every section below counts runs, gates, and gaps and charts what it counts, and the last section gives the plain meaning of every status word on this page.
 
@@ -16,7 +16,7 @@ The whole project in six numbers. Every section after this one expands one of th
 | --- | --- | --- |
 | worst disposition | BLOCK (refused until a new candidate is built) | the worst outcome any run reached |
 | open gates | 0 | stops waiting for a human signature |
-| open runs | 0 | sittings that have not finished |
+| open runs | 1 | sittings that have not finished |
 | samples occupancy | 0 of 30 (0%) | how full the public shelf of thirty is |
 | sealed not audited | 0 | finished tasks still waiting to be inspected |
 | oldest open gate age (days) | no run | how long the longest signature has been waited on |
@@ -25,7 +25,7 @@ The whole project in six numbers. Every section after this one expands one of th
 xychart-beta
     x-axis ["open gates", "open runs", "samples resident", "sealed not audited", "oldest gate days"]
     y-axis 0 --> 1
-    bar [0, 0, 0, 0, 0]
+    bar [0, 1, 0, 0, 0]
 ```
 
 ## Organizational lanes
@@ -36,7 +36,7 @@ Who is accountable for what, and the last moment each group signed something off
 | --- | --- | --- | --- |
 | Research | no epoch published; ENGRAM no run | unknown | no epoch published |
 | Engineering | harness revision unknown; 0 harness runs | unknown | harness/ |
-| Operations | FORGE 0 runs; CRUCIBLE 1 runs; 0 claims; 0 verdicts; sequential | 2026-09-23T05:30:45Z | EDICT.md, VERDICT.md |
+| Operations | FORGE 0 runs; CRUCIBLE 1 runs; 0 claims; 0 verdicts; sequential | unknown | EDICT.md, VERDICT.md |
 
 ```mermaid
 flowchart LR
@@ -93,7 +93,7 @@ gantt
     axisFormat %Y-%m-%d
     todayMarker off
     section CRUCIBLE
-    crucible-ankitporwal04-20260923t005222z-dba1b1 :done, r0, 2026-09-23, 1d
+    crucible-ankitporwal04-20260923t005222z-dba1b1 :milestone, r0, 2026-09-23, 0d
 ```
 
 ## Bundle flow
@@ -131,7 +131,16 @@ Occupancy counts what is on the shelf right now rather than everything ever plac
 
 Runs that have not finished yet, longest waiting first. A run ages because it is blocked, not because it is busy.
 
-no open run is recorded
+| run | instrument | principal | started | age (days) |
+| --- | --- | --- | --- | --- |
+| crucible-ankitporwal04-20260923t005222z-dba1b1 | CRUCIBLE | porwalankit443@gmail.com | 2026-09-23T00:53:07Z | 0 |
+
+```mermaid
+xychart-beta
+    x-axis ["crucible-ankitporwal04-2"]
+    y-axis 0 --> 1
+    bar [0]
+```
 
 ## Blockers and escalations
 
@@ -198,7 +207,7 @@ xychart-beta
 
 | run | principal | started | closed | run elapsed, including waits | disposition | phase | closure |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| crucible-ankitporwal04-20260923t005222z-dba1b1 | porwalankit443@gmail.com | 2026-09-23T00:53:07Z | 2026-09-23T05:30:45Z | 0d 04:37 | BLOCK | 1 | closed |
+| crucible-ankitporwal04-20260923t005222z-dba1b1 | porwalankit443@gmail.com | 2026-09-23T00:53:07Z | unknown | unknown | BLOCK | 1 | closure unknown |
 
 ## History
 
@@ -206,7 +215,7 @@ Every run ever recorded, in the order it started. A run that arrives late is ins
 
 | started | instrument | run | principal | disposition | phase | closed | closure |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 2026-09-23T00:53:07Z | CRUCIBLE | crucible-ankitporwal04-20260923t005222z-dba1b1 | porwalankit443@gmail.com | BLOCK | 1 | 2026-09-23T05:30:45Z | closed |
+| 2026-09-23T00:53:07Z | CRUCIBLE | crucible-ankitporwal04-20260923t005222z-dba1b1 | porwalankit443@gmail.com | BLOCK | 1 | unknown | closure unknown |
 
 ## Flag legend
 

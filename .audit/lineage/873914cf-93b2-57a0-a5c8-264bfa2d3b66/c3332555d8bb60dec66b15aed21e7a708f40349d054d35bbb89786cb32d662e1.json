@@ -1,0 +1,11 @@
+{
+  "bundle_digest": "c3332555d8bb60dec66b15aed21e7a708f40349d054d35bbb89786cb32d662e1",
+  "digest_basis": "core.tree_digest over every committed relative path under the bundle",
+  "parse_error": "",
+  "parsed": null,
+  "source_path": "solution/predecessor.yaml",
+  "source_sha256": "",
+  "state": "absent",
+  "uuid": "873914cf-93b2-57a0-a5c8-264bfa2d3b66",
+  "verbatim": ""
+}

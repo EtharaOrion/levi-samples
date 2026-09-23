@@ -232,9 +232,9 @@ adversary_probes:
     absent declaration
 counts:
   coverage_gaps_total: 161
-  findings_block: 101
-  findings_hold: 85
-  findings_total: 186
+  findings_block: 80
+  findings_hold: 88
+  findings_total: 168
   instruments_not_run: 11
   instruments_total: 60
   ledger_rows: 88
@@ -538,9 +538,9 @@ coverage_gaps:
   reason: mounted-working-tree-not-committed-in-this-repository
   statement: The agent-visible surface of bundle 4c7b8d6f-c500-585d-b7b2-3519df55b1b3 is instruction.md
     plus the repository working tree the container mounts. Only the committed half is present here, namely
-    instruction.md. The mounted half lives inside a pinned image that this repository does not carry,
-    so containment is measured over the committed half alone. That the framework mounts the remainder
-    privately is a producer claim and is not accepted here as evidence that the boundary held.
+    .DS_Store, instruction.md. The mounted half lives inside a pinned image that this repository does
+    not carry, so containment is measured over the committed half alone. That the framework mounts the
+    remainder privately is a producer claim and is not accepted here as evidence that the boundary held.
   subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
   surface: agent_visible_closure
 - caps: HOLD
@@ -549,9 +549,9 @@ coverage_gaps:
   reason: mounted-working-tree-not-committed-in-this-repository
   statement: The agent-visible surface of bundle 6bf0c918-e9ad-5397-bb76-cf3e238f2df1 is instruction.md
     plus the repository working tree the container mounts. Only the committed half is present here, namely
-    instruction.md. The mounted half lives inside a pinned image that this repository does not carry,
-    so containment is measured over the committed half alone. That the framework mounts the remainder
-    privately is a producer claim and is not accepted here as evidence that the boundary held.
+    .DS_Store, instruction.md. The mounted half lives inside a pinned image that this repository does
+    not carry, so containment is measured over the committed half alone. That the framework mounts the
+    remainder privately is a producer claim and is not accepted here as evidence that the boundary held.
   subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
   surface: agent_visible_closure
 - caps: HOLD
@@ -560,9 +560,9 @@ coverage_gaps:
   reason: mounted-working-tree-not-committed-in-this-repository
   statement: The agent-visible surface of bundle 873914cf-93b2-57a0-a5c8-264bfa2d3b66 is instruction.md
     plus the repository working tree the container mounts. Only the committed half is present here, namely
-    instruction.md. The mounted half lives inside a pinned image that this repository does not carry,
-    so containment is measured over the committed half alone. That the framework mounts the remainder
-    privately is a producer claim and is not accepted here as evidence that the boundary held.
+    .DS_Store, instruction.md. The mounted half lives inside a pinned image that this repository does
+    not carry, so containment is measured over the committed half alone. That the framework mounts the
+    remainder privately is a producer claim and is not accepted here as evidence that the boundary held.
   subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
   surface: agent_visible_closure
 - caps: HOLD
@@ -575,7 +575,7 @@ coverage_gaps:
     determinations for other task uuids and no occurrence of this bundle uuid, so no task_hash is projected
     to compare against. The recipe the declared canonical_bundle_hash was produced by is not committed
     in this repository, so the audit harness cannot recompute that value independently; it recomputes
-    its own tree digest 7e9b06df728f645faf2120b2f8528be28b0f78a4c366c642c23d8b371cf42140 instead and records
+    its own tree digest dc5a67490e9354d34a6dffc52aeb1cd87b4bee3c00d701eaa870732ed8e3c3b7 instead and records
     it as evidence rather than as a match. The declared binding reads envelope unsigned-no-trust-root,
     so even the in-bundle hash 03aa306c4f584650a31ad57b7a54e669db2d3c9b2fe88a89f543a1b2855b7652 is unauthenticated.
     Every other step 8b check that committed bundle bytes can decide was still run.
@@ -591,7 +591,7 @@ coverage_gaps:
     determinations for other task uuids and no occurrence of this bundle uuid, so no task_hash is projected
     to compare against. The recipe the declared canonical_bundle_hash was produced by is not committed
     in this repository, so the audit harness cannot recompute that value independently; it recomputes
-    its own tree digest 07f5acaedc67be6ca8345ca2a818893ca3bccf5d2bfc5043e28d3d1a41044da9 instead and records
+    its own tree digest 381461be971f58a5cf65e24219392e8de4e4a90472da4c08436bfcdfba27767d instead and records
     it as evidence rather than as a match. The declared binding reads envelope unsigned-no-trust-root,
     so even the in-bundle hash 10cb07aefb91b15c92125b980e429ccb46420074467ee8581774146d65f82ba1 is unauthenticated.
     Every other step 8b check that committed bundle bytes can decide was still run.
@@ -607,7 +607,7 @@ coverage_gaps:
     determinations for other task uuids and no occurrence of this bundle uuid, so no task_hash is projected
     to compare against. The recipe the declared canonical_bundle_hash was produced by is not committed
     in this repository, so the audit harness cannot recompute that value independently; it recomputes
-    its own tree digest 8ce4042142bae9e3d45e415753beaaf37d6f4887538162bc7809738258c40394 instead and records
+    its own tree digest c3332555d8bb60dec66b15aed21e7a708f40349d054d35bbb89786cb32d662e1 instead and records
     it as evidence rather than as a match. The declared binding reads envelope unsigned-no-trust-root,
     so even the in-bundle hash 8b0cdb100a78d89ef46315af507dab3058bbc6a497520713a9d8ae6142670b83 is unauthenticated.
     Every other step 8b check that committed bundle bytes can decide was still run.
@@ -1655,7 +1655,7 @@ coverage_gaps:
   instrument: rolloutintegrity
   reason: operator-signed-root-absent
   statement: No operator-signed trajectory root is projected for this corpus, so the recomputed Merkle
-    root has nothing to be compared against. The root is recorded as 622e8f8b04e201cc481ce87313aa4acb096f561f4d32a67b5c4bb1d952118da6
+    root has nothing to be compared against. The root is recorded as c9b86cb50fa997964eae3f0222e35f1dafe355207d6271b8f40fa84a52442b02
     and the comparison resolves as unmeasured rather than as agreement.
   subject: project
   surface: trajectories
@@ -1877,12 +1877,15 @@ critical_classes:
   - F-CON-STRIP-FIX-SIGNATURE-6bf0c918
 - caps:
     BLOCK: 6
-    HOLD: 4
+    HOLD: 7
   class_cap: BLOCK
   critical_class: delivery-format-and-ground-truth-integrity
-  finding_count: 10
+  finding_count: 13
   finding_ids:
   - F-DEL-LAYOUT-DECLARED-ARTIFACT-ABSENT-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-trajectories-zai__glm-5.3-run_1
+  - F-DEL-LAYOUT-UNDEFINED-PATH-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+  - F-DEL-LAYOUT-UNDEFINED-PATH-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+  - F-DEL-LAYOUT-UNDEFINED-PATH-873914cf-93b2-57a0-a5c8-264bfa2d3b66
   - F-DEL-PIN-IMAGE-UNPINNED-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
   - F-DEL-PIN-IMAGE-UNPINNED-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
   - F-DEL-PIN-IMAGE-UNPINNED-873914cf-93b2-57a0-a5c8-264bfa2d3b66
@@ -1963,13 +1966,16 @@ critical_classes:
   - FID-TRACE-SUPPRESSING-873914cf-93b2-57a0-a5c8-264bfa2d3b66-claude-opus-5-run_1
   - FID-TRACE-SUPPRESSING-873914cf-93b2-57a0-a5c8-264bfa2d3b66-zai__glm-5.3-run_1
 - caps:
-    HOLD: 6
+    HOLD: 9
   class_cap: HOLD
   critical_class: private-carrier-leak
-  finding_count: 6
+  finding_count: 9
   finding_ids:
   - G-LEAK-CONTAINMENT-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-0c541ac728af
+  - G-LEAK-CONTAINMENT-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-3b34531fdfe1
   - G-LEAK-CONTAINMENT-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-3f076702643e
+  - G-LEAK-CONTAINMENT-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-5f4ba7cbd829
+  - G-LEAK-CONTAINMENT-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-70e2d6f1976b
   - G-LEAK-CONTAINMENT-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-0c541ac728af
   - G-LEAK-CONTAINMENT-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-3f076702643e
   - G-LEAK-CONTAINMENT-873914cf-93b2-57a0-a5c8-264bfa2d3b66-0c541ac728af
@@ -2032,18 +2038,14 @@ critical_classes:
   - F-REWARD-VERIFIER-NOT-ISOLATED-873914cf-93b2-57a0-a5c8-264bfa2d3b66-zai__glm-5.3-run_1
   - F-ROLLOUT-SESSION-IDENTIFIER-CONSTANT
 - caps:
-    BLOCK: 51
-    HOLD: 3
+    BLOCK: 30
   class_cap: BLOCK
   critical_class: rubric-compilation
-  finding_count: 54
+  finding_count: 30
   finding_ids:
   - RUB-COMPLETENESS-UNDECLARED-COMPILATION-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
   - RUB-COMPLETENESS-UNDECLARED-COMPILATION-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
   - RUB-COMPLETENESS-UNDECLARED-COMPILATION-873914cf-93b2-57a0-a5c8-264bfa2d3b66
-  - RUB-RESIDUE-UNGROUNDED-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-  - RUB-RESIDUE-UNGROUNDED-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-  - RUB-RESIDUE-UNGROUNDED-873914cf-93b2-57a0-a5c8-264bfa2d3b66
   - RUB-SCHEMA-CHANNEL-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-tests/rubrics.json-G2-trajectory.tool_calls
   - RUB-SCHEMA-CHANNEL-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-tests/rubrics.json-G3-trajectory.tool_calls
   - RUB-SCHEMA-CHANNEL-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-tests/rubrics.json-G4-trajectory.tool_calls
@@ -2059,39 +2061,18 @@ critical_classes:
   - RUB-SCHEMA-ITEM-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-solution/rubrics.json-R4
   - RUB-SCHEMA-ITEM-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-solution/rubrics.json-R5
   - RUB-SCHEMA-ITEM-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-solution/rubrics.json-R6
-  - RUB-SCHEMA-ITEM-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-tests/rubrics.json-G1
-  - RUB-SCHEMA-ITEM-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-tests/rubrics.json-G2
-  - RUB-SCHEMA-ITEM-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-tests/rubrics.json-G3
-  - RUB-SCHEMA-ITEM-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-tests/rubrics.json-G4
-  - RUB-SCHEMA-ITEM-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-tests/rubrics.json-G5
-  - RUB-SCHEMA-ITEM-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-tests/rubrics.json-G6
-  - RUB-SCHEMA-ITEM-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-tests/rubrics.json-G7
   - RUB-SCHEMA-ITEM-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-solution/rubrics.json-R1
   - RUB-SCHEMA-ITEM-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-solution/rubrics.json-R2
   - RUB-SCHEMA-ITEM-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-solution/rubrics.json-R3
   - RUB-SCHEMA-ITEM-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-solution/rubrics.json-R4
   - RUB-SCHEMA-ITEM-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-solution/rubrics.json-R5
   - RUB-SCHEMA-ITEM-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-solution/rubrics.json-R6
-  - RUB-SCHEMA-ITEM-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-tests/rubrics.json-G1
-  - RUB-SCHEMA-ITEM-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-tests/rubrics.json-G2
-  - RUB-SCHEMA-ITEM-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-tests/rubrics.json-G3
-  - RUB-SCHEMA-ITEM-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-tests/rubrics.json-G4
-  - RUB-SCHEMA-ITEM-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-tests/rubrics.json-G5
-  - RUB-SCHEMA-ITEM-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-tests/rubrics.json-G6
-  - RUB-SCHEMA-ITEM-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-tests/rubrics.json-G7
   - RUB-SCHEMA-ITEM-873914cf-93b2-57a0-a5c8-264bfa2d3b66-solution/rubrics.json-R1
   - RUB-SCHEMA-ITEM-873914cf-93b2-57a0-a5c8-264bfa2d3b66-solution/rubrics.json-R2
   - RUB-SCHEMA-ITEM-873914cf-93b2-57a0-a5c8-264bfa2d3b66-solution/rubrics.json-R3
   - RUB-SCHEMA-ITEM-873914cf-93b2-57a0-a5c8-264bfa2d3b66-solution/rubrics.json-R4
   - RUB-SCHEMA-ITEM-873914cf-93b2-57a0-a5c8-264bfa2d3b66-solution/rubrics.json-R5
   - RUB-SCHEMA-ITEM-873914cf-93b2-57a0-a5c8-264bfa2d3b66-solution/rubrics.json-R6
-  - RUB-SCHEMA-ITEM-873914cf-93b2-57a0-a5c8-264bfa2d3b66-tests/rubrics.json-G1
-  - RUB-SCHEMA-ITEM-873914cf-93b2-57a0-a5c8-264bfa2d3b66-tests/rubrics.json-G2
-  - RUB-SCHEMA-ITEM-873914cf-93b2-57a0-a5c8-264bfa2d3b66-tests/rubrics.json-G3
-  - RUB-SCHEMA-ITEM-873914cf-93b2-57a0-a5c8-264bfa2d3b66-tests/rubrics.json-G4
-  - RUB-SCHEMA-ITEM-873914cf-93b2-57a0-a5c8-264bfa2d3b66-tests/rubrics.json-G5
-  - RUB-SCHEMA-ITEM-873914cf-93b2-57a0-a5c8-264bfa2d3b66-tests/rubrics.json-G6
-  - RUB-SCHEMA-ITEM-873914cf-93b2-57a0-a5c8-264bfa2d3b66-tests/rubrics.json-G7
 - caps:
     HOLD: 1
   class_cap: HOLD
@@ -2126,7 +2107,7 @@ disposition: BLOCK
 disposition_basis: The harness computed BLOCK as the cap over every instrument result. Block-capable findings
   stand from fifteen instruments and the selfcheck receipt carries seven required rows that never ran,
   which principle 7 treats as broken instruments rather than gaps. No waiver promotes this to SHIP.
-evidence_content_digest: d7c89fddc16e5985ad4838442ff0df73ee4d8cbc5a7a81cac854b04a0c651438
+evidence_content_digest: 2bb373536a0d46651b8f027baa0d8c5ef82434efad07c2f0c3cb214640c630e5
 findings:
 - bucket: deterministic
   caps: BLOCK
@@ -3060,6 +3041,39 @@ findings:
     not carry: summary.json'
   subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1/trajectories/zai__glm-5.3/run_1
 - bucket: deterministic
+  caps: HOLD
+  critical_class: delivery-format-and-ground-truth-integrity
+  evidence:
+    undefined_paths:
+    - .DS_Store
+  finding_id: F-DEL-LAYOUT-UNDEFINED-PATH-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+  instrument: G-DEL-LAYOUT
+  severity: medium
+  statement: 'The bundle commits an artifact at a path the delivery format does not define: .DS_Store'
+  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+- bucket: deterministic
+  caps: HOLD
+  critical_class: delivery-format-and-ground-truth-integrity
+  evidence:
+    undefined_paths:
+    - .DS_Store
+  finding_id: F-DEL-LAYOUT-UNDEFINED-PATH-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+  instrument: G-DEL-LAYOUT
+  severity: medium
+  statement: 'The bundle commits an artifact at a path the delivery format does not define: .DS_Store'
+  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+- bucket: deterministic
+  caps: HOLD
+  critical_class: delivery-format-and-ground-truth-integrity
+  evidence:
+    undefined_paths:
+    - .DS_Store
+  finding_id: F-DEL-LAYOUT-UNDEFINED-PATH-873914cf-93b2-57a0-a5c8-264bfa2d3b66
+  instrument: G-DEL-LAYOUT
+  severity: medium
+  statement: 'The bundle commits an artifact at a path the delivery format does not define: .DS_Store'
+  subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+- bucket: deterministic
   caps: BLOCK
   critical_class: delivery-format-and-ground-truth-integrity
   evidence:
@@ -3191,15 +3205,15 @@ findings:
   evidence:
     artifacts:
       solution/TRUTH.md:
-        alpha_sha256: ad9049ad607208fa256004daa324db89fe7531872e788fccd955fd34c1536afa
-        bravo_sha256: ad9049ad607208fa256004daa324db89fe7531872e788fccd955fd34c1536afa
-        committed_sha256: b758be4547a149d1e1c4024bf8e9d1d2131b80886f68492c1138d35df12d40f8
+        alpha_sha256: 1f24a1bffa4d533d2bffd82a0849b8f5dbc4147e1a5f0913be07c3d69895db28
+        bravo_sha256: 1f24a1bffa4d533d2bffd82a0849b8f5dbc4147e1a5f0913be07c3d69895db28
+        committed_sha256: f679892b30f27d69b284c99672136888b75b039d772fc071549ce8ea1580435d
         identities_agree: true
         matches_committed: false
       solution/rubrics.json:
-        alpha_sha256: faa4354ce0a97989089f1417d87bdf8816da8c279dda87327e04d6a5c16bd584
-        bravo_sha256: faa4354ce0a97989089f1417d87bdf8816da8c279dda87327e04d6a5c16bd584
-        committed_sha256: faa4354ce0a97989089f1417d87bdf8816da8c279dda87327e04d6a5c16bd584
+        alpha_sha256: bb86ea89553b61022ce2911478717ad02d23563f72834665d1bf636e93326a9a
+        bravo_sha256: bb86ea89553b61022ce2911478717ad02d23563f72834665d1bf636e93326a9a
+        committed_sha256: bb86ea89553b61022ce2911478717ad02d23563f72834665d1bf636e93326a9a
         identities_agree: true
         matches_committed: true
       solution/solve.sh:
@@ -3231,15 +3245,15 @@ findings:
   evidence:
     artifacts:
       solution/TRUTH.md:
-        alpha_sha256: 008487d51a36470903d4d071247a87b10b5f8850d3874bc87bd016267d056887
-        bravo_sha256: 008487d51a36470903d4d071247a87b10b5f8850d3874bc87bd016267d056887
-        committed_sha256: 5eb4371f393cfbd7d8dbfeef5901d49830df13ecb2b8399e8b5f6faa2561c59e
+        alpha_sha256: e8cd5722288bed5930462dbff4491d919b39d90b0eccb7026ad01b65524361bb
+        bravo_sha256: e8cd5722288bed5930462dbff4491d919b39d90b0eccb7026ad01b65524361bb
+        committed_sha256: 3920a87d5954d2ee77f541567178722dd403cf43a10405e4141f4d9ad006e26f
         identities_agree: true
         matches_committed: false
       solution/rubrics.json:
-        alpha_sha256: 64c37816fcfe8275dde05bcfc8df913a326577802f0d09645f88574b84629a2d
-        bravo_sha256: 64c37816fcfe8275dde05bcfc8df913a326577802f0d09645f88574b84629a2d
-        committed_sha256: 64c37816fcfe8275dde05bcfc8df913a326577802f0d09645f88574b84629a2d
+        alpha_sha256: d2a428e7248cc22883ef98669cfd2da1fac9b0966f9c2bf909622590f1de434f
+        bravo_sha256: d2a428e7248cc22883ef98669cfd2da1fac9b0966f9c2bf909622590f1de434f
+        committed_sha256: d2a428e7248cc22883ef98669cfd2da1fac9b0966f9c2bf909622590f1de434f
         identities_agree: true
         matches_committed: true
       solution/solve.sh:
@@ -3270,15 +3284,15 @@ findings:
   evidence:
     artifacts:
       solution/TRUTH.md:
-        alpha_sha256: 63002d0d78700e3470eefa02f60493c3d1764252c5b4564d73090e80bd5727a8
-        bravo_sha256: 63002d0d78700e3470eefa02f60493c3d1764252c5b4564d73090e80bd5727a8
-        committed_sha256: 0053f5d71fa6ae4e53fc119935a73c6c1733974f55e730f6df7a9fe28c280f5f
+        alpha_sha256: 1cc6bdafeaa8af564a1036cebce898e7cf3f24b028584b8f9c44be050dc0e311
+        bravo_sha256: 1cc6bdafeaa8af564a1036cebce898e7cf3f24b028584b8f9c44be050dc0e311
+        committed_sha256: bd68e0199b82aec8ca3d67ab6e0f74e30d368cfc5cccc37d6055a1700c9cd4d9
         identities_agree: true
         matches_committed: false
       solution/rubrics.json:
-        alpha_sha256: 39088e8356796dda7194d901022a6b056f2547f8114ce3dba13d31e279d39a2c
-        bravo_sha256: 39088e8356796dda7194d901022a6b056f2547f8114ce3dba13d31e279d39a2c
-        committed_sha256: 39088e8356796dda7194d901022a6b056f2547f8114ce3dba13d31e279d39a2c
+        alpha_sha256: 6082a338b95527eea9a6207fc87ecd565b60a50cdc5c7bb1f9ab8f3d70351548
+        bravo_sha256: 6082a338b95527eea9a6207fc87ecd565b60a50cdc5c7bb1f9ab8f3d70351548
+        committed_sha256: 6082a338b95527eea9a6207fc87ecd565b60a50cdc5c7bb1f9ab8f3d70351548
         identities_agree: true
         matches_committed: true
       solution/solve.sh:
@@ -5183,19 +5197,47 @@ findings:
     ngram_width: 5
     normalization_domain: nfkc_fold+lowercase+collapse_whitespace
     path: trajectories/claude-opus-5/run_1/trial.log
-    reverse_containment: 0.985103
+    reverse_containment: 0.974634
     review_threshold: 0.15
     threshold: 0.3
     threshold_source: scope.yaml
-    visible_ngrams: 9868
+    visible_ngrams: 9974
   finding_id: G-LEAK-CONTAINMENT-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-0c541ac728af
   instrument: G-LEAK-CONTAINMENT
   severity: high
   statement: Private carrier trajectories/claude-opus-5/run_1/trial.log of bundle 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
     shares 0.958679 of its normalized 5-gram set with the agent-visible bytes, at or above the retention
-    threshold 0.3. Reverse containment is 0.985103 over 10140 carrier and 9868 visible distinct n-grams.
+    threshold 0.3. Reverse containment is 0.974634 over 10140 carrier and 9974 visible distinct n-grams.
     Containment is symmetric in its overlap and differs only in denominator, so this measurement records
     that the two surfaces share material and does not by itself establish which surface the material originated
+    on; the overlap is retained for adjudication rather than discharged as clean.
+  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+- bucket: deterministic
+  caps: HOLD
+  critical_class: private-carrier-leak
+  evidence:
+    band: retained
+    bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+    carrier: trajectories/.DS_Store
+    carrier_ngrams: 92
+    containment: 0.673913
+    lane: root
+    ngram_width: 5
+    normalization_domain: nfkc_fold+lowercase+collapse_whitespace
+    path: trajectories/.DS_Store
+    reverse_containment: 0.006216
+    review_threshold: 0.15
+    threshold: 0.3
+    threshold_source: scope.yaml
+    visible_ngrams: 9974
+  finding_id: G-LEAK-CONTAINMENT-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-3b34531fdfe1
+  instrument: G-LEAK-CONTAINMENT
+  severity: high
+  statement: Private carrier trajectories/.DS_Store of bundle 4c7b8d6f-c500-585d-b7b2-3519df55b1b3 shares
+    0.673913 of its normalized 5-gram set with the agent-visible bytes, at or above the retention threshold
+    0.3. Reverse containment is 0.006216 over 92 carrier and 9974 visible distinct n-grams. Containment
+    is symmetric in its overlap and differs only in denominator, so this measurement records that the
+    two surfaces share material and does not by itself establish which surface the material originated
     on; the overlap is retained for adjudication rather than discharged as clean.
   subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
 - bucket: deterministic
@@ -5211,17 +5253,73 @@ findings:
     ngram_width: 5
     normalization_domain: nfkc_fold+lowercase+collapse_whitespace
     path: trajectories/zai__glm-5.3/run_1/trial.log
-    reverse_containment: 0.985103
+    reverse_containment: 0.974634
     review_threshold: 0.15
     threshold: 0.3
     threshold_source: scope.yaml
-    visible_ngrams: 9868
+    visible_ngrams: 9974
   finding_id: G-LEAK-CONTAINMENT-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-3f076702643e
   instrument: G-LEAK-CONTAINMENT
   severity: high
   statement: Private carrier trajectories/zai__glm-5.3/run_1/trial.log of bundle 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
     shares 0.958679 of its normalized 5-gram set with the agent-visible bytes, at or above the retention
-    threshold 0.3. Reverse containment is 0.985103 over 10140 carrier and 9868 visible distinct n-grams.
+    threshold 0.3. Reverse containment is 0.974634 over 10140 carrier and 9974 visible distinct n-grams.
+    Containment is symmetric in its overlap and differs only in denominator, so this measurement records
+    that the two surfaces share material and does not by itself establish which surface the material originated
+    on; the overlap is retained for adjudication rather than discharged as clean.
+  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+- bucket: deterministic
+  caps: HOLD
+  critical_class: private-carrier-leak
+  evidence:
+    band: retained
+    bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+    carrier: trajectories/zai__glm-5.3/.DS_Store
+    carrier_ngrams: 104
+    containment: 0.567308
+    lane: root
+    ngram_width: 5
+    normalization_domain: nfkc_fold+lowercase+collapse_whitespace
+    path: trajectories/zai__glm-5.3/.DS_Store
+    reverse_containment: 0.005915
+    review_threshold: 0.15
+    threshold: 0.3
+    threshold_source: scope.yaml
+    visible_ngrams: 9974
+  finding_id: G-LEAK-CONTAINMENT-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-5f4ba7cbd829
+  instrument: G-LEAK-CONTAINMENT
+  severity: high
+  statement: Private carrier trajectories/zai__glm-5.3/.DS_Store of bundle 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+    shares 0.567308 of its normalized 5-gram set with the agent-visible bytes, at or above the retention
+    threshold 0.3. Reverse containment is 0.005915 over 104 carrier and 9974 visible distinct n-grams.
+    Containment is symmetric in its overlap and differs only in denominator, so this measurement records
+    that the two surfaces share material and does not by itself establish which surface the material originated
+    on; the overlap is retained for adjudication rather than discharged as clean.
+  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+- bucket: deterministic
+  caps: HOLD
+  critical_class: private-carrier-leak
+  evidence:
+    band: retained
+    bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+    carrier: trajectories/zai__glm-5.3/run_1/.DS_Store
+    carrier_ngrams: 98
+    containment: 0.632653
+    lane: root
+    ngram_width: 5
+    normalization_domain: nfkc_fold+lowercase+collapse_whitespace
+    path: trajectories/zai__glm-5.3/run_1/.DS_Store
+    reverse_containment: 0.006216
+    review_threshold: 0.15
+    threshold: 0.3
+    threshold_source: scope.yaml
+    visible_ngrams: 9974
+  finding_id: G-LEAK-CONTAINMENT-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-70e2d6f1976b
+  instrument: G-LEAK-CONTAINMENT
+  severity: high
+  statement: Private carrier trajectories/zai__glm-5.3/run_1/.DS_Store of bundle 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+    shares 0.632653 of its normalized 5-gram set with the agent-visible bytes, at or above the retention
+    threshold 0.3. Reverse containment is 0.006216 over 98 carrier and 9974 visible distinct n-grams.
     Containment is symmetric in its overlap and differs only in denominator, so this measurement records
     that the two surfaces share material and does not by itself establish which surface the material originated
     on; the overlap is retained for adjudication rather than discharged as clean.
@@ -5239,17 +5337,17 @@ findings:
     ngram_width: 5
     normalization_domain: nfkc_fold+lowercase+collapse_whitespace
     path: trajectories/claude-opus-5/run_1/trial.log
-    reverse_containment: 0.975365
+    reverse_containment: 0.970243
     review_threshold: 0.15
     threshold: 0.3
     threshold_source: scope.yaml
-    visible_ngrams: 3978
+    visible_ngrams: 3999
   finding_id: G-LEAK-CONTAINMENT-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-0c541ac728af
   instrument: G-LEAK-CONTAINMENT
   severity: high
   statement: Private carrier trajectories/claude-opus-5/run_1/trial.log of bundle 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
     shares 0.912941 of its normalized 5-gram set with the agent-visible bytes, at or above the retention
-    threshold 0.3. Reverse containment is 0.975365 over 4250 carrier and 3978 visible distinct n-grams.
+    threshold 0.3. Reverse containment is 0.970243 over 4250 carrier and 3999 visible distinct n-grams.
     Containment is symmetric in its overlap and differs only in denominator, so this measurement records
     that the two surfaces share material and does not by itself establish which surface the material originated
     on; the overlap is retained for adjudication rather than discharged as clean.
@@ -5267,17 +5365,17 @@ findings:
     ngram_width: 5
     normalization_domain: nfkc_fold+lowercase+collapse_whitespace
     path: trajectories/zai__glm-5.3/run_1/trial.log
-    reverse_containment: 0.975365
+    reverse_containment: 0.970243
     review_threshold: 0.15
     threshold: 0.3
     threshold_source: scope.yaml
-    visible_ngrams: 3978
+    visible_ngrams: 3999
   finding_id: G-LEAK-CONTAINMENT-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-3f076702643e
   instrument: G-LEAK-CONTAINMENT
   severity: high
   statement: Private carrier trajectories/zai__glm-5.3/run_1/trial.log of bundle 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
     shares 0.912941 of its normalized 5-gram set with the agent-visible bytes, at or above the retention
-    threshold 0.3. Reverse containment is 0.975365 over 4250 carrier and 3978 visible distinct n-grams.
+    threshold 0.3. Reverse containment is 0.970243 over 4250 carrier and 3999 visible distinct n-grams.
     Containment is symmetric in its overlap and differs only in denominator, so this measurement records
     that the two surfaces share material and does not by itself establish which surface the material originated
     on; the overlap is retained for adjudication rather than discharged as clean.
@@ -5295,17 +5393,17 @@ findings:
     ngram_width: 5
     normalization_domain: nfkc_fold+lowercase+collapse_whitespace
     path: trajectories/claude-opus-5/run_1/trial.log
-    reverse_containment: 0.982288
+    reverse_containment: 0.976053
     review_threshold: 0.15
     threshold: 0.3
     threshold_source: scope.yaml
-    visible_ngrams: 3444
+    visible_ngrams: 3466
   finding_id: G-LEAK-CONTAINMENT-873914cf-93b2-57a0-a5c8-264bfa2d3b66-0c541ac728af
   instrument: G-LEAK-CONTAINMENT
   severity: high
   statement: Private carrier trajectories/claude-opus-5/run_1/trial.log of bundle 873914cf-93b2-57a0-a5c8-264bfa2d3b66
     shares 0.910388 of its normalized 5-gram set with the agent-visible bytes, at or above the retention
-    threshold 0.3. Reverse containment is 0.982288 over 3716 carrier and 3444 visible distinct n-grams.
+    threshold 0.3. Reverse containment is 0.976053 over 3716 carrier and 3466 visible distinct n-grams.
     Containment is symmetric in its overlap and differs only in denominator, so this measurement records
     that the two surfaces share material and does not by itself establish which surface the material originated
     on; the overlap is retained for adjudication rather than discharged as clean.
@@ -5323,17 +5421,17 @@ findings:
     ngram_width: 5
     normalization_domain: nfkc_fold+lowercase+collapse_whitespace
     path: trajectories/zai__glm-5.3/run_1/trial.log
-    reverse_containment: 0.982288
+    reverse_containment: 0.976053
     review_threshold: 0.15
     threshold: 0.3
     threshold_source: scope.yaml
-    visible_ngrams: 3444
+    visible_ngrams: 3466
   finding_id: G-LEAK-CONTAINMENT-873914cf-93b2-57a0-a5c8-264bfa2d3b66-3f076702643e
   instrument: G-LEAK-CONTAINMENT
   severity: high
   statement: Private carrier trajectories/zai__glm-5.3/run_1/trial.log of bundle 873914cf-93b2-57a0-a5c8-264bfa2d3b66
     shares 0.910388 of its normalized 5-gram set with the agent-visible bytes, at or above the retention
-    threshold 0.3. Reverse containment is 0.982288 over 3716 carrier and 3444 visible distinct n-grams.
+    threshold 0.3. Reverse containment is 0.976053 over 3716 carrier and 3466 visible distinct n-grams.
     Containment is symmetric in its overlap and differs only in denominator, so this measurement records
     that the two surfaces share material and does not by itself establish which surface the material originated
     on; the overlap is retained for adjudication rather than discharged as clean.
@@ -5651,8 +5749,7 @@ findings:
     - summary.json
     outcome_source: result.json verifier_result.scores (read, never recomputed)
     verdict_lines: 13
-    verdict_models:
-    - gpt-5.6-sol
+    verdict_models: []
   finding_id: F-REWARD-SCORER-OUTSIDE-CLOSURE-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-claude-opus-5-run_1
   instrument: rewardprovenance
   severity: critical
@@ -5671,8 +5768,7 @@ findings:
     - summary.json
     outcome_source: result.json verifier_result.scores (read, never recomputed)
     verdict_lines: 13
-    verdict_models:
-    - gpt-5.6-sol
+    verdict_models: []
   finding_id: F-REWARD-SCORER-OUTSIDE-CLOSURE-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-zai__glm-5.3-run_1
   instrument: rewardprovenance
   severity: critical
@@ -5691,8 +5787,7 @@ findings:
     - summary.json
     outcome_source: result.json verifier_result.scores (read, never recomputed)
     verdict_lines: 13
-    verdict_models:
-    - gpt-5.6-sol
+    verdict_models: []
   finding_id: F-REWARD-SCORER-OUTSIDE-CLOSURE-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-claude-opus-5-run_1
   instrument: rewardprovenance
   severity: critical
@@ -5711,8 +5806,7 @@ findings:
     - summary.json
     outcome_source: result.json verifier_result.scores (read, never recomputed)
     verdict_lines: 13
-    verdict_models:
-    - gpt-5.6-sol
+    verdict_models: []
   finding_id: F-REWARD-SCORER-OUTSIDE-CLOSURE-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-zai__glm-5.3-run_1
   instrument: rewardprovenance
   severity: critical
@@ -5731,8 +5825,7 @@ findings:
     - summary.json
     outcome_source: result.json verifier_result.scores (read, never recomputed)
     verdict_lines: 13
-    verdict_models:
-    - gpt-5.6-sol
+    verdict_models: []
   finding_id: F-REWARD-SCORER-OUTSIDE-CLOSURE-873914cf-93b2-57a0-a5c8-264bfa2d3b66-claude-opus-5-run_1
   instrument: rewardprovenance
   severity: critical
@@ -5751,8 +5844,7 @@ findings:
     - summary.json
     outcome_source: result.json verifier_result.scores (read, never recomputed)
     verdict_lines: 13
-    verdict_models:
-    - gpt-5.6-sol
+    verdict_models: []
   finding_id: F-REWARD-SCORER-OUTSIDE-CLOSURE-873914cf-93b2-57a0-a5c8-264bfa2d3b66-zai__glm-5.3-run_1
   instrument: rewardprovenance
   severity: critical
@@ -5931,69 +6023,6 @@ findings:
     items declares mode ''compiled'', so set equality fails in both directions at once: every committed
     compiled test enforces a requirement no rubric item claims is compiled, and the compiled item set
     is empty. The compiled weight share is therefore 0.0000 of 47.0 total weight.'
-  subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-- bucket: deterministic
-  caps: HOLD
-  critical_class: rubric-compilation
-  evidence:
-    bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    residue_source: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3/solution/TRUTH.md
-    ungrounded:
-    - tests/rubrics.json:G1
-    - tests/rubrics.json:G2
-    - tests/rubrics.json:G3
-    - tests/rubrics.json:G4
-    - tests/rubrics.json:G5
-    - tests/rubrics.json:G6
-    - tests/rubrics.json:G7
-  finding_id: RUB-RESIDUE-UNGROUNDED-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-  instrument: G-RUB-RESIDUE
-  severity: high
-  statement: 7 judged rubric item(s) name no semantic residue in solution/TRUTH.md, so nothing on the
-    record says why the item stays a judgment rather than reducing to a deterministic relation over the
-    committed artifacts it names as evidence.
-  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-- bucket: deterministic
-  caps: HOLD
-  critical_class: rubric-compilation
-  evidence:
-    bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    residue_source: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1/solution/TRUTH.md
-    ungrounded:
-    - tests/rubrics.json:G1
-    - tests/rubrics.json:G2
-    - tests/rubrics.json:G3
-    - tests/rubrics.json:G4
-    - tests/rubrics.json:G5
-    - tests/rubrics.json:G6
-    - tests/rubrics.json:G7
-  finding_id: RUB-RESIDUE-UNGROUNDED-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-  instrument: G-RUB-RESIDUE
-  severity: high
-  statement: 7 judged rubric item(s) name no semantic residue in solution/TRUTH.md, so nothing on the
-    record says why the item stays a judgment rather than reducing to a deterministic relation over the
-    committed artifacts it names as evidence.
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-- bucket: deterministic
-  caps: HOLD
-  critical_class: rubric-compilation
-  evidence:
-    bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    residue_source: 873914cf-93b2-57a0-a5c8-264bfa2d3b66/solution/TRUTH.md
-    ungrounded:
-    - tests/rubrics.json:G1
-    - tests/rubrics.json:G2
-    - tests/rubrics.json:G3
-    - tests/rubrics.json:G4
-    - tests/rubrics.json:G5
-    - tests/rubrics.json:G6
-    - tests/rubrics.json:G7
-  finding_id: RUB-RESIDUE-UNGROUNDED-873914cf-93b2-57a0-a5c8-264bfa2d3b66
-  instrument: G-RUB-RESIDUE
-  severity: high
-  statement: 7 judged rubric item(s) name no semantic residue in solution/TRUTH.md, so nothing on the
-    record says why the item stays a judgment rather than reducing to a deterministic relation over the
-    committed artifacts it names as evidence.
   subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
 - bucket: deterministic
   caps: BLOCK
@@ -6321,195 +6350,6 @@ findings:
   caps: BLOCK
   critical_class: rubric-compilation
   evidence:
-    bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    closed_at: 8
-    declared_fields:
-    - criterion
-    - dimension
-    - evaluation_rule
-    - evaluation_target
-    - evidence
-    - id
-    - mode
-    - weight
-    document: tests/rubrics.json
-    item: G1
-    missing_fields:
-    - mode
-    undeclared_fields: []
-  finding_id: RUB-SCHEMA-ITEM-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-tests/rubrics.json-G1
-  instrument: G-RUB-SCHEMA
-  severity: high
-  statement: 'Rubric item G1 in tests/rubrics.json does not conform to the item schema the approved scope
-    closes at 8 fields. Missing: [''mode'']. Outside the closed schema: none. A schema declared closed
-    that the committed items do not satisfy is not a schema the rubric surface is actually validated against.'
-  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: rubric-compilation
-  evidence:
-    bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    closed_at: 8
-    declared_fields:
-    - criterion
-    - dimension
-    - evaluation_rule
-    - evaluation_target
-    - evidence
-    - id
-    - mode
-    - weight
-    document: tests/rubrics.json
-    item: G2
-    missing_fields:
-    - mode
-    undeclared_fields: []
-  finding_id: RUB-SCHEMA-ITEM-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-tests/rubrics.json-G2
-  instrument: G-RUB-SCHEMA
-  severity: high
-  statement: 'Rubric item G2 in tests/rubrics.json does not conform to the item schema the approved scope
-    closes at 8 fields. Missing: [''mode'']. Outside the closed schema: none. A schema declared closed
-    that the committed items do not satisfy is not a schema the rubric surface is actually validated against.'
-  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: rubric-compilation
-  evidence:
-    bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    closed_at: 8
-    declared_fields:
-    - criterion
-    - dimension
-    - evaluation_rule
-    - evaluation_target
-    - evidence
-    - id
-    - mode
-    - weight
-    document: tests/rubrics.json
-    item: G3
-    missing_fields:
-    - mode
-    undeclared_fields: []
-  finding_id: RUB-SCHEMA-ITEM-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-tests/rubrics.json-G3
-  instrument: G-RUB-SCHEMA
-  severity: high
-  statement: 'Rubric item G3 in tests/rubrics.json does not conform to the item schema the approved scope
-    closes at 8 fields. Missing: [''mode'']. Outside the closed schema: none. A schema declared closed
-    that the committed items do not satisfy is not a schema the rubric surface is actually validated against.'
-  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: rubric-compilation
-  evidence:
-    bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    closed_at: 8
-    declared_fields:
-    - criterion
-    - dimension
-    - evaluation_rule
-    - evaluation_target
-    - evidence
-    - id
-    - mode
-    - weight
-    document: tests/rubrics.json
-    item: G4
-    missing_fields:
-    - mode
-    undeclared_fields: []
-  finding_id: RUB-SCHEMA-ITEM-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-tests/rubrics.json-G4
-  instrument: G-RUB-SCHEMA
-  severity: high
-  statement: 'Rubric item G4 in tests/rubrics.json does not conform to the item schema the approved scope
-    closes at 8 fields. Missing: [''mode'']. Outside the closed schema: none. A schema declared closed
-    that the committed items do not satisfy is not a schema the rubric surface is actually validated against.'
-  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: rubric-compilation
-  evidence:
-    bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    closed_at: 8
-    declared_fields:
-    - criterion
-    - dimension
-    - evaluation_rule
-    - evaluation_target
-    - evidence
-    - id
-    - mode
-    - weight
-    document: tests/rubrics.json
-    item: G5
-    missing_fields:
-    - mode
-    undeclared_fields: []
-  finding_id: RUB-SCHEMA-ITEM-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-tests/rubrics.json-G5
-  instrument: G-RUB-SCHEMA
-  severity: high
-  statement: 'Rubric item G5 in tests/rubrics.json does not conform to the item schema the approved scope
-    closes at 8 fields. Missing: [''mode'']. Outside the closed schema: none. A schema declared closed
-    that the committed items do not satisfy is not a schema the rubric surface is actually validated against.'
-  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: rubric-compilation
-  evidence:
-    bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    closed_at: 8
-    declared_fields:
-    - criterion
-    - dimension
-    - evaluation_rule
-    - evaluation_target
-    - evidence
-    - id
-    - mode
-    - weight
-    document: tests/rubrics.json
-    item: G6
-    missing_fields:
-    - mode
-    undeclared_fields: []
-  finding_id: RUB-SCHEMA-ITEM-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-tests/rubrics.json-G6
-  instrument: G-RUB-SCHEMA
-  severity: high
-  statement: 'Rubric item G6 in tests/rubrics.json does not conform to the item schema the approved scope
-    closes at 8 fields. Missing: [''mode'']. Outside the closed schema: none. A schema declared closed
-    that the committed items do not satisfy is not a schema the rubric surface is actually validated against.'
-  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: rubric-compilation
-  evidence:
-    bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    closed_at: 8
-    declared_fields:
-    - criterion
-    - dimension
-    - evaluation_rule
-    - evaluation_target
-    - evidence
-    - id
-    - mode
-    - weight
-    document: tests/rubrics.json
-    item: G7
-    missing_fields:
-    - mode
-    undeclared_fields: []
-  finding_id: RUB-SCHEMA-ITEM-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-tests/rubrics.json-G7
-  instrument: G-RUB-SCHEMA
-  severity: high
-  statement: 'Rubric item G7 in tests/rubrics.json does not conform to the item schema the approved scope
-    closes at 8 fields. Missing: [''mode'']. Outside the closed schema: none. A schema declared closed
-    that the committed items do not satisfy is not a schema the rubric surface is actually validated against.'
-  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: rubric-compilation
-  evidence:
     bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
     closed_at: 8
     declared_fields:
@@ -6684,195 +6524,6 @@ findings:
   caps: BLOCK
   critical_class: rubric-compilation
   evidence:
-    bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    closed_at: 8
-    declared_fields:
-    - criterion
-    - dimension
-    - evaluation_rule
-    - evaluation_target
-    - evidence
-    - id
-    - mode
-    - weight
-    document: tests/rubrics.json
-    item: G1
-    missing_fields:
-    - mode
-    undeclared_fields: []
-  finding_id: RUB-SCHEMA-ITEM-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-tests/rubrics.json-G1
-  instrument: G-RUB-SCHEMA
-  severity: high
-  statement: 'Rubric item G1 in tests/rubrics.json does not conform to the item schema the approved scope
-    closes at 8 fields. Missing: [''mode'']. Outside the closed schema: none. A schema declared closed
-    that the committed items do not satisfy is not a schema the rubric surface is actually validated against.'
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: rubric-compilation
-  evidence:
-    bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    closed_at: 8
-    declared_fields:
-    - criterion
-    - dimension
-    - evaluation_rule
-    - evaluation_target
-    - evidence
-    - id
-    - mode
-    - weight
-    document: tests/rubrics.json
-    item: G2
-    missing_fields:
-    - mode
-    undeclared_fields: []
-  finding_id: RUB-SCHEMA-ITEM-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-tests/rubrics.json-G2
-  instrument: G-RUB-SCHEMA
-  severity: high
-  statement: 'Rubric item G2 in tests/rubrics.json does not conform to the item schema the approved scope
-    closes at 8 fields. Missing: [''mode'']. Outside the closed schema: none. A schema declared closed
-    that the committed items do not satisfy is not a schema the rubric surface is actually validated against.'
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: rubric-compilation
-  evidence:
-    bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    closed_at: 8
-    declared_fields:
-    - criterion
-    - dimension
-    - evaluation_rule
-    - evaluation_target
-    - evidence
-    - id
-    - mode
-    - weight
-    document: tests/rubrics.json
-    item: G3
-    missing_fields:
-    - mode
-    undeclared_fields: []
-  finding_id: RUB-SCHEMA-ITEM-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-tests/rubrics.json-G3
-  instrument: G-RUB-SCHEMA
-  severity: high
-  statement: 'Rubric item G3 in tests/rubrics.json does not conform to the item schema the approved scope
-    closes at 8 fields. Missing: [''mode'']. Outside the closed schema: none. A schema declared closed
-    that the committed items do not satisfy is not a schema the rubric surface is actually validated against.'
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: rubric-compilation
-  evidence:
-    bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    closed_at: 8
-    declared_fields:
-    - criterion
-    - dimension
-    - evaluation_rule
-    - evaluation_target
-    - evidence
-    - id
-    - mode
-    - weight
-    document: tests/rubrics.json
-    item: G4
-    missing_fields:
-    - mode
-    undeclared_fields: []
-  finding_id: RUB-SCHEMA-ITEM-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-tests/rubrics.json-G4
-  instrument: G-RUB-SCHEMA
-  severity: high
-  statement: 'Rubric item G4 in tests/rubrics.json does not conform to the item schema the approved scope
-    closes at 8 fields. Missing: [''mode'']. Outside the closed schema: none. A schema declared closed
-    that the committed items do not satisfy is not a schema the rubric surface is actually validated against.'
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: rubric-compilation
-  evidence:
-    bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    closed_at: 8
-    declared_fields:
-    - criterion
-    - dimension
-    - evaluation_rule
-    - evaluation_target
-    - evidence
-    - id
-    - mode
-    - weight
-    document: tests/rubrics.json
-    item: G5
-    missing_fields:
-    - mode
-    undeclared_fields: []
-  finding_id: RUB-SCHEMA-ITEM-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-tests/rubrics.json-G5
-  instrument: G-RUB-SCHEMA
-  severity: high
-  statement: 'Rubric item G5 in tests/rubrics.json does not conform to the item schema the approved scope
-    closes at 8 fields. Missing: [''mode'']. Outside the closed schema: none. A schema declared closed
-    that the committed items do not satisfy is not a schema the rubric surface is actually validated against.'
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: rubric-compilation
-  evidence:
-    bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    closed_at: 8
-    declared_fields:
-    - criterion
-    - dimension
-    - evaluation_rule
-    - evaluation_target
-    - evidence
-    - id
-    - mode
-    - weight
-    document: tests/rubrics.json
-    item: G6
-    missing_fields:
-    - mode
-    undeclared_fields: []
-  finding_id: RUB-SCHEMA-ITEM-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-tests/rubrics.json-G6
-  instrument: G-RUB-SCHEMA
-  severity: high
-  statement: 'Rubric item G6 in tests/rubrics.json does not conform to the item schema the approved scope
-    closes at 8 fields. Missing: [''mode'']. Outside the closed schema: none. A schema declared closed
-    that the committed items do not satisfy is not a schema the rubric surface is actually validated against.'
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: rubric-compilation
-  evidence:
-    bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    closed_at: 8
-    declared_fields:
-    - criterion
-    - dimension
-    - evaluation_rule
-    - evaluation_target
-    - evidence
-    - id
-    - mode
-    - weight
-    document: tests/rubrics.json
-    item: G7
-    missing_fields:
-    - mode
-    undeclared_fields: []
-  finding_id: RUB-SCHEMA-ITEM-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-tests/rubrics.json-G7
-  instrument: G-RUB-SCHEMA
-  severity: high
-  statement: 'Rubric item G7 in tests/rubrics.json does not conform to the item schema the approved scope
-    closes at 8 fields. Missing: [''mode'']. Outside the closed schema: none. A schema declared closed
-    that the committed items do not satisfy is not a schema the rubric surface is actually validated against.'
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: rubric-compilation
-  evidence:
     bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
     closed_at: 8
     declared_fields:
@@ -7042,195 +6693,6 @@ findings:
     scope closes at 8 fields. Missing: [''evaluation_rule'']. Outside the closed schema: [''judgment''].
     A schema declared closed that the committed items do not satisfy is not a schema the rubric surface
     is actually validated against.'
-  subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: rubric-compilation
-  evidence:
-    bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    closed_at: 8
-    declared_fields:
-    - criterion
-    - dimension
-    - evaluation_rule
-    - evaluation_target
-    - evidence
-    - id
-    - mode
-    - weight
-    document: tests/rubrics.json
-    item: G1
-    missing_fields:
-    - mode
-    undeclared_fields: []
-  finding_id: RUB-SCHEMA-ITEM-873914cf-93b2-57a0-a5c8-264bfa2d3b66-tests/rubrics.json-G1
-  instrument: G-RUB-SCHEMA
-  severity: high
-  statement: 'Rubric item G1 in tests/rubrics.json does not conform to the item schema the approved scope
-    closes at 8 fields. Missing: [''mode'']. Outside the closed schema: none. A schema declared closed
-    that the committed items do not satisfy is not a schema the rubric surface is actually validated against.'
-  subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: rubric-compilation
-  evidence:
-    bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    closed_at: 8
-    declared_fields:
-    - criterion
-    - dimension
-    - evaluation_rule
-    - evaluation_target
-    - evidence
-    - id
-    - mode
-    - weight
-    document: tests/rubrics.json
-    item: G2
-    missing_fields:
-    - mode
-    undeclared_fields: []
-  finding_id: RUB-SCHEMA-ITEM-873914cf-93b2-57a0-a5c8-264bfa2d3b66-tests/rubrics.json-G2
-  instrument: G-RUB-SCHEMA
-  severity: high
-  statement: 'Rubric item G2 in tests/rubrics.json does not conform to the item schema the approved scope
-    closes at 8 fields. Missing: [''mode'']. Outside the closed schema: none. A schema declared closed
-    that the committed items do not satisfy is not a schema the rubric surface is actually validated against.'
-  subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: rubric-compilation
-  evidence:
-    bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    closed_at: 8
-    declared_fields:
-    - criterion
-    - dimension
-    - evaluation_rule
-    - evaluation_target
-    - evidence
-    - id
-    - mode
-    - weight
-    document: tests/rubrics.json
-    item: G3
-    missing_fields:
-    - mode
-    undeclared_fields: []
-  finding_id: RUB-SCHEMA-ITEM-873914cf-93b2-57a0-a5c8-264bfa2d3b66-tests/rubrics.json-G3
-  instrument: G-RUB-SCHEMA
-  severity: high
-  statement: 'Rubric item G3 in tests/rubrics.json does not conform to the item schema the approved scope
-    closes at 8 fields. Missing: [''mode'']. Outside the closed schema: none. A schema declared closed
-    that the committed items do not satisfy is not a schema the rubric surface is actually validated against.'
-  subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: rubric-compilation
-  evidence:
-    bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    closed_at: 8
-    declared_fields:
-    - criterion
-    - dimension
-    - evaluation_rule
-    - evaluation_target
-    - evidence
-    - id
-    - mode
-    - weight
-    document: tests/rubrics.json
-    item: G4
-    missing_fields:
-    - mode
-    undeclared_fields: []
-  finding_id: RUB-SCHEMA-ITEM-873914cf-93b2-57a0-a5c8-264bfa2d3b66-tests/rubrics.json-G4
-  instrument: G-RUB-SCHEMA
-  severity: high
-  statement: 'Rubric item G4 in tests/rubrics.json does not conform to the item schema the approved scope
-    closes at 8 fields. Missing: [''mode'']. Outside the closed schema: none. A schema declared closed
-    that the committed items do not satisfy is not a schema the rubric surface is actually validated against.'
-  subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: rubric-compilation
-  evidence:
-    bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    closed_at: 8
-    declared_fields:
-    - criterion
-    - dimension
-    - evaluation_rule
-    - evaluation_target
-    - evidence
-    - id
-    - mode
-    - weight
-    document: tests/rubrics.json
-    item: G5
-    missing_fields:
-    - mode
-    undeclared_fields: []
-  finding_id: RUB-SCHEMA-ITEM-873914cf-93b2-57a0-a5c8-264bfa2d3b66-tests/rubrics.json-G5
-  instrument: G-RUB-SCHEMA
-  severity: high
-  statement: 'Rubric item G5 in tests/rubrics.json does not conform to the item schema the approved scope
-    closes at 8 fields. Missing: [''mode'']. Outside the closed schema: none. A schema declared closed
-    that the committed items do not satisfy is not a schema the rubric surface is actually validated against.'
-  subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: rubric-compilation
-  evidence:
-    bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    closed_at: 8
-    declared_fields:
-    - criterion
-    - dimension
-    - evaluation_rule
-    - evaluation_target
-    - evidence
-    - id
-    - mode
-    - weight
-    document: tests/rubrics.json
-    item: G6
-    missing_fields:
-    - mode
-    undeclared_fields: []
-  finding_id: RUB-SCHEMA-ITEM-873914cf-93b2-57a0-a5c8-264bfa2d3b66-tests/rubrics.json-G6
-  instrument: G-RUB-SCHEMA
-  severity: high
-  statement: 'Rubric item G6 in tests/rubrics.json does not conform to the item schema the approved scope
-    closes at 8 fields. Missing: [''mode'']. Outside the closed schema: none. A schema declared closed
-    that the committed items do not satisfy is not a schema the rubric surface is actually validated against.'
-  subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: rubric-compilation
-  evidence:
-    bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    closed_at: 8
-    declared_fields:
-    - criterion
-    - dimension
-    - evaluation_rule
-    - evaluation_target
-    - evidence
-    - id
-    - mode
-    - weight
-    document: tests/rubrics.json
-    item: G7
-    missing_fields:
-    - mode
-    undeclared_fields: []
-  finding_id: RUB-SCHEMA-ITEM-873914cf-93b2-57a0-a5c8-264bfa2d3b66-tests/rubrics.json-G7
-  instrument: G-RUB-SCHEMA
-  severity: high
-  statement: 'Rubric item G7 in tests/rubrics.json does not conform to the item schema the approved scope
-    closes at 8 fields. Missing: [''mode'']. Outside the closed schema: none. A schema declared closed
-    that the committed items do not satisfy is not a schema the rubric surface is actually validated against.'
   subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
 - bucket: deterministic
   caps: HOLD

@@ -57,7 +57,7 @@ The null probe measured exactly zero in every bundle, which satisfies the first 
 
 #### Rubric compilation
 
-⛔ 54 findings, 51 capping BLOCK. Rubric items name evidence channels outside the projected closed vocabulary, so a judged item rests on a channel that cannot be resolved. Set equality between compiled item identifiers and committed compiled tests fails in both directions at once: twenty three compiled tests enforce requirements no item declares, and no item declares compiled mode, so the recomputed compiled weight share is zero against the declared floor.
+⛔ 30 findings after the operator rubric updates (was 54), G-RUB-SCHEMA 27 rows (was 48), G-RUB-REPLAY and G-RUB-RESIDUE now clean. Rubric items name evidence channels outside the projected closed vocabulary, so a judged item rests on a channel that cannot be resolved. Set equality between compiled item identifiers and committed compiled tests fails in both directions at once: twenty three compiled tests enforce requirements no item declares, and no item declares compiled mode, so the recomputed compiled weight share is zero against the declared floor.
 
 #### Delivery format and ground truth integrity
 
