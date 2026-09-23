@@ -15,17 +15,17 @@ The whole project in six numbers. Every section after this one expands one of th
 | metric | value | plain meaning |
 | --- | --- | --- |
 | worst disposition | HOLD (waiting on a person or an open gap) | the worst outcome any run reached |
-| open gates | 0 | stops waiting for a human signature |
+| open gates | 1 | stops waiting for a human signature |
 | open runs | 1 | sittings that have not finished |
 | samples occupancy | 0 of 30 (0%) | how full the public shelf of thirty is |
 | sealed not audited | 0 | finished tasks still waiting to be inspected |
-| oldest open gate age (days) | no run | how long the longest signature has been waited on |
+| oldest open gate age (days) | 0 | how long the longest signature has been waited on |
 
 ```mermaid
 xychart-beta
     x-axis ["open gates", "open runs", "samples resident", "sealed not audited", "oldest gate days"]
     y-axis 0 --> 1
-    bar [0, 1, 0, 0, 0]
+    bar [1, 1, 0, 0, 0]
 ```
 
 ## Organizational lanes
@@ -75,7 +75,16 @@ pie showData
 
 Stops that are waiting for a person to sign, oldest first. Nothing behind a gate moves until someone signs it, and the chart below plots how many days each one has been waiting.
 
-no open gate is recorded
+| gate | instrument | run | age (days) |
+| --- | --- | --- | --- |
+| scope sign-off gate | CRUCIBLE | crucible-ankitporwal04-20260923t005222z-dba1b1 | 0 |
+
+```mermaid
+xychart-beta
+    x-axis ["scope sign-off gate CRUC"]
+    y-axis 0 --> 1
+    bar [0]
+```
 
 ## Changed since boundary
 
@@ -146,7 +155,16 @@ xychart-beta
 
 What is standing in the way: gaps are required work nothing covers yet, escalations are runs that raised a problem, and open gates are stops waiting for a signature.
 
-no blocker is recorded
+| instrument | gaps | runs with escalations | open gate names |
+| --- | --- | --- | --- |
+| CRUCIBLE | 0 | 0 | scope sign-off gate |
+
+```mermaid
+xychart-beta
+    x-axis ["CRUCIBLE gaps", "CRUCIBLE gates"]
+    y-axis 0 --> 1
+    bar [0, 1]
+```
 
 ## Sign-off log
 
@@ -185,20 +203,20 @@ FORGE is the author. It writes new tasks in batches, proves each one against its
 CRUCIBLE is the inspector. It audits finished work against recorded evidence and never sees the difficulty targets FORGE was aiming at.
 
 - status: HOLD (waiting on a person or an open gap)
-- phase: unknown
-- progress: phases 0 of 0 (0%), gates 0 of 0 (0%)
-- pending: 0 open gates, 0 gaps
+- phase: 0
+- progress: phases 1 of 4 (25%), gates 0 of 1 (0%)
+- pending: 1 open gate (scope sign-off gate), 0 gaps
 
 ```mermaid
 xychart-beta
     x-axis ["phases done", "phases left", "gates done", "gates left", "open gates", "gaps"]
-    y-axis 0 --> 1
-    bar [0, 0, 0, 0, 0, 0]
+    y-axis 0 --> 3
+    bar [1, 3, 0, 1, 1, 0]
 ```
 
 | run | principal | started | closed | run elapsed, including waits | disposition | phase | closure |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| crucible-ankitporwal04-20260923t005222z-dba1b1 | porwalankit443@gmail.com | 2026-09-23T00:53:07Z | unknown | open | HOLD | unknown | open |
+| crucible-ankitporwal04-20260923t005222z-dba1b1 | porwalankit443@gmail.com | 2026-09-23T00:53:07Z | unknown | open | HOLD | 0 | open |
 
 ## History
 
@@ -206,7 +224,7 @@ Every run ever recorded, in the order it started. A run that arrives late is ins
 
 | started | instrument | run | principal | disposition | phase | closed | closure |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 2026-09-23T00:53:07Z | CRUCIBLE | crucible-ankitporwal04-20260923t005222z-dba1b1 | porwalankit443@gmail.com | HOLD | unknown | unknown | open |
+| 2026-09-23T00:53:07Z | CRUCIBLE | crucible-ankitporwal04-20260923t005222z-dba1b1 | porwalankit443@gmail.com | HOLD | 0 | unknown | open |
 
 ## Flag legend
 

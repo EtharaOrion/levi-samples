@@ -1,0 +1,19 @@
+{
+  "ceiling": "HOLD",
+  "codes": [
+    "APPROVAL_GATE_ABSENT",
+    "GATE_PROTECTION_MISSING",
+    "INTEGRITY_VIOLATION",
+    "PARENT_LAYOUT_SCAN_TRUNCATED",
+    "PARENT_LAYOUT_SUBMODULE_MISSING"
+  ],
+  "error_count": 58,
+  "generated_at": "2026-09-23T01:14:56Z",
+  "instrument": "CRUCIBLE",
+  "moment": "preflight",
+  "run_id": "crucible-ankitporwal04-20260923t005222z-dba1b1",
+  "schema_version": "trinity.gate-receipt/v2",
+  "subject_digest": "1921081e54342f3cdd5ff2107bf9b81f27de9a71365d1ec9917e4dea7c3f7fd4",
+  "tree_sha": "3567df93fb6a95c62410ddccd078c8f0299571f5",
+  "trinity_commit": "a6e5464a4634a3c593cccbe9914010d7150a94fb"
+}
