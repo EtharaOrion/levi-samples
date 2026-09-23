@@ -7,7 +7,7 @@ broken_required_checks:
 - SC-NC-WHITEOUTED-OBJECT-DB
 - SC-PRINCIPLE-SEVEN-FIXTURES
 disposition: BLOCK
-generated_at: '2026-09-23T05:09:32.036721Z'
+generated_at: '2026-09-23T05:16:51.598944Z'
 row_count: 44
 rows:
 - argv:
@@ -18,7 +18,7 @@ rows:
   check_id: SC-FINGERPRINT-DRIFT
   clean_half: clean
   detail: ''
-  elapsed_seconds: 0.000211
+  elapsed_seconds: 0.0002
   exit_code: 0
   instrument: normalize.survives_drift
   outcome: fired
@@ -33,7 +33,7 @@ rows:
   check_id: SC-FORMATTER
   clean_half: clean
   detail: ''
-  elapsed_seconds: 0.034168
+  elapsed_seconds: 0.030901
   exit_code: 0
   instrument: ruff-format
   outcome: fired
@@ -47,7 +47,7 @@ rows:
   check_id: SC-LINTER
   clean_half: clean
   detail: ''
-  elapsed_seconds: 0.080222
+  elapsed_seconds: 0.070588
   exit_code: 0
   instrument: ruff-check
   outcome: fired
@@ -96,7 +96,7 @@ rows:
     clean half {''ingested'': True, ''reason'': '''', ''resolution'': ''unresolved''} and planted half
     {''ingested'': False, ''reason'': ''schema-v1-binds-no-harness-config-or-telemetry'', ''resolution'':
     ''unresolved''}'
-  elapsed_seconds: 0.002
+  elapsed_seconds: 0.001
   exit_code: 0
   instrument: negative-control
   outcome: fired
@@ -129,7 +129,7 @@ rows:
   clean_half: clean
   detail: A blocked tool run cited as evidence must be refused. rule V-COMPLETED-RUN-EVIDENCE; clean half
     did not raise it, positive half raised it as planted
-  elapsed_seconds: 0.205
+  elapsed_seconds: 0.204
   exit_code: 0
   instrument: negative-control
   outcome: fired
@@ -145,7 +145,7 @@ rows:
   detail: Each budget instrument must stay clean on its clean fixture. a manifest carrying only resource
     limits and timeouts was read as carrying no budget block while a manifest declaring budget_hours,
     budget_envelope and budget_margin was read as carrying one
-  elapsed_seconds: 0.003
+  elapsed_seconds: 0.002
   exit_code: 0
   instrument: negative-control
   outcome: fired
@@ -176,7 +176,7 @@ rows:
   clean_half: clean
   detail: A provenance carrier carrying an unknown key must fire. expected finding:F-CON-RECORD-UNKNOWN-KEY;
     clean half stayed quiet, positive half fired as planted
-  elapsed_seconds: 0.016
+  elapsed_seconds: 0.015
   exit_code: 0
   instrument: negative-control
   outcome: fired
@@ -206,7 +206,7 @@ rows:
   clean_half: clean
   detail: A dirty tree presented as clean must be refused. a real repository recorded as clean was accepted
     while a real repository with an uncommitted file recorded as clean was refused
-  elapsed_seconds: 0.36
+  elapsed_seconds: 0.345
   exit_code: 0
   instrument: negative-control
   outcome: fired
@@ -221,7 +221,7 @@ rows:
   clean_half: clean
   detail: An empty all-clear report over a surface carrying issues must be refused. rule V-EMPTY-ALL-CLEAR;
     clean half did not raise it, positive half raised it as planted
-  elapsed_seconds: 0.195
+  elapsed_seconds: 0.199
   exit_code: 0
   instrument: negative-control
   outcome: fired
@@ -252,7 +252,7 @@ rows:
   clean_half: clean
   detail: An excluded ancestor behind a clean direct parent must still be found. expected finding:F-CON-EXCLUSION-MATCH;
     clean half stayed quiet, positive half fired as planted
-  elapsed_seconds: 0.026
+  elapsed_seconds: 0.028
   exit_code: 0
   instrument: negative-control
   outcome: fired
@@ -282,7 +282,7 @@ rows:
   clean_half: clean
   detail: An event timestamp preceding one freeze row while clearing the others must fire. expected finding:F-CON-FREEZE-NOT-LATER;
     clean half stayed quiet, positive half fired as planted
-  elapsed_seconds: 0.018
+  elapsed_seconds: 0.019
   exit_code: 0
   instrument: negative-control
   outcome: fired
@@ -297,7 +297,7 @@ rows:
   clean_half: clean
   detail: A measured non neighbour must stay clean under the near duplicate screen. expected finding:F-CON-NEARDUP-NEIGHBOUR;
     clean half stayed quiet, positive half fired as planted
-  elapsed_seconds: 0.034
+  elapsed_seconds: 0.035
   exit_code: 0
   instrument: negative-control
   outcome: fired
@@ -342,7 +342,7 @@ rows:
   clean_half: clean
   detail: A report omitting an issue the scanner recorded must be refused. rule V-RECALL; clean half did
     not raise it, positive half raised it as planted
-  elapsed_seconds: 0.28
+  elapsed_seconds: 0.287
   exit_code: 0
   instrument: negative-control
   outcome: fired
@@ -420,7 +420,7 @@ rows:
   clean_half: clean
   detail: An unpinned scanner database cited as evidence must be refused. rule V-CONFIG-INTEGRITY; clean
     half did not raise it, positive half raised it as planted
-  elapsed_seconds: 0.2
+  elapsed_seconds: 0.203
   exit_code: 0
   instrument: negative-control
   outcome: fired
@@ -435,7 +435,7 @@ rows:
   clean_half: clean
   detail: Malformed findings input must fail closed rather than parse into a pass. rule V-VOCABULARY;
     clean half did not raise it, positive half raised it as planted
-  elapsed_seconds: 0.199
+  elapsed_seconds: 0.212
   exit_code: 0
   instrument: negative-control
   outcome: fired
@@ -468,7 +468,7 @@ rows:
   clean_half: clean
   detail: A severity that does not recompute from its declared vector must be refused. rule V-CVSS-RECOMPUTATION;
     clean half did not raise it, positive half raised it as planted
-  elapsed_seconds: 0.202
+  elapsed_seconds: 0.203
   exit_code: 0
   instrument: negative-control
   outcome: fired
@@ -628,7 +628,7 @@ rows:
   check_id: SC-SCOPE-APPROVAL-REFUSAL
   clean_half: clean
   detail: ''
-  elapsed_seconds: 0.002136
+  elapsed_seconds: 0.001911
   exit_code: 0
   instrument: recon.scope_binding
   outcome: fired
@@ -642,7 +642,7 @@ rows:
   check_id: SC-SELF-FUZZ
   clean_half: clean
   detail: ''
-  elapsed_seconds: 8.2e-05
+  elapsed_seconds: 5.7e-05
   exit_code: 0
   instrument: core.and.evidence.constructors
   outcome: fired
@@ -658,7 +658,7 @@ rows:
   check_id: SC-TESTS
   clean_half: clean
   detail: a planted failing test failed the runner as expected
-  elapsed_seconds: 0.274423
+  elapsed_seconds: 0.273375
   exit_code: 0
   instrument: pytest
   outcome: fired
@@ -676,7 +676,7 @@ rows:
   clean_half: clean
   detail: type checker reported findings over the harness, recorded and not suppressed; a return type
     violating its annotation was reported as planted
-  elapsed_seconds: 0.957769
+  elapsed_seconds: 1.082821
   exit_code: 1
   instrument: mypy
   outcome: fired
