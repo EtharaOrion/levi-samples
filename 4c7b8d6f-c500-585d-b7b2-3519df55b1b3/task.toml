@@ -104,6 +104,7 @@ timeout_sec = 57600.0
 environment_mode = "shared"
 network_mode = "no-network"
 timeout_sec = 3600.0
+null_floor = 0.0
 
 [span_provenance]
 instance_identity = "jdx/mise v2026.4.3..v2026.4.4"

@@ -1,6 +1,6 @@
 adversary_probes:
 - bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-  disposition_cap: BLOCK
+  disposition_cap: SHIP
   instrument: G-ADV-NULL
   measured_reward: 0.0
   outcome: null
@@ -8,7 +8,7 @@ adversary_probes:
   ran: true
   rule: measured reward must be exactly 0.0
 - bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-  disposition_cap: BLOCK
+  disposition_cap: SHIP
   instrument: G-ADV-NULL
   measured_reward: 0.0
   outcome: null
@@ -16,7 +16,7 @@ adversary_probes:
   ran: true
   rule: measured reward must be exactly 0.0
 - bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-  disposition_cap: BLOCK
+  disposition_cap: SHIP
   instrument: G-ADV-NULL
   measured_reward: 0.0
   outcome: null
@@ -30,9 +30,7 @@ adversary_probes:
   outcome: null
   probe: negated-gold
   ran: false
-  rule: measured reward must be at or below the declared null floor, which this bundle does not declare;
-    a measured 0.0 is at or below every admissible floor and passes that conjunct independently of the
-    absent declaration
+  rule: measured reward must be at or below the declared null floor 0.0
 - bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
   disposition_cap: BLOCK
   instrument: G-ADV-NEGATED
@@ -40,9 +38,7 @@ adversary_probes:
   outcome: null
   probe: negated-gold
   ran: false
-  rule: measured reward must be at or below the declared null floor, which this bundle does not declare;
-    a measured 0.0 is at or below every admissible floor and passes that conjunct independently of the
-    absent declaration
+  rule: measured reward must be at or below the declared null floor 0.0
 - bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
   disposition_cap: BLOCK
   instrument: G-ADV-NEGATED
@@ -50,9 +46,7 @@ adversary_probes:
   outcome: null
   probe: negated-gold
   ran: false
-  rule: measured reward must be at or below the declared null floor, which this bundle does not declare;
-    a measured 0.0 is at or below every admissible floor and passes that conjunct independently of the
-    absent declaration
+  rule: measured reward must be at or below the declared null floor 0.0
 - bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
   disposition_cap: SHIP
   instrument: G-ADV-IDENTIFIERS
@@ -60,9 +54,7 @@ adversary_probes:
   outcome: null
   probe: truth-identifier-list
   ran: true
-  rule: measured reward must be at or below the declared null floor, which this bundle does not declare;
-    a measured 0.0 is at or below every admissible floor and passes that conjunct independently of the
-    absent declaration
+  rule: measured reward must be at or below the declared null floor 0.0
 - bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
   disposition_cap: SHIP
   instrument: G-ADV-IDENTIFIERS
@@ -70,9 +62,7 @@ adversary_probes:
   outcome: null
   probe: truth-identifier-list
   ran: true
-  rule: measured reward must be at or below the declared null floor, which this bundle does not declare;
-    a measured 0.0 is at or below every admissible floor and passes that conjunct independently of the
-    absent declaration
+  rule: measured reward must be at or below the declared null floor 0.0
 - bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
   disposition_cap: SHIP
   instrument: G-ADV-IDENTIFIERS
@@ -80,9 +70,7 @@ adversary_probes:
   outcome: null
   probe: truth-identifier-list
   ran: true
-  rule: measured reward must be at or below the declared null floor, which this bundle does not declare;
-    a measured 0.0 is at or below every admissible floor and passes that conjunct independently of the
-    absent declaration
+  rule: measured reward must be at or below the declared null floor 0.0
 - bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
   disposition_cap: BLOCK
   instrument: G-ADV-STUBBED
@@ -90,9 +78,7 @@ adversary_probes:
   outcome: null
   probe: oracle-stubbed
   ran: false
-  rule: measured reward must be at or below the declared null floor, which this bundle does not declare;
-    a measured 0.0 is at or below every admissible floor and passes that conjunct independently of the
-    absent declaration
+  rule: measured reward must be at or below the declared null floor 0.0
 - bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
   disposition_cap: BLOCK
   instrument: G-ADV-STUBBED
@@ -100,9 +86,7 @@ adversary_probes:
   outcome: null
   probe: oracle-stubbed
   ran: false
-  rule: measured reward must be at or below the declared null floor, which this bundle does not declare;
-    a measured 0.0 is at or below every admissible floor and passes that conjunct independently of the
-    absent declaration
+  rule: measured reward must be at or below the declared null floor 0.0
 - bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
   disposition_cap: BLOCK
   instrument: G-ADV-STUBBED
@@ -110,9 +94,7 @@ adversary_probes:
   outcome: null
   probe: oracle-stubbed
   ran: false
-  rule: measured reward must be at or below the declared null floor, which this bundle does not declare;
-    a measured 0.0 is at or below every admissible floor and passes that conjunct independently of the
-    absent declaration
+  rule: measured reward must be at or below the declared null floor 0.0
 - bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
   disposition_cap: BLOCK
   instrument: G-ADV-COLLECTION-HOOK
@@ -120,9 +102,7 @@ adversary_probes:
   outcome: null
   probe: collection-hook
   ran: false
-  rule: measured reward must be at or below the declared null floor, which this bundle does not declare;
-    a measured 0.0 is at or below every admissible floor and passes that conjunct independently of the
-    absent declaration
+  rule: measured reward must be at or below the declared null floor 0.0
 - bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
   disposition_cap: BLOCK
   instrument: G-ADV-COLLECTION-HOOK
@@ -130,9 +110,7 @@ adversary_probes:
   outcome: null
   probe: collection-hook
   ran: false
-  rule: measured reward must be at or below the declared null floor, which this bundle does not declare;
-    a measured 0.0 is at or below every admissible floor and passes that conjunct independently of the
-    absent declaration
+  rule: measured reward must be at or below the declared null floor 0.0
 - bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
   disposition_cap: BLOCK
   instrument: G-ADV-COLLECTION-HOOK
@@ -140,9 +118,7 @@ adversary_probes:
   outcome: null
   probe: collection-hook
   ran: false
-  rule: measured reward must be at or below the declared null floor, which this bundle does not declare;
-    a measured 0.0 is at or below every admissible floor and passes that conjunct independently of the
-    absent declaration
+  rule: measured reward must be at or below the declared null floor 0.0
 - bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
   disposition_cap: BLOCK
   instrument: G-ADV-PER-DELIVERABLE
@@ -177,9 +153,7 @@ adversary_probes:
   outcome: null
   probe: schema-valid-wrong-content
   ran: false
-  rule: measured reward must be at or below the declared null floor, which this bundle does not declare;
-    a measured 0.0 is at or below every admissible floor and passes that conjunct independently of the
-    absent declaration
+  rule: measured reward must be at or below the declared null floor 0.0
 - bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
   disposition_cap: BLOCK
   instrument: G-ADV-SCHEMA-VALID
@@ -187,9 +161,7 @@ adversary_probes:
   outcome: null
   probe: schema-valid-wrong-content
   ran: false
-  rule: measured reward must be at or below the declared null floor, which this bundle does not declare;
-    a measured 0.0 is at or below every admissible floor and passes that conjunct independently of the
-    absent declaration
+  rule: measured reward must be at or below the declared null floor 0.0
 - bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
   disposition_cap: BLOCK
   instrument: G-ADV-SCHEMA-VALID
@@ -197,9 +169,7 @@ adversary_probes:
   outcome: null
   probe: schema-valid-wrong-content
   ran: false
-  rule: measured reward must be at or below the declared null floor, which this bundle does not declare;
-    a measured 0.0 is at or below every admissible floor and passes that conjunct independently of the
-    absent declaration
+  rule: measured reward must be at or below the declared null floor 0.0
 - bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
   disposition_cap: SHIP
   instrument: G-ADV-FABRICATED-TRAJECTORY
@@ -207,9 +177,7 @@ adversary_probes:
   outcome: null
   probe: fabricated-trajectory
   ran: true
-  rule: measured reward must be at or below the declared null floor, which this bundle does not declare;
-    a measured 0.0 is at or below every admissible floor and passes that conjunct independently of the
-    absent declaration
+  rule: measured reward must be at or below the declared null floor 0.0
 - bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
   disposition_cap: SHIP
   instrument: G-ADV-FABRICATED-TRAJECTORY
@@ -217,9 +185,7 @@ adversary_probes:
   outcome: null
   probe: fabricated-trajectory
   ran: true
-  rule: measured reward must be at or below the declared null floor, which this bundle does not declare;
-    a measured 0.0 is at or below every admissible floor and passes that conjunct independently of the
-    absent declaration
+  rule: measured reward must be at or below the declared null floor 0.0
 - bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
   disposition_cap: SHIP
   instrument: G-ADV-FABRICATED-TRAJECTORY
@@ -227,14 +193,12 @@ adversary_probes:
   outcome: null
   probe: fabricated-trajectory
   ran: true
-  rule: measured reward must be at or below the declared null floor, which this bundle does not declare;
-    a measured 0.0 is at or below every admissible floor and passes that conjunct independently of the
-    absent declaration
+  rule: measured reward must be at or below the declared null floor 0.0
 counts:
-  coverage_gaps_total: 161
-  findings_block: 80
-  findings_hold: 88
-  findings_total: 168
+  coverage_gaps_total: 158
+  findings_block: 22
+  findings_hold: 78
+  findings_total: 100
   instruments_not_run: 11
   instruments_total: 60
   ledger_rows: 88
@@ -273,7 +237,7 @@ coverage_gaps:
   reason: rebuild-from-pinned-digest-blocked
   statement: 'Bundle 4c7b8d6f-c500-585d-b7b2-3519df55b1b3 was not rebuilt or regraded from its pinned
     image digest and recorded invocation contract. The invocation contract is derived and recorded in
-    full at digest 0b7d9c8a99394749d0385e1a397d022be823fc05204479c40efb09471a145b2c. The rebuild was blocked
+    full at digest 6b5616e8b88e0e72dcc5fe45fd84de9dd73507f5a560738f1247a4ae0b4d8820. The rebuild was blocked
     by: every resolvable image reference points at a private registry namespace that requires credentials
     this harness does not hold; no image can be pulled here: network egress is forbidden, so no digest
     resolves regardless of whether one is committed.'
@@ -285,12 +249,10 @@ coverage_gaps:
   reason: rebuild-from-pinned-digest-blocked
   statement: 'Bundle 6bf0c918-e9ad-5397-bb76-cf3e238f2df1 was not rebuilt or regraded from its pinned
     image digest and recorded invocation contract. The invocation contract is derived and recorded in
-    full at digest b418d065fa1cde64263e7c4b199f76e8fc7d36d31136ce250ea6fbf810c1c1af. The rebuild was blocked
-    by: task.toml [metadata].base_image_digest is empty, so the bundle commits no manifest-level pinned
-    digest for the image the measurement ran on; task.toml [metadata].base_image_ref is the bare tag ''pr-1891'',
-    which names no registry and resolves for no consumer; every resolvable image reference points at a
-    private registry namespace that requires credentials this harness does not hold; no image can be pulled
-    here: network egress is forbidden, so no digest resolves regardless of whether one is committed.'
+    full at digest 6592482f410c09e9a64c73306c27acbb5abcf377896bcd5ed369ad6940a03114. The rebuild was blocked
+    by: every resolvable image reference points at a private registry namespace that requires credentials
+    this harness does not hold; no image can be pulled here: network egress is forbidden, so no digest
+    resolves regardless of whether one is committed.'
   subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
   surface: calibration
 - caps: HOLD
@@ -299,12 +261,10 @@ coverage_gaps:
   reason: rebuild-from-pinned-digest-blocked
   statement: 'Bundle 873914cf-93b2-57a0-a5c8-264bfa2d3b66 was not rebuilt or regraded from its pinned
     image digest and recorded invocation contract. The invocation contract is derived and recorded in
-    full at digest 5a679824a97fe2f6bb160ea0b4ba98851235124d6c49eccedfe9418d8a6f0f86. The rebuild was blocked
-    by: task.toml [metadata].base_image_digest is empty, so the bundle commits no manifest-level pinned
-    digest for the image the measurement ran on; task.toml [metadata].base_image_ref is the bare tag ''pr-570'',
-    which names no registry and resolves for no consumer; every resolvable image reference points at a
-    private registry namespace that requires credentials this harness does not hold; no image can be pulled
-    here: network egress is forbidden, so no digest resolves regardless of whether one is committed.'
+    full at digest 4179cd523eb06af162a04593260859749b8aebe8590ec414a37801ce68d6c591. The rebuild was blocked
+    by: every resolvable image reference points at a private registry namespace that requires credentials
+    this harness does not hold; no image can be pulled here: network egress is forbidden, so no digest
+    resolves regardless of whether one is committed.'
   subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
   surface: calibration
 - caps: HOLD
@@ -538,9 +498,9 @@ coverage_gaps:
   reason: mounted-working-tree-not-committed-in-this-repository
   statement: The agent-visible surface of bundle 4c7b8d6f-c500-585d-b7b2-3519df55b1b3 is instruction.md
     plus the repository working tree the container mounts. Only the committed half is present here, namely
-    .DS_Store, instruction.md. The mounted half lives inside a pinned image that this repository does
-    not carry, so containment is measured over the committed half alone. That the framework mounts the
-    remainder privately is a producer claim and is not accepted here as evidence that the boundary held.
+    instruction.md. The mounted half lives inside a pinned image that this repository does not carry,
+    so containment is measured over the committed half alone. That the framework mounts the remainder
+    privately is a producer claim and is not accepted here as evidence that the boundary held.
   subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
   surface: agent_visible_closure
 - caps: HOLD
@@ -549,9 +509,9 @@ coverage_gaps:
   reason: mounted-working-tree-not-committed-in-this-repository
   statement: The agent-visible surface of bundle 6bf0c918-e9ad-5397-bb76-cf3e238f2df1 is instruction.md
     plus the repository working tree the container mounts. Only the committed half is present here, namely
-    .DS_Store, instruction.md. The mounted half lives inside a pinned image that this repository does
-    not carry, so containment is measured over the committed half alone. That the framework mounts the
-    remainder privately is a producer claim and is not accepted here as evidence that the boundary held.
+    instruction.md. The mounted half lives inside a pinned image that this repository does not carry,
+    so containment is measured over the committed half alone. That the framework mounts the remainder
+    privately is a producer claim and is not accepted here as evidence that the boundary held.
   subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
   surface: agent_visible_closure
 - caps: HOLD
@@ -560,9 +520,9 @@ coverage_gaps:
   reason: mounted-working-tree-not-committed-in-this-repository
   statement: The agent-visible surface of bundle 873914cf-93b2-57a0-a5c8-264bfa2d3b66 is instruction.md
     plus the repository working tree the container mounts. Only the committed half is present here, namely
-    .DS_Store, instruction.md. The mounted half lives inside a pinned image that this repository does
-    not carry, so containment is measured over the committed half alone. That the framework mounts the
-    remainder privately is a producer claim and is not accepted here as evidence that the boundary held.
+    instruction.md. The mounted half lives inside a pinned image that this repository does not carry,
+    so containment is measured over the committed half alone. That the framework mounts the remainder
+    privately is a producer claim and is not accepted here as evidence that the boundary held.
   subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
   surface: agent_visible_closure
 - caps: HOLD
@@ -575,7 +535,7 @@ coverage_gaps:
     determinations for other task uuids and no occurrence of this bundle uuid, so no task_hash is projected
     to compare against. The recipe the declared canonical_bundle_hash was produced by is not committed
     in this repository, so the audit harness cannot recompute that value independently; it recomputes
-    its own tree digest dc5a67490e9354d34a6dffc52aeb1cd87b4bee3c00d701eaa870732ed8e3c3b7 instead and records
+    its own tree digest 2177a2496606e32e1ccaeb08d11edafab26efa16bd6b742f18a0c2ff74f1011c instead and records
     it as evidence rather than as a match. The declared binding reads envelope unsigned-no-trust-root,
     so even the in-bundle hash 03aa306c4f584650a31ad57b7a54e669db2d3c9b2fe88a89f543a1b2855b7652 is unauthenticated.
     Every other step 8b check that committed bundle bytes can decide was still run.
@@ -591,7 +551,7 @@ coverage_gaps:
     determinations for other task uuids and no occurrence of this bundle uuid, so no task_hash is projected
     to compare against. The recipe the declared canonical_bundle_hash was produced by is not committed
     in this repository, so the audit harness cannot recompute that value independently; it recomputes
-    its own tree digest 381461be971f58a5cf65e24219392e8de4e4a90472da4c08436bfcdfba27767d instead and records
+    its own tree digest 8827238062dbe847c6da131cc51e5a05c8012e978a1f6934dd3164ee890eaed3 instead and records
     it as evidence rather than as a match. The declared binding reads envelope unsigned-no-trust-root,
     so even the in-bundle hash 10cb07aefb91b15c92125b980e429ccb46420074467ee8581774146d65f82ba1 is unauthenticated.
     Every other step 8b check that committed bundle bytes can decide was still run.
@@ -607,7 +567,7 @@ coverage_gaps:
     determinations for other task uuids and no occurrence of this bundle uuid, so no task_hash is projected
     to compare against. The recipe the declared canonical_bundle_hash was produced by is not committed
     in this repository, so the audit harness cannot recompute that value independently; it recomputes
-    its own tree digest c3332555d8bb60dec66b15aed21e7a708f40349d054d35bbb89786cb32d662e1 instead and records
+    its own tree digest 1a0ac77d66931b99e3b780a38a6de04f035d93ac2c09404a1ef47df60423d367 instead and records
     it as evidence rather than as a match. The declared binding reads envelope unsigned-no-trust-root,
     so even the in-bundle hash 8b0cdb100a78d89ef46315af507dab3058bbc6a497520713a9d8ae6142670b83 is unauthenticated.
     Every other step 8b check that committed bundle bytes can decide was still run.
@@ -1547,33 +1507,6 @@ coverage_gaps:
   subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
   surface: trajectories
 - caps: HOLD
-  gap_id: D-REWARD-NULL-FLOOR-UNDECLARED-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-  instrument: rewarddefinition
-  reason: null-floor-undeclared
-  statement: The task manifest declares no reward floor for a null submission, so the no-op and known-wrong
-    comparisons of step 8o have no bound to be measured against. A preserve-share ceiling is present but
-    is not a reward floor and was not adopted in its place.
-  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-  surface: trajectories
-- caps: HOLD
-  gap_id: D-REWARD-NULL-FLOOR-UNDECLARED-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-  instrument: rewarddefinition
-  reason: null-floor-undeclared
-  statement: The task manifest declares no reward floor for a null submission, so the no-op and known-wrong
-    comparisons of step 8o have no bound to be measured against. A preserve-share ceiling is present but
-    is not a reward floor and was not adopted in its place.
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-  surface: trajectories
-- caps: HOLD
-  gap_id: D-REWARD-NULL-FLOOR-UNDECLARED-873914cf-93b2-57a0-a5c8-264bfa2d3b66
-  instrument: rewarddefinition
-  reason: null-floor-undeclared
-  statement: The task manifest declares no reward floor for a null submission, so the no-op and known-wrong
-    comparisons of step 8o have no bound to be measured against. A preserve-share ceiling is present but
-    is not a reward floor and was not adopted in its place.
-  subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-  surface: trajectories
-- caps: HOLD
   gap_id: D-REWARD-PREREGISTRATION-ABSENT
   instrument: rewarddistribution
   reason: preregistration-absent
@@ -1655,7 +1588,7 @@ coverage_gaps:
   instrument: rolloutintegrity
   reason: operator-signed-root-absent
   statement: No operator-signed trajectory root is projected for this corpus, so the recomputed Merkle
-    root has nothing to be compared against. The root is recorded as c9b86cb50fa997964eae3f0222e35f1dafe355207d6271b8f40fa84a52442b02
+    root has nothing to be compared against. The root is recorded as 9306de839f2f81a261253327b3d8b1cf9d802d74b01158b77c5d7acd01878b7a
     and the comparison resolves as unmeasured rather than as agreement.
   subject: project
   surface: trajectories
@@ -1768,10 +1701,10 @@ coverage_gaps:
   reason: bundle-base-image-unavailable-offline
   statement: 'Container re-grading did not run because no bundle base image resolves in the local daemon
     and every reference is tag-only with an empty digest, so acquiring one would cross the firewall that
-    Phase 1 item 4 forbids reaching across. Unavailable: forge-sanitized/426628337772.dkr.ecr.ap-south-1.amazonaws.com_rfp-coding-q1-tag-milo_jdx_m_mise:pr-8524
-    (digest_pinned=False, local=False), forge-sanitized/426628337772.dkr.ecr.ap-south-1.amazonaws.com_rfp-coding-q1-tag-milo_reflex-dev_m_reflex:pr-1891
-    (digest_pinned=False, local=False), forge-sanitized/426628337772.dkr.ecr.ap-south-1.amazonaws.com_rfp-coding-q1-tag-milo_reflex-dev_m_reflex:pr-570
-    (digest_pinned=False, local=False). The byte-derivable half of this probe ran and is reported separately.'
+    Phase 1 item 4 forbids reaching across. Unavailable: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/jdx_m_mise@sha256:8548f5c7004d60da6a8eaca625e5fb7152c40e355eada9a6bdea339b73fff6bf
+    (digest_pinned=True, local=False), 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:b4d482d8e163d741ac086af764c04daabcd6aee412850fee8a80d8881d90f4ab
+    (digest_pinned=True, local=False), 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:eca2d8710d1baffad6f1d273610bbce183857c73bed6574dce2252fb3fb446aa
+    (digest_pinned=True, local=False). The byte-derivable half of this probe ran and is reported separately.'
   subject: project
   surface: unmodified_base_regrade
 - caps: HOLD
@@ -1780,10 +1713,10 @@ coverage_gaps:
   reason: bundle-base-image-unavailable-offline
   statement: 'Container re-grading did not run because no bundle base image resolves in the local daemon
     and every reference is tag-only with an empty digest, so acquiring one would cross the firewall that
-    Phase 1 item 4 forbids reaching across. Unavailable: forge-sanitized/426628337772.dkr.ecr.ap-south-1.amazonaws.com_rfp-coding-q1-tag-milo_jdx_m_mise:pr-8524
-    (digest_pinned=False, local=False), forge-sanitized/426628337772.dkr.ecr.ap-south-1.amazonaws.com_rfp-coding-q1-tag-milo_reflex-dev_m_reflex:pr-1891
-    (digest_pinned=False, local=False), forge-sanitized/426628337772.dkr.ecr.ap-south-1.amazonaws.com_rfp-coding-q1-tag-milo_reflex-dev_m_reflex:pr-570
-    (digest_pinned=False, local=False). The byte-derivable half of this probe ran and is reported separately.'
+    Phase 1 item 4 forbids reaching across. Unavailable: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/jdx_m_mise@sha256:8548f5c7004d60da6a8eaca625e5fb7152c40e355eada9a6bdea339b73fff6bf
+    (digest_pinned=True, local=False), 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:b4d482d8e163d741ac086af764c04daabcd6aee412850fee8a80d8881d90f4ab
+    (digest_pinned=True, local=False), 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:eca2d8710d1baffad6f1d273610bbce183857c73bed6574dce2252fb3fb446aa
+    (digest_pinned=True, local=False). The byte-derivable half of this probe ran and is reported separately.'
   subject: project
   surface: graded_target_repetition
 - caps: HOLD
@@ -1792,10 +1725,10 @@ coverage_gaps:
   reason: bundle-base-image-unavailable-offline
   statement: 'Container re-grading did not run because no bundle base image resolves in the local daemon
     and every reference is tag-only with an empty digest, so acquiring one would cross the firewall that
-    Phase 1 item 4 forbids reaching across. Unavailable: forge-sanitized/426628337772.dkr.ecr.ap-south-1.amazonaws.com_rfp-coding-q1-tag-milo_jdx_m_mise:pr-8524
-    (digest_pinned=False, local=False), forge-sanitized/426628337772.dkr.ecr.ap-south-1.amazonaws.com_rfp-coding-q1-tag-milo_reflex-dev_m_reflex:pr-1891
-    (digest_pinned=False, local=False), forge-sanitized/426628337772.dkr.ecr.ap-south-1.amazonaws.com_rfp-coding-q1-tag-milo_reflex-dev_m_reflex:pr-570
-    (digest_pinned=False, local=False). The byte-derivable half of this probe ran and is reported separately.'
+    Phase 1 item 4 forbids reaching across. Unavailable: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/jdx_m_mise@sha256:8548f5c7004d60da6a8eaca625e5fb7152c40e355eada9a6bdea339b73fff6bf
+    (digest_pinned=True, local=False), 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:b4d482d8e163d741ac086af764c04daabcd6aee412850fee8a80d8881d90f4ab
+    (digest_pinned=True, local=False), 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:eca2d8710d1baffad6f1d273610bbce183857c73bed6574dce2252fb3fb446aa
+    (digest_pinned=True, local=False). The byte-derivable half of this probe ran and is reported separately.'
   subject: project
   surface: reference_solution_regrade
 - caps: HOLD
@@ -1834,14 +1767,11 @@ coverage_gaps:
   surface: verifier_robustness
 critical_classes:
 - caps:
-    BLOCK: 18
+    BLOCK: 15
   class_cap: BLOCK
   critical_class: adversarial-probe-discrimination
-  finding_count: 18
+  finding_count: 15
   finding_ids:
-  - ADV-NULL-FLOOR-UNDECLARED-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-  - ADV-NULL-FLOOR-UNDECLARED-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-  - ADV-NULL-FLOOR-UNDECLARED-873914cf-93b2-57a0-a5c8-264bfa2d3b66
   - ADV-UNRUNNABLE-G-ADV-COLLECTION-HOOK-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
   - ADV-UNRUNNABLE-G-ADV-COLLECTION-HOOK-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
   - ADV-UNRUNNABLE-G-ADV-COLLECTION-HOOK-873914cf-93b2-57a0-a5c8-264bfa2d3b66
@@ -1860,47 +1790,25 @@ critical_classes:
 - caps:
     HOLD: 2
   class_cap: HOLD
-  critical_class: calibration-and-reproducibility
+  critical_class: contamination-screening
   finding_count: 2
   finding_ids:
-  - CAL-IMAGE-DIGEST-ABSENT-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-  - CAL-IMAGE-DIGEST-ABSENT-873914cf-93b2-57a0-a5c8-264bfa2d3b66
-- caps:
-    BLOCK: 1
-    HOLD: 2
-  class_cap: BLOCK
-  critical_class: contamination-screening
-  finding_count: 3
-  finding_ids:
   - F-CON-NEARDUP-SAME-REPOSITORY-CORPUS-UNIT
-  - F-CON-STRIP-FIX-4c7b8d6f
   - F-CON-STRIP-FIX-SIGNATURE-6bf0c918
 - caps:
-    BLOCK: 6
-    HOLD: 7
-  class_cap: BLOCK
+    HOLD: 1
+  class_cap: HOLD
   critical_class: delivery-format-and-ground-truth-integrity
-  finding_count: 13
+  finding_count: 1
   finding_ids:
   - F-DEL-LAYOUT-DECLARED-ARTIFACT-ABSENT-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-trajectories-zai__glm-5.3-run_1
-  - F-DEL-LAYOUT-UNDEFINED-PATH-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-  - F-DEL-LAYOUT-UNDEFINED-PATH-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-  - F-DEL-LAYOUT-UNDEFINED-PATH-873914cf-93b2-57a0-a5c8-264bfa2d3b66
-  - F-DEL-PIN-IMAGE-UNPINNED-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-  - F-DEL-PIN-IMAGE-UNPINNED-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-  - F-DEL-PIN-IMAGE-UNPINNED-873914cf-93b2-57a0-a5c8-264bfa2d3b66
-  - F-TRUTH-REGEN-DRIFT-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-  - F-TRUTH-REGEN-DRIFT-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-  - F-TRUTH-REGEN-DRIFT-873914cf-93b2-57a0-a5c8-264bfa2d3b66
-  - F-TRUTH-REGEN-GENERATOR-WARNING-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-  - F-TRUTH-REGEN-GENERATOR-WARNING-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-  - F-TRUTH-REGEN-GENERATOR-WARNING-873914cf-93b2-57a0-a5c8-264bfa2d3b66
 - caps:
-    HOLD: 5
+    HOLD: 6
   class_cap: HOLD
   critical_class: delivery-integrity
-  finding_count: 5
+  finding_count: 6
   finding_ids:
+  - G-LEAK-CANARY-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-MISPLACED-2d5bccdf
   - G-LEAK-CANARY-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-MISPLACED-eb0e9a52
   - G-LEAK-CANARY-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-MISPLACED-2d5bccdf
   - G-LEAK-CANARY-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-MISPLACED-eb0e9a52
@@ -1966,33 +1874,26 @@ critical_classes:
   - FID-TRACE-SUPPRESSING-873914cf-93b2-57a0-a5c8-264bfa2d3b66-claude-opus-5-run_1
   - FID-TRACE-SUPPRESSING-873914cf-93b2-57a0-a5c8-264bfa2d3b66-zai__glm-5.3-run_1
 - caps:
-    HOLD: 9
+    HOLD: 6
   class_cap: HOLD
   critical_class: private-carrier-leak
-  finding_count: 9
+  finding_count: 6
   finding_ids:
   - G-LEAK-CONTAINMENT-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-0c541ac728af
-  - G-LEAK-CONTAINMENT-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-3b34531fdfe1
   - G-LEAK-CONTAINMENT-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-3f076702643e
-  - G-LEAK-CONTAINMENT-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-5f4ba7cbd829
-  - G-LEAK-CONTAINMENT-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-70e2d6f1976b
   - G-LEAK-CONTAINMENT-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-0c541ac728af
   - G-LEAK-CONTAINMENT-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-3f076702643e
   - G-LEAK-CONTAINMENT-873914cf-93b2-57a0-a5c8-264bfa2d3b66-0c541ac728af
   - G-LEAK-CONTAINMENT-873914cf-93b2-57a0-a5c8-264bfa2d3b66-3f076702643e
 - caps:
-    BLOCK: 3
     HOLD: 6
-  class_cap: BLOCK
+  class_cap: HOLD
   critical_class: provenance-carrier-integrity
-  finding_count: 9
+  finding_count: 6
   finding_ids:
   - F-CON-RECORD-ENVELOPE-UNSIGNED-4c7b8d6f
   - F-CON-RECORD-ENVELOPE-UNSIGNED-6bf0c918
   - F-CON-RECORD-ENVELOPE-UNSIGNED-873914cf
-  - F-CON-RECORD-FREE-FORM-PROSE-4c7b8d6f
-  - F-CON-RECORD-FREE-FORM-PROSE-6bf0c918
-  - F-CON-RECORD-FREE-FORM-PROSE-873914cf
   - F-CON-RECORD-SIGNATURE-ABSENT-4c7b8d6f
   - F-CON-RECORD-SIGNATURE-ABSENT-6bf0c918
   - F-CON-RECORD-SIGNATURE-ABSENT-873914cf
@@ -2038,42 +1939,6 @@ critical_classes:
   - F-REWARD-VERIFIER-NOT-ISOLATED-873914cf-93b2-57a0-a5c8-264bfa2d3b66-zai__glm-5.3-run_1
   - F-ROLLOUT-SESSION-IDENTIFIER-CONSTANT
 - caps:
-    BLOCK: 30
-  class_cap: BLOCK
-  critical_class: rubric-compilation
-  finding_count: 30
-  finding_ids:
-  - RUB-COMPLETENESS-UNDECLARED-COMPILATION-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-  - RUB-COMPLETENESS-UNDECLARED-COMPILATION-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-  - RUB-COMPLETENESS-UNDECLARED-COMPILATION-873914cf-93b2-57a0-a5c8-264bfa2d3b66
-  - RUB-SCHEMA-CHANNEL-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-tests/rubrics.json-G2-trajectory.tool_calls
-  - RUB-SCHEMA-CHANNEL-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-tests/rubrics.json-G3-trajectory.tool_calls
-  - RUB-SCHEMA-CHANNEL-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-tests/rubrics.json-G4-trajectory.tool_calls
-  - RUB-SCHEMA-CHANNEL-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-tests/rubrics.json-G2-trajectory.tool_calls
-  - RUB-SCHEMA-CHANNEL-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-tests/rubrics.json-G3-trajectory.tool_calls
-  - RUB-SCHEMA-CHANNEL-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-tests/rubrics.json-G4-trajectory.tool_calls
-  - RUB-SCHEMA-CHANNEL-873914cf-93b2-57a0-a5c8-264bfa2d3b66-tests/rubrics.json-G2-trajectory.tool_calls
-  - RUB-SCHEMA-CHANNEL-873914cf-93b2-57a0-a5c8-264bfa2d3b66-tests/rubrics.json-G3-trajectory.tool_calls
-  - RUB-SCHEMA-CHANNEL-873914cf-93b2-57a0-a5c8-264bfa2d3b66-tests/rubrics.json-G4-trajectory.tool_calls
-  - RUB-SCHEMA-ITEM-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-solution/rubrics.json-R1
-  - RUB-SCHEMA-ITEM-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-solution/rubrics.json-R2
-  - RUB-SCHEMA-ITEM-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-solution/rubrics.json-R3
-  - RUB-SCHEMA-ITEM-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-solution/rubrics.json-R4
-  - RUB-SCHEMA-ITEM-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-solution/rubrics.json-R5
-  - RUB-SCHEMA-ITEM-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-solution/rubrics.json-R6
-  - RUB-SCHEMA-ITEM-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-solution/rubrics.json-R1
-  - RUB-SCHEMA-ITEM-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-solution/rubrics.json-R2
-  - RUB-SCHEMA-ITEM-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-solution/rubrics.json-R3
-  - RUB-SCHEMA-ITEM-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-solution/rubrics.json-R4
-  - RUB-SCHEMA-ITEM-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-solution/rubrics.json-R5
-  - RUB-SCHEMA-ITEM-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-solution/rubrics.json-R6
-  - RUB-SCHEMA-ITEM-873914cf-93b2-57a0-a5c8-264bfa2d3b66-solution/rubrics.json-R1
-  - RUB-SCHEMA-ITEM-873914cf-93b2-57a0-a5c8-264bfa2d3b66-solution/rubrics.json-R2
-  - RUB-SCHEMA-ITEM-873914cf-93b2-57a0-a5c8-264bfa2d3b66-solution/rubrics.json-R3
-  - RUB-SCHEMA-ITEM-873914cf-93b2-57a0-a5c8-264bfa2d3b66-solution/rubrics.json-R4
-  - RUB-SCHEMA-ITEM-873914cf-93b2-57a0-a5c8-264bfa2d3b66-solution/rubrics.json-R5
-  - RUB-SCHEMA-ITEM-873914cf-93b2-57a0-a5c8-264bfa2d3b66-solution/rubrics.json-R6
-- caps:
     HOLD: 1
   class_cap: HOLD
   critical_class: screening-root-governance
@@ -2081,124 +1946,18 @@ critical_classes:
   finding_ids:
   - F-CON-FREEZE-ROW-MISSING
 - caps:
-    BLOCK: 15
     HOLD: 1
-  class_cap: BLOCK
+  class_cap: HOLD
   critical_class: verifier-robustness
-  finding_count: 16
+  finding_count: 1
   finding_ids:
   - VER-BASELINE-DROPPED-AT-BASE-873914cf-93b2-57a0-a5c8-264bfa2d3b66
-  - VER-INVARIANCE-NONMEMBERSHIP-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-claude-opus-5/run_1-dialect_or_suite_name_prefixes
-  - VER-INVARIANCE-NONMEMBERSHIP-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-claude-opus-5/run_1-timestamps
-  - VER-INVARIANCE-NONMEMBERSHIP-873914cf-93b2-57a0-a5c8-264bfa2d3b66-claude-opus-5/run_1-dialect_or_suite_name_prefixes
-  - VER-INVARIANCE-NONMEMBERSHIP-873914cf-93b2-57a0-a5c8-264bfa2d3b66-claude-opus-5/run_1-timestamps
-  - VER-INVARIANCE-NONMEMBERSHIP-873914cf-93b2-57a0-a5c8-264bfa2d3b66-zai__glm-5.3/run_1-dialect_or_suite_name_prefixes
-  - VER-INVARIANCE-NONMEMBERSHIP-873914cf-93b2-57a0-a5c8-264bfa2d3b66-zai__glm-5.3/run_1-timestamps
-  - VER-INVARIANCE-OUTCOME-MOVED-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-claude-opus-5/run_1-dialect_or_suite_name_prefixes
-  - VER-INVARIANCE-OUTCOME-MOVED-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-claude-opus-5/run_1-ordinal_suffixes
-  - VER-INVARIANCE-OUTCOME-MOVED-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-claude-opus-5/run_1-timestamps
-  - VER-INVARIANCE-OUTCOME-MOVED-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-zai__glm-5.3/run_1-dialect_or_suite_name_prefixes
-  - VER-INVARIANCE-OUTCOME-MOVED-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-zai__glm-5.3/run_1-ordinal_suffixes
-  - VER-INVARIANCE-OUTCOME-MOVED-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-zai__glm-5.3/run_1-timestamps
-  - VER-INVARIANCE-OUTCOME-MOVED-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-claude-opus-5/run_1-ordinal_suffixes
-  - VER-INVARIANCE-OUTCOME-MOVED-873914cf-93b2-57a0-a5c8-264bfa2d3b66-claude-opus-5/run_1-ordinal_suffixes
-  - VER-INVARIANCE-OUTCOME-MOVED-873914cf-93b2-57a0-a5c8-264bfa2d3b66-zai__glm-5.3/run_1-ordinal_suffixes
 disposition: BLOCK
 disposition_basis: The harness computed BLOCK as the cap over every instrument result. Block-capable findings
   stand from fifteen instruments and the selfcheck receipt carries seven required rows that never ran,
   which principle 7 treats as broken instruments rather than gaps. No waiver promotes this to SHIP.
-evidence_content_digest: 2bb373536a0d46651b8f027baa0d8c5ef82434efad07c2f0c3cb214640c630e5
+evidence_content_digest: 54a91753b01f48df1cc47c7f71530cc4ef48eab6b86680b71f0c476bd9db2b5a
 findings:
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: adversarial-probe-discrimination
-  evidence:
-    bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    floor_search:
-      declared: false
-      nearest_numeric: tests/config.json preserve_baseline_stats.ceiling = 0.05, which bounds the share
-        of the preserve set allowed to be failing at base and is not a reward floor
-      searched:
-      - task.toml [metadata] and [verifier]
-      - tests/config.json
-      - solution/grounding.yaml
-      - solution/bounding.json
-      source: ''
-      value: null
-    measured_null_reward: 0.0
-  finding_id: ADV-NULL-FLOOR-UNDECLARED-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-  instrument: G-ADV-NULL
-  severity: high
-  statement: 'Bundle 4c7b8d6f-c500-585d-b7b2-3519df55b1b3 declares no null floor anywhere in its committed
-    bytes. Step 8t requires a declared null floor at or below 0.05 that equals the measured null reward
-    within 0.005, so the comparison the rule demands cannot be made and the reference point for seven
-    of the eight probe rules is absent. Searched: task.toml [metadata] and [verifier], tests/config.json,
-    solution/grounding.yaml, solution/bounding.json. The nearest numeric is tests/config.json preserve_baseline_stats.ceiling
-    = 0.05, which bounds the share of the preserve set allowed to be failing at base and is not a reward
-    floor, which this instrument refuses to read as the floor because accepting a same-magnitude number
-    from a different quantity would manufacture the comparison rather than make it. The measured null
-    reward is 0.0.'
-  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: adversarial-probe-discrimination
-  evidence:
-    bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    floor_search:
-      declared: false
-      nearest_numeric: tests/config.json preserve_baseline_stats.ceiling = 0.05, which bounds the share
-        of the preserve set allowed to be failing at base and is not a reward floor
-      searched:
-      - task.toml [metadata] and [verifier]
-      - tests/config.json
-      - solution/grounding.yaml
-      - solution/bounding.json
-      source: ''
-      value: null
-    measured_null_reward: 0.0
-  finding_id: ADV-NULL-FLOOR-UNDECLARED-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-  instrument: G-ADV-NULL
-  severity: high
-  statement: 'Bundle 6bf0c918-e9ad-5397-bb76-cf3e238f2df1 declares no null floor anywhere in its committed
-    bytes. Step 8t requires a declared null floor at or below 0.05 that equals the measured null reward
-    within 0.005, so the comparison the rule demands cannot be made and the reference point for seven
-    of the eight probe rules is absent. Searched: task.toml [metadata] and [verifier], tests/config.json,
-    solution/grounding.yaml, solution/bounding.json. The nearest numeric is tests/config.json preserve_baseline_stats.ceiling
-    = 0.05, which bounds the share of the preserve set allowed to be failing at base and is not a reward
-    floor, which this instrument refuses to read as the floor because accepting a same-magnitude number
-    from a different quantity would manufacture the comparison rather than make it. The measured null
-    reward is 0.0.'
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: adversarial-probe-discrimination
-  evidence:
-    bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    floor_search:
-      declared: false
-      nearest_numeric: tests/config.json preserve_baseline_stats.ceiling = 0.05, which bounds the share
-        of the preserve set allowed to be failing at base and is not a reward floor
-      searched:
-      - task.toml [metadata] and [verifier]
-      - tests/config.json
-      - solution/grounding.yaml
-      - solution/bounding.json
-      source: ''
-      value: null
-    measured_null_reward: 0.0
-  finding_id: ADV-NULL-FLOOR-UNDECLARED-873914cf-93b2-57a0-a5c8-264bfa2d3b66
-  instrument: G-ADV-NULL
-  severity: high
-  statement: 'Bundle 873914cf-93b2-57a0-a5c8-264bfa2d3b66 declares no null floor anywhere in its committed
-    bytes. Step 8t requires a declared null floor at or below 0.05 that equals the measured null reward
-    within 0.005, so the comparison the rule demands cannot be made and the reference point for seven
-    of the eight probe rules is absent. Searched: task.toml [metadata] and [verifier], tests/config.json,
-    solution/grounding.yaml, solution/bounding.json. The nearest numeric is tests/config.json preserve_baseline_stats.ceiling
-    = 0.05, which bounds the share of the preserve set allowed to be failing at base and is not a reward
-    floor, which this instrument refuses to read as the floor because accepting a same-magnitude number
-    from a different quantity would manufacture the comparison rather than make it. The measured null
-    reward is 0.0.'
-  subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
 - bucket: deterministic
   caps: BLOCK
   critical_class: adversarial-probe-discrimination
@@ -2206,7 +1965,7 @@ findings:
     artifact_detail: oracle-free workspace plus tests/crucible_adv_hook.rs
     artifact_sha256: 7dec75ab5a6e936aa6dac5c2771f5e3cac8b1e2fa2b4fb60305dc3e7b9339fa5
     bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    declared_floor: null
+    declared_floor: 0.0
     derivability: live_execution
     image_state:
       base_image_digest: sha256:df61963482812a1239195f25326ea9b385012c74ed79acc73cf41d3f59f5bc27
@@ -2222,9 +1981,7 @@ findings:
     measured_reward: null
     measurement_basis: ''
     probe: collection-hook
-    rule: measured reward must be at or below the declared null floor, which this bundle does not declare;
-      a measured 0.0 is at or below every admissible floor and passes that conjunct independently of the
-      absent declaration
+    rule: measured reward must be at or below the declared null floor 0.0
     status: unrunnable
     unrunnable_reason: this probe changes bytes the graded command reads, so its reward is a function
       of test outcomes only an execution inside the pinned image can produce
@@ -2248,12 +2005,12 @@ findings:
     artifact_detail: oracle-free workspace plus conftest.py
     artifact_sha256: 25d00e83732269b989b8f076483672d35ce1529c2cdcbb18c0c4d8d30264431f
     bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    declared_floor: null
+    declared_floor: 0.0
     derivability: live_execution
     image_state:
-      base_image_digest: ''
-      base_image_digest_empty: true
-      base_image_ref: pr-1891
+      base_image_digest: sha256:060777d77ed2fd5a68721b916e006e9bf699c4064d4f28d92efe2cfa9a2d7596
+      base_image_digest_empty: false
+      base_image_ref: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-milo/reflex-dev_m_reflex:pr-1891@sha256:060777d77ed2fd5a68721b916e006e9bf699c4064d4f28d92efe2cfa9a2d7596
       bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
       daemon_blocked_reason: ''
       local_present: false
@@ -2264,9 +2021,7 @@ findings:
     measured_reward: null
     measurement_basis: ''
     probe: collection-hook
-    rule: measured reward must be at or below the declared null floor, which this bundle does not declare;
-      a measured 0.0 is at or below every admissible floor and passes that conjunct independently of the
-      absent declaration
+    rule: measured reward must be at or below the declared null floor 0.0
     status: unrunnable
     unrunnable_reason: this probe changes bytes the graded command reads, so its reward is a function
       of test outcomes only an execution inside the pinned image can produce
@@ -2277,7 +2032,8 @@ findings:
     and step 8t makes an unrunnable probe BLOCK rather than a coverage gap. this probe changes bytes the
     graded command reads, so its reward is a function of test outcomes only an execution inside the pinned
     image can produce. The pinned image cannot be resolved here: bundle 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    carries an EMPTY base_image_digest field, its runtime reference 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:b4d482d8e163d741ac086af764c04daabcd6aee412850fee8a80d8881d90f4ab
+    carries base_image_digest sha256:060777d77ed2fd5a68721b916e006e9bf699c4064d4f28d92efe2cfa9a2d7596,
+    its runtime reference 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:b4d482d8e163d741ac086af764c04daabcd6aee412850fee8a80d8881d90f4ab
     does not resolve in the local daemon (local_present=False, daemon=reachable), and Phase 1 item 4 forbids
     pulling it because that would cross the firewall. No score is recorded for this probe because none
     was measured, and the contract''s BLOCK is recorded rather than downgraded to a HOLD.'
@@ -2289,12 +2045,12 @@ findings:
     artifact_detail: oracle-free workspace plus conftest.py
     artifact_sha256: e3c2ea87804b77eefa7808bf91497e761232e8d7aa512fdd2467462bd5920c81
     bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    declared_floor: null
+    declared_floor: 0.0
     derivability: live_execution
     image_state:
-      base_image_digest: ''
-      base_image_digest_empty: true
-      base_image_ref: pr-570
+      base_image_digest: sha256:feb1885ae818e5eb6b5a153f2a11cc75a84ae2388788d1db78e3484344c532cc
+      base_image_digest_empty: false
+      base_image_ref: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-milo/reflex-dev_m_reflex:pr-570@sha256:feb1885ae818e5eb6b5a153f2a11cc75a84ae2388788d1db78e3484344c532cc
       bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
       daemon_blocked_reason: ''
       local_present: false
@@ -2305,9 +2061,7 @@ findings:
     measured_reward: null
     measurement_basis: ''
     probe: collection-hook
-    rule: measured reward must be at or below the declared null floor, which this bundle does not declare;
-      a measured 0.0 is at or below every admissible floor and passes that conjunct independently of the
-      absent declaration
+    rule: measured reward must be at or below the declared null floor 0.0
     status: unrunnable
     unrunnable_reason: this probe changes bytes the graded command reads, so its reward is a function
       of test outcomes only an execution inside the pinned image can produce
@@ -2318,7 +2072,8 @@ findings:
     and step 8t makes an unrunnable probe BLOCK rather than a coverage gap. this probe changes bytes the
     graded command reads, so its reward is a function of test outcomes only an execution inside the pinned
     image can produce. The pinned image cannot be resolved here: bundle 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    carries an EMPTY base_image_digest field, its runtime reference 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:eca2d8710d1baffad6f1d273610bbce183857c73bed6574dce2252fb3fb446aa
+    carries base_image_digest sha256:feb1885ae818e5eb6b5a153f2a11cc75a84ae2388788d1db78e3484344c532cc,
+    its runtime reference 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:eca2d8710d1baffad6f1d273610bbce183857c73bed6574dce2252fb3fb446aa
     does not resolve in the local daemon (local_present=False, daemon=reachable), and Phase 1 item 4 forbids
     pulling it because that would cross the firewall. No score is recorded for this probe because none
     was measured, and the contract''s BLOCK is recorded rather than downgraded to a HOLD.'
@@ -2330,7 +2085,7 @@ findings:
     artifact_detail: reverse of solution/fix.patch
     artifact_sha256: 657c201a15aa89b5c0de83f264212029b96fcdd5848eaabd2c8d10afaa67e6f7
     bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    declared_floor: null
+    declared_floor: 0.0
     derivability: live_execution
     image_state:
       base_image_digest: sha256:df61963482812a1239195f25326ea9b385012c74ed79acc73cf41d3f59f5bc27
@@ -2346,9 +2101,7 @@ findings:
     measured_reward: null
     measurement_basis: ''
     probe: negated-gold
-    rule: measured reward must be at or below the declared null floor, which this bundle does not declare;
-      a measured 0.0 is at or below every admissible floor and passes that conjunct independently of the
-      absent declaration
+    rule: measured reward must be at or below the declared null floor 0.0
     status: unrunnable
     unrunnable_reason: this probe changes bytes the graded command reads, so its reward is a function
       of test outcomes only an execution inside the pinned image can produce
@@ -2372,12 +2125,12 @@ findings:
     artifact_detail: reverse of solution/fix.patch
     artifact_sha256: 68386975b1c9d3421154e6abeeb4de8d64a6b3c9d762b3ac13d42931a0ae34b4
     bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    declared_floor: null
+    declared_floor: 0.0
     derivability: live_execution
     image_state:
-      base_image_digest: ''
-      base_image_digest_empty: true
-      base_image_ref: pr-1891
+      base_image_digest: sha256:060777d77ed2fd5a68721b916e006e9bf699c4064d4f28d92efe2cfa9a2d7596
+      base_image_digest_empty: false
+      base_image_ref: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-milo/reflex-dev_m_reflex:pr-1891@sha256:060777d77ed2fd5a68721b916e006e9bf699c4064d4f28d92efe2cfa9a2d7596
       bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
       daemon_blocked_reason: ''
       local_present: false
@@ -2388,9 +2141,7 @@ findings:
     measured_reward: null
     measurement_basis: ''
     probe: negated-gold
-    rule: measured reward must be at or below the declared null floor, which this bundle does not declare;
-      a measured 0.0 is at or below every admissible floor and passes that conjunct independently of the
-      absent declaration
+    rule: measured reward must be at or below the declared null floor 0.0
     status: unrunnable
     unrunnable_reason: this probe changes bytes the graded command reads, so its reward is a function
       of test outcomes only an execution inside the pinned image can produce
@@ -2401,7 +2152,8 @@ findings:
     step 8t makes an unrunnable probe BLOCK rather than a coverage gap. this probe changes bytes the graded
     command reads, so its reward is a function of test outcomes only an execution inside the pinned image
     can produce. The pinned image cannot be resolved here: bundle 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    carries an EMPTY base_image_digest field, its runtime reference 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:b4d482d8e163d741ac086af764c04daabcd6aee412850fee8a80d8881d90f4ab
+    carries base_image_digest sha256:060777d77ed2fd5a68721b916e006e9bf699c4064d4f28d92efe2cfa9a2d7596,
+    its runtime reference 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:b4d482d8e163d741ac086af764c04daabcd6aee412850fee8a80d8881d90f4ab
     does not resolve in the local daemon (local_present=False, daemon=reachable), and Phase 1 item 4 forbids
     pulling it because that would cross the firewall. No score is recorded for this probe because none
     was measured, and the contract''s BLOCK is recorded rather than downgraded to a HOLD.'
@@ -2413,12 +2165,12 @@ findings:
     artifact_detail: reverse of solution/fix.patch
     artifact_sha256: 3e672ffcbdf0b741d1459ef65ea794dd49c235f4de0244d7c2a79831d61eec48
     bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    declared_floor: null
+    declared_floor: 0.0
     derivability: live_execution
     image_state:
-      base_image_digest: ''
-      base_image_digest_empty: true
-      base_image_ref: pr-570
+      base_image_digest: sha256:feb1885ae818e5eb6b5a153f2a11cc75a84ae2388788d1db78e3484344c532cc
+      base_image_digest_empty: false
+      base_image_ref: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-milo/reflex-dev_m_reflex:pr-570@sha256:feb1885ae818e5eb6b5a153f2a11cc75a84ae2388788d1db78e3484344c532cc
       bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
       daemon_blocked_reason: ''
       local_present: false
@@ -2429,9 +2181,7 @@ findings:
     measured_reward: null
     measurement_basis: ''
     probe: negated-gold
-    rule: measured reward must be at or below the declared null floor, which this bundle does not declare;
-      a measured 0.0 is at or below every admissible floor and passes that conjunct independently of the
-      absent declaration
+    rule: measured reward must be at or below the declared null floor 0.0
     status: unrunnable
     unrunnable_reason: this probe changes bytes the graded command reads, so its reward is a function
       of test outcomes only an execution inside the pinned image can produce
@@ -2442,7 +2192,8 @@ findings:
     step 8t makes an unrunnable probe BLOCK rather than a coverage gap. this probe changes bytes the graded
     command reads, so its reward is a function of test outcomes only an execution inside the pinned image
     can produce. The pinned image cannot be resolved here: bundle 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    carries an EMPTY base_image_digest field, its runtime reference 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:eca2d8710d1baffad6f1d273610bbce183857c73bed6574dce2252fb3fb446aa
+    carries base_image_digest sha256:feb1885ae818e5eb6b5a153f2a11cc75a84ae2388788d1db78e3484344c532cc,
+    its runtime reference 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:eca2d8710d1baffad6f1d273610bbce183857c73bed6574dce2252fb3fb446aa
     does not resolve in the local daemon (local_present=False, daemon=reachable), and Phase 1 item 4 forbids
     pulling it because that would cross the firewall. No score is recorded for this probe because none
     was measured, and the contract''s BLOCK is recorded rather than downgraded to a HOLD.'
@@ -2454,7 +2205,7 @@ findings:
     artifact_detail: oracle plus garbage beside 66 declared deliverables
     artifact_sha256: 170826c2dd7e435565effad4dd1679d0d1554e8badc4973b50ec6bb1e572a3d6
     bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    declared_floor: null
+    declared_floor: 0.0
     derivability: live_execution
     image_state:
       base_image_digest: sha256:df61963482812a1239195f25326ea9b385012c74ed79acc73cf41d3f59f5bc27
@@ -2495,12 +2246,12 @@ findings:
     artifact_detail: oracle plus garbage beside 43 declared deliverables
     artifact_sha256: 57b20dd53f8eb2fa0074958895a8b3f5550cab65f30d47177ae7059e988d5a9d
     bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    declared_floor: null
+    declared_floor: 0.0
     derivability: live_execution
     image_state:
-      base_image_digest: ''
-      base_image_digest_empty: true
-      base_image_ref: pr-1891
+      base_image_digest: sha256:060777d77ed2fd5a68721b916e006e9bf699c4064d4f28d92efe2cfa9a2d7596
+      base_image_digest_empty: false
+      base_image_ref: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-milo/reflex-dev_m_reflex:pr-1891@sha256:060777d77ed2fd5a68721b916e006e9bf699c4064d4f28d92efe2cfa9a2d7596
       bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
       daemon_blocked_reason: ''
       local_present: false
@@ -2523,7 +2274,8 @@ findings:
     and step 8t makes an unrunnable probe BLOCK rather than a coverage gap. this probe changes bytes the
     graded command reads, so its reward is a function of test outcomes only an execution inside the pinned
     image can produce. The pinned image cannot be resolved here: bundle 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    carries an EMPTY base_image_digest field, its runtime reference 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:b4d482d8e163d741ac086af764c04daabcd6aee412850fee8a80d8881d90f4ab
+    carries base_image_digest sha256:060777d77ed2fd5a68721b916e006e9bf699c4064d4f28d92efe2cfa9a2d7596,
+    its runtime reference 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:b4d482d8e163d741ac086af764c04daabcd6aee412850fee8a80d8881d90f4ab
     does not resolve in the local daemon (local_present=False, daemon=reachable), and Phase 1 item 4 forbids
     pulling it because that would cross the firewall. No score is recorded for this probe because none
     was measured, and the contract''s BLOCK is recorded rather than downgraded to a HOLD.'
@@ -2535,12 +2287,12 @@ findings:
     artifact_detail: oracle plus garbage beside 34 declared deliverables
     artifact_sha256: 645c130aa39d85fc8f820cb46cd34a23b7cee5bbb6f0a6b817168d7f878b1f36
     bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    declared_floor: null
+    declared_floor: 0.0
     derivability: live_execution
     image_state:
-      base_image_digest: ''
-      base_image_digest_empty: true
-      base_image_ref: pr-570
+      base_image_digest: sha256:feb1885ae818e5eb6b5a153f2a11cc75a84ae2388788d1db78e3484344c532cc
+      base_image_digest_empty: false
+      base_image_ref: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-milo/reflex-dev_m_reflex:pr-570@sha256:feb1885ae818e5eb6b5a153f2a11cc75a84ae2388788d1db78e3484344c532cc
       bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
       daemon_blocked_reason: ''
       local_present: false
@@ -2563,7 +2315,8 @@ findings:
     and step 8t makes an unrunnable probe BLOCK rather than a coverage gap. this probe changes bytes the
     graded command reads, so its reward is a function of test outcomes only an execution inside the pinned
     image can produce. The pinned image cannot be resolved here: bundle 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    carries an EMPTY base_image_digest field, its runtime reference 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:eca2d8710d1baffad6f1d273610bbce183857c73bed6574dce2252fb3fb446aa
+    carries base_image_digest sha256:feb1885ae818e5eb6b5a153f2a11cc75a84ae2388788d1db78e3484344c532cc,
+    its runtime reference 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:eca2d8710d1baffad6f1d273610bbce183857c73bed6574dce2252fb3fb446aa
     does not resolve in the local daemon (local_present=False, daemon=reachable), and Phase 1 item 4 forbids
     pulling it because that would cross the firewall. No score is recorded for this probe because none
     was measured, and the contract''s BLOCK is recorded rather than downgraded to a HOLD.'
@@ -2575,7 +2328,7 @@ findings:
     artifact_detail: oracle paths with every content field replaced
     artifact_sha256: 17dda66e6183f68daf14a8b5c9c3aed6a22d342ecc2ec9b01e93147285768298
     bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    declared_floor: null
+    declared_floor: 0.0
     derivability: live_execution
     image_state:
       base_image_digest: sha256:df61963482812a1239195f25326ea9b385012c74ed79acc73cf41d3f59f5bc27
@@ -2591,9 +2344,7 @@ findings:
     measured_reward: null
     measurement_basis: ''
     probe: schema-valid-wrong-content
-    rule: measured reward must be at or below the declared null floor, which this bundle does not declare;
-      a measured 0.0 is at or below every admissible floor and passes that conjunct independently of the
-      absent declaration
+    rule: measured reward must be at or below the declared null floor 0.0
     status: unrunnable
     unrunnable_reason: this probe changes bytes the graded command reads, so its reward is a function
       of test outcomes only an execution inside the pinned image can produce
@@ -2617,12 +2368,12 @@ findings:
     artifact_detail: oracle paths with every content field replaced
     artifact_sha256: 6675088772a296ed3788e9bfdf8b842231cd19cc35ba2fdf047e11723c58e584
     bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    declared_floor: null
+    declared_floor: 0.0
     derivability: live_execution
     image_state:
-      base_image_digest: ''
-      base_image_digest_empty: true
-      base_image_ref: pr-1891
+      base_image_digest: sha256:060777d77ed2fd5a68721b916e006e9bf699c4064d4f28d92efe2cfa9a2d7596
+      base_image_digest_empty: false
+      base_image_ref: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-milo/reflex-dev_m_reflex:pr-1891@sha256:060777d77ed2fd5a68721b916e006e9bf699c4064d4f28d92efe2cfa9a2d7596
       bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
       daemon_blocked_reason: ''
       local_present: false
@@ -2633,9 +2384,7 @@ findings:
     measured_reward: null
     measurement_basis: ''
     probe: schema-valid-wrong-content
-    rule: measured reward must be at or below the declared null floor, which this bundle does not declare;
-      a measured 0.0 is at or below every admissible floor and passes that conjunct independently of the
-      absent declaration
+    rule: measured reward must be at or below the declared null floor 0.0
     status: unrunnable
     unrunnable_reason: this probe changes bytes the graded command reads, so its reward is a function
       of test outcomes only an execution inside the pinned image can produce
@@ -2646,7 +2395,8 @@ findings:
     and step 8t makes an unrunnable probe BLOCK rather than a coverage gap. this probe changes bytes the
     graded command reads, so its reward is a function of test outcomes only an execution inside the pinned
     image can produce. The pinned image cannot be resolved here: bundle 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    carries an EMPTY base_image_digest field, its runtime reference 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:b4d482d8e163d741ac086af764c04daabcd6aee412850fee8a80d8881d90f4ab
+    carries base_image_digest sha256:060777d77ed2fd5a68721b916e006e9bf699c4064d4f28d92efe2cfa9a2d7596,
+    its runtime reference 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:b4d482d8e163d741ac086af764c04daabcd6aee412850fee8a80d8881d90f4ab
     does not resolve in the local daemon (local_present=False, daemon=reachable), and Phase 1 item 4 forbids
     pulling it because that would cross the firewall. No score is recorded for this probe because none
     was measured, and the contract''s BLOCK is recorded rather than downgraded to a HOLD.'
@@ -2658,12 +2408,12 @@ findings:
     artifact_detail: oracle paths with every content field replaced
     artifact_sha256: 08454ff945c05ef4a84771523c92398b09b1d904c690de3de3f2dd2c5247590f
     bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    declared_floor: null
+    declared_floor: 0.0
     derivability: live_execution
     image_state:
-      base_image_digest: ''
-      base_image_digest_empty: true
-      base_image_ref: pr-570
+      base_image_digest: sha256:feb1885ae818e5eb6b5a153f2a11cc75a84ae2388788d1db78e3484344c532cc
+      base_image_digest_empty: false
+      base_image_ref: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-milo/reflex-dev_m_reflex:pr-570@sha256:feb1885ae818e5eb6b5a153f2a11cc75a84ae2388788d1db78e3484344c532cc
       bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
       daemon_blocked_reason: ''
       local_present: false
@@ -2674,9 +2424,7 @@ findings:
     measured_reward: null
     measurement_basis: ''
     probe: schema-valid-wrong-content
-    rule: measured reward must be at or below the declared null floor, which this bundle does not declare;
-      a measured 0.0 is at or below every admissible floor and passes that conjunct independently of the
-      absent declaration
+    rule: measured reward must be at or below the declared null floor 0.0
     status: unrunnable
     unrunnable_reason: this probe changes bytes the graded command reads, so its reward is a function
       of test outcomes only an execution inside the pinned image can produce
@@ -2687,7 +2435,8 @@ findings:
     and step 8t makes an unrunnable probe BLOCK rather than a coverage gap. this probe changes bytes the
     graded command reads, so its reward is a function of test outcomes only an execution inside the pinned
     image can produce. The pinned image cannot be resolved here: bundle 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    carries an EMPTY base_image_digest field, its runtime reference 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:eca2d8710d1baffad6f1d273610bbce183857c73bed6574dce2252fb3fb446aa
+    carries base_image_digest sha256:feb1885ae818e5eb6b5a153f2a11cc75a84ae2388788d1db78e3484344c532cc,
+    its runtime reference 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:eca2d8710d1baffad6f1d273610bbce183857c73bed6574dce2252fb3fb446aa
     does not resolve in the local daemon (local_present=False, daemon=reachable), and Phase 1 item 4 forbids
     pulling it because that would cross the firewall. No score is recorded for this probe because none
     was measured, and the contract''s BLOCK is recorded rather than downgraded to a HOLD.'
@@ -2699,7 +2448,7 @@ findings:
     artifact_detail: oracle plus a stub for every service
     artifact_sha256: 88a1497effa8850d36e11f2ac41e536260392f94bdd998cf80fcf7d93b94e8c2
     bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    declared_floor: null
+    declared_floor: 0.0
     derivability: live_execution
     image_state:
       base_image_digest: sha256:df61963482812a1239195f25326ea9b385012c74ed79acc73cf41d3f59f5bc27
@@ -2715,9 +2464,7 @@ findings:
     measured_reward: null
     measurement_basis: ''
     probe: oracle-stubbed
-    rule: measured reward must be at or below the declared null floor, which this bundle does not declare;
-      a measured 0.0 is at or below every admissible floor and passes that conjunct independently of the
-      absent declaration
+    rule: measured reward must be at or below the declared null floor 0.0
     status: unrunnable
     unrunnable_reason: this probe changes bytes the graded command reads, so its reward is a function
       of test outcomes only an execution inside the pinned image can produce
@@ -2741,12 +2488,12 @@ findings:
     artifact_detail: oracle plus a stub for every service
     artifact_sha256: 340d304dff105bb1b7638d7e74fdea6c0caa0875d75ccfa6a5acb820e3ac098d
     bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    declared_floor: null
+    declared_floor: 0.0
     derivability: live_execution
     image_state:
-      base_image_digest: ''
-      base_image_digest_empty: true
-      base_image_ref: pr-1891
+      base_image_digest: sha256:060777d77ed2fd5a68721b916e006e9bf699c4064d4f28d92efe2cfa9a2d7596
+      base_image_digest_empty: false
+      base_image_ref: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-milo/reflex-dev_m_reflex:pr-1891@sha256:060777d77ed2fd5a68721b916e006e9bf699c4064d4f28d92efe2cfa9a2d7596
       bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
       daemon_blocked_reason: ''
       local_present: false
@@ -2757,9 +2504,7 @@ findings:
     measured_reward: null
     measurement_basis: ''
     probe: oracle-stubbed
-    rule: measured reward must be at or below the declared null floor, which this bundle does not declare;
-      a measured 0.0 is at or below every admissible floor and passes that conjunct independently of the
-      absent declaration
+    rule: measured reward must be at or below the declared null floor 0.0
     status: unrunnable
     unrunnable_reason: this probe changes bytes the graded command reads, so its reward is a function
       of test outcomes only an execution inside the pinned image can produce
@@ -2770,7 +2515,8 @@ findings:
     step 8t makes an unrunnable probe BLOCK rather than a coverage gap. this probe changes bytes the graded
     command reads, so its reward is a function of test outcomes only an execution inside the pinned image
     can produce. The pinned image cannot be resolved here: bundle 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    carries an EMPTY base_image_digest field, its runtime reference 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:b4d482d8e163d741ac086af764c04daabcd6aee412850fee8a80d8881d90f4ab
+    carries base_image_digest sha256:060777d77ed2fd5a68721b916e006e9bf699c4064d4f28d92efe2cfa9a2d7596,
+    its runtime reference 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:b4d482d8e163d741ac086af764c04daabcd6aee412850fee8a80d8881d90f4ab
     does not resolve in the local daemon (local_present=False, daemon=reachable), and Phase 1 item 4 forbids
     pulling it because that would cross the firewall. No score is recorded for this probe because none
     was measured, and the contract''s BLOCK is recorded rather than downgraded to a HOLD.'
@@ -2782,12 +2528,12 @@ findings:
     artifact_detail: oracle plus a stub for every service
     artifact_sha256: 18da803af6e4bffd1f77182cf838e69a856481f82b6da71daf28e26336449fc6
     bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    declared_floor: null
+    declared_floor: 0.0
     derivability: live_execution
     image_state:
-      base_image_digest: ''
-      base_image_digest_empty: true
-      base_image_ref: pr-570
+      base_image_digest: sha256:feb1885ae818e5eb6b5a153f2a11cc75a84ae2388788d1db78e3484344c532cc
+      base_image_digest_empty: false
+      base_image_ref: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-milo/reflex-dev_m_reflex:pr-570@sha256:feb1885ae818e5eb6b5a153f2a11cc75a84ae2388788d1db78e3484344c532cc
       bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
       daemon_blocked_reason: ''
       local_present: false
@@ -2798,9 +2544,7 @@ findings:
     measured_reward: null
     measurement_basis: ''
     probe: oracle-stubbed
-    rule: measured reward must be at or below the declared null floor, which this bundle does not declare;
-      a measured 0.0 is at or below every admissible floor and passes that conjunct independently of the
-      absent declaration
+    rule: measured reward must be at or below the declared null floor 0.0
     status: unrunnable
     unrunnable_reason: this probe changes bytes the graded command reads, so its reward is a function
       of test outcomes only an execution inside the pinned image can produce
@@ -2811,52 +2555,11 @@ findings:
     step 8t makes an unrunnable probe BLOCK rather than a coverage gap. this probe changes bytes the graded
     command reads, so its reward is a function of test outcomes only an execution inside the pinned image
     can produce. The pinned image cannot be resolved here: bundle 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    carries an EMPTY base_image_digest field, its runtime reference 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:eca2d8710d1baffad6f1d273610bbce183857c73bed6574dce2252fb3fb446aa
+    carries base_image_digest sha256:feb1885ae818e5eb6b5a153f2a11cc75a84ae2388788d1db78e3484344c532cc,
+    its runtime reference 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:eca2d8710d1baffad6f1d273610bbce183857c73bed6574dce2252fb3fb446aa
     does not resolve in the local daemon (local_present=False, daemon=reachable), and Phase 1 item 4 forbids
     pulling it because that would cross the firewall. No score is recorded for this probe because none
     was measured, and the contract''s BLOCK is recorded rather than downgraded to a HOLD.'
-  subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-- bucket: deterministic
-  caps: HOLD
-  critical_class: calibration-and-reproducibility
-  evidence:
-    base_image_digest: ''
-    base_image_ref: pr-1891
-    manifest_digest: 736db80b528b238916194e2c411f80f14b534959c535490db825d4f33107b9c9
-    platform_manifest_digest: sha256:060777d77ed2fd5a68721b916e006e9bf699c4064d4f28d92efe2cfa9a2d7596
-    runtime_image_digest_pinned: true
-    runtime_image_ref: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:b4d482d8e163d741ac086af764c04daabcd6aee412850fee8a80d8881d90f4ab
-    uuid: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-  finding_id: CAL-IMAGE-DIGEST-ABSENT-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-  instrument: G-CAL-REPRODUCIBILITY
-  severity: high
-  statement: The committed manifest declares base_image_ref as 'pr-1891' with an empty base_image_digest,
-    so the bundle commits no manifest-level pinned digest for the image its measurement ran on. A consumer
-    holding only this bundle cannot resolve that image, which makes the bundle unreproducible on its own
-    terms. This is a defect in the committed bundle and not merely a blocker for this auditor. The platform
-    sub-manifest digest the manifest does carry is not a substitute, because the manifest's own committed
-    text records it as evidence rather than as the reference.
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-- bucket: deterministic
-  caps: HOLD
-  critical_class: calibration-and-reproducibility
-  evidence:
-    base_image_digest: ''
-    base_image_ref: pr-570
-    manifest_digest: 8bfb8950f5ebf647a28bd73a871b34ab1e56b5c2ab975717f432d47d229f4935
-    platform_manifest_digest: sha256:feb1885ae818e5eb6b5a153f2a11cc75a84ae2388788d1db78e3484344c532cc
-    runtime_image_digest_pinned: true
-    runtime_image_ref: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:eca2d8710d1baffad6f1d273610bbce183857c73bed6574dce2252fb3fb446aa
-    uuid: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-  finding_id: CAL-IMAGE-DIGEST-ABSENT-873914cf-93b2-57a0-a5c8-264bfa2d3b66
-  instrument: G-CAL-REPRODUCIBILITY
-  severity: high
-  statement: The committed manifest declares base_image_ref as 'pr-570' with an empty base_image_digest,
-    so the bundle commits no manifest-level pinned digest for the image its measurement ran on. A consumer
-    holding only this bundle cannot resolve that image, which makes the bundle unreproducible on its own
-    terms. This is a defect in the committed bundle and not merely a blocker for this auditor. The platform
-    sub-manifest digest the manifest does carry is not a substitute, because the manifest's own committed
-    text records it as evidence rather than as the reference.
   subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
 - bucket: deterministic
   caps: HOLD
@@ -2972,31 +2675,6 @@ findings:
     screen.
   subject: project
 - bucket: deterministic
-  caps: BLOCK
-  critical_class: contamination-screening
-  evidence:
-    closure_files:
-    - environment/Dockerfile
-    - environment/sanitize-entrypoint.sh
-    - instruction.md
-    examples:
-    - '- **(ci)** auto-convert external PRs to draft mode by @jdx in [#8896](https://github.com/jdx/mise/pull/8896)'
-    - '- **(deps)** add `depends` field for user-specified tool dependencies by @cprecioso in [#8776](https://github.com/jdx/mise/pull/8776)'
-    - '- **(dotnet)** support runtime-only installs by @fragon10 in [#8524](https://github.com/jdx/mise/pull/8524)'
-    - '- **(npm)** apply install_before to transitive dependencies by @risu729 in [#8851](https://github.com/jdx/mise/pull/8851)'
-    - '- **(task)** allow passing arguments to task dependencies via {{usage.*}} templates by @jdx in
-      [#8893](https://github.com/jdx/mise/pull/8893)'
-    fix_body_fragments: 10
-    sample_digest: bd737e1767657326dc4c20e0a2ed6fedd2a1f6ec670d638b285900bc903c28ed
-    upstream_identity_disclosures: 49
-  finding_id: F-CON-STRIP-FIX-4c7b8d6f
-  instrument: G-CON-STRIP
-  severity: critical
-  statement: 'Fix absence failed: normalized fragments of the privately bound post-base fix diff are reachable
-    from the agent-facing closure. The disclosing fragments name the upstream pull request the fix landed
-    in, so the agent is handed the location of the real change it is being asked to reproduce.'
-  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-- bucket: deterministic
   caps: HOLD
   critical_class: contamination-screening
   evidence:
@@ -3042,323 +2720,23 @@ findings:
   subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1/trajectories/zai__glm-5.3/run_1
 - bucket: deterministic
   caps: HOLD
-  critical_class: delivery-format-and-ground-truth-integrity
+  critical_class: delivery-integrity
   evidence:
-    undefined_paths:
-    - .DS_Store
-  finding_id: F-DEL-LAYOUT-UNDEFINED-PATH-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-  instrument: G-DEL-LAYOUT
-  severity: medium
-  statement: 'The bundle commits an artifact at a path the delivery format does not define: .DS_Store'
-  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-- bucket: deterministic
-  caps: HOLD
-  critical_class: delivery-format-and-ground-truth-integrity
-  evidence:
-    undefined_paths:
-    - .DS_Store
-  finding_id: F-DEL-LAYOUT-UNDEFINED-PATH-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-  instrument: G-DEL-LAYOUT
-  severity: medium
-  statement: 'The bundle commits an artifact at a path the delivery format does not define: .DS_Store'
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-- bucket: deterministic
-  caps: HOLD
-  critical_class: delivery-format-and-ground-truth-integrity
-  evidence:
-    undefined_paths:
-    - .DS_Store
-  finding_id: F-DEL-LAYOUT-UNDEFINED-PATH-873914cf-93b2-57a0-a5c8-264bfa2d3b66
-  instrument: G-DEL-LAYOUT
-  severity: medium
-  statement: 'The bundle commits an artifact at a path the delivery format does not define: .DS_Store'
-  subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: delivery-format-and-ground-truth-integrity
-  evidence:
-    all_references:
-    - companion_digest: sha256:df61963482812a1239195f25326ea9b385012c74ed79acc73cf41d3f59f5bc27
-      digest_pinned: true
-      reference: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-milo/jdx_m_mise:pr-8524@sha256:df61963482812a1239195f25326ea9b385012c74ed79acc73cf41d3f59f5bc27
-      registry_resolvable: true
-      source: task.toml [metadata].base_image_ref
-    - companion_digest: ''
-      digest_pinned: true
-      reference: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/jdx_m_mise@sha256:8548f5c7004d60da6a8eaca625e5fb7152c40e355eada9a6bdea339b73fff6bf
-      registry_resolvable: true
-      source: task.toml [environment].docker_image
-    - companion_digest: ''
-      digest_pinned: true
-      reference: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-milo/jdx_m_mise:pr-8524@sha256:df61963482812a1239195f25326ea9b385012c74ed79acc73cf41d3f59f5bc27
-      registry_resolvable: true
-      source: environment/Dockerfile FROM
-    - companion_digest: ''
-      digest_pinned: false
-      reference: scratch
-      registry_resolvable: false
-      source: environment/Dockerfile FROM
-    - &id001
-      companion_digest: ''
-      digest_pinned: false
-      reference: forge-sanitized/426628337772.dkr.ecr.ap-south-1.amazonaws.com_rfp-coding-q1-tag-milo_jdx_m_mise:pr-8524
-      registry_resolvable: true
-      source: tests/Dockerfile FROM
-    surrounding_surface_gap: D-EVALUATOR-IMAGE-UNPINNED
-    unpinned_references:
-    - *id001
-  finding_id: F-DEL-PIN-IMAGE-UNPINNED-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-  instrument: G-DEL-PIN
-  severity: high
-  statement: 'A committed container image reference carries no @sha256: digest, so the bytes the reference
-    resolves to can be replaced without changing any committed byte: tests/Dockerfile FROM = forge-sanitized/426628337772.dkr.ecr.ap-south-1.amazonaws.com_rfp-coding-q1-tag-milo_jdx_m_mise:pr-8524'
-  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: delivery-format-and-ground-truth-integrity
-  evidence:
-    all_references:
-    - &id002
-      companion_digest: ''
-      digest_pinned: false
-      reference: pr-1891
-      registry_resolvable: true
-      source: task.toml [metadata].base_image_ref
-    - companion_digest: ''
-      digest_pinned: true
-      reference: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:b4d482d8e163d741ac086af764c04daabcd6aee412850fee8a80d8881d90f4ab
-      registry_resolvable: true
-      source: task.toml [environment].docker_image
-    - companion_digest: ''
-      digest_pinned: true
-      reference: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-milo/reflex-dev_m_reflex:pr-1891@sha256:060777d77ed2fd5a68721b916e006e9bf699c4064d4f28d92efe2cfa9a2d7596
-      registry_resolvable: true
-      source: environment/Dockerfile FROM
-    - companion_digest: ''
-      digest_pinned: false
-      reference: scratch
-      registry_resolvable: false
-      source: environment/Dockerfile FROM
-    - &id003
-      companion_digest: ''
-      digest_pinned: false
-      reference: forge-sanitized/426628337772.dkr.ecr.ap-south-1.amazonaws.com_rfp-coding-q1-tag-milo_reflex-dev_m_reflex:pr-1891
-      registry_resolvable: true
-      source: tests/Dockerfile FROM
-    surrounding_surface_gap: D-EVALUATOR-IMAGE-UNPINNED
-    unpinned_references:
-    - *id002
-    - *id003
-  finding_id: F-DEL-PIN-IMAGE-UNPINNED-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-  instrument: G-DEL-PIN
-  severity: high
-  statement: 'A committed container image reference carries no @sha256: digest, so the bytes the reference
-    resolves to can be replaced without changing any committed byte: task.toml [metadata].base_image_ref
-    = pr-1891; tests/Dockerfile FROM = forge-sanitized/426628337772.dkr.ecr.ap-south-1.amazonaws.com_rfp-coding-q1-tag-milo_reflex-dev_m_reflex:pr-1891'
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: delivery-format-and-ground-truth-integrity
-  evidence:
-    all_references:
-    - &id004
-      companion_digest: ''
-      digest_pinned: false
-      reference: pr-570
-      registry_resolvable: true
-      source: task.toml [metadata].base_image_ref
-    - companion_digest: ''
-      digest_pinned: true
-      reference: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:eca2d8710d1baffad6f1d273610bbce183857c73bed6574dce2252fb3fb446aa
-      registry_resolvable: true
-      source: task.toml [environment].docker_image
-    - companion_digest: ''
-      digest_pinned: true
-      reference: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-milo/reflex-dev_m_reflex:pr-570@sha256:feb1885ae818e5eb6b5a153f2a11cc75a84ae2388788d1db78e3484344c532cc
-      registry_resolvable: true
-      source: environment/Dockerfile FROM
-    - companion_digest: ''
-      digest_pinned: false
-      reference: scratch
-      registry_resolvable: false
-      source: environment/Dockerfile FROM
-    - &id005
-      companion_digest: ''
-      digest_pinned: false
-      reference: forge-sanitized/426628337772.dkr.ecr.ap-south-1.amazonaws.com_rfp-coding-q1-tag-milo_reflex-dev_m_reflex:pr-570
-      registry_resolvable: true
-      source: tests/Dockerfile FROM
-    surrounding_surface_gap: D-EVALUATOR-IMAGE-UNPINNED
-    unpinned_references:
-    - *id004
-    - *id005
-  finding_id: F-DEL-PIN-IMAGE-UNPINNED-873914cf-93b2-57a0-a5c8-264bfa2d3b66
-  instrument: G-DEL-PIN
-  severity: high
-  statement: 'A committed container image reference carries no @sha256: digest, so the bytes the reference
-    resolves to can be replaced without changing any committed byte: task.toml [metadata].base_image_ref
-    = pr-570; tests/Dockerfile FROM = forge-sanitized/426628337772.dkr.ecr.ap-south-1.amazonaws.com_rfp-coding-q1-tag-milo_reflex-dev_m_reflex:pr-570'
-  subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: delivery-format-and-ground-truth-integrity
-  evidence:
-    artifacts:
-      solution/TRUTH.md:
-        alpha_sha256: 1f24a1bffa4d533d2bffd82a0849b8f5dbc4147e1a5f0913be07c3d69895db28
-        bravo_sha256: 1f24a1bffa4d533d2bffd82a0849b8f5dbc4147e1a5f0913be07c3d69895db28
-        committed_sha256: f679892b30f27d69b284c99672136888b75b039d772fc071549ce8ea1580435d
-        identities_agree: true
-        matches_committed: false
-      solution/rubrics.json:
-        alpha_sha256: bb86ea89553b61022ce2911478717ad02d23563f72834665d1bf636e93326a9a
-        bravo_sha256: bb86ea89553b61022ce2911478717ad02d23563f72834665d1bf636e93326a9a
-        committed_sha256: bb86ea89553b61022ce2911478717ad02d23563f72834665d1bf636e93326a9a
-        identities_agree: true
-        matches_committed: true
-      solution/solve.sh:
-        alpha_sha256: 5cbff2111e05803d57d067798e8d8a86f4281996e0ab07c13c6f28e34ae04e45
-        bravo_sha256: 5cbff2111e05803d57d067798e8d8a86f4281996e0ab07c13c6f28e34ae04e45
-        committed_sha256: 1a88084e03022d2de608ff54fada6df20972efd48fdc84b6a8447e8988a36c72
-        identities_agree: true
-        matches_committed: false
-      tests/test_output.py:
-        alpha_sha256: 36d71bbffd3c2416757edd67a2321efd2afd5308aadac213894ffd2a4bd7d8f7
-        bravo_sha256: 36d71bbffd3c2416757edd67a2321efd2afd5308aadac213894ffd2a4bd7d8f7
-        committed_sha256: 36d71bbffd3c2416757edd67a2321efd2afd5308aadac213894ffd2a4bd7d8f7
-        identities_agree: true
-        matches_committed: true
-    drifted:
+    bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+    designated_slots:
     - solution/TRUTH.md
-    - solution/solve.sh
-    host_dependent: []
-  finding_id: F-TRUTH-REGEN-DRIFT-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-  instrument: G-TRUTH-REGEN
-  severity: high
-  statement: 'Regenerating the committed generator does not reproduce the committed generated artifacts
-    byte for byte, so the committed ground truth is not what the committed generator produces and is either
-    drifted or hand-edited: solution/TRUTH.md, solution/solve.sh'
+    - solution/policy.yaml
+    - solution/provenance.yaml
+    - solution/rubrics.json
+    lane: root
+    path: solution/solve.sh
+  finding_id: G-LEAK-CANARY-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-MISPLACED-2d5bccdf
+  instrument: G-LEAK-CANARY
+  severity: medium
+  statement: File solution/solve.sh of bundle 4c7b8d6f-c500-585d-b7b2-3519df55b1b3 carries a canary block
+    while not being one of the four designated slots, so the marker is present in more carriers than the
+    delivery contract designates and its placement is not derivable from the designation alone.
   subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: delivery-format-and-ground-truth-integrity
-  evidence:
-    artifacts:
-      solution/TRUTH.md:
-        alpha_sha256: e8cd5722288bed5930462dbff4491d919b39d90b0eccb7026ad01b65524361bb
-        bravo_sha256: e8cd5722288bed5930462dbff4491d919b39d90b0eccb7026ad01b65524361bb
-        committed_sha256: 3920a87d5954d2ee77f541567178722dd403cf43a10405e4141f4d9ad006e26f
-        identities_agree: true
-        matches_committed: false
-      solution/rubrics.json:
-        alpha_sha256: d2a428e7248cc22883ef98669cfd2da1fac9b0966f9c2bf909622590f1de434f
-        bravo_sha256: d2a428e7248cc22883ef98669cfd2da1fac9b0966f9c2bf909622590f1de434f
-        committed_sha256: d2a428e7248cc22883ef98669cfd2da1fac9b0966f9c2bf909622590f1de434f
-        identities_agree: true
-        matches_committed: true
-      solution/solve.sh:
-        alpha_sha256: eeb90cd44b5607808e516b28c297ddd688378ab6fa4989bad129a1d6a34d877e
-        bravo_sha256: eeb90cd44b5607808e516b28c297ddd688378ab6fa4989bad129a1d6a34d877e
-        committed_sha256: eeb90cd44b5607808e516b28c297ddd688378ab6fa4989bad129a1d6a34d877e
-        identities_agree: true
-        matches_committed: true
-      tests/test_output.py:
-        alpha_sha256: af72e9bce69048b4f4dd74788974e7295ecc68c9f22779900eb9c5157a2d1959
-        bravo_sha256: af72e9bce69048b4f4dd74788974e7295ecc68c9f22779900eb9c5157a2d1959
-        committed_sha256: af72e9bce69048b4f4dd74788974e7295ecc68c9f22779900eb9c5157a2d1959
-        identities_agree: true
-        matches_committed: true
-    drifted:
-    - solution/TRUTH.md
-    host_dependent: []
-  finding_id: F-TRUTH-REGEN-DRIFT-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-  instrument: G-TRUTH-REGEN
-  severity: high
-  statement: 'Regenerating the committed generator does not reproduce the committed generated artifacts
-    byte for byte, so the committed ground truth is not what the committed generator produces and is either
-    drifted or hand-edited: solution/TRUTH.md'
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: delivery-format-and-ground-truth-integrity
-  evidence:
-    artifacts:
-      solution/TRUTH.md:
-        alpha_sha256: 1cc6bdafeaa8af564a1036cebce898e7cf3f24b028584b8f9c44be050dc0e311
-        bravo_sha256: 1cc6bdafeaa8af564a1036cebce898e7cf3f24b028584b8f9c44be050dc0e311
-        committed_sha256: bd68e0199b82aec8ca3d67ab6e0f74e30d368cfc5cccc37d6055a1700c9cd4d9
-        identities_agree: true
-        matches_committed: false
-      solution/rubrics.json:
-        alpha_sha256: 6082a338b95527eea9a6207fc87ecd565b60a50cdc5c7bb1f9ab8f3d70351548
-        bravo_sha256: 6082a338b95527eea9a6207fc87ecd565b60a50cdc5c7bb1f9ab8f3d70351548
-        committed_sha256: 6082a338b95527eea9a6207fc87ecd565b60a50cdc5c7bb1f9ab8f3d70351548
-        identities_agree: true
-        matches_committed: true
-      solution/solve.sh:
-        alpha_sha256: 484816d04d37b6f6e42db297d8675b1a672f78d8b6e36c1e49da4530c4bf3e40
-        bravo_sha256: 484816d04d37b6f6e42db297d8675b1a672f78d8b6e36c1e49da4530c4bf3e40
-        committed_sha256: 484816d04d37b6f6e42db297d8675b1a672f78d8b6e36c1e49da4530c4bf3e40
-        identities_agree: true
-        matches_committed: true
-      tests/test_output.py:
-        alpha_sha256: ac9d1e050ee7cbd3ec3c9dd5b885227fdc4e37660bc19d2ae04bc37a3216dfb9
-        bravo_sha256: ac9d1e050ee7cbd3ec3c9dd5b885227fdc4e37660bc19d2ae04bc37a3216dfb9
-        committed_sha256: ac9d1e050ee7cbd3ec3c9dd5b885227fdc4e37660bc19d2ae04bc37a3216dfb9
-        identities_agree: true
-        matches_committed: true
-    drifted:
-    - solution/TRUTH.md
-    host_dependent: []
-  finding_id: F-TRUTH-REGEN-DRIFT-873914cf-93b2-57a0-a5c8-264bfa2d3b66
-  instrument: G-TRUTH-REGEN
-  severity: high
-  statement: 'Regenerating the committed generator does not reproduce the committed generated artifacts
-    byte for byte, so the committed ground truth is not what the committed generator produces and is either
-    drifted or hand-edited: solution/TRUTH.md'
-  subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-- bucket: deterministic
-  caps: HOLD
-  critical_class: delivery-format-and-ground-truth-integrity
-  evidence:
-    line: 225
-    warnings:
-    - invalid escape sequence '\+'
-  finding_id: F-TRUTH-REGEN-GENERATOR-WARNING-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-  instrument: G-TRUTH-REGEN
-  severity: low
-  statement: 'The committed generator emits a warning for an invalid escape sequence at solution/recompute.py
-    line 225. The regenerated bytes are unaffected by it, so this is a latent defect in producer code
-    and not a cause of the regeneration result: invalid escape sequence ''\+'''
-  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-- bucket: deterministic
-  caps: HOLD
-  critical_class: delivery-format-and-ground-truth-integrity
-  evidence:
-    line: 225
-    warnings:
-    - invalid escape sequence '\+'
-  finding_id: F-TRUTH-REGEN-GENERATOR-WARNING-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-  instrument: G-TRUTH-REGEN
-  severity: low
-  statement: 'The committed generator emits a warning for an invalid escape sequence at solution/recompute.py
-    line 225. The regenerated bytes are unaffected by it, so this is a latent defect in producer code
-    and not a cause of the regeneration result: invalid escape sequence ''\+'''
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-- bucket: deterministic
-  caps: HOLD
-  critical_class: delivery-format-and-ground-truth-integrity
-  evidence:
-    line: 225
-    warnings:
-    - invalid escape sequence '\+'
-  finding_id: F-TRUTH-REGEN-GENERATOR-WARNING-873914cf-93b2-57a0-a5c8-264bfa2d3b66
-  instrument: G-TRUTH-REGEN
-  severity: low
-  statement: 'The committed generator emits a warning for an invalid escape sequence at solution/recompute.py
-    line 225. The regenerated bytes are unaffected by it, so this is a latent defect in producer code
-    and not a cause of the regeneration result: invalid escape sequence ''\+'''
-  subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
 - bucket: deterministic
   caps: HOLD
   critical_class: delivery-integrity
@@ -3513,7 +2891,7 @@ findings:
     declared_license: unresolved
     declared_origin: derived
     repository: reflex-dev/reflex
-    repository_license_chain: &id006
+    repository_license_chain: &id001
       headline: MIT License
       present: 'true'
   finding_id: G-PROV-UPSTREAM-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-LICENSE-UNRESOLVED
@@ -3604,7 +2982,7 @@ findings:
     declared_license: unresolved
     declared_origin: derived
     repository: reflex-dev/reflex
-    repository_license_chain: *id006
+    repository_license_chain: *id001
   finding_id: G-PROV-UPSTREAM-873914cf-93b2-57a0-a5c8-264bfa2d3b66-LICENSE-UNRESOLVED
   instrument: G-PROV-UPSTREAM
   severity: high
@@ -3772,7 +3150,7 @@ findings:
   critical_class: execution-fidelity
   evidence:
     adequacy_approved: false
-    approval: &id007
+    approval: &id002
       adequacy_approved: false
       approved: false
       declared_horizon_seconds: 57600.0
@@ -3787,7 +3165,7 @@ findings:
     attested_digest: 62ae32093d3d97d8328851bf7693753bb106de8c84f1134e0aba68c64e75dfb1
     binding_digest: 86f3d5026f6c8e2cb8a980fe93645f1cd9df7472a913d8e4f413ed45d9b3b062
     bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    drift_fields: &id008 []
+    drift_fields: &id003 []
     hold_reason: config-unpinned
     instrument: G-FID-CONFIG
     rollout: claude-opus-5/run_1
@@ -3803,7 +3181,7 @@ findings:
   critical_class: execution-fidelity
   evidence:
     adequacy_approved: false
-    approval: &id009
+    approval: &id004
       adequacy_approved: false
       approved: false
       declared_horizon_seconds: 57600.0
@@ -3818,7 +3196,7 @@ findings:
     attested_digest: f2d2d5c92cd21d93a8f1a1bd40b9edde8a6ff313567762774f07f11bec0d8ad5
     binding_digest: a16dcc09bd163598cf4fdabdd3c64f5a168ab9ed36300be3e3ebfab2c3671cc7
     bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    drift_fields: &id010 []
+    drift_fields: &id005 []
     hold_reason: config-unpinned
     instrument: G-FID-CONFIG
     rollout: zai__glm-5.3/run_1
@@ -3834,7 +3212,7 @@ findings:
   critical_class: execution-fidelity
   evidence:
     adequacy_approved: false
-    approval: &id011
+    approval: &id006
       adequacy_approved: false
       approved: false
       declared_horizon_seconds: 57600.0
@@ -3849,7 +3227,7 @@ findings:
     attested_digest: 33d2eb15a79a7f54339af03f99cfca5a912d23d6830ca88ef3e6fc89807ec9df
     binding_digest: 0597960e392c008018dd82ecd2f4e93abffb8737d33fa536b51839aa099a1bfd
     bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    drift_fields: &id012 []
+    drift_fields: &id007 []
     hold_reason: config-unpinned
     instrument: G-FID-CONFIG
     rollout: claude-opus-5/run_1
@@ -3865,7 +3243,7 @@ findings:
   critical_class: execution-fidelity
   evidence:
     adequacy_approved: false
-    approval: &id013
+    approval: &id008
       adequacy_approved: false
       approved: false
       declared_horizon_seconds: 57600.0
@@ -3880,7 +3258,7 @@ findings:
     attested_digest: 243c7e524b426a285d23e1405700a14a5214afa27f84a5eda072606053f8bfa1
     binding_digest: 3742456b1ae2c3b60255ac020ec765d400533aaa37ee89ef9cd54b5079b162e4
     bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    drift_fields: &id014 []
+    drift_fields: &id009 []
     hold_reason: config-unpinned
     instrument: G-FID-CONFIG
     rollout: zai__glm-5.3/run_1
@@ -3896,7 +3274,7 @@ findings:
   critical_class: execution-fidelity
   evidence:
     adequacy_approved: false
-    approval: &id015
+    approval: &id010
       adequacy_approved: false
       approved: false
       declared_horizon_seconds: 57600.0
@@ -3911,7 +3289,7 @@ findings:
     attested_digest: b1c96bec75f1580ac4b9cc64988c9c27530e39f2056385b11ef14375624df750
     binding_digest: 49d7ac1934225e5fd1dfa165326503e34f08267b1e575b26668a7c37515d354e
     bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    drift_fields: &id016 []
+    drift_fields: &id011 []
     hold_reason: config-unpinned
     instrument: G-FID-CONFIG
     rollout: claude-opus-5/run_1
@@ -3927,7 +3305,7 @@ findings:
   critical_class: execution-fidelity
   evidence:
     adequacy_approved: false
-    approval: &id017
+    approval: &id012
       adequacy_approved: false
       approved: false
       declared_horizon_seconds: 57600.0
@@ -3942,7 +3320,7 @@ findings:
     attested_digest: 53f2072ebf9dd66e77d26ca86bbbb794fffbc0e355d467708691fd0c6f5b4812
     binding_digest: 1dcb52505b11c54ca77b4c7bed463944d6c10200588fe539633df609b558611e
     bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    drift_fields: &id018 []
+    drift_fields: &id013 []
     hold_reason: config-unpinned
     instrument: G-FID-CONFIG
     rollout: zai__glm-5.3/run_1
@@ -3958,12 +3336,12 @@ findings:
   critical_class: execution-fidelity
   evidence:
     adequacy_approved: false
-    approval: *id007
+    approval: *id002
     approved: false
     attested_digest: 62ae32093d3d97d8328851bf7693753bb106de8c84f1134e0aba68c64e75dfb1
     binding_digest: 86f3d5026f6c8e2cb8a980fe93645f1cd9df7472a913d8e4f413ed45d9b3b062
     bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    drift_fields: *id008
+    drift_fields: *id003
     hold_reason: config-unpinned
     instrument: G-FID-CONFIG
     rollout: claude-opus-5/run_1
@@ -3981,12 +3359,12 @@ findings:
   critical_class: execution-fidelity
   evidence:
     adequacy_approved: false
-    approval: *id009
+    approval: *id004
     approved: false
     attested_digest: f2d2d5c92cd21d93a8f1a1bd40b9edde8a6ff313567762774f07f11bec0d8ad5
     binding_digest: a16dcc09bd163598cf4fdabdd3c64f5a168ab9ed36300be3e3ebfab2c3671cc7
     bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    drift_fields: *id010
+    drift_fields: *id005
     hold_reason: config-unpinned
     instrument: G-FID-CONFIG
     rollout: zai__glm-5.3/run_1
@@ -4004,12 +3382,12 @@ findings:
   critical_class: execution-fidelity
   evidence:
     adequacy_approved: false
-    approval: *id011
+    approval: *id006
     approved: false
     attested_digest: 33d2eb15a79a7f54339af03f99cfca5a912d23d6830ca88ef3e6fc89807ec9df
     binding_digest: 0597960e392c008018dd82ecd2f4e93abffb8737d33fa536b51839aa099a1bfd
     bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    drift_fields: *id012
+    drift_fields: *id007
     hold_reason: config-unpinned
     instrument: G-FID-CONFIG
     rollout: claude-opus-5/run_1
@@ -4027,12 +3405,12 @@ findings:
   critical_class: execution-fidelity
   evidence:
     adequacy_approved: false
-    approval: *id013
+    approval: *id008
     approved: false
     attested_digest: 243c7e524b426a285d23e1405700a14a5214afa27f84a5eda072606053f8bfa1
     binding_digest: 3742456b1ae2c3b60255ac020ec765d400533aaa37ee89ef9cd54b5079b162e4
     bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    drift_fields: *id014
+    drift_fields: *id009
     hold_reason: config-unpinned
     instrument: G-FID-CONFIG
     rollout: zai__glm-5.3/run_1
@@ -4050,12 +3428,12 @@ findings:
   critical_class: execution-fidelity
   evidence:
     adequacy_approved: false
-    approval: *id015
+    approval: *id010
     approved: false
     attested_digest: b1c96bec75f1580ac4b9cc64988c9c27530e39f2056385b11ef14375624df750
     binding_digest: 49d7ac1934225e5fd1dfa165326503e34f08267b1e575b26668a7c37515d354e
     bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    drift_fields: *id016
+    drift_fields: *id011
     hold_reason: config-unpinned
     instrument: G-FID-CONFIG
     rollout: claude-opus-5/run_1
@@ -4073,12 +3451,12 @@ findings:
   critical_class: execution-fidelity
   evidence:
     adequacy_approved: false
-    approval: *id017
+    approval: *id012
     approved: false
     attested_digest: 53f2072ebf9dd66e77d26ca86bbbb794fffbc0e355d467708691fd0c6f5b4812
     binding_digest: 1dcb52505b11c54ca77b4c7bed463944d6c10200588fe539633df609b558611e
     bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    drift_fields: *id018
+    drift_fields: *id013
     hold_reason: config-unpinned
     instrument: G-FID-CONFIG
     rollout: zai__glm-5.3/run_1
@@ -4374,7 +3752,7 @@ findings:
   evidence:
     bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
     conformance_predicate: trinity.trial-conformance/v1
-    coverage: &id019
+    coverage: &id014
       context_handling:
         observed:
           context_limit_event_count: 0
@@ -4452,7 +3830,7 @@ findings:
         outcome: conforming
         statement: every agent step carries its tool call record
     derived_status: nonconforming
-    fidelity_coverage: &id020
+    fidelity_coverage: &id015
       context_handling: conforming
       horizon_conformance: conforming
       scoring_completeness: conforming
@@ -4462,13 +3840,13 @@ findings:
       termination_integrity: conforming
       tool_channel_integrity: conforming
     hold_reason: fidelity-unverified
-    indeterminate_classes: &id021 []
+    indeterminate_classes: &id016 []
     instrument: G-FID-TRACE
     operator_declared_status: conforming
     operator_declared_token: scored
     predicate: fidelity_coverage
     rollout: claude-opus-5/run_1
-    suppressing_violations: &id022
+    suppressing_violations: &id017
     - signal_class: submission_capture
       statement: 'the declared artifact transfer failed for 5 record(s): artifacts'
   finding_id: FID-TRACE-STATUS-DISAGREEMENT-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-claude-opus-5-run_1
@@ -4485,7 +3863,7 @@ findings:
   evidence:
     bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
     conformance_predicate: trinity.trial-conformance/v1
-    coverage: &id023
+    coverage: &id018
       context_handling:
         observed:
           context_limit_event_count: 0
@@ -4562,7 +3940,7 @@ findings:
         outcome: conforming
         statement: every agent step carries its tool call record
     derived_status: nonconforming
-    fidelity_coverage: &id024
+    fidelity_coverage: &id019
       context_handling: conforming
       horizon_conformance: conforming
       scoring_completeness: conforming
@@ -4572,13 +3950,13 @@ findings:
       termination_integrity: conforming
       tool_channel_integrity: conforming
     hold_reason: fidelity-unverified
-    indeterminate_classes: &id025 []
+    indeterminate_classes: &id020 []
     instrument: G-FID-TRACE
     operator_declared_status: conforming
     operator_declared_token: scored
     predicate: fidelity_coverage
     rollout: zai__glm-5.3/run_1
-    suppressing_violations: &id026
+    suppressing_violations: &id021
     - signal_class: submission_capture
       statement: 'the declared artifact transfer failed for 5 record(s): artifacts'
   finding_id: FID-TRACE-STATUS-DISAGREEMENT-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-zai__glm-5.3-run_1
@@ -4595,7 +3973,7 @@ findings:
   evidence:
     bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
     conformance_predicate: trinity.trial-conformance/v1
-    coverage: &id027
+    coverage: &id022
       context_handling:
         observed:
           context_limit_event_count: 0
@@ -4672,7 +4050,7 @@ findings:
         outcome: conforming
         statement: every agent step carries its tool call record
     derived_status: nonconforming
-    fidelity_coverage: &id028
+    fidelity_coverage: &id023
       context_handling: conforming
       horizon_conformance: conforming
       scoring_completeness: conforming
@@ -4682,13 +4060,13 @@ findings:
       termination_integrity: conforming
       tool_channel_integrity: conforming
     hold_reason: fidelity-unverified
-    indeterminate_classes: &id029 []
+    indeterminate_classes: &id024 []
     instrument: G-FID-TRACE
     operator_declared_status: conforming
     operator_declared_token: scored
     predicate: fidelity_coverage
     rollout: claude-opus-5/run_1
-    suppressing_violations: &id030
+    suppressing_violations: &id025
     - signal_class: submission_capture
       statement: 'the declared artifact transfer failed for 5 record(s): artifacts'
   finding_id: FID-TRACE-STATUS-DISAGREEMENT-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-claude-opus-5-run_1
@@ -4705,7 +4083,7 @@ findings:
   evidence:
     bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
     conformance_predicate: trinity.trial-conformance/v1
-    coverage: &id031
+    coverage: &id026
       context_handling:
         observed:
           context_limit_event_count: 0
@@ -4782,7 +4160,7 @@ findings:
         outcome: conforming
         statement: every agent step carries its tool call record
     derived_status: nonconforming
-    fidelity_coverage: &id032
+    fidelity_coverage: &id027
       context_handling: conforming
       horizon_conformance: conforming
       scoring_completeness: nonconforming
@@ -4792,13 +4170,13 @@ findings:
       termination_integrity: conforming
       tool_channel_integrity: conforming
     hold_reason: fidelity-unverified
-    indeterminate_classes: &id033 []
+    indeterminate_classes: &id028 []
     instrument: G-FID-TRACE
     operator_declared_status: conforming
     operator_declared_token: scored
     predicate: fidelity_coverage
     rollout: zai__glm-5.3/run_1
-    suppressing_violations: &id034
+    suppressing_violations: &id029
     - signal_class: scoring_completeness
       statement: the verifier record set is incomplete, missing preserve-stdout.md, summary.json
     - signal_class: submission_capture
@@ -4820,7 +4198,7 @@ findings:
   evidence:
     bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
     conformance_predicate: trinity.trial-conformance/v1
-    coverage: &id035
+    coverage: &id030
       context_handling:
         observed:
           context_limit_event_count: 0
@@ -4897,7 +4275,7 @@ findings:
         outcome: conforming
         statement: every agent step carries its tool call record
     derived_status: nonconforming
-    fidelity_coverage: &id036
+    fidelity_coverage: &id031
       context_handling: conforming
       horizon_conformance: conforming
       scoring_completeness: conforming
@@ -4907,13 +4285,13 @@ findings:
       termination_integrity: conforming
       tool_channel_integrity: conforming
     hold_reason: fidelity-unverified
-    indeterminate_classes: &id037 []
+    indeterminate_classes: &id032 []
     instrument: G-FID-TRACE
     operator_declared_status: conforming
     operator_declared_token: scored
     predicate: fidelity_coverage
     rollout: claude-opus-5/run_1
-    suppressing_violations: &id038
+    suppressing_violations: &id033
     - signal_class: submission_capture
       statement: 'the declared artifact transfer failed for 5 record(s): artifacts'
   finding_id: FID-TRACE-STATUS-DISAGREEMENT-873914cf-93b2-57a0-a5c8-264bfa2d3b66-claude-opus-5-run_1
@@ -4930,7 +4308,7 @@ findings:
   evidence:
     bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
     conformance_predicate: trinity.trial-conformance/v1
-    coverage: &id039
+    coverage: &id034
       context_handling:
         observed:
           context_limit_event_count: 0
@@ -5007,7 +4385,7 @@ findings:
         outcome: conforming
         statement: every agent step carries its tool call record
     derived_status: nonconforming
-    fidelity_coverage: &id040
+    fidelity_coverage: &id035
       context_handling: conforming
       horizon_conformance: conforming
       scoring_completeness: conforming
@@ -5017,13 +4395,13 @@ findings:
       termination_integrity: conforming
       tool_channel_integrity: conforming
     hold_reason: fidelity-unverified
-    indeterminate_classes: &id041 []
+    indeterminate_classes: &id036 []
     instrument: G-FID-TRACE
     operator_declared_status: conforming
     operator_declared_token: scored
     predicate: fidelity_coverage
     rollout: zai__glm-5.3/run_1
-    suppressing_violations: &id042
+    suppressing_violations: &id037
     - signal_class: submission_capture
       statement: 'the declared artifact transfer failed for 5 record(s): artifacts'
   finding_id: FID-TRACE-STATUS-DISAGREEMENT-873914cf-93b2-57a0-a5c8-264bfa2d3b66-zai__glm-5.3-run_1
@@ -5040,17 +4418,17 @@ findings:
   evidence:
     bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
     conformance_predicate: trinity.trial-conformance/v1
-    coverage: *id019
+    coverage: *id014
     derived_status: nonconforming
-    fidelity_coverage: *id020
+    fidelity_coverage: *id015
     hold_reason: fidelity-unverified
-    indeterminate_classes: *id021
+    indeterminate_classes: *id016
     instrument: G-FID-TRACE
     operator_declared_status: conforming
     operator_declared_token: scored
     predicate: fidelity_coverage
     rollout: claude-opus-5/run_1
-    suppressing_violations: *id022
+    suppressing_violations: *id017
   finding_id: FID-TRACE-SUPPRESSING-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-claude-opus-5-run_1
   instrument: G-FID-TRACE
   severity: high
@@ -5065,17 +4443,17 @@ findings:
   evidence:
     bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
     conformance_predicate: trinity.trial-conformance/v1
-    coverage: *id023
+    coverage: *id018
     derived_status: nonconforming
-    fidelity_coverage: *id024
+    fidelity_coverage: *id019
     hold_reason: fidelity-unverified
-    indeterminate_classes: *id025
+    indeterminate_classes: *id020
     instrument: G-FID-TRACE
     operator_declared_status: conforming
     operator_declared_token: scored
     predicate: fidelity_coverage
     rollout: zai__glm-5.3/run_1
-    suppressing_violations: *id026
+    suppressing_violations: *id021
   finding_id: FID-TRACE-SUPPRESSING-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-zai__glm-5.3-run_1
   instrument: G-FID-TRACE
   severity: high
@@ -5090,17 +4468,17 @@ findings:
   evidence:
     bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
     conformance_predicate: trinity.trial-conformance/v1
-    coverage: *id027
+    coverage: *id022
     derived_status: nonconforming
-    fidelity_coverage: *id028
+    fidelity_coverage: *id023
     hold_reason: fidelity-unverified
-    indeterminate_classes: *id029
+    indeterminate_classes: *id024
     instrument: G-FID-TRACE
     operator_declared_status: conforming
     operator_declared_token: scored
     predicate: fidelity_coverage
     rollout: claude-opus-5/run_1
-    suppressing_violations: *id030
+    suppressing_violations: *id025
   finding_id: FID-TRACE-SUPPRESSING-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-claude-opus-5-run_1
   instrument: G-FID-TRACE
   severity: high
@@ -5115,17 +4493,17 @@ findings:
   evidence:
     bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
     conformance_predicate: trinity.trial-conformance/v1
-    coverage: *id031
+    coverage: *id026
     derived_status: nonconforming
-    fidelity_coverage: *id032
+    fidelity_coverage: *id027
     hold_reason: fidelity-unverified
-    indeterminate_classes: *id033
+    indeterminate_classes: *id028
     instrument: G-FID-TRACE
     operator_declared_status: conforming
     operator_declared_token: scored
     predicate: fidelity_coverage
     rollout: zai__glm-5.3/run_1
-    suppressing_violations: *id034
+    suppressing_violations: *id029
   finding_id: FID-TRACE-SUPPRESSING-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-zai__glm-5.3-run_1
   instrument: G-FID-TRACE
   severity: high
@@ -5140,17 +4518,17 @@ findings:
   evidence:
     bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
     conformance_predicate: trinity.trial-conformance/v1
-    coverage: *id035
+    coverage: *id030
     derived_status: nonconforming
-    fidelity_coverage: *id036
+    fidelity_coverage: *id031
     hold_reason: fidelity-unverified
-    indeterminate_classes: *id037
+    indeterminate_classes: *id032
     instrument: G-FID-TRACE
     operator_declared_status: conforming
     operator_declared_token: scored
     predicate: fidelity_coverage
     rollout: claude-opus-5/run_1
-    suppressing_violations: *id038
+    suppressing_violations: *id033
   finding_id: FID-TRACE-SUPPRESSING-873914cf-93b2-57a0-a5c8-264bfa2d3b66-claude-opus-5-run_1
   instrument: G-FID-TRACE
   severity: high
@@ -5165,17 +4543,17 @@ findings:
   evidence:
     bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
     conformance_predicate: trinity.trial-conformance/v1
-    coverage: *id039
+    coverage: *id034
     derived_status: nonconforming
-    fidelity_coverage: *id040
+    fidelity_coverage: *id035
     hold_reason: fidelity-unverified
-    indeterminate_classes: *id041
+    indeterminate_classes: *id036
     instrument: G-FID-TRACE
     operator_declared_status: conforming
     operator_declared_token: scored
     predicate: fidelity_coverage
     rollout: zai__glm-5.3/run_1
-    suppressing_violations: *id042
+    suppressing_violations: *id037
   finding_id: FID-TRACE-SUPPRESSING-873914cf-93b2-57a0-a5c8-264bfa2d3b66-zai__glm-5.3-run_1
   instrument: G-FID-TRACE
   severity: high
@@ -5192,52 +4570,24 @@ findings:
     bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
     carrier: trajectories/claude-opus-5/run_1/trial.log
     carrier_ngrams: 10140
-    containment: 0.958679
+    containment: 0.907495
     lane: root
     ngram_width: 5
     normalization_domain: nfkc_fold+lowercase+collapse_whitespace
     path: trajectories/claude-opus-5/run_1/trial.log
-    reverse_containment: 0.974634
+    reverse_containment: 0.953476
     review_threshold: 0.15
     threshold: 0.3
     threshold_source: scope.yaml
-    visible_ngrams: 9974
+    visible_ngrams: 9651
   finding_id: G-LEAK-CONTAINMENT-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-0c541ac728af
   instrument: G-LEAK-CONTAINMENT
   severity: high
   statement: Private carrier trajectories/claude-opus-5/run_1/trial.log of bundle 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    shares 0.958679 of its normalized 5-gram set with the agent-visible bytes, at or above the retention
-    threshold 0.3. Reverse containment is 0.974634 over 10140 carrier and 9974 visible distinct n-grams.
+    shares 0.907495 of its normalized 5-gram set with the agent-visible bytes, at or above the retention
+    threshold 0.3. Reverse containment is 0.953476 over 10140 carrier and 9651 visible distinct n-grams.
     Containment is symmetric in its overlap and differs only in denominator, so this measurement records
     that the two surfaces share material and does not by itself establish which surface the material originated
-    on; the overlap is retained for adjudication rather than discharged as clean.
-  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-- bucket: deterministic
-  caps: HOLD
-  critical_class: private-carrier-leak
-  evidence:
-    band: retained
-    bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    carrier: trajectories/.DS_Store
-    carrier_ngrams: 92
-    containment: 0.673913
-    lane: root
-    ngram_width: 5
-    normalization_domain: nfkc_fold+lowercase+collapse_whitespace
-    path: trajectories/.DS_Store
-    reverse_containment: 0.006216
-    review_threshold: 0.15
-    threshold: 0.3
-    threshold_source: scope.yaml
-    visible_ngrams: 9974
-  finding_id: G-LEAK-CONTAINMENT-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-3b34531fdfe1
-  instrument: G-LEAK-CONTAINMENT
-  severity: high
-  statement: Private carrier trajectories/.DS_Store of bundle 4c7b8d6f-c500-585d-b7b2-3519df55b1b3 shares
-    0.673913 of its normalized 5-gram set with the agent-visible bytes, at or above the retention threshold
-    0.3. Reverse containment is 0.006216 over 92 carrier and 9974 visible distinct n-grams. Containment
-    is symmetric in its overlap and differs only in denominator, so this measurement records that the
-    two surfaces share material and does not by itself establish which surface the material originated
     on; the overlap is retained for adjudication rather than discharged as clean.
   subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
 - bucket: deterministic
@@ -5248,78 +4598,22 @@ findings:
     bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
     carrier: trajectories/zai__glm-5.3/run_1/trial.log
     carrier_ngrams: 10140
-    containment: 0.958679
+    containment: 0.907495
     lane: root
     ngram_width: 5
     normalization_domain: nfkc_fold+lowercase+collapse_whitespace
     path: trajectories/zai__glm-5.3/run_1/trial.log
-    reverse_containment: 0.974634
+    reverse_containment: 0.953476
     review_threshold: 0.15
     threshold: 0.3
     threshold_source: scope.yaml
-    visible_ngrams: 9974
+    visible_ngrams: 9651
   finding_id: G-LEAK-CONTAINMENT-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-3f076702643e
   instrument: G-LEAK-CONTAINMENT
   severity: high
   statement: Private carrier trajectories/zai__glm-5.3/run_1/trial.log of bundle 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    shares 0.958679 of its normalized 5-gram set with the agent-visible bytes, at or above the retention
-    threshold 0.3. Reverse containment is 0.974634 over 10140 carrier and 9974 visible distinct n-grams.
-    Containment is symmetric in its overlap and differs only in denominator, so this measurement records
-    that the two surfaces share material and does not by itself establish which surface the material originated
-    on; the overlap is retained for adjudication rather than discharged as clean.
-  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-- bucket: deterministic
-  caps: HOLD
-  critical_class: private-carrier-leak
-  evidence:
-    band: retained
-    bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    carrier: trajectories/zai__glm-5.3/.DS_Store
-    carrier_ngrams: 104
-    containment: 0.567308
-    lane: root
-    ngram_width: 5
-    normalization_domain: nfkc_fold+lowercase+collapse_whitespace
-    path: trajectories/zai__glm-5.3/.DS_Store
-    reverse_containment: 0.005915
-    review_threshold: 0.15
-    threshold: 0.3
-    threshold_source: scope.yaml
-    visible_ngrams: 9974
-  finding_id: G-LEAK-CONTAINMENT-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-5f4ba7cbd829
-  instrument: G-LEAK-CONTAINMENT
-  severity: high
-  statement: Private carrier trajectories/zai__glm-5.3/.DS_Store of bundle 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    shares 0.567308 of its normalized 5-gram set with the agent-visible bytes, at or above the retention
-    threshold 0.3. Reverse containment is 0.005915 over 104 carrier and 9974 visible distinct n-grams.
-    Containment is symmetric in its overlap and differs only in denominator, so this measurement records
-    that the two surfaces share material and does not by itself establish which surface the material originated
-    on; the overlap is retained for adjudication rather than discharged as clean.
-  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-- bucket: deterministic
-  caps: HOLD
-  critical_class: private-carrier-leak
-  evidence:
-    band: retained
-    bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    carrier: trajectories/zai__glm-5.3/run_1/.DS_Store
-    carrier_ngrams: 98
-    containment: 0.632653
-    lane: root
-    ngram_width: 5
-    normalization_domain: nfkc_fold+lowercase+collapse_whitespace
-    path: trajectories/zai__glm-5.3/run_1/.DS_Store
-    reverse_containment: 0.006216
-    review_threshold: 0.15
-    threshold: 0.3
-    threshold_source: scope.yaml
-    visible_ngrams: 9974
-  finding_id: G-LEAK-CONTAINMENT-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-70e2d6f1976b
-  instrument: G-LEAK-CONTAINMENT
-  severity: high
-  statement: Private carrier trajectories/zai__glm-5.3/run_1/.DS_Store of bundle 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    shares 0.632653 of its normalized 5-gram set with the agent-visible bytes, at or above the retention
-    threshold 0.3. Reverse containment is 0.006216 over 98 carrier and 9974 visible distinct n-grams.
+    shares 0.907495 of its normalized 5-gram set with the agent-visible bytes, at or above the retention
+    threshold 0.3. Reverse containment is 0.953476 over 10140 carrier and 9651 visible distinct n-grams.
     Containment is symmetric in its overlap and differs only in denominator, so this measurement records
     that the two surfaces share material and does not by itself establish which surface the material originated
     on; the overlap is retained for adjudication rather than discharged as clean.
@@ -5337,17 +4631,17 @@ findings:
     ngram_width: 5
     normalization_domain: nfkc_fold+lowercase+collapse_whitespace
     path: trajectories/claude-opus-5/run_1/trial.log
-    reverse_containment: 0.970243
+    reverse_containment: 0.975365
     review_threshold: 0.15
     threshold: 0.3
     threshold_source: scope.yaml
-    visible_ngrams: 3999
+    visible_ngrams: 3978
   finding_id: G-LEAK-CONTAINMENT-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-0c541ac728af
   instrument: G-LEAK-CONTAINMENT
   severity: high
   statement: Private carrier trajectories/claude-opus-5/run_1/trial.log of bundle 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
     shares 0.912941 of its normalized 5-gram set with the agent-visible bytes, at or above the retention
-    threshold 0.3. Reverse containment is 0.970243 over 4250 carrier and 3999 visible distinct n-grams.
+    threshold 0.3. Reverse containment is 0.975365 over 4250 carrier and 3978 visible distinct n-grams.
     Containment is symmetric in its overlap and differs only in denominator, so this measurement records
     that the two surfaces share material and does not by itself establish which surface the material originated
     on; the overlap is retained for adjudication rather than discharged as clean.
@@ -5365,17 +4659,17 @@ findings:
     ngram_width: 5
     normalization_domain: nfkc_fold+lowercase+collapse_whitespace
     path: trajectories/zai__glm-5.3/run_1/trial.log
-    reverse_containment: 0.970243
+    reverse_containment: 0.975365
     review_threshold: 0.15
     threshold: 0.3
     threshold_source: scope.yaml
-    visible_ngrams: 3999
+    visible_ngrams: 3978
   finding_id: G-LEAK-CONTAINMENT-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-3f076702643e
   instrument: G-LEAK-CONTAINMENT
   severity: high
   statement: Private carrier trajectories/zai__glm-5.3/run_1/trial.log of bundle 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
     shares 0.912941 of its normalized 5-gram set with the agent-visible bytes, at or above the retention
-    threshold 0.3. Reverse containment is 0.970243 over 4250 carrier and 3999 visible distinct n-grams.
+    threshold 0.3. Reverse containment is 0.975365 over 4250 carrier and 3978 visible distinct n-grams.
     Containment is symmetric in its overlap and differs only in denominator, so this measurement records
     that the two surfaces share material and does not by itself establish which surface the material originated
     on; the overlap is retained for adjudication rather than discharged as clean.
@@ -5393,17 +4687,17 @@ findings:
     ngram_width: 5
     normalization_domain: nfkc_fold+lowercase+collapse_whitespace
     path: trajectories/claude-opus-5/run_1/trial.log
-    reverse_containment: 0.976053
+    reverse_containment: 0.982288
     review_threshold: 0.15
     threshold: 0.3
     threshold_source: scope.yaml
-    visible_ngrams: 3466
+    visible_ngrams: 3444
   finding_id: G-LEAK-CONTAINMENT-873914cf-93b2-57a0-a5c8-264bfa2d3b66-0c541ac728af
   instrument: G-LEAK-CONTAINMENT
   severity: high
   statement: Private carrier trajectories/claude-opus-5/run_1/trial.log of bundle 873914cf-93b2-57a0-a5c8-264bfa2d3b66
     shares 0.910388 of its normalized 5-gram set with the agent-visible bytes, at or above the retention
-    threshold 0.3. Reverse containment is 0.976053 over 3716 carrier and 3466 visible distinct n-grams.
+    threshold 0.3. Reverse containment is 0.982288 over 3716 carrier and 3444 visible distinct n-grams.
     Containment is symmetric in its overlap and differs only in denominator, so this measurement records
     that the two surfaces share material and does not by itself establish which surface the material originated
     on; the overlap is retained for adjudication rather than discharged as clean.
@@ -5421,17 +4715,17 @@ findings:
     ngram_width: 5
     normalization_domain: nfkc_fold+lowercase+collapse_whitespace
     path: trajectories/zai__glm-5.3/run_1/trial.log
-    reverse_containment: 0.976053
+    reverse_containment: 0.982288
     review_threshold: 0.15
     threshold: 0.3
     threshold_source: scope.yaml
-    visible_ngrams: 3466
+    visible_ngrams: 3444
   finding_id: G-LEAK-CONTAINMENT-873914cf-93b2-57a0-a5c8-264bfa2d3b66-3f076702643e
   instrument: G-LEAK-CONTAINMENT
   severity: high
   statement: Private carrier trajectories/zai__glm-5.3/run_1/trial.log of bundle 873914cf-93b2-57a0-a5c8-264bfa2d3b66
     shares 0.910388 of its normalized 5-gram set with the agent-visible bytes, at or above the retention
-    threshold 0.3. Reverse containment is 0.976053 over 3716 carrier and 3466 visible distinct n-grams.
+    threshold 0.3. Reverse containment is 0.982288 over 3716 carrier and 3444 visible distinct n-grams.
     Containment is symmetric in its overlap and differs only in denominator, so this measurement records
     that the two surfaces share material and does not by itself establish which surface the material originated
     on; the overlap is retained for adjudication rather than discharged as clean.
@@ -5468,57 +4762,6 @@ findings:
   severity: high
   statement: The binding envelope over the canonical payload hash, the canonical bundle hash, and the
     pinned image digest is not signed, so the binding block is an unauthenticated declaration.
-  subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: provenance-carrier-integrity
-  evidence:
-    prose_fields:
-    - measurement_provenance.basis
-    - sanitization_closure.closure_identity
-    - sanitization_closure.history_absence
-    - sanitization_closure.remote_absence
-    - sanitization_closure.thread_absence
-  finding_id: F-CON-RECORD-FREE-FORM-PROSE-4c7b8d6f
-  instrument: G-CON-RECORD
-  severity: critical
-  statement: Fields of the provenance carrier that its closed schema defines as tokens or digests instead
-    carry free-form prose. Step 8i states that no field of this carrier accepts free-form prose, because
-    prose is not recomputable and turns a bound claim into an assertion.
-  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: provenance-carrier-integrity
-  evidence:
-    prose_fields:
-    - measurement_provenance.basis
-    - sanitization_closure.closure_identity
-    - sanitization_closure.history_absence
-    - sanitization_closure.remote_absence
-    - sanitization_closure.thread_absence
-  finding_id: F-CON-RECORD-FREE-FORM-PROSE-6bf0c918
-  instrument: G-CON-RECORD
-  severity: critical
-  statement: Fields of the provenance carrier that its closed schema defines as tokens or digests instead
-    carry free-form prose. Step 8i states that no field of this carrier accepts free-form prose, because
-    prose is not recomputable and turns a bound claim into an assertion.
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: provenance-carrier-integrity
-  evidence:
-    prose_fields:
-    - measurement_provenance.basis
-    - sanitization_closure.closure_identity
-    - sanitization_closure.history_absence
-    - sanitization_closure.remote_absence
-    - sanitization_closure.thread_absence
-  finding_id: F-CON-RECORD-FREE-FORM-PROSE-873914cf
-  instrument: G-CON-RECORD
-  severity: critical
-  statement: Fields of the provenance carrier that its closed schema defines as tokens or digests instead
-    carry free-form prose. Step 8i states that no field of this carrier accepts free-form prose, because
-    prose is not recomputable and turns a bound claim into an assertion.
   subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
 - bucket: deterministic
   caps: HOLD
@@ -5562,7 +4805,7 @@ findings:
     interface_mode: names-only
     issue_keys:
     - issue_7
-    manifest_digest: 7cadcedd4c234a1c04558414dd17b1bf8062843045164ddb080432525efc9d4f
+    manifest_digest: 3985474ac79d3c15cc92360386cf0583496f2ac2cafdce6fcc5a08656eb88aa6
     per_class_counts:
       exit-code-contract: 0
       invented-or-assumed-interface: 1
@@ -5590,7 +4833,7 @@ findings:
     - issue_10
     - issue_19
     - issue_29
-    manifest_digest: 736db80b528b238916194e2c411f80f14b534959c535490db825d4f33107b9c9
+    manifest_digest: 7883edfe9a2d90c76cde292b16650ff89a4307c2acdddb34d285e4c1710776fd
     per_class_counts:
       exit-code-contract: 0
       invented-or-assumed-interface: 13
@@ -5619,7 +4862,7 @@ findings:
     - issue_15
     - issue_16
     - issue_4
-    manifest_digest: 8bfb8950f5ebf647a28bd73a871b34ab1e56b5c2ab975717f432d47d229f4935
+    manifest_digest: fb8f0ce15c6e11dd2abaf37a8267ca24f9f99ae0a1904ad2a8b3b80ff8563aef
     per_class_counts:
       exit-code-contract: 0
       invented-or-assumed-interface: 15
@@ -5932,769 +5175,6 @@ findings:
     distinguish one rollout from another and provides no binding between a trajectory and its run.
   subject: project
 - bucket: deterministic
-  caps: BLOCK
-  critical_class: rubric-compilation
-  evidence:
-    bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    committed_compiled_tests: 23
-    compiled_items: 0
-    compiled_module: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3/tests/test_output.py
-    compiled_test_sample:
-    - test_reward_is_written_and_in_range
-    - test_every_zero_carries_a_machine_readable_reason
-    - test_graded_tests_were_not_rewritten
-    - test_the_run_and_the_bundle_agree
-    - test_reached_auto_draft_pr
-    - test_reached_release
-    - test_reached_vendored_file_warning
-    - test_reached_changelog
-    compiled_weight: 0
-    compiled_weight_share: 0.0
-    floor_state: unresolved
-    items: 13
-    rubric: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3/tests/rubrics.json
-    total_weight: 45.0
-  finding_id: RUB-COMPLETENESS-UNDECLARED-COMPILATION-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-  instrument: G-RUB-COMPLETENESS
-  severity: high
-  statement: 'The bundle commits 23 compiled test(s) in tests/test_output.py while not one of its 13 rubric
-    items declares mode ''compiled'', so set equality fails in both directions at once: every committed
-    compiled test enforces a requirement no rubric item claims is compiled, and the compiled item set
-    is empty. The compiled weight share is therefore 0.0000 of 45.0 total weight.'
-  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: rubric-compilation
-  evidence:
-    bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    committed_compiled_tests: 22
-    compiled_items: 0
-    compiled_module: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1/tests/test_output.py
-    compiled_test_sample:
-    - test_reward_is_written_and_in_range
-    - test_every_zero_carries_a_machine_readable_reason
-    - test_graded_tests_were_not_rewritten
-    - test_the_run_and_the_bundle_agree
-    - test_reached_devcontainer
-    - test_reached_contributing
-    - test_reached_readme
-    - test_reached_readme_2
-    compiled_weight: 0
-    compiled_weight_share: 0.0
-    floor_state: unresolved
-    items: 13
-    rubric: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1/tests/rubrics.json
-    total_weight: 45.0
-  finding_id: RUB-COMPLETENESS-UNDECLARED-COMPILATION-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-  instrument: G-RUB-COMPLETENESS
-  severity: high
-  statement: 'The bundle commits 22 compiled test(s) in tests/test_output.py while not one of its 13 rubric
-    items declares mode ''compiled'', so set equality fails in both directions at once: every committed
-    compiled test enforces a requirement no rubric item claims is compiled, and the compiled item set
-    is empty. The compiled weight share is therefore 0.0000 of 45.0 total weight.'
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: rubric-compilation
-  evidence:
-    bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    committed_compiled_tests: 22
-    compiled_items: 0
-    compiled_module: 873914cf-93b2-57a0-a5c8-264bfa2d3b66/tests/test_output.py
-    compiled_test_sample:
-    - test_reward_is_written_and_in_range
-    - test_every_zero_carries_a_machine_readable_reason
-    - test_graded_tests_were_not_rewritten
-    - test_the_run_and_the_bundle_agree
-    - test_reached_readme
-    - test_reached_poetry
-    - test_reached_state
-    - test_reached_app
-    compiled_weight: 0
-    compiled_weight_share: 0.0
-    floor_state: unresolved
-    items: 13
-    rubric: 873914cf-93b2-57a0-a5c8-264bfa2d3b66/tests/rubrics.json
-    total_weight: 47.0
-  finding_id: RUB-COMPLETENESS-UNDECLARED-COMPILATION-873914cf-93b2-57a0-a5c8-264bfa2d3b66
-  instrument: G-RUB-COMPLETENESS
-  severity: high
-  statement: 'The bundle commits 22 compiled test(s) in tests/test_output.py while not one of its 13 rubric
-    items declares mode ''compiled'', so set equality fails in both directions at once: every committed
-    compiled test enforces a requirement no rubric item claims is compiled, and the compiled item set
-    is empty. The compiled weight share is therefore 0.0000 of 47.0 total weight.'
-  subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: rubric-compilation
-  evidence:
-    allowed: &id043
-    - trajectory.reasoning
-    - trajectory.observations
-    - final_diff
-    - verification_output
-    bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    channel: trajectory.tool_calls
-    document: tests/rubrics.json
-    item: G2
-  finding_id: RUB-SCHEMA-CHANNEL-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-tests/rubrics.json-G2-trajectory.tool_calls
-  instrument: G-RUB-SCHEMA
-  severity: high
-  statement: Rubric item G2 in tests/rubrics.json names evidence channel 'trajectory.tool_calls', which
-    the projected evidence_channels vocabulary does not contain. A judged item grounded on a channel outside
-    the closed vocabulary cannot be reconciled against any committed artifact.
-  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: rubric-compilation
-  evidence:
-    allowed: *id043
-    bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    channel: trajectory.tool_calls
-    document: tests/rubrics.json
-    item: G3
-  finding_id: RUB-SCHEMA-CHANNEL-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-tests/rubrics.json-G3-trajectory.tool_calls
-  instrument: G-RUB-SCHEMA
-  severity: high
-  statement: Rubric item G3 in tests/rubrics.json names evidence channel 'trajectory.tool_calls', which
-    the projected evidence_channels vocabulary does not contain. A judged item grounded on a channel outside
-    the closed vocabulary cannot be reconciled against any committed artifact.
-  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: rubric-compilation
-  evidence:
-    allowed: *id043
-    bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    channel: trajectory.tool_calls
-    document: tests/rubrics.json
-    item: G4
-  finding_id: RUB-SCHEMA-CHANNEL-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-tests/rubrics.json-G4-trajectory.tool_calls
-  instrument: G-RUB-SCHEMA
-  severity: high
-  statement: Rubric item G4 in tests/rubrics.json names evidence channel 'trajectory.tool_calls', which
-    the projected evidence_channels vocabulary does not contain. A judged item grounded on a channel outside
-    the closed vocabulary cannot be reconciled against any committed artifact.
-  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: rubric-compilation
-  evidence:
-    allowed: *id043
-    bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    channel: trajectory.tool_calls
-    document: tests/rubrics.json
-    item: G2
-  finding_id: RUB-SCHEMA-CHANNEL-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-tests/rubrics.json-G2-trajectory.tool_calls
-  instrument: G-RUB-SCHEMA
-  severity: high
-  statement: Rubric item G2 in tests/rubrics.json names evidence channel 'trajectory.tool_calls', which
-    the projected evidence_channels vocabulary does not contain. A judged item grounded on a channel outside
-    the closed vocabulary cannot be reconciled against any committed artifact.
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: rubric-compilation
-  evidence:
-    allowed: *id043
-    bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    channel: trajectory.tool_calls
-    document: tests/rubrics.json
-    item: G3
-  finding_id: RUB-SCHEMA-CHANNEL-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-tests/rubrics.json-G3-trajectory.tool_calls
-  instrument: G-RUB-SCHEMA
-  severity: high
-  statement: Rubric item G3 in tests/rubrics.json names evidence channel 'trajectory.tool_calls', which
-    the projected evidence_channels vocabulary does not contain. A judged item grounded on a channel outside
-    the closed vocabulary cannot be reconciled against any committed artifact.
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: rubric-compilation
-  evidence:
-    allowed: *id043
-    bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    channel: trajectory.tool_calls
-    document: tests/rubrics.json
-    item: G4
-  finding_id: RUB-SCHEMA-CHANNEL-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-tests/rubrics.json-G4-trajectory.tool_calls
-  instrument: G-RUB-SCHEMA
-  severity: high
-  statement: Rubric item G4 in tests/rubrics.json names evidence channel 'trajectory.tool_calls', which
-    the projected evidence_channels vocabulary does not contain. A judged item grounded on a channel outside
-    the closed vocabulary cannot be reconciled against any committed artifact.
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: rubric-compilation
-  evidence:
-    allowed: *id043
-    bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    channel: trajectory.tool_calls
-    document: tests/rubrics.json
-    item: G2
-  finding_id: RUB-SCHEMA-CHANNEL-873914cf-93b2-57a0-a5c8-264bfa2d3b66-tests/rubrics.json-G2-trajectory.tool_calls
-  instrument: G-RUB-SCHEMA
-  severity: high
-  statement: Rubric item G2 in tests/rubrics.json names evidence channel 'trajectory.tool_calls', which
-    the projected evidence_channels vocabulary does not contain. A judged item grounded on a channel outside
-    the closed vocabulary cannot be reconciled against any committed artifact.
-  subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: rubric-compilation
-  evidence:
-    allowed: *id043
-    bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    channel: trajectory.tool_calls
-    document: tests/rubrics.json
-    item: G3
-  finding_id: RUB-SCHEMA-CHANNEL-873914cf-93b2-57a0-a5c8-264bfa2d3b66-tests/rubrics.json-G3-trajectory.tool_calls
-  instrument: G-RUB-SCHEMA
-  severity: high
-  statement: Rubric item G3 in tests/rubrics.json names evidence channel 'trajectory.tool_calls', which
-    the projected evidence_channels vocabulary does not contain. A judged item grounded on a channel outside
-    the closed vocabulary cannot be reconciled against any committed artifact.
-  subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: rubric-compilation
-  evidence:
-    allowed: *id043
-    bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    channel: trajectory.tool_calls
-    document: tests/rubrics.json
-    item: G4
-  finding_id: RUB-SCHEMA-CHANNEL-873914cf-93b2-57a0-a5c8-264bfa2d3b66-tests/rubrics.json-G4-trajectory.tool_calls
-  instrument: G-RUB-SCHEMA
-  severity: high
-  statement: Rubric item G4 in tests/rubrics.json names evidence channel 'trajectory.tool_calls', which
-    the projected evidence_channels vocabulary does not contain. A judged item grounded on a channel outside
-    the closed vocabulary cannot be reconciled against any committed artifact.
-  subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: rubric-compilation
-  evidence:
-    bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    closed_at: 8
-    declared_fields:
-    - criterion
-    - dimension
-    - evaluation_rule
-    - evaluation_target
-    - evidence
-    - id
-    - mode
-    - weight
-    document: solution/rubrics.json
-    item: R1
-    missing_fields:
-    - evaluation_rule
-    undeclared_fields:
-    - judgment
-  finding_id: RUB-SCHEMA-ITEM-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-solution/rubrics.json-R1
-  instrument: G-RUB-SCHEMA
-  severity: high
-  statement: 'Rubric item R1 in solution/rubrics.json does not conform to the item schema the approved
-    scope closes at 8 fields. Missing: [''evaluation_rule'']. Outside the closed schema: [''judgment''].
-    A schema declared closed that the committed items do not satisfy is not a schema the rubric surface
-    is actually validated against.'
-  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: rubric-compilation
-  evidence:
-    bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    closed_at: 8
-    declared_fields:
-    - criterion
-    - dimension
-    - evaluation_rule
-    - evaluation_target
-    - evidence
-    - id
-    - mode
-    - weight
-    document: solution/rubrics.json
-    item: R2
-    missing_fields:
-    - evaluation_rule
-    undeclared_fields:
-    - judgment
-  finding_id: RUB-SCHEMA-ITEM-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-solution/rubrics.json-R2
-  instrument: G-RUB-SCHEMA
-  severity: high
-  statement: 'Rubric item R2 in solution/rubrics.json does not conform to the item schema the approved
-    scope closes at 8 fields. Missing: [''evaluation_rule'']. Outside the closed schema: [''judgment''].
-    A schema declared closed that the committed items do not satisfy is not a schema the rubric surface
-    is actually validated against.'
-  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: rubric-compilation
-  evidence:
-    bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    closed_at: 8
-    declared_fields:
-    - criterion
-    - dimension
-    - evaluation_rule
-    - evaluation_target
-    - evidence
-    - id
-    - mode
-    - weight
-    document: solution/rubrics.json
-    item: R3
-    missing_fields:
-    - evaluation_rule
-    undeclared_fields:
-    - judgment
-  finding_id: RUB-SCHEMA-ITEM-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-solution/rubrics.json-R3
-  instrument: G-RUB-SCHEMA
-  severity: high
-  statement: 'Rubric item R3 in solution/rubrics.json does not conform to the item schema the approved
-    scope closes at 8 fields. Missing: [''evaluation_rule'']. Outside the closed schema: [''judgment''].
-    A schema declared closed that the committed items do not satisfy is not a schema the rubric surface
-    is actually validated against.'
-  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: rubric-compilation
-  evidence:
-    bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    closed_at: 8
-    declared_fields:
-    - criterion
-    - dimension
-    - evaluation_rule
-    - evaluation_target
-    - evidence
-    - id
-    - mode
-    - weight
-    document: solution/rubrics.json
-    item: R4
-    missing_fields:
-    - evaluation_rule
-    undeclared_fields:
-    - judgment
-  finding_id: RUB-SCHEMA-ITEM-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-solution/rubrics.json-R4
-  instrument: G-RUB-SCHEMA
-  severity: high
-  statement: 'Rubric item R4 in solution/rubrics.json does not conform to the item schema the approved
-    scope closes at 8 fields. Missing: [''evaluation_rule'']. Outside the closed schema: [''judgment''].
-    A schema declared closed that the committed items do not satisfy is not a schema the rubric surface
-    is actually validated against.'
-  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: rubric-compilation
-  evidence:
-    bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    closed_at: 8
-    declared_fields:
-    - criterion
-    - dimension
-    - evaluation_rule
-    - evaluation_target
-    - evidence
-    - id
-    - mode
-    - weight
-    document: solution/rubrics.json
-    item: R5
-    missing_fields:
-    - evaluation_rule
-    undeclared_fields:
-    - judgment
-  finding_id: RUB-SCHEMA-ITEM-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-solution/rubrics.json-R5
-  instrument: G-RUB-SCHEMA
-  severity: high
-  statement: 'Rubric item R5 in solution/rubrics.json does not conform to the item schema the approved
-    scope closes at 8 fields. Missing: [''evaluation_rule'']. Outside the closed schema: [''judgment''].
-    A schema declared closed that the committed items do not satisfy is not a schema the rubric surface
-    is actually validated against.'
-  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: rubric-compilation
-  evidence:
-    bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    closed_at: 8
-    declared_fields:
-    - criterion
-    - dimension
-    - evaluation_rule
-    - evaluation_target
-    - evidence
-    - id
-    - mode
-    - weight
-    document: solution/rubrics.json
-    item: R6
-    missing_fields:
-    - evaluation_rule
-    undeclared_fields:
-    - judgment
-  finding_id: RUB-SCHEMA-ITEM-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-solution/rubrics.json-R6
-  instrument: G-RUB-SCHEMA
-  severity: high
-  statement: 'Rubric item R6 in solution/rubrics.json does not conform to the item schema the approved
-    scope closes at 8 fields. Missing: [''evaluation_rule'']. Outside the closed schema: [''judgment''].
-    A schema declared closed that the committed items do not satisfy is not a schema the rubric surface
-    is actually validated against.'
-  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: rubric-compilation
-  evidence:
-    bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    closed_at: 8
-    declared_fields:
-    - criterion
-    - dimension
-    - evaluation_rule
-    - evaluation_target
-    - evidence
-    - id
-    - mode
-    - weight
-    document: solution/rubrics.json
-    item: R1
-    missing_fields:
-    - evaluation_rule
-    undeclared_fields:
-    - judgment
-  finding_id: RUB-SCHEMA-ITEM-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-solution/rubrics.json-R1
-  instrument: G-RUB-SCHEMA
-  severity: high
-  statement: 'Rubric item R1 in solution/rubrics.json does not conform to the item schema the approved
-    scope closes at 8 fields. Missing: [''evaluation_rule'']. Outside the closed schema: [''judgment''].
-    A schema declared closed that the committed items do not satisfy is not a schema the rubric surface
-    is actually validated against.'
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: rubric-compilation
-  evidence:
-    bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    closed_at: 8
-    declared_fields:
-    - criterion
-    - dimension
-    - evaluation_rule
-    - evaluation_target
-    - evidence
-    - id
-    - mode
-    - weight
-    document: solution/rubrics.json
-    item: R2
-    missing_fields:
-    - evaluation_rule
-    undeclared_fields:
-    - judgment
-  finding_id: RUB-SCHEMA-ITEM-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-solution/rubrics.json-R2
-  instrument: G-RUB-SCHEMA
-  severity: high
-  statement: 'Rubric item R2 in solution/rubrics.json does not conform to the item schema the approved
-    scope closes at 8 fields. Missing: [''evaluation_rule'']. Outside the closed schema: [''judgment''].
-    A schema declared closed that the committed items do not satisfy is not a schema the rubric surface
-    is actually validated against.'
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: rubric-compilation
-  evidence:
-    bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    closed_at: 8
-    declared_fields:
-    - criterion
-    - dimension
-    - evaluation_rule
-    - evaluation_target
-    - evidence
-    - id
-    - mode
-    - weight
-    document: solution/rubrics.json
-    item: R3
-    missing_fields:
-    - evaluation_rule
-    undeclared_fields:
-    - judgment
-  finding_id: RUB-SCHEMA-ITEM-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-solution/rubrics.json-R3
-  instrument: G-RUB-SCHEMA
-  severity: high
-  statement: 'Rubric item R3 in solution/rubrics.json does not conform to the item schema the approved
-    scope closes at 8 fields. Missing: [''evaluation_rule'']. Outside the closed schema: [''judgment''].
-    A schema declared closed that the committed items do not satisfy is not a schema the rubric surface
-    is actually validated against.'
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: rubric-compilation
-  evidence:
-    bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    closed_at: 8
-    declared_fields:
-    - criterion
-    - dimension
-    - evaluation_rule
-    - evaluation_target
-    - evidence
-    - id
-    - mode
-    - weight
-    document: solution/rubrics.json
-    item: R4
-    missing_fields:
-    - evaluation_rule
-    undeclared_fields:
-    - judgment
-  finding_id: RUB-SCHEMA-ITEM-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-solution/rubrics.json-R4
-  instrument: G-RUB-SCHEMA
-  severity: high
-  statement: 'Rubric item R4 in solution/rubrics.json does not conform to the item schema the approved
-    scope closes at 8 fields. Missing: [''evaluation_rule'']. Outside the closed schema: [''judgment''].
-    A schema declared closed that the committed items do not satisfy is not a schema the rubric surface
-    is actually validated against.'
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: rubric-compilation
-  evidence:
-    bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    closed_at: 8
-    declared_fields:
-    - criterion
-    - dimension
-    - evaluation_rule
-    - evaluation_target
-    - evidence
-    - id
-    - mode
-    - weight
-    document: solution/rubrics.json
-    item: R5
-    missing_fields:
-    - evaluation_rule
-    undeclared_fields:
-    - judgment
-  finding_id: RUB-SCHEMA-ITEM-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-solution/rubrics.json-R5
-  instrument: G-RUB-SCHEMA
-  severity: high
-  statement: 'Rubric item R5 in solution/rubrics.json does not conform to the item schema the approved
-    scope closes at 8 fields. Missing: [''evaluation_rule'']. Outside the closed schema: [''judgment''].
-    A schema declared closed that the committed items do not satisfy is not a schema the rubric surface
-    is actually validated against.'
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: rubric-compilation
-  evidence:
-    bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    closed_at: 8
-    declared_fields:
-    - criterion
-    - dimension
-    - evaluation_rule
-    - evaluation_target
-    - evidence
-    - id
-    - mode
-    - weight
-    document: solution/rubrics.json
-    item: R6
-    missing_fields:
-    - evaluation_rule
-    undeclared_fields:
-    - judgment
-  finding_id: RUB-SCHEMA-ITEM-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-solution/rubrics.json-R6
-  instrument: G-RUB-SCHEMA
-  severity: high
-  statement: 'Rubric item R6 in solution/rubrics.json does not conform to the item schema the approved
-    scope closes at 8 fields. Missing: [''evaluation_rule'']. Outside the closed schema: [''judgment''].
-    A schema declared closed that the committed items do not satisfy is not a schema the rubric surface
-    is actually validated against.'
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: rubric-compilation
-  evidence:
-    bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    closed_at: 8
-    declared_fields:
-    - criterion
-    - dimension
-    - evaluation_rule
-    - evaluation_target
-    - evidence
-    - id
-    - mode
-    - weight
-    document: solution/rubrics.json
-    item: R1
-    missing_fields:
-    - evaluation_rule
-    undeclared_fields:
-    - judgment
-  finding_id: RUB-SCHEMA-ITEM-873914cf-93b2-57a0-a5c8-264bfa2d3b66-solution/rubrics.json-R1
-  instrument: G-RUB-SCHEMA
-  severity: high
-  statement: 'Rubric item R1 in solution/rubrics.json does not conform to the item schema the approved
-    scope closes at 8 fields. Missing: [''evaluation_rule'']. Outside the closed schema: [''judgment''].
-    A schema declared closed that the committed items do not satisfy is not a schema the rubric surface
-    is actually validated against.'
-  subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: rubric-compilation
-  evidence:
-    bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    closed_at: 8
-    declared_fields:
-    - criterion
-    - dimension
-    - evaluation_rule
-    - evaluation_target
-    - evidence
-    - id
-    - mode
-    - weight
-    document: solution/rubrics.json
-    item: R2
-    missing_fields:
-    - evaluation_rule
-    undeclared_fields:
-    - judgment
-  finding_id: RUB-SCHEMA-ITEM-873914cf-93b2-57a0-a5c8-264bfa2d3b66-solution/rubrics.json-R2
-  instrument: G-RUB-SCHEMA
-  severity: high
-  statement: 'Rubric item R2 in solution/rubrics.json does not conform to the item schema the approved
-    scope closes at 8 fields. Missing: [''evaluation_rule'']. Outside the closed schema: [''judgment''].
-    A schema declared closed that the committed items do not satisfy is not a schema the rubric surface
-    is actually validated against.'
-  subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: rubric-compilation
-  evidence:
-    bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    closed_at: 8
-    declared_fields:
-    - criterion
-    - dimension
-    - evaluation_rule
-    - evaluation_target
-    - evidence
-    - id
-    - mode
-    - weight
-    document: solution/rubrics.json
-    item: R3
-    missing_fields:
-    - evaluation_rule
-    undeclared_fields:
-    - judgment
-  finding_id: RUB-SCHEMA-ITEM-873914cf-93b2-57a0-a5c8-264bfa2d3b66-solution/rubrics.json-R3
-  instrument: G-RUB-SCHEMA
-  severity: high
-  statement: 'Rubric item R3 in solution/rubrics.json does not conform to the item schema the approved
-    scope closes at 8 fields. Missing: [''evaluation_rule'']. Outside the closed schema: [''judgment''].
-    A schema declared closed that the committed items do not satisfy is not a schema the rubric surface
-    is actually validated against.'
-  subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: rubric-compilation
-  evidence:
-    bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    closed_at: 8
-    declared_fields:
-    - criterion
-    - dimension
-    - evaluation_rule
-    - evaluation_target
-    - evidence
-    - id
-    - mode
-    - weight
-    document: solution/rubrics.json
-    item: R4
-    missing_fields:
-    - evaluation_rule
-    undeclared_fields:
-    - judgment
-  finding_id: RUB-SCHEMA-ITEM-873914cf-93b2-57a0-a5c8-264bfa2d3b66-solution/rubrics.json-R4
-  instrument: G-RUB-SCHEMA
-  severity: high
-  statement: 'Rubric item R4 in solution/rubrics.json does not conform to the item schema the approved
-    scope closes at 8 fields. Missing: [''evaluation_rule'']. Outside the closed schema: [''judgment''].
-    A schema declared closed that the committed items do not satisfy is not a schema the rubric surface
-    is actually validated against.'
-  subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: rubric-compilation
-  evidence:
-    bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    closed_at: 8
-    declared_fields:
-    - criterion
-    - dimension
-    - evaluation_rule
-    - evaluation_target
-    - evidence
-    - id
-    - mode
-    - weight
-    document: solution/rubrics.json
-    item: R5
-    missing_fields:
-    - evaluation_rule
-    undeclared_fields:
-    - judgment
-  finding_id: RUB-SCHEMA-ITEM-873914cf-93b2-57a0-a5c8-264bfa2d3b66-solution/rubrics.json-R5
-  instrument: G-RUB-SCHEMA
-  severity: high
-  statement: 'Rubric item R5 in solution/rubrics.json does not conform to the item schema the approved
-    scope closes at 8 fields. Missing: [''evaluation_rule'']. Outside the closed schema: [''judgment''].
-    A schema declared closed that the committed items do not satisfy is not a schema the rubric surface
-    is actually validated against.'
-  subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: rubric-compilation
-  evidence:
-    bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    closed_at: 8
-    declared_fields:
-    - criterion
-    - dimension
-    - evaluation_rule
-    - evaluation_target
-    - evidence
-    - id
-    - mode
-    - weight
-    document: solution/rubrics.json
-    item: R6
-    missing_fields:
-    - evaluation_rule
-    undeclared_fields:
-    - judgment
-  finding_id: RUB-SCHEMA-ITEM-873914cf-93b2-57a0-a5c8-264bfa2d3b66-solution/rubrics.json-R6
-  instrument: G-RUB-SCHEMA
-  severity: high
-  statement: 'Rubric item R6 in solution/rubrics.json does not conform to the item schema the approved
-    scope closes at 8 fields. Missing: [''evaluation_rule'']. Outside the closed schema: [''judgment''].
-    A schema declared closed that the committed items do not satisfy is not a schema the rubric surface
-    is actually validated against.'
-  subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-- bucket: deterministic
   caps: HOLD
   critical_class: screening-root-governance
   evidence:
@@ -6728,473 +5208,6 @@ findings:
   severity: medium
   statement: 8 declared preserve target(s) do not execute on the unmodified base and were dropped from
     the preserve set, so those non-target tests are unobserved at base rather than observed green.
-  subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: verifier-robustness
-  evidence:
-    baseline_exact_membership: 18
-    baseline_keys: 318
-    baseline_reward: 0.5
-    bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    fallback_sample:
-    - tests/components/base/test_script.py::test_script_event_handler
-    - tests/components/layout/test_foreach.py::test_foreach_render[state_var1-display_color_name-render_dict1]
-    - tests/components/layout/test_foreach.py::test_foreach_render[state_var2-display_shade-render_dict2]
-    - tests/components/layout/test_foreach.py::test_foreach_render[state_var3-display_primary_colors-render_dict3]
-    - tests/components/layout/test_foreach.py::test_foreach_render[state_var4-display_color_with_shades-render_dict4]
-    - tests/components/layout/test_foreach.py::test_foreach_render[state_var5-display_nested_color_with_shades-render_dict5]
-    - tests/components/layout/test_foreach.py::test_foreach_render[state_var6-display_nested_color_with_shades_v2-render_dict6]
-    - tests/components/layout/test_foreach.py::test_foreach_render[state_var7-display_color_tuple-render_dict7]
-    locus: tests/harness_core.py lines 457 to 500
-    log: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1/trajectories/claude-opus-5/run_1/verifier/target-stdout.md
-    perturbation: dialect_or_suite_name_prefixes
-    reason_moved: false
-    rollout: claude-opus-5/run_1
-    score_moved: false
-    suffix_fallback_targets: 18
-    variant_exact_membership: 0
-    variant_keys: 317
-    variant_reward: 0.5
-  finding_id: VER-INVARIANCE-NONMEMBERSHIP-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-claude-opus-5/run_1-dialect_or_suite_name_prefixes
-  instrument: G-VER-INVARIANCE
-  severity: high
-  statement: Under the bound perturbation class dialect_or_suite_name_prefixes the declared targets no
-    longer appear as parsed keys, and resolve_declared credited 18 of them through its suffix fallback
-    over ID_SEPARATORS at harness_core.py line 436 instead. The score survives only because target resolution
-    is not set membership over normalized test names, so a credited target is matched to a parsed identifier
-    the declaration never names.
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: verifier-robustness
-  evidence:
-    baseline_exact_membership: 18
-    baseline_keys: 318
-    baseline_reward: 0.5
-    bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    fallback_sample:
-    - tests/components/base/test_script.py::test_script_event_handler
-    - tests/components/layout/test_foreach.py::test_foreach_render[state_var1-display_color_name-render_dict1]
-    - tests/components/layout/test_foreach.py::test_foreach_render[state_var2-display_shade-render_dict2]
-    - tests/components/layout/test_foreach.py::test_foreach_render[state_var3-display_primary_colors-render_dict3]
-    - tests/components/layout/test_foreach.py::test_foreach_render[state_var4-display_color_with_shades-render_dict4]
-    - tests/components/layout/test_foreach.py::test_foreach_render[state_var5-display_nested_color_with_shades-render_dict5]
-    - tests/components/layout/test_foreach.py::test_foreach_render[state_var6-display_nested_color_with_shades_v2-render_dict6]
-    - tests/components/layout/test_foreach.py::test_foreach_render[state_var7-display_color_tuple-render_dict7]
-    locus: tests/harness_core.py lines 457 to 500
-    log: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1/trajectories/claude-opus-5/run_1/verifier/target-stdout.md
-    perturbation: timestamps
-    reason_moved: false
-    rollout: claude-opus-5/run_1
-    score_moved: false
-    suffix_fallback_targets: 18
-    variant_exact_membership: 0
-    variant_keys: 317
-    variant_reward: 0.5
-  finding_id: VER-INVARIANCE-NONMEMBERSHIP-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-claude-opus-5/run_1-timestamps
-  instrument: G-VER-INVARIANCE
-  severity: high
-  statement: Under the bound perturbation class timestamps the declared targets no longer appear as parsed
-    keys, and resolve_declared credited 18 of them through its suffix fallback over ID_SEPARATORS at harness_core.py
-    line 436 instead. The score survives only because target resolution is not set membership over normalized
-    test names, so a credited target is matched to a parsed identifier the declaration never names.
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: verifier-robustness
-  evidence:
-    baseline_exact_membership: 8
-    baseline_keys: 158
-    baseline_reward: 0.5
-    bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    fallback_sample:
-    - tests/components/media/test_icon.py::test_tag_with_capital[Check]
-    - tests/components/media/test_icon.py::test_tag_with_capital[Close]
-    - tests/components/media/test_icon.py::test_tag_with_capital[eDit]
-    - tests/test_event.py::test_event_console_log
-    - tests/test_event.py::test_event_redirect
-    - tests/test_event.py::test_event_window_alert
-    - tests/test_utils.py::test_issubclass[cls7-cls_check7-False]
-    - tests/test_utils.py::test_issubclass[cls8-cls_check8-False]
-    locus: tests/harness_core.py lines 457 to 500
-    log: 873914cf-93b2-57a0-a5c8-264bfa2d3b66/trajectories/claude-opus-5/run_1/verifier/target-stdout.md
-    perturbation: dialect_or_suite_name_prefixes
-    reason_moved: false
-    rollout: claude-opus-5/run_1
-    score_moved: false
-    suffix_fallback_targets: 8
-    variant_exact_membership: 0
-    variant_keys: 158
-    variant_reward: 0.5
-  finding_id: VER-INVARIANCE-NONMEMBERSHIP-873914cf-93b2-57a0-a5c8-264bfa2d3b66-claude-opus-5/run_1-dialect_or_suite_name_prefixes
-  instrument: G-VER-INVARIANCE
-  severity: high
-  statement: Under the bound perturbation class dialect_or_suite_name_prefixes the declared targets no
-    longer appear as parsed keys, and resolve_declared credited 8 of them through its suffix fallback
-    over ID_SEPARATORS at harness_core.py line 436 instead. The score survives only because target resolution
-    is not set membership over normalized test names, so a credited target is matched to a parsed identifier
-    the declaration never names.
-  subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: verifier-robustness
-  evidence:
-    baseline_exact_membership: 8
-    baseline_keys: 158
-    baseline_reward: 0.5
-    bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    fallback_sample:
-    - tests/components/media/test_icon.py::test_tag_with_capital[Check]
-    - tests/components/media/test_icon.py::test_tag_with_capital[Close]
-    - tests/components/media/test_icon.py::test_tag_with_capital[eDit]
-    - tests/test_event.py::test_event_console_log
-    - tests/test_event.py::test_event_redirect
-    - tests/test_event.py::test_event_window_alert
-    - tests/test_utils.py::test_issubclass[cls7-cls_check7-False]
-    - tests/test_utils.py::test_issubclass[cls8-cls_check8-False]
-    locus: tests/harness_core.py lines 457 to 500
-    log: 873914cf-93b2-57a0-a5c8-264bfa2d3b66/trajectories/claude-opus-5/run_1/verifier/target-stdout.md
-    perturbation: timestamps
-    reason_moved: false
-    rollout: claude-opus-5/run_1
-    score_moved: false
-    suffix_fallback_targets: 8
-    variant_exact_membership: 0
-    variant_keys: 158
-    variant_reward: 0.5
-  finding_id: VER-INVARIANCE-NONMEMBERSHIP-873914cf-93b2-57a0-a5c8-264bfa2d3b66-claude-opus-5/run_1-timestamps
-  instrument: G-VER-INVARIANCE
-  severity: high
-  statement: Under the bound perturbation class timestamps the declared targets no longer appear as parsed
-    keys, and resolve_declared credited 8 of them through its suffix fallback over ID_SEPARATORS at harness_core.py
-    line 436 instead. The score survives only because target resolution is not set membership over normalized
-    test names, so a credited target is matched to a parsed identifier the declaration never names.
-  subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: verifier-robustness
-  evidence:
-    baseline_exact_membership: 8
-    baseline_keys: 151
-    baseline_reward: 0.875
-    bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    fallback_sample:
-    - tests/components/media/test_icon.py::test_tag_with_capital[Check]
-    - tests/components/media/test_icon.py::test_tag_with_capital[Close]
-    - tests/components/media/test_icon.py::test_tag_with_capital[eDit]
-    - tests/test_event.py::test_event_console_log
-    - tests/test_event.py::test_event_redirect
-    - tests/test_event.py::test_event_window_alert
-    - tests/test_utils.py::test_issubclass[cls7-cls_check7-False]
-    - tests/test_utils.py::test_issubclass[cls8-cls_check8-False]
-    locus: tests/harness_core.py lines 457 to 500
-    log: 873914cf-93b2-57a0-a5c8-264bfa2d3b66/trajectories/zai__glm-5.3/run_1/verifier/target-stdout.md
-    perturbation: dialect_or_suite_name_prefixes
-    reason_moved: false
-    rollout: zai__glm-5.3/run_1
-    score_moved: false
-    suffix_fallback_targets: 8
-    variant_exact_membership: 0
-    variant_keys: 150
-    variant_reward: 0.875
-  finding_id: VER-INVARIANCE-NONMEMBERSHIP-873914cf-93b2-57a0-a5c8-264bfa2d3b66-zai__glm-5.3/run_1-dialect_or_suite_name_prefixes
-  instrument: G-VER-INVARIANCE
-  severity: high
-  statement: Under the bound perturbation class dialect_or_suite_name_prefixes the declared targets no
-    longer appear as parsed keys, and resolve_declared credited 8 of them through its suffix fallback
-    over ID_SEPARATORS at harness_core.py line 436 instead. The score survives only because target resolution
-    is not set membership over normalized test names, so a credited target is matched to a parsed identifier
-    the declaration never names.
-  subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: verifier-robustness
-  evidence:
-    baseline_exact_membership: 8
-    baseline_keys: 151
-    baseline_reward: 0.875
-    bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    fallback_sample:
-    - tests/components/media/test_icon.py::test_tag_with_capital[Check]
-    - tests/components/media/test_icon.py::test_tag_with_capital[Close]
-    - tests/components/media/test_icon.py::test_tag_with_capital[eDit]
-    - tests/test_event.py::test_event_console_log
-    - tests/test_event.py::test_event_redirect
-    - tests/test_event.py::test_event_window_alert
-    - tests/test_utils.py::test_issubclass[cls7-cls_check7-False]
-    - tests/test_utils.py::test_issubclass[cls8-cls_check8-False]
-    locus: tests/harness_core.py lines 457 to 500
-    log: 873914cf-93b2-57a0-a5c8-264bfa2d3b66/trajectories/zai__glm-5.3/run_1/verifier/target-stdout.md
-    perturbation: timestamps
-    reason_moved: false
-    rollout: zai__glm-5.3/run_1
-    score_moved: false
-    suffix_fallback_targets: 8
-    variant_exact_membership: 0
-    variant_keys: 150
-    variant_reward: 0.875
-  finding_id: VER-INVARIANCE-NONMEMBERSHIP-873914cf-93b2-57a0-a5c8-264bfa2d3b66-zai__glm-5.3/run_1-timestamps
-  instrument: G-VER-INVARIANCE
-  severity: high
-  statement: Under the bound perturbation class timestamps the declared targets no longer appear as parsed
-    keys, and resolve_declared credited 8 of them through its suffix fallback over ID_SEPARATORS at harness_core.py
-    line 436 instead. The score survives only because target resolution is not set membership over normalized
-    test names, so a credited target is matched to a parsed identifier the declaration never names.
-  subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: verifier-robustness
-  evidence:
-    baseline_keys: 550
-    baseline_reason: no-target-resolved
-    baseline_reward: 0.0
-    bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    locus: tests/harness_core.py PARSERS at line 405
-    log: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3/trajectories/claude-opus-5/run_1/verifier/target-stdout.md
-    parser: rust
-    perturbation: dialect_or_suite_name_prefixes
-    reason_moved: true
-    rollout: claude-opus-5/run_1
-    score_moved: false
-    suffix_fallback_targets: 0
-    variant_keys: 0
-    variant_reason: declared-targets-absent-from-output
-    variant_reward: 0.0
-  finding_id: VER-INVARIANCE-OUTCOME-MOVED-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-claude-opus-5/run_1-dialect_or_suite_name_prefixes
-  instrument: G-VER-INVARIANCE
-  severity: critical
-  statement: The bound perturbation class dialect_or_suite_name_prefixes moved the graded outcome over
-    a log whose test results are unchanged. The score went from 0.0 to 0.0, the reduction reason from
-    no-target-resolved to declared-targets-absent-from-output, and the parsed outcome map from 550 to
-    0 identifiers. A cosmetic change to runner output re-grades a submission whose behaviour did not change.
-    A coincident score is not robustness when the reward contract's own machine-readable attribution moved
-    with it.
-  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: verifier-robustness
-  evidence:
-    baseline_keys: 550
-    baseline_reason: no-target-resolved
-    baseline_reward: 0.0
-    bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    locus: tests/harness_core.py PARSERS at line 405
-    log: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3/trajectories/claude-opus-5/run_1/verifier/target-stdout.md
-    parser: rust
-    perturbation: ordinal_suffixes
-    reason_moved: true
-    rollout: claude-opus-5/run_1
-    score_moved: false
-    suffix_fallback_targets: 0
-    variant_keys: 0
-    variant_reason: declared-targets-absent-from-output
-    variant_reward: 0.0
-  finding_id: VER-INVARIANCE-OUTCOME-MOVED-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-claude-opus-5/run_1-ordinal_suffixes
-  instrument: G-VER-INVARIANCE
-  severity: critical
-  statement: The bound perturbation class ordinal_suffixes moved the graded outcome over a log whose test
-    results are unchanged. The score went from 0.0 to 0.0, the reduction reason from no-target-resolved
-    to declared-targets-absent-from-output, and the parsed outcome map from 550 to 0 identifiers. A cosmetic
-    change to runner output re-grades a submission whose behaviour did not change. A coincident score
-    is not robustness when the reward contract's own machine-readable attribution moved with it.
-  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: verifier-robustness
-  evidence:
-    baseline_keys: 550
-    baseline_reason: no-target-resolved
-    baseline_reward: 0.0
-    bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    locus: tests/harness_core.py PARSERS at line 405
-    log: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3/trajectories/claude-opus-5/run_1/verifier/target-stdout.md
-    parser: rust
-    perturbation: timestamps
-    reason_moved: true
-    rollout: claude-opus-5/run_1
-    score_moved: false
-    suffix_fallback_targets: 0
-    variant_keys: 0
-    variant_reason: declared-targets-absent-from-output
-    variant_reward: 0.0
-  finding_id: VER-INVARIANCE-OUTCOME-MOVED-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-claude-opus-5/run_1-timestamps
-  instrument: G-VER-INVARIANCE
-  severity: critical
-  statement: The bound perturbation class timestamps moved the graded outcome over a log whose test results
-    are unchanged. The score went from 0.0 to 0.0, the reduction reason from no-target-resolved to declared-targets-absent-from-output,
-    and the parsed outcome map from 550 to 0 identifiers. A cosmetic change to runner output re-grades
-    a submission whose behaviour did not change. A coincident score is not robustness when the reward
-    contract's own machine-readable attribution moved with it.
-  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: verifier-robustness
-  evidence:
-    baseline_keys: 566
-    baseline_reason: no-target-resolved
-    baseline_reward: 0.0
-    bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    locus: tests/harness_core.py PARSERS at line 405
-    log: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3/trajectories/zai__glm-5.3/run_1/verifier/target-stdout.md
-    parser: rust
-    perturbation: dialect_or_suite_name_prefixes
-    reason_moved: true
-    rollout: zai__glm-5.3/run_1
-    score_moved: false
-    suffix_fallback_targets: 0
-    variant_keys: 0
-    variant_reason: declared-targets-absent-from-output
-    variant_reward: 0.0
-  finding_id: VER-INVARIANCE-OUTCOME-MOVED-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-zai__glm-5.3/run_1-dialect_or_suite_name_prefixes
-  instrument: G-VER-INVARIANCE
-  severity: critical
-  statement: The bound perturbation class dialect_or_suite_name_prefixes moved the graded outcome over
-    a log whose test results are unchanged. The score went from 0.0 to 0.0, the reduction reason from
-    no-target-resolved to declared-targets-absent-from-output, and the parsed outcome map from 566 to
-    0 identifiers. A cosmetic change to runner output re-grades a submission whose behaviour did not change.
-    A coincident score is not robustness when the reward contract's own machine-readable attribution moved
-    with it.
-  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: verifier-robustness
-  evidence:
-    baseline_keys: 566
-    baseline_reason: no-target-resolved
-    baseline_reward: 0.0
-    bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    locus: tests/harness_core.py PARSERS at line 405
-    log: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3/trajectories/zai__glm-5.3/run_1/verifier/target-stdout.md
-    parser: rust
-    perturbation: ordinal_suffixes
-    reason_moved: true
-    rollout: zai__glm-5.3/run_1
-    score_moved: false
-    suffix_fallback_targets: 0
-    variant_keys: 0
-    variant_reason: declared-targets-absent-from-output
-    variant_reward: 0.0
-  finding_id: VER-INVARIANCE-OUTCOME-MOVED-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-zai__glm-5.3/run_1-ordinal_suffixes
-  instrument: G-VER-INVARIANCE
-  severity: critical
-  statement: The bound perturbation class ordinal_suffixes moved the graded outcome over a log whose test
-    results are unchanged. The score went from 0.0 to 0.0, the reduction reason from no-target-resolved
-    to declared-targets-absent-from-output, and the parsed outcome map from 566 to 0 identifiers. A cosmetic
-    change to runner output re-grades a submission whose behaviour did not change. A coincident score
-    is not robustness when the reward contract's own machine-readable attribution moved with it.
-  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: verifier-robustness
-  evidence:
-    baseline_keys: 566
-    baseline_reason: no-target-resolved
-    baseline_reward: 0.0
-    bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    locus: tests/harness_core.py PARSERS at line 405
-    log: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3/trajectories/zai__glm-5.3/run_1/verifier/target-stdout.md
-    parser: rust
-    perturbation: timestamps
-    reason_moved: true
-    rollout: zai__glm-5.3/run_1
-    score_moved: false
-    suffix_fallback_targets: 0
-    variant_keys: 0
-    variant_reason: declared-targets-absent-from-output
-    variant_reward: 0.0
-  finding_id: VER-INVARIANCE-OUTCOME-MOVED-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-zai__glm-5.3/run_1-timestamps
-  instrument: G-VER-INVARIANCE
-  severity: critical
-  statement: The bound perturbation class timestamps moved the graded outcome over a log whose test results
-    are unchanged. The score went from 0.0 to 0.0, the reduction reason from no-target-resolved to declared-targets-absent-from-output,
-    and the parsed outcome map from 566 to 0 identifiers. A cosmetic change to runner output re-grades
-    a submission whose behaviour did not change. A coincident score is not robustness when the reward
-    contract's own machine-readable attribution moved with it.
-  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: verifier-robustness
-  evidence:
-    baseline_keys: 318
-    baseline_reason: graded
-    baseline_reward: 0.5
-    bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    locus: tests/harness_core.py PARSERS at line 405
-    log: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1/trajectories/claude-opus-5/run_1/verifier/target-stdout.md
-    parser: pytest
-    perturbation: ordinal_suffixes
-    reason_moved: true
-    rollout: claude-opus-5/run_1
-    score_moved: true
-    suffix_fallback_targets: 0
-    variant_keys: 345
-    variant_reason: declared-targets-absent-from-output
-    variant_reward: 0.0
-  finding_id: VER-INVARIANCE-OUTCOME-MOVED-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-claude-opus-5/run_1-ordinal_suffixes
-  instrument: G-VER-INVARIANCE
-  severity: critical
-  statement: The bound perturbation class ordinal_suffixes moved the graded outcome over a log whose test
-    results are unchanged. The score went from 0.5 to 0.0, the reduction reason from graded to declared-targets-absent-from-output,
-    and the parsed outcome map from 318 to 345 identifiers. A cosmetic change to runner output re-grades
-    a submission whose behaviour did not change. A coincident score is not robustness when the reward
-    contract's own machine-readable attribution moved with it.
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: verifier-robustness
-  evidence:
-    baseline_keys: 158
-    baseline_reason: graded
-    baseline_reward: 0.5
-    bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    locus: tests/harness_core.py PARSERS at line 405
-    log: 873914cf-93b2-57a0-a5c8-264bfa2d3b66/trajectories/claude-opus-5/run_1/verifier/target-stdout.md
-    parser: pytest
-    perturbation: ordinal_suffixes
-    reason_moved: true
-    rollout: claude-opus-5/run_1
-    score_moved: true
-    suffix_fallback_targets: 0
-    variant_keys: 158
-    variant_reason: declared-targets-partially-absent
-    variant_reward: 0.0
-  finding_id: VER-INVARIANCE-OUTCOME-MOVED-873914cf-93b2-57a0-a5c8-264bfa2d3b66-claude-opus-5/run_1-ordinal_suffixes
-  instrument: G-VER-INVARIANCE
-  severity: critical
-  statement: The bound perturbation class ordinal_suffixes moved the graded outcome over a log whose test
-    results are unchanged. The score went from 0.5 to 0.0, the reduction reason from graded to declared-targets-partially-absent,
-    and the parsed outcome map from 158 to 158 identifiers. A cosmetic change to runner output re-grades
-    a submission whose behaviour did not change. A coincident score is not robustness when the reward
-    contract's own machine-readable attribution moved with it.
-  subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: verifier-robustness
-  evidence:
-    baseline_keys: 151
-    baseline_reason: graded
-    baseline_reward: 0.875
-    bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    locus: tests/harness_core.py PARSERS at line 405
-    log: 873914cf-93b2-57a0-a5c8-264bfa2d3b66/trajectories/zai__glm-5.3/run_1/verifier/target-stdout.md
-    parser: pytest
-    perturbation: ordinal_suffixes
-    reason_moved: true
-    rollout: zai__glm-5.3/run_1
-    score_moved: true
-    suffix_fallback_targets: 0
-    variant_keys: 151
-    variant_reason: declared-targets-partially-absent
-    variant_reward: 0.0
-  finding_id: VER-INVARIANCE-OUTCOME-MOVED-873914cf-93b2-57a0-a5c8-264bfa2d3b66-zai__glm-5.3/run_1-ordinal_suffixes
-  instrument: G-VER-INVARIANCE
-  severity: critical
-  statement: The bound perturbation class ordinal_suffixes moved the graded outcome over a log whose test
-    results are unchanged. The score went from 0.875 to 0.0, the reduction reason from graded to declared-targets-partially-absent,
-    and the parsed outcome map from 151 to 151 identifiers. A cosmetic change to runner output re-grades
-    a submission whose behaviour did not change. A coincident score is not robustness when the reward
-    contract's own machine-readable attribution moved with it.
   subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
 run_id: crucible-ankitporwal04-20260923t005222z-dba1b1
 schema: crucible.findings/v1

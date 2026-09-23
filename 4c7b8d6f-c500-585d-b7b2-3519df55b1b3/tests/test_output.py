@@ -172,41 +172,49 @@ class TestRequirementsTheOutcomeChannelCannotSee:
         'The reference change to .github/workflows/auto-draft-pr.yml is present. Any edit that achieves the same observable behaviour satisfies this.'
         ok = probe_satisfied('S1-changed')
         record_property('E2-req:S1-changed', 'met' if ok else 'unmet')
+        assert ok, 'site requirement S1-changed is not satisfied by final.diff'
 
     def test_s2_changed(self, record_property):
         'The reference change to .github/workflows/release.yml is present. Any edit that achieves the same observable behaviour satisfies this.'
         ok = probe_satisfied('S2-changed')
         record_property('E2-req:S2-changed', 'met' if ok else 'unmet')
+        assert ok, 'site requirement S2-changed is not satisfied by final.diff'
 
     def test_s3_changed(self, record_property):
         'The reference change to .github/workflows/vendored-file-warning.yml is present. Any edit that achieves the same observable behaviour satisfies this.'
         ok = probe_satisfied('S3-changed')
         record_property('E2-req:S3-changed', 'met' if ok else 'unmet')
+        assert ok, 'site requirement S3-changed is not satisfied by final.diff'
 
     def test_s4_changed(self, record_property):
         'The reference change to CHANGELOG.md is present. Any edit that achieves the same observable behaviour satisfies this.'
         ok = probe_satisfied('S4-changed')
         record_property('E2-req:S4-changed', 'met' if ok else 'unmet')
+        assert ok, 'site requirement S4-changed is not satisfied by final.diff'
 
     def test_s5_changed(self, record_property):
         'The reference change to Cargo.lock is present. Any edit that achieves the same observable behaviour satisfies this.'
         ok = probe_satisfied('S5-changed')
         record_property('E2-req:S5-changed', 'met' if ok else 'unmet')
+        assert ok, 'site requirement S5-changed is not satisfied by final.diff'
 
     def test_s6_changed(self, record_property):
         'The reference change to bun.lock is present. Any edit that achieves the same observable behaviour satisfies this.'
         ok = probe_satisfied('S6-changed')
         record_property('E2-req:S6-changed', 'met' if ok else 'unmet')
+        assert ok, 'site requirement S6-changed is not satisfied by final.diff'
 
     def test_s7_changed(self, record_property):
         'The reference change to crates/aqua-registry/aqua-registry/pkgs/ahkohd/oyo/registry.yaml is present. Any edit that achieves the same observable behaviour satisfies this.'
         ok = probe_satisfied('S7-changed')
         record_property('E2-req:S7-changed', 'met' if ok else 'unmet')
+        assert ok, 'site requirement S7-changed is not satisfied by final.diff'
 
     def test_s8_changed(self, record_property):
         'The reference change to crates/aqua-registry/aqua-registry/pkgs/bellicose100xp/jiq/registry.yaml is present. Any edit that achieves the same observable behaviour satisfies this.'
         ok = probe_satisfied('S8-changed')
         record_property('E2-req:S8-changed', 'met' if ok else 'unmet')
+        assert ok, 'site requirement S8-changed is not satisfied by final.diff'
 
 
 class TestRequirementsAlreadyPricedByTheOutcomeChannel:

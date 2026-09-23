@@ -21,7 +21,7 @@
 # compare it against the manifest.
 #
 # Expected agent image identifier: sha256:844744ef3ba7a2bf175f3f4446cfc4d26324deea3276dddc3570263e0e1926d7
-FROM forge-sanitized/426628337772.dkr.ecr.ap-south-1.amazonaws.com_rfp-coding-q1-tag-milo_reflex-dev_m_reflex:pr-570
+FROM 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:eca2d8710d1baffad6f1d273610bbce183857c73bed6574dce2252fb3fb446aa
 
 ENV DEBIAN_FRONTEND=noninteractive
 # The grading interpreter is installed only when the agent image lacks one. An image on an

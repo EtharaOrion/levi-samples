@@ -40,10 +40,7 @@ source:
 # with a declared target dropped, says so here beside its numbers.
 measurement_provenance:
   state: unrecorded
-  basis: >-
-    This slot carries no measured provenance, so nothing is asserted about the
-    image it was measured on or about any reference content excluded from it.
-
+  basis: "unrecorded; no-measured-image-or-reference-exclusions-asserted"
 screening_roots:
   exclusion_list: {identity: unresolved, digest: unresolved, state: unsupplied}
   freeze_date_table: {identity: unresolved, digest: unresolved, state: unsupplied}
@@ -60,17 +57,11 @@ atoms:
 sanitization_closure:
   agent_visible_paths: 2
   image_digest: sha256:95bceab8aacc6575fd5f1424d6e0569df2b77dfd5ab110e7e88a54f17e1593a5
-  history_absence: >-
-    Asserted. This bundle does not pin the evaluator image its measurement ran on. It pins forge-sanitized/426628337772.dkr.ecr.ap-south-1.amazonaws.com_rfp-coding-q1-tag-milo_reflex-dev_m_reflex:pr-1891 (sha256:95bceab8aacc), derived from 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-milo/reflex-dev_m_reflex:pr-1891@sha256:060777d77ed2fd5a68721b916e006e9bf699c4064d4f28d92efe2cfa9a2d7596 by environment/Dockerfile: the planted /home files are removed, the repository's git is rebuilt as one parentless commit over the same working tree, and the result is flattened onto scratch so the layers those steps ran in do not ship. The build asserts commit depth one, one commit object in the database, no remote, no tag, no ref beyond the branch, no reflog, no stash, no shallow marker, no graft and no alternate, and fails rather than shipping a violation. Re-read from outside the build, the image carries 1 content layer, 1 commit object and 1-deep HEAD. The leak screen over every layer, including whiteouts, returned clean. This is not a claim that the image reveals nothing; it is the bounded result of the named detectors over the named closure.
-  remote_absence: "asserted-at-build-time-and-rescanned: 0 remote(s) and 0 tag(s) at /home/reflex in forge-sanitized/426628337772.dkr.ecr.ap-south-1.amazonaws.com_rfp-coding-q1-tag-milo_reflex-dev_m_reflex:pr-1891, over 1 layer(s)"
-  thread_absence: >-
-    The agent-visible statement is authored prose derived from the objective. No raw issue or
-    pull-request export, API response, archive, client cache, mbox, or attached diff is present.
+  history_absence: "asserted-at-build-time commit-depth:1 remotes:0,tags:0,refs:0,reflogs:0,stash:0,shallow:0,grafts:0,alternates:0 layers:1 whiteout-leak-screen:clean image:forge-sanitized/426628337772.dkr.ecr.ap-south-1.amazonaws.com_rfp-coding-q1-tag-milo_reflex-dev_m_reflex:pr-1891@sha256:95bceab8aacc6575fd5f1424d6e0569df2b77dfd5ab110e7e88a54f17e1593a5 base-digest:sha256:060777d77ed2fd5a68721b916e006e9bf699c4064d4f28d92efe2cfa9a2d7596"
+  remote_absence: "asserted-at-build-time-and-rescanned remotes:0 tags:0 workdir:/home/reflex layers:1 image:forge-sanitized/426628337772.dkr.ecr.ap-south-1.amazonaws.com_rfp-coding-q1-tag-milo_reflex-dev_m_reflex:pr-1891"
+  thread_absence: "authored-prose-derivative-only; no-issue-export,no-pr-export,no-api-capture,no-archive,no-client-cache,no-mbox,no-attached-diff"
   fix_absence: measured
-  closure_identity: >-
-    The scanned components are the committed bundle bytes and the image built from the committed
-    Dockerfile at the recorded digest, so the scanned and executed components are the same bytes.
-
+  closure_identity: "scanned-equals-executed: committed-bundle-bytes-plus-committed-dockerfile-image-at-recorded-digest"
 empty_submission:
   invocation: bash tests/test.sh against an unmodified workspace
   measured_reward: unmeasured

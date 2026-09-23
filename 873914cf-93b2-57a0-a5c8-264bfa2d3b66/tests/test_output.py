@@ -172,31 +172,37 @@ class TestRequirementsTheOutcomeChannelCannotSee:
         'The reference change to README.md is present. Any edit that achieves the same observable behaviour satisfies this.'
         ok = probe_satisfied('S1-changed')
         record_property('E2-req:S1-changed', 'met' if ok else 'unmet')
+        assert ok, 'site requirement S1-changed is not satisfied by final.diff'
 
     def test_s2_changed(self, record_property):
         'The reference change to poetry.lock is present. Any edit that achieves the same observable behaviour satisfies this.'
         ok = probe_satisfied('S2-changed')
         record_property('E2-req:S2-changed', 'met' if ok else 'unmet')
+        assert ok, 'site requirement S2-changed is not satisfied by final.diff'
 
     def test_s3_changed(self, record_property):
         'The reference change to pynecone/.templates/web/utils/state.js is present. Any edit that achieves the same observable behaviour satisfies this.'
         ok = probe_satisfied('S3-changed')
         record_property('E2-req:S3-changed', 'met' if ok else 'unmet')
+        assert ok, 'site requirement S3-changed is not satisfied by final.diff'
 
     def test_s4_changed(self, record_property):
         'The reference change to pynecone/app.py is present. Any edit that achieves the same observable behaviour satisfies this.'
         ok = probe_satisfied('S4-changed')
         record_property('E2-req:S4-changed', 'met' if ok else 'unmet')
+        assert ok, 'site requirement S4-changed is not satisfied by final.diff'
 
     def test_s6_changed(self, record_property):
         'The reference change to pynecone/components/__init__.py is present. Any edit that achieves the same observable behaviour satisfies this.'
         ok = probe_satisfied('S6-changed')
         record_property('E2-req:S6-changed', 'met' if ok else 'unmet')
+        assert ok, 'site requirement S6-changed is not satisfied by final.diff'
 
     def test_s7_changed(self, record_property):
         'The reference change to pynecone/components/base/meta.py is present. Any edit that achieves the same observable behaviour satisfies this.'
         ok = probe_satisfied('S7-changed')
         record_property('E2-req:S7-changed', 'met' if ok else 'unmet')
+        assert ok, 'site requirement S7-changed is not satisfied by final.diff'
 
 
 class TestRequirementsAlreadyPricedByTheOutcomeChannel:

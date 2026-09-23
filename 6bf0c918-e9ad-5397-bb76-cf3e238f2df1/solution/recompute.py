@@ -118,7 +118,7 @@ def rubrics_json(g):
             "weight": item["weight"],
             "evaluation_target": item["evaluation_target"],
             "criterion": item["criterion"],
-            "judgment": item["judgment"],
+            "evaluation_rule": item["judgment"],
             "evidence": item["evidence"],
             "mode": item["mode"],
         })
@@ -222,7 +222,7 @@ def test_output_py(g):
         "def touched_paths():",
         "    import re as _re",
         "    text = submission_diff()",
-        "    return set(_re.findall(r'^\+\+\+ b/(.+)$', text, _re.M))",
+        r"    return set(_re.findall(r'^\+\+\+ b/(.+)$', text, _re.M))",
         "",
         "",
         "def rubric_probes():",
@@ -322,6 +322,7 @@ def test_output_py(g):
             "        ok = probe_satisfied(%r)" % req["id"],
             "        record_property(%r, 'met' if ok else 'unmet')"
             % ("E2-req:%s" % req["id"]),
+            "        assert ok, %r" % ("site requirement %s is not satisfied by final.diff" % req["id"]),
             "",
         ]
     out += [
