@@ -1,7 +1,7 @@
 {
   "agent_workdir": "/workspace/reflex",
   "agent_workdir_basis": "the execution runner's convention, not a property of the image: the runner copies the tree out of /testbed into this path inside the agent container and names it in the prompt it builds. Measured on the S41 rollout, where the agent saw /workspace/dozzle once and the image path /home/dozzle not at all",
-  "canary_block": "FORGE-CANARY[00]=24553901DC6282770870EDB77847B933\nFORGE-CANARY[01]=E5E6C24D72D8532B145FBBE50F827476\nFORGE-CANARY[02]=A95995746EB340C766897008A27FF7FC\nFORGE-CANARY[03]=8042888AF71769D13D156A4A17FF2E7A",
+  "canary_values": ["24553901DC6282770870EDB77847B933", "E5E6C24D72D8532B145FBBE50F827476", "A95995746EB340C766897008A27FF7FC", "8042888AF71769D13D156A4A17FF2E7A"],
   "capability_policy": {
     "channels": [
       {

@@ -1,11 +1,6 @@
 #!/bin/bash
 # Executable oracle. Applies the reference solution and commits it, because a test
 # suite that inspects the working tree must see a clean one.
-# FORGE canary block. Derived from the canonical content hash.
-# FORGE-CANARY[00]=B0DA1BB6B34BE74C93CD24280FEE65D6
-# FORGE-CANARY[01]=8586660CB375ACFF276580D9DBA47D08
-# FORGE-CANARY[02]=120499FC16D16514990912FCD40AF63E
-# FORGE-CANARY[03]=BD5FA149AC965B38CFB3268C11D80B60
 set -euo pipefail
 
 cd "/home/mise"

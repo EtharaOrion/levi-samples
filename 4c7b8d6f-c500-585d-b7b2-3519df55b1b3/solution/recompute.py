@@ -31,9 +31,16 @@ def load():
         return json.load(handle)
 
 
+def canary_block(g):
+    return "\n".join(
+        "FORGE-" + "CANARY[%02d]=%s" % (index, value)
+        for index, value in enumerate(g["canary_values"])
+    )
+
+
 def canary(g):
     lines = ["# FORGE canary block. Derived from the canonical content hash."]
-    for line in g["canary_block"].splitlines():
+    for line in canary_block(g).splitlines():
         lines.append("# " + line)
     return "\n".join(lines)
 
@@ -52,7 +59,6 @@ def solve_sh(g):
         "#!/bin/bash",
         "# Executable oracle. Applies the reference solution and commits it, because a test",
         "# suite that inspects the working tree must see a clean one.",
-        canary(g).replace("# FORGE", "# FORGE"),
         "set -euo pipefail",
         "",
         'cd "%s"' % g["workdir"],
@@ -128,7 +134,7 @@ def rubrics_json(g):
                        "blocks compilation for each human-review item is recorded in TRUTH.md, "
                        "because a ninth field here would break the closed schema.",
         "compilation_floor_note": g["compilation_floor_note"],
-        "canary_block": g["canary_block"],
+        "canary_block": canary_block(g),
         "items": items,
     }
     return json.dumps(doc, indent=2, sort_keys=True) + "\n"

@@ -197,8 +197,8 @@ adversary_probes:
 counts:
   coverage_gaps_total: 123
   findings_block: 22
-  findings_hold: 78
-  findings_total: 100
+  findings_hold: 49
+  findings_total: 71
   instruments_not_run: 11
   instruments_total: 60
   ledger_rows: 88
@@ -535,7 +535,7 @@ coverage_gaps:
     determinations for other task uuids and no occurrence of this bundle uuid, so no task_hash is projected
     to compare against. The recipe the declared canonical_bundle_hash was produced by is not committed
     in this repository, so the audit harness cannot recompute that value independently; it recomputes
-    its own tree digest 2177a2496606e32e1ccaeb08d11edafab26efa16bd6b742f18a0c2ff74f1011c instead and records
+    its own tree digest ac751880e442a9ed7dfc85b863e2cb2ab7eabe04d7cfc2e33c936ef986d6d713 instead and records
     it as evidence rather than as a match. The declared binding reads envelope unsigned-no-trust-root,
     so even the in-bundle hash 03aa306c4f584650a31ad57b7a54e669db2d3c9b2fe88a89f543a1b2855b7652 is unauthenticated.
     Every other step 8b check that committed bundle bytes can decide was still run.
@@ -551,7 +551,7 @@ coverage_gaps:
     determinations for other task uuids and no occurrence of this bundle uuid, so no task_hash is projected
     to compare against. The recipe the declared canonical_bundle_hash was produced by is not committed
     in this repository, so the audit harness cannot recompute that value independently; it recomputes
-    its own tree digest 8827238062dbe847c6da131cc51e5a05c8012e978a1f6934dd3164ee890eaed3 instead and records
+    its own tree digest 4e829e119555f20d8c03387ca8368adff46ba126b75c7da757c4d0c57c2dd211 instead and records
     it as evidence rather than as a match. The declared binding reads envelope unsigned-no-trust-root,
     so even the in-bundle hash 10cb07aefb91b15c92125b980e429ccb46420074467ee8581774146d65f82ba1 is unauthenticated.
     Every other step 8b check that committed bundle bytes can decide was still run.
@@ -567,7 +567,7 @@ coverage_gaps:
     determinations for other task uuids and no occurrence of this bundle uuid, so no task_hash is projected
     to compare against. The recipe the declared canonical_bundle_hash was produced by is not committed
     in this repository, so the audit harness cannot recompute that value independently; it recomputes
-    its own tree digest 1a0ac77d66931b99e3b780a38a6de04f035d93ac2c09404a1ef47df60423d367 instead and records
+    its own tree digest aa48e74f5ba92b51f90042f92c8cd1fd46aaf35806f375bd0012653ff65aecab instead and records
     it as evidence rather than as a match. The declared binding reads envelope unsigned-no-trust-root,
     so even the in-bundle hash 8b0cdb100a78d89ef46315af507dab3058bbc6a497520713a9d8ae6142670b83 is unauthenticated.
     Every other step 8b check that committed bundle bytes can decide was still run.
@@ -1238,7 +1238,7 @@ coverage_gaps:
   instrument: rolloutintegrity
   reason: operator-signed-root-absent
   statement: No operator-signed trajectory root is projected for this corpus, so the recomputed Merkle
-    root has nothing to be compared against. The root is recorded as 9306de839f2f81a261253327b3d8b1cf9d802d74b01158b77c5d7acd01878b7a
+    root has nothing to be compared against. The root is recorded as 721dd166dc39969544b3231bd91b95e4c8ce88c07a5b54e3b92c40958fd058cb
     and the comparison resolves as unmeasured rather than as agreement.
   subject: project
   surface: trajectories
@@ -1453,30 +1453,14 @@ critical_classes:
   finding_ids:
   - F-DEL-LAYOUT-DECLARED-ARTIFACT-ABSENT-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-trajectories-zai__glm-5.3-run_1
 - caps:
-    HOLD: 6
-  class_cap: HOLD
-  critical_class: delivery-integrity
-  finding_count: 6
-  finding_ids:
-  - G-LEAK-CANARY-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-MISPLACED-2d5bccdf
-  - G-LEAK-CANARY-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-MISPLACED-eb0e9a52
-  - G-LEAK-CANARY-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-MISPLACED-2d5bccdf
-  - G-LEAK-CANARY-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-MISPLACED-eb0e9a52
-  - G-LEAK-CANARY-873914cf-93b2-57a0-a5c8-264bfa2d3b66-MISPLACED-2d5bccdf
-  - G-LEAK-CANARY-873914cf-93b2-57a0-a5c8-264bfa2d3b66-MISPLACED-eb0e9a52
-- caps:
-    HOLD: 7
+    HOLD: 3
   class_cap: HOLD
   critical_class: domain-integrity-upstream-provenance
-  finding_count: 7
+  finding_count: 3
   finding_ids:
   - G-PROV-UPSTREAM-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-MODIFICATION-LIST-ABSENT
-  - G-PROV-UPSTREAM-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-LICENSE-UNRESOLVED
   - G-PROV-UPSTREAM-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-MODIFICATION-LIST-ABSENT
-  - G-PROV-UPSTREAM-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-UPSTREAM-IDENTITY-DIVERGENT
-  - G-PROV-UPSTREAM-873914cf-93b2-57a0-a5c8-264bfa2d3b66-LICENSE-UNRESOLVED
   - G-PROV-UPSTREAM-873914cf-93b2-57a0-a5c8-264bfa2d3b66-MODIFICATION-LIST-ABSENT
-  - G-PROV-UPSTREAM-873914cf-93b2-57a0-a5c8-264bfa2d3b66-UPSTREAM-IDENTITY-DIVERGENT
 - caps:
     HOLD: 2
   class_cap: HOLD
@@ -1487,10 +1471,10 @@ critical_classes:
   - ATT-NO-EXTERNAL-TRUST-ROOT
 - caps:
     BLOCK: 1
-    HOLD: 30
+    HOLD: 17
   class_cap: BLOCK
   critical_class: execution-fidelity
-  finding_count: 31
+  finding_count: 18
   finding_ids:
   - FID-CONFIG-INADEQUATE-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-claude-opus-5-run_1
   - FID-CONFIG-INADEQUATE-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-zai__glm-5.3-run_1
@@ -1504,37 +1488,12 @@ critical_classes:
   - FID-CONFIG-UNAPPROVED-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-zai__glm-5.3-run_1
   - FID-CONFIG-UNAPPROVED-873914cf-93b2-57a0-a5c8-264bfa2d3b66-claude-opus-5-run_1
   - FID-CONFIG-UNAPPROVED-873914cf-93b2-57a0-a5c8-264bfa2d3b66-zai__glm-5.3-run_1
-  - FID-HANDOFF-UNVERIFIED-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-claude-opus-5-run_1
-  - FID-HANDOFF-UNVERIFIED-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-zai__glm-5.3-run_1
-  - FID-HANDOFF-UNVERIFIED-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-claude-opus-5-run_1
   - FID-HANDOFF-UNVERIFIED-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-zai__glm-5.3-run_1
   - FID-HANDOFF-UNVERIFIED-873914cf-93b2-57a0-a5c8-264bfa2d3b66-claude-opus-5-run_1
   - FID-HANDOFF-UNVERIFIED-873914cf-93b2-57a0-a5c8-264bfa2d3b66-zai__glm-5.3-run_1
   - FID-POPULATION-UNPROVABLE
-  - FID-TRACE-STATUS-DISAGREEMENT-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-claude-opus-5-run_1
-  - FID-TRACE-STATUS-DISAGREEMENT-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-zai__glm-5.3-run_1
-  - FID-TRACE-STATUS-DISAGREEMENT-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-claude-opus-5-run_1
   - FID-TRACE-STATUS-DISAGREEMENT-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-zai__glm-5.3-run_1
-  - FID-TRACE-STATUS-DISAGREEMENT-873914cf-93b2-57a0-a5c8-264bfa2d3b66-claude-opus-5-run_1
-  - FID-TRACE-STATUS-DISAGREEMENT-873914cf-93b2-57a0-a5c8-264bfa2d3b66-zai__glm-5.3-run_1
-  - FID-TRACE-SUPPRESSING-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-claude-opus-5-run_1
-  - FID-TRACE-SUPPRESSING-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-zai__glm-5.3-run_1
-  - FID-TRACE-SUPPRESSING-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-claude-opus-5-run_1
   - FID-TRACE-SUPPRESSING-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-zai__glm-5.3-run_1
-  - FID-TRACE-SUPPRESSING-873914cf-93b2-57a0-a5c8-264bfa2d3b66-claude-opus-5-run_1
-  - FID-TRACE-SUPPRESSING-873914cf-93b2-57a0-a5c8-264bfa2d3b66-zai__glm-5.3-run_1
-- caps:
-    HOLD: 6
-  class_cap: HOLD
-  critical_class: private-carrier-leak
-  finding_count: 6
-  finding_ids:
-  - G-LEAK-CONTAINMENT-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-0c541ac728af
-  - G-LEAK-CONTAINMENT-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-3f076702643e
-  - G-LEAK-CONTAINMENT-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-0c541ac728af
-  - G-LEAK-CONTAINMENT-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-3f076702643e
-  - G-LEAK-CONTAINMENT-873914cf-93b2-57a0-a5c8-264bfa2d3b66-0c541ac728af
-  - G-LEAK-CONTAINMENT-873914cf-93b2-57a0-a5c8-264bfa2d3b66-3f076702643e
 - caps:
     HOLD: 6
   class_cap: HOLD
@@ -1606,7 +1565,7 @@ disposition: BLOCK
 disposition_basis: The harness computed BLOCK as the cap over every instrument result. Block-capable findings
   stand from fifteen instruments and the selfcheck receipt carries seven required rows that never ran,
   which principle 7 treats as broken instruments rather than gaps. No waiver promotes this to SHIP.
-evidence_content_digest: a551b06ff813d3b8a3231b03500c5fed1c9d339a9cfa5a7c047bdbf65482e13f
+evidence_content_digest: cf1f98109780e241a9336b3a444a023b55664e4a4e4753f60efab034b45e650f
 findings:
 - bucket: deterministic
   caps: BLOCK
@@ -2346,10 +2305,10 @@ findings:
   evidence:
     collection_status:
       artifacts: empty
-      final.diff: failed
-      reward_reason.json: failed
+      final.diff: ok
+      reward_reason.json: ok
       summary.json: failed
-      target-stdout.md: failed
+      target-stdout.md: ok
     declared_absent_from_tree:
     - summary.json
     verifier_tree:
@@ -2368,120 +2327,6 @@ findings:
   statement: 'The task manifest declares an artifact that this committed rollout''s verifier tree does
     not carry: summary.json'
   subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1/trajectories/zai__glm-5.3/run_1
-- bucket: deterministic
-  caps: HOLD
-  critical_class: delivery-integrity
-  evidence:
-    bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    designated_slots:
-    - solution/TRUTH.md
-    - solution/policy.yaml
-    - solution/provenance.yaml
-    - solution/rubrics.json
-    lane: root
-    path: solution/solve.sh
-  finding_id: G-LEAK-CANARY-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-MISPLACED-2d5bccdf
-  instrument: G-LEAK-CANARY
-  severity: medium
-  statement: File solution/solve.sh of bundle 4c7b8d6f-c500-585d-b7b2-3519df55b1b3 carries a canary block
-    while not being one of the four designated slots, so the marker is present in more carriers than the
-    delivery contract designates and its placement is not derivable from the designation alone.
-  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-- bucket: deterministic
-  caps: HOLD
-  critical_class: delivery-integrity
-  evidence:
-    bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    designated_slots:
-    - solution/TRUTH.md
-    - solution/policy.yaml
-    - solution/provenance.yaml
-    - solution/rubrics.json
-    lane: root
-    path: solution/grounding.yaml
-  finding_id: G-LEAK-CANARY-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-MISPLACED-eb0e9a52
-  instrument: G-LEAK-CANARY
-  severity: medium
-  statement: File solution/grounding.yaml of bundle 4c7b8d6f-c500-585d-b7b2-3519df55b1b3 carries a canary
-    block while not being one of the four designated slots, so the marker is present in more carriers
-    than the delivery contract designates and its placement is not derivable from the designation alone.
-  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-- bucket: deterministic
-  caps: HOLD
-  critical_class: delivery-integrity
-  evidence:
-    bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    designated_slots:
-    - solution/TRUTH.md
-    - solution/policy.yaml
-    - solution/provenance.yaml
-    - solution/rubrics.json
-    lane: root
-    path: solution/solve.sh
-  finding_id: G-LEAK-CANARY-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-MISPLACED-2d5bccdf
-  instrument: G-LEAK-CANARY
-  severity: medium
-  statement: File solution/solve.sh of bundle 6bf0c918-e9ad-5397-bb76-cf3e238f2df1 carries a canary block
-    while not being one of the four designated slots, so the marker is present in more carriers than the
-    delivery contract designates and its placement is not derivable from the designation alone.
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-- bucket: deterministic
-  caps: HOLD
-  critical_class: delivery-integrity
-  evidence:
-    bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    designated_slots:
-    - solution/TRUTH.md
-    - solution/policy.yaml
-    - solution/provenance.yaml
-    - solution/rubrics.json
-    lane: root
-    path: solution/grounding.yaml
-  finding_id: G-LEAK-CANARY-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-MISPLACED-eb0e9a52
-  instrument: G-LEAK-CANARY
-  severity: medium
-  statement: File solution/grounding.yaml of bundle 6bf0c918-e9ad-5397-bb76-cf3e238f2df1 carries a canary
-    block while not being one of the four designated slots, so the marker is present in more carriers
-    than the delivery contract designates and its placement is not derivable from the designation alone.
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-- bucket: deterministic
-  caps: HOLD
-  critical_class: delivery-integrity
-  evidence:
-    bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    designated_slots:
-    - solution/TRUTH.md
-    - solution/policy.yaml
-    - solution/provenance.yaml
-    - solution/rubrics.json
-    lane: root
-    path: solution/solve.sh
-  finding_id: G-LEAK-CANARY-873914cf-93b2-57a0-a5c8-264bfa2d3b66-MISPLACED-2d5bccdf
-  instrument: G-LEAK-CANARY
-  severity: medium
-  statement: File solution/solve.sh of bundle 873914cf-93b2-57a0-a5c8-264bfa2d3b66 carries a canary block
-    while not being one of the four designated slots, so the marker is present in more carriers than the
-    delivery contract designates and its placement is not derivable from the designation alone.
-  subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-- bucket: deterministic
-  caps: HOLD
-  critical_class: delivery-integrity
-  evidence:
-    bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    designated_slots:
-    - solution/TRUTH.md
-    - solution/policy.yaml
-    - solution/provenance.yaml
-    - solution/rubrics.json
-    lane: root
-    path: solution/grounding.yaml
-  finding_id: G-LEAK-CANARY-873914cf-93b2-57a0-a5c8-264bfa2d3b66-MISPLACED-eb0e9a52
-  instrument: G-LEAK-CANARY
-  severity: medium
-  statement: File solution/grounding.yaml of bundle 873914cf-93b2-57a0-a5c8-264bfa2d3b66 carries a canary
-    block while not being one of the four designated slots, so the marker is present in more carriers
-    than the delivery contract designates and its placement is not derivable from the designation alone.
-  subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
 - bucket: deterministic
   caps: HOLD
   critical_class: domain-integrity-upstream-provenance
@@ -2538,26 +2383,6 @@ findings:
   critical_class: domain-integrity-upstream-provenance
   evidence:
     bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    declared_license: unresolved
-    declared_origin: derived
-    repository: reflex-dev/reflex
-    repository_license_chain: &id001
-      headline: MIT License
-      present: 'true'
-  finding_id: G-PROV-UPSTREAM-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-LICENSE-UNRESOLVED
-  instrument: G-PROV-UPSTREAM
-  severity: high
-  statement: Bundle 6bf0c918-e9ad-5397-bb76-cf3e238f2df1 declares origin derived from the public repository
-    'reflex-dev/reflex' with license 'unresolved', so the upstream terms the derived asset is redistributed
-    under are not established by committed bytes. The containing repository redistributes under MIT License,
-    which cannot stand in for an upstream grant that the record itself leaves unresolved. This is a property
-    of the delivered asset and not a limit on what this instrument could measure.
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-- bucket: deterministic
-  caps: HOLD
-  critical_class: domain-integrity-upstream-provenance
-  evidence:
-    bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
     document_keys:
     - atoms
     - binding
@@ -2608,44 +2433,6 @@ findings:
   caps: HOLD
   critical_class: domain-integrity-upstream-provenance
   evidence:
-    bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    manifest_instance_identity: reflex-dev/reflex v0.3.1..v0.3.2
-    manifest_pr_count: 30
-    manifest_span_label: v0.3.1..v0.3.2
-    provenance_base_commit_sha: 269334014d4dd717f7a8424e9af2c87ed6e82fb0
-    provenance_upstream_change_sha: 269334014d4dd717f7a8424e9af2c87ed6e82fb0
-    upstream_equals_base: true
-  finding_id: G-PROV-UPSTREAM-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-UPSTREAM-IDENTITY-DIVERGENT
-  instrument: G-PROV-UPSTREAM
-  severity: high
-  statement: Bundle 6bf0c918-e9ad-5397-bb76-cf3e238f2df1 expresses two upstream provenance records of
-    different scope where exactly one is required. task.toml declares span 'v0.3.1..v0.3.2' over 30 pull
-    requests as instance identity 'reflex-dev/reflex v0.3.1..v0.3.2', while solution/provenance.yaml names
-    a single upstream_change_sha '269334014d4dd717f7a8424e9af2c87ed6e82fb0' that is byte-identical to
-    base_commit_sha, so that carrier locates no distinct upstream change at all.
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-- bucket: deterministic
-  caps: HOLD
-  critical_class: domain-integrity-upstream-provenance
-  evidence:
-    bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    declared_license: unresolved
-    declared_origin: derived
-    repository: reflex-dev/reflex
-    repository_license_chain: *id001
-  finding_id: G-PROV-UPSTREAM-873914cf-93b2-57a0-a5c8-264bfa2d3b66-LICENSE-UNRESOLVED
-  instrument: G-PROV-UPSTREAM
-  severity: high
-  statement: Bundle 873914cf-93b2-57a0-a5c8-264bfa2d3b66 declares origin derived from the public repository
-    'reflex-dev/reflex' with license 'unresolved', so the upstream terms the derived asset is redistributed
-    under are not established by committed bytes. The containing repository redistributes under MIT License,
-    which cannot stand in for an upstream grant that the record itself leaves unresolved. This is a property
-    of the delivered asset and not a limit on what this instrument could measure.
-  subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-- bucket: deterministic
-  caps: HOLD
-  critical_class: domain-integrity-upstream-provenance
-  evidence:
     bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
     document_keys:
     - atoms
@@ -2692,26 +2479,6 @@ findings:
   statement: Bundle 873914cf-93b2-57a0-a5c8-264bfa2d3b66 declares origin derived but carries no modification
     list under any of modifications, modification_list, modifications_applied, changes in solution/provenance.yaml,
     so what was changed relative to the named upstream is not recoverable from the record.
-  subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-- bucket: deterministic
-  caps: HOLD
-  critical_class: domain-integrity-upstream-provenance
-  evidence:
-    bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    manifest_instance_identity: reflex-dev/reflex v0.1.18..v0.1.19
-    manifest_pr_count: 21
-    manifest_span_label: v0.1.18..v0.1.19
-    provenance_base_commit_sha: 977cc6990f22cbd1f11049aef6f9b9bb63af7f3f
-    provenance_upstream_change_sha: 977cc6990f22cbd1f11049aef6f9b9bb63af7f3f
-    upstream_equals_base: true
-  finding_id: G-PROV-UPSTREAM-873914cf-93b2-57a0-a5c8-264bfa2d3b66-UPSTREAM-IDENTITY-DIVERGENT
-  instrument: G-PROV-UPSTREAM
-  severity: high
-  statement: Bundle 873914cf-93b2-57a0-a5c8-264bfa2d3b66 expresses two upstream provenance records of
-    different scope where exactly one is required. task.toml declares span 'v0.1.18..v0.1.19' over 21
-    pull requests as instance identity 'reflex-dev/reflex v0.1.18..v0.1.19', while solution/provenance.yaml
-    names a single upstream_change_sha '977cc6990f22cbd1f11049aef6f9b9bb63af7f3f' that is byte-identical
-    to base_commit_sha, so that carrier locates no distinct upstream change at all.
   subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
 - bucket: deterministic
   caps: HOLD
@@ -2800,7 +2567,7 @@ findings:
   critical_class: execution-fidelity
   evidence:
     adequacy_approved: false
-    approval: &id002
+    approval: &id001
       adequacy_approved: false
       approved: false
       declared_horizon_seconds: 57600.0
@@ -2815,7 +2582,7 @@ findings:
     attested_digest: 62ae32093d3d97d8328851bf7693753bb106de8c84f1134e0aba68c64e75dfb1
     binding_digest: 86f3d5026f6c8e2cb8a980fe93645f1cd9df7472a913d8e4f413ed45d9b3b062
     bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    drift_fields: &id003 []
+    drift_fields: &id002 []
     hold_reason: config-unpinned
     instrument: G-FID-CONFIG
     rollout: claude-opus-5/run_1
@@ -2831,7 +2598,7 @@ findings:
   critical_class: execution-fidelity
   evidence:
     adequacy_approved: false
-    approval: &id004
+    approval: &id003
       adequacy_approved: false
       approved: false
       declared_horizon_seconds: 57600.0
@@ -2846,7 +2613,7 @@ findings:
     attested_digest: f2d2d5c92cd21d93a8f1a1bd40b9edde8a6ff313567762774f07f11bec0d8ad5
     binding_digest: a16dcc09bd163598cf4fdabdd3c64f5a168ab9ed36300be3e3ebfab2c3671cc7
     bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    drift_fields: &id005 []
+    drift_fields: &id004 []
     hold_reason: config-unpinned
     instrument: G-FID-CONFIG
     rollout: zai__glm-5.3/run_1
@@ -2862,7 +2629,7 @@ findings:
   critical_class: execution-fidelity
   evidence:
     adequacy_approved: false
-    approval: &id006
+    approval: &id005
       adequacy_approved: false
       approved: false
       declared_horizon_seconds: 57600.0
@@ -2877,7 +2644,7 @@ findings:
     attested_digest: 33d2eb15a79a7f54339af03f99cfca5a912d23d6830ca88ef3e6fc89807ec9df
     binding_digest: 0597960e392c008018dd82ecd2f4e93abffb8737d33fa536b51839aa099a1bfd
     bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    drift_fields: &id007 []
+    drift_fields: &id006 []
     hold_reason: config-unpinned
     instrument: G-FID-CONFIG
     rollout: claude-opus-5/run_1
@@ -2893,7 +2660,7 @@ findings:
   critical_class: execution-fidelity
   evidence:
     adequacy_approved: false
-    approval: &id008
+    approval: &id007
       adequacy_approved: false
       approved: false
       declared_horizon_seconds: 57600.0
@@ -2908,7 +2675,7 @@ findings:
     attested_digest: 243c7e524b426a285d23e1405700a14a5214afa27f84a5eda072606053f8bfa1
     binding_digest: 3742456b1ae2c3b60255ac020ec765d400533aaa37ee89ef9cd54b5079b162e4
     bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    drift_fields: &id009 []
+    drift_fields: &id008 []
     hold_reason: config-unpinned
     instrument: G-FID-CONFIG
     rollout: zai__glm-5.3/run_1
@@ -2924,7 +2691,7 @@ findings:
   critical_class: execution-fidelity
   evidence:
     adequacy_approved: false
-    approval: &id010
+    approval: &id009
       adequacy_approved: false
       approved: false
       declared_horizon_seconds: 57600.0
@@ -2939,7 +2706,7 @@ findings:
     attested_digest: b1c96bec75f1580ac4b9cc64988c9c27530e39f2056385b11ef14375624df750
     binding_digest: 49d7ac1934225e5fd1dfa165326503e34f08267b1e575b26668a7c37515d354e
     bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    drift_fields: &id011 []
+    drift_fields: &id010 []
     hold_reason: config-unpinned
     instrument: G-FID-CONFIG
     rollout: claude-opus-5/run_1
@@ -2955,7 +2722,7 @@ findings:
   critical_class: execution-fidelity
   evidence:
     adequacy_approved: false
-    approval: &id012
+    approval: &id011
       adequacy_approved: false
       approved: false
       declared_horizon_seconds: 57600.0
@@ -2970,7 +2737,7 @@ findings:
     attested_digest: 53f2072ebf9dd66e77d26ca86bbbb794fffbc0e355d467708691fd0c6f5b4812
     binding_digest: 1dcb52505b11c54ca77b4c7bed463944d6c10200588fe539633df609b558611e
     bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    drift_fields: &id013 []
+    drift_fields: &id012 []
     hold_reason: config-unpinned
     instrument: G-FID-CONFIG
     rollout: zai__glm-5.3/run_1
@@ -2986,12 +2753,12 @@ findings:
   critical_class: execution-fidelity
   evidence:
     adequacy_approved: false
-    approval: *id002
+    approval: *id001
     approved: false
     attested_digest: 62ae32093d3d97d8328851bf7693753bb106de8c84f1134e0aba68c64e75dfb1
     binding_digest: 86f3d5026f6c8e2cb8a980fe93645f1cd9df7472a913d8e4f413ed45d9b3b062
     bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    drift_fields: *id003
+    drift_fields: *id002
     hold_reason: config-unpinned
     instrument: G-FID-CONFIG
     rollout: claude-opus-5/run_1
@@ -3009,12 +2776,12 @@ findings:
   critical_class: execution-fidelity
   evidence:
     adequacy_approved: false
-    approval: *id004
+    approval: *id003
     approved: false
     attested_digest: f2d2d5c92cd21d93a8f1a1bd40b9edde8a6ff313567762774f07f11bec0d8ad5
     binding_digest: a16dcc09bd163598cf4fdabdd3c64f5a168ab9ed36300be3e3ebfab2c3671cc7
     bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    drift_fields: *id005
+    drift_fields: *id004
     hold_reason: config-unpinned
     instrument: G-FID-CONFIG
     rollout: zai__glm-5.3/run_1
@@ -3032,12 +2799,12 @@ findings:
   critical_class: execution-fidelity
   evidence:
     adequacy_approved: false
-    approval: *id006
+    approval: *id005
     approved: false
     attested_digest: 33d2eb15a79a7f54339af03f99cfca5a912d23d6830ca88ef3e6fc89807ec9df
     binding_digest: 0597960e392c008018dd82ecd2f4e93abffb8737d33fa536b51839aa099a1bfd
     bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    drift_fields: *id007
+    drift_fields: *id006
     hold_reason: config-unpinned
     instrument: G-FID-CONFIG
     rollout: claude-opus-5/run_1
@@ -3055,12 +2822,12 @@ findings:
   critical_class: execution-fidelity
   evidence:
     adequacy_approved: false
-    approval: *id008
+    approval: *id007
     approved: false
     attested_digest: 243c7e524b426a285d23e1405700a14a5214afa27f84a5eda072606053f8bfa1
     binding_digest: 3742456b1ae2c3b60255ac020ec765d400533aaa37ee89ef9cd54b5079b162e4
     bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    drift_fields: *id009
+    drift_fields: *id008
     hold_reason: config-unpinned
     instrument: G-FID-CONFIG
     rollout: zai__glm-5.3/run_1
@@ -3078,12 +2845,12 @@ findings:
   critical_class: execution-fidelity
   evidence:
     adequacy_approved: false
-    approval: *id010
+    approval: *id009
     approved: false
     attested_digest: b1c96bec75f1580ac4b9cc64988c9c27530e39f2056385b11ef14375624df750
     binding_digest: 49d7ac1934225e5fd1dfa165326503e34f08267b1e575b26668a7c37515d354e
     bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    drift_fields: *id011
+    drift_fields: *id010
     hold_reason: config-unpinned
     instrument: G-FID-CONFIG
     rollout: claude-opus-5/run_1
@@ -3101,12 +2868,12 @@ findings:
   critical_class: execution-fidelity
   evidence:
     adequacy_approved: false
-    approval: *id012
+    approval: *id011
     approved: false
     attested_digest: 53f2072ebf9dd66e77d26ca86bbbb794fffbc0e355d467708691fd0c6f5b4812
     binding_digest: 1dcb52505b11c54ca77b4c7bed463944d6c10200588fe539633df609b558611e
     bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    drift_fields: *id013
+    drift_fields: *id012
     hold_reason: config-unpinned
     instrument: G-FID-CONFIG
     rollout: zai__glm-5.3/run_1
@@ -3123,102 +2890,6 @@ findings:
   caps: HOLD
   critical_class: execution-fidelity
   evidence:
-    bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    diff_comparison:
-      final_diff_sha256: 71af84dd63ab8f902afba5abd7bd93102eab9342529f2490ee3ca72f1fbdefc0
-      reason: ''
-      scorer_paths: 68
-      shared_paths: 1
-      verified: true
-      witness_paths: 1
-      witness_step: 429
-    failed_transfers:
-    - artifacts
-    - final.diff
-    - reward_reason.json
-    - summary.json
-    - target-stdout.md
-    hold_reason: handoff-unverified
-    instrument: G-FID-HANDOFF
-    rollout: claude-opus-5/run_1
-    verified: false
-  finding_id: FID-HANDOFF-UNVERIFIED-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-claude-opus-5-run_1
-  instrument: G-FID-HANDOFF
-  severity: high
-  statement: 'The identity of the final submission that reached the scorer for rollout claude-opus-5/run_1
-    cannot be verified against the submission the solver produced: the declared artifact transfer failed
-    for 5 record(s): artifacts, final.diff, reward_reason.json, summary.json, target-stdout.md. Step 8u
-    caps an unverifiable handoff at HOLD, and the first applicable reason under its ordered precedence
-    is handoff-unverified.'
-  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-- bucket: deterministic
-  caps: HOLD
-  critical_class: execution-fidelity
-  evidence:
-    bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    diff_comparison:
-      final_diff_sha256: fe8730f889c65e5dca4054c89178d5d3d0b0ecd2de44abe7042c0200fd94cfe4
-      reason: ''
-      scorer_paths: 59
-      shared_paths: 1
-      verified: true
-      witness_paths: 1
-      witness_step: 746
-    failed_transfers:
-    - artifacts
-    - final.diff
-    - reward_reason.json
-    - summary.json
-    - target-stdout.md
-    hold_reason: handoff-unverified
-    instrument: G-FID-HANDOFF
-    rollout: zai__glm-5.3/run_1
-    verified: false
-  finding_id: FID-HANDOFF-UNVERIFIED-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-zai__glm-5.3-run_1
-  instrument: G-FID-HANDOFF
-  severity: high
-  statement: 'The identity of the final submission that reached the scorer for rollout zai__glm-5.3/run_1
-    cannot be verified against the submission the solver produced: the declared artifact transfer failed
-    for 5 record(s): artifacts, final.diff, reward_reason.json, summary.json, target-stdout.md. Step 8u
-    caps an unverifiable handoff at HOLD, and the first applicable reason under its ordered precedence
-    is handoff-unverified.'
-  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-- bucket: deterministic
-  caps: HOLD
-  critical_class: execution-fidelity
-  evidence:
-    bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    diff_comparison:
-      final_diff_sha256: 49a0471ae4ee48f226980c99a30e1e3f4daabc75536c991a6606ec732850f712
-      reason: ''
-      scorer_paths: 65
-      shared_paths: 3
-      verified: true
-      witness_paths: 3
-      witness_step: 263
-    failed_transfers:
-    - artifacts
-    - final.diff
-    - reward_reason.json
-    - summary.json
-    - target-stdout.md
-    hold_reason: handoff-unverified
-    instrument: G-FID-HANDOFF
-    rollout: claude-opus-5/run_1
-    verified: false
-  finding_id: FID-HANDOFF-UNVERIFIED-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-claude-opus-5-run_1
-  instrument: G-FID-HANDOFF
-  severity: high
-  statement: 'The identity of the final submission that reached the scorer for rollout claude-opus-5/run_1
-    cannot be verified against the submission the solver produced: the declared artifact transfer failed
-    for 5 record(s): artifacts, final.diff, reward_reason.json, summary.json, target-stdout.md. Step 8u
-    caps an unverifiable handoff at HOLD, and the first applicable reason under its ordered precedence
-    is handoff-unverified.'
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-- bucket: deterministic
-  caps: HOLD
-  critical_class: execution-fidelity
-  evidence:
     bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
     diff_comparison:
       reason: the scorer's submission and the agent's final state share no path
@@ -3227,11 +2898,7 @@ findings:
       witness_paths: 1
       witness_step: 485
     failed_transfers:
-    - artifacts
-    - final.diff
-    - reward_reason.json
     - summary.json
-    - target-stdout.md
     hold_reason: handoff-unverified
     instrument: G-FID-HANDOFF
     rollout: zai__glm-5.3/run_1
@@ -3255,12 +2922,7 @@ findings:
       verified: false
       witness_paths: 3
       witness_step: 225
-    failed_transfers:
-    - artifacts
-    - final.diff
-    - reward_reason.json
-    - summary.json
-    - target-stdout.md
+    failed_transfers: []
     hold_reason: handoff-unverified
     instrument: G-FID-HANDOFF
     rollout: claude-opus-5/run_1
@@ -3284,12 +2946,7 @@ findings:
       verified: false
       witness_paths: 6
       witness_step: 279
-    failed_transfers:
-    - artifacts
-    - final.diff
-    - reward_reason.json
-    - summary.json
-    - target-stdout.md
+    failed_transfers: []
     hold_reason: handoff-unverified
     instrument: G-FID-HANDOFF
     rollout: zai__glm-5.3/run_1
@@ -3400,340 +3057,9 @@ findings:
   caps: HOLD
   critical_class: execution-fidelity
   evidence:
-    bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    conformance_predicate: trinity.trial-conformance/v1
-    coverage: &id014
-      context_handling:
-        observed:
-          context_limit_event_count: 0
-          context_limit_events: []
-          final_metrics_present: true
-        outcome: conforming
-        statement: token accounting is recorded and no context-limit error appears
-      horizon_conformance:
-        observed:
-          declared_max_iterations: 1000
-          declared_timeout_sec: 57600.0
-          realized_agent_seconds: 3403.1403
-          realized_steps: 443
-        outcome: conforming
-        statement: realized turns and wall clock are inside the declared caps
-      scoring_completeness:
-        observed:
-          missing: []
-          present:
-          - efficiency.json
-          - final.diff
-          - final_score.md
-          - preserve-stdout.md
-          - process.json
-          - reward.json
-          - reward.txt
-          - reward_reason.json
-          - summary.json
-          - target-stdout.md
-          - test-stdout.txt
-          - verdicts.jsonl
-        outcome: conforming
-        statement: the verifier produced its full record set
-      solver_identity:
-        observed:
-          config.json: claude-opus-5
-          directory: claude-opus-5
-          lock.json: claude-opus-5
-          process.json: claude-opus-5
-          result.json agent_info: claude-opus-5
-          result.json config: claude-opus-5
-        outcome: conforming
-        statement: every carrier names the same solver
-      submission_capture:
-        observed:
-          final_diff_bytes: 129857
-          final_diff_present: true
-          manifest_statuses:
-            artifacts: empty
-            final.diff: failed
-            reward_reason.json: failed
-            summary.json: failed
-            target-stdout.md: failed
-        outcome: nonconforming
-        statement: 'the declared artifact transfer failed for 5 record(s): artifacts'
-      task_binding:
-        observed:
-          config task path: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-          lock task name: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-          process task_uuid: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-          result task_checksum: cf6ce4508045a0cd19e51caeeef593e3c91eb7ff9827222aaea8a6bbe6aadde5
-        outcome: conforming
-        statement: every carrier binds this rollout to this bundle
-      termination_integrity:
-        observed:
-          exception_info: null
-          explicit_finish: true
-        outcome: conforming
-        statement: the solver terminated cleanly through an explicit finish
-      tool_channel_integrity:
-        observed:
-          agent_steps: 441
-          agent_steps_without_tool_calls: 0
-          tool_definitions: 5
-        outcome: conforming
-        statement: every agent step carries its tool call record
-    derived_status: nonconforming
-    fidelity_coverage: &id015
-      context_handling: conforming
-      horizon_conformance: conforming
-      scoring_completeness: conforming
-      solver_identity: conforming
-      submission_capture: nonconforming
-      task_binding: conforming
-      termination_integrity: conforming
-      tool_channel_integrity: conforming
-    hold_reason: fidelity-unverified
-    indeterminate_classes: &id016 []
-    instrument: G-FID-TRACE
-    operator_declared_status: conforming
-    operator_declared_token: scored
-    predicate: fidelity_coverage
-    rollout: claude-opus-5/run_1
-    suppressing_violations: &id017
-    - signal_class: submission_capture
-      statement: 'the declared artifact transfer failed for 5 record(s): artifacts'
-  finding_id: FID-TRACE-STATUS-DISAGREEMENT-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-claude-opus-5-run_1
-  instrument: G-FID-TRACE
-  severity: high
-  statement: The operator declares rollout claude-opus-5/run_1 as conforming through the token 'scored',
-    and the derived trial status under trinity.trial-conformance/v1 is nonconforming. Step 8u requires
-    a refusal when the operator's declaration disagrees with the derived status, so this instrument refuses
-    rather than adopting either.
-  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-- bucket: deterministic
-  caps: HOLD
-  critical_class: execution-fidelity
-  evidence:
-    bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    conformance_predicate: trinity.trial-conformance/v1
-    coverage: &id018
-      context_handling:
-        observed:
-          context_limit_event_count: 0
-          context_limit_events: []
-          final_metrics_present: true
-        outcome: conforming
-        statement: token accounting is recorded and no context-limit error appears
-      horizon_conformance:
-        observed:
-          declared_max_iterations: 1000
-          declared_timeout_sec: 57600.0
-          realized_agent_seconds: 8100.380009
-          realized_steps: 753
-        outcome: conforming
-        statement: realized turns and wall clock are inside the declared caps
-      scoring_completeness:
-        observed:
-          missing: []
-          present:
-          - final.diff
-          - final_score.md
-          - preserve-stdout.md
-          - process.json
-          - reward.json
-          - reward.txt
-          - reward_reason.json
-          - summary.json
-          - target-stdout.md
-          - test-stdout.txt
-          - verdicts.jsonl
-        outcome: conforming
-        statement: the verifier produced its full record set
-      solver_identity:
-        observed:
-          config.json: zai/glm-5.3
-          directory: zai__glm-5.3
-          lock.json: zai/glm-5.3
-          process.json: zai__glm-5.3
-          result.json agent_info: glm-5.3
-          result.json config: zai/glm-5.3
-        outcome: conforming
-        statement: every carrier names the same solver
-      submission_capture:
-        observed:
-          final_diff_bytes: 149262
-          final_diff_present: true
-          manifest_statuses:
-            artifacts: empty
-            final.diff: failed
-            reward_reason.json: failed
-            summary.json: failed
-            target-stdout.md: failed
-        outcome: nonconforming
-        statement: 'the declared artifact transfer failed for 5 record(s): artifacts'
-      task_binding:
-        observed:
-          config task path: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-          lock task name: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-          process task_uuid: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-          result task_checksum: abc93a7499e2a8374456db123b9f7f56a759ed4543fae39e0e5303ad0e04ed02
-        outcome: conforming
-        statement: every carrier binds this rollout to this bundle
-      termination_integrity:
-        observed:
-          exception_info: null
-          explicit_finish: true
-        outcome: conforming
-        statement: the solver terminated cleanly through an explicit finish
-      tool_channel_integrity:
-        observed:
-          agent_steps: 751
-          agent_steps_without_tool_calls: 0
-          tool_definitions: 5
-        outcome: conforming
-        statement: every agent step carries its tool call record
-    derived_status: nonconforming
-    fidelity_coverage: &id019
-      context_handling: conforming
-      horizon_conformance: conforming
-      scoring_completeness: conforming
-      solver_identity: conforming
-      submission_capture: nonconforming
-      task_binding: conforming
-      termination_integrity: conforming
-      tool_channel_integrity: conforming
-    hold_reason: fidelity-unverified
-    indeterminate_classes: &id020 []
-    instrument: G-FID-TRACE
-    operator_declared_status: conforming
-    operator_declared_token: scored
-    predicate: fidelity_coverage
-    rollout: zai__glm-5.3/run_1
-    suppressing_violations: &id021
-    - signal_class: submission_capture
-      statement: 'the declared artifact transfer failed for 5 record(s): artifacts'
-  finding_id: FID-TRACE-STATUS-DISAGREEMENT-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-zai__glm-5.3-run_1
-  instrument: G-FID-TRACE
-  severity: high
-  statement: The operator declares rollout zai__glm-5.3/run_1 as conforming through the token 'scored',
-    and the derived trial status under trinity.trial-conformance/v1 is nonconforming. Step 8u requires
-    a refusal when the operator's declaration disagrees with the derived status, so this instrument refuses
-    rather than adopting either.
-  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-- bucket: deterministic
-  caps: HOLD
-  critical_class: execution-fidelity
-  evidence:
     bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
     conformance_predicate: trinity.trial-conformance/v1
-    coverage: &id022
-      context_handling:
-        observed:
-          context_limit_event_count: 0
-          context_limit_events: []
-          final_metrics_present: true
-        outcome: conforming
-        statement: token accounting is recorded and no context-limit error appears
-      horizon_conformance:
-        observed:
-          declared_max_iterations: 1000
-          declared_timeout_sec: 57600.0
-          realized_agent_seconds: 2178.217879
-          realized_steps: 271
-        outcome: conforming
-        statement: realized turns and wall clock are inside the declared caps
-      scoring_completeness:
-        observed:
-          missing: []
-          present:
-          - final.diff
-          - final_score.md
-          - preserve-stdout.md
-          - process.json
-          - reward.json
-          - reward.txt
-          - reward_reason.json
-          - summary.json
-          - target-stdout.md
-          - test-stdout.txt
-          - verdicts.jsonl
-        outcome: conforming
-        statement: the verifier produced its full record set
-      solver_identity:
-        observed:
-          config.json: claude-opus-5
-          directory: claude-opus-5
-          lock.json: claude-opus-5
-          process.json: claude-opus-5
-          result.json agent_info: claude-opus-5
-          result.json config: claude-opus-5
-        outcome: conforming
-        statement: every carrier names the same solver
-      submission_capture:
-        observed:
-          final_diff_bytes: 105856
-          final_diff_present: true
-          manifest_statuses:
-            artifacts: empty
-            final.diff: failed
-            reward_reason.json: failed
-            summary.json: failed
-            target-stdout.md: failed
-        outcome: nonconforming
-        statement: 'the declared artifact transfer failed for 5 record(s): artifacts'
-      task_binding:
-        observed:
-          config task path: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-          lock task name: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-          process task_uuid: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-          result task_checksum: 4a7a01bf0feb2b7bf28630c19da7db5d8a52461a18f79165784174f2d3105b2d
-        outcome: conforming
-        statement: every carrier binds this rollout to this bundle
-      termination_integrity:
-        observed:
-          exception_info: null
-          explicit_finish: true
-        outcome: conforming
-        statement: the solver terminated cleanly through an explicit finish
-      tool_channel_integrity:
-        observed:
-          agent_steps: 269
-          agent_steps_without_tool_calls: 0
-          tool_definitions: 5
-        outcome: conforming
-        statement: every agent step carries its tool call record
-    derived_status: nonconforming
-    fidelity_coverage: &id023
-      context_handling: conforming
-      horizon_conformance: conforming
-      scoring_completeness: conforming
-      solver_identity: conforming
-      submission_capture: nonconforming
-      task_binding: conforming
-      termination_integrity: conforming
-      tool_channel_integrity: conforming
-    hold_reason: fidelity-unverified
-    indeterminate_classes: &id024 []
-    instrument: G-FID-TRACE
-    operator_declared_status: conforming
-    operator_declared_token: scored
-    predicate: fidelity_coverage
-    rollout: claude-opus-5/run_1
-    suppressing_violations: &id025
-    - signal_class: submission_capture
-      statement: 'the declared artifact transfer failed for 5 record(s): artifacts'
-  finding_id: FID-TRACE-STATUS-DISAGREEMENT-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-claude-opus-5-run_1
-  instrument: G-FID-TRACE
-  severity: high
-  statement: The operator declares rollout claude-opus-5/run_1 as conforming through the token 'scored',
-    and the derived trial status under trinity.trial-conformance/v1 is nonconforming. Step 8u requires
-    a refusal when the operator's declaration disagrees with the derived status, so this instrument refuses
-    rather than adopting either.
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-- bucket: deterministic
-  caps: HOLD
-  critical_class: execution-fidelity
-  evidence:
-    bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    conformance_predicate: trinity.trial-conformance/v1
-    coverage: &id026
+    coverage: &id013
       context_handling:
         observed:
           context_limit_event_count: 0
@@ -3781,13 +3107,12 @@ findings:
           final_diff_bytes: 154053
           final_diff_present: true
           manifest_statuses:
-            artifacts: empty
-            final.diff: failed
-            reward_reason.json: failed
+            final.diff: ok
+            reward_reason.json: ok
             summary.json: failed
-            target-stdout.md: failed
+            target-stdout.md: ok
         outcome: nonconforming
-        statement: 'the declared artifact transfer failed for 5 record(s): artifacts'
+        statement: 'the declared artifact transfer failed for 1 record(s): summary.json'
       task_binding:
         observed:
           config task path: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
@@ -3810,7 +3135,7 @@ findings:
         outcome: conforming
         statement: every agent step carries its tool call record
     derived_status: nonconforming
-    fidelity_coverage: &id027
+    fidelity_coverage: &id014
       context_handling: conforming
       horizon_conformance: conforming
       scoring_completeness: nonconforming
@@ -3820,17 +3145,17 @@ findings:
       termination_integrity: conforming
       tool_channel_integrity: conforming
     hold_reason: fidelity-unverified
-    indeterminate_classes: &id028 []
+    indeterminate_classes: &id015 []
     instrument: G-FID-TRACE
     operator_declared_status: conforming
     operator_declared_token: scored
     predicate: fidelity_coverage
     rollout: zai__glm-5.3/run_1
-    suppressing_violations: &id029
+    suppressing_violations: &id016
     - signal_class: scoring_completeness
       statement: the verifier record set is incomplete, missing preserve-stdout.md, summary.json
     - signal_class: submission_capture
-      statement: 'the declared artifact transfer failed for 5 record(s): artifacts'
+      statement: 'the declared artifact transfer failed for 1 record(s): summary.json'
     - signal_class: reward_reason
       statement: the committed reward reason 'declared-targets-partially-absent' attributes a zero to
         a grading failure rather than to the solver, which lowers the measured pass rate
@@ -3846,314 +3171,19 @@ findings:
   caps: HOLD
   critical_class: execution-fidelity
   evidence:
-    bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    conformance_predicate: trinity.trial-conformance/v1
-    coverage: &id030
-      context_handling:
-        observed:
-          context_limit_event_count: 0
-          context_limit_events: []
-          final_metrics_present: true
-        outcome: conforming
-        statement: token accounting is recorded and no context-limit error appears
-      horizon_conformance:
-        observed:
-          declared_max_iterations: 1000
-          declared_timeout_sec: 57600.0
-          realized_agent_seconds: 2077.063579
-          realized_steps: 246
-        outcome: conforming
-        statement: realized turns and wall clock are inside the declared caps
-      scoring_completeness:
-        observed:
-          missing: []
-          present:
-          - final.diff
-          - final_score.md
-          - preserve-stdout.md
-          - process.json
-          - reward.json
-          - reward.txt
-          - reward_reason.json
-          - summary.json
-          - target-stdout.md
-          - test-stdout.txt
-          - verdicts.jsonl
-        outcome: conforming
-        statement: the verifier produced its full record set
-      solver_identity:
-        observed:
-          config.json: claude-opus-5
-          directory: claude-opus-5
-          lock.json: claude-opus-5
-          process.json: claude-opus-5
-          result.json agent_info: claude-opus-5
-          result.json config: claude-opus-5
-        outcome: conforming
-        statement: every carrier names the same solver
-      submission_capture:
-        observed:
-          final_diff_bytes: 73777
-          final_diff_present: true
-          manifest_statuses:
-            artifacts: empty
-            final.diff: failed
-            reward_reason.json: failed
-            summary.json: failed
-            target-stdout.md: failed
-        outcome: nonconforming
-        statement: 'the declared artifact transfer failed for 5 record(s): artifacts'
-      task_binding:
-        observed:
-          config task path: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-          lock task name: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-          process task_uuid: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-          result task_checksum: 8e5f3b12a57bbb1308bd884b6ae619caa92a497ae1435d339c5932c68b424e26
-        outcome: conforming
-        statement: every carrier binds this rollout to this bundle
-      termination_integrity:
-        observed:
-          exception_info: null
-          explicit_finish: true
-        outcome: conforming
-        statement: the solver terminated cleanly through an explicit finish
-      tool_channel_integrity:
-        observed:
-          agent_steps: 244
-          agent_steps_without_tool_calls: 0
-          tool_definitions: 5
-        outcome: conforming
-        statement: every agent step carries its tool call record
-    derived_status: nonconforming
-    fidelity_coverage: &id031
-      context_handling: conforming
-      horizon_conformance: conforming
-      scoring_completeness: conforming
-      solver_identity: conforming
-      submission_capture: nonconforming
-      task_binding: conforming
-      termination_integrity: conforming
-      tool_channel_integrity: conforming
-    hold_reason: fidelity-unverified
-    indeterminate_classes: &id032 []
-    instrument: G-FID-TRACE
-    operator_declared_status: conforming
-    operator_declared_token: scored
-    predicate: fidelity_coverage
-    rollout: claude-opus-5/run_1
-    suppressing_violations: &id033
-    - signal_class: submission_capture
-      statement: 'the declared artifact transfer failed for 5 record(s): artifacts'
-  finding_id: FID-TRACE-STATUS-DISAGREEMENT-873914cf-93b2-57a0-a5c8-264bfa2d3b66-claude-opus-5-run_1
-  instrument: G-FID-TRACE
-  severity: high
-  statement: The operator declares rollout claude-opus-5/run_1 as conforming through the token 'scored',
-    and the derived trial status under trinity.trial-conformance/v1 is nonconforming. Step 8u requires
-    a refusal when the operator's declaration disagrees with the derived status, so this instrument refuses
-    rather than adopting either.
-  subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-- bucket: deterministic
-  caps: HOLD
-  critical_class: execution-fidelity
-  evidence:
-    bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    conformance_predicate: trinity.trial-conformance/v1
-    coverage: &id034
-      context_handling:
-        observed:
-          context_limit_event_count: 0
-          context_limit_events: []
-          final_metrics_present: true
-        outcome: conforming
-        statement: token accounting is recorded and no context-limit error appears
-      horizon_conformance:
-        observed:
-          declared_max_iterations: 1000
-          declared_timeout_sec: 57600.0
-          realized_agent_seconds: 4333.565397
-          realized_steps: 295
-        outcome: conforming
-        statement: realized turns and wall clock are inside the declared caps
-      scoring_completeness:
-        observed:
-          missing: []
-          present:
-          - final.diff
-          - final_score.md
-          - preserve-stdout.md
-          - process.json
-          - reward.json
-          - reward.txt
-          - reward_reason.json
-          - summary.json
-          - target-stdout.md
-          - test-stdout.txt
-          - verdicts.jsonl
-        outcome: conforming
-        statement: the verifier produced its full record set
-      solver_identity:
-        observed:
-          config.json: zai/glm-5.3
-          directory: zai__glm-5.3
-          lock.json: zai/glm-5.3
-          process.json: zai__glm-5.3
-          result.json agent_info: glm-5.3
-          result.json config: zai/glm-5.3
-        outcome: conforming
-        statement: every carrier names the same solver
-      submission_capture:
-        observed:
-          final_diff_bytes: 52982
-          final_diff_present: true
-          manifest_statuses:
-            artifacts: empty
-            final.diff: failed
-            reward_reason.json: failed
-            summary.json: failed
-            target-stdout.md: failed
-        outcome: nonconforming
-        statement: 'the declared artifact transfer failed for 5 record(s): artifacts'
-      task_binding:
-        observed:
-          config task path: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-          lock task name: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-          process task_uuid: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-          result task_checksum: 517cdb39eb932654f0def3b0520fda5ae8dd465500b61bde5d201023e3dc5bb3
-        outcome: conforming
-        statement: every carrier binds this rollout to this bundle
-      termination_integrity:
-        observed:
-          exception_info: null
-          explicit_finish: true
-        outcome: conforming
-        statement: the solver terminated cleanly through an explicit finish
-      tool_channel_integrity:
-        observed:
-          agent_steps: 293
-          agent_steps_without_tool_calls: 0
-          tool_definitions: 5
-        outcome: conforming
-        statement: every agent step carries its tool call record
-    derived_status: nonconforming
-    fidelity_coverage: &id035
-      context_handling: conforming
-      horizon_conformance: conforming
-      scoring_completeness: conforming
-      solver_identity: conforming
-      submission_capture: nonconforming
-      task_binding: conforming
-      termination_integrity: conforming
-      tool_channel_integrity: conforming
-    hold_reason: fidelity-unverified
-    indeterminate_classes: &id036 []
-    instrument: G-FID-TRACE
-    operator_declared_status: conforming
-    operator_declared_token: scored
-    predicate: fidelity_coverage
-    rollout: zai__glm-5.3/run_1
-    suppressing_violations: &id037
-    - signal_class: submission_capture
-      statement: 'the declared artifact transfer failed for 5 record(s): artifacts'
-  finding_id: FID-TRACE-STATUS-DISAGREEMENT-873914cf-93b2-57a0-a5c8-264bfa2d3b66-zai__glm-5.3-run_1
-  instrument: G-FID-TRACE
-  severity: high
-  statement: The operator declares rollout zai__glm-5.3/run_1 as conforming through the token 'scored',
-    and the derived trial status under trinity.trial-conformance/v1 is nonconforming. Step 8u requires
-    a refusal when the operator's declaration disagrees with the derived status, so this instrument refuses
-    rather than adopting either.
-  subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-- bucket: deterministic
-  caps: HOLD
-  critical_class: execution-fidelity
-  evidence:
-    bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    conformance_predicate: trinity.trial-conformance/v1
-    coverage: *id014
-    derived_status: nonconforming
-    fidelity_coverage: *id015
-    hold_reason: fidelity-unverified
-    indeterminate_classes: *id016
-    instrument: G-FID-TRACE
-    operator_declared_status: conforming
-    operator_declared_token: scored
-    predicate: fidelity_coverage
-    rollout: claude-opus-5/run_1
-    suppressing_violations: *id017
-  finding_id: FID-TRACE-SUPPRESSING-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-claude-opus-5-run_1
-  instrument: G-FID-TRACE
-  severity: high
-  statement: 'Rollout claude-opus-5/run_1 carries 1 observed violation(s) in the suppressing direction,
-    meaning in the direction that lowers a measured pass rate and makes this task look harder than it
-    is. First: submission_capture, the declared artifact transfer failed for 5 record(s): artifacts. Class
-    17 carries no exemption for a finding that would lower a measured pass rate.'
-  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-- bucket: deterministic
-  caps: HOLD
-  critical_class: execution-fidelity
-  evidence:
-    bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    conformance_predicate: trinity.trial-conformance/v1
-    coverage: *id018
-    derived_status: nonconforming
-    fidelity_coverage: *id019
-    hold_reason: fidelity-unverified
-    indeterminate_classes: *id020
-    instrument: G-FID-TRACE
-    operator_declared_status: conforming
-    operator_declared_token: scored
-    predicate: fidelity_coverage
-    rollout: zai__glm-5.3/run_1
-    suppressing_violations: *id021
-  finding_id: FID-TRACE-SUPPRESSING-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-zai__glm-5.3-run_1
-  instrument: G-FID-TRACE
-  severity: high
-  statement: 'Rollout zai__glm-5.3/run_1 carries 1 observed violation(s) in the suppressing direction,
-    meaning in the direction that lowers a measured pass rate and makes this task look harder than it
-    is. First: submission_capture, the declared artifact transfer failed for 5 record(s): artifacts. Class
-    17 carries no exemption for a finding that would lower a measured pass rate.'
-  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-- bucket: deterministic
-  caps: HOLD
-  critical_class: execution-fidelity
-  evidence:
     bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
     conformance_predicate: trinity.trial-conformance/v1
-    coverage: *id022
+    coverage: *id013
     derived_status: nonconforming
-    fidelity_coverage: *id023
+    fidelity_coverage: *id014
     hold_reason: fidelity-unverified
-    indeterminate_classes: *id024
-    instrument: G-FID-TRACE
-    operator_declared_status: conforming
-    operator_declared_token: scored
-    predicate: fidelity_coverage
-    rollout: claude-opus-5/run_1
-    suppressing_violations: *id025
-  finding_id: FID-TRACE-SUPPRESSING-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-claude-opus-5-run_1
-  instrument: G-FID-TRACE
-  severity: high
-  statement: 'Rollout claude-opus-5/run_1 carries 1 observed violation(s) in the suppressing direction,
-    meaning in the direction that lowers a measured pass rate and makes this task look harder than it
-    is. First: submission_capture, the declared artifact transfer failed for 5 record(s): artifacts. Class
-    17 carries no exemption for a finding that would lower a measured pass rate.'
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-- bucket: deterministic
-  caps: HOLD
-  critical_class: execution-fidelity
-  evidence:
-    bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    conformance_predicate: trinity.trial-conformance/v1
-    coverage: *id026
-    derived_status: nonconforming
-    fidelity_coverage: *id027
-    hold_reason: fidelity-unverified
-    indeterminate_classes: *id028
+    indeterminate_classes: *id015
     instrument: G-FID-TRACE
     operator_declared_status: conforming
     operator_declared_token: scored
     predicate: fidelity_coverage
     rollout: zai__glm-5.3/run_1
-    suppressing_violations: *id029
+    suppressing_violations: *id016
   finding_id: FID-TRACE-SUPPRESSING-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-zai__glm-5.3-run_1
   instrument: G-FID-TRACE
   severity: high
@@ -4162,224 +3192,6 @@ findings:
     is. First: scoring_completeness, the verifier record set is incomplete, missing preserve-stdout.md,
     summary.json. Class 17 carries no exemption for a finding that would lower a measured pass rate.'
   subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-- bucket: deterministic
-  caps: HOLD
-  critical_class: execution-fidelity
-  evidence:
-    bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    conformance_predicate: trinity.trial-conformance/v1
-    coverage: *id030
-    derived_status: nonconforming
-    fidelity_coverage: *id031
-    hold_reason: fidelity-unverified
-    indeterminate_classes: *id032
-    instrument: G-FID-TRACE
-    operator_declared_status: conforming
-    operator_declared_token: scored
-    predicate: fidelity_coverage
-    rollout: claude-opus-5/run_1
-    suppressing_violations: *id033
-  finding_id: FID-TRACE-SUPPRESSING-873914cf-93b2-57a0-a5c8-264bfa2d3b66-claude-opus-5-run_1
-  instrument: G-FID-TRACE
-  severity: high
-  statement: 'Rollout claude-opus-5/run_1 carries 1 observed violation(s) in the suppressing direction,
-    meaning in the direction that lowers a measured pass rate and makes this task look harder than it
-    is. First: submission_capture, the declared artifact transfer failed for 5 record(s): artifacts. Class
-    17 carries no exemption for a finding that would lower a measured pass rate.'
-  subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-- bucket: deterministic
-  caps: HOLD
-  critical_class: execution-fidelity
-  evidence:
-    bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    conformance_predicate: trinity.trial-conformance/v1
-    coverage: *id034
-    derived_status: nonconforming
-    fidelity_coverage: *id035
-    hold_reason: fidelity-unverified
-    indeterminate_classes: *id036
-    instrument: G-FID-TRACE
-    operator_declared_status: conforming
-    operator_declared_token: scored
-    predicate: fidelity_coverage
-    rollout: zai__glm-5.3/run_1
-    suppressing_violations: *id037
-  finding_id: FID-TRACE-SUPPRESSING-873914cf-93b2-57a0-a5c8-264bfa2d3b66-zai__glm-5.3-run_1
-  instrument: G-FID-TRACE
-  severity: high
-  statement: 'Rollout zai__glm-5.3/run_1 carries 1 observed violation(s) in the suppressing direction,
-    meaning in the direction that lowers a measured pass rate and makes this task look harder than it
-    is. First: submission_capture, the declared artifact transfer failed for 5 record(s): artifacts. Class
-    17 carries no exemption for a finding that would lower a measured pass rate.'
-  subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-- bucket: deterministic
-  caps: HOLD
-  critical_class: private-carrier-leak
-  evidence:
-    band: retained
-    bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    carrier: trajectories/claude-opus-5/run_1/trial.log
-    carrier_ngrams: 10140
-    containment: 0.907495
-    lane: root
-    ngram_width: 5
-    normalization_domain: nfkc_fold+lowercase+collapse_whitespace
-    path: trajectories/claude-opus-5/run_1/trial.log
-    reverse_containment: 0.953476
-    review_threshold: 0.15
-    threshold: 0.3
-    threshold_source: scope.yaml
-    visible_ngrams: 9651
-  finding_id: G-LEAK-CONTAINMENT-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-0c541ac728af
-  instrument: G-LEAK-CONTAINMENT
-  severity: high
-  statement: Private carrier trajectories/claude-opus-5/run_1/trial.log of bundle 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    shares 0.907495 of its normalized 5-gram set with the agent-visible bytes, at or above the retention
-    threshold 0.3. Reverse containment is 0.953476 over 10140 carrier and 9651 visible distinct n-grams.
-    Containment is symmetric in its overlap and differs only in denominator, so this measurement records
-    that the two surfaces share material and does not by itself establish which surface the material originated
-    on; the overlap is retained for adjudication rather than discharged as clean.
-  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-- bucket: deterministic
-  caps: HOLD
-  critical_class: private-carrier-leak
-  evidence:
-    band: retained
-    bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    carrier: trajectories/zai__glm-5.3/run_1/trial.log
-    carrier_ngrams: 10140
-    containment: 0.907495
-    lane: root
-    ngram_width: 5
-    normalization_domain: nfkc_fold+lowercase+collapse_whitespace
-    path: trajectories/zai__glm-5.3/run_1/trial.log
-    reverse_containment: 0.953476
-    review_threshold: 0.15
-    threshold: 0.3
-    threshold_source: scope.yaml
-    visible_ngrams: 9651
-  finding_id: G-LEAK-CONTAINMENT-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-3f076702643e
-  instrument: G-LEAK-CONTAINMENT
-  severity: high
-  statement: Private carrier trajectories/zai__glm-5.3/run_1/trial.log of bundle 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    shares 0.907495 of its normalized 5-gram set with the agent-visible bytes, at or above the retention
-    threshold 0.3. Reverse containment is 0.953476 over 10140 carrier and 9651 visible distinct n-grams.
-    Containment is symmetric in its overlap and differs only in denominator, so this measurement records
-    that the two surfaces share material and does not by itself establish which surface the material originated
-    on; the overlap is retained for adjudication rather than discharged as clean.
-  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-- bucket: deterministic
-  caps: HOLD
-  critical_class: private-carrier-leak
-  evidence:
-    band: retained
-    bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    carrier: trajectories/claude-opus-5/run_1/trial.log
-    carrier_ngrams: 4250
-    containment: 0.912941
-    lane: root
-    ngram_width: 5
-    normalization_domain: nfkc_fold+lowercase+collapse_whitespace
-    path: trajectories/claude-opus-5/run_1/trial.log
-    reverse_containment: 0.975365
-    review_threshold: 0.15
-    threshold: 0.3
-    threshold_source: scope.yaml
-    visible_ngrams: 3978
-  finding_id: G-LEAK-CONTAINMENT-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-0c541ac728af
-  instrument: G-LEAK-CONTAINMENT
-  severity: high
-  statement: Private carrier trajectories/claude-opus-5/run_1/trial.log of bundle 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    shares 0.912941 of its normalized 5-gram set with the agent-visible bytes, at or above the retention
-    threshold 0.3. Reverse containment is 0.975365 over 4250 carrier and 3978 visible distinct n-grams.
-    Containment is symmetric in its overlap and differs only in denominator, so this measurement records
-    that the two surfaces share material and does not by itself establish which surface the material originated
-    on; the overlap is retained for adjudication rather than discharged as clean.
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-- bucket: deterministic
-  caps: HOLD
-  critical_class: private-carrier-leak
-  evidence:
-    band: retained
-    bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    carrier: trajectories/zai__glm-5.3/run_1/trial.log
-    carrier_ngrams: 4250
-    containment: 0.912941
-    lane: root
-    ngram_width: 5
-    normalization_domain: nfkc_fold+lowercase+collapse_whitespace
-    path: trajectories/zai__glm-5.3/run_1/trial.log
-    reverse_containment: 0.975365
-    review_threshold: 0.15
-    threshold: 0.3
-    threshold_source: scope.yaml
-    visible_ngrams: 3978
-  finding_id: G-LEAK-CONTAINMENT-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-3f076702643e
-  instrument: G-LEAK-CONTAINMENT
-  severity: high
-  statement: Private carrier trajectories/zai__glm-5.3/run_1/trial.log of bundle 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    shares 0.912941 of its normalized 5-gram set with the agent-visible bytes, at or above the retention
-    threshold 0.3. Reverse containment is 0.975365 over 4250 carrier and 3978 visible distinct n-grams.
-    Containment is symmetric in its overlap and differs only in denominator, so this measurement records
-    that the two surfaces share material and does not by itself establish which surface the material originated
-    on; the overlap is retained for adjudication rather than discharged as clean.
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-- bucket: deterministic
-  caps: HOLD
-  critical_class: private-carrier-leak
-  evidence:
-    band: retained
-    bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    carrier: trajectories/claude-opus-5/run_1/trial.log
-    carrier_ngrams: 3716
-    containment: 0.910388
-    lane: root
-    ngram_width: 5
-    normalization_domain: nfkc_fold+lowercase+collapse_whitespace
-    path: trajectories/claude-opus-5/run_1/trial.log
-    reverse_containment: 0.982288
-    review_threshold: 0.15
-    threshold: 0.3
-    threshold_source: scope.yaml
-    visible_ngrams: 3444
-  finding_id: G-LEAK-CONTAINMENT-873914cf-93b2-57a0-a5c8-264bfa2d3b66-0c541ac728af
-  instrument: G-LEAK-CONTAINMENT
-  severity: high
-  statement: Private carrier trajectories/claude-opus-5/run_1/trial.log of bundle 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    shares 0.910388 of its normalized 5-gram set with the agent-visible bytes, at or above the retention
-    threshold 0.3. Reverse containment is 0.982288 over 3716 carrier and 3444 visible distinct n-grams.
-    Containment is symmetric in its overlap and differs only in denominator, so this measurement records
-    that the two surfaces share material and does not by itself establish which surface the material originated
-    on; the overlap is retained for adjudication rather than discharged as clean.
-  subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-- bucket: deterministic
-  caps: HOLD
-  critical_class: private-carrier-leak
-  evidence:
-    band: retained
-    bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    carrier: trajectories/zai__glm-5.3/run_1/trial.log
-    carrier_ngrams: 3716
-    containment: 0.910388
-    lane: root
-    ngram_width: 5
-    normalization_domain: nfkc_fold+lowercase+collapse_whitespace
-    path: trajectories/zai__glm-5.3/run_1/trial.log
-    reverse_containment: 0.982288
-    review_threshold: 0.15
-    threshold: 0.3
-    threshold_source: scope.yaml
-    visible_ngrams: 3444
-  finding_id: G-LEAK-CONTAINMENT-873914cf-93b2-57a0-a5c8-264bfa2d3b66-3f076702643e
-  instrument: G-LEAK-CONTAINMENT
-  severity: high
-  statement: Private carrier trajectories/zai__glm-5.3/run_1/trial.log of bundle 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    shares 0.910388 of its normalized 5-gram set with the agent-visible bytes, at or above the retention
-    threshold 0.3. Reverse containment is 0.982288 over 3716 carrier and 3444 visible distinct n-grams.
-    Containment is symmetric in its overlap and differs only in denominator, so this measurement records
-    that the two surfaces share material and does not by itself establish which surface the material originated
-    on; the overlap is retained for adjudication rather than discharged as clean.
-  subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
 - bucket: deterministic
   caps: HOLD
   critical_class: provenance-carrier-integrity

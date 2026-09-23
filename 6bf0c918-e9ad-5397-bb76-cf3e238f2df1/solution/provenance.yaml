@@ -23,9 +23,9 @@ source:
   repository_identity_state: resolved
   fork_ancestry_snapshot_digest: null
   fork_ancestry_state: unresolved
-  license: unresolved
+  license: Apache-2.0
   base_commit_sha: 269334014d4dd717f7a8424e9af2c87ed6e82fb0
-  upstream_change_sha: 269334014d4dd717f7a8424e9af2c87ed6e82fb0
+  upstream_change_sha: "span:269334014d4d"
   upstream_change_committed_at: '2023-10-27T23:50:39Z'
   task_generating_event_at: null
   task_generating_event_state: unresolved

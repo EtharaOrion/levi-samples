@@ -3135,4 +3135,2170 @@ rows:
   rollout: zai__glm-5.3/run_1
   standing: observed_violation
   verified: false
+- adequacy_approved: false
+  approved: false
+  attested_digest: 62ae32093d3d97d8328851bf7693753bb106de8c84f1134e0aba68c64e75dfb1
+  binding_digest: 86f3d5026f6c8e2cb8a980fe93645f1cd9df7472a913d8e4f413ed45d9b3b062
+  bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+  core_control_evidence_for: execution_fidelity
+  disposition_cap: HOLD
+  drift_fields: []
+  hold_reason: config-unpinned
+  instrument: G-FID-CONFIG
+  rollout: claude-opus-5/run_1
+  standing: observed_violation
+- adequacy_approved: false
+  approved: false
+  attested_digest: f2d2d5c92cd21d93a8f1a1bd40b9edde8a6ff313567762774f07f11bec0d8ad5
+  binding_digest: a16dcc09bd163598cf4fdabdd3c64f5a168ab9ed36300be3e3ebfab2c3671cc7
+  bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+  core_control_evidence_for: execution_fidelity
+  disposition_cap: HOLD
+  drift_fields: []
+  hold_reason: config-unpinned
+  instrument: G-FID-CONFIG
+  rollout: zai__glm-5.3/run_1
+  standing: observed_violation
+- adequacy_approved: false
+  approved: false
+  attested_digest: 33d2eb15a79a7f54339af03f99cfca5a912d23d6830ca88ef3e6fc89807ec9df
+  binding_digest: 0597960e392c008018dd82ecd2f4e93abffb8737d33fa536b51839aa099a1bfd
+  bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+  core_control_evidence_for: execution_fidelity
+  disposition_cap: HOLD
+  drift_fields: []
+  hold_reason: config-unpinned
+  instrument: G-FID-CONFIG
+  rollout: claude-opus-5/run_1
+  standing: observed_violation
+- adequacy_approved: false
+  approved: false
+  attested_digest: 243c7e524b426a285d23e1405700a14a5214afa27f84a5eda072606053f8bfa1
+  binding_digest: 3742456b1ae2c3b60255ac020ec765d400533aaa37ee89ef9cd54b5079b162e4
+  bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+  core_control_evidence_for: execution_fidelity
+  disposition_cap: HOLD
+  drift_fields: []
+  hold_reason: config-unpinned
+  instrument: G-FID-CONFIG
+  rollout: zai__glm-5.3/run_1
+  standing: observed_violation
+- adequacy_approved: false
+  approved: false
+  attested_digest: b1c96bec75f1580ac4b9cc64988c9c27530e39f2056385b11ef14375624df750
+  binding_digest: 49d7ac1934225e5fd1dfa165326503e34f08267b1e575b26668a7c37515d354e
+  bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+  core_control_evidence_for: execution_fidelity
+  disposition_cap: HOLD
+  drift_fields: []
+  hold_reason: config-unpinned
+  instrument: G-FID-CONFIG
+  rollout: claude-opus-5/run_1
+  standing: observed_violation
+- adequacy_approved: false
+  approved: false
+  attested_digest: 53f2072ebf9dd66e77d26ca86bbbb794fffbc0e355d467708691fd0c6f5b4812
+  binding_digest: 1dcb52505b11c54ca77b4c7bed463944d6c10200588fe539633df609b558611e
+  bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+  core_control_evidence_for: execution_fidelity
+  disposition_cap: HOLD
+  drift_fields: []
+  hold_reason: config-unpinned
+  instrument: G-FID-CONFIG
+  rollout: zai__glm-5.3/run_1
+  standing: observed_violation
+- bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+  conformance_predicate: trinity.trial-conformance/v1
+  core_control_evidence_for: execution_fidelity
+  derived_status: nonconforming
+  disposition_cap: HOLD
+  fidelity_coverage:
+    context_handling: conforming
+    horizon_conformance: conforming
+    scoring_completeness: conforming
+    solver_identity: conforming
+    submission_capture: nonconforming
+    task_binding: conforming
+    termination_integrity: conforming
+    tool_channel_integrity: conforming
+  hold_reason: fidelity-unverified
+  indeterminate_classes: []
+  instrument: G-FID-TRACE
+  operator_declared_status: conforming
+  operator_declared_token: scored
+  predicate: fidelity_coverage
+  rollout: claude-opus-5/run_1
+  standing: observed_violation
+  suppressing_violations:
+  - signal_class: submission_capture
+    statement: 'the declared artifact transfer failed for 1 record(s): artifacts'
+- bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+  conformance_predicate: trinity.trial-conformance/v1
+  core_control_evidence_for: execution_fidelity
+  derived_status: nonconforming
+  disposition_cap: HOLD
+  fidelity_coverage:
+    context_handling: conforming
+    horizon_conformance: conforming
+    scoring_completeness: conforming
+    solver_identity: conforming
+    submission_capture: nonconforming
+    task_binding: conforming
+    termination_integrity: conforming
+    tool_channel_integrity: conforming
+  hold_reason: fidelity-unverified
+  indeterminate_classes: []
+  instrument: G-FID-TRACE
+  operator_declared_status: conforming
+  operator_declared_token: scored
+  predicate: fidelity_coverage
+  rollout: zai__glm-5.3/run_1
+  standing: observed_violation
+  suppressing_violations:
+  - signal_class: submission_capture
+    statement: 'the declared artifact transfer failed for 1 record(s): artifacts'
+- bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+  conformance_predicate: trinity.trial-conformance/v1
+  core_control_evidence_for: execution_fidelity
+  derived_status: nonconforming
+  disposition_cap: HOLD
+  fidelity_coverage:
+    context_handling: conforming
+    horizon_conformance: conforming
+    scoring_completeness: conforming
+    solver_identity: conforming
+    submission_capture: nonconforming
+    task_binding: conforming
+    termination_integrity: conforming
+    tool_channel_integrity: conforming
+  hold_reason: fidelity-unverified
+  indeterminate_classes: []
+  instrument: G-FID-TRACE
+  operator_declared_status: conforming
+  operator_declared_token: scored
+  predicate: fidelity_coverage
+  rollout: claude-opus-5/run_1
+  standing: observed_violation
+  suppressing_violations:
+  - signal_class: submission_capture
+    statement: 'the declared artifact transfer failed for 1 record(s): artifacts'
+- bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+  conformance_predicate: trinity.trial-conformance/v1
+  core_control_evidence_for: execution_fidelity
+  derived_status: nonconforming
+  disposition_cap: HOLD
+  fidelity_coverage:
+    context_handling: conforming
+    horizon_conformance: conforming
+    scoring_completeness: nonconforming
+    solver_identity: conforming
+    submission_capture: nonconforming
+    task_binding: conforming
+    termination_integrity: conforming
+    tool_channel_integrity: conforming
+  hold_reason: fidelity-unverified
+  indeterminate_classes: []
+  instrument: G-FID-TRACE
+  operator_declared_status: conforming
+  operator_declared_token: scored
+  predicate: fidelity_coverage
+  rollout: zai__glm-5.3/run_1
+  standing: observed_violation
+  suppressing_violations:
+  - signal_class: scoring_completeness
+    statement: the verifier record set is incomplete, missing preserve-stdout.md, summary.json
+  - signal_class: submission_capture
+    statement: 'the declared artifact transfer failed for 2 record(s): artifacts'
+  - signal_class: reward_reason
+    statement: the committed reward reason 'declared-targets-partially-absent' attributes a zero to a
+      grading failure rather than to the solver, which lowers the measured pass rate
+- bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+  conformance_predicate: trinity.trial-conformance/v1
+  core_control_evidence_for: execution_fidelity
+  derived_status: nonconforming
+  disposition_cap: HOLD
+  fidelity_coverage:
+    context_handling: conforming
+    horizon_conformance: conforming
+    scoring_completeness: conforming
+    solver_identity: conforming
+    submission_capture: nonconforming
+    task_binding: conforming
+    termination_integrity: conforming
+    tool_channel_integrity: conforming
+  hold_reason: fidelity-unverified
+  indeterminate_classes: []
+  instrument: G-FID-TRACE
+  operator_declared_status: conforming
+  operator_declared_token: scored
+  predicate: fidelity_coverage
+  rollout: claude-opus-5/run_1
+  standing: observed_violation
+  suppressing_violations:
+  - signal_class: submission_capture
+    statement: 'the declared artifact transfer failed for 1 record(s): artifacts'
+- bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+  conformance_predicate: trinity.trial-conformance/v1
+  core_control_evidence_for: execution_fidelity
+  derived_status: nonconforming
+  disposition_cap: HOLD
+  fidelity_coverage:
+    context_handling: conforming
+    horizon_conformance: conforming
+    scoring_completeness: conforming
+    solver_identity: conforming
+    submission_capture: nonconforming
+    task_binding: conforming
+    termination_integrity: conforming
+    tool_channel_integrity: conforming
+  hold_reason: fidelity-unverified
+  indeterminate_classes: []
+  instrument: G-FID-TRACE
+  operator_declared_status: conforming
+  operator_declared_token: scored
+  predicate: fidelity_coverage
+  rollout: zai__glm-5.3/run_1
+  standing: observed_violation
+  suppressing_violations:
+  - signal_class: submission_capture
+    statement: 'the declared artifact transfer failed for 1 record(s): artifacts'
+- bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+  core_control_evidence_for: execution_fidelity
+  disposition_cap: BLOCK
+  fixed_group_count: null
+  hold_reason: ''
+  instrument: G-FID-POPULATION
+  precommitted_roster: null
+  realized_group_count: 2
+  realized_groups:
+  - claude-opus-5
+  - zai__glm-5.3
+  reconciled: false
+  standing: observed_violation
+- bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+  core_control_evidence_for: execution_fidelity
+  disposition_cap: BLOCK
+  fixed_group_count: null
+  hold_reason: ''
+  instrument: G-FID-POPULATION
+  precommitted_roster: null
+  realized_group_count: 2
+  realized_groups:
+  - claude-opus-5
+  - zai__glm-5.3
+  reconciled: false
+  standing: observed_violation
+- bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+  core_control_evidence_for: execution_fidelity
+  disposition_cap: BLOCK
+  fixed_group_count: null
+  hold_reason: ''
+  instrument: G-FID-POPULATION
+  precommitted_roster: null
+  realized_group_count: 2
+  realized_groups:
+  - claude-opus-5
+  - zai__glm-5.3
+  reconciled: false
+  standing: observed_violation
+- bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+  core_control_evidence_for: execution_fidelity
+  diff_comparison:
+    final_diff_sha256: 71af84dd63ab8f902afba5abd7bd93102eab9342529f2490ee3ca72f1fbdefc0
+    reason: ''
+    scorer_paths: 68
+    shared_paths: 1
+    verified: true
+    witness_paths: 1
+    witness_step: 429
+  disposition_cap: HOLD
+  failed_transfers:
+  - artifacts
+  hold_reason: handoff-unverified
+  instrument: G-FID-HANDOFF
+  rollout: claude-opus-5/run_1
+  standing: observed_violation
+  verified: false
+- bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+  core_control_evidence_for: execution_fidelity
+  diff_comparison:
+    final_diff_sha256: fe8730f889c65e5dca4054c89178d5d3d0b0ecd2de44abe7042c0200fd94cfe4
+    reason: ''
+    scorer_paths: 59
+    shared_paths: 1
+    verified: true
+    witness_paths: 1
+    witness_step: 746
+  disposition_cap: HOLD
+  failed_transfers:
+  - artifacts
+  hold_reason: handoff-unverified
+  instrument: G-FID-HANDOFF
+  rollout: zai__glm-5.3/run_1
+  standing: observed_violation
+  verified: false
+- bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+  core_control_evidence_for: execution_fidelity
+  diff_comparison:
+    final_diff_sha256: 49a0471ae4ee48f226980c99a30e1e3f4daabc75536c991a6606ec732850f712
+    reason: ''
+    scorer_paths: 65
+    shared_paths: 3
+    verified: true
+    witness_paths: 3
+    witness_step: 263
+  disposition_cap: HOLD
+  failed_transfers:
+  - artifacts
+  hold_reason: handoff-unverified
+  instrument: G-FID-HANDOFF
+  rollout: claude-opus-5/run_1
+  standing: observed_violation
+  verified: false
+- bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+  core_control_evidence_for: execution_fidelity
+  diff_comparison:
+    reason: the scorer's submission and the agent's final state share no path
+    scorer_paths: 56
+    verified: false
+    witness_paths: 1
+    witness_step: 485
+  disposition_cap: HOLD
+  failed_transfers:
+  - artifacts
+  - summary.json
+  hold_reason: handoff-unverified
+  instrument: G-FID-HANDOFF
+  rollout: zai__glm-5.3/run_1
+  standing: observed_violation
+  verified: false
+- bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+  core_control_evidence_for: execution_fidelity
+  diff_comparison:
+    reason: the scorer's submission and the agent's final state share no path
+    scorer_paths: 38
+    verified: false
+    witness_paths: 3
+    witness_step: 225
+  disposition_cap: HOLD
+  failed_transfers:
+  - artifacts
+  hold_reason: handoff-unverified
+  instrument: G-FID-HANDOFF
+  rollout: claude-opus-5/run_1
+  standing: observed_violation
+  verified: false
+- bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+  core_control_evidence_for: execution_fidelity
+  diff_comparison:
+    reason: the scorer's submission and the agent's final state share no path
+    scorer_paths: 34
+    verified: false
+    witness_paths: 6
+    witness_step: 279
+  disposition_cap: HOLD
+  failed_transfers:
+  - artifacts
+  hold_reason: handoff-unverified
+  instrument: G-FID-HANDOFF
+  rollout: zai__glm-5.3/run_1
+  standing: observed_violation
+  verified: false
+- adequacy_approved: false
+  approved: false
+  attested_digest: 62ae32093d3d97d8328851bf7693753bb106de8c84f1134e0aba68c64e75dfb1
+  binding_digest: 86f3d5026f6c8e2cb8a980fe93645f1cd9df7472a913d8e4f413ed45d9b3b062
+  bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+  core_control_evidence_for: execution_fidelity
+  disposition_cap: HOLD
+  drift_fields: []
+  hold_reason: config-unpinned
+  instrument: G-FID-CONFIG
+  rollout: claude-opus-5/run_1
+  standing: observed_violation
+- adequacy_approved: false
+  approved: false
+  attested_digest: f2d2d5c92cd21d93a8f1a1bd40b9edde8a6ff313567762774f07f11bec0d8ad5
+  binding_digest: a16dcc09bd163598cf4fdabdd3c64f5a168ab9ed36300be3e3ebfab2c3671cc7
+  bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+  core_control_evidence_for: execution_fidelity
+  disposition_cap: HOLD
+  drift_fields: []
+  hold_reason: config-unpinned
+  instrument: G-FID-CONFIG
+  rollout: zai__glm-5.3/run_1
+  standing: observed_violation
+- adequacy_approved: false
+  approved: false
+  attested_digest: 33d2eb15a79a7f54339af03f99cfca5a912d23d6830ca88ef3e6fc89807ec9df
+  binding_digest: 0597960e392c008018dd82ecd2f4e93abffb8737d33fa536b51839aa099a1bfd
+  bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+  core_control_evidence_for: execution_fidelity
+  disposition_cap: HOLD
+  drift_fields: []
+  hold_reason: config-unpinned
+  instrument: G-FID-CONFIG
+  rollout: claude-opus-5/run_1
+  standing: observed_violation
+- adequacy_approved: false
+  approved: false
+  attested_digest: 243c7e524b426a285d23e1405700a14a5214afa27f84a5eda072606053f8bfa1
+  binding_digest: 3742456b1ae2c3b60255ac020ec765d400533aaa37ee89ef9cd54b5079b162e4
+  bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+  core_control_evidence_for: execution_fidelity
+  disposition_cap: HOLD
+  drift_fields: []
+  hold_reason: config-unpinned
+  instrument: G-FID-CONFIG
+  rollout: zai__glm-5.3/run_1
+  standing: observed_violation
+- adequacy_approved: false
+  approved: false
+  attested_digest: b1c96bec75f1580ac4b9cc64988c9c27530e39f2056385b11ef14375624df750
+  binding_digest: 49d7ac1934225e5fd1dfa165326503e34f08267b1e575b26668a7c37515d354e
+  bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+  core_control_evidence_for: execution_fidelity
+  disposition_cap: HOLD
+  drift_fields: []
+  hold_reason: config-unpinned
+  instrument: G-FID-CONFIG
+  rollout: claude-opus-5/run_1
+  standing: observed_violation
+- adequacy_approved: false
+  approved: false
+  attested_digest: 53f2072ebf9dd66e77d26ca86bbbb794fffbc0e355d467708691fd0c6f5b4812
+  binding_digest: 1dcb52505b11c54ca77b4c7bed463944d6c10200588fe539633df609b558611e
+  bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+  core_control_evidence_for: execution_fidelity
+  disposition_cap: HOLD
+  drift_fields: []
+  hold_reason: config-unpinned
+  instrument: G-FID-CONFIG
+  rollout: zai__glm-5.3/run_1
+  standing: observed_violation
+- bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+  conformance_predicate: trinity.trial-conformance/v1
+  core_control_evidence_for: execution_fidelity
+  derived_status: nonconforming
+  disposition_cap: HOLD
+  fidelity_coverage:
+    context_handling: conforming
+    horizon_conformance: conforming
+    scoring_completeness: conforming
+    solver_identity: conforming
+    submission_capture: nonconforming
+    task_binding: conforming
+    termination_integrity: conforming
+    tool_channel_integrity: conforming
+  hold_reason: fidelity-unverified
+  indeterminate_classes: []
+  instrument: G-FID-TRACE
+  operator_declared_status: conforming
+  operator_declared_token: scored
+  predicate: fidelity_coverage
+  rollout: claude-opus-5/run_1
+  standing: observed_violation
+  suppressing_violations:
+  - signal_class: submission_capture
+    statement: 'the declared artifact transfer failed for 1 record(s): artifacts'
+- bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+  conformance_predicate: trinity.trial-conformance/v1
+  core_control_evidence_for: execution_fidelity
+  derived_status: nonconforming
+  disposition_cap: HOLD
+  fidelity_coverage:
+    context_handling: conforming
+    horizon_conformance: conforming
+    scoring_completeness: conforming
+    solver_identity: conforming
+    submission_capture: nonconforming
+    task_binding: conforming
+    termination_integrity: conforming
+    tool_channel_integrity: conforming
+  hold_reason: fidelity-unverified
+  indeterminate_classes: []
+  instrument: G-FID-TRACE
+  operator_declared_status: conforming
+  operator_declared_token: scored
+  predicate: fidelity_coverage
+  rollout: zai__glm-5.3/run_1
+  standing: observed_violation
+  suppressing_violations:
+  - signal_class: submission_capture
+    statement: 'the declared artifact transfer failed for 1 record(s): artifacts'
+- bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+  conformance_predicate: trinity.trial-conformance/v1
+  core_control_evidence_for: execution_fidelity
+  derived_status: nonconforming
+  disposition_cap: HOLD
+  fidelity_coverage:
+    context_handling: conforming
+    horizon_conformance: conforming
+    scoring_completeness: conforming
+    solver_identity: conforming
+    submission_capture: nonconforming
+    task_binding: conforming
+    termination_integrity: conforming
+    tool_channel_integrity: conforming
+  hold_reason: fidelity-unverified
+  indeterminate_classes: []
+  instrument: G-FID-TRACE
+  operator_declared_status: conforming
+  operator_declared_token: scored
+  predicate: fidelity_coverage
+  rollout: claude-opus-5/run_1
+  standing: observed_violation
+  suppressing_violations:
+  - signal_class: submission_capture
+    statement: 'the declared artifact transfer failed for 1 record(s): artifacts'
+- bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+  conformance_predicate: trinity.trial-conformance/v1
+  core_control_evidence_for: execution_fidelity
+  derived_status: nonconforming
+  disposition_cap: HOLD
+  fidelity_coverage:
+    context_handling: conforming
+    horizon_conformance: conforming
+    scoring_completeness: nonconforming
+    solver_identity: conforming
+    submission_capture: nonconforming
+    task_binding: conforming
+    termination_integrity: conforming
+    tool_channel_integrity: conforming
+  hold_reason: fidelity-unverified
+  indeterminate_classes: []
+  instrument: G-FID-TRACE
+  operator_declared_status: conforming
+  operator_declared_token: scored
+  predicate: fidelity_coverage
+  rollout: zai__glm-5.3/run_1
+  standing: observed_violation
+  suppressing_violations:
+  - signal_class: scoring_completeness
+    statement: the verifier record set is incomplete, missing preserve-stdout.md, summary.json
+  - signal_class: submission_capture
+    statement: 'the declared artifact transfer failed for 2 record(s): artifacts'
+  - signal_class: reward_reason
+    statement: the committed reward reason 'declared-targets-partially-absent' attributes a zero to a
+      grading failure rather than to the solver, which lowers the measured pass rate
+- bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+  conformance_predicate: trinity.trial-conformance/v1
+  core_control_evidence_for: execution_fidelity
+  derived_status: nonconforming
+  disposition_cap: HOLD
+  fidelity_coverage:
+    context_handling: conforming
+    horizon_conformance: conforming
+    scoring_completeness: conforming
+    solver_identity: conforming
+    submission_capture: nonconforming
+    task_binding: conforming
+    termination_integrity: conforming
+    tool_channel_integrity: conforming
+  hold_reason: fidelity-unverified
+  indeterminate_classes: []
+  instrument: G-FID-TRACE
+  operator_declared_status: conforming
+  operator_declared_token: scored
+  predicate: fidelity_coverage
+  rollout: claude-opus-5/run_1
+  standing: observed_violation
+  suppressing_violations:
+  - signal_class: submission_capture
+    statement: 'the declared artifact transfer failed for 1 record(s): artifacts'
+- bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+  conformance_predicate: trinity.trial-conformance/v1
+  core_control_evidence_for: execution_fidelity
+  derived_status: nonconforming
+  disposition_cap: HOLD
+  fidelity_coverage:
+    context_handling: conforming
+    horizon_conformance: conforming
+    scoring_completeness: conforming
+    solver_identity: conforming
+    submission_capture: nonconforming
+    task_binding: conforming
+    termination_integrity: conforming
+    tool_channel_integrity: conforming
+  hold_reason: fidelity-unverified
+  indeterminate_classes: []
+  instrument: G-FID-TRACE
+  operator_declared_status: conforming
+  operator_declared_token: scored
+  predicate: fidelity_coverage
+  rollout: zai__glm-5.3/run_1
+  standing: observed_violation
+  suppressing_violations:
+  - signal_class: submission_capture
+    statement: 'the declared artifact transfer failed for 1 record(s): artifacts'
+- bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+  core_control_evidence_for: execution_fidelity
+  disposition_cap: BLOCK
+  fixed_group_count: null
+  hold_reason: ''
+  instrument: G-FID-POPULATION
+  precommitted_roster: null
+  realized_group_count: 2
+  realized_groups:
+  - claude-opus-5
+  - zai__glm-5.3
+  reconciled: false
+  standing: observed_violation
+- bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+  core_control_evidence_for: execution_fidelity
+  disposition_cap: BLOCK
+  fixed_group_count: null
+  hold_reason: ''
+  instrument: G-FID-POPULATION
+  precommitted_roster: null
+  realized_group_count: 2
+  realized_groups:
+  - claude-opus-5
+  - zai__glm-5.3
+  reconciled: false
+  standing: observed_violation
+- bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+  core_control_evidence_for: execution_fidelity
+  disposition_cap: BLOCK
+  fixed_group_count: null
+  hold_reason: ''
+  instrument: G-FID-POPULATION
+  precommitted_roster: null
+  realized_group_count: 2
+  realized_groups:
+  - claude-opus-5
+  - zai__glm-5.3
+  reconciled: false
+  standing: observed_violation
+- bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+  core_control_evidence_for: execution_fidelity
+  diff_comparison:
+    final_diff_sha256: 71af84dd63ab8f902afba5abd7bd93102eab9342529f2490ee3ca72f1fbdefc0
+    reason: ''
+    scorer_paths: 68
+    shared_paths: 1
+    verified: true
+    witness_paths: 1
+    witness_step: 429
+  disposition_cap: HOLD
+  failed_transfers:
+  - artifacts
+  hold_reason: handoff-unverified
+  instrument: G-FID-HANDOFF
+  rollout: claude-opus-5/run_1
+  standing: observed_violation
+  verified: false
+- bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+  core_control_evidence_for: execution_fidelity
+  diff_comparison:
+    final_diff_sha256: fe8730f889c65e5dca4054c89178d5d3d0b0ecd2de44abe7042c0200fd94cfe4
+    reason: ''
+    scorer_paths: 59
+    shared_paths: 1
+    verified: true
+    witness_paths: 1
+    witness_step: 746
+  disposition_cap: HOLD
+  failed_transfers:
+  - artifacts
+  hold_reason: handoff-unverified
+  instrument: G-FID-HANDOFF
+  rollout: zai__glm-5.3/run_1
+  standing: observed_violation
+  verified: false
+- bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+  core_control_evidence_for: execution_fidelity
+  diff_comparison:
+    final_diff_sha256: 49a0471ae4ee48f226980c99a30e1e3f4daabc75536c991a6606ec732850f712
+    reason: ''
+    scorer_paths: 65
+    shared_paths: 3
+    verified: true
+    witness_paths: 3
+    witness_step: 263
+  disposition_cap: HOLD
+  failed_transfers:
+  - artifacts
+  hold_reason: handoff-unverified
+  instrument: G-FID-HANDOFF
+  rollout: claude-opus-5/run_1
+  standing: observed_violation
+  verified: false
+- bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+  core_control_evidence_for: execution_fidelity
+  diff_comparison:
+    reason: the scorer's submission and the agent's final state share no path
+    scorer_paths: 56
+    verified: false
+    witness_paths: 1
+    witness_step: 485
+  disposition_cap: HOLD
+  failed_transfers:
+  - artifacts
+  - summary.json
+  hold_reason: handoff-unverified
+  instrument: G-FID-HANDOFF
+  rollout: zai__glm-5.3/run_1
+  standing: observed_violation
+  verified: false
+- bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+  core_control_evidence_for: execution_fidelity
+  diff_comparison:
+    reason: the scorer's submission and the agent's final state share no path
+    scorer_paths: 38
+    verified: false
+    witness_paths: 3
+    witness_step: 225
+  disposition_cap: HOLD
+  failed_transfers:
+  - artifacts
+  hold_reason: handoff-unverified
+  instrument: G-FID-HANDOFF
+  rollout: claude-opus-5/run_1
+  standing: observed_violation
+  verified: false
+- bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+  core_control_evidence_for: execution_fidelity
+  diff_comparison:
+    reason: the scorer's submission and the agent's final state share no path
+    scorer_paths: 34
+    verified: false
+    witness_paths: 6
+    witness_step: 279
+  disposition_cap: HOLD
+  failed_transfers:
+  - artifacts
+  hold_reason: handoff-unverified
+  instrument: G-FID-HANDOFF
+  rollout: zai__glm-5.3/run_1
+  standing: observed_violation
+  verified: false
+- adequacy_approved: false
+  approved: false
+  attested_digest: 62ae32093d3d97d8328851bf7693753bb106de8c84f1134e0aba68c64e75dfb1
+  binding_digest: 86f3d5026f6c8e2cb8a980fe93645f1cd9df7472a913d8e4f413ed45d9b3b062
+  bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+  core_control_evidence_for: execution_fidelity
+  disposition_cap: HOLD
+  drift_fields: []
+  hold_reason: config-unpinned
+  instrument: G-FID-CONFIG
+  rollout: claude-opus-5/run_1
+  standing: observed_violation
+- adequacy_approved: false
+  approved: false
+  attested_digest: f2d2d5c92cd21d93a8f1a1bd40b9edde8a6ff313567762774f07f11bec0d8ad5
+  binding_digest: a16dcc09bd163598cf4fdabdd3c64f5a168ab9ed36300be3e3ebfab2c3671cc7
+  bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+  core_control_evidence_for: execution_fidelity
+  disposition_cap: HOLD
+  drift_fields: []
+  hold_reason: config-unpinned
+  instrument: G-FID-CONFIG
+  rollout: zai__glm-5.3/run_1
+  standing: observed_violation
+- adequacy_approved: false
+  approved: false
+  attested_digest: 33d2eb15a79a7f54339af03f99cfca5a912d23d6830ca88ef3e6fc89807ec9df
+  binding_digest: 0597960e392c008018dd82ecd2f4e93abffb8737d33fa536b51839aa099a1bfd
+  bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+  core_control_evidence_for: execution_fidelity
+  disposition_cap: HOLD
+  drift_fields: []
+  hold_reason: config-unpinned
+  instrument: G-FID-CONFIG
+  rollout: claude-opus-5/run_1
+  standing: observed_violation
+- adequacy_approved: false
+  approved: false
+  attested_digest: 243c7e524b426a285d23e1405700a14a5214afa27f84a5eda072606053f8bfa1
+  binding_digest: 3742456b1ae2c3b60255ac020ec765d400533aaa37ee89ef9cd54b5079b162e4
+  bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+  core_control_evidence_for: execution_fidelity
+  disposition_cap: HOLD
+  drift_fields: []
+  hold_reason: config-unpinned
+  instrument: G-FID-CONFIG
+  rollout: zai__glm-5.3/run_1
+  standing: observed_violation
+- adequacy_approved: false
+  approved: false
+  attested_digest: b1c96bec75f1580ac4b9cc64988c9c27530e39f2056385b11ef14375624df750
+  binding_digest: 49d7ac1934225e5fd1dfa165326503e34f08267b1e575b26668a7c37515d354e
+  bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+  core_control_evidence_for: execution_fidelity
+  disposition_cap: HOLD
+  drift_fields: []
+  hold_reason: config-unpinned
+  instrument: G-FID-CONFIG
+  rollout: claude-opus-5/run_1
+  standing: observed_violation
+- adequacy_approved: false
+  approved: false
+  attested_digest: 53f2072ebf9dd66e77d26ca86bbbb794fffbc0e355d467708691fd0c6f5b4812
+  binding_digest: 1dcb52505b11c54ca77b4c7bed463944d6c10200588fe539633df609b558611e
+  bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+  core_control_evidence_for: execution_fidelity
+  disposition_cap: HOLD
+  drift_fields: []
+  hold_reason: config-unpinned
+  instrument: G-FID-CONFIG
+  rollout: zai__glm-5.3/run_1
+  standing: observed_violation
+- bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+  conformance_predicate: trinity.trial-conformance/v1
+  core_control_evidence_for: execution_fidelity
+  derived_status: nonconforming
+  disposition_cap: HOLD
+  fidelity_coverage:
+    context_handling: conforming
+    horizon_conformance: conforming
+    scoring_completeness: conforming
+    solver_identity: conforming
+    submission_capture: nonconforming
+    task_binding: conforming
+    termination_integrity: conforming
+    tool_channel_integrity: conforming
+  hold_reason: fidelity-unverified
+  indeterminate_classes: []
+  instrument: G-FID-TRACE
+  operator_declared_status: conforming
+  operator_declared_token: scored
+  predicate: fidelity_coverage
+  rollout: claude-opus-5/run_1
+  standing: observed_violation
+  suppressing_violations:
+  - signal_class: submission_capture
+    statement: 'the declared artifact transfer failed for 1 record(s): artifacts'
+- bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+  conformance_predicate: trinity.trial-conformance/v1
+  core_control_evidence_for: execution_fidelity
+  derived_status: nonconforming
+  disposition_cap: HOLD
+  fidelity_coverage:
+    context_handling: conforming
+    horizon_conformance: conforming
+    scoring_completeness: conforming
+    solver_identity: conforming
+    submission_capture: nonconforming
+    task_binding: conforming
+    termination_integrity: conforming
+    tool_channel_integrity: conforming
+  hold_reason: fidelity-unverified
+  indeterminate_classes: []
+  instrument: G-FID-TRACE
+  operator_declared_status: conforming
+  operator_declared_token: scored
+  predicate: fidelity_coverage
+  rollout: zai__glm-5.3/run_1
+  standing: observed_violation
+  suppressing_violations:
+  - signal_class: submission_capture
+    statement: 'the declared artifact transfer failed for 1 record(s): artifacts'
+- bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+  conformance_predicate: trinity.trial-conformance/v1
+  core_control_evidence_for: execution_fidelity
+  derived_status: nonconforming
+  disposition_cap: HOLD
+  fidelity_coverage:
+    context_handling: conforming
+    horizon_conformance: conforming
+    scoring_completeness: conforming
+    solver_identity: conforming
+    submission_capture: nonconforming
+    task_binding: conforming
+    termination_integrity: conforming
+    tool_channel_integrity: conforming
+  hold_reason: fidelity-unverified
+  indeterminate_classes: []
+  instrument: G-FID-TRACE
+  operator_declared_status: conforming
+  operator_declared_token: scored
+  predicate: fidelity_coverage
+  rollout: claude-opus-5/run_1
+  standing: observed_violation
+  suppressing_violations:
+  - signal_class: submission_capture
+    statement: 'the declared artifact transfer failed for 1 record(s): artifacts'
+- bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+  conformance_predicate: trinity.trial-conformance/v1
+  core_control_evidence_for: execution_fidelity
+  derived_status: nonconforming
+  disposition_cap: HOLD
+  fidelity_coverage:
+    context_handling: conforming
+    horizon_conformance: conforming
+    scoring_completeness: nonconforming
+    solver_identity: conforming
+    submission_capture: nonconforming
+    task_binding: conforming
+    termination_integrity: conforming
+    tool_channel_integrity: conforming
+  hold_reason: fidelity-unverified
+  indeterminate_classes: []
+  instrument: G-FID-TRACE
+  operator_declared_status: conforming
+  operator_declared_token: scored
+  predicate: fidelity_coverage
+  rollout: zai__glm-5.3/run_1
+  standing: observed_violation
+  suppressing_violations:
+  - signal_class: scoring_completeness
+    statement: the verifier record set is incomplete, missing preserve-stdout.md, summary.json
+  - signal_class: submission_capture
+    statement: 'the declared artifact transfer failed for 2 record(s): artifacts'
+  - signal_class: reward_reason
+    statement: the committed reward reason 'declared-targets-partially-absent' attributes a zero to a
+      grading failure rather than to the solver, which lowers the measured pass rate
+- bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+  conformance_predicate: trinity.trial-conformance/v1
+  core_control_evidence_for: execution_fidelity
+  derived_status: nonconforming
+  disposition_cap: HOLD
+  fidelity_coverage:
+    context_handling: conforming
+    horizon_conformance: conforming
+    scoring_completeness: conforming
+    solver_identity: conforming
+    submission_capture: nonconforming
+    task_binding: conforming
+    termination_integrity: conforming
+    tool_channel_integrity: conforming
+  hold_reason: fidelity-unverified
+  indeterminate_classes: []
+  instrument: G-FID-TRACE
+  operator_declared_status: conforming
+  operator_declared_token: scored
+  predicate: fidelity_coverage
+  rollout: claude-opus-5/run_1
+  standing: observed_violation
+  suppressing_violations:
+  - signal_class: submission_capture
+    statement: 'the declared artifact transfer failed for 1 record(s): artifacts'
+- bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+  conformance_predicate: trinity.trial-conformance/v1
+  core_control_evidence_for: execution_fidelity
+  derived_status: nonconforming
+  disposition_cap: HOLD
+  fidelity_coverage:
+    context_handling: conforming
+    horizon_conformance: conforming
+    scoring_completeness: conforming
+    solver_identity: conforming
+    submission_capture: nonconforming
+    task_binding: conforming
+    termination_integrity: conforming
+    tool_channel_integrity: conforming
+  hold_reason: fidelity-unverified
+  indeterminate_classes: []
+  instrument: G-FID-TRACE
+  operator_declared_status: conforming
+  operator_declared_token: scored
+  predicate: fidelity_coverage
+  rollout: zai__glm-5.3/run_1
+  standing: observed_violation
+  suppressing_violations:
+  - signal_class: submission_capture
+    statement: 'the declared artifact transfer failed for 1 record(s): artifacts'
+- bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+  core_control_evidence_for: execution_fidelity
+  disposition_cap: BLOCK
+  fixed_group_count: null
+  hold_reason: ''
+  instrument: G-FID-POPULATION
+  precommitted_roster: null
+  realized_group_count: 2
+  realized_groups:
+  - claude-opus-5
+  - zai__glm-5.3
+  reconciled: false
+  standing: observed_violation
+- bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+  core_control_evidence_for: execution_fidelity
+  disposition_cap: BLOCK
+  fixed_group_count: null
+  hold_reason: ''
+  instrument: G-FID-POPULATION
+  precommitted_roster: null
+  realized_group_count: 2
+  realized_groups:
+  - claude-opus-5
+  - zai__glm-5.3
+  reconciled: false
+  standing: observed_violation
+- bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+  core_control_evidence_for: execution_fidelity
+  disposition_cap: BLOCK
+  fixed_group_count: null
+  hold_reason: ''
+  instrument: G-FID-POPULATION
+  precommitted_roster: null
+  realized_group_count: 2
+  realized_groups:
+  - claude-opus-5
+  - zai__glm-5.3
+  reconciled: false
+  standing: observed_violation
+- bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+  core_control_evidence_for: execution_fidelity
+  diff_comparison:
+    final_diff_sha256: 71af84dd63ab8f902afba5abd7bd93102eab9342529f2490ee3ca72f1fbdefc0
+    reason: ''
+    scorer_paths: 68
+    shared_paths: 1
+    verified: true
+    witness_paths: 1
+    witness_step: 429
+  disposition_cap: HOLD
+  failed_transfers:
+  - artifacts
+  hold_reason: handoff-unverified
+  instrument: G-FID-HANDOFF
+  rollout: claude-opus-5/run_1
+  standing: observed_violation
+  verified: false
+- bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+  core_control_evidence_for: execution_fidelity
+  diff_comparison:
+    final_diff_sha256: fe8730f889c65e5dca4054c89178d5d3d0b0ecd2de44abe7042c0200fd94cfe4
+    reason: ''
+    scorer_paths: 59
+    shared_paths: 1
+    verified: true
+    witness_paths: 1
+    witness_step: 746
+  disposition_cap: HOLD
+  failed_transfers:
+  - artifacts
+  hold_reason: handoff-unverified
+  instrument: G-FID-HANDOFF
+  rollout: zai__glm-5.3/run_1
+  standing: observed_violation
+  verified: false
+- bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+  core_control_evidence_for: execution_fidelity
+  diff_comparison:
+    final_diff_sha256: 49a0471ae4ee48f226980c99a30e1e3f4daabc75536c991a6606ec732850f712
+    reason: ''
+    scorer_paths: 65
+    shared_paths: 3
+    verified: true
+    witness_paths: 3
+    witness_step: 263
+  disposition_cap: HOLD
+  failed_transfers:
+  - artifacts
+  hold_reason: handoff-unverified
+  instrument: G-FID-HANDOFF
+  rollout: claude-opus-5/run_1
+  standing: observed_violation
+  verified: false
+- bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+  core_control_evidence_for: execution_fidelity
+  diff_comparison:
+    reason: the scorer's submission and the agent's final state share no path
+    scorer_paths: 56
+    verified: false
+    witness_paths: 1
+    witness_step: 485
+  disposition_cap: HOLD
+  failed_transfers:
+  - artifacts
+  - summary.json
+  hold_reason: handoff-unverified
+  instrument: G-FID-HANDOFF
+  rollout: zai__glm-5.3/run_1
+  standing: observed_violation
+  verified: false
+- bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+  core_control_evidence_for: execution_fidelity
+  diff_comparison:
+    reason: the scorer's submission and the agent's final state share no path
+    scorer_paths: 38
+    verified: false
+    witness_paths: 3
+    witness_step: 225
+  disposition_cap: HOLD
+  failed_transfers:
+  - artifacts
+  hold_reason: handoff-unverified
+  instrument: G-FID-HANDOFF
+  rollout: claude-opus-5/run_1
+  standing: observed_violation
+  verified: false
+- bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+  core_control_evidence_for: execution_fidelity
+  diff_comparison:
+    reason: the scorer's submission and the agent's final state share no path
+    scorer_paths: 34
+    verified: false
+    witness_paths: 6
+    witness_step: 279
+  disposition_cap: HOLD
+  failed_transfers:
+  - artifacts
+  hold_reason: handoff-unverified
+  instrument: G-FID-HANDOFF
+  rollout: zai__glm-5.3/run_1
+  standing: observed_violation
+  verified: false
+- adequacy_approved: false
+  approved: false
+  attested_digest: 62ae32093d3d97d8328851bf7693753bb106de8c84f1134e0aba68c64e75dfb1
+  binding_digest: 86f3d5026f6c8e2cb8a980fe93645f1cd9df7472a913d8e4f413ed45d9b3b062
+  bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+  core_control_evidence_for: execution_fidelity
+  disposition_cap: HOLD
+  drift_fields: []
+  hold_reason: config-unpinned
+  instrument: G-FID-CONFIG
+  rollout: claude-opus-5/run_1
+  standing: observed_violation
+- adequacy_approved: false
+  approved: false
+  attested_digest: f2d2d5c92cd21d93a8f1a1bd40b9edde8a6ff313567762774f07f11bec0d8ad5
+  binding_digest: a16dcc09bd163598cf4fdabdd3c64f5a168ab9ed36300be3e3ebfab2c3671cc7
+  bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+  core_control_evidence_for: execution_fidelity
+  disposition_cap: HOLD
+  drift_fields: []
+  hold_reason: config-unpinned
+  instrument: G-FID-CONFIG
+  rollout: zai__glm-5.3/run_1
+  standing: observed_violation
+- adequacy_approved: false
+  approved: false
+  attested_digest: 33d2eb15a79a7f54339af03f99cfca5a912d23d6830ca88ef3e6fc89807ec9df
+  binding_digest: 0597960e392c008018dd82ecd2f4e93abffb8737d33fa536b51839aa099a1bfd
+  bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+  core_control_evidence_for: execution_fidelity
+  disposition_cap: HOLD
+  drift_fields: []
+  hold_reason: config-unpinned
+  instrument: G-FID-CONFIG
+  rollout: claude-opus-5/run_1
+  standing: observed_violation
+- adequacy_approved: false
+  approved: false
+  attested_digest: 243c7e524b426a285d23e1405700a14a5214afa27f84a5eda072606053f8bfa1
+  binding_digest: 3742456b1ae2c3b60255ac020ec765d400533aaa37ee89ef9cd54b5079b162e4
+  bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+  core_control_evidence_for: execution_fidelity
+  disposition_cap: HOLD
+  drift_fields: []
+  hold_reason: config-unpinned
+  instrument: G-FID-CONFIG
+  rollout: zai__glm-5.3/run_1
+  standing: observed_violation
+- adequacy_approved: false
+  approved: false
+  attested_digest: b1c96bec75f1580ac4b9cc64988c9c27530e39f2056385b11ef14375624df750
+  binding_digest: 49d7ac1934225e5fd1dfa165326503e34f08267b1e575b26668a7c37515d354e
+  bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+  core_control_evidence_for: execution_fidelity
+  disposition_cap: HOLD
+  drift_fields: []
+  hold_reason: config-unpinned
+  instrument: G-FID-CONFIG
+  rollout: claude-opus-5/run_1
+  standing: observed_violation
+- adequacy_approved: false
+  approved: false
+  attested_digest: 53f2072ebf9dd66e77d26ca86bbbb794fffbc0e355d467708691fd0c6f5b4812
+  binding_digest: 1dcb52505b11c54ca77b4c7bed463944d6c10200588fe539633df609b558611e
+  bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+  core_control_evidence_for: execution_fidelity
+  disposition_cap: HOLD
+  drift_fields: []
+  hold_reason: config-unpinned
+  instrument: G-FID-CONFIG
+  rollout: zai__glm-5.3/run_1
+  standing: observed_violation
+- bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+  conformance_predicate: trinity.trial-conformance/v1
+  core_control_evidence_for: execution_fidelity
+  derived_status: conforming
+  disposition_cap: HOLD
+  fidelity_coverage:
+    context_handling: conforming
+    horizon_conformance: conforming
+    scoring_completeness: conforming
+    solver_identity: conforming
+    submission_capture: conforming
+    task_binding: conforming
+    termination_integrity: conforming
+    tool_channel_integrity: conforming
+  hold_reason: ''
+  indeterminate_classes: []
+  instrument: G-FID-TRACE
+  operator_declared_status: conforming
+  operator_declared_token: scored
+  predicate: fidelity_coverage
+  rollout: claude-opus-5/run_1
+  standing: observed_violation
+  suppressing_violations: []
+- bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+  conformance_predicate: trinity.trial-conformance/v1
+  core_control_evidence_for: execution_fidelity
+  derived_status: conforming
+  disposition_cap: HOLD
+  fidelity_coverage:
+    context_handling: conforming
+    horizon_conformance: conforming
+    scoring_completeness: conforming
+    solver_identity: conforming
+    submission_capture: conforming
+    task_binding: conforming
+    termination_integrity: conforming
+    tool_channel_integrity: conforming
+  hold_reason: ''
+  indeterminate_classes: []
+  instrument: G-FID-TRACE
+  operator_declared_status: conforming
+  operator_declared_token: scored
+  predicate: fidelity_coverage
+  rollout: zai__glm-5.3/run_1
+  standing: observed_violation
+  suppressing_violations: []
+- bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+  conformance_predicate: trinity.trial-conformance/v1
+  core_control_evidence_for: execution_fidelity
+  derived_status: conforming
+  disposition_cap: HOLD
+  fidelity_coverage:
+    context_handling: conforming
+    horizon_conformance: conforming
+    scoring_completeness: conforming
+    solver_identity: conforming
+    submission_capture: conforming
+    task_binding: conforming
+    termination_integrity: conforming
+    tool_channel_integrity: conforming
+  hold_reason: ''
+  indeterminate_classes: []
+  instrument: G-FID-TRACE
+  operator_declared_status: conforming
+  operator_declared_token: scored
+  predicate: fidelity_coverage
+  rollout: claude-opus-5/run_1
+  standing: observed_violation
+  suppressing_violations: []
+- bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+  conformance_predicate: trinity.trial-conformance/v1
+  core_control_evidence_for: execution_fidelity
+  derived_status: nonconforming
+  disposition_cap: HOLD
+  fidelity_coverage:
+    context_handling: conforming
+    horizon_conformance: conforming
+    scoring_completeness: nonconforming
+    solver_identity: conforming
+    submission_capture: nonconforming
+    task_binding: conforming
+    termination_integrity: conforming
+    tool_channel_integrity: conforming
+  hold_reason: fidelity-unverified
+  indeterminate_classes: []
+  instrument: G-FID-TRACE
+  operator_declared_status: conforming
+  operator_declared_token: scored
+  predicate: fidelity_coverage
+  rollout: zai__glm-5.3/run_1
+  standing: observed_violation
+  suppressing_violations:
+  - signal_class: scoring_completeness
+    statement: the verifier record set is incomplete, missing preserve-stdout.md, summary.json
+  - signal_class: submission_capture
+    statement: 'the declared artifact transfer failed for 1 record(s): summary.json'
+  - signal_class: reward_reason
+    statement: the committed reward reason 'declared-targets-partially-absent' attributes a zero to a
+      grading failure rather than to the solver, which lowers the measured pass rate
+- bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+  conformance_predicate: trinity.trial-conformance/v1
+  core_control_evidence_for: execution_fidelity
+  derived_status: conforming
+  disposition_cap: HOLD
+  fidelity_coverage:
+    context_handling: conforming
+    horizon_conformance: conforming
+    scoring_completeness: conforming
+    solver_identity: conforming
+    submission_capture: conforming
+    task_binding: conforming
+    termination_integrity: conforming
+    tool_channel_integrity: conforming
+  hold_reason: ''
+  indeterminate_classes: []
+  instrument: G-FID-TRACE
+  operator_declared_status: conforming
+  operator_declared_token: scored
+  predicate: fidelity_coverage
+  rollout: claude-opus-5/run_1
+  standing: observed_violation
+  suppressing_violations: []
+- bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+  conformance_predicate: trinity.trial-conformance/v1
+  core_control_evidence_for: execution_fidelity
+  derived_status: conforming
+  disposition_cap: HOLD
+  fidelity_coverage:
+    context_handling: conforming
+    horizon_conformance: conforming
+    scoring_completeness: conforming
+    solver_identity: conforming
+    submission_capture: conforming
+    task_binding: conforming
+    termination_integrity: conforming
+    tool_channel_integrity: conforming
+  hold_reason: ''
+  indeterminate_classes: []
+  instrument: G-FID-TRACE
+  operator_declared_status: conforming
+  operator_declared_token: scored
+  predicate: fidelity_coverage
+  rollout: zai__glm-5.3/run_1
+  standing: observed_violation
+  suppressing_violations: []
+- bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+  core_control_evidence_for: execution_fidelity
+  disposition_cap: BLOCK
+  fixed_group_count: null
+  hold_reason: ''
+  instrument: G-FID-POPULATION
+  precommitted_roster: null
+  realized_group_count: 2
+  realized_groups:
+  - claude-opus-5
+  - zai__glm-5.3
+  reconciled: false
+  standing: observed_violation
+- bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+  core_control_evidence_for: execution_fidelity
+  disposition_cap: BLOCK
+  fixed_group_count: null
+  hold_reason: ''
+  instrument: G-FID-POPULATION
+  precommitted_roster: null
+  realized_group_count: 2
+  realized_groups:
+  - claude-opus-5
+  - zai__glm-5.3
+  reconciled: false
+  standing: observed_violation
+- bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+  core_control_evidence_for: execution_fidelity
+  disposition_cap: BLOCK
+  fixed_group_count: null
+  hold_reason: ''
+  instrument: G-FID-POPULATION
+  precommitted_roster: null
+  realized_group_count: 2
+  realized_groups:
+  - claude-opus-5
+  - zai__glm-5.3
+  reconciled: false
+  standing: observed_violation
+- bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+  core_control_evidence_for: execution_fidelity
+  diff_comparison:
+    final_diff_sha256: 71af84dd63ab8f902afba5abd7bd93102eab9342529f2490ee3ca72f1fbdefc0
+    reason: ''
+    scorer_paths: 68
+    shared_paths: 1
+    verified: true
+    witness_paths: 1
+    witness_step: 429
+  disposition_cap: HOLD
+  failed_transfers: []
+  hold_reason: ''
+  instrument: G-FID-HANDOFF
+  rollout: claude-opus-5/run_1
+  standing: observed_violation
+  verified: true
+- bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+  core_control_evidence_for: execution_fidelity
+  diff_comparison:
+    final_diff_sha256: fe8730f889c65e5dca4054c89178d5d3d0b0ecd2de44abe7042c0200fd94cfe4
+    reason: ''
+    scorer_paths: 59
+    shared_paths: 1
+    verified: true
+    witness_paths: 1
+    witness_step: 746
+  disposition_cap: HOLD
+  failed_transfers: []
+  hold_reason: ''
+  instrument: G-FID-HANDOFF
+  rollout: zai__glm-5.3/run_1
+  standing: observed_violation
+  verified: true
+- bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+  core_control_evidence_for: execution_fidelity
+  diff_comparison:
+    final_diff_sha256: 49a0471ae4ee48f226980c99a30e1e3f4daabc75536c991a6606ec732850f712
+    reason: ''
+    scorer_paths: 65
+    shared_paths: 3
+    verified: true
+    witness_paths: 3
+    witness_step: 263
+  disposition_cap: HOLD
+  failed_transfers: []
+  hold_reason: ''
+  instrument: G-FID-HANDOFF
+  rollout: claude-opus-5/run_1
+  standing: observed_violation
+  verified: true
+- bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+  core_control_evidence_for: execution_fidelity
+  diff_comparison:
+    reason: the scorer's submission and the agent's final state share no path
+    scorer_paths: 56
+    verified: false
+    witness_paths: 1
+    witness_step: 485
+  disposition_cap: HOLD
+  failed_transfers:
+  - summary.json
+  hold_reason: handoff-unverified
+  instrument: G-FID-HANDOFF
+  rollout: zai__glm-5.3/run_1
+  standing: observed_violation
+  verified: false
+- bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+  core_control_evidence_for: execution_fidelity
+  diff_comparison:
+    reason: the scorer's submission and the agent's final state share no path
+    scorer_paths: 38
+    verified: false
+    witness_paths: 3
+    witness_step: 225
+  disposition_cap: HOLD
+  failed_transfers: []
+  hold_reason: handoff-unverified
+  instrument: G-FID-HANDOFF
+  rollout: claude-opus-5/run_1
+  standing: observed_violation
+  verified: false
+- bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+  core_control_evidence_for: execution_fidelity
+  diff_comparison:
+    reason: the scorer's submission and the agent's final state share no path
+    scorer_paths: 34
+    verified: false
+    witness_paths: 6
+    witness_step: 279
+  disposition_cap: HOLD
+  failed_transfers: []
+  hold_reason: handoff-unverified
+  instrument: G-FID-HANDOFF
+  rollout: zai__glm-5.3/run_1
+  standing: observed_violation
+  verified: false
+- adequacy_approved: false
+  approved: false
+  attested_digest: 62ae32093d3d97d8328851bf7693753bb106de8c84f1134e0aba68c64e75dfb1
+  binding_digest: 86f3d5026f6c8e2cb8a980fe93645f1cd9df7472a913d8e4f413ed45d9b3b062
+  bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+  core_control_evidence_for: execution_fidelity
+  disposition_cap: HOLD
+  drift_fields: []
+  hold_reason: config-unpinned
+  instrument: G-FID-CONFIG
+  rollout: claude-opus-5/run_1
+  standing: observed_violation
+- adequacy_approved: false
+  approved: false
+  attested_digest: f2d2d5c92cd21d93a8f1a1bd40b9edde8a6ff313567762774f07f11bec0d8ad5
+  binding_digest: a16dcc09bd163598cf4fdabdd3c64f5a168ab9ed36300be3e3ebfab2c3671cc7
+  bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+  core_control_evidence_for: execution_fidelity
+  disposition_cap: HOLD
+  drift_fields: []
+  hold_reason: config-unpinned
+  instrument: G-FID-CONFIG
+  rollout: zai__glm-5.3/run_1
+  standing: observed_violation
+- adequacy_approved: false
+  approved: false
+  attested_digest: 33d2eb15a79a7f54339af03f99cfca5a912d23d6830ca88ef3e6fc89807ec9df
+  binding_digest: 0597960e392c008018dd82ecd2f4e93abffb8737d33fa536b51839aa099a1bfd
+  bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+  core_control_evidence_for: execution_fidelity
+  disposition_cap: HOLD
+  drift_fields: []
+  hold_reason: config-unpinned
+  instrument: G-FID-CONFIG
+  rollout: claude-opus-5/run_1
+  standing: observed_violation
+- adequacy_approved: false
+  approved: false
+  attested_digest: 243c7e524b426a285d23e1405700a14a5214afa27f84a5eda072606053f8bfa1
+  binding_digest: 3742456b1ae2c3b60255ac020ec765d400533aaa37ee89ef9cd54b5079b162e4
+  bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+  core_control_evidence_for: execution_fidelity
+  disposition_cap: HOLD
+  drift_fields: []
+  hold_reason: config-unpinned
+  instrument: G-FID-CONFIG
+  rollout: zai__glm-5.3/run_1
+  standing: observed_violation
+- adequacy_approved: false
+  approved: false
+  attested_digest: b1c96bec75f1580ac4b9cc64988c9c27530e39f2056385b11ef14375624df750
+  binding_digest: 49d7ac1934225e5fd1dfa165326503e34f08267b1e575b26668a7c37515d354e
+  bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+  core_control_evidence_for: execution_fidelity
+  disposition_cap: HOLD
+  drift_fields: []
+  hold_reason: config-unpinned
+  instrument: G-FID-CONFIG
+  rollout: claude-opus-5/run_1
+  standing: observed_violation
+- adequacy_approved: false
+  approved: false
+  attested_digest: 53f2072ebf9dd66e77d26ca86bbbb794fffbc0e355d467708691fd0c6f5b4812
+  binding_digest: 1dcb52505b11c54ca77b4c7bed463944d6c10200588fe539633df609b558611e
+  bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+  core_control_evidence_for: execution_fidelity
+  disposition_cap: HOLD
+  drift_fields: []
+  hold_reason: config-unpinned
+  instrument: G-FID-CONFIG
+  rollout: zai__glm-5.3/run_1
+  standing: observed_violation
+- bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+  conformance_predicate: trinity.trial-conformance/v1
+  core_control_evidence_for: execution_fidelity
+  derived_status: conforming
+  disposition_cap: HOLD
+  fidelity_coverage:
+    context_handling: conforming
+    horizon_conformance: conforming
+    scoring_completeness: conforming
+    solver_identity: conforming
+    submission_capture: conforming
+    task_binding: conforming
+    termination_integrity: conforming
+    tool_channel_integrity: conforming
+  hold_reason: ''
+  indeterminate_classes: []
+  instrument: G-FID-TRACE
+  operator_declared_status: conforming
+  operator_declared_token: scored
+  predicate: fidelity_coverage
+  rollout: claude-opus-5/run_1
+  standing: observed_violation
+  suppressing_violations: []
+- bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+  conformance_predicate: trinity.trial-conformance/v1
+  core_control_evidence_for: execution_fidelity
+  derived_status: conforming
+  disposition_cap: HOLD
+  fidelity_coverage:
+    context_handling: conforming
+    horizon_conformance: conforming
+    scoring_completeness: conforming
+    solver_identity: conforming
+    submission_capture: conforming
+    task_binding: conforming
+    termination_integrity: conforming
+    tool_channel_integrity: conforming
+  hold_reason: ''
+  indeterminate_classes: []
+  instrument: G-FID-TRACE
+  operator_declared_status: conforming
+  operator_declared_token: scored
+  predicate: fidelity_coverage
+  rollout: zai__glm-5.3/run_1
+  standing: observed_violation
+  suppressing_violations: []
+- bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+  conformance_predicate: trinity.trial-conformance/v1
+  core_control_evidence_for: execution_fidelity
+  derived_status: conforming
+  disposition_cap: HOLD
+  fidelity_coverage:
+    context_handling: conforming
+    horizon_conformance: conforming
+    scoring_completeness: conforming
+    solver_identity: conforming
+    submission_capture: conforming
+    task_binding: conforming
+    termination_integrity: conforming
+    tool_channel_integrity: conforming
+  hold_reason: ''
+  indeterminate_classes: []
+  instrument: G-FID-TRACE
+  operator_declared_status: conforming
+  operator_declared_token: scored
+  predicate: fidelity_coverage
+  rollout: claude-opus-5/run_1
+  standing: observed_violation
+  suppressing_violations: []
+- bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+  conformance_predicate: trinity.trial-conformance/v1
+  core_control_evidence_for: execution_fidelity
+  derived_status: nonconforming
+  disposition_cap: HOLD
+  fidelity_coverage:
+    context_handling: conforming
+    horizon_conformance: conforming
+    scoring_completeness: nonconforming
+    solver_identity: conforming
+    submission_capture: nonconforming
+    task_binding: conforming
+    termination_integrity: conforming
+    tool_channel_integrity: conforming
+  hold_reason: fidelity-unverified
+  indeterminate_classes: []
+  instrument: G-FID-TRACE
+  operator_declared_status: conforming
+  operator_declared_token: scored
+  predicate: fidelity_coverage
+  rollout: zai__glm-5.3/run_1
+  standing: observed_violation
+  suppressing_violations:
+  - signal_class: scoring_completeness
+    statement: the verifier record set is incomplete, missing preserve-stdout.md, summary.json
+  - signal_class: submission_capture
+    statement: 'the declared artifact transfer failed for 1 record(s): summary.json'
+  - signal_class: reward_reason
+    statement: the committed reward reason 'declared-targets-partially-absent' attributes a zero to a
+      grading failure rather than to the solver, which lowers the measured pass rate
+- bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+  conformance_predicate: trinity.trial-conformance/v1
+  core_control_evidence_for: execution_fidelity
+  derived_status: conforming
+  disposition_cap: HOLD
+  fidelity_coverage:
+    context_handling: conforming
+    horizon_conformance: conforming
+    scoring_completeness: conforming
+    solver_identity: conforming
+    submission_capture: conforming
+    task_binding: conforming
+    termination_integrity: conforming
+    tool_channel_integrity: conforming
+  hold_reason: ''
+  indeterminate_classes: []
+  instrument: G-FID-TRACE
+  operator_declared_status: conforming
+  operator_declared_token: scored
+  predicate: fidelity_coverage
+  rollout: claude-opus-5/run_1
+  standing: observed_violation
+  suppressing_violations: []
+- bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+  conformance_predicate: trinity.trial-conformance/v1
+  core_control_evidence_for: execution_fidelity
+  derived_status: conforming
+  disposition_cap: HOLD
+  fidelity_coverage:
+    context_handling: conforming
+    horizon_conformance: conforming
+    scoring_completeness: conforming
+    solver_identity: conforming
+    submission_capture: conforming
+    task_binding: conforming
+    termination_integrity: conforming
+    tool_channel_integrity: conforming
+  hold_reason: ''
+  indeterminate_classes: []
+  instrument: G-FID-TRACE
+  operator_declared_status: conforming
+  operator_declared_token: scored
+  predicate: fidelity_coverage
+  rollout: zai__glm-5.3/run_1
+  standing: observed_violation
+  suppressing_violations: []
+- bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+  core_control_evidence_for: execution_fidelity
+  disposition_cap: BLOCK
+  fixed_group_count: null
+  hold_reason: ''
+  instrument: G-FID-POPULATION
+  precommitted_roster: null
+  realized_group_count: 2
+  realized_groups:
+  - claude-opus-5
+  - zai__glm-5.3
+  reconciled: false
+  standing: observed_violation
+- bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+  core_control_evidence_for: execution_fidelity
+  disposition_cap: BLOCK
+  fixed_group_count: null
+  hold_reason: ''
+  instrument: G-FID-POPULATION
+  precommitted_roster: null
+  realized_group_count: 2
+  realized_groups:
+  - claude-opus-5
+  - zai__glm-5.3
+  reconciled: false
+  standing: observed_violation
+- bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+  core_control_evidence_for: execution_fidelity
+  disposition_cap: BLOCK
+  fixed_group_count: null
+  hold_reason: ''
+  instrument: G-FID-POPULATION
+  precommitted_roster: null
+  realized_group_count: 2
+  realized_groups:
+  - claude-opus-5
+  - zai__glm-5.3
+  reconciled: false
+  standing: observed_violation
+- bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+  core_control_evidence_for: execution_fidelity
+  diff_comparison:
+    final_diff_sha256: 71af84dd63ab8f902afba5abd7bd93102eab9342529f2490ee3ca72f1fbdefc0
+    reason: ''
+    scorer_paths: 68
+    shared_paths: 1
+    verified: true
+    witness_paths: 1
+    witness_step: 429
+  disposition_cap: HOLD
+  failed_transfers: []
+  hold_reason: ''
+  instrument: G-FID-HANDOFF
+  rollout: claude-opus-5/run_1
+  standing: observed_violation
+  verified: true
+- bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+  core_control_evidence_for: execution_fidelity
+  diff_comparison:
+    final_diff_sha256: fe8730f889c65e5dca4054c89178d5d3d0b0ecd2de44abe7042c0200fd94cfe4
+    reason: ''
+    scorer_paths: 59
+    shared_paths: 1
+    verified: true
+    witness_paths: 1
+    witness_step: 746
+  disposition_cap: HOLD
+  failed_transfers: []
+  hold_reason: ''
+  instrument: G-FID-HANDOFF
+  rollout: zai__glm-5.3/run_1
+  standing: observed_violation
+  verified: true
+- bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+  core_control_evidence_for: execution_fidelity
+  diff_comparison:
+    final_diff_sha256: 49a0471ae4ee48f226980c99a30e1e3f4daabc75536c991a6606ec732850f712
+    reason: ''
+    scorer_paths: 65
+    shared_paths: 3
+    verified: true
+    witness_paths: 3
+    witness_step: 263
+  disposition_cap: HOLD
+  failed_transfers: []
+  hold_reason: ''
+  instrument: G-FID-HANDOFF
+  rollout: claude-opus-5/run_1
+  standing: observed_violation
+  verified: true
+- bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+  core_control_evidence_for: execution_fidelity
+  diff_comparison:
+    reason: the scorer's submission and the agent's final state share no path
+    scorer_paths: 56
+    verified: false
+    witness_paths: 1
+    witness_step: 485
+  disposition_cap: HOLD
+  failed_transfers:
+  - summary.json
+  hold_reason: handoff-unverified
+  instrument: G-FID-HANDOFF
+  rollout: zai__glm-5.3/run_1
+  standing: observed_violation
+  verified: false
+- bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+  core_control_evidence_for: execution_fidelity
+  diff_comparison:
+    reason: the scorer's submission and the agent's final state share no path
+    scorer_paths: 38
+    verified: false
+    witness_paths: 3
+    witness_step: 225
+  disposition_cap: HOLD
+  failed_transfers: []
+  hold_reason: handoff-unverified
+  instrument: G-FID-HANDOFF
+  rollout: claude-opus-5/run_1
+  standing: observed_violation
+  verified: false
+- bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+  core_control_evidence_for: execution_fidelity
+  diff_comparison:
+    reason: the scorer's submission and the agent's final state share no path
+    scorer_paths: 34
+    verified: false
+    witness_paths: 6
+    witness_step: 279
+  disposition_cap: HOLD
+  failed_transfers: []
+  hold_reason: handoff-unverified
+  instrument: G-FID-HANDOFF
+  rollout: zai__glm-5.3/run_1
+  standing: observed_violation
+  verified: false
+- adequacy_approved: false
+  approved: false
+  attested_digest: 62ae32093d3d97d8328851bf7693753bb106de8c84f1134e0aba68c64e75dfb1
+  binding_digest: 86f3d5026f6c8e2cb8a980fe93645f1cd9df7472a913d8e4f413ed45d9b3b062
+  bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+  core_control_evidence_for: execution_fidelity
+  disposition_cap: HOLD
+  drift_fields: []
+  hold_reason: config-unpinned
+  instrument: G-FID-CONFIG
+  rollout: claude-opus-5/run_1
+  standing: observed_violation
+- adequacy_approved: false
+  approved: false
+  attested_digest: f2d2d5c92cd21d93a8f1a1bd40b9edde8a6ff313567762774f07f11bec0d8ad5
+  binding_digest: a16dcc09bd163598cf4fdabdd3c64f5a168ab9ed36300be3e3ebfab2c3671cc7
+  bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+  core_control_evidence_for: execution_fidelity
+  disposition_cap: HOLD
+  drift_fields: []
+  hold_reason: config-unpinned
+  instrument: G-FID-CONFIG
+  rollout: zai__glm-5.3/run_1
+  standing: observed_violation
+- adequacy_approved: false
+  approved: false
+  attested_digest: 33d2eb15a79a7f54339af03f99cfca5a912d23d6830ca88ef3e6fc89807ec9df
+  binding_digest: 0597960e392c008018dd82ecd2f4e93abffb8737d33fa536b51839aa099a1bfd
+  bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+  core_control_evidence_for: execution_fidelity
+  disposition_cap: HOLD
+  drift_fields: []
+  hold_reason: config-unpinned
+  instrument: G-FID-CONFIG
+  rollout: claude-opus-5/run_1
+  standing: observed_violation
+- adequacy_approved: false
+  approved: false
+  attested_digest: 243c7e524b426a285d23e1405700a14a5214afa27f84a5eda072606053f8bfa1
+  binding_digest: 3742456b1ae2c3b60255ac020ec765d400533aaa37ee89ef9cd54b5079b162e4
+  bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+  core_control_evidence_for: execution_fidelity
+  disposition_cap: HOLD
+  drift_fields: []
+  hold_reason: config-unpinned
+  instrument: G-FID-CONFIG
+  rollout: zai__glm-5.3/run_1
+  standing: observed_violation
+- adequacy_approved: false
+  approved: false
+  attested_digest: b1c96bec75f1580ac4b9cc64988c9c27530e39f2056385b11ef14375624df750
+  binding_digest: 49d7ac1934225e5fd1dfa165326503e34f08267b1e575b26668a7c37515d354e
+  bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+  core_control_evidence_for: execution_fidelity
+  disposition_cap: HOLD
+  drift_fields: []
+  hold_reason: config-unpinned
+  instrument: G-FID-CONFIG
+  rollout: claude-opus-5/run_1
+  standing: observed_violation
+- adequacy_approved: false
+  approved: false
+  attested_digest: 53f2072ebf9dd66e77d26ca86bbbb794fffbc0e355d467708691fd0c6f5b4812
+  binding_digest: 1dcb52505b11c54ca77b4c7bed463944d6c10200588fe539633df609b558611e
+  bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+  core_control_evidence_for: execution_fidelity
+  disposition_cap: HOLD
+  drift_fields: []
+  hold_reason: config-unpinned
+  instrument: G-FID-CONFIG
+  rollout: zai__glm-5.3/run_1
+  standing: observed_violation
+- bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+  conformance_predicate: trinity.trial-conformance/v1
+  core_control_evidence_for: execution_fidelity
+  derived_status: conforming
+  disposition_cap: HOLD
+  fidelity_coverage:
+    context_handling: conforming
+    horizon_conformance: conforming
+    scoring_completeness: conforming
+    solver_identity: conforming
+    submission_capture: conforming
+    task_binding: conforming
+    termination_integrity: conforming
+    tool_channel_integrity: conforming
+  hold_reason: ''
+  indeterminate_classes: []
+  instrument: G-FID-TRACE
+  operator_declared_status: conforming
+  operator_declared_token: scored
+  predicate: fidelity_coverage
+  rollout: claude-opus-5/run_1
+  standing: observed_violation
+  suppressing_violations: []
+- bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+  conformance_predicate: trinity.trial-conformance/v1
+  core_control_evidence_for: execution_fidelity
+  derived_status: conforming
+  disposition_cap: HOLD
+  fidelity_coverage:
+    context_handling: conforming
+    horizon_conformance: conforming
+    scoring_completeness: conforming
+    solver_identity: conforming
+    submission_capture: conforming
+    task_binding: conforming
+    termination_integrity: conforming
+    tool_channel_integrity: conforming
+  hold_reason: ''
+  indeterminate_classes: []
+  instrument: G-FID-TRACE
+  operator_declared_status: conforming
+  operator_declared_token: scored
+  predicate: fidelity_coverage
+  rollout: zai__glm-5.3/run_1
+  standing: observed_violation
+  suppressing_violations: []
+- bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+  conformance_predicate: trinity.trial-conformance/v1
+  core_control_evidence_for: execution_fidelity
+  derived_status: conforming
+  disposition_cap: HOLD
+  fidelity_coverage:
+    context_handling: conforming
+    horizon_conformance: conforming
+    scoring_completeness: conforming
+    solver_identity: conforming
+    submission_capture: conforming
+    task_binding: conforming
+    termination_integrity: conforming
+    tool_channel_integrity: conforming
+  hold_reason: ''
+  indeterminate_classes: []
+  instrument: G-FID-TRACE
+  operator_declared_status: conforming
+  operator_declared_token: scored
+  predicate: fidelity_coverage
+  rollout: claude-opus-5/run_1
+  standing: observed_violation
+  suppressing_violations: []
+- bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+  conformance_predicate: trinity.trial-conformance/v1
+  core_control_evidence_for: execution_fidelity
+  derived_status: nonconforming
+  disposition_cap: HOLD
+  fidelity_coverage:
+    context_handling: conforming
+    horizon_conformance: conforming
+    scoring_completeness: nonconforming
+    solver_identity: conforming
+    submission_capture: nonconforming
+    task_binding: conforming
+    termination_integrity: conforming
+    tool_channel_integrity: conforming
+  hold_reason: fidelity-unverified
+  indeterminate_classes: []
+  instrument: G-FID-TRACE
+  operator_declared_status: conforming
+  operator_declared_token: scored
+  predicate: fidelity_coverage
+  rollout: zai__glm-5.3/run_1
+  standing: observed_violation
+  suppressing_violations:
+  - signal_class: scoring_completeness
+    statement: the verifier record set is incomplete, missing preserve-stdout.md, summary.json
+  - signal_class: submission_capture
+    statement: 'the declared artifact transfer failed for 1 record(s): summary.json'
+  - signal_class: reward_reason
+    statement: the committed reward reason 'declared-targets-partially-absent' attributes a zero to a
+      grading failure rather than to the solver, which lowers the measured pass rate
+- bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+  conformance_predicate: trinity.trial-conformance/v1
+  core_control_evidence_for: execution_fidelity
+  derived_status: conforming
+  disposition_cap: HOLD
+  fidelity_coverage:
+    context_handling: conforming
+    horizon_conformance: conforming
+    scoring_completeness: conforming
+    solver_identity: conforming
+    submission_capture: conforming
+    task_binding: conforming
+    termination_integrity: conforming
+    tool_channel_integrity: conforming
+  hold_reason: ''
+  indeterminate_classes: []
+  instrument: G-FID-TRACE
+  operator_declared_status: conforming
+  operator_declared_token: scored
+  predicate: fidelity_coverage
+  rollout: claude-opus-5/run_1
+  standing: observed_violation
+  suppressing_violations: []
+- bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+  conformance_predicate: trinity.trial-conformance/v1
+  core_control_evidence_for: execution_fidelity
+  derived_status: conforming
+  disposition_cap: HOLD
+  fidelity_coverage:
+    context_handling: conforming
+    horizon_conformance: conforming
+    scoring_completeness: conforming
+    solver_identity: conforming
+    submission_capture: conforming
+    task_binding: conforming
+    termination_integrity: conforming
+    tool_channel_integrity: conforming
+  hold_reason: ''
+  indeterminate_classes: []
+  instrument: G-FID-TRACE
+  operator_declared_status: conforming
+  operator_declared_token: scored
+  predicate: fidelity_coverage
+  rollout: zai__glm-5.3/run_1
+  standing: observed_violation
+  suppressing_violations: []
+- bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+  core_control_evidence_for: execution_fidelity
+  disposition_cap: BLOCK
+  fixed_group_count: null
+  hold_reason: ''
+  instrument: G-FID-POPULATION
+  precommitted_roster: null
+  realized_group_count: 2
+  realized_groups:
+  - claude-opus-5
+  - zai__glm-5.3
+  reconciled: false
+  standing: observed_violation
+- bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+  core_control_evidence_for: execution_fidelity
+  disposition_cap: BLOCK
+  fixed_group_count: null
+  hold_reason: ''
+  instrument: G-FID-POPULATION
+  precommitted_roster: null
+  realized_group_count: 2
+  realized_groups:
+  - claude-opus-5
+  - zai__glm-5.3
+  reconciled: false
+  standing: observed_violation
+- bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+  core_control_evidence_for: execution_fidelity
+  disposition_cap: BLOCK
+  fixed_group_count: null
+  hold_reason: ''
+  instrument: G-FID-POPULATION
+  precommitted_roster: null
+  realized_group_count: 2
+  realized_groups:
+  - claude-opus-5
+  - zai__glm-5.3
+  reconciled: false
+  standing: observed_violation
+- bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+  core_control_evidence_for: execution_fidelity
+  diff_comparison:
+    final_diff_sha256: 71af84dd63ab8f902afba5abd7bd93102eab9342529f2490ee3ca72f1fbdefc0
+    reason: ''
+    scorer_paths: 68
+    shared_paths: 1
+    verified: true
+    witness_paths: 1
+    witness_step: 429
+  disposition_cap: HOLD
+  failed_transfers: []
+  hold_reason: ''
+  instrument: G-FID-HANDOFF
+  rollout: claude-opus-5/run_1
+  standing: observed_violation
+  verified: true
+- bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+  core_control_evidence_for: execution_fidelity
+  diff_comparison:
+    final_diff_sha256: fe8730f889c65e5dca4054c89178d5d3d0b0ecd2de44abe7042c0200fd94cfe4
+    reason: ''
+    scorer_paths: 59
+    shared_paths: 1
+    verified: true
+    witness_paths: 1
+    witness_step: 746
+  disposition_cap: HOLD
+  failed_transfers: []
+  hold_reason: ''
+  instrument: G-FID-HANDOFF
+  rollout: zai__glm-5.3/run_1
+  standing: observed_violation
+  verified: true
+- bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+  core_control_evidence_for: execution_fidelity
+  diff_comparison:
+    final_diff_sha256: 49a0471ae4ee48f226980c99a30e1e3f4daabc75536c991a6606ec732850f712
+    reason: ''
+    scorer_paths: 65
+    shared_paths: 3
+    verified: true
+    witness_paths: 3
+    witness_step: 263
+  disposition_cap: HOLD
+  failed_transfers: []
+  hold_reason: ''
+  instrument: G-FID-HANDOFF
+  rollout: claude-opus-5/run_1
+  standing: observed_violation
+  verified: true
+- bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+  core_control_evidence_for: execution_fidelity
+  diff_comparison:
+    reason: the scorer's submission and the agent's final state share no path
+    scorer_paths: 56
+    verified: false
+    witness_paths: 1
+    witness_step: 485
+  disposition_cap: HOLD
+  failed_transfers:
+  - summary.json
+  hold_reason: handoff-unverified
+  instrument: G-FID-HANDOFF
+  rollout: zai__glm-5.3/run_1
+  standing: observed_violation
+  verified: false
+- bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+  core_control_evidence_for: execution_fidelity
+  diff_comparison:
+    reason: the scorer's submission and the agent's final state share no path
+    scorer_paths: 38
+    verified: false
+    witness_paths: 3
+    witness_step: 225
+  disposition_cap: HOLD
+  failed_transfers: []
+  hold_reason: handoff-unverified
+  instrument: G-FID-HANDOFF
+  rollout: claude-opus-5/run_1
+  standing: observed_violation
+  verified: false
+- bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+  core_control_evidence_for: execution_fidelity
+  diff_comparison:
+    reason: the scorer's submission and the agent's final state share no path
+    scorer_paths: 34
+    verified: false
+    witness_paths: 6
+    witness_step: 279
+  disposition_cap: HOLD
+  failed_transfers: []
+  hold_reason: handoff-unverified
+  instrument: G-FID-HANDOFF
+  rollout: zai__glm-5.3/run_1
+  standing: observed_violation
+  verified: false
 schema: crucible.fidelity/v1

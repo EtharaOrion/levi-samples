@@ -578,6 +578,8 @@ def _signal_submission_capture(run: Path, documents: dict[str, Any]) -> dict[str
     if isinstance(manifest, list):
         for entry in manifest:
             if isinstance(entry, dict):
+                if str(entry.get("type", "")) == "directory" and entry.get("status") == "empty":
+                    continue
                 statuses[str(entry.get("destination", "")).rsplit("/", 1)[-1]] = entry.get("status")
     observed = {
         "final_diff_present": final_diff.is_file(),
@@ -1381,6 +1383,11 @@ def run_handoff(base: Path, bundles: list[Path]) -> InstrumentResult:
             if isinstance(manifest, list):
                 for entry in manifest:
                     if isinstance(entry, dict):
+                        if (
+                            str(entry.get("type", "")) == "directory"
+                            and entry.get("status") == "empty"
+                        ):
+                            continue
                         key = str(entry.get("destination", "")).rsplit("/", 1)[-1]
                         statuses[key] = entry.get("status")
             transfer_failed = sorted(
