@@ -16,7 +16,7 @@ BLOCK
 
 ### crucible-ankitporwal04-20260923t005222z-dba1b1
 
-### adversarial-probe-discrimination
+#### adversarial-probe-discrimination
 
 15 findings (15 capping BLOCK, 0 capping HOLD).
 
@@ -36,20 +36,20 @@ BLOCK
 - ADV-UNRUNNABLE-G-ADV-STUBBED-6bf0c918-e9ad-5397-bb76-cf3e238f2df1 (caps BLOCK, critical): Probe oracle-stubbed is UNRUNNABLE against bundle 6bf0c918-e9ad-5397-bb76-cf3e238f2df1 and step 8t makes an unrunnable probe BLOCK rather than a coverage gap. this probe changes bytes the graded command reads, so its reward is a function of test outcomes only an execution inside the pinned image can produce. The pinned image cannot be resolved here: bundle 6bf0c918-e9ad-5397-bb76-cf3e238f2df1 carries base_image_digest sha256:060777d77ed2fd5a68721b916e006e9bf699c4064d4f28d92efe2cfa9a2d7596, its runtime reference 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:b4d482d8e163d741ac086af764c04daabcd6aee412850fee8a80d8881d90f4ab does not resolve in the local daemon (local_present=False, daemon=reachable), and Phase 1 item 4 forbids pulling it because that would cross the firewall. No score is recorded for this probe because none was measured, and the contract's BLOCK is recorded rather than downgraded to a HOLD.
 - ADV-UNRUNNABLE-G-ADV-STUBBED-873914cf-93b2-57a0-a5c8-264bfa2d3b66 (caps BLOCK, critical): Probe oracle-stubbed is UNRUNNABLE against bundle 873914cf-93b2-57a0-a5c8-264bfa2d3b66 and step 8t makes an unrunnable probe BLOCK rather than a coverage gap. this probe changes bytes the graded command reads, so its reward is a function of test outcomes only an execution inside the pinned image can produce. The pinned image cannot be resolved here: bundle 873914cf-93b2-57a0-a5c8-264bfa2d3b66 carries base_image_digest sha256:feb1885ae818e5eb6b5a153f2a11cc75a84ae2388788d1db78e3484344c532cc, its runtime reference 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:eca2d8710d1baffad6f1d273610bbce183857c73bed6574dce2252fb3fb446aa does not resolve in the local daemon (local_present=False, daemon=reachable), and Phase 1 item 4 forbids pulling it because that would cross the firewall. No score is recorded for this probe because none was measured, and the contract's BLOCK is recorded rather than downgraded to a HOLD.
 
-### contamination-screening
+#### contamination-screening
 
 2 findings (0 capping BLOCK, 2 capping HOLD).
 
 - F-CON-NEARDUP-SAME-REPOSITORY-CORPUS-UNIT (caps HOLD, high): The pinned corpus already carries units drawn from the same upstream repository as a resident bundle. The corpus publishes each unit as a payload digest and a shingle count rather than payload text, so a similarity score against those units is not computable from what the root supplies, and same-repository presence is therefore recorded as an unmeasurable neighbourhood rather than as a clean screen.
 - F-CON-STRIP-FIX-SIGNATURE-6bf0c918 (caps HOLD, medium): Fix absence matched signature lines of the private fix diff in the agent-facing statement. The approved scope declares a names-only reference interface specification for this bundle, so restating a signature is within the approved design and is retained at HOLD with that basis recorded rather than read as a disclosure. No fragment carries an upstream pull-request or issue reference.
 
-### delivery-format-and-ground-truth-integrity
+#### delivery-format-and-ground-truth-integrity
 
 1 findings (0 capping BLOCK, 1 capping HOLD).
 
 - F-DEL-LAYOUT-DECLARED-ARTIFACT-ABSENT-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-trajectories-zai__glm-5.3-run_1 (caps HOLD, medium): The task manifest declares an artifact that this committed rollout's verifier tree does not carry: summary.json
 
-### delivery-integrity
+#### delivery-integrity
 
 6 findings (0 capping BLOCK, 6 capping HOLD).
 
@@ -60,7 +60,7 @@ BLOCK
 - G-LEAK-CANARY-873914cf-93b2-57a0-a5c8-264bfa2d3b66-MISPLACED-2d5bccdf (caps HOLD, medium): File solution/solve.sh of bundle 873914cf-93b2-57a0-a5c8-264bfa2d3b66 carries a canary block while not being one of the four designated slots, so the marker is present in more carriers than the delivery contract designates and its placement is not derivable from the designation alone.
 - G-LEAK-CANARY-873914cf-93b2-57a0-a5c8-264bfa2d3b66-MISPLACED-eb0e9a52 (caps HOLD, medium): File solution/grounding.yaml of bundle 873914cf-93b2-57a0-a5c8-264bfa2d3b66 carries a canary block while not being one of the four designated slots, so the marker is present in more carriers than the delivery contract designates and its placement is not derivable from the designation alone.
 
-### domain-integrity-upstream-provenance
+#### domain-integrity-upstream-provenance
 
 7 findings (0 capping BLOCK, 7 capping HOLD).
 
@@ -72,14 +72,14 @@ BLOCK
 - G-PROV-UPSTREAM-873914cf-93b2-57a0-a5c8-264bfa2d3b66-MODIFICATION-LIST-ABSENT (caps HOLD, medium): Bundle 873914cf-93b2-57a0-a5c8-264bfa2d3b66 declares origin derived but carries no modification list under any of modifications, modification_list, modifications_applied, changes in solution/provenance.yaml, so what was changed relative to the named upstream is not recoverable from the record.
 - G-PROV-UPSTREAM-873914cf-93b2-57a0-a5c8-264bfa2d3b66-UPSTREAM-IDENTITY-DIVERGENT (caps HOLD, high): Bundle 873914cf-93b2-57a0-a5c8-264bfa2d3b66 expresses two upstream provenance records of different scope where exactly one is required. task.toml declares span 'v0.1.18..v0.1.19' over 21 pull requests as instance identity 'reflex-dev/reflex v0.1.18..v0.1.19', while solution/provenance.yaml names a single upstream_change_sha '977cc6990f22cbd1f11049aef6f9b9bb63af7f3f' that is byte-identical to base_commit_sha, so that carrier locates no distinct upstream change at all.
 
-### execution-attestation
+#### execution-attestation
 
 2 findings (0 capping BLOCK, 2 capping HOLD).
 
 - ATT-EXECUTION-OPERATOR-POLICY-UNBOUND (caps HOLD, high): CRUCIBLE_VIEW records execution_operator_trust_policy as null, so no trust policy binds the execution_operator role. The source-attestation trust root it does carry enumerates 7 roles and execution_operator is not among them. No principal could therefore be authorized to sign an execution attestation, which means the authorization clause of step 8p cannot pass for any envelope, present or future. This is a defect in the resolved policy and not in any particular envelope.
 - ATT-NO-EXTERNAL-TRUST-ROOT (caps HOLD, high): The only signing identity enrolled in the resolved trust policy is 'engram-project-local@levi', carrying roles checkpoint_signer, pilot_signer and recorded as PROJECT-LOCAL and not an independent external party. A signature from it proves the bytes have not changed since the project signed them, which is integrity and not independence, so it could never satisfy the external-trust-root requirement of step 8p. CRUCIBLE_VIEW additionally records source_attestation_trust_root as root_number 6 with status ABSENT and identity null. Agreement from this signer never raises a disposition.
 
-### execution-fidelity
+#### execution-fidelity
 
 31 findings (1 capping BLOCK, 30 capping HOLD).
 
@@ -115,7 +115,7 @@ BLOCK
 - FID-TRACE-SUPPRESSING-873914cf-93b2-57a0-a5c8-264bfa2d3b66-claude-opus-5-run_1 (caps HOLD, high): Rollout claude-opus-5/run_1 carries 1 observed violation(s) in the suppressing direction, meaning in the direction that lowers a measured pass rate and makes this task look harder than it is. First: submission_capture, the declared artifact transfer failed for 5 record(s): artifacts. Class 17 carries no exemption for a finding that would lower a measured pass rate.
 - FID-TRACE-SUPPRESSING-873914cf-93b2-57a0-a5c8-264bfa2d3b66-zai__glm-5.3-run_1 (caps HOLD, high): Rollout zai__glm-5.3/run_1 carries 1 observed violation(s) in the suppressing direction, meaning in the direction that lowers a measured pass rate and makes this task look harder than it is. First: submission_capture, the declared artifact transfer failed for 5 record(s): artifacts. Class 17 carries no exemption for a finding that would lower a measured pass rate.
 
-### private-carrier-leak
+#### private-carrier-leak
 
 6 findings (0 capping BLOCK, 6 capping HOLD).
 
@@ -126,7 +126,7 @@ BLOCK
 - G-LEAK-CONTAINMENT-873914cf-93b2-57a0-a5c8-264bfa2d3b66-0c541ac728af (caps HOLD, high): Private carrier trajectories/claude-opus-5/run_1/trial.log of bundle 873914cf-93b2-57a0-a5c8-264bfa2d3b66 shares 0.910388 of its normalized 5-gram set with the agent-visible bytes, at or above the retention threshold 0.3. Reverse containment is 0.982288 over 3716 carrier and 3444 visible distinct n-grams. Containment is symmetric in its overlap and differs only in denominator, so this measurement records that the two surfaces share material and does not by itself establish which surface the material originated on; the overlap is retained for adjudication rather than discharged as clean.
 - G-LEAK-CONTAINMENT-873914cf-93b2-57a0-a5c8-264bfa2d3b66-3f076702643e (caps HOLD, high): Private carrier trajectories/zai__glm-5.3/run_1/trial.log of bundle 873914cf-93b2-57a0-a5c8-264bfa2d3b66 shares 0.910388 of its normalized 5-gram set with the agent-visible bytes, at or above the retention threshold 0.3. Reverse containment is 0.982288 over 3716 carrier and 3444 visible distinct n-grams. Containment is symmetric in its overlap and differs only in denominator, so this measurement records that the two surfaces share material and does not by itself establish which surface the material originated on; the overlap is retained for adjudication rather than discharged as clean.
 
-### provenance-carrier-integrity
+#### provenance-carrier-integrity
 
 6 findings (0 capping BLOCK, 6 capping HOLD).
 
@@ -137,7 +137,7 @@ BLOCK
 - F-CON-RECORD-SIGNATURE-ABSENT-6bf0c918 (caps HOLD, high): The detached provenance signature is absent, so the canonical payload carries no signer identity and the screening measurement instant, interval, and expiry are unsigned.
 - F-CON-RECORD-SIGNATURE-ABSENT-873914cf (caps HOLD, high): The detached provenance signature is absent, so the canonical payload carries no signer identity and the screening measurement instant, interval, and expiry are unsigned.
 
-### reference-fidelity
+#### reference-fidelity
 
 3 findings (0 capping BLOCK, 3 capping HOLD).
 
@@ -145,14 +145,14 @@ BLOCK
 - REF-NAMES-ONLY-INTERFACE-6bf0c918-e9ad-5397-bb76-cf3e238f2df1 (caps HOLD, high): The committed interface specification declares mode 'names-only' over 13 entries, and every entry asserts an identifier without asserting behaviour. A checker built on such an entry is satisfied by any implementation carrying the name, including a stub that returns immediately, so it cannot distinguish a real implementation from an invented or assumed one. This is the shape that produces invented-or-assumed-interface divergence against a real upstream artifact, and it bounds what a pass of these checkers can mean.
 - REF-NAMES-ONLY-INTERFACE-873914cf-93b2-57a0-a5c8-264bfa2d3b66 (caps HOLD, high): The committed interface specification declares mode 'names-only' over 15 entries, and every entry asserts an identifier without asserting behaviour. A checker built on such an entry is satisfied by any implementation carrying the name, including a stub that returns immediately, so it cannot distinguish a real implementation from an invented or assumed one. This is the shape that produces invented-or-assumed-interface divergence against a real upstream artifact, and it bounds what a pass of these checkers can mean.
 
-### reward-coverage-ledger
+#### reward-coverage-ledger
 
 2 findings (0 capping BLOCK, 2 capping HOLD).
 
 - F-LEDGER-NO-EXTERNAL-ENFORCEMENT (caps HOLD, high): No execution attestation exists under the audit tree, so no ledger row can resolve as externally_enforced. Every pair no live atom covers therefore fails closed as a gap rather than resting on an operator assurance.
 - F-LEDGER-PRODUCER-VOCABULARY-DIVERGENT (caps HOLD, medium): The committed capability declaration uses a producer vocabulary whose names are not the capability channels this ledger closes at, so no declared state maps onto a ledger row and the declaration cannot establish enforcement of any channel. It is recorded as a lowering claim only.
 
-### reward-integrity
+#### reward-integrity
 
 17 findings (6 capping BLOCK, 11 capping HOLD).
 
@@ -174,19 +174,19 @@ BLOCK
 - F-REWARD-VERIFIER-NOT-ISOLATED-873914cf-93b2-57a0-a5c8-264bfa2d3b66-zai__glm-5.3-run_1 (caps HOLD, high): The rollout records that the verifier executed in a shared environment rather than an isolated one, so the scorer ran without a hermetic boundary.
 - F-ROLLOUT-SESSION-IDENTIFIER-CONSTANT (caps HOLD, high): Every committed rollout records the same session identifier, so the recorded identifier cannot distinguish one rollout from another and provides no binding between a trajectory and its run.
 
-### screening-root-governance
+#### screening-root-governance
 
 1 findings (0 capping BLOCK, 1 capping HOLD).
 
 - F-CON-FREEZE-ROW-MISSING (caps HOLD, high): A named set covered by the exclusion root carries no versioned freeze row, so no cutoff binds any resident unit against that set.
 
-### verifier-robustness
+#### verifier-robustness
 
 1 findings (0 capping BLOCK, 1 capping HOLD).
 
 - VER-BASELINE-DROPPED-AT-BASE-873914cf-93b2-57a0-a5c8-264bfa2d3b66 (caps HOLD, medium): 8 declared preserve target(s) do not execute on the unmodified base and were dropped from the preserve set, so those non-target tests are unobserved at base rather than observed green.
 
-### Adversary probes
+#### Adversary probes
 
 | probe | bundle | measured reward | rule | outcome |
 |---|---|---|---|---|
