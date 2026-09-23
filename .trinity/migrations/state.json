@@ -1,0 +1,20 @@
+{
+  "after_sha256": "56576448c205f2f61469bfe62da5558977d0b44de53ce80b0986eae64bfeba38",
+  "backups": [],
+  "before_sha256": "e84934e37d129683a22ba28a9cdfe9fc7de71dec8641ed2fe87a234ecf348d9b",
+  "status": "complete",
+  "steps": [
+    {
+      "after_mode": 384,
+      "after_sha256": "aede093e3bc38daf283e2cea2ec44332183b83daf12a4774ccb457ba72e9eabf",
+      "backup": null,
+      "before_mode": null,
+      "before_sha256": "75c03e4eb177ba1015f998bbde964a4d5bff91923ca50139eb3687e8d9899965",
+      "id": "project-manifest-bootstrap",
+      "needs_revalidation": false,
+      "path": "./.trinity/project.json",
+      "status": "applied"
+    }
+  ],
+  "version": 2
+}
