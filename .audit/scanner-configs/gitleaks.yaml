@@ -1,0 +1,45 @@
+schema: crucible.scanner-config/v1
+name: gitleaks
+category: secret-scan
+tool:
+  runner: uvx
+  spec: gitleaks
+  version_pinned: false
+  version_pin_note: >-
+    gitleaks ships as a Go binary rather than a Python distribution, so uvx
+    cannot resolve it and no pinned invocation exists on this host. The host
+    probe in .audit/recon.py records the binary as absent.
+database:
+  kind: detection-rules
+  pin_state: pinned
+  pin_basis: >-
+    The rule set is the local TOML committed at
+    .audit/scanner-configs/rules/gitleaks.toml, pinned by content digest rather
+    than by the tool's embedded default rules, which move between releases.
+  sources:
+    - path: .audit/scanner-configs/rules/gitleaks.toml
+runs: false
+runs_basis: >-
+  The binary is absent from this host and cannot be provisioned through the uv
+  toolchain the harness is confined to. Under the registry field
+  disposition_cap_on_absence this instrument contributes a D-COVERAGE-GAP capping
+  HOLD. It is never cited as evidence, so the BLOCK reserved for an unpinned
+  scanner database actually used does not apply.
+argv_template:
+  - gitleaks
+  - detect
+  - --source
+  - .
+  - --config
+  - .audit/scanner-configs/rules/gitleaks.toml
+  - --no-git
+  - --report-format
+  - json
+  - --exit-code
+  - "0"
+timeout_seconds: 900
+coverage_gap_id: D-SCANNER-GITLEAKS-ABSENT
+evidence_note: >-
+  Full git history secret scanning stays unimplemented on this host. The separate
+  gap D-HISTORY-SCAN-SUBSTRATE records that the gitdir pointer file also denies
+  this instrument its substrate, so a clean result would be clean over nothing.

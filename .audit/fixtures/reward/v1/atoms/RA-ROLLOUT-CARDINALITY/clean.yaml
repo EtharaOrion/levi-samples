@@ -1,0 +1,4 @@
+declared_rollouts: 6
+fixture_only: true
+identity: fixture-reserved/RA-ROLLOUT-CARDINALITY/clean
+observed_rollouts: 6

@@ -1,0 +1,129 @@
+bundles:
+- fx-layer
+files:
+  fx-layer/environment/Dockerfile: 'FROM fixture/base:tag@sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+    AS unsanitized
+
+    COPY sanitize-entrypoint.sh /usr/local/bin/forge-sanitize-entrypoint.sh
+
+    RUN rm -rf /workspace/.git
+
+    FROM scratch
+
+    COPY --from=unsanitized / /
+
+    ENTRYPOINT ["forge-sanitize-entrypoint.sh"]
+
+    '
+  fx-layer/environment/layers/lower/.git/objects/pack/pack-fixture.pack: 'PACKfixture
+
+    '
+  fx-layer/environment/layers/lower/.git/refs/heads/main: '0000000000000000000000000000000000000000
+
+    '
+  fx-layer/environment/sanitize-entrypoint.sh: 'test -z "$(git remote)"
+
+    rm -rf /ctx
+
+    '
+  fx-layer/instruction.md: '<issue_description>
+
+    fixture statement
+
+    </issue_description>
+
+    '
+  fx-layer/solution/fix.patch: '--- a/x
+
+    +++ b/x
+
+    +clean
+
+    '
+  fx-layer/solution/provenance.yaml:
+    atoms:
+      empty_submission_validation:
+        applicability: applicable
+        result_digest: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+        state: measured
+      exclusion_matching:
+        applicability: applicable
+        result_digest: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+        state: measured
+      freeze_holdout:
+        applicability: applicable
+        result_digest: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+        state: measured
+      near_duplicate_screening:
+        applicability: applicable
+        result_digest: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+        state: measured
+      sanitization:
+        applicability: applicable
+        result_digest: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+        state: measured
+    binding:
+      binding_envelope: unsigned-no-trust-root
+      canonical_bundle_hash: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+      pinned_image_digest: sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    empty_submission:
+      invocation: bound
+      measured_reward: '0'
+      requirement: exactly zero
+    instance_id: fixture__clean-1
+    instrument_versions:
+      emitter: forge.bundle/v1
+      normalization_domain: forge.canary-normalization/v1
+      recompute: solution/recompute.py
+    measurement_provenance:
+      basis: fixture
+      state: unrecorded
+    sanitization_closure:
+      agent_visible_paths: 2
+      closure_identity: measured
+      fix_absence: measured
+      history_absence: measured
+      image_digest: sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+      remote_absence: measured
+      thread_absence: measured
+    schema: forge.provenance/v1
+    screening_expires_at: '2026-12-03T00:00:00Z'
+    screening_interval_days: 90
+    screening_measured_at: '2026-09-04T00:00:00Z'
+    screening_roots:
+      exclusion_list:
+        digest: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+        identity: fixture/exclusion_list
+        state: resolved
+      freeze_date_table:
+        digest: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+        identity: fixture/freeze_date_table
+        state: resolved
+      near_duplicate_index:
+        digest: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+        identity: fixture/near_duplicate_index
+        state: resolved
+      source_attestation_trust_root:
+        digest: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+        identity: fixture/source_attestation_trust_root
+        state: resolved
+    slot_id: F01
+    source:
+      ancestry_attestation_digest: null
+      ancestry_attestation_signer: null
+      attestation_state: attestation-unavailable
+      base_commit_sha: '1111111111111111111111111111111111111111'
+      event_attestation_digest: null
+      event_attestation_signer: null
+      fork_ancestry_snapshot_digest: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+      fork_ancestry_state: resolved
+      license: MIT
+      origin: derived
+      repository: fixture/clean
+      repository_canonical_identity: R_CLEAN
+      repository_identity_state: resolved
+      source_kind: public_repository
+      task_generating_event_at: null
+      task_generating_event_state: unresolved
+      upstream_change_committed_at: '2026-01-01T00:00:00Z'
+      upstream_change_sha: '1111111111111111111111111111111111111111'

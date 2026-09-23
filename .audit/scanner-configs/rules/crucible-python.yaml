@@ -1,0 +1,96 @@
+rules:
+  - id: crucible-python-subprocess-shell-true
+    languages: [python]
+    severity: WARNING
+    message: >-
+      subprocess call with shell=True passes the argument through a shell, so any
+      interpolated value becomes shell syntax. Pass an argv list instead.
+    patterns:
+      - pattern-either:
+          - pattern: subprocess.run(..., shell=True, ...)
+          - pattern: subprocess.Popen(..., shell=True, ...)
+          - pattern: subprocess.call(..., shell=True, ...)
+          - pattern: subprocess.check_call(..., shell=True, ...)
+          - pattern: subprocess.check_output(..., shell=True, ...)
+
+  - id: crucible-python-os-system
+    languages: [python]
+    severity: WARNING
+    message: >-
+      os.system runs its whole argument through a shell and returns only a wait
+      status, so neither the command nor its failure can be inspected.
+    pattern: os.system(...)
+
+  - id: crucible-python-eval-exec
+    languages: [python]
+    severity: ERROR
+    message: >-
+      eval or exec evaluates its argument as code. In a grading or verifier path
+      this is a direct execution channel for untrusted bytes.
+    pattern-either:
+      - pattern: eval(...)
+      - pattern: exec(...)
+
+  - id: crucible-python-yaml-unsafe-load
+    languages: [python]
+    severity: ERROR
+    message: >-
+      yaml.load without SafeLoader constructs arbitrary Python objects from the
+      document. Use yaml.safe_load.
+    patterns:
+      - pattern: yaml.load($X)
+      - pattern-not: yaml.load($X, Loader=yaml.SafeLoader)
+      - pattern-not: yaml.load($X, yaml.SafeLoader)
+
+  - id: crucible-python-pickle-loads
+    languages: [python]
+    severity: ERROR
+    message: >-
+      pickle deserialization executes arbitrary code carried in the payload.
+    pattern-either:
+      - pattern: pickle.load(...)
+      - pattern: pickle.loads(...)
+
+  - id: crucible-python-tarfile-extractall
+    languages: [python]
+    severity: WARNING
+    message: >-
+      tarfile.extractall honours absolute and traversing member paths, so an
+      archive can write outside the destination directory.
+    pattern: $T.extractall(...)
+
+  - id: crucible-python-requests-verify-false
+    languages: [python]
+    severity: ERROR
+    message: >-
+      verify=False disables certificate validation, so the transport no longer
+      authenticates the peer.
+    pattern: requests.$M(..., verify=False, ...)
+
+  - id: crucible-python-bare-except-pass
+    languages: [python]
+    severity: WARNING
+    message: >-
+      A bare except that only passes swallows every error including the ones a
+      fail-closed check depends on observing.
+    pattern: |
+      try:
+          ...
+      except:
+          pass
+
+  - id: crucible-python-assert-for-validation
+    languages: [python]
+    severity: WARNING
+    message: >-
+      assert is removed under python -O, so a check written as an assert is not a
+      check in an optimized run.
+    pattern: assert $X, $MSG
+
+  - id: crucible-python-mktemp
+    languages: [python]
+    severity: WARNING
+    message: >-
+      tempfile.mktemp returns a name rather than an open handle, leaving a race
+      between the name check and the create.
+    pattern: tempfile.mktemp(...)

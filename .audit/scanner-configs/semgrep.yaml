@@ -1,0 +1,48 @@
+schema: crucible.scanner-config/v1
+name: semgrep
+category: static-analysis
+tool:
+  runner: uvx
+  spec: semgrep==1.86.0
+  version_pinned: true
+database:
+  kind: rule-files
+  pin_state: pinned
+  pin_basis: >-
+    Every rule this instrument evaluates is a file committed under
+    .audit/scanner-configs/rules/ in this repository. The rule set is therefore
+    pinned by content digest rather than by a registry pointer that can move
+    between invocations. The digests are recomputed at provision time and
+    recorded in the recon block of .audit/evidence.yaml.
+  sources:
+    - path: .audit/scanner-configs/rules/crucible-python.yaml
+    - path: .audit/scanner-configs/rules/crucible-shell.yaml
+runs: true
+argv_template:
+  - uvx
+  - --from
+  - semgrep==1.86.0
+  - semgrep
+  - scan
+  - --quiet
+  - --json
+  - --error
+  - --metrics=off
+  - --config
+  - .audit/scanner-configs/rules/crucible-python.yaml
+  - --config
+  - .audit/scanner-configs/rules/crucible-shell.yaml
+forbidden_argv:
+  - --config=auto
+  - --config
+  - auto
+forbidden_argv_basis: >-
+  Phase 1 item 5 forbids semgrep --config auto outright because the registry
+  behind that flag resolves to different rule content on different days, which
+  makes a clean result unreproducible and an unclean result unattributable. The
+  argv template above names local paths only, so the forbidden form is
+  structurally unreachable rather than merely discouraged.
+timeout_seconds: 900
+evidence_note: >-
+  A clean semgrep result is never evidence of correctness. It bounds the
+  findings this pinned rule set can express and nothing further.

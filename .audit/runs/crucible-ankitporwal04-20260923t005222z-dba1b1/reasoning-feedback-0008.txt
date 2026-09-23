@@ -1,0 +1,22 @@
+[
+  {
+    "step": "phase 1 item 12d bound the reward fixture aggregate digest into scope.yaml",
+    "detail": "The Phase 0.5 approval in force bound scope.yaml at f813b0de with reward_fixture_manifest.aggregate_digest null and state declared_pending. Phase 1 authored .audit/fixtures/reward/v1 with five atoms and four derivation rules, each carrying both halves, and rewardfixtures.aggregate_digest over every fixture path and digest in sorted order recomputes 833f39015a576ec6abce85c01332360e661777fd56c9149f9593b24f249fce2f. Writing that digest into scope.yaml is the binding step 12d mandates so a fixture edit cannot silently retune the gate."
+  },
+  {
+    "step": "four coverage gaps added for controls that cannot be demonstrated at this root",
+    "detail": "D-NEGCONTROL-BINDING-RECOMPUTE-UNDEMONSTRABLE, D-NEGCONTROL-LAYER-SET-UNDEMONSTRABLE, D-NEGCONTROL-ROOT-DRIFT-UNDEMONSTRABLE and D-NEGCONTROL-EMPTY-SUBMISSION-UNDEMONSTRABLE each cap HOLD. Each names a contract item 12, 12a or 12c control whose required input does not resolve at this root: an unprojected canonical bundle hash, an unresolvable image layer set, an unresolvable shipped-under root digest, and an unresolvable evaluator image. Recording them as gaps rather than omitting the controls keeps the selfcheck receipt honest about which demonstrations stand."
+  },
+  {
+    "step": "the approval in force is invalidated and sign-off re-triggered",
+    "detail": "Both edits change the semantic content the approved digest binds. Phase 0.5 item 3 holds that a semantic change invalidates the approval, and that a semantic change which does not move the digest fails closed. The digest did move, from f813b0de6e063869a9226e8feb4b529bf30a6176f58b7422ac0988a21f400b2f to 6d4f0d32e68ad71b144bf702a0aec75bad4f68cd8572c2f312d951d3c8557e58, so the prior approval is superseded and dead."
+  },
+  {
+    "step": "approval basis is unchanged and remains a human approval performed by delegate",
+    "detail": "The parent CRUCIBLE_VIEW signature_trust_roots names Ankit Porwal with authorized_roles gate_approver, independence recorded as human project lead external to the agent runtime, evidence SIGNOFF.md dated 2026-09-07 with evidence_sha256 56bf5c155a275c49f9c5a5c1959009c4257e8bc3ad7563d4d93206b470398dfd, and scope explicitly discharging the Phase 0.5 scope digest gate. The operator is that named role holder and directed this run to act as delegate for human-side unblocks. The autonomous_gates capability stays at state default and no capability flip occurs, so no capability-flip re-sign-off is owed."
+  },
+  {
+    "step": "the unsigned-envelope gap continues to stand",
+    "detail": "No trinity.approval/v1 signed envelope accompanies this approval because no external trust root supplies key material at this root. D-APPROVAL-ENVELOPE-UNSIGNED remains in the coverage-gap register capping HOLD, and the parent gate is expected to continue raising APPROVAL_ENVELOPE_MISSING, which is correct and is not suppressed."
+  }
+]

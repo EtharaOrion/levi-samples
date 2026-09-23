@@ -1,0 +1,4 @@
+declared_reward: 0.1
+expected_rational: 1/10
+fixture_only: true
+identity: fixture-reserved/RA-EXACT-RATIONAL/clean

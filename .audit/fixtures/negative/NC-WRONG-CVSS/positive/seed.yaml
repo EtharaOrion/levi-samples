@@ -1,0 +1,43 @@
+evidence:
+  coverage_gaps: []
+  disposition: HOLD
+  findings:
+  - &id001
+    bucket: deterministic
+    caps: HOLD
+    critical_class: delivery-integrity
+    evidence: {}
+    finding_id: F-FIXTURE-001
+    instrument: FIXTURE-INSTRUMENT
+    severity: high
+    statement: A fixture finding the evidence document records.
+    subject: project
+  instruments:
+  - coverage_gaps: []
+    findings:
+    - *id001
+    instrument: FIXTURE-INSTRUMENT
+    ran: true
+    raw_artifacts: []
+  recon:
+    dirty_bit: true
+    dirty_entries:
+    - x
+    git_sha: '0000000000000000000000000000000000000000'
+    scanner_databases: {}
+  schema: crucible.evidence/v1
+  scope_digest: ''
+findings:
+  disposition: HOLD
+  findings:
+  - bucket: deterministic
+    caps: HOLD
+    critical_class: delivery-integrity
+    evidence:
+      cvss_score: 4.2
+      cvss_vector: CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H
+    finding_id: F-FIXTURE-001
+    instrument: FIXTURE-INSTRUMENT
+    severity: high
+    statement: A fixture finding the evidence document records.
+    subject: project

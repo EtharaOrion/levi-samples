@@ -1,0 +1,57 @@
+title = "CRUCIBLE pinned secret detection rules"
+
+[[rules]]
+id = "crucible-aws-access-key-id"
+description = "AWS access key identifier"
+regex = '''\b((?:AKIA|ABIA|ACCA|ASIA)[0-9A-Z]{16})\b'''
+keywords = ["AKIA", "ASIA", "ABIA", "ACCA"]
+
+[[rules]]
+id = "crucible-private-key-block"
+description = "PEM encoded private key block"
+regex = '''-----BEGIN (?:RSA |EC |DSA |OPENSSH |PGP )?PRIVATE KEY(?: BLOCK)?-----'''
+keywords = ["BEGIN", "PRIVATE KEY"]
+
+[[rules]]
+id = "crucible-github-token"
+description = "GitHub personal access, OAuth, app, or refresh token"
+regex = '''\b(gh[pousr]_[A-Za-z0-9]{36,255})\b'''
+keywords = ["ghp_", "gho_", "ghu_", "ghs_", "ghr_"]
+
+[[rules]]
+id = "crucible-slack-token"
+description = "Slack API token"
+regex = '''\b(xox[abposr]-[A-Za-z0-9-]{10,250})\b'''
+keywords = ["xoxb-", "xoxa-", "xoxp-", "xoxo-", "xoxs-", "xoxr-"]
+
+[[rules]]
+id = "crucible-generic-api-key-assignment"
+description = "Generic api key or secret assigned to a long literal"
+regex = '''(?i)\b(api[_-]?key|secret[_-]?key|access[_-]?token|auth[_-]?token|client[_-]?secret)\b\s*[:=]\s*["']([A-Za-z0-9_\-\.\/\+]{20,})["']'''
+keywords = ["api_key", "apikey", "secret_key", "access_token", "auth_token", "client_secret"]
+
+[[rules]]
+id = "crucible-bearer-literal"
+description = "Bearer credential embedded in a literal"
+regex = '''(?i)\bbearer\s+([A-Za-z0-9_\-\.=]{24,})'''
+keywords = ["bearer"]
+
+[[rules]]
+id = "crucible-jwt"
+description = "JSON web token"
+regex = '''\beyJ[A-Za-z0-9_-]{8,}\.eyJ[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}\b'''
+keywords = ["eyJ"]
+
+[[rules]]
+id = "crucible-url-embedded-credential"
+description = "Credential embedded in a URL authority"
+regex = '''\b[a-zA-Z][a-zA-Z0-9+.-]*://[^\s:@/]+:[^\s:@/]+@[^\s/]+'''
+keywords = ["://"]
+
+[allowlist]
+description = "Paths whose matches are fixtures or vendored third party bytes"
+paths = [
+  '''\.audit/fixtures/''',
+  '''\.audit/scanner-configs/rules/''',
+  '''trinity/''',
+]

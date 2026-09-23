@@ -1516,15 +1516,18 @@ scanner_policy:
 
 reward_fixture_manifest:
   path: .audit/fixtures/reward/v1/manifest.yaml
-  aggregate_digest: null
-  state: declared_pending
+  aggregate_digest: 833f39015a576ec6abce85c01332360e661777fd56c9149f9593b24f249fce2f
+  state: bound
   binding: >-
     Step 12d requires the aggregate digest of the reward fixture manifest to be bound into both
     .audit/scope.yaml and .audit/scope.approved so that a fixture edit re-triggers sign-off and
-    cannot silently retune the gate. The fixtures do not exist at Phase 0 because Phase 0 stops
-    before any harness file is written, so the slot is declared here with a null digest and an
-    unconditional commitment: authoring the fixture tree in Phase 1 invalidates this approval and
-    re-triggers sign-off.
+    cannot silently retune the gate. The fixture tree was authored in Phase 1, which invalidated
+    the Phase 0.5 approval that carried a null digest and re-triggered sign-off. The digest above
+    is recomputed by rewardfixtures.aggregate_digest over every fixture path and its own digest in
+    sorted order, so editing any fixture byte moves it and re-triggers sign-off again.
+  atom_count: 5
+  derivation_count: 4
+  demonstrated_subjects: 9
   structure_required:
     - .audit/fixtures/reward/v1/manifest.yaml
     - .audit/fixtures/reward/v1/atoms/
@@ -1792,6 +1795,48 @@ coverage_gaps:
       it was measured on or about any reference content excluded from it, so no measured numbers in
       any bundle can be attributed to a known measurement configuration.
     closable_by: the producer recording measurement provenance per slot
+    closable_by_this_run: false
+  - id: D-NEGCONTROL-BINDING-RECOMPUTE-UNDEMONSTRABLE
+    surface: harness_code
+    caps: HOLD
+    statement: >-
+      Step 12 requires a negative control for a committed binding block diverging from the
+      independently recomputed block. The recompute needs a projected canonical bundle hash input,
+      none is projected at this root, and G-CON-RECORD therefore emits a coverage gap rather than
+      deriving a block to compare. A fixture cannot manufacture the missing projection, so the
+      control is recorded unrun in the selfcheck receipt rather than demonstrated.
+    closable_by: the direction source projecting the canonical bundle hash input
+    closable_by_this_run: false
+  - id: D-NEGCONTROL-LAYER-SET-UNDEMONSTRABLE
+    surface: containers
+    caps: HOLD
+    statement: >-
+      Steps 12 and 12a require a negative control for a git object database surviving only in a
+      whiteouted lower layer. No image layer set resolves at this root, and step 8i states that
+      resolving only a merged filesystem does not satisfy history absence. G-CON-STRIP therefore
+      records the shortfall as unimplemented on every input, which cannot be converted into a
+      demonstration without an unpacked layer set.
+    closable_by: an unpacked layer set for the pinned images becoming resolvable
+    closable_by_this_run: false
+  - id: D-NEGCONTROL-ROOT-DRIFT-UNDEMONSTRABLE
+    surface: task_corpus
+    caps: HOLD
+    statement: >-
+      Step 12c requires root-drift fixtures proving each screening check stays clean for a bundle
+      passing under the effective root and fires on a bundle that passed under its shipped-under
+      root and fails under the effective one. The shipped-under root digest is unresolvable at this
+      root, so no differential is computable and all three root-drift controls are recorded unrun.
+    closable_by: the shipped-under root digest becoming resolvable for each committed bundle
+    closable_by_this_run: false
+  - id: D-NEGCONTROL-EMPTY-SUBMISSION-UNDEMONSTRABLE
+    surface: containers
+    caps: HOLD
+    statement: >-
+      Step 12 requires a negative control for an empty submission that resolves a fail-to-pass
+      target. The control requires replaying the empty submission inside the pinned image against
+      the frozen checker set, no image resolves at this root, and inventing a measured reward would
+      be a fabricated demonstration rather than evidence.
+    closable_by: a pinned evaluator image resolving so the replay can run
     closable_by_this_run: false
 
 ambiguities:

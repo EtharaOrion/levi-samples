@@ -1,0 +1,38 @@
+schema: crucible.scanner-config/v1
+name: grype
+category: container-vulnerability
+tool:
+  runner: none
+  spec: grype
+  version_pinned: false
+  version_pin_note: >-
+    grype ships as a Go binary and is absent from this host. The uv toolchain the
+    harness is confined to cannot resolve it.
+database:
+  kind: vulnerability-feed
+  pin_state: unpinned-offline
+  pin_basis: >-
+    The grype database is downloaded from a remote listing at first use and
+    refreshed on a schedule. Pinning it would require a committed offline archive
+    with a recorded digest, which this project does not hold. A result obtained
+    against an unpinned feed is unreproducible.
+  sources: []
+runs: false
+runs_basis: >-
+  The database cannot be pinned and the binary is absent, so this instrument does
+  not run. It emits a D-COVERAGE-GAP capping HOLD through the registry field
+  disposition_cap_on_absence, and is never cited as evidence.
+argv_template:
+  - grype
+  - --output
+  - json
+  - --fail-on
+  - negligible
+  - dir:.
+timeout_seconds: 1200
+coverage_gap_id: D-SCANNER-GRYPE-UNPINNED
+evidence_note: >-
+  Two of the three bundles carry a tag only base image reference with an empty
+  digest field, recorded separately as D-EVALUATOR-IMAGE-UNPINNED. Scanning an
+  unpinned image would not produce an attributable result even where this scanner
+  available.

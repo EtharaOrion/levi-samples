@@ -1,0 +1,43 @@
+schema: crucible.scanner-config/v1
+name: osv-scanner
+category: dependency-vulnerability
+tool:
+  runner: none
+  spec: osv-scanner
+  version_pinned: false
+  version_pin_note: >-
+    osv-scanner ships as a Go binary and is absent from this host. The uv
+    toolchain the harness is confined to cannot resolve it.
+database:
+  kind: vulnerability-feed
+  pin_state: unpinned-offline
+  pin_basis: >-
+    The OSV database is a remote feed queried at scan time. Pinning it would
+    require a committed offline snapshot with a recorded digest, which this
+    project does not hold. Because a vulnerability feed changes continuously, a
+    result obtained against an unpinned feed is unreproducible and cannot be
+    attributed to a fixed corpus of advisories.
+  sources: []
+runs: false
+runs_basis: >-
+  The database cannot be pinned and the binary is absent, so this instrument does
+  not run at all. Under the registry field disposition_cap_on_absence it emits a
+  D-COVERAGE-GAP capping HOLD. The BLOCK the disposition vocabulary attaches to an
+  unpinned scanner database is reserved for a database actually used or cited as
+  evidence; declining to run and recording the gap is the fail-closed path, not the
+  blocking one.
+argv_template:
+  - osv-scanner
+  - scan
+  - source
+  - --format
+  - json
+  - --recursive
+  - .
+timeout_seconds: 900
+coverage_gap_id: D-SCANNER-OSV-UNPINNED
+evidence_note: >-
+  No dependency vulnerability claim of any kind is made for these bundles. The
+  related gap D-DEP-LOCKFILE-ABSENT already records that no standalone lockfile
+  exists in any committed bundle, so even a running scanner would have no manifest
+  to resolve.

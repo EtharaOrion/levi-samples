@@ -1,0 +1,8 @@
+declared_root: 017168980294a1d14ea6c434f5136519798743b70bba897affced769bf45dd06
+fixture_only: true
+identity: fixture-reserved/RA-MERKLE-ROOT/clean
+leaves:
+- leaf-a
+- leaf-b
+- leaf-c
+- leaf-d
