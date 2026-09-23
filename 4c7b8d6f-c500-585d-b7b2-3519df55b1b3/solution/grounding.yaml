@@ -749,7 +749,7 @@
       ],
       "id": "R1",
       "judgment": "Answer Yes if the .NET backend extracts a runtime key from the ToolVersion options map and uses it to choose between invoking the dotnet-install runtime selector and the SDK selector at install time. The option must be read from the shared options map so both the command-line side bracket form and the tools-table form work, and the SDK path must remain the default when no runtime is set. Answer No if the option is never read, if only the SDK path is ever taken, or if the runtime value is passed to the install machinery without ever influencing the selector. An equivalent implementation using a different internal representation of the runtime selection answers Yes as long as the observable install branching is achieved.",
-      "mode": "judged",
+      "mode": "human_review",
       "semantic_residue": "The compiled surface is keyed on load-bearing sites and fair-play gates rather than on rubric item identifiers, so this item has no compiled counterpart to reduce to. The residue is the whole judgment.",
       "weight": 5
     },
@@ -763,7 +763,7 @@
       ],
       "id": "R2",
       "judgment": "Answer Yes if the change adds a validation gate that accepts exactly the three recognized framework names and returns an explicit error for any other value, wired in early enough that an unknown value never reaches the dotnet-install invocation. Answer No if there is no validation, if unknown values are silently ignored or passed through to the tooling, or if the accepted set differs from those three names. An equivalent validation location or error mechanism that reaches the same observable behaviour of rejecting unknown values with a clear message answers Yes.",
-      "mode": "judged",
+      "mode": "human_review",
       "semantic_residue": "The compiled surface is keyed on load-bearing sites and fair-play gates rather than on rubric item identifiers, so this item has no compiled counterpart to reduce to. The residue is the whole judgment.",
       "weight": 5
     },
@@ -777,7 +777,7 @@
       ],
       "id": "R3",
       "judgment": "Answer Yes if the post-install verification that shells out to the .NET version command is conditionally skipped when a runtime install was performed, and still runs for ordinary SDK installs. Answer No if the sanity check runs unconditionally after every install, which would report a valid runtime install as failed, or if it is removed entirely so SDK installs lose their verification. An equivalent guard that reaches the same observable behaviour of verifying SDK installs but not runtime installs answers Yes.",
-      "mode": "judged",
+      "mode": "human_review",
       "semantic_residue": "The compiled surface is keyed on load-bearing sites and fair-play gates rather than on rubric item identifiers, so this item has no compiled counterpart to reduce to. The residue is the whole judgment.",
       "weight": 3
     },
@@ -791,7 +791,7 @@
       ],
       "id": "R4",
       "judgment": "Answer Yes if the path computation for installed-file listing and uninstall produces the runtime layout (keyed by framework and version) when a runtime option is present, and the plain SDK layout when it is not, so uninstall removes exactly what install created. Answer No if uninstall always computes the SDK layout, which would leave runtime files on disk or error, or if the SDK layout is altered for optionless installs. An equivalent path scheme reaching the same observable removal of the correct runtime files answers Yes.",
-      "mode": "judged",
+      "mode": "human_review",
       "semantic_residue": "The compiled surface is keyed on load-bearing sites and fair-play gates rather than on rubric item identifiers, so this item has no compiled counterpart to reduce to. The residue is the whole judgment.",
       "weight": 3
     },
@@ -805,7 +805,7 @@
       ],
       "id": "R5",
       "judgment": "Answer Yes if the dedup logic that collapses equal versions during uninstall is changed so the entry carrying resolved tool options survives instead of a plain filesystem entry, while still collapsing ordinary optionless duplicates to a single action and not altering which versions are ultimately removed. Answer No if the filesystem match can still win and lose the runtime option, or if the fix stops optionless duplicates from collapsing or changes the resulting version set. An equivalent targeted preference reaching the same observable behaviour answers Yes.",
-      "mode": "judged",
+      "mode": "human_review",
       "semantic_residue": "The compiled surface is keyed on load-bearing sites and fair-play gates rather than on rubric item identifiers, so this item has no compiled counterpart to reduce to. The residue is the whole judgment.",
       "weight": 3
     },
@@ -819,7 +819,7 @@
       ],
       "id": "R6",
       "judgment": "Answer Yes if the verification output shows the relevant .NET runtime tests and the broader preserved test suite executing and passing, demonstrating the feature works and nothing regressed. Answer No if tests were not run, if the output shows failures related to the runtime feature or other backends, or if no verification evidence is present. An equivalent test invocation that observably demonstrates the passing behaviour answers Yes regardless of the exact command used.",
-      "mode": "judged",
+      "mode": "human_review",
       "semantic_residue": "The compiled surface is keyed on load-bearing sites and fair-play gates rather than on rubric item identifiers, so this item has no compiled counterpart to reduce to. The residue is the whole judgment.",
       "weight": 1
     }

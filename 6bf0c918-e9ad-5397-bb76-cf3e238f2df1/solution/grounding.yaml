@@ -499,7 +499,7 @@
       ],
       "id": "R1",
       "judgment": "Answer Yes if the diff adds a shared component (such as a mixin or base class) holding a mapping of DOM actions and both the event handler class and the event spec class inherit or otherwise carry it. Answer No if only one of them carries the actions, or if no shared action-carrying field exists. An equivalent implementation using different class or field names that reaches the same observable behaviour answers Yes.",
-      "mode": "judged",
+      "mode": "human_review",
       "semantic_residue": "The compiled surface is keyed on load-bearing sites and fair-play gates rather than on rubric item identifiers, so this item has no compiled counterpart to reduce to. The residue is the whole judgment.",
       "weight": 5
     },
@@ -513,7 +513,7 @@
       ],
       "id": "R2",
       "judgment": "Answer Yes if each chainable accessor for stopPropagation and preventDefault produces a copy of the object with the action added rather than assigning to the original in place. Answer No if either accessor mutates self, or if accessing one does not add the corresponding action. An equivalent implementation reaching the same non-mutating, order-independent behaviour answers Yes regardless of naming.",
-      "mode": "judged",
+      "mode": "human_review",
       "semantic_residue": "The compiled surface is keyed on load-bearing sites and fair-play gates rather than on rubric item identifiers, so this item has no compiled counterpart to reduce to. The residue is the whole judgment.",
       "weight": 3
     },
@@ -527,7 +527,7 @@
       ],
       "id": "R3",
       "judgment": "Answer Yes if calling a handler passes a copy of its actions into the produced spec, spec rebuilding during chain construction preserves the actions rather than dropping them, and the union of per-spec actions is attached to the resulting event chain. Answer No if actions are lost during field-by-field spec reconstruction or never aggregated onto the chain. An equivalent implementation using a preserving copy helper and reaching the same observable propagation answers Yes.",
-      "mode": "judged",
+      "mode": "human_review",
       "semantic_residue": "The compiled surface is keyed on load-bearing sites and fair-play gates rather than on rubric item identifiers, so this item has no compiled counterpart to reduce to. The residue is the whole judgment.",
       "weight": 5
     },
@@ -541,7 +541,7 @@
       ],
       "id": "R4",
       "judgment": "Answer Yes if two public attributes (one for stopPropagation and one for preventDefault) are defined so they compile to an event chain carrying only the requested DOM action with no state update, and both are exported from the package's top-level init module. Answer No if either is missing, not exported, or carries an unintended state update. An equivalent implementation with different attribute names reaching the same action-only behaviour answers Yes.",
-      "mode": "judged",
+      "mode": "human_review",
       "semantic_residue": "The compiled surface is keyed on load-bearing sites and fair-play gates rather than on rubric item identifiers, so this item has no compiled counterpart to reduce to. The residue is the whole judgment.",
       "weight": 3
     },
@@ -555,7 +555,7 @@
       ],
       "id": "R5",
       "judgment": "Answer Yes if the diff removes the special-cased form submit preventDefault from the frontend runtime script and the form component declares prevent_default on its submit trigger via the new mechanism, preserving submission behaviour. Answer No if the runtime special case is removed without replacing it at the form definition, or if the form declaration is missing. An equivalent implementation reaching the same preserved behaviour answers Yes.",
-      "mode": "judged",
+      "mode": "human_review",
       "semantic_residue": "The compiled surface is keyed on load-bearing sites and fair-play gates rather than on rubric item identifiers, so this item has no compiled counterpart to reduce to. The residue is the whole judgment.",
       "weight": 3
     },
@@ -569,7 +569,7 @@
       ],
       "id": "R6",
       "judgment": "Answer Yes if the verification output shows the relevant event and component tests executing and passing, confirming that triggers and chains without actions compile identically and that combined stopPropagation and preventDefault actions attach as expected. Answer No if tests are absent, fail, or do not exercise the action behaviour. Any test suite reaching the same observable confirmation answers Yes.",
-      "mode": "judged",
+      "mode": "human_review",
       "semantic_residue": "The compiled surface is keyed on load-bearing sites and fair-play gates rather than on rubric item identifiers, so this item has no compiled counterpart to reduce to. The residue is the whole judgment.",
       "weight": 1
     }

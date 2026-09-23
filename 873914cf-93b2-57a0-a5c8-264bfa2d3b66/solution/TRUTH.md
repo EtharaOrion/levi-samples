@@ -71,9 +71,9 @@ Apply the committed test patch, run the target set recorded in `tests/config.jso
 7. Run the eight target tests to confirm they pass and the platform branching and cleanup tolerance behave as expected.
 8. Run the full preserved suite to confirm the Unix command line and all other behaviour remain byte-for-byte unchanged.
 
-## Judged residue
+## Human-review residue
 
-Item 10f requires every judged item to name the semantic residue that blocks compilation. The rubric item schema is closed at eight fields, so the residue is recorded here rather than as a ninth field the schema does not admit.
+Item 10f requires every human-review item to name the semantic residue that blocks compilation. The rubric item schema is closed at eight fields, so the residue is recorded here rather than as a ninth field the schema does not admit.
 
 - `R1`: The compiled surface is keyed on load-bearing sites and fair-play gates rather than on rubric item identifiers, so this item has no compiled counterpart to reduce to. The residue is the whole judgment.
 - `R2`: The compiled surface is keyed on load-bearing sites and fair-play gates rather than on rubric item identifiers, so this item has no compiled counterpart to reduce to. The residue is the whole judgment.

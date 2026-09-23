@@ -3,7 +3,8 @@
 Task: jdx__mise-span:6c24088 (`4c7b8d6f-c500-585d-b7b2-3519df55b1b3`)  
 Status: scored  
 Gate: open  
-Judge: gpt-5.6-sol  
+Human review: completed  
+Completion confirmed by the user; existing scores and verdicts retained.
 
 | channel | score |
 |---|--:|
