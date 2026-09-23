@@ -1,5 +1,0 @@
-[submodule "trinity"]
-	path = trinity
-	url = org-302118749@github.com:EtharaOrion/trinity.git
-	branch = main
-	update = merge

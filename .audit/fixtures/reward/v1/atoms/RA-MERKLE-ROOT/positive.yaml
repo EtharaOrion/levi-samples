@@ -1,8 +1,0 @@
-declared_root: ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-fixture_only: true
-identity: fixture-reserved/RA-MERKLE-ROOT/positive
-leaves:
-- leaf-a
-- leaf-b
-- leaf-c
-- leaf-d

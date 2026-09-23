@@ -1,1 +1,0 @@
-["Initial human turn that opened this CRUCIBLE run over the generated sample bundles in this standalone verification root (contract section 9).", "Trinity is attached as a submodule; the run id was minted from principal and UTC instant.", "Recorded after gate preflight because the feedback chain could not exist before the gate surfaces were installed and committed."]

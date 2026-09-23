@@ -1,5 +1,0 @@
-control_is_known_wrong: true
-declared_floor: 0.05
-fixture_only: true
-identity: fixture-reserved/RR-KNOWN-WRONG-ABOVE-FLOOR/positive
-measured_reward: 0.6
