@@ -1,0 +1,24 @@
+{
+  "ceiling": "BLOCK",
+  "codes": [
+    "APPROVAL_ENVELOPE_MISSING",
+    "AUDIT_EVIDENCE_UNSCANNABLE",
+    "AUDIT_FORBIDDEN_PATH_CITATION",
+    "GATE_PROTECTION_MISSING",
+    "INTEGRITY_VIOLATION",
+    "PARENT_LAYOUT_SCAN_TRUNCATED",
+    "PARENT_LAYOUT_SYMLINK",
+    "SAB_DIRTY_TREE",
+    "SAB_INERT_INSTRUMENT",
+    "TRINITY_FRESHNESS_BEHIND"
+  ],
+  "error_count": 65,
+  "generated_at": "2026-09-23T05:26:40Z",
+  "instrument": "CRUCIBLE",
+  "moment": "report",
+  "run_id": "crucible-ankitporwal04-20260923t005222z-dba1b1",
+  "schema_version": "trinity.gate-receipt/v2",
+  "subject_digest": "0b917a820fd60a47c9db8a09676e746a6eeec93c2d17473f80cc0354ee894fe6",
+  "tree_sha": "a3b10e823d6ebd1b378efc11735911c5dcf9c2c2",
+  "trinity_commit": "d3da6ad1dbaaf02fef204e67b64a0750b64de57a"
+}
