@@ -158,7 +158,10 @@ def run(
     results = _execute_instruments(base, reconnaissance)
     for result in results:
         document.add(result)
-    document.ledger.extend(_ledger_rows(base, results))
+    ledger_result, ledger_rows = _ledger_outcome(base, results)
+    if ledger_result is not None:
+        document.add(ledger_result)
+    document.ledger.extend(ledger_rows)
 
     path = document.write()
     typer.echo(f"wrote {path}")
@@ -166,20 +169,26 @@ def run(
     raise typer.Exit(exit_code_for(document.disposition))
 
 
-def _ledger_rows(base: Path, results: list[core.InstrumentResult]) -> list:
+def _ledger_outcome(
+    base: Path, results: list[core.InstrumentResult]
+) -> tuple[core.InstrumentResult | None, list]:
     """Derive the step 8q reward coverage ledger from the executed families.
 
     The ledger resolves a pair as detected only when the covering atom actually
-    ran in this gate, so it is computed after every family has reported rather
-    than from the registry declarations alone. A ledger module failure yields no
-    rows, which leaves every applicable pair unresolved rather than asserting
-    coverage the run cannot witness.
+    ran in this gate, so it runs once, after every family has reported, with the
+    reconciled results in hand. Running it inside the family loop would see no
+    live atoms and emit a false did-not-run gap for every covered pair, so the
+    ledger is excluded from that loop and both its instrument result and its
+    rows come from this single post-family invocation. A ledger module failure
+    yields nothing, which leaves every applicable pair unresolved rather than
+    asserting coverage the run cannot witness.
     """
     try:
         import ledger as ledger_mod
     except ImportError:
-        return []
-    return ledger_mod.ledger_rows(base, results)
+        return None, []
+    result, rows = ledger_mod._run_ledger(base, results)
+    return result, rows
 
 
 def _execute_instruments(
@@ -236,7 +245,6 @@ _FAMILY_ENTRYPOINTS: tuple[tuple[str, str], ...] = (
     ("calibration", "run_family"),
     ("lineage", "run_family"),
     ("attestation", "run_family"),
-    ("ledger", "run_family"),
 )
 
 

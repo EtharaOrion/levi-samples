@@ -195,7 +195,7 @@ adversary_probes:
   ran: true
   rule: measured reward must be at or below the declared null floor 0.0
 counts:
-  coverage_gaps_total: 158
+  coverage_gaps_total: 123
   findings_block: 22
   findings_hold: 78
   findings_total: 100
@@ -574,26 +574,6 @@ coverage_gaps:
   subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
   surface: bundle_identity_binding
 - caps: HOLD
-  gap_id: D-LEDGER-APPROVED-BUT-INADEQUATE-CONFIGURATION-CONTEXT
-  instrument: G-REWARD-COVERAGE-LEDGER
-  reason: ledger-pair-unresolved
-  statement: G-FID-CONFIG is declared for this pair but did not run in this gate. The execution attestation
-    directory is absent, so externally_enforced is unavailable to this run and the pair fails closed.
-    The producer commits a capability declaration under its own vocabulary; it is recorded as a one-way
-    lowering claim and resolves nothing.
-  subject: approved-but-inadequate-configuration/context
-  surface: trajectories
-- caps: HOLD
-  gap_id: D-LEDGER-APPROVED-BUT-INADEQUATE-CONFIGURATION-ENVIRONMENT
-  instrument: G-REWARD-COVERAGE-LEDGER
-  reason: ledger-pair-unresolved
-  statement: G-FID-CONFIG is declared for this pair but did not run in this gate. The execution attestation
-    directory is absent, so externally_enforced is unavailable to this run and the pair fails closed.
-    The producer commits a capability declaration under its own vocabulary; it is recorded as a one-way
-    lowering claim and resolves nothing.
-  subject: approved-but-inadequate-configuration/environment
-  surface: trajectories
-- caps: HOLD
   gap_id: D-LEDGER-APPROVED-BUT-INADEQUATE-CONFIGURATION-RESOURCE
   instrument: G-REWARD-COVERAGE-LEDGER
   reason: ledger-pair-unresolved
@@ -666,16 +646,6 @@ coverage_gaps:
   subject: detector-adaptation/environment
   surface: trajectories
 - caps: HOLD
-  gap_id: D-LEDGER-DETECTOR-ADAPTATION-READ
-  instrument: G-REWARD-COVERAGE-LEDGER
-  reason: ledger-pair-unresolved
-  statement: G-ADV-FABRICATED-TRAJECTORY is declared for this pair but did not run in this gate. The execution
-    attestation directory is absent, so externally_enforced is unavailable to this run and the pair fails
-    closed. The producer commits a capability declaration under its own vocabulary; it is recorded as
-    a one-way lowering claim and resolves nothing.
-  subject: detector-adaptation/read
-  surface: trajectories
-- caps: HOLD
   gap_id: D-LEDGER-DIRECT-REWARD-MUTATION-EXECUTE
   instrument: G-REWARD-COVERAGE-LEDGER
   reason: ledger-pair-unresolved
@@ -683,16 +653,6 @@ coverage_gaps:
     is unavailable to this run and the pair fails closed. The producer commits a capability declaration
     under its own vocabulary; it is recorded as a one-way lowering claim and resolves nothing.
   subject: direct-reward-mutation/execute
-  surface: trajectories
-- caps: HOLD
-  gap_id: D-LEDGER-DIRECT-REWARD-MUTATION-WRITE
-  instrument: G-REWARD-COVERAGE-LEDGER
-  reason: ledger-pair-unresolved
-  statement: G-DEL-REWARD is declared for this pair but did not run in this gate. The execution attestation
-    directory is absent, so externally_enforced is unavailable to this run and the pair fails closed.
-    The producer commits a capability declaration under its own vocabulary; it is recorded as a one-way
-    lowering claim and resolves nothing.
-  subject: direct-reward-mutation/write
   surface: trajectories
 - caps: HOLD
   gap_id: D-LEDGER-EFFECTIVE-SERVICE-DEGRADATION-RESOURCE
@@ -749,16 +709,6 @@ coverage_gaps:
   subject: execution-state-contamination/write
   surface: trajectories
 - caps: HOLD
-  gap_id: D-LEDGER-FAILURE-COERCION-EXECUTE
-  instrument: G-REWARD-COVERAGE-LEDGER
-  reason: ledger-pair-unresolved
-  statement: G-VER-ATTRIBUTION is declared for this pair but did not run in this gate. The execution attestation
-    directory is absent, so externally_enforced is unavailable to this run and the pair fails closed.
-    The producer commits a capability declaration under its own vocabulary; it is recorded as a one-way
-    lowering claim and resolves nothing.
-  subject: failure-coercion/execute
-  surface: trajectories
-- caps: HOLD
   gap_id: D-LEDGER-FAILURE-COERCION-RESOURCE
   instrument: G-REWARD-COVERAGE-LEDGER
   reason: ledger-pair-unresolved
@@ -786,26 +736,6 @@ coverage_gaps:
   subject: freshness-or-rollback-misuse/context
   surface: trajectories
 - caps: HOLD
-  gap_id: D-LEDGER-FRESHNESS-OR-ROLLBACK-MISUSE-READ
-  instrument: G-REWARD-COVERAGE-LEDGER
-  reason: ledger-pair-unresolved
-  statement: G-CON-RECORD is declared for this pair but did not run in this gate. The execution attestation
-    directory is absent, so externally_enforced is unavailable to this run and the pair fails closed.
-    The producer commits a capability declaration under its own vocabulary; it is recorded as a one-way
-    lowering claim and resolves nothing.
-  subject: freshness-or-rollback-misuse/read
-  surface: trajectories
-- caps: HOLD
-  gap_id: D-LEDGER-FRESHNESS-OR-ROLLBACK-MISUSE-TIMING
-  instrument: G-REWARD-COVERAGE-LEDGER
-  reason: ledger-pair-unresolved
-  statement: G-CON-RECORD is declared for this pair but did not run in this gate. The execution attestation
-    directory is absent, so externally_enforced is unavailable to this run and the pair fails closed.
-    The producer commits a capability declaration under its own vocabulary; it is recorded as a one-way
-    lowering claim and resolves nothing.
-  subject: freshness-or-rollback-misuse/timing
-  surface: trajectories
-- caps: HOLD
   gap_id: D-LEDGER-METRIC-DISTORTION-EXECUTE
   instrument: G-REWARD-COVERAGE-LEDGER
   reason: ledger-pair-unresolved
@@ -813,66 +743,6 @@ coverage_gaps:
     is unavailable to this run and the pair fails closed. The producer commits a capability declaration
     under its own vocabulary; it is recorded as a one-way lowering claim and resolves nothing.
   subject: metric-distortion/execute
-  surface: trajectories
-- caps: HOLD
-  gap_id: D-LEDGER-METRIC-DISTORTION-READ
-  instrument: G-REWARD-COVERAGE-LEDGER
-  reason: ledger-pair-unresolved
-  statement: rewarddistribution is declared for this pair but did not run in this gate. The execution
-    attestation directory is absent, so externally_enforced is unavailable to this run and the pair fails
-    closed. The producer commits a capability declaration under its own vocabulary; it is recorded as
-    a one-way lowering claim and resolves nothing.
-  subject: metric-distortion/read
-  surface: trajectories
-- caps: HOLD
-  gap_id: D-LEDGER-OBJECTIVE-CHECKER-DIVERGENCE-EXECUTE
-  instrument: G-REWARD-COVERAGE-LEDGER
-  reason: ledger-pair-unresolved
-  statement: G-VER-INVARIANCE is declared for this pair but did not run in this gate. The execution attestation
-    directory is absent, so externally_enforced is unavailable to this run and the pair fails closed.
-    The producer commits a capability declaration under its own vocabulary; it is recorded as a one-way
-    lowering claim and resolves nothing.
-  subject: objective-checker-divergence/execute
-  surface: trajectories
-- caps: HOLD
-  gap_id: D-LEDGER-OBJECTIVE-CHECKER-DIVERGENCE-READ
-  instrument: G-REWARD-COVERAGE-LEDGER
-  reason: ledger-pair-unresolved
-  statement: G-VER-REPLAY is declared for this pair but did not run in this gate. The execution attestation
-    directory is absent, so externally_enforced is unavailable to this run and the pair fails closed.
-    The producer commits a capability declaration under its own vocabulary; it is recorded as a one-way
-    lowering claim and resolves nothing.
-  subject: objective-checker-divergence/read
-  surface: trajectories
-- caps: HOLD
-  gap_id: D-LEDGER-PERMISSIVE-VERIFIER-PATH-CONTEXT
-  instrument: G-REWARD-COVERAGE-LEDGER
-  reason: ledger-pair-unresolved
-  statement: G-RUB-COMPLETENESS is declared for this pair but did not run in this gate. The execution
-    attestation directory is absent, so externally_enforced is unavailable to this run and the pair fails
-    closed. The producer commits a capability declaration under its own vocabulary; it is recorded as
-    a one-way lowering claim and resolves nothing.
-  subject: permissive-verifier-path/context
-  surface: trajectories
-- caps: HOLD
-  gap_id: D-LEDGER-PERMISSIVE-VERIFIER-PATH-EXECUTE
-  instrument: G-REWARD-COVERAGE-LEDGER
-  reason: ledger-pair-unresolved
-  statement: G-ADV-NULL is declared for this pair but did not run in this gate. The execution attestation
-    directory is absent, so externally_enforced is unavailable to this run and the pair fails closed.
-    The producer commits a capability declaration under its own vocabulary; it is recorded as a one-way
-    lowering claim and resolves nothing.
-  subject: permissive-verifier-path/execute
-  surface: trajectories
-- caps: HOLD
-  gap_id: D-LEDGER-PERMISSIVE-VERIFIER-PATH-READ
-  instrument: G-REWARD-COVERAGE-LEDGER
-  reason: ledger-pair-unresolved
-  statement: G-RUB-REPLAY is declared for this pair but did not run in this gate. The execution attestation
-    directory is absent, so externally_enforced is unavailable to this run and the pair fails closed.
-    The producer commits a capability declaration under its own vocabulary; it is recorded as a one-way
-    lowering claim and resolves nothing.
-  subject: permissive-verifier-path/read
   surface: trajectories
 - caps: HOLD
   gap_id: D-LEDGER-POPULATION-OR-SCHEDULING-MANIPULATION-ENVIRONMENT
@@ -911,46 +781,6 @@ coverage_gaps:
   subject: post-solver-measurement-suppression/execute
   surface: trajectories
 - caps: HOLD
-  gap_id: D-LEDGER-POST-SOLVER-MEASUREMENT-SUPPRESSION-READ
-  instrument: G-REWARD-COVERAGE-LEDGER
-  reason: ledger-pair-unresolved
-  statement: G-FID-TRACE is declared for this pair but did not run in this gate. The execution attestation
-    directory is absent, so externally_enforced is unavailable to this run and the pair fails closed.
-    The producer commits a capability declaration under its own vocabulary; it is recorded as a one-way
-    lowering claim and resolves nothing.
-  subject: post-solver-measurement-suppression/read
-  surface: trajectories
-- caps: HOLD
-  gap_id: D-LEDGER-POST-SOLVER-MEASUREMENT-SUPPRESSION-WRITE
-  instrument: G-REWARD-COVERAGE-LEDGER
-  reason: ledger-pair-unresolved
-  statement: G-FID-TRACE is declared for this pair but did not run in this gate. The execution attestation
-    directory is absent, so externally_enforced is unavailable to this run and the pair fails closed.
-    The producer commits a capability declaration under its own vocabulary; it is recorded as a one-way
-    lowering claim and resolves nothing.
-  subject: post-solver-measurement-suppression/write
-  surface: trajectories
-- caps: HOLD
-  gap_id: D-LEDGER-PRIVATE-EVALUATOR-KNOWLEDGE-CONTEXT
-  instrument: G-REWARD-COVERAGE-LEDGER
-  reason: ledger-pair-unresolved
-  statement: G-CON-STRIP is declared for this pair but did not run in this gate. The execution attestation
-    directory is absent, so externally_enforced is unavailable to this run and the pair fails closed.
-    The producer commits a capability declaration under its own vocabulary; it is recorded as a one-way
-    lowering claim and resolves nothing.
-  subject: private-evaluator-knowledge/context
-  surface: trajectories
-- caps: HOLD
-  gap_id: D-LEDGER-PRIVATE-EVALUATOR-KNOWLEDGE-READ
-  instrument: G-REWARD-COVERAGE-LEDGER
-  reason: ledger-pair-unresolved
-  statement: G-LEAK-CONTAINMENT is declared for this pair but did not run in this gate. The execution
-    attestation directory is absent, so externally_enforced is unavailable to this run and the pair fails
-    closed. The producer commits a capability declaration under its own vocabulary; it is recorded as
-    a one-way lowering claim and resolves nothing.
-  subject: private-evaluator-knowledge/read
-  surface: trajectories
-- caps: HOLD
   gap_id: D-LEDGER-PROXY-OPTIMIZATION-CONTEXT
   instrument: G-REWARD-COVERAGE-LEDGER
   reason: ledger-pair-unresolved
@@ -958,36 +788,6 @@ coverage_gaps:
     is unavailable to this run and the pair fails closed. The producer commits a capability declaration
     under its own vocabulary; it is recorded as a one-way lowering claim and resolves nothing.
   subject: proxy-optimization/context
-  surface: trajectories
-- caps: HOLD
-  gap_id: D-LEDGER-PROXY-OPTIMIZATION-READ
-  instrument: G-REWARD-COVERAGE-LEDGER
-  reason: ledger-pair-unresolved
-  statement: G-RUB-RESIDUE is declared for this pair but did not run in this gate. The execution attestation
-    directory is absent, so externally_enforced is unavailable to this run and the pair fails closed.
-    The producer commits a capability declaration under its own vocabulary; it is recorded as a one-way
-    lowering claim and resolves nothing.
-  subject: proxy-optimization/read
-  surface: trajectories
-- caps: HOLD
-  gap_id: D-LEDGER-REPLAY-OR-DUPLICATION-READ
-  instrument: G-REWARD-COVERAGE-LEDGER
-  reason: ledger-pair-unresolved
-  statement: rolloutintegrity is declared for this pair but did not run in this gate. The execution attestation
-    directory is absent, so externally_enforced is unavailable to this run and the pair fails closed.
-    The producer commits a capability declaration under its own vocabulary; it is recorded as a one-way
-    lowering claim and resolves nothing.
-  subject: replay-or-duplication/read
-  surface: trajectories
-- caps: HOLD
-  gap_id: D-LEDGER-REPLAY-OR-DUPLICATION-WRITE
-  instrument: G-REWARD-COVERAGE-LEDGER
-  reason: ledger-pair-unresolved
-  statement: rolloutintegrity is declared for this pair but did not run in this gate. The execution attestation
-    directory is absent, so externally_enforced is unavailable to this run and the pair fails closed.
-    The producer commits a capability declaration under its own vocabulary; it is recorded as a one-way
-    lowering claim and resolves nothing.
-  subject: replay-or-duplication/write
   surface: trajectories
 - caps: HOLD
   gap_id: D-LEDGER-REWARD-CONTRACT-AMBIGUITY-CONTEXT
@@ -999,16 +799,6 @@ coverage_gaps:
   subject: reward-contract-ambiguity/context
   surface: trajectories
 - caps: HOLD
-  gap_id: D-LEDGER-REWARD-CONTRACT-AMBIGUITY-READ
-  instrument: G-REWARD-COVERAGE-LEDGER
-  reason: ledger-pair-unresolved
-  statement: G-DEL-REWARD is declared for this pair but did not run in this gate. The execution attestation
-    directory is absent, so externally_enforced is unavailable to this run and the pair fails closed.
-    The producer commits a capability declaration under its own vocabulary; it is recorded as a one-way
-    lowering claim and resolves nothing.
-  subject: reward-contract-ambiguity/read
-  surface: trajectories
-- caps: HOLD
   gap_id: D-LEDGER-REWARD-MISBINDING-CONTEXT
   instrument: G-REWARD-COVERAGE-LEDGER
   reason: ledger-pair-unresolved
@@ -1018,16 +808,6 @@ coverage_gaps:
   subject: reward-misbinding/context
   surface: trajectories
 - caps: HOLD
-  gap_id: D-LEDGER-REWARD-MISBINDING-READ
-  instrument: G-REWARD-COVERAGE-LEDGER
-  reason: ledger-pair-unresolved
-  statement: rewardprovenance is declared for this pair but did not run in this gate. The execution attestation
-    directory is absent, so externally_enforced is unavailable to this run and the pair fails closed.
-    The producer commits a capability declaration under its own vocabulary; it is recorded as a one-way
-    lowering claim and resolves nothing.
-  subject: reward-misbinding/read
-  surface: trajectories
-- caps: HOLD
   gap_id: D-LEDGER-REWARD-MISBINDING-WRITE
   instrument: G-REWARD-COVERAGE-LEDGER
   reason: ledger-pair-unresolved
@@ -1035,16 +815,6 @@ coverage_gaps:
     is unavailable to this run and the pair fails closed. The producer commits a capability declaration
     under its own vocabulary; it is recorded as a one-way lowering claim and resolves nothing.
   subject: reward-misbinding/write
-  surface: trajectories
-- caps: HOLD
-  gap_id: D-LEDGER-RUNTIME-CLOSURE-MISBINDING-ENVIRONMENT
-  instrument: G-REWARD-COVERAGE-LEDGER
-  reason: ledger-pair-unresolved
-  statement: G-FID-CONFIG is declared for this pair but did not run in this gate. The execution attestation
-    directory is absent, so externally_enforced is unavailable to this run and the pair fails closed.
-    The producer commits a capability declaration under its own vocabulary; it is recorded as a one-way
-    lowering claim and resolves nothing.
-  subject: runtime-closure-misbinding/environment
   surface: trajectories
 - caps: HOLD
   gap_id: D-LEDGER-RUNTIME-CLOSURE-MISBINDING-EXECUTE
@@ -1065,16 +835,6 @@ coverage_gaps:
   subject: runtime-closure-misbinding/network
   surface: trajectories
 - caps: HOLD
-  gap_id: D-LEDGER-RUNTIME-CLOSURE-MISBINDING-READ
-  instrument: G-REWARD-COVERAGE-LEDGER
-  reason: ledger-pair-unresolved
-  statement: rewardprovenance is declared for this pair but did not run in this gate. The execution attestation
-    directory is absent, so externally_enforced is unavailable to this run and the pair fails closed.
-    The producer commits a capability declaration under its own vocabulary; it is recorded as a one-way
-    lowering claim and resolves nothing.
-  subject: runtime-closure-misbinding/read
-  surface: trajectories
-- caps: HOLD
   gap_id: D-LEDGER-SCORER-INPUT-TAMPERING-EXECUTE
   instrument: G-REWARD-COVERAGE-LEDGER
   reason: ledger-pair-unresolved
@@ -1082,16 +842,6 @@ coverage_gaps:
     is unavailable to this run and the pair fails closed. The producer commits a capability declaration
     under its own vocabulary; it is recorded as a one-way lowering claim and resolves nothing.
   subject: scorer-input-tampering/execute
-  surface: trajectories
-- caps: HOLD
-  gap_id: D-LEDGER-SCORER-INPUT-TAMPERING-READ
-  instrument: G-REWARD-COVERAGE-LEDGER
-  reason: ledger-pair-unresolved
-  statement: rewardprovenance is declared for this pair but did not run in this gate. The execution attestation
-    directory is absent, so externally_enforced is unavailable to this run and the pair fails closed.
-    The producer commits a capability declaration under its own vocabulary; it is recorded as a one-way
-    lowering claim and resolves nothing.
-  subject: scorer-input-tampering/read
   surface: trajectories
 - caps: HOLD
   gap_id: D-LEDGER-SCORER-INPUT-TAMPERING-WRITE
@@ -1112,16 +862,6 @@ coverage_gaps:
   subject: scorer-substitution/environment
   surface: trajectories
 - caps: HOLD
-  gap_id: D-LEDGER-SCORER-SUBSTITUTION-EXECUTE
-  instrument: G-REWARD-COVERAGE-LEDGER
-  reason: ledger-pair-unresolved
-  statement: rewardprovenance is declared for this pair but did not run in this gate. The execution attestation
-    directory is absent, so externally_enforced is unavailable to this run and the pair fails closed.
-    The producer commits a capability declaration under its own vocabulary; it is recorded as a one-way
-    lowering claim and resolves nothing.
-  subject: scorer-substitution/execute
-  surface: trajectories
-- caps: HOLD
   gap_id: D-LEDGER-SCORER-SUBSTITUTION-WRITE
   instrument: G-REWARD-COVERAGE-LEDGER
   reason: ledger-pair-unresolved
@@ -1129,26 +869,6 @@ coverage_gaps:
     is unavailable to this run and the pair fails closed. The producer commits a capability declaration
     under its own vocabulary; it is recorded as a one-way lowering claim and resolves nothing.
   subject: scorer-substitution/write
-  surface: trajectories
-- caps: HOLD
-  gap_id: D-LEDGER-SELECTIVE-INCLUSION-CONTEXT
-  instrument: G-REWARD-COVERAGE-LEDGER
-  reason: ledger-pair-unresolved
-  statement: G-FID-POPULATION is declared for this pair but did not run in this gate. The execution attestation
-    directory is absent, so externally_enforced is unavailable to this run and the pair fails closed.
-    The producer commits a capability declaration under its own vocabulary; it is recorded as a one-way
-    lowering claim and resolves nothing.
-  subject: selective-inclusion/context
-  surface: trajectories
-- caps: HOLD
-  gap_id: D-LEDGER-SELECTIVE-INCLUSION-READ
-  instrument: G-REWARD-COVERAGE-LEDGER
-  reason: ledger-pair-unresolved
-  statement: G-FID-POPULATION is declared for this pair but did not run in this gate. The execution attestation
-    directory is absent, so externally_enforced is unavailable to this run and the pair fails closed.
-    The producer commits a capability declaration under its own vocabulary; it is recorded as a one-way
-    lowering claim and resolves nothing.
-  subject: selective-inclusion/read
   surface: trajectories
 - caps: HOLD
   gap_id: D-LEDGER-SELECTIVE-INCLUSION-WRITE
@@ -1187,16 +907,6 @@ coverage_gaps:
   subject: solver-input-or-tool-interface-corruption/network
   surface: trajectories
 - caps: HOLD
-  gap_id: D-LEDGER-SOLVER-INPUT-OR-TOOL-INTERFACE-CORRUPTION-READ
-  instrument: G-REWARD-COVERAGE-LEDGER
-  reason: ledger-pair-unresolved
-  statement: G-FID-TRACE is declared for this pair but did not run in this gate. The execution attestation
-    directory is absent, so externally_enforced is unavailable to this run and the pair fails closed.
-    The producer commits a capability declaration under its own vocabulary; it is recorded as a one-way
-    lowering claim and resolves nothing.
-  subject: solver-input-or-tool-interface-corruption/read
-  surface: trajectories
-- caps: HOLD
   gap_id: D-LEDGER-SOLVER-INPUT-OR-TOOL-INTERFACE-CORRUPTION-WRITE
   instrument: G-REWARD-COVERAGE-LEDGER
   reason: ledger-pair-unresolved
@@ -1213,26 +923,6 @@ coverage_gaps:
     is unavailable to this run and the pair fails closed. The producer commits a capability declaration
     under its own vocabulary; it is recorded as a one-way lowering claim and resolves nothing.
   subject: submission-or-scoring-handoff-failure/ipc
-  surface: trajectories
-- caps: HOLD
-  gap_id: D-LEDGER-SUBMISSION-OR-SCORING-HANDOFF-FAILURE-READ
-  instrument: G-REWARD-COVERAGE-LEDGER
-  reason: ledger-pair-unresolved
-  statement: G-FID-HANDOFF is declared for this pair but did not run in this gate. The execution attestation
-    directory is absent, so externally_enforced is unavailable to this run and the pair fails closed.
-    The producer commits a capability declaration under its own vocabulary; it is recorded as a one-way
-    lowering claim and resolves nothing.
-  subject: submission-or-scoring-handoff-failure/read
-  surface: trajectories
-- caps: HOLD
-  gap_id: D-LEDGER-SUBMISSION-OR-SCORING-HANDOFF-FAILURE-WRITE
-  instrument: G-REWARD-COVERAGE-LEDGER
-  reason: ledger-pair-unresolved
-  statement: G-FID-HANDOFF is declared for this pair but did not run in this gate. The execution attestation
-    directory is absent, so externally_enforced is unavailable to this run and the pair fails closed.
-    The producer commits a capability declaration under its own vocabulary; it is recorded as a one-way
-    lowering claim and resolves nothing.
-  subject: submission-or-scoring-handoff-failure/write
   surface: trajectories
 - caps: HOLD
   gap_id: D-LEDGER-TEMPORAL-OR-STOCHASTIC-MANIPULATION-ENVIRONMENT
@@ -1260,46 +950,6 @@ coverage_gaps:
     is unavailable to this run and the pair fails closed. The producer commits a capability declaration
     under its own vocabulary; it is recorded as a one-way lowering claim and resolves nothing.
   subject: temporal-or-stochastic-manipulation/timing
-  surface: trajectories
-- caps: HOLD
-  gap_id: D-LEDGER-TRAJECTORY-FABRICATION-OR-OMISSION-READ
-  instrument: G-REWARD-COVERAGE-LEDGER
-  reason: ledger-pair-unresolved
-  statement: rolloutintegrity is declared for this pair but did not run in this gate. The execution attestation
-    directory is absent, so externally_enforced is unavailable to this run and the pair fails closed.
-    The producer commits a capability declaration under its own vocabulary; it is recorded as a one-way
-    lowering claim and resolves nothing.
-  subject: trajectory-fabrication-or-omission/read
-  surface: trajectories
-- caps: HOLD
-  gap_id: D-LEDGER-TRAJECTORY-FABRICATION-OR-OMISSION-WRITE
-  instrument: G-REWARD-COVERAGE-LEDGER
-  reason: ledger-pair-unresolved
-  statement: rolloutintegrity is declared for this pair but did not run in this gate. The execution attestation
-    directory is absent, so externally_enforced is unavailable to this run and the pair fails closed.
-    The producer commits a capability declaration under its own vocabulary; it is recorded as a one-way
-    lowering claim and resolves nothing.
-  subject: trajectory-fabrication-or-omission/write
-  surface: trajectories
-- caps: HOLD
-  gap_id: D-LEDGER-UNCOMMITTED-MEASUREMENT-UNIVERSE-CONTEXT
-  instrument: G-REWARD-COVERAGE-LEDGER
-  reason: ledger-pair-unresolved
-  statement: rewarddistribution is declared for this pair but did not run in this gate. The execution
-    attestation directory is absent, so externally_enforced is unavailable to this run and the pair fails
-    closed. The producer commits a capability declaration under its own vocabulary; it is recorded as
-    a one-way lowering claim and resolves nothing.
-  subject: uncommitted-measurement-universe/context
-  surface: trajectories
-- caps: HOLD
-  gap_id: D-LEDGER-UNCOMMITTED-MEASUREMENT-UNIVERSE-READ
-  instrument: G-REWARD-COVERAGE-LEDGER
-  reason: ledger-pair-unresolved
-  statement: rewarddistribution is declared for this pair but did not run in this gate. The execution
-    attestation directory is absent, so externally_enforced is unavailable to this run and the pair fails
-    closed. The producer commits a capability declaration under its own vocabulary; it is recorded as
-    a one-way lowering claim and resolves nothing.
-  subject: uncommitted-measurement-universe/read
   surface: trajectories
 - caps: HOLD
   gap_id: D-LEDGER-UNDECLARED-INFLUENCE-CHANNEL-CONTEXT
@@ -1956,7 +1606,7 @@ disposition: BLOCK
 disposition_basis: The harness computed BLOCK as the cap over every instrument result. Block-capable findings
   stand from fifteen instruments and the selfcheck receipt carries seven required rows that never ran,
   which principle 7 treats as broken instruments rather than gaps. No waiver promotes this to SHIP.
-evidence_content_digest: 54a91753b01f48df1cc47c7f71530cc4ef48eab6b86680b71f0c476bd9db2b5a
+evidence_content_digest: a551b06ff813d3b8a3231b03500c5fed1c9d339a9cfa5a7c047bdbf65482e13f
 findings:
 - bucket: deterministic
   caps: BLOCK
