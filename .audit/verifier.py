@@ -524,7 +524,13 @@ def _image_state(bundle: Path) -> tuple[dict, RawArtifact | None]:
 
 
 def _image_gap(instrument: str, states: list[dict], surface: str) -> CoverageGap:
-    """A gap naming exactly which image was unavailable and why."""
+    """A gap naming exactly which image was unavailable and why.
+
+    Emitted only for references that do not resolve in the local daemon. A
+    resolved image is recorded in the instrument notes instead, because a gap
+    whose statement asserts unavailability over a present image would be false
+    evidence.
+    """
     named = ", ".join(
         f"{state['reference']} (digest_pinned={state['digest_pinned']}, local={state['present']})"
         for state in states
@@ -536,9 +542,9 @@ def _image_gap(instrument: str, states: list[dict], surface: str) -> CoverageGap
         reason="bundle-base-image-unavailable-offline",
         caps=Disposition.HOLD,
         statement=(
-            "Container re-grading did not run because no bundle base image resolves in the local "
-            "daemon and every reference is tag-only with an empty digest, so acquiring one would "
-            "cross the firewall that Phase 1 item 4 forbids reaching across. Unavailable: "
+            "Container re-grading did not run for the named reference(s) because they do not "
+            "resolve in the local daemon, and acquiring one would cross the firewall that "
+            "Phase 1 item 4 forbids reaching across. Unavailable: "
             f"{named}. The byte-derivable half of this probe ran and is reported separately."
         ),
     )
@@ -559,6 +565,34 @@ def _trials_gap(instrument: str, knob: str) -> CoverageGap:
             "repetitions that carry no authority as the bound count."
         ),
     )
+
+
+def _live_empty_measurement(base: Path, bundle: Path) -> dict | None:
+    """Read the cached live empty-submission grading for a bundle, if measured.
+
+    Contract step 8f G-VER-BASELINE requires grading the unmodified base inside
+    the pinned image. The shared live runner in liveexec.py executed exactly
+    that submission through the stock Harbor path and cached the componentwise
+    reward record; this helper surfaces those measured components. It returns
+    None whenever the runner is absent or the run did not resolve to a measured
+    outcome, so an unmeasured base never masquerades as a clean one.
+    """
+    try:
+        import liveexec
+    except ImportError:
+        return None
+    result = liveexec.empty_run(base, bundle)
+    if result.get("status") != liveexec.STATUS_MEASURED:
+        return None
+    components = result.get("components") or {}
+    return {
+        "reward": result.get("reward"),
+        "reason": result.get("reason"),
+        "preserve_broken": components.get("preserve_broken"),
+        "preserve_matched": components.get("preserve_matched"),
+        "preserve_total": components.get("preserve_total"),
+        "targets_resolved": components.get("targets_resolved"),
+    }
 
 
 def _bundle_context(bundle: Path) -> tuple[dict | None, Any | None, Callable | None, str]:
@@ -650,8 +684,11 @@ def _run_stability(base: Path, bundles: list[Path]) -> InstrumentResult:
                     )
                 )
         notes["bundles"][bundle.name] = {"derivable_scores": sorted(set(rows))}
-    if states:
-        gaps.append(_image_gap(STABILITY, states, "reference_solution_regrade"))
+    absent = [state for state in states if not state.get("present")]
+    if absent:
+        gaps.append(_image_gap(STABILITY, absent, "reference_solution_regrade"))
+    else:
+        notes["image_states"] = states
     gaps.append(_trials_gap(STABILITY, "stability_trials"))
     return InstrumentResult(
         instrument=STABILITY,
@@ -1016,6 +1053,28 @@ def _run_baseline(base: Path, bundles: list[Path]) -> InstrumentResult:
             "ambiguous": ambiguous,
             "dropped_at_base": len(dropped),
         }
+        live = _live_empty_measurement(base, bundle)
+        if live is not None:
+            notes["bundles"][bundle.name]["live_empty"] = live
+            live_broken = int(live.get("preserve_broken", 0) or 0)
+            if live_broken:
+                findings.append(
+                    Finding(
+                        finding_id=f"VER-BASELINE-LIVE-PRESERVE-BROKEN-{bundle.name}",
+                        instrument=BASELINE,
+                        critical_class="verifier-robustness",
+                        severity=Severity.HIGH,
+                        caps=Disposition.BLOCK,
+                        bucket=Bucket.D,
+                        subject=bundle.name,
+                        statement=(
+                            f"Grading the unmodified base inside the pinned image left {live_broken} "
+                            "preserve target(s) failing, so the base is not green before repair "
+                            "under live execution."
+                        ),
+                        evidence={"bundle": bundle.name, "live_empty": live},
+                    )
+                )
         if failing:
             findings.append(
                 Finding(
@@ -1063,8 +1122,11 @@ def _run_baseline(base: Path, bundles: list[Path]) -> InstrumentResult:
                     },
                 )
             )
-    if states:
-        gaps.append(_image_gap(BASELINE, states, "unmodified_base_regrade"))
+    absent = [state for state in states if not state.get("present")]
+    if absent:
+        gaps.append(_image_gap(BASELINE, absent, "unmodified_base_regrade"))
+    else:
+        notes["image_states"] = states
     return InstrumentResult(
         instrument=BASELINE,
         ran=ran,
@@ -1158,8 +1220,11 @@ def _run_flakiness(base: Path, bundles: list[Path]) -> InstrumentResult:
                         },
                     )
                 )
-    if states:
-        gaps.append(_image_gap(FLAKINESS, states, "graded_target_repetition"))
+    absent = [state for state in states if not state.get("present")]
+    if absent:
+        gaps.append(_image_gap(FLAKINESS, absent, "graded_target_repetition"))
+    elif states:
+        notes["image_states"] = states
     gaps.append(_trials_gap(FLAKINESS, "flakiness_trials"))
     return InstrumentResult(
         instrument=FLAKINESS,

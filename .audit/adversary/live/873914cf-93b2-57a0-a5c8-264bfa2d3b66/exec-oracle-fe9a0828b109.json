@@ -1,0 +1,26 @@
+{
+  "apply_gold": true,
+  "artifacts": [],
+  "bundle": "873914cf-93b2-57a0-a5c8-264bfa2d3b66",
+  "cache_hit": false,
+  "components": {
+    "f2p_resolved": 8,
+    "f2p_total": 8,
+    "n2p_matched": 0,
+    "n2p_resolved": 0,
+    "n2p_total": 0,
+    "preserve_broken": 0,
+    "preserve_matched": 142,
+    "preserve_total": 142,
+    "reason": "graded",
+    "reward": 1.0,
+    "targets_matched": 8,
+    "targets_resolved": 8,
+    "targets_total": 8
+  },
+  "digest": "fe9a0828b10925a122f6f8836225d1aa83700caf69b9b6392c63d8d2be158500",
+  "label": "oracle",
+  "reason": "graded",
+  "reward": 1.0,
+  "status": "measured"
+}

@@ -1,0 +1,26 @@
+{
+  "apply_gold": false,
+  "artifacts": [],
+  "bundle": "4c7b8d6f-c500-585d-b7b2-3519df55b1b3",
+  "cache_hit": false,
+  "components": {
+    "f2p_resolved": 0,
+    "f2p_total": 5,
+    "n2p_matched": 0,
+    "n2p_resolved": 0,
+    "n2p_total": 0,
+    "preserve_broken": 0,
+    "preserve_matched": 545,
+    "preserve_total": 545,
+    "reason": "no-target-resolved",
+    "reward": 0.0,
+    "targets_matched": 5,
+    "targets_resolved": 0,
+    "targets_total": 5
+  },
+  "digest": "0e7d07ee6ebef2a84399f1e308a9f4ab5afa93a21400c792ac85fba53456b145",
+  "label": "empty",
+  "reason": "no-target-resolved",
+  "reward": 0.0,
+  "status": "measured"
+}

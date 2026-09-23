@@ -192,10 +192,10 @@ adversary_probes:
   ran: true
   rule: measured reward must be at or below the declared null floor 0.0
 counts:
-  coverage_gaps_total: 123
+  coverage_gaps_total: 116
   findings_block: 14
-  findings_hold: 49
-  findings_total: 63
+  findings_hold: 46
+  findings_total: 60
   instruments_not_run: 6
   instruments_total: 60
   ledger_rows: 88
@@ -229,42 +229,6 @@ coverage_gaps:
   subject: project
   surface: calibration
 - caps: HOLD
-  gap_id: D-CAL-REBUILD-BLOCKED-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-  instrument: G-CAL-REPRODUCIBILITY
-  reason: rebuild-from-pinned-digest-blocked
-  statement: 'Bundle 4c7b8d6f-c500-585d-b7b2-3519df55b1b3 was not rebuilt or regraded from its pinned
-    image digest and recorded invocation contract. The invocation contract is derived and recorded in
-    full at digest 98d56a6f4dea2a5e44a7dcb96a1661fd72535443c10f1d4aa07810f8f64aedf1. The rebuild was blocked
-    by: every resolvable image reference points at a private registry namespace that requires credentials
-    this harness does not hold; no image can be pulled here: network egress is forbidden, so no digest
-    resolves regardless of whether one is committed.'
-  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-  surface: calibration
-- caps: HOLD
-  gap_id: D-CAL-REBUILD-BLOCKED-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-  instrument: G-CAL-REPRODUCIBILITY
-  reason: rebuild-from-pinned-digest-blocked
-  statement: 'Bundle 6bf0c918-e9ad-5397-bb76-cf3e238f2df1 was not rebuilt or regraded from its pinned
-    image digest and recorded invocation contract. The invocation contract is derived and recorded in
-    full at digest d21eb177b8adc47b6b1772fe4ca5bda1c1cc35e5aa6b75461e96de7a9bb9aeb4. The rebuild was blocked
-    by: every resolvable image reference points at a private registry namespace that requires credentials
-    this harness does not hold; no image can be pulled here: network egress is forbidden, so no digest
-    resolves regardless of whether one is committed.'
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-  surface: calibration
-- caps: HOLD
-  gap_id: D-CAL-REBUILD-BLOCKED-873914cf-93b2-57a0-a5c8-264bfa2d3b66
-  instrument: G-CAL-REPRODUCIBILITY
-  reason: rebuild-from-pinned-digest-blocked
-  statement: 'Bundle 873914cf-93b2-57a0-a5c8-264bfa2d3b66 was not rebuilt or regraded from its pinned
-    image digest and recorded invocation contract. The invocation contract is derived and recorded in
-    full at digest 99de1dae3725190ab87c623f71b45bc8c362d4ab9e6a20cd65c0bf13a0e8b86a. The rebuild was blocked
-    by: every resolvable image reference points at a private registry namespace that requires credentials
-    this harness does not hold; no image can be pulled here: network egress is forbidden, so no digest
-    resolves regardless of whether one is committed.'
-  subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-  surface: calibration
-- caps: HOLD
   gap_id: D-CAL-TIER-UNPROJECTED
   instrument: G-CAL-MONOTONICITY
   reason: tier-declaration-unprojected
@@ -295,16 +259,6 @@ coverage_gaps:
     so the reconciliation did not run.
   subject: project
   surface: task_corpus
-- caps: HOLD
-  gap_id: D-CON-EMPTY-REPLAY-UNAVAILABLE
-  instrument: G-CON-EMPTY
-  reason: sanitized-image-unresolvable
-  statement: The empty submission must be replayed through the exact bound invocation inside the final
-    sanitized image at its pinned digest against the frozen checker set. No sanitized image resolves at
-    this root, so the replay did not run. A static derivation over the committed reward code is recorded
-    in the notes and is not accepted in place of the replay.
-  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3,6bf0c918-e9ad-5397-bb76-cf3e238f2df1,873914cf-93b2-57a0-a5c8-264bfa2d3b66
-  surface: containers
 - caps: HOLD
   gap_id: D-CON-EXCLUSION-ANCESTRY-UNRESOLVED
   instrument: G-CON-EXCLUSION
@@ -1130,27 +1084,27 @@ coverage_gaps:
   gap_id: D-REWARD-DEFINITION-RERUN-UNAVAILABLE-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
   instrument: rewarddefinition
   reason: rerun-environment-unavailable
-  statement: The feasibility, no-op, known-wrong and oracle-full-reward re-runs could not execute because
-    426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/jdx_m_mise@sha256:8548f5c7004d60da6a8eaca625e5fb7152c40e355eada9a6bdea339b73fff6bf.
-    No re-run outcome is recorded as clean; each resolves as unmeasured.
+  statement: 'These step 8o re-runs did not execute and resolve as unmeasured, never as clean: feasibility.
+    The feasibility re-run needs the recorded agent submission replayed through the bound invocation,
+    which no committed carrier reconstructs.'
   subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
   surface: trajectories
 - caps: HOLD
   gap_id: D-REWARD-DEFINITION-RERUN-UNAVAILABLE-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
   instrument: rewarddefinition
   reason: rerun-environment-unavailable
-  statement: The feasibility, no-op, known-wrong and oracle-full-reward re-runs could not execute because
-    426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:b4d482d8e163d741ac086af764c04daabcd6aee412850fee8a80d8881d90f4ab.
-    No re-run outcome is recorded as clean; each resolves as unmeasured.
+  statement: 'These step 8o re-runs did not execute and resolve as unmeasured, never as clean: feasibility.
+    The feasibility re-run needs the recorded agent submission replayed through the bound invocation,
+    which no committed carrier reconstructs.'
   subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
   surface: trajectories
 - caps: HOLD
   gap_id: D-REWARD-DEFINITION-RERUN-UNAVAILABLE-873914cf-93b2-57a0-a5c8-264bfa2d3b66
   instrument: rewarddefinition
   reason: rerun-environment-unavailable
-  statement: The feasibility, no-op, known-wrong and oracle-full-reward re-runs could not execute because
-    426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:eca2d8710d1baffad6f1d273610bbce183857c73bed6574dce2252fb3fb446aa.
-    No re-run outcome is recorded as clean; each resolves as unmeasured.
+  statement: 'These step 8o re-runs did not execute and resolve as unmeasured, never as clean: feasibility.
+    The feasibility re-run needs the recorded agent submission replayed through the bound invocation,
+    which no committed carrier reconstructs.'
   subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
   surface: trajectories
 - caps: HOLD
@@ -1343,42 +1297,6 @@ coverage_gaps:
   subject: project
   surface: patch_apply_paths
 - caps: HOLD
-  gap_id: D-VER-IMAGE-UNAVAILABLE-BASELINE
-  instrument: G-VER-BASELINE
-  reason: bundle-base-image-unavailable-offline
-  statement: 'Container re-grading did not run because no bundle base image resolves in the local daemon
-    and every reference is tag-only with an empty digest, so acquiring one would cross the firewall that
-    Phase 1 item 4 forbids reaching across. Unavailable: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/jdx_m_mise@sha256:8548f5c7004d60da6a8eaca625e5fb7152c40e355eada9a6bdea339b73fff6bf
-    (digest_pinned=True, local=True), 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:b4d482d8e163d741ac086af764c04daabcd6aee412850fee8a80d8881d90f4ab
-    (digest_pinned=True, local=True), 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:eca2d8710d1baffad6f1d273610bbce183857c73bed6574dce2252fb3fb446aa
-    (digest_pinned=True, local=True). The byte-derivable half of this probe ran and is reported separately.'
-  subject: project
-  surface: unmodified_base_regrade
-- caps: HOLD
-  gap_id: D-VER-IMAGE-UNAVAILABLE-FLAKINESS
-  instrument: G-VER-FLAKINESS
-  reason: bundle-base-image-unavailable-offline
-  statement: 'Container re-grading did not run because no bundle base image resolves in the local daemon
-    and every reference is tag-only with an empty digest, so acquiring one would cross the firewall that
-    Phase 1 item 4 forbids reaching across. Unavailable: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/jdx_m_mise@sha256:8548f5c7004d60da6a8eaca625e5fb7152c40e355eada9a6bdea339b73fff6bf
-    (digest_pinned=True, local=True), 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:b4d482d8e163d741ac086af764c04daabcd6aee412850fee8a80d8881d90f4ab
-    (digest_pinned=True, local=True), 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:eca2d8710d1baffad6f1d273610bbce183857c73bed6574dce2252fb3fb446aa
-    (digest_pinned=True, local=True). The byte-derivable half of this probe ran and is reported separately.'
-  subject: project
-  surface: graded_target_repetition
-- caps: HOLD
-  gap_id: D-VER-IMAGE-UNAVAILABLE-STABILITY
-  instrument: G-VER-STABILITY
-  reason: bundle-base-image-unavailable-offline
-  statement: 'Container re-grading did not run because no bundle base image resolves in the local daemon
-    and every reference is tag-only with an empty digest, so acquiring one would cross the firewall that
-    Phase 1 item 4 forbids reaching across. Unavailable: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/jdx_m_mise@sha256:8548f5c7004d60da6a8eaca625e5fb7152c40e355eada9a6bdea339b73fff6bf
-    (digest_pinned=True, local=True), 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:b4d482d8e163d741ac086af764c04daabcd6aee412850fee8a80d8881d90f4ab
-    (digest_pinned=True, local=True), 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:eca2d8710d1baffad6f1d273610bbce183857c73bed6574dce2252fb3fb446aa
-    (digest_pinned=True, local=True). The byte-derivable half of this probe ran and is reported separately.'
-  subject: project
-  surface: reference_solution_regrade
-- caps: HOLD
   gap_id: D-VER-LOG-UNPROJECTED-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-zai__glm-5.3-run_1
   instrument: G-VER-INVARIANCE
   reason: recorded-runner-log-absent
@@ -1514,14 +1432,11 @@ critical_classes:
   - F-LEDGER-PRODUCER-VOCABULARY-DIVERGENT
 - caps:
     BLOCK: 6
-    HOLD: 11
+    HOLD: 8
   class_cap: BLOCK
   critical_class: reward-integrity
-  finding_count: 17
+  finding_count: 14
   finding_ids:
-  - F-REWARD-ORACLE-FULL-UNWITNESSED-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-  - F-REWARD-ORACLE-FULL-UNWITNESSED-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-  - F-REWARD-ORACLE-FULL-UNWITNESSED-873914cf-93b2-57a0-a5c8-264bfa2d3b66
   - F-REWARD-POPULATION-DIVERGENCE
   - F-REWARD-SCORER-OUTSIDE-CLOSURE-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-claude-opus-5-run_1
   - F-REWARD-SCORER-OUTSIDE-CLOSURE-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-zai__glm-5.3-run_1
@@ -1554,7 +1469,7 @@ disposition: BLOCK
 disposition_basis: The harness computed BLOCK as the cap over every instrument result. Block-capable findings
   stand from fifteen instruments and the selfcheck receipt carries seven required rows that never ran,
   which principle 7 treats as broken instruments rather than gaps. No waiver promotes this to SHIP.
-evidence_content_digest: 5c9b186146b1aa4718b0ea6687041795eca169b530f88a5cd2c9d32be1171ef0
+evidence_content_digest: d772d751831ad0ccd584c4eca6f0e98744954cf395c0cf0c8d6e2c2ff5312f53
 findings:
 - bucket: deterministic
   caps: BLOCK
@@ -3060,45 +2975,6 @@ findings:
     channels this ledger closes at, so no declared state maps onto a ledger row and the declaration cannot
     establish enforcement of any channel. It is recorded as a lowering claim only.
   subject: project
-- bucket: deterministic
-  caps: HOLD
-  critical_class: reward-integrity
-  evidence:
-    highest_recorded_reward: '0'
-    required_oracle_reward: '1'
-    rerun_state: unavailable
-  finding_id: F-REWARD-ORACLE-FULL-UNWITNESSED-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-  instrument: rewarddefinition
-  severity: medium
-  statement: No committed rollout of this bundle reaches full reward, and the oracle re-run that would
-    establish the definition awards full reward could not execute. The highest recorded figure is 0.
-  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-- bucket: deterministic
-  caps: HOLD
-  critical_class: reward-integrity
-  evidence:
-    highest_recorded_reward: 1/2
-    required_oracle_reward: '1'
-    rerun_state: unavailable
-  finding_id: F-REWARD-ORACLE-FULL-UNWITNESSED-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-  instrument: rewarddefinition
-  severity: medium
-  statement: No committed rollout of this bundle reaches full reward, and the oracle re-run that would
-    establish the definition awards full reward could not execute. The highest recorded figure is 1/2.
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-- bucket: deterministic
-  caps: HOLD
-  critical_class: reward-integrity
-  evidence:
-    highest_recorded_reward: 7/8
-    required_oracle_reward: '1'
-    rerun_state: unavailable
-  finding_id: F-REWARD-ORACLE-FULL-UNWITNESSED-873914cf-93b2-57a0-a5c8-264bfa2d3b66
-  instrument: rewarddefinition
-  severity: medium
-  statement: No committed rollout of this bundle reaches full reward, and the oracle re-run that would
-    establish the definition awards full reward could not execute. The highest recorded figure is 7/8.
-  subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
 - bucket: deterministic
   caps: HOLD
   critical_class: reward-integrity

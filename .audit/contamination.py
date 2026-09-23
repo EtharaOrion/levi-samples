@@ -1514,6 +1514,11 @@ def _run_empty(base: Path, bundles: list[Path], now: datetime.datetime) -> Instr
     rows: list[dict[str, Any]] = []
     unreplayable: list[str] = []
 
+    try:
+        import liveexec
+    except ImportError:
+        liveexec = None
+
     for bundle in bundles:
         uuid = bundle.name
         carrier = bundle_carrier(bundle)
@@ -1544,11 +1549,44 @@ def _run_empty(base: Path, bundles: list[Path], now: datetime.datetime) -> Instr
                     evidence={"config": str(config_path.relative_to(bundle))},
                 )
             )
-        unreplayable.append(uuid)
+        replay = None
+        if liveexec is not None:
+            replay = liveexec.empty_run(base, bundle)
+        if replay is not None and replay.get("status") == liveexec.STATUS_MEASURED:
+            measured = replay.get("reward")
+            components = replay.get("components") or {}
+            resolved = components.get("targets_resolved")
+            if measured != 0.0 or (isinstance(resolved, int) and resolved > 0):
+                findings.append(
+                    Finding(
+                        finding_id=f"F-CON-EMPTY-NONZERO-{uuid[:8]}",
+                        instrument=EMPTY_INSTRUMENT,
+                        critical_class=CONTAMINATION_CLASS,
+                        severity=Severity.CRITICAL,
+                        caps=Disposition.BLOCK,
+                        bucket=Bucket.D,
+                        subject=uuid,
+                        statement=(
+                            "The empty submission replayed through the bound invocation inside "
+                            "the pinned sanitized image did not yield exactly zero with every "
+                            "fail-to-pass target unresolved."
+                        ),
+                        evidence={
+                            "measured_reward": measured,
+                            "measured_reason": replay.get("reason"),
+                            "targets_resolved": resolved,
+                        },
+                    )
+                )
+        else:
+            unreplayable.append(uuid)
         rows.append(
             {
                 "uuid": uuid,
                 "declared_f2p_targets": len(f2p),
+                "measured_empty_reward": (replay or {}).get("reward"),
+                "measured_empty_reason": (replay or {}).get("reason"),
+                "measured_empty_status": (replay or {}).get("status"),
                 "static_expected_reward": "0.0",
                 "static_basis": (
                     "with no working-tree change the submission diff is empty, every declared "

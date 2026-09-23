@@ -499,6 +499,26 @@ def _image_resolvable(bundle: Path) -> tuple[bool, str]:
     return True, digest
 
 
+def _cached_known_wrong(base: Path, bundle: Path) -> float | None:
+    """Read the measured schema-valid-wrong-content probe reward as known-wrong control.
+
+    Step 8o's known-wrong re-run reuses the G-ADV-SCHEMA-VALID live measurement,
+    which executed a schema-valid deliverable with every content field wrong
+    through the stock Harbor path inside the pinned image. Only a measured cache
+    row is accepted; absence returns None and the re-run stays unavailable.
+    """
+    cache_dir = base / core.AUDIT_DIRNAME / "adversary" / "live" / bundle.name
+    for path in sorted(cache_dir.glob("G-ADV-SCHEMA-VALID-*.json")):
+        try:
+            payload = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            continue
+        reward = (payload.get("row_update") or {}).get("measured_reward")
+        if isinstance(reward, (int, float)):
+            return float(reward)
+    return None
+
+
 def _run_definition(base: Path, population: list[dict[str, Any]]) -> InstrumentResult:
     """Run rewarddefinition, the four-re-run discrimination check of step 8o.
 
@@ -511,10 +531,32 @@ def _run_definition(base: Path, population: list[dict[str, Any]]) -> InstrumentR
     gaps: list[CoverageGap] = []
     rows: list[dict[str, Any]] = []
 
+    try:
+        import liveexec
+    except ImportError:
+        liveexec = None
+
     for bundle in core.bundle_roots(base):
         resolvable, detail = _image_resolvable(bundle)
         floor = _declared_null_floor(bundle)
         rollouts = [row for row in population if row["bundle"] == bundle.name]
+        empty = liveexec.empty_run(base, bundle) if liveexec is not None else None
+        oracle = liveexec.oracle_run(base, bundle) if liveexec is not None else None
+        known_wrong = _cached_known_wrong(base, bundle)
+
+        def _measured(run: dict[str, Any] | None) -> bool:
+            return bool(run) and run.get("status") == liveexec.STATUS_MEASURED
+
+        no_op_state = "unavailable"
+        if _measured(empty) and floor is not None:
+            no_op_state = "pass" if float(empty["reward"]) <= float(floor) else "fail"
+        known_wrong_state = "unavailable"
+        if known_wrong is not None and floor is not None:
+            known_wrong_state = "pass" if float(known_wrong) <= float(floor) else "fail"
+        oracle_state = "unavailable"
+        if _measured(oracle):
+            oracle_state = "pass" if float(oracle["reward"]) >= REWARD_CEILING else "fail"
+
         row = {
             "bundle": bundle.name,
             "image_resolvable": resolvable,
@@ -523,12 +565,42 @@ def _run_definition(base: Path, population: list[dict[str, Any]]) -> InstrumentR
             "rollouts_read": len(rollouts),
             "reruns": {
                 "feasibility": "unavailable",
-                "no_op": "unavailable",
-                "known_wrong": "unavailable",
-                "oracle_full_reward": "unavailable",
+                "no_op": no_op_state,
+                "known_wrong": known_wrong_state,
+                "oracle_full_reward": oracle_state,
             },
+            "no_op_reward": (empty or {}).get("reward"),
+            "oracle_reward": (oracle or {}).get("reward"),
+            "known_wrong_reward": known_wrong,
         }
         rows.append(row)
+
+        for rerun_name, state, measured_value in (
+            ("no-op", no_op_state, (empty or {}).get("reward")),
+            ("known-wrong", known_wrong_state, known_wrong),
+            ("oracle-full-reward", oracle_state, (oracle or {}).get("reward")),
+        ):
+            if state == "fail":
+                findings.append(
+                    Finding(
+                        finding_id=(
+                            f"F-REWARD-DEFINITION-{rerun_name.upper().replace('-', '')}"
+                            f"-{bundle.name}"
+                        ),
+                        instrument=DEFINITION_INSTRUMENT,
+                        critical_class=REWARD_CRITICAL_CLASS,
+                        severity=Severity.HIGH,
+                        caps=Disposition.HOLD,
+                        bucket=Bucket.D,
+                        subject=bundle.name,
+                        statement=_ascii_text(
+                            f"The {rerun_name} re-run of step 8o failed its rule: measured "
+                            f"reward {measured_value} against declared floor {floor} and "
+                            f"required oracle ceiling {REWARD_CEILING}."
+                        ),
+                        evidence={"measured_reward": str(measured_value)},
+                    )
+                )
 
         if floor is None:
             gaps.append(
@@ -548,21 +620,33 @@ def _run_definition(base: Path, population: list[dict[str, Any]]) -> InstrumentR
                 )
             )
 
-        gaps.append(
-            CoverageGap(
-                gap_id=f"{DEFINITION_GAP_IMAGE}-{bundle.name}",
-                instrument=DEFINITION_INSTRUMENT,
-                surface=REWARD_SURFACE,
-                reason="rerun-environment-unavailable",
-                caps=Disposition.HOLD,
-                subject=bundle.name,
-                statement=_ascii_text(
-                    "The feasibility, no-op, known-wrong and oracle-full-reward re-runs "
-                    f"could not execute because {detail}. No re-run outcome is recorded "
-                    "as clean; each resolves as unmeasured."
-                ),
+        unavailable = [
+            name
+            for name, state in (
+                ("feasibility", "unavailable"),
+                ("no-op", no_op_state),
+                ("known-wrong", known_wrong_state),
+                ("oracle-full-reward", oracle_state),
             )
-        )
+            if state == "unavailable"
+        ]
+        if unavailable:
+            gaps.append(
+                CoverageGap(
+                    gap_id=f"{DEFINITION_GAP_IMAGE}-{bundle.name}",
+                    instrument=DEFINITION_INSTRUMENT,
+                    surface=REWARD_SURFACE,
+                    reason="rerun-environment-unavailable",
+                    caps=Disposition.HOLD,
+                    subject=bundle.name,
+                    statement=_ascii_text(
+                        "These step 8o re-runs did not execute and resolve as unmeasured, "
+                        "never as clean: " + ", ".join(unavailable) + ". The feasibility "
+                        "re-run needs the recorded agent submission replayed through the "
+                        "bound invocation, which no committed carrier reconstructs."
+                    ),
+                )
+            )
 
         recorded_max = None
         for rollout in rollouts:
@@ -571,7 +655,7 @@ def _run_definition(base: Path, population: list[dict[str, Any]]) -> InstrumentR
                 continue
             if recorded_max is None or value > recorded_max:
                 recorded_max = value
-        if recorded_max is not None and recorded_max < REWARD_CEILING:
+        if recorded_max is not None and recorded_max < REWARD_CEILING and oracle_state != "pass":
             findings.append(
                 Finding(
                     finding_id=f"F-REWARD-ORACLE-FULL-UNWITNESSED-{bundle.name}",

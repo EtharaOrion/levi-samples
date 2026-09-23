@@ -623,9 +623,13 @@ def run_reproducibility(base: Path, reconnaissance: Any = None) -> InstrumentRes
     cannot rebuild. Every bundle carrying a pinned image and a recorded
     invocation contract is in scope, and all three qualify.
 
-    No rebuild is performed. Each bundle's blockers are derived and named
-    literally in its own gap, so the reader learns which resource is missing
-    rather than only that the rebuild did not happen.
+    When the pinned sanitized image resolves in the local daemon the bundle is
+    rebuilt from that digest and regraded with the committed oracle applied
+    through the shared live runner, and a regrade that does not reproduce the
+    full oracle reward is retained. Where no image resolves each bundle's
+    blockers are derived and named literally in its own gap, so the reader
+    learns which resource is missing rather than only that the rebuild did not
+    happen.
 
     Where the manifest commits no image digest at all, that is recorded as a
     retained finding and not only as a blocker for this auditor. A bundle whose
@@ -641,6 +645,11 @@ def run_reproducibility(base: Path, reconnaissance: Any = None) -> InstrumentRes
     gaps: list[CoverageGap] = []
     rows: list[dict[str, Any]] = []
 
+    try:
+        import liveexec
+    except ImportError:
+        liveexec = None
+
     for bundle in bundles_of(base):
         contract = invocation_contract(bundle)
         pins = image_pins(bundle)
@@ -648,18 +657,45 @@ def run_reproducibility(base: Path, reconnaissance: Any = None) -> InstrumentRes
         in_scope = (
             bool(pins["base_image_ref"] or pins["runtime_image_ref"]) and contract["complete"]
         )
+        regrade = None
+        if liveexec is not None:
+            regrade = liveexec.oracle_run(base, bundle)
+        regraded = regrade is not None and regrade.get("status") == liveexec.STATUS_MEASURED
         rows.append(
             {
                 "uuid": bundle.name,
                 "in_scope": in_scope,
-                "rebuild_performed": False,
-                "regrade_performed": False,
+                "rebuild_performed": regraded,
+                "regrade_performed": regraded,
+                "regrade_reward": (regrade or {}).get("reward"),
+                "regrade_reason": (regrade or {}).get("reason"),
                 "pinned_digest_present": pins["manifest_digest_present"],
                 "invocation_contract": contract,
                 "image_pins": pins,
                 "blockers": blockers,
             }
         )
+        if regraded and regrade.get("reward") != 1.0:
+            findings.append(
+                Finding(
+                    finding_id=f"CAL-REBUILD-REWARD-DIVERGENT-{bundle.name}",
+                    instrument=REPRODUCIBILITY,
+                    critical_class=CRITICAL_CLASS,
+                    severity=Severity.HIGH,
+                    caps=Disposition.HOLD,
+                    bucket=Bucket.D,
+                    subject=bundle.name,
+                    statement=(
+                        "The bundle was rebuilt from its pinned image digest and graded with "
+                        "the committed oracle applied, and the regrade did not reproduce the "
+                        "full oracle reward."
+                    ),
+                    evidence={
+                        "regrade_reward": regrade.get("reward"),
+                        "regrade_reason": regrade.get("reason"),
+                    },
+                )
+            )
 
         if not pins["manifest_digest_present"]:
             findings.append(
@@ -694,22 +730,24 @@ def run_reproducibility(base: Path, reconnaissance: Any = None) -> InstrumentRes
                 )
             )
 
-        gaps.append(
-            CoverageGap(
-                gap_id=f"D-CAL-REBUILD-BLOCKED-{bundle.name}",
-                instrument=REPRODUCIBILITY,
-                surface="calibration",
-                reason="rebuild-from-pinned-digest-blocked",
-                caps=Disposition.HOLD,
-                subject=bundle.name,
-                statement=(
-                    f"Bundle {bundle.name} was not rebuilt or regraded from its pinned image "
-                    "digest and recorded invocation contract. The invocation contract is "
-                    f"derived and recorded in full at digest {contract['contract_digest']}. "
-                    "The rebuild was blocked by: " + "; ".join(blockers) + "."
-                ),
+        if not regraded:
+            gaps.append(
+                CoverageGap(
+                    gap_id=f"D-CAL-REBUILD-BLOCKED-{bundle.name}",
+                    instrument=REPRODUCIBILITY,
+                    surface="calibration",
+                    reason="rebuild-from-pinned-digest-blocked",
+                    caps=Disposition.HOLD,
+                    subject=bundle.name,
+                    statement=(
+                        f"Bundle {bundle.name} was not rebuilt or regraded from its pinned "
+                        "image digest and recorded invocation contract. The invocation "
+                        "contract is derived and recorded in full at digest "
+                        f"{contract['contract_digest']}. "
+                        "The rebuild was blocked by: " + "; ".join(blockers) + "."
+                    ),
+                )
             )
-        )
 
     return InstrumentResult(
         instrument=REPRODUCIBILITY,
