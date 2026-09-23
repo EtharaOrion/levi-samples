@@ -1,0 +1,10 @@
+{
+  "artifact_sha256": "645c130aa39d85fc8f820cb46cd34a23b7cee5bbb6f0a6b817168d7f878b1f36",
+  "probe": "G-ADV-PER-DELIVERABLE",
+  "row_update": {
+    "measured_reason": "graded",
+    "measured_reward": 1.0,
+    "measurement_basis": "live execution through the stock Harbor path: the probe diff was applied inside the pinned sanitized image with the network disabled, tests/test.sh drove the committed run_tests.py, and the reward was read from the bound reward contract path",
+    "unrunnable_reason": ""
+  }
+}

@@ -80,6 +80,7 @@ import importlib.util
 import json
 import re
 import sys
+import tempfile
 import tomllib
 from pathlib import Path
 from typing import Any
@@ -433,6 +434,234 @@ def image_state(bundle: Path) -> dict[str, Any]:
     }
 
 
+LIVE_CACHE_RELATIVE = "adversary/live"
+LIVE_IMAGE_PREFIX = "crucible-adv"
+LIVE_TIMEOUT_SECONDS = 3600.0
+APPLY_FAILURE_EXIT = 97
+
+
+def _live_cache_path(base: Path, bundle: Path, probe: str, digest: str) -> Path:
+    """Resolve the on-disk cache slot for one live probe measurement.
+
+    The cache is keyed by probe name and artifact digest so a re-run of the
+    harness reuses a measurement only when the probe bytes are identical,
+    which keeps the recorded reward bound to the exact artifact that earned
+    it per step 8t.
+    """
+    return (
+        base
+        / core.AUDIT_DIRNAME
+        / LIVE_CACHE_RELATIVE
+        / bundle.name
+        / (f"{probe}-{digest[:12]}.json")
+    )
+
+
+def _verifier_image_tag(bundle: Path) -> str:
+    """Derive the local verifier-image tag for one bundle.
+
+    The tag embeds the bundle uuid prefix so concurrent bundles never share a
+    build cache entry, keeping each measurement inside the image its own
+    delivery block pinned.
+    """
+    return f"{LIVE_IMAGE_PREFIX}-{bundle.name[:8]}"
+
+
+def _ensure_verifier_image(bundle: Path) -> tuple[str | None, list[RawArtifact]]:
+    """Build the bundle's committed verifier image once and reuse it.
+
+    The build consumes the committed tests/Dockerfile whose FROM line names
+    the pinned sanitized digest, so the resulting image is the stock Harbor
+    verifier environment and never a vendor wrapper, as step 8t requires.
+    A build failure is returned as evidence rather than raised, so the probe
+    records an honest unrunnable outcome instead of a silent pass.
+    """
+    tag = _verifier_image_tag(bundle)
+    artifacts: list[RawArtifact] = []
+    inspect = core.run_capture(
+        ["docker", "image", "inspect", tag],
+        artifact_id=f"adv-image-inspect-{bundle.name[:8]}",
+        timeout=60.0,
+    )
+    if inspect.exit_code == 0:
+        return tag, artifacts
+    build = core.run_capture(
+        ["docker", "build", "-t", tag, str(bundle / "tests")],
+        artifact_id=f"adv-image-build-{bundle.name[:8]}",
+        timeout=1800.0,
+    )
+    artifacts.append(build)
+    if build.exit_code != 0:
+        return None, artifacts
+    return tag, artifacts
+
+
+def live_measure(
+    base: Path,
+    bundle: Path,
+    config: dict[str, Any],
+    probe: str,
+    diff_text: str,
+) -> dict[str, Any] | None:
+    """Measure one live-execution probe through the stock Harbor path.
+
+    The probe diff is applied inside the pinned sanitized image with the
+    network disabled, then the committed tests/test.sh drives the committed
+    run_tests.py exactly as the grader would, and the reward is read back
+    from the bound reward contract path. Returning ``None`` hands control
+    back to the offline refusal so an unreachable image never yields an
+    invented score. Only measured outcomes are cached, keyed by the probe
+    artifact digest, so a refusal is always re-derived live.
+    """
+    digest = core.sha256_bytes(diff_text.encode("utf-8"))
+    cache_path = _live_cache_path(base, bundle, probe, digest)
+    if cache_path.is_file():
+        try:
+            cached = json.loads(cache_path.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            cached = {}
+        if cached.get("artifact_sha256") == digest and isinstance(cached.get("row_update"), dict):
+            update = dict(cached["row_update"])
+            update["measurement_cache"] = str(cache_path.relative_to(base))
+            update["_raw_artifacts"] = []
+            return update
+    state = image_state(bundle)
+    if not state["local_present"]:
+        return None
+    tag, artifacts = _ensure_verifier_image(bundle)
+    if tag is None:
+        return {
+            "measured_reward": None,
+            "measured_reason": "",
+            "measurement_basis": "",
+            "unrunnable_reason": (
+                "the committed tests/Dockerfile failed to build against the locally "
+                "resolved pinned image, so no stock Harbor verifier environment exists "
+                "to execute this probe in"
+            ),
+            "_raw_artifacts": artifacts,
+        }
+    repo_dir = str(config.get("repo_dir") or "")
+    negate_through_gold = probe is NEGATED
+    forward_clause = (
+        f"git apply --whitespace=nowarn /probework/forward.patch || exit {APPLY_FAILURE_EXIT}; "
+        if negate_through_gold
+        else ""
+    )
+    script = (
+        f"cd {repo_dir} && "
+        f"{forward_clause}"
+        "if test -s /probework/probe.diff; then "
+        f"git apply --whitespace=nowarn /probework/probe.diff || exit {APPLY_FAILURE_EXIT}; "
+        "fi; "
+        "bash /tests/test.sh"
+    )
+    with tempfile.TemporaryDirectory(prefix="crucible-adv-") as scratch:
+        work = Path(scratch) / "probework"
+        logs = Path(scratch) / "logs"
+        work.mkdir()
+        logs.mkdir()
+        (work / "probe.diff").write_text(diff_text, encoding="utf-8")
+        if negate_through_gold:
+            (work / "forward.patch").write_text(
+                (bundle / "solution" / "fix.patch").read_text(encoding="utf-8"),
+                encoding="utf-8",
+            )
+        run = core.run_capture(
+            [
+                "docker",
+                "run",
+                "--rm",
+                "--network",
+                "none",
+                "-v",
+                f"{work}:/probework:ro",
+                "-v",
+                f"{logs}:/logs",
+                tag,
+                "bash",
+                "-c",
+                script,
+            ],
+            artifact_id=f"adv-live-run-{bundle.name[:8]}-{probe}",
+            timeout=LIVE_TIMEOUT_SECONDS,
+        )
+        artifacts.append(run)
+        if run.blocked_reason or run.timed_out:
+            return {
+                "measured_reward": None,
+                "measured_reason": "",
+                "measurement_basis": "",
+                "unrunnable_reason": (
+                    "the live execution did not complete: " + (run.blocked_reason or "timeout")
+                ),
+                "_raw_artifacts": artifacts,
+            }
+        if run.exit_code == APPLY_FAILURE_EXIT:
+            return {
+                "measured_reward": None,
+                "measured_reason": "",
+                "measurement_basis": "",
+                "unrunnable_reason": (
+                    "the probe artifact does not apply to the workspace inside the "
+                    "pinned image, so no graded execution was possible"
+                ),
+                "_raw_artifacts": artifacts,
+            }
+        reward_path = logs / "verifier" / "reward.json"
+        reason_path = logs / "verifier" / "reward_reason.json"
+        try:
+            reward_doc = json.loads(reward_path.read_text(encoding="utf-8"))
+            measured = float(reward_doc["reward"])
+        except (OSError, ValueError, KeyError, TypeError):
+            return {
+                "measured_reward": None,
+                "measured_reason": "",
+                "measurement_basis": "",
+                "unrunnable_reason": (
+                    "the verifier terminated without writing a parseable reward at "
+                    "the bound contract path"
+                ),
+                "_raw_artifacts": artifacts,
+            }
+        reason = ""
+        try:
+            reason_doc = json.loads(reason_path.read_text(encoding="utf-8"))
+            reason = str(reason_doc.get("reason") or "")
+        except (OSError, ValueError):
+            reason = ""
+    update = {
+        "measured_reward": measured,
+        "measured_reason": reason,
+        "measurement_basis": (
+            "live execution through the stock Harbor path: "
+            + (
+                "the gold fix was applied and then undone by the reversed probe "
+                "diff, realizing the negated gold workspace on the only tree "
+                "where the inversion is defined, "
+                if negate_through_gold
+                else "the probe diff was applied "
+            )
+            + "inside the pinned sanitized image with the network disabled, "
+            "tests/test.sh drove the committed run_tests.py, and the reward was "
+            "read from the bound reward contract path"
+        ),
+        "unrunnable_reason": "",
+    }
+    cache_path.parent.mkdir(parents=True, exist_ok=True)
+    cache_path.write_text(
+        json.dumps(
+            {"artifact_sha256": digest, "probe": probe, "row_update": update},
+            indent=2,
+            sort_keys=True,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    update["_raw_artifacts"] = artifacts
+    return update
+
+
 def declared_null_floor(bundle: Path) -> dict[str, Any]:
     """Search every committed surface for a declared null floor and report honestly.
 
@@ -690,6 +919,7 @@ def _reverse_diff(text: str) -> str:
     by any reader.
     """
     out: list[str] = []
+    pending_old: str | None = None
     for line in text.splitlines():
         header = DIFF_HEADER.match(line)
         if header:
@@ -700,10 +930,40 @@ def _reverse_diff(text: str) -> str:
             out.append(f"@@ -{hunk.group('new')} +{hunk.group('old')} @@{hunk.group('tail')}")
             continue
         if line.startswith("--- "):
-            out.append("+++ " + line[4:])
-        elif line.startswith("+++ "):
-            out.append("--- " + line[4:])
-        elif line.startswith("+"):
+            pending_old = line[4:]
+            continue
+        if line.startswith("+++ "):
+            new_side = line[4:]
+            old_side = pending_old if pending_old is not None else "/dev/null"
+            pending_old = None
+            if new_side == "/dev/null":
+                out.append("--- /dev/null")
+            else:
+                stripped = new_side[2:] if new_side.startswith("b/") else new_side
+                out.append(f"--- a/{stripped}")
+            if old_side == "/dev/null":
+                out.append("+++ /dev/null")
+            else:
+                stripped = old_side[2:] if old_side.startswith("a/") else old_side
+                out.append(f"+++ b/{stripped}")
+            continue
+        if line.startswith("new file mode "):
+            out.append("deleted file mode " + line[len("new file mode ") :])
+            continue
+        if line.startswith("deleted file mode "):
+            out.append("new file mode " + line[len("deleted file mode ") :])
+            continue
+        if line.startswith("index "):
+            rest = line[len("index ") :]
+            blob, _, mode = rest.partition(" ")
+            hashes = blob.split("..")
+            if len(hashes) == 2:
+                swapped = f"{hashes[1]}..{hashes[0]}"
+                out.append("index " + swapped + ((" " + mode) if mode else ""))
+            else:
+                out.append(line)
+            continue
+        if line.startswith("+"):
             out.append("-" + line[1:])
         elif line.startswith("-"):
             out.append("+" + line[1:])
@@ -918,6 +1178,10 @@ def measure(
         )
         return row
     if mode == LIVE_EXECUTION:
+        live = live_measure(base, bundle, config, probe, artifact["diff"])
+        if live is not None:
+            row.update(live)
+            return row
         row.update(
             {
                 "measured_reward": None,
@@ -926,7 +1190,7 @@ def measure(
                 "unrunnable_reason": (
                     "this probe changes bytes the graded command reads, so its reward is a "
                     "function of test outcomes only an execution inside the pinned image can "
-                    "produce"
+                    "produce, and no pinned image resolves in the local daemon"
                 ),
             }
         )
@@ -1021,6 +1285,10 @@ def _judge(probe: str, row: dict[str, Any], floor: dict[str, Any]) -> str:
     if probe is NULL:
         return STATUS_PASS if measured == 0.0 else STATUS_FAIL
     if probe is PER_DELIVERABLE:
+        weight = row.get("weight") or {}
+        if weight.get("declared"):
+            ceiling = 1.0 - float(weight["declared_value"])
+            return STATUS_PASS if measured <= ceiling else STATUS_FAIL
         return STATUS_UNRUNNABLE
     if floor["declared"]:
         return STATUS_PASS if measured <= float(floor["value"]) else STATUS_FAIL
@@ -1180,6 +1448,8 @@ def run_probe(base: Path, bundles: list[Path], probe: str) -> InstrumentResult:
         floor = declared_null_floor(bundle)
         weight = discrimination_weight(config)
         row = measure(base, bundle, harness, runner, config, probe)
+        artifacts.extend(row.pop("_raw_artifacts", []))
+        row["weight"] = weight
         row["declared_floor"] = floor["value"]
         row["rule"] = _rule_text(probe, floor, weight)
         row["status"] = _judge(probe, row, floor)

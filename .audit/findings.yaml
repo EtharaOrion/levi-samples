@@ -26,10 +26,10 @@ adversary_probes:
 - bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
   disposition_cap: BLOCK
   instrument: G-ADV-NEGATED
-  measured_reward: null
+  measured_reward: 0.0
   outcome: null
   probe: negated-gold
-  ran: false
+  ran: true
   rule: measured reward must be at or below the declared null floor 0.0
 - bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
   disposition_cap: BLOCK
@@ -37,15 +37,15 @@ adversary_probes:
   measured_reward: null
   outcome: null
   probe: negated-gold
-  ran: false
+  ran: true
   rule: measured reward must be at or below the declared null floor 0.0
 - bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
   disposition_cap: BLOCK
   instrument: G-ADV-NEGATED
-  measured_reward: null
+  measured_reward: 0.0
   outcome: null
   probe: negated-gold
-  ran: false
+  ran: true
   rule: measured reward must be at or below the declared null floor 0.0
 - bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
   disposition_cap: SHIP
@@ -74,101 +74,98 @@ adversary_probes:
 - bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
   disposition_cap: BLOCK
   instrument: G-ADV-STUBBED
-  measured_reward: null
+  measured_reward: 1.0
   outcome: null
   probe: oracle-stubbed
-  ran: false
+  ran: true
   rule: measured reward must be at or below the declared null floor 0.0
 - bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
   disposition_cap: BLOCK
   instrument: G-ADV-STUBBED
-  measured_reward: null
+  measured_reward: 1.0
   outcome: null
   probe: oracle-stubbed
-  ran: false
+  ran: true
   rule: measured reward must be at or below the declared null floor 0.0
 - bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
   disposition_cap: BLOCK
   instrument: G-ADV-STUBBED
-  measured_reward: null
+  measured_reward: 1.0
   outcome: null
   probe: oracle-stubbed
-  ran: false
+  ran: true
   rule: measured reward must be at or below the declared null floor 0.0
 - bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-  disposition_cap: BLOCK
+  disposition_cap: SHIP
   instrument: G-ADV-COLLECTION-HOOK
-  measured_reward: null
+  measured_reward: 0.0
   outcome: null
   probe: collection-hook
-  ran: false
+  ran: true
   rule: measured reward must be at or below the declared null floor 0.0
 - bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-  disposition_cap: BLOCK
+  disposition_cap: SHIP
   instrument: G-ADV-COLLECTION-HOOK
-  measured_reward: null
+  measured_reward: 0.0
   outcome: null
   probe: collection-hook
-  ran: false
+  ran: true
   rule: measured reward must be at or below the declared null floor 0.0
 - bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-  disposition_cap: BLOCK
+  disposition_cap: SHIP
   instrument: G-ADV-COLLECTION-HOOK
-  measured_reward: null
+  measured_reward: 0.0
   outcome: null
   probe: collection-hook
-  ran: false
+  ran: true
   rule: measured reward must be at or below the declared null floor 0.0
 - bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
   disposition_cap: BLOCK
   instrument: G-ADV-PER-DELIVERABLE
-  measured_reward: null
+  measured_reward: 1.0
   outcome: null
   probe: per-deliverable-garbage
-  ran: false
-  rule: measured reward must lose at least the declared discrimination weight, which no bundle declares;
-    the implied per-target weight is 0.2
+  ran: true
+  rule: measured reward must lose at least 0.2 against the oracle reward
 - bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
   disposition_cap: BLOCK
   instrument: G-ADV-PER-DELIVERABLE
-  measured_reward: null
+  measured_reward: 1.0
   outcome: null
   probe: per-deliverable-garbage
-  ran: false
-  rule: measured reward must lose at least the declared discrimination weight, which no bundle declares;
-    the implied per-target weight is 0.05555555555555555
+  ran: true
+  rule: measured reward must lose at least 0.05555555555555555 against the oracle reward
 - bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
   disposition_cap: BLOCK
   instrument: G-ADV-PER-DELIVERABLE
-  measured_reward: null
+  measured_reward: 1.0
   outcome: null
   probe: per-deliverable-garbage
-  ran: false
-  rule: measured reward must lose at least the declared discrimination weight, which no bundle declares;
-    the implied per-target weight is 0.125
+  ran: true
+  rule: measured reward must lose at least 0.125 against the oracle reward
 - bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-  disposition_cap: BLOCK
+  disposition_cap: SHIP
   instrument: G-ADV-SCHEMA-VALID
-  measured_reward: null
+  measured_reward: 0.0
   outcome: null
   probe: schema-valid-wrong-content
-  ran: false
+  ran: true
   rule: measured reward must be at or below the declared null floor 0.0
 - bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-  disposition_cap: BLOCK
+  disposition_cap: SHIP
   instrument: G-ADV-SCHEMA-VALID
-  measured_reward: null
+  measured_reward: 0.0
   outcome: null
   probe: schema-valid-wrong-content
-  ran: false
+  ran: true
   rule: measured reward must be at or below the declared null floor 0.0
 - bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-  disposition_cap: BLOCK
+  disposition_cap: SHIP
   instrument: G-ADV-SCHEMA-VALID
-  measured_reward: null
+  measured_reward: 0.0
   outcome: null
   probe: schema-valid-wrong-content
-  ran: false
+  ran: true
   rule: measured reward must be at or below the declared null floor 0.0
 - bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
   disposition_cap: SHIP
@@ -196,10 +193,10 @@ adversary_probes:
   rule: measured reward must be at or below the declared null floor 0.0
 counts:
   coverage_gaps_total: 123
-  findings_block: 22
+  findings_block: 14
   findings_hold: 49
-  findings_total: 71
-  instruments_not_run: 11
+  findings_total: 63
+  instruments_not_run: 6
   instruments_total: 60
   ledger_rows: 88
   ledger_unresolved: 51
@@ -237,7 +234,7 @@ coverage_gaps:
   reason: rebuild-from-pinned-digest-blocked
   statement: 'Bundle 4c7b8d6f-c500-585d-b7b2-3519df55b1b3 was not rebuilt or regraded from its pinned
     image digest and recorded invocation contract. The invocation contract is derived and recorded in
-    full at digest 6b5616e8b88e0e72dcc5fe45fd84de9dd73507f5a560738f1247a4ae0b4d8820. The rebuild was blocked
+    full at digest 98d56a6f4dea2a5e44a7dcb96a1661fd72535443c10f1d4aa07810f8f64aedf1. The rebuild was blocked
     by: every resolvable image reference points at a private registry namespace that requires credentials
     this harness does not hold; no image can be pulled here: network egress is forbidden, so no digest
     resolves regardless of whether one is committed.'
@@ -249,7 +246,7 @@ coverage_gaps:
   reason: rebuild-from-pinned-digest-blocked
   statement: 'Bundle 6bf0c918-e9ad-5397-bb76-cf3e238f2df1 was not rebuilt or regraded from its pinned
     image digest and recorded invocation contract. The invocation contract is derived and recorded in
-    full at digest 6592482f410c09e9a64c73306c27acbb5abcf377896bcd5ed369ad6940a03114. The rebuild was blocked
+    full at digest d21eb177b8adc47b6b1772fe4ca5bda1c1cc35e5aa6b75461e96de7a9bb9aeb4. The rebuild was blocked
     by: every resolvable image reference points at a private registry namespace that requires credentials
     this harness does not hold; no image can be pulled here: network egress is forbidden, so no digest
     resolves regardless of whether one is committed.'
@@ -261,7 +258,7 @@ coverage_gaps:
   reason: rebuild-from-pinned-digest-blocked
   statement: 'Bundle 873914cf-93b2-57a0-a5c8-264bfa2d3b66 was not rebuilt or regraded from its pinned
     image digest and recorded invocation contract. The invocation contract is derived and recorded in
-    full at digest 4179cd523eb06af162a04593260859749b8aebe8590ec414a37801ce68d6c591. The rebuild was blocked
+    full at digest 99de1dae3725190ab87c623f71b45bc8c362d4ab9e6a20cd65c0bf13a0e8b86a. The rebuild was blocked
     by: every resolvable image reference points at a private registry namespace that requires credentials
     this harness does not hold; no image can be pulled here: network egress is forbidden, so no digest
     resolves regardless of whether one is committed.'
@@ -535,7 +532,7 @@ coverage_gaps:
     determinations for other task uuids and no occurrence of this bundle uuid, so no task_hash is projected
     to compare against. The recipe the declared canonical_bundle_hash was produced by is not committed
     in this repository, so the audit harness cannot recompute that value independently; it recomputes
-    its own tree digest ac751880e442a9ed7dfc85b863e2cb2ab7eabe04d7cfc2e33c936ef986d6d713 instead and records
+    its own tree digest 933fbed58531f76b00e6fafae3b399848f0ca825dc7750e7d1b40ea12a036d40 instead and records
     it as evidence rather than as a match. The declared binding reads envelope unsigned-no-trust-root,
     so even the in-bundle hash 03aa306c4f584650a31ad57b7a54e669db2d3c9b2fe88a89f543a1b2855b7652 is unauthenticated.
     Every other step 8b check that committed bundle bytes can decide was still run.
@@ -551,7 +548,7 @@ coverage_gaps:
     determinations for other task uuids and no occurrence of this bundle uuid, so no task_hash is projected
     to compare against. The recipe the declared canonical_bundle_hash was produced by is not committed
     in this repository, so the audit harness cannot recompute that value independently; it recomputes
-    its own tree digest 4e829e119555f20d8c03387ca8368adff46ba126b75c7da757c4d0c57c2dd211 instead and records
+    its own tree digest 929f24c6d433c4b0d856d413013f980042059fb78173961fa7a32eeb47c1cdcb instead and records
     it as evidence rather than as a match. The declared binding reads envelope unsigned-no-trust-root,
     so even the in-bundle hash 10cb07aefb91b15c92125b980e429ccb46420074467ee8581774146d65f82ba1 is unauthenticated.
     Every other step 8b check that committed bundle bytes can decide was still run.
@@ -567,7 +564,7 @@ coverage_gaps:
     determinations for other task uuids and no occurrence of this bundle uuid, so no task_hash is projected
     to compare against. The recipe the declared canonical_bundle_hash was produced by is not committed
     in this repository, so the audit harness cannot recompute that value independently; it recomputes
-    its own tree digest aa48e74f5ba92b51f90042f92c8cd1fd46aaf35806f375bd0012653ff65aecab instead and records
+    its own tree digest 48c49bb283dd552c4bd354870d805623494db60c0dea323932ac6c4dc6c23af4 instead and records
     it as evidence rather than as a match. The declared binding reads envelope unsigned-no-trust-root,
     so even the in-bundle hash 8b0cdb100a78d89ef46315af507dab3058bbc6a497520713a9d8ae6142670b83 is unauthenticated.
     Every other step 8b check that committed bundle bytes can decide was still run.
@@ -1352,9 +1349,9 @@ coverage_gaps:
   statement: 'Container re-grading did not run because no bundle base image resolves in the local daemon
     and every reference is tag-only with an empty digest, so acquiring one would cross the firewall that
     Phase 1 item 4 forbids reaching across. Unavailable: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/jdx_m_mise@sha256:8548f5c7004d60da6a8eaca625e5fb7152c40e355eada9a6bdea339b73fff6bf
-    (digest_pinned=True, local=False), 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:b4d482d8e163d741ac086af764c04daabcd6aee412850fee8a80d8881d90f4ab
-    (digest_pinned=True, local=False), 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:eca2d8710d1baffad6f1d273610bbce183857c73bed6574dce2252fb3fb446aa
-    (digest_pinned=True, local=False). The byte-derivable half of this probe ran and is reported separately.'
+    (digest_pinned=True, local=True), 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:b4d482d8e163d741ac086af764c04daabcd6aee412850fee8a80d8881d90f4ab
+    (digest_pinned=True, local=True), 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:eca2d8710d1baffad6f1d273610bbce183857c73bed6574dce2252fb3fb446aa
+    (digest_pinned=True, local=True). The byte-derivable half of this probe ran and is reported separately.'
   subject: project
   surface: unmodified_base_regrade
 - caps: HOLD
@@ -1364,9 +1361,9 @@ coverage_gaps:
   statement: 'Container re-grading did not run because no bundle base image resolves in the local daemon
     and every reference is tag-only with an empty digest, so acquiring one would cross the firewall that
     Phase 1 item 4 forbids reaching across. Unavailable: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/jdx_m_mise@sha256:8548f5c7004d60da6a8eaca625e5fb7152c40e355eada9a6bdea339b73fff6bf
-    (digest_pinned=True, local=False), 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:b4d482d8e163d741ac086af764c04daabcd6aee412850fee8a80d8881d90f4ab
-    (digest_pinned=True, local=False), 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:eca2d8710d1baffad6f1d273610bbce183857c73bed6574dce2252fb3fb446aa
-    (digest_pinned=True, local=False). The byte-derivable half of this probe ran and is reported separately.'
+    (digest_pinned=True, local=True), 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:b4d482d8e163d741ac086af764c04daabcd6aee412850fee8a80d8881d90f4ab
+    (digest_pinned=True, local=True), 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:eca2d8710d1baffad6f1d273610bbce183857c73bed6574dce2252fb3fb446aa
+    (digest_pinned=True, local=True). The byte-derivable half of this probe ran and is reported separately.'
   subject: project
   surface: graded_target_repetition
 - caps: HOLD
@@ -1376,9 +1373,9 @@ coverage_gaps:
   statement: 'Container re-grading did not run because no bundle base image resolves in the local daemon
     and every reference is tag-only with an empty digest, so acquiring one would cross the firewall that
     Phase 1 item 4 forbids reaching across. Unavailable: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/jdx_m_mise@sha256:8548f5c7004d60da6a8eaca625e5fb7152c40e355eada9a6bdea339b73fff6bf
-    (digest_pinned=True, local=False), 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:b4d482d8e163d741ac086af764c04daabcd6aee412850fee8a80d8881d90f4ab
-    (digest_pinned=True, local=False), 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:eca2d8710d1baffad6f1d273610bbce183857c73bed6574dce2252fb3fb446aa
-    (digest_pinned=True, local=False). The byte-derivable half of this probe ran and is reported separately.'
+    (digest_pinned=True, local=True), 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:b4d482d8e163d741ac086af764c04daabcd6aee412850fee8a80d8881d90f4ab
+    (digest_pinned=True, local=True), 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:eca2d8710d1baffad6f1d273610bbce183857c73bed6574dce2252fb3fb446aa
+    (digest_pinned=True, local=True). The byte-derivable half of this probe ran and is reported separately.'
   subject: project
   surface: reference_solution_regrade
 - caps: HOLD
@@ -1417,26 +1414,18 @@ coverage_gaps:
   surface: verifier_robustness
 critical_classes:
 - caps:
-    BLOCK: 15
+    BLOCK: 7
   class_cap: BLOCK
   critical_class: adversarial-probe-discrimination
-  finding_count: 15
+  finding_count: 7
   finding_ids:
-  - ADV-UNRUNNABLE-G-ADV-COLLECTION-HOOK-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-  - ADV-UNRUNNABLE-G-ADV-COLLECTION-HOOK-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-  - ADV-UNRUNNABLE-G-ADV-COLLECTION-HOOK-873914cf-93b2-57a0-a5c8-264bfa2d3b66
-  - ADV-UNRUNNABLE-G-ADV-NEGATED-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+  - ADV-ABOVE-RULE-G-ADV-PER-DELIVERABLE-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+  - ADV-ABOVE-RULE-G-ADV-PER-DELIVERABLE-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+  - ADV-ABOVE-RULE-G-ADV-PER-DELIVERABLE-873914cf-93b2-57a0-a5c8-264bfa2d3b66
+  - ADV-ABOVE-RULE-G-ADV-STUBBED-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+  - ADV-ABOVE-RULE-G-ADV-STUBBED-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+  - ADV-ABOVE-RULE-G-ADV-STUBBED-873914cf-93b2-57a0-a5c8-264bfa2d3b66
   - ADV-UNRUNNABLE-G-ADV-NEGATED-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-  - ADV-UNRUNNABLE-G-ADV-NEGATED-873914cf-93b2-57a0-a5c8-264bfa2d3b66
-  - ADV-UNRUNNABLE-G-ADV-PER-DELIVERABLE-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-  - ADV-UNRUNNABLE-G-ADV-PER-DELIVERABLE-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-  - ADV-UNRUNNABLE-G-ADV-PER-DELIVERABLE-873914cf-93b2-57a0-a5c8-264bfa2d3b66
-  - ADV-UNRUNNABLE-G-ADV-SCHEMA-VALID-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-  - ADV-UNRUNNABLE-G-ADV-SCHEMA-VALID-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-  - ADV-UNRUNNABLE-G-ADV-SCHEMA-VALID-873914cf-93b2-57a0-a5c8-264bfa2d3b66
-  - ADV-UNRUNNABLE-G-ADV-STUBBED-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-  - ADV-UNRUNNABLE-G-ADV-STUBBED-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-  - ADV-UNRUNNABLE-G-ADV-STUBBED-873914cf-93b2-57a0-a5c8-264bfa2d3b66
 - caps:
     HOLD: 2
   class_cap: HOLD
@@ -1565,248 +1554,8 @@ disposition: BLOCK
 disposition_basis: The harness computed BLOCK as the cap over every instrument result. Block-capable findings
   stand from fifteen instruments and the selfcheck receipt carries seven required rows that never ran,
   which principle 7 treats as broken instruments rather than gaps. No waiver promotes this to SHIP.
-evidence_content_digest: cf1f98109780e241a9336b3a444a023b55664e4a4e4753f60efab034b45e650f
+evidence_content_digest: 5c9b186146b1aa4718b0ea6687041795eca169b530f88a5cd2c9d32be1171ef0
 findings:
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: adversarial-probe-discrimination
-  evidence:
-    artifact_detail: oracle-free workspace plus tests/crucible_adv_hook.rs
-    artifact_sha256: 7dec75ab5a6e936aa6dac5c2771f5e3cac8b1e2fa2b4fb60305dc3e7b9339fa5
-    bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    declared_floor: 0.0
-    derivability: live_execution
-    image_state:
-      base_image_digest: sha256:df61963482812a1239195f25326ea9b385012c74ed79acc73cf41d3f59f5bc27
-      base_image_digest_empty: false
-      base_image_ref: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-milo/jdx_m_mise:pr-8524@sha256:df61963482812a1239195f25326ea9b385012c74ed79acc73cf41d3f59f5bc27
-      bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-      daemon_blocked_reason: ''
-      local_present: false
-      runtime_digest_pinned: true
-      runtime_reference: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/jdx_m_mise@sha256:8548f5c7004d60da6a8eaca625e5fb7152c40e355eada9a6bdea339b73fff6bf
-    instrument: G-ADV-COLLECTION-HOOK
-    measured_reason: ''
-    measured_reward: null
-    measurement_basis: ''
-    probe: collection-hook
-    rule: measured reward must be at or below the declared null floor 0.0
-    status: unrunnable
-    unrunnable_reason: this probe changes bytes the graded command reads, so its reward is a function
-      of test outcomes only an execution inside the pinned image can produce
-  finding_id: ADV-UNRUNNABLE-G-ADV-COLLECTION-HOOK-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-  instrument: G-ADV-COLLECTION-HOOK
-  severity: critical
-  statement: 'Probe collection-hook is UNRUNNABLE against bundle 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    and step 8t makes an unrunnable probe BLOCK rather than a coverage gap. this probe changes bytes the
-    graded command reads, so its reward is a function of test outcomes only an execution inside the pinned
-    image can produce. The pinned image cannot be resolved here: bundle 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    carries base_image_digest sha256:df61963482812a1239195f25326ea9b385012c74ed79acc73cf41d3f59f5bc27,
-    its runtime reference 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/jdx_m_mise@sha256:8548f5c7004d60da6a8eaca625e5fb7152c40e355eada9a6bdea339b73fff6bf
-    does not resolve in the local daemon (local_present=False, daemon=reachable), and Phase 1 item 4 forbids
-    pulling it because that would cross the firewall. No score is recorded for this probe because none
-    was measured, and the contract''s BLOCK is recorded rather than downgraded to a HOLD.'
-  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: adversarial-probe-discrimination
-  evidence:
-    artifact_detail: oracle-free workspace plus conftest.py
-    artifact_sha256: 25d00e83732269b989b8f076483672d35ce1529c2cdcbb18c0c4d8d30264431f
-    bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    declared_floor: 0.0
-    derivability: live_execution
-    image_state:
-      base_image_digest: sha256:060777d77ed2fd5a68721b916e006e9bf699c4064d4f28d92efe2cfa9a2d7596
-      base_image_digest_empty: false
-      base_image_ref: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-milo/reflex-dev_m_reflex:pr-1891@sha256:060777d77ed2fd5a68721b916e006e9bf699c4064d4f28d92efe2cfa9a2d7596
-      bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-      daemon_blocked_reason: ''
-      local_present: false
-      runtime_digest_pinned: true
-      runtime_reference: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:b4d482d8e163d741ac086af764c04daabcd6aee412850fee8a80d8881d90f4ab
-    instrument: G-ADV-COLLECTION-HOOK
-    measured_reason: ''
-    measured_reward: null
-    measurement_basis: ''
-    probe: collection-hook
-    rule: measured reward must be at or below the declared null floor 0.0
-    status: unrunnable
-    unrunnable_reason: this probe changes bytes the graded command reads, so its reward is a function
-      of test outcomes only an execution inside the pinned image can produce
-  finding_id: ADV-UNRUNNABLE-G-ADV-COLLECTION-HOOK-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-  instrument: G-ADV-COLLECTION-HOOK
-  severity: critical
-  statement: 'Probe collection-hook is UNRUNNABLE against bundle 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    and step 8t makes an unrunnable probe BLOCK rather than a coverage gap. this probe changes bytes the
-    graded command reads, so its reward is a function of test outcomes only an execution inside the pinned
-    image can produce. The pinned image cannot be resolved here: bundle 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    carries base_image_digest sha256:060777d77ed2fd5a68721b916e006e9bf699c4064d4f28d92efe2cfa9a2d7596,
-    its runtime reference 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:b4d482d8e163d741ac086af764c04daabcd6aee412850fee8a80d8881d90f4ab
-    does not resolve in the local daemon (local_present=False, daemon=reachable), and Phase 1 item 4 forbids
-    pulling it because that would cross the firewall. No score is recorded for this probe because none
-    was measured, and the contract''s BLOCK is recorded rather than downgraded to a HOLD.'
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: adversarial-probe-discrimination
-  evidence:
-    artifact_detail: oracle-free workspace plus conftest.py
-    artifact_sha256: e3c2ea87804b77eefa7808bf91497e761232e8d7aa512fdd2467462bd5920c81
-    bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    declared_floor: 0.0
-    derivability: live_execution
-    image_state:
-      base_image_digest: sha256:feb1885ae818e5eb6b5a153f2a11cc75a84ae2388788d1db78e3484344c532cc
-      base_image_digest_empty: false
-      base_image_ref: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-milo/reflex-dev_m_reflex:pr-570@sha256:feb1885ae818e5eb6b5a153f2a11cc75a84ae2388788d1db78e3484344c532cc
-      bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-      daemon_blocked_reason: ''
-      local_present: false
-      runtime_digest_pinned: true
-      runtime_reference: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:eca2d8710d1baffad6f1d273610bbce183857c73bed6574dce2252fb3fb446aa
-    instrument: G-ADV-COLLECTION-HOOK
-    measured_reason: ''
-    measured_reward: null
-    measurement_basis: ''
-    probe: collection-hook
-    rule: measured reward must be at or below the declared null floor 0.0
-    status: unrunnable
-    unrunnable_reason: this probe changes bytes the graded command reads, so its reward is a function
-      of test outcomes only an execution inside the pinned image can produce
-  finding_id: ADV-UNRUNNABLE-G-ADV-COLLECTION-HOOK-873914cf-93b2-57a0-a5c8-264bfa2d3b66
-  instrument: G-ADV-COLLECTION-HOOK
-  severity: critical
-  statement: 'Probe collection-hook is UNRUNNABLE against bundle 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    and step 8t makes an unrunnable probe BLOCK rather than a coverage gap. this probe changes bytes the
-    graded command reads, so its reward is a function of test outcomes only an execution inside the pinned
-    image can produce. The pinned image cannot be resolved here: bundle 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    carries base_image_digest sha256:feb1885ae818e5eb6b5a153f2a11cc75a84ae2388788d1db78e3484344c532cc,
-    its runtime reference 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:eca2d8710d1baffad6f1d273610bbce183857c73bed6574dce2252fb3fb446aa
-    does not resolve in the local daemon (local_present=False, daemon=reachable), and Phase 1 item 4 forbids
-    pulling it because that would cross the firewall. No score is recorded for this probe because none
-    was measured, and the contract''s BLOCK is recorded rather than downgraded to a HOLD.'
-  subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: adversarial-probe-discrimination
-  evidence:
-    artifact_detail: reverse of solution/fix.patch
-    artifact_sha256: 657c201a15aa89b5c0de83f264212029b96fcdd5848eaabd2c8d10afaa67e6f7
-    bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    declared_floor: 0.0
-    derivability: live_execution
-    image_state:
-      base_image_digest: sha256:df61963482812a1239195f25326ea9b385012c74ed79acc73cf41d3f59f5bc27
-      base_image_digest_empty: false
-      base_image_ref: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-milo/jdx_m_mise:pr-8524@sha256:df61963482812a1239195f25326ea9b385012c74ed79acc73cf41d3f59f5bc27
-      bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-      daemon_blocked_reason: ''
-      local_present: false
-      runtime_digest_pinned: true
-      runtime_reference: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/jdx_m_mise@sha256:8548f5c7004d60da6a8eaca625e5fb7152c40e355eada9a6bdea339b73fff6bf
-    instrument: G-ADV-NEGATED
-    measured_reason: ''
-    measured_reward: null
-    measurement_basis: ''
-    probe: negated-gold
-    rule: measured reward must be at or below the declared null floor 0.0
-    status: unrunnable
-    unrunnable_reason: this probe changes bytes the graded command reads, so its reward is a function
-      of test outcomes only an execution inside the pinned image can produce
-  finding_id: ADV-UNRUNNABLE-G-ADV-NEGATED-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-  instrument: G-ADV-NEGATED
-  severity: critical
-  statement: 'Probe negated-gold is UNRUNNABLE against bundle 4c7b8d6f-c500-585d-b7b2-3519df55b1b3 and
-    step 8t makes an unrunnable probe BLOCK rather than a coverage gap. this probe changes bytes the graded
-    command reads, so its reward is a function of test outcomes only an execution inside the pinned image
-    can produce. The pinned image cannot be resolved here: bundle 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    carries base_image_digest sha256:df61963482812a1239195f25326ea9b385012c74ed79acc73cf41d3f59f5bc27,
-    its runtime reference 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/jdx_m_mise@sha256:8548f5c7004d60da6a8eaca625e5fb7152c40e355eada9a6bdea339b73fff6bf
-    does not resolve in the local daemon (local_present=False, daemon=reachable), and Phase 1 item 4 forbids
-    pulling it because that would cross the firewall. No score is recorded for this probe because none
-    was measured, and the contract''s BLOCK is recorded rather than downgraded to a HOLD.'
-  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: adversarial-probe-discrimination
-  evidence:
-    artifact_detail: reverse of solution/fix.patch
-    artifact_sha256: 68386975b1c9d3421154e6abeeb4de8d64a6b3c9d762b3ac13d42931a0ae34b4
-    bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    declared_floor: 0.0
-    derivability: live_execution
-    image_state:
-      base_image_digest: sha256:060777d77ed2fd5a68721b916e006e9bf699c4064d4f28d92efe2cfa9a2d7596
-      base_image_digest_empty: false
-      base_image_ref: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-milo/reflex-dev_m_reflex:pr-1891@sha256:060777d77ed2fd5a68721b916e006e9bf699c4064d4f28d92efe2cfa9a2d7596
-      bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-      daemon_blocked_reason: ''
-      local_present: false
-      runtime_digest_pinned: true
-      runtime_reference: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:b4d482d8e163d741ac086af764c04daabcd6aee412850fee8a80d8881d90f4ab
-    instrument: G-ADV-NEGATED
-    measured_reason: ''
-    measured_reward: null
-    measurement_basis: ''
-    probe: negated-gold
-    rule: measured reward must be at or below the declared null floor 0.0
-    status: unrunnable
-    unrunnable_reason: this probe changes bytes the graded command reads, so its reward is a function
-      of test outcomes only an execution inside the pinned image can produce
-  finding_id: ADV-UNRUNNABLE-G-ADV-NEGATED-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-  instrument: G-ADV-NEGATED
-  severity: critical
-  statement: 'Probe negated-gold is UNRUNNABLE against bundle 6bf0c918-e9ad-5397-bb76-cf3e238f2df1 and
-    step 8t makes an unrunnable probe BLOCK rather than a coverage gap. this probe changes bytes the graded
-    command reads, so its reward is a function of test outcomes only an execution inside the pinned image
-    can produce. The pinned image cannot be resolved here: bundle 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    carries base_image_digest sha256:060777d77ed2fd5a68721b916e006e9bf699c4064d4f28d92efe2cfa9a2d7596,
-    its runtime reference 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:b4d482d8e163d741ac086af764c04daabcd6aee412850fee8a80d8881d90f4ab
-    does not resolve in the local daemon (local_present=False, daemon=reachable), and Phase 1 item 4 forbids
-    pulling it because that would cross the firewall. No score is recorded for this probe because none
-    was measured, and the contract''s BLOCK is recorded rather than downgraded to a HOLD.'
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: adversarial-probe-discrimination
-  evidence:
-    artifact_detail: reverse of solution/fix.patch
-    artifact_sha256: 3e672ffcbdf0b741d1459ef65ea794dd49c235f4de0244d7c2a79831d61eec48
-    bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    declared_floor: 0.0
-    derivability: live_execution
-    image_state:
-      base_image_digest: sha256:feb1885ae818e5eb6b5a153f2a11cc75a84ae2388788d1db78e3484344c532cc
-      base_image_digest_empty: false
-      base_image_ref: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-milo/reflex-dev_m_reflex:pr-570@sha256:feb1885ae818e5eb6b5a153f2a11cc75a84ae2388788d1db78e3484344c532cc
-      bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-      daemon_blocked_reason: ''
-      local_present: false
-      runtime_digest_pinned: true
-      runtime_reference: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:eca2d8710d1baffad6f1d273610bbce183857c73bed6574dce2252fb3fb446aa
-    instrument: G-ADV-NEGATED
-    measured_reason: ''
-    measured_reward: null
-    measurement_basis: ''
-    probe: negated-gold
-    rule: measured reward must be at or below the declared null floor 0.0
-    status: unrunnable
-    unrunnable_reason: this probe changes bytes the graded command reads, so its reward is a function
-      of test outcomes only an execution inside the pinned image can produce
-  finding_id: ADV-UNRUNNABLE-G-ADV-NEGATED-873914cf-93b2-57a0-a5c8-264bfa2d3b66
-  instrument: G-ADV-NEGATED
-  severity: critical
-  statement: 'Probe negated-gold is UNRUNNABLE against bundle 873914cf-93b2-57a0-a5c8-264bfa2d3b66 and
-    step 8t makes an unrunnable probe BLOCK rather than a coverage gap. this probe changes bytes the graded
-    command reads, so its reward is a function of test outcomes only an execution inside the pinned image
-    can produce. The pinned image cannot be resolved here: bundle 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    carries base_image_digest sha256:feb1885ae818e5eb6b5a153f2a11cc75a84ae2388788d1db78e3484344c532cc,
-    its runtime reference 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:eca2d8710d1baffad6f1d273610bbce183857c73bed6574dce2252fb3fb446aa
-    does not resolve in the local daemon (local_present=False, daemon=reachable), and Phase 1 item 4 forbids
-    pulling it because that would cross the firewall. No score is recorded for this probe because none
-    was measured, and the contract''s BLOCK is recorded rather than downgraded to a HOLD.'
-  subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
 - bucket: deterministic
   caps: BLOCK
   critical_class: adversarial-probe-discrimination
@@ -1814,39 +1563,39 @@ findings:
     artifact_detail: oracle plus garbage beside 66 declared deliverables
     artifact_sha256: 170826c2dd7e435565effad4dd1679d0d1554e8badc4973b50ec6bb1e572a3d6
     bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    declared_floor: 0.0
+    declared_floor:
+      declared: true
+      nearest_numeric: ''
+      searched:
+      - task.toml [metadata] and [verifier]
+      source: task.toml null_floor
+      value: 0.0
     derivability: live_execution
-    image_state:
-      base_image_digest: sha256:df61963482812a1239195f25326ea9b385012c74ed79acc73cf41d3f59f5bc27
-      base_image_digest_empty: false
-      base_image_ref: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-milo/jdx_m_mise:pr-8524@sha256:df61963482812a1239195f25326ea9b385012c74ed79acc73cf41d3f59f5bc27
-      bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-      daemon_blocked_reason: ''
-      local_present: false
-      runtime_digest_pinned: true
-      runtime_reference: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/jdx_m_mise@sha256:8548f5c7004d60da6a8eaca625e5fb7152c40e355eada9a6bdea339b73fff6bf
     instrument: G-ADV-PER-DELIVERABLE
-    measured_reason: ''
-    measured_reward: null
-    measurement_basis: ''
+    measured_reason: graded
+    measured_reward: 1.0
+    measurement_basis: 'live execution through the stock Harbor path: the probe diff was applied inside
+      the pinned sanitized image with the network disabled, tests/test.sh drove the committed run_tests.py,
+      and the reward was read from the bound reward contract path'
+    measurement_cache: .audit/adversary/live/4c7b8d6f-c500-585d-b7b2-3519df55b1b3/G-ADV-PER-DELIVERABLE-170826c2dd7e.json
     probe: per-deliverable-garbage
-    rule: measured reward must lose at least the declared discrimination weight, which no bundle declares;
-      the implied per-target weight is 0.2
-    status: unrunnable
-    unrunnable_reason: this probe changes bytes the graded command reads, so its reward is a function
-      of test outcomes only an execution inside the pinned image can produce
-  finding_id: ADV-UNRUNNABLE-G-ADV-PER-DELIVERABLE-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+    rule: measured reward must lose at least 0.2 against the oracle reward
+    status: fail
+    unrunnable_reason: ''
+    weight:
+      declared: true
+      declared_value: 0.2
+      graded_denominator: 5
+      implied_value: 0.2
+  finding_id: ADV-ABOVE-RULE-G-ADV-PER-DELIVERABLE-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
   instrument: G-ADV-PER-DELIVERABLE
   severity: critical
-  statement: 'Probe per-deliverable-garbage is UNRUNNABLE against bundle 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    and step 8t makes an unrunnable probe BLOCK rather than a coverage gap. this probe changes bytes the
-    graded command reads, so its reward is a function of test outcomes only an execution inside the pinned
-    image can produce. The pinned image cannot be resolved here: bundle 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    carries base_image_digest sha256:df61963482812a1239195f25326ea9b385012c74ed79acc73cf41d3f59f5bc27,
-    its runtime reference 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/jdx_m_mise@sha256:8548f5c7004d60da6a8eaca625e5fb7152c40e355eada9a6bdea339b73fff6bf
-    does not resolve in the local daemon (local_present=False, daemon=reachable), and Phase 1 item 4 forbids
-    pulling it because that would cross the firewall. No score is recorded for this probe because none
-    was measured, and the contract''s BLOCK is recorded rather than downgraded to a HOLD.'
+  statement: 'Probe per-deliverable-garbage measured 1.0 against bundle 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+    with committed reason ''graded'', which is above its step 8t rule: measured reward must lose at least
+    0.2 against the oracle reward. Step 8t caps any probe above its rule at BLOCK. live execution through
+    the stock Harbor path: the probe diff was applied inside the pinned sanitized image with the network
+    disabled, tests/test.sh drove the committed run_tests.py, and the reward was read from the bound reward
+    contract path.'
   subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
 - bucket: deterministic
   caps: BLOCK
@@ -1855,39 +1604,39 @@ findings:
     artifact_detail: oracle plus garbage beside 43 declared deliverables
     artifact_sha256: 57b20dd53f8eb2fa0074958895a8b3f5550cab65f30d47177ae7059e988d5a9d
     bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    declared_floor: 0.0
+    declared_floor:
+      declared: true
+      nearest_numeric: ''
+      searched:
+      - task.toml [metadata] and [verifier]
+      source: task.toml null_floor
+      value: 0.0
     derivability: live_execution
-    image_state:
-      base_image_digest: sha256:060777d77ed2fd5a68721b916e006e9bf699c4064d4f28d92efe2cfa9a2d7596
-      base_image_digest_empty: false
-      base_image_ref: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-milo/reflex-dev_m_reflex:pr-1891@sha256:060777d77ed2fd5a68721b916e006e9bf699c4064d4f28d92efe2cfa9a2d7596
-      bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-      daemon_blocked_reason: ''
-      local_present: false
-      runtime_digest_pinned: true
-      runtime_reference: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:b4d482d8e163d741ac086af764c04daabcd6aee412850fee8a80d8881d90f4ab
     instrument: G-ADV-PER-DELIVERABLE
-    measured_reason: ''
-    measured_reward: null
-    measurement_basis: ''
+    measured_reason: graded
+    measured_reward: 1.0
+    measurement_basis: 'live execution through the stock Harbor path: the probe diff was applied inside
+      the pinned sanitized image with the network disabled, tests/test.sh drove the committed run_tests.py,
+      and the reward was read from the bound reward contract path'
+    measurement_cache: .audit/adversary/live/6bf0c918-e9ad-5397-bb76-cf3e238f2df1/G-ADV-PER-DELIVERABLE-57b20dd53f8e.json
     probe: per-deliverable-garbage
-    rule: measured reward must lose at least the declared discrimination weight, which no bundle declares;
-      the implied per-target weight is 0.05555555555555555
-    status: unrunnable
-    unrunnable_reason: this probe changes bytes the graded command reads, so its reward is a function
-      of test outcomes only an execution inside the pinned image can produce
-  finding_id: ADV-UNRUNNABLE-G-ADV-PER-DELIVERABLE-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+    rule: measured reward must lose at least 0.05555555555555555 against the oracle reward
+    status: fail
+    unrunnable_reason: ''
+    weight:
+      declared: true
+      declared_value: 0.05555555555555555
+      graded_denominator: 18
+      implied_value: 0.05555555555555555
+  finding_id: ADV-ABOVE-RULE-G-ADV-PER-DELIVERABLE-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
   instrument: G-ADV-PER-DELIVERABLE
   severity: critical
-  statement: 'Probe per-deliverable-garbage is UNRUNNABLE against bundle 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    and step 8t makes an unrunnable probe BLOCK rather than a coverage gap. this probe changes bytes the
-    graded command reads, so its reward is a function of test outcomes only an execution inside the pinned
-    image can produce. The pinned image cannot be resolved here: bundle 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    carries base_image_digest sha256:060777d77ed2fd5a68721b916e006e9bf699c4064d4f28d92efe2cfa9a2d7596,
-    its runtime reference 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:b4d482d8e163d741ac086af764c04daabcd6aee412850fee8a80d8881d90f4ab
-    does not resolve in the local daemon (local_present=False, daemon=reachable), and Phase 1 item 4 forbids
-    pulling it because that would cross the firewall. No score is recorded for this probe because none
-    was measured, and the contract''s BLOCK is recorded rather than downgraded to a HOLD.'
+  statement: 'Probe per-deliverable-garbage measured 1.0 against bundle 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+    with committed reason ''graded'', which is above its step 8t rule: measured reward must lose at least
+    0.05555555555555555 against the oracle reward. Step 8t caps any probe above its rule at BLOCK. live
+    execution through the stock Harbor path: the probe diff was applied inside the pinned sanitized image
+    with the network disabled, tests/test.sh drove the committed run_tests.py, and the reward was read
+    from the bound reward contract path.'
   subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
 - bucket: deterministic
   caps: BLOCK
@@ -1896,159 +1645,39 @@ findings:
     artifact_detail: oracle plus garbage beside 34 declared deliverables
     artifact_sha256: 645c130aa39d85fc8f820cb46cd34a23b7cee5bbb6f0a6b817168d7f878b1f36
     bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    declared_floor: 0.0
+    declared_floor:
+      declared: true
+      nearest_numeric: ''
+      searched:
+      - task.toml [metadata] and [verifier]
+      source: task.toml null_floor
+      value: 0.0
     derivability: live_execution
-    image_state:
-      base_image_digest: sha256:feb1885ae818e5eb6b5a153f2a11cc75a84ae2388788d1db78e3484344c532cc
-      base_image_digest_empty: false
-      base_image_ref: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-milo/reflex-dev_m_reflex:pr-570@sha256:feb1885ae818e5eb6b5a153f2a11cc75a84ae2388788d1db78e3484344c532cc
-      bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-      daemon_blocked_reason: ''
-      local_present: false
-      runtime_digest_pinned: true
-      runtime_reference: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:eca2d8710d1baffad6f1d273610bbce183857c73bed6574dce2252fb3fb446aa
     instrument: G-ADV-PER-DELIVERABLE
-    measured_reason: ''
-    measured_reward: null
-    measurement_basis: ''
+    measured_reason: graded
+    measured_reward: 1.0
+    measurement_basis: 'live execution through the stock Harbor path: the probe diff was applied inside
+      the pinned sanitized image with the network disabled, tests/test.sh drove the committed run_tests.py,
+      and the reward was read from the bound reward contract path'
+    measurement_cache: .audit/adversary/live/873914cf-93b2-57a0-a5c8-264bfa2d3b66/G-ADV-PER-DELIVERABLE-645c130aa39d.json
     probe: per-deliverable-garbage
-    rule: measured reward must lose at least the declared discrimination weight, which no bundle declares;
-      the implied per-target weight is 0.125
-    status: unrunnable
-    unrunnable_reason: this probe changes bytes the graded command reads, so its reward is a function
-      of test outcomes only an execution inside the pinned image can produce
-  finding_id: ADV-UNRUNNABLE-G-ADV-PER-DELIVERABLE-873914cf-93b2-57a0-a5c8-264bfa2d3b66
+    rule: measured reward must lose at least 0.125 against the oracle reward
+    status: fail
+    unrunnable_reason: ''
+    weight:
+      declared: true
+      declared_value: 0.125
+      graded_denominator: 8
+      implied_value: 0.125
+  finding_id: ADV-ABOVE-RULE-G-ADV-PER-DELIVERABLE-873914cf-93b2-57a0-a5c8-264bfa2d3b66
   instrument: G-ADV-PER-DELIVERABLE
   severity: critical
-  statement: 'Probe per-deliverable-garbage is UNRUNNABLE against bundle 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    and step 8t makes an unrunnable probe BLOCK rather than a coverage gap. this probe changes bytes the
-    graded command reads, so its reward is a function of test outcomes only an execution inside the pinned
-    image can produce. The pinned image cannot be resolved here: bundle 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    carries base_image_digest sha256:feb1885ae818e5eb6b5a153f2a11cc75a84ae2388788d1db78e3484344c532cc,
-    its runtime reference 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:eca2d8710d1baffad6f1d273610bbce183857c73bed6574dce2252fb3fb446aa
-    does not resolve in the local daemon (local_present=False, daemon=reachable), and Phase 1 item 4 forbids
-    pulling it because that would cross the firewall. No score is recorded for this probe because none
-    was measured, and the contract''s BLOCK is recorded rather than downgraded to a HOLD.'
-  subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: adversarial-probe-discrimination
-  evidence:
-    artifact_detail: oracle paths with every content field replaced
-    artifact_sha256: 17dda66e6183f68daf14a8b5c9c3aed6a22d342ecc2ec9b01e93147285768298
-    bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    declared_floor: 0.0
-    derivability: live_execution
-    image_state:
-      base_image_digest: sha256:df61963482812a1239195f25326ea9b385012c74ed79acc73cf41d3f59f5bc27
-      base_image_digest_empty: false
-      base_image_ref: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-milo/jdx_m_mise:pr-8524@sha256:df61963482812a1239195f25326ea9b385012c74ed79acc73cf41d3f59f5bc27
-      bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-      daemon_blocked_reason: ''
-      local_present: false
-      runtime_digest_pinned: true
-      runtime_reference: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/jdx_m_mise@sha256:8548f5c7004d60da6a8eaca625e5fb7152c40e355eada9a6bdea339b73fff6bf
-    instrument: G-ADV-SCHEMA-VALID
-    measured_reason: ''
-    measured_reward: null
-    measurement_basis: ''
-    probe: schema-valid-wrong-content
-    rule: measured reward must be at or below the declared null floor 0.0
-    status: unrunnable
-    unrunnable_reason: this probe changes bytes the graded command reads, so its reward is a function
-      of test outcomes only an execution inside the pinned image can produce
-  finding_id: ADV-UNRUNNABLE-G-ADV-SCHEMA-VALID-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-  instrument: G-ADV-SCHEMA-VALID
-  severity: critical
-  statement: 'Probe schema-valid-wrong-content is UNRUNNABLE against bundle 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    and step 8t makes an unrunnable probe BLOCK rather than a coverage gap. this probe changes bytes the
-    graded command reads, so its reward is a function of test outcomes only an execution inside the pinned
-    image can produce. The pinned image cannot be resolved here: bundle 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    carries base_image_digest sha256:df61963482812a1239195f25326ea9b385012c74ed79acc73cf41d3f59f5bc27,
-    its runtime reference 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/jdx_m_mise@sha256:8548f5c7004d60da6a8eaca625e5fb7152c40e355eada9a6bdea339b73fff6bf
-    does not resolve in the local daemon (local_present=False, daemon=reachable), and Phase 1 item 4 forbids
-    pulling it because that would cross the firewall. No score is recorded for this probe because none
-    was measured, and the contract''s BLOCK is recorded rather than downgraded to a HOLD.'
-  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: adversarial-probe-discrimination
-  evidence:
-    artifact_detail: oracle paths with every content field replaced
-    artifact_sha256: 6675088772a296ed3788e9bfdf8b842231cd19cc35ba2fdf047e11723c58e584
-    bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    declared_floor: 0.0
-    derivability: live_execution
-    image_state:
-      base_image_digest: sha256:060777d77ed2fd5a68721b916e006e9bf699c4064d4f28d92efe2cfa9a2d7596
-      base_image_digest_empty: false
-      base_image_ref: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-milo/reflex-dev_m_reflex:pr-1891@sha256:060777d77ed2fd5a68721b916e006e9bf699c4064d4f28d92efe2cfa9a2d7596
-      bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-      daemon_blocked_reason: ''
-      local_present: false
-      runtime_digest_pinned: true
-      runtime_reference: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:b4d482d8e163d741ac086af764c04daabcd6aee412850fee8a80d8881d90f4ab
-    instrument: G-ADV-SCHEMA-VALID
-    measured_reason: ''
-    measured_reward: null
-    measurement_basis: ''
-    probe: schema-valid-wrong-content
-    rule: measured reward must be at or below the declared null floor 0.0
-    status: unrunnable
-    unrunnable_reason: this probe changes bytes the graded command reads, so its reward is a function
-      of test outcomes only an execution inside the pinned image can produce
-  finding_id: ADV-UNRUNNABLE-G-ADV-SCHEMA-VALID-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-  instrument: G-ADV-SCHEMA-VALID
-  severity: critical
-  statement: 'Probe schema-valid-wrong-content is UNRUNNABLE against bundle 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    and step 8t makes an unrunnable probe BLOCK rather than a coverage gap. this probe changes bytes the
-    graded command reads, so its reward is a function of test outcomes only an execution inside the pinned
-    image can produce. The pinned image cannot be resolved here: bundle 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    carries base_image_digest sha256:060777d77ed2fd5a68721b916e006e9bf699c4064d4f28d92efe2cfa9a2d7596,
-    its runtime reference 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:b4d482d8e163d741ac086af764c04daabcd6aee412850fee8a80d8881d90f4ab
-    does not resolve in the local daemon (local_present=False, daemon=reachable), and Phase 1 item 4 forbids
-    pulling it because that would cross the firewall. No score is recorded for this probe because none
-    was measured, and the contract''s BLOCK is recorded rather than downgraded to a HOLD.'
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: adversarial-probe-discrimination
-  evidence:
-    artifact_detail: oracle paths with every content field replaced
-    artifact_sha256: 08454ff945c05ef4a84771523c92398b09b1d904c690de3de3f2dd2c5247590f
-    bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    declared_floor: 0.0
-    derivability: live_execution
-    image_state:
-      base_image_digest: sha256:feb1885ae818e5eb6b5a153f2a11cc75a84ae2388788d1db78e3484344c532cc
-      base_image_digest_empty: false
-      base_image_ref: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-milo/reflex-dev_m_reflex:pr-570@sha256:feb1885ae818e5eb6b5a153f2a11cc75a84ae2388788d1db78e3484344c532cc
-      bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-      daemon_blocked_reason: ''
-      local_present: false
-      runtime_digest_pinned: true
-      runtime_reference: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:eca2d8710d1baffad6f1d273610bbce183857c73bed6574dce2252fb3fb446aa
-    instrument: G-ADV-SCHEMA-VALID
-    measured_reason: ''
-    measured_reward: null
-    measurement_basis: ''
-    probe: schema-valid-wrong-content
-    rule: measured reward must be at or below the declared null floor 0.0
-    status: unrunnable
-    unrunnable_reason: this probe changes bytes the graded command reads, so its reward is a function
-      of test outcomes only an execution inside the pinned image can produce
-  finding_id: ADV-UNRUNNABLE-G-ADV-SCHEMA-VALID-873914cf-93b2-57a0-a5c8-264bfa2d3b66
-  instrument: G-ADV-SCHEMA-VALID
-  severity: critical
-  statement: 'Probe schema-valid-wrong-content is UNRUNNABLE against bundle 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    and step 8t makes an unrunnable probe BLOCK rather than a coverage gap. this probe changes bytes the
-    graded command reads, so its reward is a function of test outcomes only an execution inside the pinned
-    image can produce. The pinned image cannot be resolved here: bundle 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    carries base_image_digest sha256:feb1885ae818e5eb6b5a153f2a11cc75a84ae2388788d1db78e3484344c532cc,
-    its runtime reference 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:eca2d8710d1baffad6f1d273610bbce183857c73bed6574dce2252fb3fb446aa
-    does not resolve in the local daemon (local_present=False, daemon=reachable), and Phase 1 item 4 forbids
-    pulling it because that would cross the firewall. No score is recorded for this probe because none
-    was measured, and the contract''s BLOCK is recorded rather than downgraded to a HOLD.'
+  statement: 'Probe per-deliverable-garbage measured 1.0 against bundle 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+    with committed reason ''graded'', which is above its step 8t rule: measured reward must lose at least
+    0.125 against the oracle reward. Step 8t caps any probe above its rule at BLOCK. live execution through
+    the stock Harbor path: the probe diff was applied inside the pinned sanitized image with the network
+    disabled, tests/test.sh drove the committed run_tests.py, and the reward was read from the bound reward
+    contract path.'
   subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
 - bucket: deterministic
   caps: BLOCK
@@ -2057,38 +1686,39 @@ findings:
     artifact_detail: oracle plus a stub for every service
     artifact_sha256: 88a1497effa8850d36e11f2ac41e536260392f94bdd998cf80fcf7d93b94e8c2
     bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    declared_floor: 0.0
+    declared_floor:
+      declared: true
+      nearest_numeric: ''
+      searched:
+      - task.toml [metadata] and [verifier]
+      source: task.toml null_floor
+      value: 0.0
     derivability: live_execution
-    image_state:
-      base_image_digest: sha256:df61963482812a1239195f25326ea9b385012c74ed79acc73cf41d3f59f5bc27
-      base_image_digest_empty: false
-      base_image_ref: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-milo/jdx_m_mise:pr-8524@sha256:df61963482812a1239195f25326ea9b385012c74ed79acc73cf41d3f59f5bc27
-      bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-      daemon_blocked_reason: ''
-      local_present: false
-      runtime_digest_pinned: true
-      runtime_reference: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/jdx_m_mise@sha256:8548f5c7004d60da6a8eaca625e5fb7152c40e355eada9a6bdea339b73fff6bf
     instrument: G-ADV-STUBBED
-    measured_reason: ''
-    measured_reward: null
-    measurement_basis: ''
+    measured_reason: graded
+    measured_reward: 1.0
+    measurement_basis: 'live execution through the stock Harbor path: the probe diff was applied inside
+      the pinned sanitized image with the network disabled, tests/test.sh drove the committed run_tests.py,
+      and the reward was read from the bound reward contract path'
+    measurement_cache: .audit/adversary/live/4c7b8d6f-c500-585d-b7b2-3519df55b1b3/G-ADV-STUBBED-88a1497effa8.json
     probe: oracle-stubbed
     rule: measured reward must be at or below the declared null floor 0.0
-    status: unrunnable
-    unrunnable_reason: this probe changes bytes the graded command reads, so its reward is a function
-      of test outcomes only an execution inside the pinned image can produce
-  finding_id: ADV-UNRUNNABLE-G-ADV-STUBBED-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+    status: fail
+    unrunnable_reason: ''
+    weight:
+      declared: true
+      declared_value: 0.2
+      graded_denominator: 5
+      implied_value: 0.2
+  finding_id: ADV-ABOVE-RULE-G-ADV-STUBBED-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
   instrument: G-ADV-STUBBED
   severity: critical
-  statement: 'Probe oracle-stubbed is UNRUNNABLE against bundle 4c7b8d6f-c500-585d-b7b2-3519df55b1b3 and
-    step 8t makes an unrunnable probe BLOCK rather than a coverage gap. this probe changes bytes the graded
-    command reads, so its reward is a function of test outcomes only an execution inside the pinned image
-    can produce. The pinned image cannot be resolved here: bundle 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    carries base_image_digest sha256:df61963482812a1239195f25326ea9b385012c74ed79acc73cf41d3f59f5bc27,
-    its runtime reference 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/jdx_m_mise@sha256:8548f5c7004d60da6a8eaca625e5fb7152c40e355eada9a6bdea339b73fff6bf
-    does not resolve in the local daemon (local_present=False, daemon=reachable), and Phase 1 item 4 forbids
-    pulling it because that would cross the firewall. No score is recorded for this probe because none
-    was measured, and the contract''s BLOCK is recorded rather than downgraded to a HOLD.'
+  statement: 'Probe oracle-stubbed measured 1.0 against bundle 4c7b8d6f-c500-585d-b7b2-3519df55b1b3 with
+    committed reason ''graded'', which is above its step 8t rule: measured reward must be at or below
+    the declared null floor 0.0. Step 8t caps any probe above its rule at BLOCK. live execution through
+    the stock Harbor path: the probe diff was applied inside the pinned sanitized image with the network
+    disabled, tests/test.sh drove the committed run_tests.py, and the reward was read from the bound reward
+    contract path.'
   subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
 - bucket: deterministic
   caps: BLOCK
@@ -2096,6 +1726,88 @@ findings:
   evidence:
     artifact_detail: oracle plus a stub for every service
     artifact_sha256: 340d304dff105bb1b7638d7e74fdea6c0caa0875d75ccfa6a5acb820e3ac098d
+    bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+    declared_floor:
+      declared: true
+      nearest_numeric: ''
+      searched:
+      - task.toml [metadata] and [verifier]
+      source: task.toml null_floor
+      value: 0.0
+    derivability: live_execution
+    instrument: G-ADV-STUBBED
+    measured_reason: graded
+    measured_reward: 1.0
+    measurement_basis: 'live execution through the stock Harbor path: the probe diff was applied inside
+      the pinned sanitized image with the network disabled, tests/test.sh drove the committed run_tests.py,
+      and the reward was read from the bound reward contract path'
+    measurement_cache: .audit/adversary/live/6bf0c918-e9ad-5397-bb76-cf3e238f2df1/G-ADV-STUBBED-340d304dff10.json
+    probe: oracle-stubbed
+    rule: measured reward must be at or below the declared null floor 0.0
+    status: fail
+    unrunnable_reason: ''
+    weight:
+      declared: true
+      declared_value: 0.05555555555555555
+      graded_denominator: 18
+      implied_value: 0.05555555555555555
+  finding_id: ADV-ABOVE-RULE-G-ADV-STUBBED-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+  instrument: G-ADV-STUBBED
+  severity: critical
+  statement: 'Probe oracle-stubbed measured 1.0 against bundle 6bf0c918-e9ad-5397-bb76-cf3e238f2df1 with
+    committed reason ''graded'', which is above its step 8t rule: measured reward must be at or below
+    the declared null floor 0.0. Step 8t caps any probe above its rule at BLOCK. live execution through
+    the stock Harbor path: the probe diff was applied inside the pinned sanitized image with the network
+    disabled, tests/test.sh drove the committed run_tests.py, and the reward was read from the bound reward
+    contract path.'
+  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+- bucket: deterministic
+  caps: BLOCK
+  critical_class: adversarial-probe-discrimination
+  evidence:
+    artifact_detail: oracle plus a stub for every service
+    artifact_sha256: 18da803af6e4bffd1f77182cf838e69a856481f82b6da71daf28e26336449fc6
+    bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+    declared_floor:
+      declared: true
+      nearest_numeric: ''
+      searched:
+      - task.toml [metadata] and [verifier]
+      source: task.toml null_floor
+      value: 0.0
+    derivability: live_execution
+    instrument: G-ADV-STUBBED
+    measured_reason: graded
+    measured_reward: 1.0
+    measurement_basis: 'live execution through the stock Harbor path: the probe diff was applied inside
+      the pinned sanitized image with the network disabled, tests/test.sh drove the committed run_tests.py,
+      and the reward was read from the bound reward contract path'
+    measurement_cache: .audit/adversary/live/873914cf-93b2-57a0-a5c8-264bfa2d3b66/G-ADV-STUBBED-18da803af6e4.json
+    probe: oracle-stubbed
+    rule: measured reward must be at or below the declared null floor 0.0
+    status: fail
+    unrunnable_reason: ''
+    weight:
+      declared: true
+      declared_value: 0.125
+      graded_denominator: 8
+      implied_value: 0.125
+  finding_id: ADV-ABOVE-RULE-G-ADV-STUBBED-873914cf-93b2-57a0-a5c8-264bfa2d3b66
+  instrument: G-ADV-STUBBED
+  severity: critical
+  statement: 'Probe oracle-stubbed measured 1.0 against bundle 873914cf-93b2-57a0-a5c8-264bfa2d3b66 with
+    committed reason ''graded'', which is above its step 8t rule: measured reward must be at or below
+    the declared null floor 0.0. Step 8t caps any probe above its rule at BLOCK. live execution through
+    the stock Harbor path: the probe diff was applied inside the pinned sanitized image with the network
+    disabled, tests/test.sh drove the committed run_tests.py, and the reward was read from the bound reward
+    contract path.'
+  subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+- bucket: deterministic
+  caps: BLOCK
+  critical_class: adversarial-probe-discrimination
+  evidence:
+    artifact_detail: reverse of solution/fix.patch
+    artifact_sha256: 6da07908cd205d9ce36b361c297f690454da204760f58eb8a9d2ceb33a9537ff
     bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
     declared_floor: 0.0
     derivability: live_execution
@@ -2105,71 +1817,35 @@ findings:
       base_image_ref: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-milo/reflex-dev_m_reflex:pr-1891@sha256:060777d77ed2fd5a68721b916e006e9bf699c4064d4f28d92efe2cfa9a2d7596
       bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
       daemon_blocked_reason: ''
-      local_present: false
+      local_present: true
       runtime_digest_pinned: true
       runtime_reference: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:b4d482d8e163d741ac086af764c04daabcd6aee412850fee8a80d8881d90f4ab
-    instrument: G-ADV-STUBBED
+    instrument: G-ADV-NEGATED
     measured_reason: ''
     measured_reward: null
     measurement_basis: ''
-    probe: oracle-stubbed
+    probe: negated-gold
     rule: measured reward must be at or below the declared null floor 0.0
     status: unrunnable
-    unrunnable_reason: this probe changes bytes the graded command reads, so its reward is a function
-      of test outcomes only an execution inside the pinned image can produce
-  finding_id: ADV-UNRUNNABLE-G-ADV-STUBBED-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-  instrument: G-ADV-STUBBED
+    unrunnable_reason: the probe artifact does not apply to the workspace inside the pinned image, so
+      no graded execution was possible
+    weight:
+      declared: true
+      declared_value: 0.05555555555555555
+      graded_denominator: 18
+      implied_value: 0.05555555555555555
+  finding_id: ADV-UNRUNNABLE-G-ADV-NEGATED-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+  instrument: G-ADV-NEGATED
   severity: critical
-  statement: 'Probe oracle-stubbed is UNRUNNABLE against bundle 6bf0c918-e9ad-5397-bb76-cf3e238f2df1 and
-    step 8t makes an unrunnable probe BLOCK rather than a coverage gap. this probe changes bytes the graded
-    command reads, so its reward is a function of test outcomes only an execution inside the pinned image
-    can produce. The pinned image cannot be resolved here: bundle 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    carries base_image_digest sha256:060777d77ed2fd5a68721b916e006e9bf699c4064d4f28d92efe2cfa9a2d7596,
+  statement: 'Probe negated-gold is UNRUNNABLE against bundle 6bf0c918-e9ad-5397-bb76-cf3e238f2df1 and
+    step 8t makes an unrunnable probe BLOCK rather than a coverage gap. the probe artifact does not apply
+    to the workspace inside the pinned image, so no graded execution was possible. The pinned image cannot
+    be resolved here: bundle 6bf0c918-e9ad-5397-bb76-cf3e238f2df1 carries base_image_digest sha256:060777d77ed2fd5a68721b916e006e9bf699c4064d4f28d92efe2cfa9a2d7596,
     its runtime reference 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:b4d482d8e163d741ac086af764c04daabcd6aee412850fee8a80d8881d90f4ab
-    does not resolve in the local daemon (local_present=False, daemon=reachable), and Phase 1 item 4 forbids
+    does not resolve in the local daemon (local_present=True, daemon=reachable), and Phase 1 item 4 forbids
     pulling it because that would cross the firewall. No score is recorded for this probe because none
     was measured, and the contract''s BLOCK is recorded rather than downgraded to a HOLD.'
   subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-- bucket: deterministic
-  caps: BLOCK
-  critical_class: adversarial-probe-discrimination
-  evidence:
-    artifact_detail: oracle plus a stub for every service
-    artifact_sha256: 18da803af6e4bffd1f77182cf838e69a856481f82b6da71daf28e26336449fc6
-    bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    declared_floor: 0.0
-    derivability: live_execution
-    image_state:
-      base_image_digest: sha256:feb1885ae818e5eb6b5a153f2a11cc75a84ae2388788d1db78e3484344c532cc
-      base_image_digest_empty: false
-      base_image_ref: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-milo/reflex-dev_m_reflex:pr-570@sha256:feb1885ae818e5eb6b5a153f2a11cc75a84ae2388788d1db78e3484344c532cc
-      bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-      daemon_blocked_reason: ''
-      local_present: false
-      runtime_digest_pinned: true
-      runtime_reference: 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:eca2d8710d1baffad6f1d273610bbce183857c73bed6574dce2252fb3fb446aa
-    instrument: G-ADV-STUBBED
-    measured_reason: ''
-    measured_reward: null
-    measurement_basis: ''
-    probe: oracle-stubbed
-    rule: measured reward must be at or below the declared null floor 0.0
-    status: unrunnable
-    unrunnable_reason: this probe changes bytes the graded command reads, so its reward is a function
-      of test outcomes only an execution inside the pinned image can produce
-  finding_id: ADV-UNRUNNABLE-G-ADV-STUBBED-873914cf-93b2-57a0-a5c8-264bfa2d3b66
-  instrument: G-ADV-STUBBED
-  severity: critical
-  statement: 'Probe oracle-stubbed is UNRUNNABLE against bundle 873914cf-93b2-57a0-a5c8-264bfa2d3b66 and
-    step 8t makes an unrunnable probe BLOCK rather than a coverage gap. this probe changes bytes the graded
-    command reads, so its reward is a function of test outcomes only an execution inside the pinned image
-    can produce. The pinned image cannot be resolved here: bundle 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    carries base_image_digest sha256:feb1885ae818e5eb6b5a153f2a11cc75a84ae2388788d1db78e3484344c532cc,
-    its runtime reference 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:eca2d8710d1baffad6f1d273610bbce183857c73bed6574dce2252fb3fb446aa
-    does not resolve in the local daemon (local_present=False, daemon=reachable), and Phase 1 item 4 forbids
-    pulling it because that would cross the firewall. No score is recorded for this probe because none
-    was measured, and the contract''s BLOCK is recorded rather than downgraded to a HOLD.'
-  subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
 - bucket: deterministic
   caps: HOLD
   critical_class: contamination-screening

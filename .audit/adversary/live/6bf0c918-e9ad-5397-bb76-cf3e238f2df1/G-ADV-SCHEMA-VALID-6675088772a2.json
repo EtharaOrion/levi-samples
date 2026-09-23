@@ -1,0 +1,10 @@
+{
+  "artifact_sha256": "6675088772a296ed3788e9bfdf8b842231cd19cc35ba2fdf047e11723c58e584",
+  "probe": "G-ADV-SCHEMA-VALID",
+  "row_update": {
+    "measured_reason": "declared-targets-absent-from-output",
+    "measured_reward": 0.0,
+    "measurement_basis": "live execution through the stock Harbor path: the probe diff was applied inside the pinned sanitized image with the network disabled, tests/test.sh drove the committed run_tests.py, and the reward was read from the bound reward contract path",
+    "unrunnable_reason": ""
+  }
+}
