@@ -6,7 +6,7 @@ artifacts = ["/logs/verifier/summary.json", "/logs/verifier/final.diff", "/logs/
 name = "levi/t15-reflex"
 version = "1.0.0"
 description = "Reflex applications build interactive UIs by attaching event handlers to component event triggers, and those triggers ultimately fire from DOM events in the browser. Today an appli"
-authors = [{ name = "FORGE", email = "forge@trinity.invalid" }]
+authors = [{ name = "Gaurav K", email = "gaurav.k@ethara.ai" }]
 keywords = ["python", "issue-resolving", "reflex", "agent:openhands-sdk"]
 
 [metadata]
@@ -53,8 +53,8 @@ delivery_format = "levi"
 # is the digest the pushed image was built from.
 image_pin_kind = "pushed-sanitized-index-digest"
 image_pin_portable = true
-base_image_ref = "pr-1891"
-base_image_digest = ""
+base_image_ref = "426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-milo/reflex-dev_m_reflex:pr-1891@sha256:060777d77ed2fd5a68721b916e006e9bf699c4064d4f28d92efe2cfa9a2d7596"
+base_image_digest = "sha256:060777d77ed2fd5a68721b916e006e9bf699c4064d4f28d92efe2cfa9a2d7596"
 base_image_platform_manifest_digest = "sha256:060777d77ed2fd5a68721b916e006e9bf699c4064d4f28d92efe2cfa9a2d7596"
 base_image_registry_namespace = ""
 environment_build_digest = "ddd25e73627e8cab928cc1ee7c278985856ae31b36fc644954762da7702ad894"
@@ -111,6 +111,7 @@ timeout_sec = 57600.0
 environment_mode = "shared"
 network_mode = "no-network"
 timeout_sec = 3600.0
+null_floor = 0.0
 
 [span_provenance]
 instance_identity = "reflex-dev/reflex v0.3.1..v0.3.2"

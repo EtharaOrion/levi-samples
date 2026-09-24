@@ -33,7 +33,7 @@ dotnet --list-runtimes
 
 ```toml
 [tools]
-dotnet = ["9", { version = "8.0.14", runtime = "dotnet" }]
+dotnet = [ "9", { version = "8.0.14", runtime = "dotnet" } ]
 ```
 
 Valid runtime values: `dotnet`, `aspnetcore`, `windowsdesktop`
@@ -273,97 +273,11 @@ This skips the trust check for `.tool-versions` files that don't contain templat
 
 Pull request #8881: chore: release 2026.4.4
 
-### 🚀 Features
+This is the release chore PR for version 2026.4.4. Prepare the release by regenerating the CHANGELOG.md entry for 2026.4.4 from the work merged in this span, following the repository's established git-cliff changelog conventions (grouped sections for features, bug fixes, refactor, documentation, testing, dependency updates, registry changes, chores, and new contributors).
 
-- **(ci)** auto-convert external PRs to draft mode by @jdx in [#8896](https://github.com/jdx/mise/pull/8896)
-- **(deps)** add `depends` field for user-specified tool dependencies by @cprecioso in [#8776](https://github.com/jdx/mise/pull/8776)
-- **(dotnet)** support runtime-only installs by @fragon10 in [#8524](https://github.com/jdx/mise/pull/8524)
-- **(npm)** apply install_before to transitive dependencies by @risu729 in [#8851](https://github.com/jdx/mise/pull/8851)
-- **(task)** allow passing arguments to task dependencies via {{usage.*}} templates by @jdx in [#8893](https://github.com/jdx/mise/pull/8893)
-- add options field to BackendListVersionsCtx by @esteve in [#8875](https://github.com/jdx/mise/pull/8875)
+The 2026.4.4 entry must summarize, in the repository's changelog style, the span's merged changes, including: the CI workflow that auto-converts external PRs to draft mode; the new user-specified tool dependency field; runtime-only .NET installs; applying install_before to transitive npm dependencies; passing arguments to task dependencies through usage templates; the new options field on the backend list-versions context; the PEP 440 dev-version filtering fix; the e2e Docker image build-dependency fixes; the env flag parsing fix; the seccomp syscall autofix hardening; the GitHub backend tool-option preservation fixes; the provenance verification setting at lock time; stale lockfile entry pruning; the precompiled Python lockfile URL fix; the release build-target verification; Ruby precompiled build revisions; the Swift Ubuntu fallback; the zsh duplicate trust warning fix; the direnv empty-diff fix; the plain .tool-versions trust check skip; the go settings namespace rename; the task_config.includes documentation clarification; the Dockerized e2e test change; the dependency bumps; the registry addition and removal; the vendored aqua-registry warning workflow; the draft-conversion token change; and the removal of deprecated settings older than twelve months. Attribute entries per the repository's changelog conventions using the repository history; do not invent attributions.
 
-### 🐛 Bug Fixes
-
-- **(backend)** filter PEP 440 .dev versions in fuzzy version matching by @richardthe3rd in [#8849](https://github.com/jdx/mise/pull/8849)
-- **(ci)** update COPR BuildRequires rust version to match MSRV 1.88 by @jdx in [#8911](https://github.com/jdx/mise/pull/8911)
-- **(ci)** add Ruby build dependencies to e2e Docker image by @jdx in [#8910](https://github.com/jdx/mise/pull/8910)
-- **(ci)** add missing build dependencies to e2e Docker image by @jdx in [#8912](https://github.com/jdx/mise/pull/8912)
-- **(ci)** add missing build dependencies to e2e Docker image by @jdx in [#8914](https://github.com/jdx/mise/pull/8914)
-- **(ci)** use Node 24 LTS for corepack e2e test by @jdx in [#8915](https://github.com/jdx/mise/pull/8915)
-- **(ci)** add libxml2 and pkg-config to e2e Docker image by @jdx in [#8917](https://github.com/jdx/mise/pull/8917)
-- **(ci)** add libxml2-dev to e2e image and disable Swift SPM tests by @jdx in [#8918](https://github.com/jdx/mise/pull/8918)
-- **(docs)** use sans-serif font for badges by @jdx in [#8887](https://github.com/jdx/mise/pull/8887)
-- **(env)** parse --env=VALUE and -E=VALUE flag forms correctly by @jdx in [#8889](https://github.com/jdx/mise/pull/8889)
-- **(exec)** use i64::from() for seccomp syscall numbers to survive autofix by @jdx in [#8882](https://github.com/jdx/mise/pull/8882)
-- **(github)** preserve tool options like filter_bins when version specified via CLI by @jdx in [#8888](https://github.com/jdx/mise/pull/8888)
-- **(github)** use alias-specific options when tool_alias has its own config by @jdx in [#8892](https://github.com/jdx/mise/pull/8892)
-- **(install)** add locked_verify_provenance setting and detect github attestations at lock time by @jdx in [#8901](https://github.com/jdx/mise/pull/8901)
-- **(lock)** prune stale version entries during filtered `mise lock <tool>` runs by @altendky in [#8599](https://github.com/jdx/mise/pull/8599)
-- **(python)** use lockfile URL for precompiled installs by @hehaoqian in [#8750](https://github.com/jdx/mise/pull/8750)
-- **(release)** verify all build targets succeed before releasing by @jdx in [#8886](https://github.com/jdx/mise/pull/8886)
-- **(ruby)** support build revisions for precompiled binaries in mise.lock by @jdx in [#8900](https://github.com/jdx/mise/pull/8900)
-- **(swift)** fall back to Ubuntu 24.04 for unsupported Ubuntu versions by @jdx in [#8916](https://github.com/jdx/mise/pull/8916)
-- **(zsh)** avoid duplicate trust warning after cd by @timothysparg in [#8898](https://github.com/jdx/mise/pull/8898)
-- update flake.lock and add fix for rust-bindgen to default.nix by @esteve in [#8874](https://github.com/jdx/mise/pull/8874)
-- when direnv diff is empty, do not try to parse it by @yaleman in [#8857](https://github.com/jdx/mise/pull/8857)
-- skip trust check for plain .tool-versions in task list by @dportalesr in [#8876](https://github.com/jdx/mise/pull/8876)
-
-### 🚜 Refactor
-
-- **(go)** rename go_* settings to go.* namespace by @jdbruijn in [#8598](https://github.com/jdx/mise/pull/8598)
-
-### 📚 Documentation
-
-- **(tasks)** clarify task_config.includes behavior by @risu729 in [#8905](https://github.com/jdx/mise/pull/8905)
-
-### 🧪 Testing
-
-- **(ci)** run e2e tests inside Docker containers by @jdx in [#8899](https://github.com/jdx/mise/pull/8899)
-
-### 📦️ Dependency Updates
-
-- bump ubi from 0.8 to 0.9 by @jdx in [#8906](https://github.com/jdx/mise/pull/8906)
-- bump zip from 3 to 8 by @jdx in [#8908](https://github.com/jdx/mise/pull/8908)
-- update lockfile deps (hold back rattler) by @jdx in [#8909](https://github.com/jdx/mise/pull/8909)
-- update bun.lock by @jdx in [#8913](https://github.com/jdx/mise/pull/8913)
-
-### 📦 Registry
-
-- add turso ([github:tursodatabase/turso-cli](https://github.com/tursodatabase/turso-cli)) by @kenn in [#8884](https://github.com/jdx/mise/pull/8884)
-- remove carp test by @jdx in [#8894](https://github.com/jdx/mise/pull/8894)
-
-### Chore
-
-- **(ci)** add workflow to warn PRs modifying vendored aqua-registry by @jdx in [#8897](https://github.com/jdx/mise/pull/8897)
-- **(ci)** use github.token for draft conversion in auto-draft workflow by @jdx in [#8903](https://github.com/jdx/mise/pull/8903)
-- remove deprecated settings older than 12 months by @jdx in [#8904](https://github.com/jdx/mise/pull/8904)
-
-### New Contributors
-
-- @dportalesr made their first contribution in [#8876](https://github.com/jdx/mise/pull/8876)
-- @timothysparg made their first contribution in [#8898](https://github.com/jdx/mise/pull/8898)
-- @hehaoqian made their first contribution in [#8750](https://github.com/jdx/mise/pull/8750)
-- @jdbruijn made their first contribution in [#8598](https://github.com/jdx/mise/pull/8598)
-- @cprecioso made their first contribution in [#8776](https://github.com/jdx/mise/pull/8776)
-- @yaleman made their first contribution in [#8857](https://github.com/jdx/mise/pull/8857)
-- @kenn made their first contribution in [#8884](https://github.com/jdx/mise/pull/8884)
-- @fragon10 made their first contribution in [#8524](https://github.com/jdx/mise/pull/8524)
-
-## 📦 Aqua Registry Updates
-
-#### New Packages (6)
-
-- [`ahkohd/oyo`](https://github.com/ahkohd/oyo)
-- [`bellicose100xp/jiq`](https://github.com/bellicose100xp/jiq)
-- [`kurama/dealve-tui`](https://github.com/kurama/dealve-tui)
-- [`micahkepe/jsongrep`](https://github.com/micahkepe/jsongrep)
-- [`textfuel/lazyjira`](https://github.com/textfuel/lazyjira)
-- [`ubugeeei/vize`](https://github.com/ubugeeei/vize)
-
-#### Updated Packages (1)
-
-- [`sigstore/cosign`](https://github.com/sigstore/cosign)
-
+Also update the vendored aqua registry for this release: register the six newly added packages (oyo, jiq, dealve-tui, jsongrep, lazyjira, and vize) and refresh the cosign package definition, using the vendored registry's own file layout and format.
 ## Issue 13
 
 Pull request #8882: fix(exec): use i64::from() for seccomp syscall numbers to survive autofix
@@ -583,7 +497,7 @@ run = 'echo "building {{usage.app}}"'
 
 [tasks.deploy]
 usage = 'arg "<app>"'
-depends = [{ task = "build", args = ["{{usage.app}}"] }]
+depends = [ { task = "build", args = ["{{usage.app}}"] } ]
 run = 'echo "deploying {{usage.app}}"'
 ```
 
@@ -853,7 +767,7 @@ Supersedes #8781 — incorporates the GitHub attestations detection change while
 - [ ] Verify `mise lock` records `github-attestations` provenance for tools with `github_artifact_attestations` in aqua registry (e.g., `jq >= 1.8.0`) after downloading and verifying the artifact
 - [ ] Verify `mise lock` logs verification activity for current platform tools with provenance
 - [ ] Verify `mise install --locked` skips provenance verification by default (existing behavior preserved)
-- [ ] Verify `MISE_LOCKED_VERIFY_PROVENANCE=1 mise install --locked` re-verifies provenance at install time
+- [ ] Verify `env MISE_LOCKED_VERIFY_PROVENANCE="1" mise install --locked` re-verifies provenance at install time
 - [ ] Verify `MISE_PARANOID=1 mise install --locked` also re-verifies provenance
 - [ ] Verify cross-platform lock entries still get provenance from metadata detection (no download)
 - [ ] Verify the new setting appears in `mise settings ls` and schema

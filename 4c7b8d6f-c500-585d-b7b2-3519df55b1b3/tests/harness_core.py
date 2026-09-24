@@ -99,6 +99,35 @@ def parse_go(output: str) -> dict[str, str]:
     return out
 
 
+_TRANSPORT_TIMESTAMP = _re.compile(
+    r"^\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:?\d{2})?\s+")
+_TRANSPORT_PIPE_PREFIX = _re.compile(r"^[\w.-]+\s+\|\s?")
+_TRANSPORT_TAG_PREFIX = _re.compile(r"^\[[\w .:/-]+\]\s+")
+_TRANSPORT_PROGRESS_SUFFIX = _re.compile(r"\s+\[\s*\d+%\]\s*$")
+
+
+def _strip_transport_noise(line: str) -> str:
+    """Remove log-transport decoration a runner or aggregator wraps around a line.
+
+    Result lines travel through compose-style service prefixes (`svc-1  | `),
+    timestamped log shippers, bracketed suite tags, and progress counters before
+    they reach this parser. None of that decoration is part of the test identity
+    or verdict, and anchored prefix matching over the decorated bytes silently
+    drops every outcome, misgrading a green suite as a suite that never ran.
+    Each pattern is shape-exact (a full ISO instant, a pipe-delimited token, a
+    bracketed tag with trailing whitespace, a whitespace-separated percent
+    group), so a verdict token or a parametrized node id, which attaches its
+    bracket without whitespace, can never be eaten.
+    """
+    prev = None
+    while prev != line:
+        prev = line
+        line = _TRANSPORT_TIMESTAMP.sub("", line)
+        line = _TRANSPORT_PIPE_PREFIX.sub("", line)
+        line = _TRANSPORT_TAG_PREFIX.sub("", line)
+    return _TRANSPORT_PROGRESS_SUFFIX.sub("", line)
+
+
 # pytest reports outcomes in two shapes and the difference is not cosmetic. The `-rA`
 # short summary puts the verdict FIRST (`PASSED path::test`); `-v` puts it LAST
 # (`path::test PASSED [ 12%]`). Reading only the first shape is silently asymmetric,
@@ -136,11 +165,21 @@ def _pytest_summary_id(rest: str) -> str:
     return rest.strip()
 
 
+_PYTEST_COLLECTION_ERROR = _re.compile(r"^_+ ERROR collecting (?P<path>\S+) _+$")
+
+
 def parse_pytest(output: str) -> dict[str, str]:
-    """Map pytest node ids to outcomes, from either `-rA` or `-v` output."""
+    """Map pytest node ids to outcomes, from either `-rA` or `-v` output.
+
+    A module that pytest reports under an `ERROR collecting <path>` header is
+    recorded as a FAIL keyed by the bare module path: the submission broke the
+    module at import time, which is a graded failure of every test inside it,
+    not an absence of grading. resolve_declared maps declared ids under such a
+    module by exact module identity only.
+    """
     out: dict[str, str] = {}
     for line in output.splitlines():
-        stripped = line.strip()
+        stripped = _strip_transport_noise(line.strip())
         for marker, verdict in (("PASSED ", "PASS"), ("FAILED ", "FAIL"),
                                 ("ERROR ", "FAIL"), ("SKIPPED ", "SKIP")):
             if stripped.startswith(marker):
@@ -152,6 +191,10 @@ def parse_pytest(output: str) -> dict[str, str]:
                 # The short summary is the more authoritative of the two when both are
                 # present, so never let a verbose line overwrite one already recorded.
                 out.setdefault(m.group("id").strip(), _PYTEST_VERDICT[m.group("v")])
+    for line in output.splitlines():
+        header = _PYTEST_COLLECTION_ERROR.match(_strip_transport_noise(line.strip()))
+        if header:
+            out.setdefault(header.group("path"), "FAIL")
     return out
 
 
@@ -318,7 +361,7 @@ def parse_rust(output: str) -> dict[str, str]:
     """Map Rust test paths to outcomes from `cargo test` output."""
     out: dict[str, str] = {}
     for line in output.splitlines():
-        stripped = line.strip()
+        stripped = _strip_transport_noise(line.strip())
         if not stripped.startswith("test "):
             continue
         body = stripped[5:]
@@ -457,45 +500,23 @@ def _suffix_index(parsed):
 def resolve_declared(declared, parsed):
     """Match declared target ids onto parsed ones. Returns (resolved, ambiguous, missing).
 
-    Two stages. An exact hit wins outright. Otherwise the declared id is matched
-    on its longest trailing component sequence that names exactly one parsed id,
-    which is what lets a declared `pkg/path::TestName` find a parsed `TestName`
-    and a declared bare `TestName` find a parsed `pkg::TestName`, without either
-    side having to know the other's vocabulary.
-
-    Longest-first, and a sequence naming more than one parsed id stops the search
-    rather than falling through to a shorter one: shorter is never less
-    ambiguous, and crediting a target to whichever test happened to sort first is
-    how a grader rewards the wrong thing. Ambiguity is returned for the caller to
-    refuse on, never resolved by picking.
+    Exact set membership only. A declared id resolves when the parsed output
+    carries exactly that id. A declared id whose module was recorded FAIL by a
+    collection error also resolves FAIL, established by exact module identity:
+    the submission broke the module at import, which grades every test inside
+    it as failed rather than absent. Anything else is missing. Suffix and component
+    matching were removed because a fuzzy bridge lets a poisoned or truncated
+    log line claim credit for a target it never ran, and every bundle in this
+    corpus declares its targets in the parser's own canonical vocabulary, so
+    the bridge carried risk without carrying any resolution.
     """
     resolved, ambiguous, missing = {}, [], []
-    index = _suffix_index(parsed)
     for target in declared:
         if target in parsed:
             resolved[target] = parsed[target]
-            continue
-        parts = id_components(target)
-        matched = False
-        for size in range(len(parts), 0, -1):
-            candidates = index.get(parts[-size:])
-            if candidates and size == 1 and len(parts) > 1:
-                # Only the test's own name matched. A parsed id that names a container of its own
-                # names a different one, or a longer suffix would have matched, so it is another
-                # test that shares the name: S14's test_assets_service...test_upload_asset had
-                # resolved to test_bookmark_assets_api...test_upload_asset. A bare parsed name
-                # carries no container and still matches, which is the vocabulary bridge.
-                candidates = {c for c in candidates if len(id_components(c)) == 1}
-            if not candidates:
-                continue
-            if len(candidates) == 1:
-                resolved[target] = parsed[next(iter(candidates))]
-                matched = True
-            else:
-                ambiguous.append(target)
-                matched = True
-            break
-        if not matched:
+        elif "::" in target and parsed.get(target.split("::", 1)[0]) == "FAIL":
+            resolved[target] = "FAIL"
+        else:
             missing.append(target)
     return resolved, ambiguous, missing
 
