@@ -254,6 +254,7 @@ HOLD
 
 ### crucible-ankitporwal04-20260923t005222z-dba1b1
 
+- ✅ Execution tally: this evidence document is the fourteenth full harness execution (evidence rebind) inside this single CRUCIBLE run; across the fourteen executions the trajectory ran from 186 findings with 101 capping BLOCK down to the present 46 findings with zero capping BLOCK.
 - ✅ Resolved: all adversary probes and the empty-submission replay are measured locally inside the pinned images; no probe remains unrunnable and the probe residue is documented in the evidence.
 - ⚠️ The rollout population reconciles against the precommitted roster: agent identities were bound by requirements committed 2026-09-11 before any rollout, and the single-run authorization dated 2026-09-19 is committed post hoc in notice.md, so the count leg stays a HOLD-level authorization-provenance gap (adjudicated on the feedback chain, sequences 14 and 15).
 - ⚠️ The human-adjudicated LLM-assisted scoring channel carries a named human reviewer of record per task with a verified outcome-to-reward identity; its six findings cap at HOLD with reason judge-discipline-absent until the eleven-trial randomized judging discipline of principle 5a is adopted (adjudicated on the feedback chain, sequence 14).
