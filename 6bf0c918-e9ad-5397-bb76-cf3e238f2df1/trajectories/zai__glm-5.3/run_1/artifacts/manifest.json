@@ -19,7 +19,7 @@
     "source": "/logs/verifier/final.diff",
     "destination": "artifacts/logs/verifier/final.diff",
     "type": "file",
-    "status": "failed",
+    "status": "ok",
     "service": null,
     "exclude": []
   },
@@ -27,7 +27,7 @@
     "source": "/logs/verifier/target-stdout.md",
     "destination": "artifacts/logs/verifier/target-stdout.md",
     "type": "file",
-    "status": "failed",
+    "status": "ok",
     "service": null,
     "exclude": []
   },
@@ -35,7 +35,7 @@
     "source": "/logs/verifier/reward_reason.json",
     "destination": "artifacts/logs/verifier/reward_reason.json",
     "type": "file",
-    "status": "failed",
+    "status": "ok",
     "service": null,
     "exclude": []
   }

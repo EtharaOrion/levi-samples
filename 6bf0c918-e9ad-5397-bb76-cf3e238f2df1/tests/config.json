@@ -318,6 +318,7 @@
     "tests/utils/test_hosting.py::test_validate_token_with_retries_success"
   ],
   "parser": "pytest",
+  "discrimination_weight": 0.05555555555555555,
   "preserve_baseline_stats": {
     "ceiling": 0.05,
     "declared": 286,

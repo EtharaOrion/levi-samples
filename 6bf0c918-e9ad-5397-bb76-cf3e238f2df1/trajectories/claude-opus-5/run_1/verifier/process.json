@@ -35,8 +35,11 @@
   },
   "human_review": {
     "status": "completed",
-    "reviewer": null,
-    "provenance": "user_confirmed"
+    "reviewer": "gaurav.k@ethara.ai",
+    "provenance": "user_confirmed",
+    "mode": "human-adjudicated-llm-assisted",
+    "reviewer_recorded_at": "2026-09-24",
+    "reviewer_recorded_basis": "operator attestation recorded after the review; reviewer field was null in the original emission; corrected to the single reviewer of record for this task per the operator change request and feedback sequence 14"
   },
   "composition": {
     "alpha": 0.026316,

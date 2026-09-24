@@ -6,7 +6,7 @@ artifacts = ["/logs/verifier/summary.json", "/logs/verifier/final.diff", "/logs/
 name = "levi/t06-reflex"
 version = "1.0.0"
 description = "When a Pynecone application is started in production mode, the framework spins up the backend server using a process manager suited for serving many concurrent requests. On Linux a"
-authors = [{ name = "FORGE", email = "forge@trinity.invalid" }]
+authors = [{ name = "Dimple Soni", email = "dimple.soni@ethara.ai" }]
 keywords = ["python", "issue-resolving", "reflex", "agent:openhands-sdk"]
 
 [metadata]
@@ -53,8 +53,8 @@ delivery_format = "levi"
 # is the digest the pushed image was built from.
 image_pin_kind = "pushed-sanitized-index-digest"
 image_pin_portable = true
-base_image_ref = "pr-570"
-base_image_digest = ""
+base_image_ref = "426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-milo/reflex-dev_m_reflex:pr-570@sha256:feb1885ae818e5eb6b5a153f2a11cc75a84ae2388788d1db78e3484344c532cc"
+base_image_digest = "sha256:feb1885ae818e5eb6b5a153f2a11cc75a84ae2388788d1db78e3484344c532cc"
 base_image_platform_manifest_digest = "sha256:feb1885ae818e5eb6b5a153f2a11cc75a84ae2388788d1db78e3484344c532cc"
 base_image_registry_namespace = ""
 environment_build_digest = "a81370678bd247ef5b913d399fbdced9bfc7086ea522a859a1ec64cb6a876339"
@@ -111,6 +111,7 @@ timeout_sec = 57600.0
 environment_mode = "shared"
 network_mode = "no-network"
 timeout_sec = 3600.0
+null_floor = 0.0
 
 [span_provenance]
 instance_identity = "reflex-dev/reflex v0.1.18..v0.1.19"

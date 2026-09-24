@@ -2,5 +2,5 @@
 set -eo pipefail
 
 cd /home/mise
-cargo test
+cargo test -- --test-threads=1
 
