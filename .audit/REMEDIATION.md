@@ -130,7 +130,7 @@ Do this only after any content you still want from the lane-local `.audit/` is p
 ### Contamination screening roots (OPERATOR, ENGRAM side)
 
 - D-CON-PRODUCER-DETERMINATION-ABSENT: the ENGRAM roots carry determinations for three units that are not in this tree and zero for the three resident bundles. Re-run the ENGRAM screening for uuids 4c7b8d6f-c500-585d-b7b2-3519df55b1b3, 6bf0c918-e9ad-5397-bb76-cf3e238f2df1, 873914cf-93b2-57a0-a5c8-264bfa2d3b66 and republish the roots. Also correct exclusion_list.json limitation 1, which falsely claims it scopes to the resident bundles.
-- D-CON-FREEZE-UNDERIVABLE: record `task_generating_event_at` per bundle from the upstream issue-creation timestamp (not a rewritable commit timestamp). Without it the freeze atom stays underivable; 873914cf (upstream 2023-02-21, before every cutoff) is the highest-risk bundle.
+- D-CON-FREEZE-UNDERIVABLE: record `task_generating_event_at` per bundle from the upstream issue-creation timestamp (not a rewritable commit timestamp). Without it the freeze atom stays underivable. The freeze table binds only repositories in its listed evaluation sets and resolves reflex-dev/reflex units not_applicable, so 873914cf's 2023-02-21 commit date is an open HOLD pending the re-screen, not established contamination.
 - D-CON-NEARDUP-CORPUS-OPAQUE: republish the neardup corpus with payloads or shingle sets, not digests only, so cross-corpus similarity is derivable.
 
 ### Bundle hygiene (AUTHOR)
