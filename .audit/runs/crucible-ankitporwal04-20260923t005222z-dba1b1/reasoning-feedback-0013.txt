@@ -1,7 +1,0 @@
-[
-  "Operator updated the change request with item B4: withdraw the free-text claim that one genuine contamination survives any re-screen of 873914cf.",
-  "Verified against committed bytes: .memory/roots/freeze_table.json per_set_cutoffs bind only repositories in listed evaluation sets, and its own holdout determination for a reflex-dev/reflex unit is not_applicable; 873914cf is reflex-dev/reflex, so no listed cutoff binds it.",
-  "Verified the 2023-02-21 date is upstream_change_committed_at, a rewritable commit timestamp step 8i refuses as the task-generating event; task_generating_event_at is null.",
-  "The claim was CRUCIBLE-authored remediation prose (mkreport3 escalation line rendered into report.md and VERDICT.md), not the output of any instrument; the only formal standing is D-PROV-FREEZE-TABLE-UNRESOLVED and D-CON-FREEZE-UNDERIVABLE at HOLD, which remain and clear when ENGRAM re-screens the resident trio.",
-  "Action: withdraw the categorical statement from the escalation prose and correct the REMEDIATION highest-risk framing; no scope bytes change, so Phase 0.5 does not re-fire; disposition unaffected."
-]

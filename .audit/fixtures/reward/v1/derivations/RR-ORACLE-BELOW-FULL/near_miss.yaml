@@ -1,5 +1,0 @@
-fixture_only: true
-full_reward: 1.0
-identity: fixture-reserved/RR-ORACLE-BELOW-FULL/near_miss
-measured_reward: 0.75
-submission_is_oracle: false

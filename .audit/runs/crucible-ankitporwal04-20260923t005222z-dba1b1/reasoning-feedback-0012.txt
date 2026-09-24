@@ -1,6 +1,0 @@
-[
-  "The scope byte changes accepted from the operator change request moved the .audit/scope.yaml digest from 6d4f0d32e68ad71b144bf702a0aec75bad4f68cd8572c2f312d951d3c8557e58 to 94a2af04121b322ec8de171ea34bc177a542448dd2a4be34f433b9efc93fba26, so the Phase 0.5 approval was invalidated and re-fires.",
-  "The operator is the named gate_approver in the parent CRUCIBLE_VIEW signature_trust_roots (Ankit Porwal, human project lead external to the agent runtime, evidence SIGNOFF.md dated 2026-09-07), so this is a human approval performed by delegate under the same authority as feedback sequences 5, 6, and 8.",
-  "Semantic content of the re-approved scope: trajectories.rewards lists all six committed rollout rewards; the G-BUD required-instrument row is removed under the step 8s exemption; verifier_robustness binds stability_trials 3 and flakiness_trials 3; the compiled weight floor is bound at 0.125 with the measured shares recorded.",
-  "No capability state changed; autonomous_gates remains default; the unsigned envelope gap D-APPROVAL-ENVELOPE-UNSIGNED continues to stand."
-]

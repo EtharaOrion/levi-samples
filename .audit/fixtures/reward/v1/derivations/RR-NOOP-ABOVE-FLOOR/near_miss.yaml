@@ -1,5 +1,0 @@
-declared_floor: 0.05
-fixture_only: true
-identity: fixture-reserved/RR-NOOP-ABOVE-FLOOR/near_miss
-measured_reward: 0.4
-probe_is_noop: false

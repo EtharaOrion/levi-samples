@@ -1,7 +1,0 @@
-fixture_only: true
-identity: fixture-reserved/RA-ZERO-ATTRIBUTION/positive
-rollouts:
-- reason: ''
-  reward: 0.0
-- reason: graded
-  reward: 0.5
