@@ -445,13 +445,19 @@ def _recompute_reward(
 
 
 def _membership_resolution(module: Any, declared: list[str], parsed: dict[str, str]) -> dict:
-    """Split target resolution into exact membership and suffix fallback.
+    """Split target resolution into exact membership, module-collection FAIL, and residue.
 
     Step 8f retains target matching by anything other than set membership over
-    normalized test names. resolve_declared at harness_core.py lines 457 to 500
-    tries exact match first and then a suffix match over ID_SEPARATORS, so the
-    fallback is measurable as the set of targets that resolved without the
-    declared identifier ever appearing as a parsed key.
+    normalized test names. The committed resolve_declared resolves a declared
+    id either by exact parsed-key membership or by grading it FAIL when its
+    module was recorded FAIL through a collection-error header; the former
+    suffix fallback over ID_SEPARATORS was removed, so it no longer exists to
+    measure. A module-collection FAIL is established by exact module identity
+    and grants no credit, so it is classified separately and is not a
+    membership violation. The retained residue is any non-exact resolution
+    that GRANTS PASS credit, because only a credit-granting resolution outside
+    exact membership can inflate a score. Adjudicated on the feedback chain at
+    sequence 16.
     """
     resolved, ambiguous, missing = module.resolve_declared(declared, parsed)
     normalized_parsed = {core.normalize_text(key) for key in parsed}
@@ -459,14 +465,27 @@ def _membership_resolution(module: Any, declared: list[str], parsed: dict[str, s
     normalized_hits = [
         target for target in declared if core.normalize_text(target) in normalized_parsed
     ]
-    fallback = sorted(set(resolved) - set(exact))
+    nonexact = sorted(set(resolved) - set(exact))
+    module_fail = [
+        target
+        for target in nonexact
+        if resolved.get(target) == "FAIL"
+        and "::" in target
+        and parsed.get(target.split("::", 1)[0]) == "FAIL"
+    ]
+    nonexact_pass = [
+        target
+        for target in nonexact
+        if target not in module_fail and resolved.get(target) == "PASS"
+    ]
     return {
         "resolved": len(resolved),
         "ambiguous": len(ambiguous),
         "missing": len(missing),
         "exact_membership": len(exact),
         "normalized_membership": len(normalized_hits),
-        "suffix_fallback_targets": fallback,
+        "module_collection_fail_targets": module_fail,
+        "nonexact_pass_targets": nonexact_pass,
     }
 
 
@@ -781,7 +800,7 @@ def _run_invariance(base: Path, bundles: list[Path]) -> InstrumentResult:
             baseline_outcomes = parser(target)
             baseline_reward = _recompute_reward(module, config, baseline_outcomes, parser(preserve))
             baseline_resolution = _membership_resolution(module, declared["f2p"], baseline_outcomes)
-            if baseline_resolution["suffix_fallback_targets"]:
+            if baseline_resolution["nonexact_pass_targets"]:
                 findings.append(
                     Finding(
                         finding_id=f"VER-INVARIANCE-NONMEMBERSHIP-{bundle.name}-{label}",
@@ -793,20 +812,24 @@ def _run_invariance(base: Path, bundles: list[Path]) -> InstrumentResult:
                         subject=bundle.name,
                         statement=(
                             "Target resolution does not reduce to set membership over normalized "
-                            "test names. resolve_declared at harness_core.py lines 457 to 500 "
-                            "credited "
-                            f"{len(baseline_resolution['suffix_fallback_targets'])} declared "
-                            "target(s) through its suffix fallback over ID_SEPARATORS at line 436 "
-                            "rather than through an exact parsed key, so a target can be credited "
-                            "to a test whose identifier the declaration never names."
+                            "test names. resolve_declared credited "
+                            f"{len(baseline_resolution['nonexact_pass_targets'])} declared "
+                            "target(s) with PASS without the declared identifier ever appearing "
+                            "as a parsed key, so a target can be credited to a test whose "
+                            "identifier the declaration never names."
                         ),
                         evidence={
                             "bundle": bundle.name,
                             "rollout": label,
-                            "fallback_targets": baseline_resolution["suffix_fallback_targets"][:8],
+                            "nonexact_pass_targets": baseline_resolution["nonexact_pass_targets"][
+                                :8
+                            ],
+                            "module_collection_fail_targets": baseline_resolution[
+                                "module_collection_fail_targets"
+                            ][:8],
                             "exact_membership": baseline_resolution["exact_membership"],
                             "resolved": baseline_resolution["resolved"],
-                            "locus": f"{HARNESS_CORE_RELATIVE} lines 457 to 500",
+                            "locus": f"{HARNESS_CORE_RELATIVE} resolve_declared",
                         },
                     )
                 )
@@ -822,7 +845,7 @@ def _run_invariance(base: Path, bundles: list[Path]) -> InstrumentResult:
                     float(baseline_reward["reward"]), 12
                 )
                 reason_moved = variant_reward["reason"] != baseline_reward["reason"]
-                fallback_targets = variant_resolution["suffix_fallback_targets"]
+                fallback_targets = variant_resolution["nonexact_pass_targets"]
                 row = {
                     "bundle": bundle.name,
                     "rollout": label,
@@ -833,10 +856,13 @@ def _run_invariance(base: Path, bundles: list[Path]) -> InstrumentResult:
                     "variant_keys": len(variant_outcomes),
                     "score_moved": moved,
                     "reason_moved": reason_moved,
-                    "suffix_fallback_targets": len(fallback_targets),
+                    "nonexact_pass_targets": len(fallback_targets),
+                    "module_collection_fail_targets": len(
+                        variant_resolution["module_collection_fail_targets"]
+                    ),
                 }
                 notes["variants"].append(row)
-                if fallback_targets and not baseline_resolution["suffix_fallback_targets"]:
+                if fallback_targets and not baseline_resolution["nonexact_pass_targets"]:
                     findings.append(
                         Finding(
                             finding_id=(
@@ -851,18 +877,18 @@ def _run_invariance(base: Path, bundles: list[Path]) -> InstrumentResult:
                             statement=(
                                 f"Under the bound perturbation class {class_name} the declared "
                                 "targets no longer appear as parsed keys, and resolve_declared "
-                                f"credited {len(fallback_targets)} of them through its suffix "
-                                "fallback over ID_SEPARATORS at harness_core.py line 436 instead. "
-                                "The score survives only because target resolution is not set "
-                                "membership over normalized test names, so a credited target is "
-                                "matched to a parsed identifier the declaration never names."
+                                f"still credited {len(fallback_targets)} of them with PASS "
+                                "through a non-exact resolution. The score survives only because "
+                                "target resolution is not set membership over normalized test "
+                                "names, so a credited target is matched to a parsed identifier "
+                                "the declaration never names."
                             ),
                             evidence=dict(
                                 row,
-                                fallback_sample=fallback_targets[:8],
+                                nonexact_pass_sample=fallback_targets[:8],
                                 baseline_exact_membership=baseline_resolution["exact_membership"],
                                 variant_exact_membership=variant_resolution["exact_membership"],
-                                locus=f"{HARNESS_CORE_RELATIVE} lines 457 to 500",
+                                locus=f"{HARNESS_CORE_RELATIVE} resolve_declared",
                                 log=_relative(verifier_dir / TARGET_LOG_NAME, base),
                             ),
                         )

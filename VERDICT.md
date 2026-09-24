@@ -103,10 +103,9 @@ HOLD
 
 #### 🟡 verifier-robustness
 
-2 finding(s), 0 capping BLOCK, 2 capping HOLD.
+1 finding(s), 0 capping BLOCK, 1 capping HOLD.
 
 - ⚠️ VER-BASELINE-DROPPED-AT-BASE-873914cf-93b2-57a0-a5c8-264bfa2d3b66 (caps HOLD, medium): 8 declared preserve target(s) do not execute on the unmodified base and were dropped from the preserve set, so those non-target tests are unobserved at base rather than observed green.
-- ⚠️ VER-INVARIANCE-NONMEMBERSHIP-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-zai__glm-5.3/run_1 (caps HOLD, high): Target resolution does not reduce to set membership over normalized test names. resolve_declared at harness_core.py lines 457 to 500 credited 4 declared target(s) through its suffix fallback over ID_SEPARATORS at line 436 rather than through an exact parsed key, so a target can be credited to a test whose identifier the declaration never names.
 
 #### Adversary probes
 

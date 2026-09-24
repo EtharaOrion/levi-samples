@@ -1,4 +1,4 @@
-content_digest: 90f1587d71958ed73d6d2c6df80333752048628c04b2b8d4d7766f07bf146bc1
+content_digest: 4d97d7e8b02be69f6531d53ad93d4d394f8b604db86f7583d9af4db8236d59cd
 coverage_gaps:
 - caps: HOLD
   gap_id: D-CAL-PILOT-AGGREGATE-UNPROJECTED
@@ -1069,7 +1069,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: contamination-screening
-  evidence: &id028
+  evidence: &id027
     neighbours:
     - units:
       - shingle_count: 618
@@ -1335,11 +1335,11 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: execution-attestation
-  evidence: &id069
+  evidence: &id068
     crucible_view_digest: a619b70101345155265126a381cc07048acce9993f6ca1e3639deebcb1217d85
     execution_operator_trust_policy: null
-    principals_bearing_required_role: &id073 []
-    source_root_declared_roles: &id075
+    principals_bearing_required_role: &id072 []
+    source_root_declared_roles: &id074
     - auditor_signer
     - checkpoint_signer
     - cohort_registry_issuer
@@ -1359,8 +1359,8 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: execution-attestation
-  evidence: &id070
-    absent_roots: &id071
+  evidence: &id069
+    absent_roots: &id070
     - identity: null
       kind: source_attestation_trust_root
       limitation: the source-attestation root above is ENGRAM-signed under a project-local key; no independent
@@ -1369,8 +1369,8 @@ findings:
       root_number: 6
       status: ABSENT
     crucible_view_digest: a619b70101345155265126a381cc07048acce9993f6ca1e3639deebcb1217d85
-    external_trust_roots_available: &id072 []
-    signature_trust_roots: &id074
+    external_trust_roots_available: &id071 []
+    signature_trust_roots: &id073
     - authorized_roles:
       - checkpoint_signer
       - pilot_signer
@@ -1417,7 +1417,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: execution-fidelity
-  evidence: &id049
+  evidence: &id048
     adequacy_approved: false
     approval: &id001
       adequacy_approved: false
@@ -1448,7 +1448,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: execution-fidelity
-  evidence: &id051
+  evidence: &id050
     adequacy_approved: false
     approval: &id003
       adequacy_approved: false
@@ -1479,7 +1479,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: execution-fidelity
-  evidence: &id053
+  evidence: &id052
     adequacy_approved: false
     approval: &id005
       adequacy_approved: false
@@ -1510,7 +1510,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: execution-fidelity
-  evidence: &id055
+  evidence: &id054
     adequacy_approved: false
     approval: &id007
       adequacy_approved: false
@@ -1541,7 +1541,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: execution-fidelity
-  evidence: &id057
+  evidence: &id056
     adequacy_approved: false
     approval: &id009
       adequacy_approved: false
@@ -1572,7 +1572,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: execution-fidelity
-  evidence: &id059
+  evidence: &id058
     adequacy_approved: false
     approval: &id011
       adequacy_approved: false
@@ -1603,7 +1603,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: execution-fidelity
-  evidence: &id048
+  evidence: &id047
     adequacy_approved: false
     approval: *id001
     approved: false
@@ -1626,7 +1626,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: execution-fidelity
-  evidence: &id050
+  evidence: &id049
     adequacy_approved: false
     approval: *id003
     approved: false
@@ -1649,7 +1649,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: execution-fidelity
-  evidence: &id052
+  evidence: &id051
     adequacy_approved: false
     approval: *id005
     approved: false
@@ -1672,7 +1672,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: execution-fidelity
-  evidence: &id054
+  evidence: &id053
     adequacy_approved: false
     approval: *id007
     approved: false
@@ -1695,7 +1695,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: execution-fidelity
-  evidence: &id056
+  evidence: &id055
     adequacy_approved: false
     approval: *id009
     approved: false
@@ -1718,7 +1718,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: execution-fidelity
-  evidence: &id058
+  evidence: &id057
     adequacy_approved: false
     approval: *id011
     approved: false
@@ -1741,7 +1741,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: execution-fidelity
-  evidence: &id066
+  evidence: &id065
     bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
     diff_comparison:
       reason: the scorer's submission and the agent's final state share no path
@@ -1766,7 +1766,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: execution-fidelity
-  evidence: &id067
+  evidence: &id066
     bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
     diff_comparison:
       reason: the scorer's submission and the agent's final state share no path
@@ -1790,7 +1790,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: execution-fidelity
-  evidence: &id068
+  evidence: &id067
     bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
     diff_comparison:
       reason: the scorer's submission and the agent's final state share no path
@@ -1814,7 +1814,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: execution-fidelity
-  evidence: &id061
+  evidence: &id060
     bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
     conformance_predicate: trinity.trial-conformance/v1
     coverage: &id013
@@ -1923,7 +1923,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: execution-fidelity
-  evidence: &id060
+  evidence: &id059
     bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
     conformance_predicate: trinity.trial-conformance/v1
     coverage: *id013
@@ -1948,7 +1948,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: provenance-carrier-integrity
-  evidence: &id030
+  evidence: &id029
     binding_envelope: unsigned-no-trust-root
   finding_id: F-CON-RECORD-ENVELOPE-UNSIGNED-4c7b8d6f
   instrument: G-CON-RECORD
@@ -1959,7 +1959,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: provenance-carrier-integrity
-  evidence: &id032
+  evidence: &id031
     binding_envelope: unsigned-no-trust-root
   finding_id: F-CON-RECORD-ENVELOPE-UNSIGNED-6bf0c918
   instrument: G-CON-RECORD
@@ -1970,7 +1970,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: provenance-carrier-integrity
-  evidence: &id034
+  evidence: &id033
     binding_envelope: unsigned-no-trust-root
   finding_id: F-CON-RECORD-ENVELOPE-UNSIGNED-873914cf
   instrument: G-CON-RECORD
@@ -1981,7 +1981,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: provenance-carrier-integrity
-  evidence: &id029
+  evidence: &id028
     path: solution/provenance.sig
   finding_id: F-CON-RECORD-SIGNATURE-ABSENT-4c7b8d6f
   instrument: G-CON-RECORD
@@ -1992,7 +1992,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: provenance-carrier-integrity
-  evidence: &id031
+  evidence: &id030
     path: solution/provenance.sig
   finding_id: F-CON-RECORD-SIGNATURE-ABSENT-6bf0c918
   instrument: G-CON-RECORD
@@ -2003,7 +2003,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: provenance-carrier-integrity
-  evidence: &id033
+  evidence: &id032
     path: solution/provenance.sig
   finding_id: F-CON-RECORD-SIGNATURE-ABSENT-873914cf
   instrument: G-CON-RECORD
@@ -2014,8 +2014,8 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: reward-coverage-ledger
-  evidence: &id076
-    attestation_clauses: &id078 []
+  evidence: &id075
+    attestation_clauses: &id077 []
   finding_id: F-LEDGER-NO-EXTERNAL-ENFORCEMENT
   instrument: G-REWARD-COVERAGE-LEDGER
   severity: high
@@ -2026,7 +2026,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: reward-coverage-ledger
-  evidence: &id077
+  evidence: &id076
     ledger_channels:
     - read
     - write
@@ -2058,7 +2058,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: reward-integrity
-  evidence: &id035
+  evidence: &id034
     declared_closure:
     - reward.json
     - reward.txt
@@ -2091,7 +2091,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: reward-integrity
-  evidence: &id037
+  evidence: &id036
     declared_closure:
     - reward.json
     - reward.txt
@@ -2124,7 +2124,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: reward-integrity
-  evidence: &id039
+  evidence: &id038
     declared_closure:
     - reward.json
     - reward.txt
@@ -2157,7 +2157,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: reward-integrity
-  evidence: &id041
+  evidence: &id040
     declared_closure:
     - reward.json
     - reward.txt
@@ -2190,7 +2190,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: reward-integrity
-  evidence: &id043
+  evidence: &id042
     declared_closure:
     - reward.json
     - reward.txt
@@ -2223,7 +2223,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: reward-integrity
-  evidence: &id045
+  evidence: &id044
     declared_closure:
     - reward.json
     - reward.txt
@@ -2256,7 +2256,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: reward-integrity
-  evidence: &id036
+  evidence: &id035
     verifier_environment_mode: shared
   finding_id: F-REWARD-VERIFIER-NOT-ISOLATED-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-claude-opus-5-run_1
   instrument: rewardprovenance
@@ -2267,7 +2267,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: reward-integrity
-  evidence: &id038
+  evidence: &id037
     verifier_environment_mode: shared
   finding_id: F-REWARD-VERIFIER-NOT-ISOLATED-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-zai__glm-5.3-run_1
   instrument: rewardprovenance
@@ -2278,7 +2278,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: reward-integrity
-  evidence: &id040
+  evidence: &id039
     verifier_environment_mode: shared
   finding_id: F-REWARD-VERIFIER-NOT-ISOLATED-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-claude-opus-5-run_1
   instrument: rewardprovenance
@@ -2289,7 +2289,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: reward-integrity
-  evidence: &id042
+  evidence: &id041
     verifier_environment_mode: shared
   finding_id: F-REWARD-VERIFIER-NOT-ISOLATED-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-zai__glm-5.3-run_1
   instrument: rewardprovenance
@@ -2300,7 +2300,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: reward-integrity
-  evidence: &id044
+  evidence: &id043
     verifier_environment_mode: shared
   finding_id: F-REWARD-VERIFIER-NOT-ISOLATED-873914cf-93b2-57a0-a5c8-264bfa2d3b66-claude-opus-5-run_1
   instrument: rewardprovenance
@@ -2311,7 +2311,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: reward-integrity
-  evidence: &id046
+  evidence: &id045
     verifier_environment_mode: shared
   finding_id: F-REWARD-VERIFIER-NOT-ISOLATED-873914cf-93b2-57a0-a5c8-264bfa2d3b66-zai__glm-5.3-run_1
   instrument: rewardprovenance
@@ -2322,7 +2322,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: reward-integrity
-  evidence: &id047
+  evidence: &id046
     rollouts: 6
     session_ids:
     - harbor-session
@@ -2335,7 +2335,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: screening-root-governance
-  evidence: &id027
+  evidence: &id026
     freeze_root_digest: 912ecaee60b83ceddfe015261f906ee191406abd1f00cdc7665c71e1a75a8920
     sets_without_freeze_row:
     - bigcode/the-stack
@@ -2348,7 +2348,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: verifier-robustness
-  evidence: &id024
+  evidence: &id023
     bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
     dropped_count: 8
     dropped_sample:
@@ -2367,33 +2367,7 @@ findings:
   statement: 8 declared preserve target(s) do not execute on the unmodified base and were dropped from
     the preserve set, so those non-target tests are unobserved at base rather than observed green.
   subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-- bucket: deterministic
-  caps: HOLD
-  critical_class: verifier-robustness
-  evidence: &id023
-    bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    exact_membership: 14
-    fallback_targets:
-    - tests/utils/test_format.py::test_format_prop[prop11-{(_e) => addEvents([Event("mock_event", {})],
-      (_e), {})}]
-    - tests/utils/test_format.py::test_format_prop[prop12-{(_e) => addEvents([Event("mock_event", {arg:_e.target.value})],
-      (_e), {})}]
-    - 'tests/utils/test_format.py::test_format_prop[prop13-{(_e) => addEvents([Event("mock_event", {})],
-      (_e), {"stopPropagation": true})}]'
-    - 'tests/utils/test_format.py::test_format_prop[prop14-{(_e) => addEvents([Event("mock_event", {})],
-      (_e), {"preventDefault": true})}]'
-    locus: tests/harness_core.py lines 457 to 500
-    resolved: 18
-    rollout: zai__glm-5.3/run_1
-  finding_id: VER-INVARIANCE-NONMEMBERSHIP-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-zai__glm-5.3/run_1
-  instrument: G-VER-INVARIANCE
-  severity: high
-  statement: Target resolution does not reduce to set membership over normalized test names. resolve_declared
-    at harness_core.py lines 457 to 500 credited 4 declared target(s) through its suffix fallback over
-    ID_SEPARATORS at line 436 rather than through an exact parsed key, so a target can be credited to
-    a test whose identifier the declaration never names.
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-generated_at: '2026-09-24T09:19:29+00:00'
+generated_at: '2026-09-24T11:16:29+00:00'
 instruments:
 - coverage_gaps:
   - caps: HOLD
@@ -2607,7 +2581,7 @@ instruments:
     - /Users/macbookpro/levi/samples/873914cf-93b2-57a0-a5c8-264bfa2d3b66/environment/sanitize-entrypoint.sh
     artifact_id: scanner-semgrep
     blocked_reason: null
-    elapsed_seconds: 0.869447
+    elapsed_seconds: 1.471178
     exit_code: 1
     stderr_bytes: 2199
     stderr_sha256: 6628ccd44bc1c41a71aadbd634275c2e0b06521b3474ac24c36bad03e2b12c93
@@ -4791,7 +4765,7 @@ instruments:
     - solution/recompute.py
     artifact_id: truth-regen-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-alpha
     blocked_reason: null
-    elapsed_seconds: 0.022344
+    elapsed_seconds: 0.022693
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -4803,7 +4777,7 @@ instruments:
     - solution/recompute.py
     artifact_id: truth-regen-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-bravo
     blocked_reason: null
-    elapsed_seconds: 0.020514
+    elapsed_seconds: 0.022322
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -4815,7 +4789,7 @@ instruments:
     - solution/recompute.py
     artifact_id: truth-regen-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-alpha
     blocked_reason: null
-    elapsed_seconds: 0.020425
+    elapsed_seconds: 0.021743
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -4827,7 +4801,7 @@ instruments:
     - solution/recompute.py
     artifact_id: truth-regen-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-bravo
     blocked_reason: null
-    elapsed_seconds: 0.019824
+    elapsed_seconds: 0.022154
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -4839,7 +4813,7 @@ instruments:
     - solution/recompute.py
     artifact_id: truth-regen-873914cf-93b2-57a0-a5c8-264bfa2d3b66-alpha
     blocked_reason: null
-    elapsed_seconds: 0.020922
+    elapsed_seconds: 0.021994
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -4851,7 +4825,7 @@ instruments:
     - solution/recompute.py
     artifact_id: truth-regen-873914cf-93b2-57a0-a5c8-264bfa2d3b66-bravo
     blocked_reason: null
-    elapsed_seconds: 0.020389
+    elapsed_seconds: 0.021896
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -4899,7 +4873,7 @@ instruments:
     - 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/jdx_m_mise@sha256:8548f5c7004d60da6a8eaca625e5fb7152c40e355eada9a6bdea339b73fff6bf
     artifact_id: docker-inspect-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
     blocked_reason: null
-    elapsed_seconds: 1.8644
+    elapsed_seconds: 0.029949
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -4913,7 +4887,7 @@ instruments:
     - 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:b4d482d8e163d741ac086af764c04daabcd6aee412850fee8a80d8881d90f4ab
     artifact_id: docker-inspect-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
     blocked_reason: null
-    elapsed_seconds: 0.026345
+    elapsed_seconds: 0.026958
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -4927,7 +4901,7 @@ instruments:
     - 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:eca2d8710d1baffad6f1d273610bbce183857c73bed6574dce2252fb3fb446aa
     artifact_id: docker-inspect-873914cf-93b2-57a0-a5c8-264bfa2d3b66
     blocked_reason: null
-    elapsed_seconds: 0.031853
+    elapsed_seconds: 0.028509
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -4936,386 +4910,410 @@ instruments:
     timed_out: false
   standing: insufficient_evidence
 - coverage_gaps: []
-  disposition_cap: HOLD
-  findings:
-  - bucket: deterministic
-    caps: HOLD
-    critical_class: verifier-robustness
-    evidence: *id023
-    finding_id: VER-INVARIANCE-NONMEMBERSHIP-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-zai__glm-5.3/run_1
-    instrument: G-VER-INVARIANCE
-    severity: high
-    statement: Target resolution does not reduce to set membership over normalized test names. resolve_declared
-      at harness_core.py lines 457 to 500 credited 4 declared target(s) through its suffix fallback over
-      ID_SEPARATORS at line 436 rather than through an exact parsed key, so a target can be credited to
-      a test whose identifier the declaration never names.
-    subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+  disposition_cap: SHIP
+  findings: []
   instrument: G-VER-INVARIANCE
   notes:
     variants:
     - baseline_keys: 550
       baseline_reward: 0.0
       bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+      module_collection_fail_targets: 0
+      nonexact_pass_targets: 0
       perturbation: line_order
       reason_moved: false
       rollout: claude-opus-5/run_1
       score_moved: false
-      suffix_fallback_targets: 0
       variant_keys: 550
       variant_reward: 0.0
     - baseline_keys: 550
       baseline_reward: 0.0
       bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+      module_collection_fail_targets: 0
+      nonexact_pass_targets: 0
       perturbation: section_indentation_or_nesting
       reason_moved: false
       rollout: claude-opus-5/run_1
       score_moved: false
-      suffix_fallback_targets: 0
       variant_keys: 550
       variant_reward: 0.0
     - baseline_keys: 550
       baseline_reward: 0.0
       bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+      module_collection_fail_targets: 0
+      nonexact_pass_targets: 0
       perturbation: dialect_or_suite_name_prefixes
       reason_moved: false
       rollout: claude-opus-5/run_1
       score_moved: false
-      suffix_fallback_targets: 0
       variant_keys: 550
       variant_reward: 0.0
     - baseline_keys: 550
       baseline_reward: 0.0
       bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+      module_collection_fail_targets: 0
+      nonexact_pass_targets: 0
       perturbation: ordinal_suffixes
       reason_moved: false
       rollout: claude-opus-5/run_1
       score_moved: false
-      suffix_fallback_targets: 0
       variant_keys: 550
       variant_reward: 0.0
     - baseline_keys: 550
       baseline_reward: 0.0
       bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+      module_collection_fail_targets: 0
+      nonexact_pass_targets: 0
       perturbation: timestamps
       reason_moved: false
       rollout: claude-opus-5/run_1
       score_moved: false
-      suffix_fallback_targets: 0
       variant_keys: 550
       variant_reward: 0.0
     - baseline_keys: 550
       baseline_reward: 0.0
       bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+      module_collection_fail_targets: 0
+      nonexact_pass_targets: 0
       perturbation: interleaved_output
       reason_moved: false
       rollout: claude-opus-5/run_1
       score_moved: false
-      suffix_fallback_targets: 0
       variant_keys: 550
       variant_reward: 0.0
     - baseline_keys: 566
       baseline_reward: 0.0
       bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+      module_collection_fail_targets: 0
+      nonexact_pass_targets: 0
       perturbation: line_order
       reason_moved: false
       rollout: zai__glm-5.3/run_1
       score_moved: false
-      suffix_fallback_targets: 0
       variant_keys: 566
       variant_reward: 0.0
     - baseline_keys: 566
       baseline_reward: 0.0
       bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+      module_collection_fail_targets: 0
+      nonexact_pass_targets: 0
       perturbation: section_indentation_or_nesting
       reason_moved: false
       rollout: zai__glm-5.3/run_1
       score_moved: false
-      suffix_fallback_targets: 0
       variant_keys: 566
       variant_reward: 0.0
     - baseline_keys: 566
       baseline_reward: 0.0
       bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+      module_collection_fail_targets: 0
+      nonexact_pass_targets: 0
       perturbation: dialect_or_suite_name_prefixes
       reason_moved: false
       rollout: zai__glm-5.3/run_1
       score_moved: false
-      suffix_fallback_targets: 0
       variant_keys: 566
       variant_reward: 0.0
     - baseline_keys: 566
       baseline_reward: 0.0
       bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+      module_collection_fail_targets: 0
+      nonexact_pass_targets: 0
       perturbation: ordinal_suffixes
       reason_moved: false
       rollout: zai__glm-5.3/run_1
       score_moved: false
-      suffix_fallback_targets: 0
       variant_keys: 566
       variant_reward: 0.0
     - baseline_keys: 566
       baseline_reward: 0.0
       bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+      module_collection_fail_targets: 0
+      nonexact_pass_targets: 0
       perturbation: timestamps
       reason_moved: false
       rollout: zai__glm-5.3/run_1
       score_moved: false
-      suffix_fallback_targets: 0
       variant_keys: 566
       variant_reward: 0.0
     - baseline_keys: 566
       baseline_reward: 0.0
       bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+      module_collection_fail_targets: 0
+      nonexact_pass_targets: 0
       perturbation: interleaved_output
       reason_moved: false
       rollout: zai__glm-5.3/run_1
       score_moved: false
-      suffix_fallback_targets: 0
       variant_keys: 566
       variant_reward: 0.0
     - baseline_keys: 318
       baseline_reward: 0.5
       bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+      module_collection_fail_targets: 0
+      nonexact_pass_targets: 0
       perturbation: line_order
       reason_moved: false
       rollout: claude-opus-5/run_1
       score_moved: false
-      suffix_fallback_targets: 0
       variant_keys: 318
       variant_reward: 0.5
     - baseline_keys: 318
       baseline_reward: 0.5
       bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+      module_collection_fail_targets: 0
+      nonexact_pass_targets: 0
       perturbation: section_indentation_or_nesting
       reason_moved: false
       rollout: claude-opus-5/run_1
       score_moved: false
-      suffix_fallback_targets: 0
       variant_keys: 318
       variant_reward: 0.5
     - baseline_keys: 318
       baseline_reward: 0.5
       bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+      module_collection_fail_targets: 0
+      nonexact_pass_targets: 0
       perturbation: dialect_or_suite_name_prefixes
       reason_moved: false
       rollout: claude-opus-5/run_1
       score_moved: false
-      suffix_fallback_targets: 0
       variant_keys: 318
       variant_reward: 0.5
     - baseline_keys: 318
       baseline_reward: 0.5
       bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+      module_collection_fail_targets: 0
+      nonexact_pass_targets: 0
       perturbation: ordinal_suffixes
       reason_moved: false
       rollout: claude-opus-5/run_1
       score_moved: false
-      suffix_fallback_targets: 0
       variant_keys: 318
       variant_reward: 0.5
     - baseline_keys: 318
       baseline_reward: 0.5
       bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+      module_collection_fail_targets: 0
+      nonexact_pass_targets: 0
       perturbation: timestamps
       reason_moved: false
       rollout: claude-opus-5/run_1
       score_moved: false
-      suffix_fallback_targets: 0
       variant_keys: 318
       variant_reward: 0.5
     - baseline_keys: 318
       baseline_reward: 0.5
       bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+      module_collection_fail_targets: 0
+      nonexact_pass_targets: 0
       perturbation: interleaved_output
       reason_moved: false
       rollout: claude-opus-5/run_1
       score_moved: false
-      suffix_fallback_targets: 0
       variant_keys: 318
       variant_reward: 0.5
     - baseline_keys: 189
       baseline_reward: 0.0
       bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+      module_collection_fail_targets: 4
+      nonexact_pass_targets: 0
       perturbation: line_order
       reason_moved: false
       rollout: zai__glm-5.3/run_1
       score_moved: false
-      suffix_fallback_targets: 4
       variant_keys: 189
       variant_reward: 0.0
     - baseline_keys: 189
       baseline_reward: 0.0
       bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+      module_collection_fail_targets: 4
+      nonexact_pass_targets: 0
       perturbation: section_indentation_or_nesting
       reason_moved: false
       rollout: zai__glm-5.3/run_1
       score_moved: false
-      suffix_fallback_targets: 4
       variant_keys: 189
       variant_reward: 0.0
     - baseline_keys: 189
       baseline_reward: 0.0
       bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+      module_collection_fail_targets: 4
+      nonexact_pass_targets: 0
       perturbation: dialect_or_suite_name_prefixes
       reason_moved: false
       rollout: zai__glm-5.3/run_1
       score_moved: false
-      suffix_fallback_targets: 4
       variant_keys: 189
       variant_reward: 0.0
     - baseline_keys: 189
       baseline_reward: 0.0
       bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+      module_collection_fail_targets: 4
+      nonexact_pass_targets: 0
       perturbation: ordinal_suffixes
       reason_moved: false
       rollout: zai__glm-5.3/run_1
       score_moved: false
-      suffix_fallback_targets: 4
       variant_keys: 189
       variant_reward: 0.0
     - baseline_keys: 189
       baseline_reward: 0.0
       bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+      module_collection_fail_targets: 4
+      nonexact_pass_targets: 0
       perturbation: timestamps
       reason_moved: false
       rollout: zai__glm-5.3/run_1
       score_moved: false
-      suffix_fallback_targets: 4
       variant_keys: 189
       variant_reward: 0.0
     - baseline_keys: 189
       baseline_reward: 0.0
       bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+      module_collection_fail_targets: 4
+      nonexact_pass_targets: 0
       perturbation: interleaved_output
       reason_moved: false
       rollout: zai__glm-5.3/run_1
       score_moved: false
-      suffix_fallback_targets: 4
       variant_keys: 189
       variant_reward: 0.0
     - baseline_keys: 158
       baseline_reward: 0.5
       bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+      module_collection_fail_targets: 0
+      nonexact_pass_targets: 0
       perturbation: line_order
       reason_moved: false
       rollout: claude-opus-5/run_1
       score_moved: false
-      suffix_fallback_targets: 0
       variant_keys: 158
       variant_reward: 0.5
     - baseline_keys: 158
       baseline_reward: 0.5
       bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+      module_collection_fail_targets: 0
+      nonexact_pass_targets: 0
       perturbation: section_indentation_or_nesting
       reason_moved: false
       rollout: claude-opus-5/run_1
       score_moved: false
-      suffix_fallback_targets: 0
       variant_keys: 158
       variant_reward: 0.5
     - baseline_keys: 158
       baseline_reward: 0.5
       bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+      module_collection_fail_targets: 0
+      nonexact_pass_targets: 0
       perturbation: dialect_or_suite_name_prefixes
       reason_moved: false
       rollout: claude-opus-5/run_1
       score_moved: false
-      suffix_fallback_targets: 0
       variant_keys: 158
       variant_reward: 0.5
     - baseline_keys: 158
       baseline_reward: 0.5
       bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+      module_collection_fail_targets: 0
+      nonexact_pass_targets: 0
       perturbation: ordinal_suffixes
       reason_moved: false
       rollout: claude-opus-5/run_1
       score_moved: false
-      suffix_fallback_targets: 0
       variant_keys: 158
       variant_reward: 0.5
     - baseline_keys: 158
       baseline_reward: 0.5
       bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+      module_collection_fail_targets: 0
+      nonexact_pass_targets: 0
       perturbation: timestamps
       reason_moved: false
       rollout: claude-opus-5/run_1
       score_moved: false
-      suffix_fallback_targets: 0
       variant_keys: 158
       variant_reward: 0.5
     - baseline_keys: 158
       baseline_reward: 0.5
       bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+      module_collection_fail_targets: 0
+      nonexact_pass_targets: 0
       perturbation: interleaved_output
       reason_moved: false
       rollout: claude-opus-5/run_1
       score_moved: false
-      suffix_fallback_targets: 0
       variant_keys: 158
       variant_reward: 0.5
     - baseline_keys: 151
       baseline_reward: 0.875
       bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+      module_collection_fail_targets: 0
+      nonexact_pass_targets: 0
       perturbation: line_order
       reason_moved: false
       rollout: zai__glm-5.3/run_1
       score_moved: false
-      suffix_fallback_targets: 0
       variant_keys: 151
       variant_reward: 0.875
     - baseline_keys: 151
       baseline_reward: 0.875
       bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+      module_collection_fail_targets: 0
+      nonexact_pass_targets: 0
       perturbation: section_indentation_or_nesting
       reason_moved: false
       rollout: zai__glm-5.3/run_1
       score_moved: false
-      suffix_fallback_targets: 0
       variant_keys: 151
       variant_reward: 0.875
     - baseline_keys: 151
       baseline_reward: 0.875
       bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+      module_collection_fail_targets: 0
+      nonexact_pass_targets: 0
       perturbation: dialect_or_suite_name_prefixes
       reason_moved: false
       rollout: zai__glm-5.3/run_1
       score_moved: false
-      suffix_fallback_targets: 0
       variant_keys: 151
       variant_reward: 0.875
     - baseline_keys: 151
       baseline_reward: 0.875
       bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+      module_collection_fail_targets: 0
+      nonexact_pass_targets: 0
       perturbation: ordinal_suffixes
       reason_moved: false
       rollout: zai__glm-5.3/run_1
       score_moved: false
-      suffix_fallback_targets: 0
       variant_keys: 151
       variant_reward: 0.875
     - baseline_keys: 151
       baseline_reward: 0.875
       bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+      module_collection_fail_targets: 0
+      nonexact_pass_targets: 0
       perturbation: timestamps
       reason_moved: false
       rollout: zai__glm-5.3/run_1
       score_moved: false
-      suffix_fallback_targets: 0
       variant_keys: 151
       variant_reward: 0.875
     - baseline_keys: 151
       baseline_reward: 0.875
       bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+      module_collection_fail_targets: 0
+      nonexact_pass_targets: 0
       perturbation: interleaved_output
       reason_moved: false
       rollout: zai__glm-5.3/run_1
       score_moved: false
-      suffix_fallback_targets: 0
       variant_keys: 151
       variant_reward: 0.875
   ran: true
   raw_artifacts: []
-  standing: observed_violation
+  standing: demonstrated_coverage
 - coverage_gaps: []
   disposition_cap: SHIP
   findings: []
@@ -5367,7 +5365,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: verifier-robustness
-    evidence: *id024
+    evidence: *id023
     finding_id: VER-BASELINE-DROPPED-AT-BASE-873914cf-93b2-57a0-a5c8-264bfa2d3b66
     instrument: G-VER-BASELINE
     severity: medium
@@ -5438,7 +5436,7 @@ instruments:
     - 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/jdx_m_mise@sha256:8548f5c7004d60da6a8eaca625e5fb7152c40e355eada9a6bdea339b73fff6bf
     artifact_id: docker-inspect-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
     blocked_reason: null
-    elapsed_seconds: 0.035702
+    elapsed_seconds: 0.033045
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -5452,7 +5450,7 @@ instruments:
     - 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:b4d482d8e163d741ac086af764c04daabcd6aee412850fee8a80d8881d90f4ab
     artifact_id: docker-inspect-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
     blocked_reason: null
-    elapsed_seconds: 0.024244
+    elapsed_seconds: 0.025233
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -5466,7 +5464,7 @@ instruments:
     - 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:eca2d8710d1baffad6f1d273610bbce183857c73bed6574dce2252fb3fb446aa
     artifact_id: docker-inspect-873914cf-93b2-57a0-a5c8-264bfa2d3b66
     blocked_reason: null
-    elapsed_seconds: 0.026467
+    elapsed_seconds: 0.024893
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -5527,7 +5525,7 @@ instruments:
     - 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/jdx_m_mise@sha256:8548f5c7004d60da6a8eaca625e5fb7152c40e355eada9a6bdea339b73fff6bf
     artifact_id: docker-inspect-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
     blocked_reason: null
-    elapsed_seconds: 0.02984
+    elapsed_seconds: 0.022839
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -5541,7 +5539,7 @@ instruments:
     - 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:b4d482d8e163d741ac086af764c04daabcd6aee412850fee8a80d8881d90f4ab
     artifact_id: docker-inspect-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
     blocked_reason: null
-    elapsed_seconds: 0.023027
+    elapsed_seconds: 0.028217
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -5555,7 +5553,7 @@ instruments:
     - 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:eca2d8710d1baffad6f1d273610bbce183857c73bed6574dce2252fb3fb446aa
     artifact_id: docker-inspect-873914cf-93b2-57a0-a5c8-264bfa2d3b66
     blocked_reason: null
-    elapsed_seconds: 0.024213
+    elapsed_seconds: 0.029044
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -6138,7 +6136,7 @@ instruments:
   notes:
     bundles:
       4c7b8d6f-c500-585d-b7b2-3519df55b1b3:
-        not_varied: &id025
+        not_varied: &id024
         - hostname
         - uid
         - kernel
@@ -6157,7 +6155,7 @@ instruments:
           regenerated:
           - 916512faa0c5f92e3b470e48844ed3c9478467ac1279d0020c42bf100d7f7d48
           - 916512faa0c5f92e3b470e48844ed3c9478467ac1279d0020c42bf100d7f7d48
-        varied: &id026
+        varied: &id025
         - working_directory
         - HOME
         - USER
@@ -6167,7 +6165,7 @@ instruments:
         - LC_ALL
         - TZ
       6bf0c918-e9ad-5397-bb76-cf3e238f2df1:
-        not_varied: *id025
+        not_varied: *id024
         solution/rubrics.json:
           committed: e239afd6b90b5f6c264a67b62fded8d875568432be4d342b74d35584ef4166cd
           identity_stable: true
@@ -6182,9 +6180,9 @@ instruments:
           regenerated:
           - a61c461fa86f96abbe3224e315254dc2e615012ec916a4e1360d7dd36279ed70
           - a61c461fa86f96abbe3224e315254dc2e615012ec916a4e1360d7dd36279ed70
-        varied: *id026
+        varied: *id025
       873914cf-93b2-57a0-a5c8-264bfa2d3b66:
-        not_varied: *id025
+        not_varied: *id024
         solution/rubrics.json:
           committed: 338e9389e27de8298bb0d2b7374b2a81762065797899a25f651c0dc55cacbf79
           identity_stable: true
@@ -6199,15 +6197,15 @@ instruments:
           regenerated:
           - 84f20d5fcc41e696ff6875caa79440e049429cae975b06c9aee56c91eac02416
           - 84f20d5fcc41e696ff6875caa79440e049429cae975b06c9aee56c91eac02416
-        varied: *id026
+        varied: *id025
   ran: true
   raw_artifacts:
   - argv:
     - python3
-    - /var/folders/4v/7wd4855j6vb0qwdxksrh28500000gn/T/crucible-rub-regen-o3ta_pqj/run-0/solution/recompute.py
+    - /var/folders/4v/7wd4855j6vb0qwdxksrh28500000gn/T/crucible-rub-regen-l7loh57m/run-0/solution/recompute.py
     artifact_id: rub-regen-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-0
     blocked_reason: null
-    elapsed_seconds: 0.021224
+    elapsed_seconds: 0.021569
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -6216,10 +6214,10 @@ instruments:
     timed_out: false
   - argv:
     - python3
-    - /var/folders/4v/7wd4855j6vb0qwdxksrh28500000gn/T/crucible-rub-regen-o3ta_pqj/run-1/solution/recompute.py
+    - /var/folders/4v/7wd4855j6vb0qwdxksrh28500000gn/T/crucible-rub-regen-l7loh57m/run-1/solution/recompute.py
     artifact_id: rub-regen-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-1
     blocked_reason: null
-    elapsed_seconds: 0.019511
+    elapsed_seconds: 0.019221
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -6228,10 +6226,10 @@ instruments:
     timed_out: false
   - argv:
     - python3
-    - /var/folders/4v/7wd4855j6vb0qwdxksrh28500000gn/T/crucible-rub-regen-pofvfdok/run-0/solution/recompute.py
+    - /var/folders/4v/7wd4855j6vb0qwdxksrh28500000gn/T/crucible-rub-regen-wkw8htcm/run-0/solution/recompute.py
     artifact_id: rub-regen-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-0
     blocked_reason: null
-    elapsed_seconds: 0.020594
+    elapsed_seconds: 0.021228
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -6240,10 +6238,10 @@ instruments:
     timed_out: false
   - argv:
     - python3
-    - /var/folders/4v/7wd4855j6vb0qwdxksrh28500000gn/T/crucible-rub-regen-pofvfdok/run-1/solution/recompute.py
+    - /var/folders/4v/7wd4855j6vb0qwdxksrh28500000gn/T/crucible-rub-regen-wkw8htcm/run-1/solution/recompute.py
     artifact_id: rub-regen-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-1
     blocked_reason: null
-    elapsed_seconds: 0.020597
+    elapsed_seconds: 0.019801
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -6252,10 +6250,10 @@ instruments:
     timed_out: false
   - argv:
     - python3
-    - /var/folders/4v/7wd4855j6vb0qwdxksrh28500000gn/T/crucible-rub-regen-60t5ofhs/run-0/solution/recompute.py
+    - /var/folders/4v/7wd4855j6vb0qwdxksrh28500000gn/T/crucible-rub-regen-3fuuvnw0/run-0/solution/recompute.py
     artifact_id: rub-regen-873914cf-93b2-57a0-a5c8-264bfa2d3b66-0
     blocked_reason: null
-    elapsed_seconds: 0.020853
+    elapsed_seconds: 0.019793
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -6264,10 +6262,10 @@ instruments:
     timed_out: false
   - argv:
     - python3
-    - /var/folders/4v/7wd4855j6vb0qwdxksrh28500000gn/T/crucible-rub-regen-60t5ofhs/run-1/solution/recompute.py
+    - /var/folders/4v/7wd4855j6vb0qwdxksrh28500000gn/T/crucible-rub-regen-3fuuvnw0/run-1/solution/recompute.py
     artifact_id: rub-regen-873914cf-93b2-57a0-a5c8-264bfa2d3b66-1
     blocked_reason: null
-    elapsed_seconds: 0.019496
+    elapsed_seconds: 0.019373
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -6351,7 +6349,7 @@ instruments:
     - --no-header
     artifact_id: rub-replay-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-claude-opus-5-run_1
     blocked_reason: null
-    elapsed_seconds: 0.498281
+    elapsed_seconds: 0.514312
     exit_code: 4
     stderr_bytes: 95
     stderr_sha256: 6edf8ba8794a576d6c82cc200671f318f833ece6e882776f5182f26cf606f8ea
@@ -6369,7 +6367,7 @@ instruments:
     - --no-header
     artifact_id: rub-replay-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-zai__glm-5.3-run_1
     blocked_reason: null
-    elapsed_seconds: 0.418761
+    elapsed_seconds: 0.413897
     exit_code: 4
     stderr_bytes: 95
     stderr_sha256: 6edf8ba8794a576d6c82cc200671f318f833ece6e882776f5182f26cf606f8ea
@@ -6387,7 +6385,7 @@ instruments:
     - --no-header
     artifact_id: rub-replay-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-claude-opus-5-run_1
     blocked_reason: null
-    elapsed_seconds: 0.416407
+    elapsed_seconds: 0.441706
     exit_code: 4
     stderr_bytes: 95
     stderr_sha256: 168168825aaeae41a2776f08646a8748e425f5127999b1e934bc2f7b302c2f5f
@@ -6405,7 +6403,7 @@ instruments:
     - --no-header
     artifact_id: rub-replay-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-zai__glm-5.3-run_1
     blocked_reason: null
-    elapsed_seconds: 0.414741
+    elapsed_seconds: 0.420912
     exit_code: 4
     stderr_bytes: 95
     stderr_sha256: 168168825aaeae41a2776f08646a8748e425f5127999b1e934bc2f7b302c2f5f
@@ -6423,7 +6421,7 @@ instruments:
     - --no-header
     artifact_id: rub-replay-873914cf-93b2-57a0-a5c8-264bfa2d3b66-claude-opus-5-run_1
     blocked_reason: null
-    elapsed_seconds: 0.417882
+    elapsed_seconds: 0.408842
     exit_code: 4
     stderr_bytes: 95
     stderr_sha256: bf7d6c402b4576d1392832c2cf15271c4f308b74cd84de4704af069625cf9339
@@ -6518,7 +6516,7 @@ instruments:
     effective_root_digest: 6ef5c83e7951ac5c84faa97fc729bb7c587cdeefbd2504cfcd7e3dd7d163e727
     freshness:
       4c7b8d6f-c500-585d-b7b2-3519df55b1b3:
-        comparison_instant: '2026-09-24T09:19:25.702891+00:00'
+        comparison_instant: '2026-09-24T11:16:25.468045+00:00'
         declared_expiry: '2026-12-03T00:00:00+00:00'
         declared_expiry_agrees: true
         derived_expiry: '2026-12-03T00:00:00+00:00'
@@ -6526,7 +6524,7 @@ instruments:
         origin: '2026-09-04T00:00:00+00:00'
         overdue: false
       6bf0c918-e9ad-5397-bb76-cf3e238f2df1:
-        comparison_instant: '2026-09-24T09:19:25.702891+00:00'
+        comparison_instant: '2026-09-24T11:16:25.468045+00:00'
         declared_expiry: '2026-12-03T00:00:00+00:00'
         declared_expiry_agrees: true
         derived_expiry: '2026-12-03T00:00:00+00:00'
@@ -6534,7 +6532,7 @@ instruments:
         origin: '2026-09-04T00:00:00+00:00'
         overdue: false
       873914cf-93b2-57a0-a5c8-264bfa2d3b66:
-        comparison_instant: '2026-09-24T09:19:25.702891+00:00'
+        comparison_instant: '2026-09-24T11:16:25.468045+00:00'
         declared_expiry: '2026-12-03T00:00:00+00:00'
         declared_expiry_agrees: true
         derived_expiry: '2026-12-03T00:00:00+00:00'
@@ -6578,7 +6576,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: screening-root-governance
-    evidence: *id027
+    evidence: *id026
     finding_id: F-CON-FREEZE-ROW-MISSING
     instrument: G-CON-FREEZE
     severity: high
@@ -6677,7 +6675,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: contamination-screening
-    evidence: *id028
+    evidence: *id027
     finding_id: F-CON-NEARDUP-SAME-REPOSITORY-CORPUS-UNIT
     instrument: G-CON-NEARDUP
     severity: high
@@ -7014,7 +7012,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: provenance-carrier-integrity
-    evidence: *id029
+    evidence: *id028
     finding_id: F-CON-RECORD-SIGNATURE-ABSENT-4c7b8d6f
     instrument: G-CON-RECORD
     severity: high
@@ -7024,7 +7022,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: provenance-carrier-integrity
-    evidence: *id030
+    evidence: *id029
     finding_id: F-CON-RECORD-ENVELOPE-UNSIGNED-4c7b8d6f
     instrument: G-CON-RECORD
     severity: high
@@ -7034,7 +7032,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: provenance-carrier-integrity
-    evidence: *id031
+    evidence: *id030
     finding_id: F-CON-RECORD-SIGNATURE-ABSENT-6bf0c918
     instrument: G-CON-RECORD
     severity: high
@@ -7044,7 +7042,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: provenance-carrier-integrity
-    evidence: *id032
+    evidence: *id031
     finding_id: F-CON-RECORD-ENVELOPE-UNSIGNED-6bf0c918
     instrument: G-CON-RECORD
     severity: high
@@ -7054,7 +7052,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: provenance-carrier-integrity
-    evidence: *id033
+    evidence: *id032
     finding_id: F-CON-RECORD-SIGNATURE-ABSENT-873914cf
     instrument: G-CON-RECORD
     severity: high
@@ -7064,7 +7062,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: provenance-carrier-integrity
-    evidence: *id034
+    evidence: *id033
     finding_id: F-CON-RECORD-ENVELOPE-UNSIGNED-873914cf
     instrument: G-CON-RECORD
     severity: high
@@ -7080,7 +7078,7 @@ instruments:
       declared_canonical_bundle_hash: 03aa306c4f584650a31ad57b7a54e669db2d3c9b2fe88a89f543a1b2855b7652
       free_form_prose_fields: []
       freshness:
-        comparison_instant: '2026-09-24T09:19:25.702891+00:00'
+        comparison_instant: '2026-09-24T11:16:25.468045+00:00'
         declared_expiry: '2026-12-03T00:00:00+00:00'
         declared_expiry_agrees: true
         derived_expiry: '2026-12-03T00:00:00+00:00'
@@ -7106,7 +7104,7 @@ instruments:
       declared_canonical_bundle_hash: 10cb07aefb91b15c92125b980e429ccb46420074467ee8581774146d65f82ba1
       free_form_prose_fields: []
       freshness:
-        comparison_instant: '2026-09-24T09:19:25.702891+00:00'
+        comparison_instant: '2026-09-24T11:16:25.468045+00:00'
         declared_expiry: '2026-12-03T00:00:00+00:00'
         declared_expiry_agrees: true
         derived_expiry: '2026-12-03T00:00:00+00:00'
@@ -7132,7 +7130,7 @@ instruments:
       declared_canonical_bundle_hash: 8b0cdb100a78d89ef46315af507dab3058bbc6a497520713a9d8ae6142670b83
       free_form_prose_fields: []
       freshness:
-        comparison_instant: '2026-09-24T09:19:25.702891+00:00'
+        comparison_instant: '2026-09-24T11:16:25.468045+00:00'
         declared_expiry: '2026-12-03T00:00:00+00:00'
         declared_expiry_agrees: true
         derived_expiry: '2026-12-03T00:00:00+00:00'
@@ -7261,7 +7259,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: reward-integrity
-    evidence: *id035
+    evidence: *id034
     finding_id: F-REWARD-SCORER-OUTSIDE-CLOSURE-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-claude-opus-5-run_1
     instrument: rewardprovenance
     severity: high
@@ -7275,7 +7273,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: reward-integrity
-    evidence: *id036
+    evidence: *id035
     finding_id: F-REWARD-VERIFIER-NOT-ISOLATED-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-claude-opus-5-run_1
     instrument: rewardprovenance
     severity: high
@@ -7285,7 +7283,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: reward-integrity
-    evidence: *id037
+    evidence: *id036
     finding_id: F-REWARD-SCORER-OUTSIDE-CLOSURE-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-zai__glm-5.3-run_1
     instrument: rewardprovenance
     severity: high
@@ -7299,7 +7297,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: reward-integrity
-    evidence: *id038
+    evidence: *id037
     finding_id: F-REWARD-VERIFIER-NOT-ISOLATED-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-zai__glm-5.3-run_1
     instrument: rewardprovenance
     severity: high
@@ -7309,7 +7307,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: reward-integrity
-    evidence: *id039
+    evidence: *id038
     finding_id: F-REWARD-SCORER-OUTSIDE-CLOSURE-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-claude-opus-5-run_1
     instrument: rewardprovenance
     severity: high
@@ -7323,7 +7321,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: reward-integrity
-    evidence: *id040
+    evidence: *id039
     finding_id: F-REWARD-VERIFIER-NOT-ISOLATED-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-claude-opus-5-run_1
     instrument: rewardprovenance
     severity: high
@@ -7333,7 +7331,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: reward-integrity
-    evidence: *id041
+    evidence: *id040
     finding_id: F-REWARD-SCORER-OUTSIDE-CLOSURE-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-zai__glm-5.3-run_1
     instrument: rewardprovenance
     severity: high
@@ -7347,7 +7345,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: reward-integrity
-    evidence: *id042
+    evidence: *id041
     finding_id: F-REWARD-VERIFIER-NOT-ISOLATED-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-zai__glm-5.3-run_1
     instrument: rewardprovenance
     severity: high
@@ -7357,7 +7355,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: reward-integrity
-    evidence: *id043
+    evidence: *id042
     finding_id: F-REWARD-SCORER-OUTSIDE-CLOSURE-873914cf-93b2-57a0-a5c8-264bfa2d3b66-claude-opus-5-run_1
     instrument: rewardprovenance
     severity: high
@@ -7371,7 +7369,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: reward-integrity
-    evidence: *id044
+    evidence: *id043
     finding_id: F-REWARD-VERIFIER-NOT-ISOLATED-873914cf-93b2-57a0-a5c8-264bfa2d3b66-claude-opus-5-run_1
     instrument: rewardprovenance
     severity: high
@@ -7381,7 +7379,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: reward-integrity
-    evidence: *id045
+    evidence: *id044
     finding_id: F-REWARD-SCORER-OUTSIDE-CLOSURE-873914cf-93b2-57a0-a5c8-264bfa2d3b66-zai__glm-5.3-run_1
     instrument: rewardprovenance
     severity: high
@@ -7395,7 +7393,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: reward-integrity
-    evidence: *id046
+    evidence: *id045
     finding_id: F-REWARD-VERIFIER-NOT-ISOLATED-873914cf-93b2-57a0-a5c8-264bfa2d3b66-zai__glm-5.3-run_1
     instrument: rewardprovenance
     severity: high
@@ -7530,7 +7528,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: reward-integrity
-    evidence: *id047
+    evidence: *id046
     finding_id: F-ROLLOUT-SESSION-IDENTIFIER-CONSTANT
     instrument: rolloutintegrity
     severity: high
@@ -8246,7 +8244,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: execution-fidelity
-    evidence: *id048
+    evidence: *id047
     finding_id: FID-CONFIG-UNAPPROVED-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-claude-opus-5-run_1
     instrument: G-FID-CONFIG
     severity: high
@@ -8259,7 +8257,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: execution-fidelity
-    evidence: *id049
+    evidence: *id048
     finding_id: FID-CONFIG-INADEQUATE-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-claude-opus-5-run_1
     instrument: G-FID-CONFIG
     severity: medium
@@ -8271,7 +8269,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: execution-fidelity
-    evidence: *id050
+    evidence: *id049
     finding_id: FID-CONFIG-UNAPPROVED-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-zai__glm-5.3-run_1
     instrument: G-FID-CONFIG
     severity: high
@@ -8284,7 +8282,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: execution-fidelity
-    evidence: *id051
+    evidence: *id050
     finding_id: FID-CONFIG-INADEQUATE-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-zai__glm-5.3-run_1
     instrument: G-FID-CONFIG
     severity: medium
@@ -8296,7 +8294,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: execution-fidelity
-    evidence: *id052
+    evidence: *id051
     finding_id: FID-CONFIG-UNAPPROVED-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-claude-opus-5-run_1
     instrument: G-FID-CONFIG
     severity: high
@@ -8309,7 +8307,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: execution-fidelity
-    evidence: *id053
+    evidence: *id052
     finding_id: FID-CONFIG-INADEQUATE-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-claude-opus-5-run_1
     instrument: G-FID-CONFIG
     severity: medium
@@ -8321,7 +8319,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: execution-fidelity
-    evidence: *id054
+    evidence: *id053
     finding_id: FID-CONFIG-UNAPPROVED-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-zai__glm-5.3-run_1
     instrument: G-FID-CONFIG
     severity: high
@@ -8334,7 +8332,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: execution-fidelity
-    evidence: *id055
+    evidence: *id054
     finding_id: FID-CONFIG-INADEQUATE-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-zai__glm-5.3-run_1
     instrument: G-FID-CONFIG
     severity: medium
@@ -8346,7 +8344,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: execution-fidelity
-    evidence: *id056
+    evidence: *id055
     finding_id: FID-CONFIG-UNAPPROVED-873914cf-93b2-57a0-a5c8-264bfa2d3b66-claude-opus-5-run_1
     instrument: G-FID-CONFIG
     severity: high
@@ -8359,7 +8357,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: execution-fidelity
-    evidence: *id057
+    evidence: *id056
     finding_id: FID-CONFIG-INADEQUATE-873914cf-93b2-57a0-a5c8-264bfa2d3b66-claude-opus-5-run_1
     instrument: G-FID-CONFIG
     severity: medium
@@ -8371,7 +8369,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: execution-fidelity
-    evidence: *id058
+    evidence: *id057
     finding_id: FID-CONFIG-UNAPPROVED-873914cf-93b2-57a0-a5c8-264bfa2d3b66-zai__glm-5.3-run_1
     instrument: G-FID-CONFIG
     severity: high
@@ -8384,7 +8382,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: execution-fidelity
-    evidence: *id059
+    evidence: *id058
     finding_id: FID-CONFIG-INADEQUATE-873914cf-93b2-57a0-a5c8-264bfa2d3b66-zai__glm-5.3-run_1
     instrument: G-FID-CONFIG
     severity: medium
@@ -8471,7 +8469,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: execution-fidelity
-    evidence: *id060
+    evidence: *id059
     finding_id: FID-TRACE-SUPPRESSING-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-zai__glm-5.3-run_1
     instrument: G-FID-TRACE
     severity: high
@@ -8483,7 +8481,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: execution-fidelity
-    evidence: *id061
+    evidence: *id060
     finding_id: FID-TRACE-STATUS-DISAGREEMENT-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-zai__glm-5.3-run_1
     instrument: G-FID-TRACE
     severity: high
@@ -8654,13 +8652,13 @@ instruments:
         6bf0c918-e9ad-5397-bb76-cf3e238f2df1: 2
         873914cf-93b2-57a0-a5c8-264bfa2d3b66: 2
       realized_groups:
-        4c7b8d6f-c500-585d-b7b2-3519df55b1b3: &id062
+        4c7b8d6f-c500-585d-b7b2-3519df55b1b3: &id061
         - claude-opus-5
         - zai__glm-5.3
-        6bf0c918-e9ad-5397-bb76-cf3e238f2df1: &id064
+        6bf0c918-e9ad-5397-bb76-cf3e238f2df1: &id063
         - claude-opus-5
         - zai__glm-5.3
-        873914cf-93b2-57a0-a5c8-264bfa2d3b66: &id065
+        873914cf-93b2-57a0-a5c8-264bfa2d3b66: &id064
         - claude-opus-5
         - zai__glm-5.3
       roster_found: true
@@ -8726,35 +8724,35 @@ instruments:
       hold_reason: authorization-committed-post-hoc
       instrument: G-FID-POPULATION
       precommitted_roster:
-        agents: &id063
+        agents: &id062
         - claude-opus-5
         - zai__glm-5.3
         group_count: 6
         runs_per_agent: 1
       realized_group_count: 2
-      realized_groups: *id062
+      realized_groups: *id061
       reconciled: true
     - bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
       fixed_group_count: 6
       hold_reason: authorization-committed-post-hoc
       instrument: G-FID-POPULATION
       precommitted_roster:
-        agents: *id063
+        agents: *id062
         group_count: 6
         runs_per_agent: 1
       realized_group_count: 2
-      realized_groups: *id064
+      realized_groups: *id063
       reconciled: true
     - bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
       fixed_group_count: 6
       hold_reason: authorization-committed-post-hoc
       instrument: G-FID-POPULATION
       precommitted_roster:
-        agents: *id063
+        agents: *id062
         group_count: 6
         runs_per_agent: 1
       realized_group_count: 2
-      realized_groups: *id065
+      realized_groups: *id064
       reconciled: true
   ran: true
   raw_artifacts: []
@@ -8765,7 +8763,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: execution-fidelity
-    evidence: *id066
+    evidence: *id065
     finding_id: FID-HANDOFF-UNVERIFIED-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-zai__glm-5.3-run_1
     instrument: G-FID-HANDOFF
     severity: high
@@ -8777,7 +8775,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: execution-fidelity
-    evidence: *id067
+    evidence: *id066
     finding_id: FID-HANDOFF-UNVERIFIED-873914cf-93b2-57a0-a5c8-264bfa2d3b66-claude-opus-5-run_1
     instrument: G-FID-HANDOFF
     severity: high
@@ -8789,7 +8787,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: execution-fidelity
-    evidence: *id068
+    evidence: *id067
     finding_id: FID-HANDOFF-UNVERIFIED-873914cf-93b2-57a0-a5c8-264bfa2d3b66-zai__glm-5.3-run_1
     instrument: G-FID-HANDOFF
     severity: high
@@ -8845,9 +8843,9 @@ instruments:
       instrument: G-FID-HANDOFF
       rollout: claude-opus-5/run_1
       verified: true
+    - *id065
     - *id066
     - *id067
-    - *id068
   ran: true
   raw_artifacts: []
   standing: observed_violation
@@ -9936,11 +9934,11 @@ instruments:
       bundle_digest: ac88d70b6e21907e8c2dea936eff4c0f94a6633676fe24cb978be03b64f76c60
       fingerprint_registry:
         path: .audit/fingerprints/4c7b8d6f-c500-585d-b7b2-3519df55b1b3/ac88d70b6e21907e8c2dea936eff4c0f94a6633676fe24cb978be03b64f76c60.json
-        write_state: created
+        write_state: preexisting
       lineage_registry:
         path: .audit/lineage/4c7b8d6f-c500-585d-b7b2-3519df55b1b3/ac88d70b6e21907e8c2dea936eff4c0f94a6633676fe24cb978be03b64f76c60.json
         record_state: absent
-        write_state: created
+        write_state: preexisting
       uuid: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
       verification: {}
     - attempt: 1
@@ -9948,11 +9946,11 @@ instruments:
       bundle_digest: 7d2b668639a812b73eaa9400e282be3e0dd1e02cd2af28c6b4cf57fa0af46755
       fingerprint_registry:
         path: .audit/fingerprints/6bf0c918-e9ad-5397-bb76-cf3e238f2df1/7d2b668639a812b73eaa9400e282be3e0dd1e02cd2af28c6b4cf57fa0af46755.json
-        write_state: created
+        write_state: preexisting
       lineage_registry:
         path: .audit/lineage/6bf0c918-e9ad-5397-bb76-cf3e238f2df1/7d2b668639a812b73eaa9400e282be3e0dd1e02cd2af28c6b4cf57fa0af46755.json
         record_state: absent
-        write_state: created
+        write_state: preexisting
       uuid: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
       verification: {}
     - attempt: 1
@@ -9960,14 +9958,14 @@ instruments:
       bundle_digest: 274f0b040cab67aae48ceb52eabe47903e1f4acaf73e2edad574b9a45ecc3214
       fingerprint_registry:
         path: .audit/fingerprints/873914cf-93b2-57a0-a5c8-264bfa2d3b66/274f0b040cab67aae48ceb52eabe47903e1f4acaf73e2edad574b9a45ecc3214.json
-        write_state: created
+        write_state: preexisting
       lineage_registry:
         path: .audit/lineage/873914cf-93b2-57a0-a5c8-264bfa2d3b66/274f0b040cab67aae48ceb52eabe47903e1f4acaf73e2edad574b9a45ecc3214.json
         record_state: absent
-        write_state: created
+        write_state: preexisting
       uuid: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
       verification: {}
-    recon_git_sha: 7ddf63af87b67c13c80143e6c27b51c2af141303
+    recon_git_sha: ec36ec532f8f0e788e72b3b921465e2d2be79064
     registry_roots:
       fingerprints: .audit/fingerprints
       lineage: .audit/lineage
@@ -10149,7 +10147,7 @@ instruments:
     - --json
     artifact_id: collision-check-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
     blocked_reason: null
-    elapsed_seconds: 0.035251
+    elapsed_seconds: 0.038124
     exit_code: 1
     stderr_bytes: 550
     stderr_sha256: ee931a1c2ffae35d9dd3908df791ab8cbbf86f779fef2d0d67f87b54319f6116
@@ -10165,7 +10163,7 @@ instruments:
     - --json
     artifact_id: collision-check-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
     blocked_reason: null
-    elapsed_seconds: 0.034215
+    elapsed_seconds: 0.034119
     exit_code: 1
     stderr_bytes: 550
     stderr_sha256: ee931a1c2ffae35d9dd3908df791ab8cbbf86f779fef2d0d67f87b54319f6116
@@ -10181,7 +10179,7 @@ instruments:
     - --json
     artifact_id: collision-check-873914cf-93b2-57a0-a5c8-264bfa2d3b66
     blocked_reason: null
-    elapsed_seconds: 0.033261
+    elapsed_seconds: 0.034475
     exit_code: 1
     stderr_bytes: 550
     stderr_sha256: ee931a1c2ffae35d9dd3908df791ab8cbbf86f779fef2d0d67f87b54319f6116
@@ -10208,7 +10206,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: execution-attestation
-    evidence: *id069
+    evidence: *id068
     finding_id: ATT-EXECUTION-OPERATOR-POLICY-UNBOUND
     instrument: G-EXEC-ATTESTATION
     severity: high
@@ -10221,7 +10219,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: execution-attestation
-    evidence: *id070
+    evidence: *id069
     finding_id: ATT-NO-EXTERNAL-TRUST-ROOT
     instrument: G-EXEC-ATTESTATION
     severity: high
@@ -10291,11 +10289,11 @@ instruments:
       live_digest: 6db311f4b43747b58accf32716f3d9ab6462efc0cfd2507fd59d3ce59a990522
       matches: true
     trust_policy:
-      absent_roots: *id071
+      absent_roots: *id070
       execution_operator_in_declared_roles: false
       execution_operator_policy_bound: false
       execution_operator_trust_policy: null
-      external_trust_roots_available: *id072
+      external_trust_roots_available: *id071
       principals:
       - bears_required_role: false
         expires: '2027-09-16T00:00:00Z'
@@ -10334,9 +10332,9 @@ instruments:
         name: levi-clearer-01
         roles:
         - sentinel_clearer
-      principals_bearing_required_role: *id073
-      signature_trust_roots: *id074
-      source_root_declared_roles: *id075
+      principals_bearing_required_role: *id072
+      signature_trust_roots: *id073
+      source_root_declared_roles: *id074
       view_digest: a619b70101345155265126a381cc07048acce9993f6ca1e3639deebcb1217d85
       view_path: /Users/macbookpro/levi/.memory/crucible_view.yaml
       view_present: true
@@ -10908,7 +10906,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: reward-coverage-ledger
-    evidence: *id076
+    evidence: *id075
     finding_id: F-LEDGER-NO-EXTERNAL-ENFORCEMENT
     instrument: G-REWARD-COVERAGE-LEDGER
     severity: high
@@ -10919,7 +10917,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: reward-coverage-ledger
-    evidence: *id077
+    evidence: *id076
     finding_id: F-LEDGER-PRODUCER-VOCABULARY-DIVERGENT
     instrument: G-REWARD-COVERAGE-LEDGER
     severity: medium
@@ -10930,7 +10928,7 @@ instruments:
   instrument: G-REWARD-COVERAGE-LEDGER
   notes:
     applicable_pairs: 88
-    attestation_clauses: *id078
+    attestation_clauses: *id077
     boundaries:
     - definition
     - input
@@ -11120,41 +11118,17 @@ recon:
     path: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
     task_manifest_digest: d06363a07218c259151d0aac78e14b7d32667439ec1382d862dce71079822b0b
     uuid: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-  captured_at: '2026-09-24T09:19:16+00:00'
+  captured_at: '2026-09-24T11:16:17+00:00'
   dirty_bit: true
   dirty_entries:
-  - M .audit/fidelity.py
-  - ' M .audit/reward.py'
-  - ' M .audit/runs/crucible-ankitporwal04-20260923t005222z-dba1b1/feedback.chain.jsonl'
+  - M .audit/runs/crucible-ankitporwal04-20260923t005222z-dba1b1/feedback.chain.jsonl
   - ' M .audit/runs/crucible-ankitporwal04-20260923t005222z-dba1b1/feedback.yaml'
-  - ' M .audit/runs/crucible-ankitporwal04-20260923t005222z-dba1b1/phases/0.5.json'
-  - ' M .audit/runs/crucible-ankitporwal04-20260923t005222z-dba1b1/phases/0.json'
-  - ' M .audit/runs/crucible-ankitporwal04-20260923t005222z-dba1b1/phases/R.json'
-  - ' M .audit/runs/crucible-ankitporwal04-20260923t005222z-dba1b1/progress.yaml'
-  - ' M .audit/scope.approved'
-  - ' M .audit/scope.yaml'
-  - ' M 4c7b8d6f-c500-585d-b7b2-3519df55b1b3/task.toml'
-  - ' M 4c7b8d6f-c500-585d-b7b2-3519df55b1b3/trajectories/claude-opus-5/run_1/verifier/process.json'
-  - ' M 4c7b8d6f-c500-585d-b7b2-3519df55b1b3/trajectories/claude-opus-5/run_1/verifier/verdicts.jsonl'
-  - ' M 4c7b8d6f-c500-585d-b7b2-3519df55b1b3/trajectories/zai__glm-5.3/run_1/verifier/process.json'
-  - ' M 4c7b8d6f-c500-585d-b7b2-3519df55b1b3/trajectories/zai__glm-5.3/run_1/verifier/verdicts.jsonl'
-  - ' M 6bf0c918-e9ad-5397-bb76-cf3e238f2df1/task.toml'
-  - ' M 6bf0c918-e9ad-5397-bb76-cf3e238f2df1/trajectories/claude-opus-5/run_1/verifier/process.json'
-  - ' M 6bf0c918-e9ad-5397-bb76-cf3e238f2df1/trajectories/claude-opus-5/run_1/verifier/verdicts.jsonl'
-  - ' M 6bf0c918-e9ad-5397-bb76-cf3e238f2df1/trajectories/zai__glm-5.3/run_1/verifier/process.json'
-  - ' M 6bf0c918-e9ad-5397-bb76-cf3e238f2df1/trajectories/zai__glm-5.3/run_1/verifier/verdicts.jsonl'
-  - ' M 873914cf-93b2-57a0-a5c8-264bfa2d3b66/task.toml'
-  - ' M 873914cf-93b2-57a0-a5c8-264bfa2d3b66/trajectories/claude-opus-5/run_1/verifier/process.json'
-  - ' M 873914cf-93b2-57a0-a5c8-264bfa2d3b66/trajectories/claude-opus-5/run_1/verifier/verdicts.jsonl'
-  - ' M 873914cf-93b2-57a0-a5c8-264bfa2d3b66/trajectories/zai__glm-5.3/run_1/verifier/process.json'
-  - ' M 873914cf-93b2-57a0-a5c8-264bfa2d3b66/trajectories/zai__glm-5.3/run_1/verifier/verdicts.jsonl'
-  - ?? .audit/runs/crucible-ankitporwal04-20260923t005222z-dba1b1/reasoning-feedback-0014.txt
-  - ?? .audit/runs/crucible-ankitporwal04-20260923t005222z-dba1b1/reasoning-feedback-0015.txt
+  - ' M .audit/verifier.py'
+  - ?? .audit/runs/crucible-ankitporwal04-20260923t005222z-dba1b1/reasoning-feedback-0016.txt
   - ?? .sentinel/
   - ?? .trinity/install/
-  - ?? notice.md
-  git_sha: 7ddf63af87b67c13c80143e6c27b51c2af141303
-  history_depth: 39
+  git_sha: ec36ec532f8f0e788e72b3b921465e2d2be79064
+  history_depth: 40
   root: .
   runtime:
     implementation: CPython

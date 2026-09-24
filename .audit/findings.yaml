@@ -194,8 +194,8 @@ adversary_probes:
 counts:
   coverage_gaps_total: 109
   findings_block: 0
-  findings_hold: 47
-  findings_total: 47
+  findings_hold: 46
+  findings_total: 46
   instruments_not_run: 6
   instruments_total: 60
   ledger_rows: 88
@@ -1362,18 +1362,17 @@ critical_classes:
   finding_ids:
   - F-CON-FREEZE-ROW-MISSING
 - caps:
-    HOLD: 2
+    HOLD: 1
   class_cap: HOLD
   critical_class: verifier-robustness
-  finding_count: 2
+  finding_count: 1
   finding_ids:
   - VER-BASELINE-DROPPED-AT-BASE-873914cf-93b2-57a0-a5c8-264bfa2d3b66
-  - VER-INVARIANCE-NONMEMBERSHIP-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-zai__glm-5.3/run_1
 disposition: HOLD
 disposition_basis: The harness computed BLOCK as the cap over every instrument result. Block-capable findings
   stand from fifteen instruments and the selfcheck receipt carries seven required rows that never ran,
   which principle 7 treats as broken instruments rather than gaps. No waiver promotes this to SHIP.
-evidence_content_digest: 90f1587d71958ed73d6d2c6df80333752048628c04b2b8d4d7766f07bf146bc1
+evidence_content_digest: 4d97d7e8b02be69f6531d53ad93d4d394f8b604db86f7583d9af4db8236d59cd
 findings:
 - bucket: deterministic
   caps: HOLD
@@ -2676,32 +2675,6 @@ findings:
   statement: 8 declared preserve target(s) do not execute on the unmodified base and were dropped from
     the preserve set, so those non-target tests are unobserved at base rather than observed green.
   subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-- bucket: deterministic
-  caps: HOLD
-  critical_class: verifier-robustness
-  evidence:
-    bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    exact_membership: 14
-    fallback_targets:
-    - tests/utils/test_format.py::test_format_prop[prop11-{(_e) => addEvents([Event("mock_event", {})],
-      (_e), {})}]
-    - tests/utils/test_format.py::test_format_prop[prop12-{(_e) => addEvents([Event("mock_event", {arg:_e.target.value})],
-      (_e), {})}]
-    - 'tests/utils/test_format.py::test_format_prop[prop13-{(_e) => addEvents([Event("mock_event", {})],
-      (_e), {"stopPropagation": true})}]'
-    - 'tests/utils/test_format.py::test_format_prop[prop14-{(_e) => addEvents([Event("mock_event", {})],
-      (_e), {"preventDefault": true})}]'
-    locus: tests/harness_core.py lines 457 to 500
-    resolved: 18
-    rollout: zai__glm-5.3/run_1
-  finding_id: VER-INVARIANCE-NONMEMBERSHIP-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-zai__glm-5.3/run_1
-  instrument: G-VER-INVARIANCE
-  severity: high
-  statement: Target resolution does not reduce to set membership over normalized test names. resolve_declared
-    at harness_core.py lines 457 to 500 credited 4 declared target(s) through its suffix fallback over
-    ID_SEPARATORS at line 436 rather than through an exact parsed key, so a target can be credited to
-    a test whose identifier the declaration never names.
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
 run_id: crucible-ankitporwal04-20260923t005222z-dba1b1
 schema: crucible.findings/v1
 scope_digest: 6db311f4b43747b58accf32716f3d9ab6462efc0cfd2507fd59d3ce59a990522
