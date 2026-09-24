@@ -93,6 +93,7 @@ ZERO_REASON_VOCABULARY = frozenset(
         "runner-exception",
         "verifier-did-not-complete",
         "no-target-resolved",
+        "preserve-set-regression",
     }
 )
 
@@ -567,6 +568,25 @@ def _trials_gap(instrument: str, knob: str) -> CoverageGap:
     )
 
 
+def _bound_trials(base: Path, knob: str) -> int | None:
+    """Read a trial count the approved scope binds under verifier_robustness.
+
+    Contract step 8f names stability_trials and flakiness_trials as scope-bound
+    parameters. The operator change request of 2026-09-24 bound both counts and
+    the binding rode through the Phase 0.5 re-approval of the scope digest, so
+    a positive integer read here is an approved projection rather than a
+    harness invention. Anything absent, non-integer, or non-positive resolves
+    to None and the caller falls back to the unprojected-count gap.
+    """
+    projected = recon.load_scope(base).get("verifier_robustness")
+    if not isinstance(projected, dict):
+        return None
+    raw = projected.get(knob)
+    if isinstance(raw, bool) or not isinstance(raw, int) or raw <= 0:
+        return None
+    return raw
+
+
 def _live_empty_measurement(base: Path, bundle: Path) -> dict | None:
     """Read the cached live empty-submission grading for a bundle, if measured.
 
@@ -619,6 +639,8 @@ def _run_stability(base: Path, bundles: list[Path]) -> InstrumentResult:
     different outcome map on a second pass over identical bytes would produce
     score variance no container could explain away.
     """
+    bound_stability = _bound_trials(base, "stability_trials")
+    stability_trials = bound_stability or HARNESS_DERIVED_REPLAY_TRIALS
     findings: list[Finding] = []
     gaps: list[CoverageGap] = []
     artifacts: list[RawArtifact] = []
@@ -654,7 +676,7 @@ def _run_stability(base: Path, bundles: list[Path]) -> InstrumentResult:
             if target is None or preserve is None:
                 continue
             scores = set()
-            for _ in range(HARNESS_DERIVED_REPLAY_TRIALS):
+            for _ in range(stability_trials):
                 recomputed = _recompute_reward(module, config, parser(target), parser(preserve))
                 scores.add(round(float(recomputed["reward"]), 12))
             ran = True
@@ -671,7 +693,7 @@ def _run_stability(base: Path, bundles: list[Path]) -> InstrumentResult:
                         subject=bundle.name,
                         statement=(
                             "Replaying one committed log through the committed parser produced "
-                            f"more than one score across {HARNESS_DERIVED_REPLAY_TRIALS} "
+                            f"more than one score across {stability_trials} "
                             f"repetitions: {sorted(scores)}. A grader whose score moves over "
                             "identical input bytes cannot be re-derived."
                         ),
@@ -689,7 +711,10 @@ def _run_stability(base: Path, bundles: list[Path]) -> InstrumentResult:
         gaps.append(_image_gap(STABILITY, absent, "reference_solution_regrade"))
     else:
         notes["image_states"] = states
-    gaps.append(_trials_gap(STABILITY, "stability_trials"))
+    if bound_stability is None:
+        gaps.append(_trials_gap(STABILITY, "stability_trials"))
+    else:
+        notes["bound_stability_trials"] = bound_stability
     return InstrumentResult(
         instrument=STABILITY,
         ran=ran,
@@ -1225,7 +1250,11 @@ def _run_flakiness(base: Path, bundles: list[Path]) -> InstrumentResult:
         gaps.append(_image_gap(FLAKINESS, absent, "graded_target_repetition"))
     elif states:
         notes["image_states"] = states
-    gaps.append(_trials_gap(FLAKINESS, "flakiness_trials"))
+    bound_flakiness = _bound_trials(base, "flakiness_trials")
+    if bound_flakiness is None:
+        gaps.append(_trials_gap(FLAKINESS, "flakiness_trials"))
+    else:
+        notes["bound_flakiness_trials"] = bound_flakiness
     return InstrumentResult(
         instrument=FLAKINESS,
         ran=ran,

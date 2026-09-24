@@ -335,6 +335,12 @@ bundles:
 
 trajectories:
   present: true
+  rewards: [0.0, 0.0, 0.5, 0.0, 0.5, 0.875]
+  rewards_basis: >-
+    Rollout-level measured population bound by operator change request 2026-09-24, ordered by bundle
+    uuid then agent name, read from each committed verifier/reward.txt. Supersedes the per-bundle
+    recorded_reward triples as the declared population; it corrects the declaration and changes no
+    reward.
   presence_basis: >-
     Steps 8o and 8u both gate literally on this key being true, so it is carried as a top-level
     detection block rather than only as a row in the surface table. Every bundle commits two rollouts
@@ -438,6 +444,12 @@ reference_emulation:
 
 verifier_robustness:
   present: true
+  stability_trials: 3
+  flakiness_trials: 3
+  trials_basis: >-
+    Bound by operator change request 2026-09-24: three repetitions per probe, matching the count the
+    harness previously ran as a derivable replay without authority. The binding is discharged
+    through the Phase 0.5 re-approval of this scope.
   signals:
     - a committed parser and target matcher at tests/harness_core.py
     - declared fail-to-pass and preserve target sets in tests/config.json
@@ -640,14 +652,13 @@ rubric:
       truth: [E0-truth-present, E1-touched, E2-req, E3-issue-reach, E4-issue-resolution, E5-no-handwritten-generated]
       scope: [F1-no-out-of-scope-churn, F2-left-no-scratch-in-repo]
   compiled_weight_floor:
-    value: conservative-default-unresolved
-    state: unresolved
+    value: 0.125
+    state: bound
     basis: >-
-      solution/rubrics.json compilation_floor_note states that the bound compilation_floor in
-      .seed/contract.yaml is carried by name only and reads conservative-default-unresolved, because
-      requirements/ pins no value and touchstones/ records no disposition over one, so no
-      domain-specific number is authored. Since .seed/ is absent at this root, the named floor cannot
-      be resolved from committed bytes here at all.
+      Bound by operator change request 2026-09-24 in place of the unresolvable .seed/contract.yaml
+      carry: compiled site checks must hold at least one eighth of the total absolute rubric weight,
+      and every deliverable site S1 through S8 is compiled. Measured shares at binding were 0.1509,
+      0.1509 and 0.1455, so the floor is cleared by the committed rubrics rather than fitted to them.
   inert_check_defect:
     severity: hard_finding
     layer_1: >-
@@ -1444,13 +1455,9 @@ required_instruments:
     mandated_by: Phase 1 step 8t
     implementation: .audit local module
     probe_count: 8
-  - id: G-BUD
-    category: budget_conformance
-    mandated_by: budget blocks present in every task.toml
-    implementation: .audit local module
-    condition: >-
-      Every bundle declares build_timeout_sec 3600, cpus 8, memory_mb 16384, agent timeout_sec 57600
-      and verifier timeout_sec 3600, so the budget block is present and 8s applies.
+  # G-BUD removed by operator change request 2026-09-24: contract step 8s exempts a bundle
+  # carrying no budget_hours, budget_envelope or budget_margin block, and no task.toml declares
+  # any of those keys. The previously cited keys are container sizing and watchdog timeouts.
   - id: EXECUTION-ATTESTATION
     category: execution_attestation
     mandated_by: Phase 1 step 8p

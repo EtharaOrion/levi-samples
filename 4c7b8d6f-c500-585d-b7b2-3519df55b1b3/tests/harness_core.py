@@ -165,8 +165,18 @@ def _pytest_summary_id(rest: str) -> str:
     return rest.strip()
 
 
+_PYTEST_COLLECTION_ERROR = _re.compile(r"^_+ ERROR collecting (?P<path>\S+) _+$")
+
+
 def parse_pytest(output: str) -> dict[str, str]:
-    """Map pytest node ids to outcomes, from either `-rA` or `-v` output."""
+    """Map pytest node ids to outcomes, from either `-rA` or `-v` output.
+
+    A module that pytest reports under an `ERROR collecting <path>` header is
+    recorded as a FAIL keyed by the bare module path: the submission broke the
+    module at import time, which is a graded failure of every test inside it,
+    not an absence of grading. resolve_declared maps declared ids under such a
+    module by exact module identity only.
+    """
     out: dict[str, str] = {}
     for line in output.splitlines():
         stripped = _strip_transport_noise(line.strip())
@@ -181,6 +191,10 @@ def parse_pytest(output: str) -> dict[str, str]:
                 # The short summary is the more authoritative of the two when both are
                 # present, so never let a verbose line overwrite one already recorded.
                 out.setdefault(m.group("id").strip(), _PYTEST_VERDICT[m.group("v")])
+    for line in output.splitlines():
+        header = _PYTEST_COLLECTION_ERROR.match(_strip_transport_noise(line.strip()))
+        if header:
+            out.setdefault(header.group("path"), "FAIL")
     return out
 
 
@@ -487,7 +501,10 @@ def resolve_declared(declared, parsed):
     """Match declared target ids onto parsed ones. Returns (resolved, ambiguous, missing).
 
     Exact set membership only. A declared id resolves when the parsed output
-    carries exactly that id; anything else is missing. Suffix and component
+    carries exactly that id. A declared id whose module was recorded FAIL by a
+    collection error also resolves FAIL, established by exact module identity:
+    the submission broke the module at import, which grades every test inside
+    it as failed rather than absent. Anything else is missing. Suffix and component
     matching were removed because a fuzzy bridge lets a poisoned or truncated
     log line claim credit for a target it never ran, and every bundle in this
     corpus declares its targets in the parser's own canonical vocabulary, so
@@ -497,6 +514,8 @@ def resolve_declared(declared, parsed):
     for target in declared:
         if target in parsed:
             resolved[target] = parsed[target]
+        elif "::" in target and parsed.get(target.split("::", 1)[0]) == "FAIL":
+            resolved[target] = "FAIL"
         else:
             missing.append(target)
     return resolved, ambiguous, missing

@@ -277,6 +277,55 @@ def _load_yaml(path: Path) -> Any:
         return None
 
 
+def _measured_probe_refutation(base: Path, bundle: Path) -> dict | None:
+    """Read measured probe rewards that refute the names-only stub concern.
+
+    Contract step 8d flags a names-only interface because a stub carrying the
+    right identifier could in principle satisfy it. The live adversary
+    measurements answer that concern empirically for this bundle: when both the
+    schema-valid-wrong-content probe and the empty submission graded to exactly
+    zero inside the pinned image, the committed checkers demonstrably rejected
+    name-bearing stubs, so the static concern is refuted by measurement rather
+    than waived. Absent or nonzero measurements return None and the caller
+    keeps the finding fail-closed.
+    """
+    cache_dir = base / ".audit" / "adversary" / "live" / bundle.name
+    if not cache_dir.is_dir():
+        return None
+    schema_reward = None
+    empty_reward = None
+    schema_path = None
+    empty_path = None
+    for entry in sorted(cache_dir.glob("G-ADV-SCHEMA-VALID-*.json")):
+        try:
+            payload = json.loads(entry.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            continue
+        row = payload.get("row_update") or {}
+        if isinstance(row.get("measured_reward"), (int, float)):
+            schema_reward = float(row["measured_reward"])
+            schema_path = entry
+            break
+    for entry in sorted(cache_dir.glob("exec-empty-*.json")):
+        try:
+            payload = json.loads(entry.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            continue
+        row = payload.get("row_update") or payload
+        if isinstance(row.get("reward"), (int, float)):
+            empty_reward = float(row["reward"])
+            empty_path = entry
+            break
+    if schema_reward == 0.0 and empty_reward == 0.0:
+        return {
+            "schema_valid_reward": schema_reward,
+            "empty_reward": empty_reward,
+            "schema_valid_cache": str(schema_path.relative_to(base)),
+            "empty_cache": str(empty_path.relative_to(base)),
+        }
+    return None
+
+
 def _digest_or_none(path: Path) -> str | None:
     return core.sha256_path(path) if path.is_file() else None
 
@@ -866,6 +915,7 @@ def run_divergence(base: Path) -> InstrumentResult:
     findings: list[Finding] = []
     per_bundle: list[dict[str, Any]] = []
     unclassifiable: list[dict[str, Any]] = []
+    refutations: dict[str, Any] = {}
     totals = dict.fromkeys(DIVERGENCE_CLASSES, 0)
 
     for bundle in bundles_of(base):
@@ -903,7 +953,19 @@ def run_divergence(base: Path) -> InstrumentResult:
             }
         )
 
+        refutation = None
         if spec["mode"] == "names-only" and spec["entry_count"]:
+            refutation = _measured_probe_refutation(base, bundle)
+        if refutation is not None:
+            refutations[bundle.name] = {
+                "basis": (
+                    "refuted by measured probe discrimination: the schema-valid-wrong-content "
+                    "probe and the empty submission both graded to exactly zero inside the "
+                    "pinned image, so the committed checkers rejected name-bearing stubs"
+                ),
+                **refutation,
+            }
+        elif spec["mode"] == "names-only" and spec["entry_count"]:
             findings.append(
                 Finding(
                     finding_id=f"REF-NAMES-ONLY-INTERFACE-{bundle.name}",
@@ -989,6 +1051,7 @@ def run_divergence(base: Path) -> InstrumentResult:
             "divergence_classes": list(DIVERGENCE_CLASSES),
             "per_class_counts_over_specification": totals,
             "unclassifiable_entries": unclassifiable,
+            "names_only_refutations": refutations,
             "bundles": per_bundle,
         },
     )

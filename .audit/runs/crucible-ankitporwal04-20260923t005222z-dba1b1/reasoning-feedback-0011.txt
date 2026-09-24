@@ -1,0 +1,7 @@
+[
+  "The operator authored a change request at a scratchpad path and directed CRUCIBLE to verify every claim against committed bytes before accepting it.",
+  "Every claim was verified true: the scope declared three per-bundle rewards while six rollout rewards are committed; the G-BUD instrument row rested on container sizing keys that are not a contract budget block; no trial counts or compiled weight floor were bound; the fix-signature and names-only findings restate approved design or are refuted by measured probe discrimination; the zai 6bf0c918 zero is a graded failure the parser recorded as absence because a collection error hides module outcomes.",
+  "Accepted corrections: scope rewards list of six values, G-BUD row removal per step 8s exemption, stability_trials 3, flakiness_trials 3, compiled_weight_floor 0.125 bound; parser collection-error grading in tests/harness_core.py; instrument adjudications in contamination.py, reference.py, rubric.py, verifier.py.",
+  "Rejected: marking verdicts.jsonl advisory in policy.yaml cannot suppress the scorer-outside-closure findings because the predicate is presence-based by anti-gaming design; those six findings and the population roster finding stand.",
+  "The scope byte changes alter the approved digest, so Phase 0.5 re-fires and the re-approval is recorded as the next approval_record."
+]

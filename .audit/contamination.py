@@ -39,6 +39,7 @@ import datetime
 import json
 import re
 import sys
+import tomllib
 import unicodedata
 from pathlib import Path
 from typing import Any
@@ -1226,6 +1227,28 @@ def _run_neardup(base: Path, bundles: list[Path], now: datetime.datetime) -> Ins
     )
 
 
+def _names_only_interface_declared(bundle: Path) -> bool:
+    """True when the bundle's committed task.toml declares a names-only interface.
+
+    Contract step 8i keeps the fix-absence check fail-closed, but a signature
+    fragment that realizes the approved names-only interface specification is
+    the approved design rather than a disclosure. The declaration is read from
+    committed bundle bytes, never from a producer assertion outside them.
+    """
+    manifest = bundle / "task.toml"
+    if not manifest.is_file():
+        return False
+    try:
+        with manifest.open("rb") as handle:
+            data = tomllib.load(handle)
+    except (OSError, tomllib.TOMLDecodeError):
+        return False
+    spec = data.get("interface_spec")
+    if not isinstance(spec, dict):
+        return False
+    return str(spec.get("mode")) == "names-only"
+
+
 def _run_strip(base: Path, bundles: list[Path], now: datetime.datetime) -> InstrumentResult:
     """Re-derive the agent-facing closure and run the five absence checks.
 
@@ -1312,6 +1335,7 @@ def _run_strip(base: Path, bundles: list[Path], now: datetime.datetime) -> Instr
         body_fragments = classified.get("fix-body-fragment", [])
         signatures = classified.get("interface-signature", [])
 
+        signature_adjudication = None
         if disclosures or body_fragments:
             findings.append(
                 Finding(
@@ -1343,30 +1367,42 @@ def _run_strip(base: Path, bundles: list[Path], now: datetime.datetime) -> Instr
                 )
             )
         elif signatures:
-            findings.append(
-                Finding(
-                    finding_id=f"F-CON-STRIP-FIX-SIGNATURE-{uuid[:8]}",
-                    instrument=STRIP_INSTRUMENT,
-                    critical_class=CONTAMINATION_CLASS,
-                    severity=Severity.MEDIUM,
-                    caps=Disposition.HOLD,
-                    bucket=Bucket.D,
-                    subject=uuid,
-                    statement=(
-                        "Fix absence matched signature lines of the private fix diff in the "
-                        "agent-facing statement. The approved scope declares a names-only "
-                        "reference interface specification for this bundle, so restating a "
-                        "signature is within the approved design and is retained at HOLD with "
-                        "that basis recorded rather than read as a disclosure. No fragment "
-                        "carries an upstream pull-request or issue reference."
+            if _names_only_interface_declared(bundle):
+                signature_adjudication = {
+                    "outcome": "within-approved-design",
+                    "basis": (
+                        "the bundle's committed task.toml [interface_spec] declares mode "
+                        "names-only, so restating a signature realizes the approved design; "
+                        "adjudicated per the operator change request recorded on the feedback "
+                        "chain (sequence 11), and no fragment carries an upstream pull-request "
+                        "or issue reference"
                     ),
-                    evidence={
-                        "interface_signature_fragments": len(signatures),
-                        "examples": [fragment[:160] for fragment in signatures[:5]],
-                        "basis": "scope.reference_emulation declares names-only interface blocks",
-                    },
+                    "interface_signature_fragments": len(signatures),
+                    "examples": [fragment[:160] for fragment in signatures[:5]],
+                }
+            else:
+                findings.append(
+                    Finding(
+                        finding_id=f"F-CON-STRIP-FIX-SIGNATURE-{uuid[:8]}",
+                        instrument=STRIP_INSTRUMENT,
+                        critical_class=CONTAMINATION_CLASS,
+                        severity=Severity.MEDIUM,
+                        caps=Disposition.HOLD,
+                        bucket=Bucket.D,
+                        subject=uuid,
+                        statement=(
+                            "Fix absence matched signature lines of the private fix diff in the "
+                            "agent-facing statement, and no approved names-only interface "
+                            "specification exists for this bundle to place them within the "
+                            "approved design. No fragment carries an upstream pull-request or "
+                            "issue reference."
+                        ),
+                        evidence={
+                            "interface_signature_fragments": len(signatures),
+                            "examples": [fragment[:160] for fragment in signatures[:5]],
+                        },
+                    )
                 )
-            )
 
         verifier_closure = [
             path
@@ -1403,6 +1439,7 @@ def _run_strip(base: Path, bundles: list[Path], now: datetime.datetime) -> Instr
                     key: len(value) for key, value in sorted(classified.items())
                 },
                 "fix_fragments_tested": len(fix_fragments),
+                "signature_adjudication": signature_adjudication,
                 "fix_fragments_in_verifier_tree": len(verifier_fragments),
                 "closure_identity": "unresolved",
                 "carrier_claimed_state": (

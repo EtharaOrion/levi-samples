@@ -505,22 +505,28 @@ def _run_completeness(base: Path, bundles: list[Path]) -> InstrumentResult:
     projected = _rubric_scope(base)
     floor = projected.get("compiled_weight_floor")
     floor_state = str(floor.get("state")) if isinstance(floor, dict) else "absent"
-    gaps.append(
-        CoverageGap(
-            gap_id="D-COMPILATION-FLOOR-UNRESOLVED",
-            instrument=COMPLETENESS,
-            surface="rubric",
-            reason="compiled-weight-floor-unresolved",
-            caps=Disposition.HOLD,
-            statement=(
-                "The compiled_weight_floor the rubric surface must clear reads "
-                f"{floor_state} in the approved scope, because it is carried by name from a "
-                ".seed/contract.yaml that does not exist at this root. The actual compiled weight "
-                "share is recomputed and recorded below, but it cannot be compared against a "
-                "floor, so compiled coverage adequacy stays unmeasured rather than passed."
-            ),
+    floor_value = floor.get("value") if isinstance(floor, dict) else None
+    floor_bound = floor_state == "bound" and isinstance(floor_value, (int, float))
+    if floor_bound:
+        notes["compiled_weight_floor"] = float(floor_value)
+    else:
+        gaps.append(
+            CoverageGap(
+                gap_id="D-COMPILATION-FLOOR-UNRESOLVED",
+                instrument=COMPLETENESS,
+                surface="rubric",
+                reason="compiled-weight-floor-unresolved",
+                caps=Disposition.HOLD,
+                statement=(
+                    "The compiled_weight_floor the rubric surface must clear reads "
+                    f"{floor_state} in the approved scope, because it is carried by name from a "
+                    ".seed/contract.yaml that does not exist at this root. The actual compiled "
+                    "weight share is recomputed and recorded below, but it cannot be compared "
+                    "against a floor, so compiled coverage adequacy stays unmeasured rather than "
+                    "passed."
+                ),
+            )
         )
-    )
     ran = False
     for bundle in bundles:
         document = _read_json(bundle / TESTS_RUBRIC)
@@ -555,6 +561,25 @@ def _run_completeness(base: Path, bundles: list[Path]) -> InstrumentResult:
             "floor_state": floor_state,
         }
         notes["bundles"][bundle.name] = row
+        if floor_bound:
+            row["floor"] = float(floor_value)
+            if share < float(floor_value):
+                findings.append(
+                    Finding(
+                        finding_id=f"RUB-COMPILED-SHARE-BELOW-FLOOR-{bundle.name}",
+                        instrument=COMPLETENESS,
+                        critical_class="rubric-compilation",
+                        severity=Severity.MEDIUM,
+                        caps=Disposition.HOLD,
+                        bucket=Bucket.D,
+                        subject=bundle.name,
+                        statement=(
+                            f"The recomputed compiled weight share {round(share, 6)} falls below "
+                            f"the scope-bound compiled_weight_floor {float(floor_value)}."
+                        ),
+                        evidence=dict(row),
+                    )
+                )
         if not compiled_ids and compiled_tests:
             findings.append(
                 Finding(

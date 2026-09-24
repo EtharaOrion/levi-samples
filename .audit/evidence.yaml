@@ -1,18 +1,5 @@
-content_digest: af041d3732c761e459d4ea167aa5f734d64cfce354f29b26572fa2399c4dc7b1
+content_digest: b5c0bcc713fca8eecd5634ffccd5d188f75f5a81a067a06957b57734841933d3
 coverage_gaps:
-- caps: HOLD
-  gap_id: D-BUD-BLOCK-DECLARATION-CONFLICT
-  instrument: G-BUD-APPLICABILITY
-  reason: budget-block-determination-conflicts-with-approved-scope
-  statement: The approved scope file declares G-BUD mandated, recording its basis as 'budget blocks present
-    in every task.toml'. This instrument determines from the same committed bytes that no manifest declares
-    budget_hours, budget_envelope or budget_margin, and that the keys the scope cites are container sizing
-    and watchdog timeouts rather than a budget envelope with a margin. The exemption is taken and the
-    three G-BUD instruments do not run. The disagreement with the approved declaration is held open here
-    rather than resolved by this module in its own favour, because an instrument is not entitled to overwrite
-    an approved scope declaration about itself.
-  subject: project
-  surface: budget_conformance
 - caps: HOLD
   gap_id: D-CAL-PILOT-AGGREGATE-UNPROJECTED
   instrument: G-CAL-MONOTONICITY
@@ -36,16 +23,6 @@ coverage_gaps:
     CRUCIBLE may not cross and a finding citing it would be out of scope.
   subject: project
   surface: calibration
-- caps: HOLD
-  gap_id: D-COMPILATION-FLOOR-UNRESOLVED
-  instrument: G-RUB-COMPLETENESS
-  reason: compiled-weight-floor-unresolved
-  statement: The compiled_weight_floor the rubric surface must clear reads unresolved in the approved
-    scope, because it is carried by name from a .seed/contract.yaml that does not exist at this root.
-    The actual compiled weight share is recomputed and recorded below, but it cannot be compared against
-    a floor, so compiled coverage adequacy stays unmeasured rather than passed.
-  subject: project
-  surface: rubric
 - caps: HOLD
   gap_id: D-CON-ATTESTATION-UNAVAILABLE
   instrument: G-CON-EXCLUSION
@@ -283,7 +260,7 @@ coverage_gaps:
     determinations for other task uuids and no occurrence of this bundle uuid, so no task_hash is projected
     to compare against. The recipe the declared canonical_bundle_hash was produced by is not committed
     in this repository, so the audit harness cannot recompute that value independently; it recomputes
-    its own tree digest 933fbed58531f76b00e6fafae3b399848f0ca825dc7750e7d1b40ea12a036d40 instead and records
+    its own tree digest f8e4909d53f7a0e1572ad8eab3b77c1dd6e6ab088a6c0b34da561feb667e075a instead and records
     it as evidence rather than as a match. The declared binding reads envelope unsigned-no-trust-root,
     so even the in-bundle hash 03aa306c4f584650a31ad57b7a54e669db2d3c9b2fe88a89f543a1b2855b7652 is unauthenticated.
     Every other step 8b check that committed bundle bytes can decide was still run.
@@ -299,7 +276,7 @@ coverage_gaps:
     determinations for other task uuids and no occurrence of this bundle uuid, so no task_hash is projected
     to compare against. The recipe the declared canonical_bundle_hash was produced by is not committed
     in this repository, so the audit harness cannot recompute that value independently; it recomputes
-    its own tree digest 929f24c6d433c4b0d856d413013f980042059fb78173961fa7a32eeb47c1cdcb instead and records
+    its own tree digest 5a3840fc4635447eb676a41054183dc7c345a4718f438652650b5d08e9f37276 instead and records
     it as evidence rather than as a match. The declared binding reads envelope unsigned-no-trust-root,
     so even the in-bundle hash 10cb07aefb91b15c92125b980e429ccb46420074467ee8581774146d65f82ba1 is unauthenticated.
     Every other step 8b check that committed bundle bytes can decide was still run.
@@ -315,7 +292,7 @@ coverage_gaps:
     determinations for other task uuids and no occurrence of this bundle uuid, so no task_hash is projected
     to compare against. The recipe the declared canonical_bundle_hash was produced by is not committed
     in this repository, so the audit harness cannot recompute that value independently; it recomputes
-    its own tree digest 48c49bb283dd552c4bd354870d805623494db60c0dea323932ac6c4dc6c23af4 instead and records
+    its own tree digest 84d6164cd65a5a2e5dbd21b994ff3907451f3323f7e3e72f516e5681b120f097 instead and records
     it as evidence rather than as a match. The declared binding reads envelope unsigned-no-trust-root,
     so even the in-bundle hash 8b0cdb100a78d89ef46315af507dab3058bbc6a497520713a9d8ae6142670b83 is unauthenticated.
     Every other step 8b check that committed bundle bytes can decide was still run.
@@ -869,15 +846,6 @@ coverage_gaps:
   subject: project
   surface: reference_emulation
 - caps: HOLD
-  gap_id: D-REWARD-COMPONENTS-ABSENT-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-zai__glm-5.3-run_1
-  instrument: rewardprovenance
-  reason: components-absent-zero-without-grading
-  statement: This rollout records no component counts because it resolved through the zero-without-grading
-    path with reason declared-targets-partially-absent. The recorded reward therefore cannot be re-derived
-    arithmetically; it is accepted as attributed rather than as recomputed.
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1/zai__glm-5.3/run_1
-  surface: trajectories
-- caps: HOLD
   gap_id: D-REWARD-DEFINITION-RERUN-UNAVAILABLE-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
   instrument: rewarddefinition
   reason: rerun-environment-unavailable
@@ -913,15 +881,6 @@ coverage_gaps:
     support is capped. This resolves at HOLD rather than at BLOCK because building a required instrument
     never worsens a disposition against not building it, and the same surface with no instrument would
     carry the matching coverage gap at HOLD.
-  subject: project
-  surface: trajectories
-- caps: HOLD
-  gap_id: D-REWARD-SCOPE-POPULATION-DIVERGENCE
-  instrument: rewarddistribution
-  reason: declared-population-diverges-from-measured
-  statement: The reward population recorded in the approved scope does not match the population measured
-    from committed rollout bytes, so any figure computed from the declared list would differ from the
-    same figure computed from the tree.
   subject: project
   surface: trajectories
 - caps: HOLD
@@ -986,7 +945,7 @@ coverage_gaps:
   instrument: rolloutintegrity
   reason: operator-signed-root-absent
   statement: No operator-signed trajectory root is projected for this corpus, so the recomputed Merkle
-    root has nothing to be compared against. The root is recorded as 721dd166dc39969544b3231bd91b95e4c8ce88c07a5b54e3b92c40958fd058cb
+    root has nothing to be compared against. The root is recorded as ac5d3bf676f33795091cb2d47f6be7103c424531e990ce056aaab744af90c0d4
     and the comparison resolves as unmeasured rather than as agreement.
   subject: project
   surface: trajectories
@@ -1093,46 +1052,12 @@ coverage_gaps:
     so exact-versus-fallback score parity itself remains unmeasured.
   subject: project
   surface: patch_apply_paths
-- caps: HOLD
-  gap_id: D-VER-LOG-UNPROJECTED-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-zai__glm-5.3-run_1
-  instrument: G-VER-INVARIANCE
-  reason: recorded-runner-log-absent
-  statement: A recorded runner log is absent from this rollout, so the bound perturbation set could not
-    be replayed over it. The harness refuses to fetch it and records the surface as unmeasured.
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-  surface: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1/trajectories/zai__glm-5.3/run_1/verifier
-- caps: HOLD
-  gap_id: D-VER-SCORE-UNPROJECTED-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-zai__glm-5.3-run_1
-  instrument: G-VER-REPLAY
-  reason: reported-score-or-log-absent
-  statement: A reported score or a recorded runner log is absent from this rollout, so no reconciliation
-    was possible. The harness refuses to fetch either and records the surface as unmeasured.
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-  surface: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1/trajectories/zai__glm-5.3/run_1/verifier
-- caps: HOLD
-  gap_id: D-VER-TRIALS-UNPROJECTED-FLAKINESS
-  instrument: G-VER-FLAKINESS
-  reason: trial-count-unprojected
-  statement: The approved scope binds no flakiness_trials under key verifier_robustness, so the repetition
-    count this probe must run at is unprojected. The harness refuses to invent one, and the derivable
-    replay below runs at a harness-chosen 3 repetitions that carry no authority as the bound count.
-  subject: project
-  surface: verifier_robustness
-- caps: HOLD
-  gap_id: D-VER-TRIALS-UNPROJECTED-STABILITY
-  instrument: G-VER-STABILITY
-  reason: trial-count-unprojected
-  statement: The approved scope binds no stability_trials under key verifier_robustness, so the repetition
-    count this probe must run at is unprojected. The harness refuses to invent one, and the derivable
-    replay below runs at a harness-chosen 3 repetitions that carry no authority as the bound count.
-  subject: project
-  surface: verifier_robustness
 disposition: BLOCK
 findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: contamination-screening
-  evidence: &id031
+  evidence: &id028
     neighbours:
     - units:
       - shingle_count: 618
@@ -1242,50 +1167,6 @@ findings:
     same-repository presence is therefore recorded as an unmeasurable neighbourhood rather than as a clean
     screen.
   subject: project
-- bucket: deterministic
-  caps: HOLD
-  critical_class: contamination-screening
-  evidence: &id032
-    basis: scope.reference_emulation declares names-only interface blocks
-    examples:
-    - 'orientation: Var[Literal["vertical", "horizontal"]]'
-    interface_signature_fragments: 1
-  finding_id: F-CON-STRIP-FIX-SIGNATURE-6bf0c918
-  instrument: G-CON-STRIP
-  severity: medium
-  statement: Fix absence matched signature lines of the private fix diff in the agent-facing statement.
-    The approved scope declares a names-only reference interface specification for this bundle, so restating
-    a signature is within the approved design and is retained at HOLD with that basis recorded rather
-    than read as a disclosure. No fragment carries an upstream pull-request or issue reference.
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-- bucket: deterministic
-  caps: HOLD
-  critical_class: delivery-format-and-ground-truth-integrity
-  evidence: &id020
-    collection_status: &id022
-      artifacts: empty
-      final.diff: ok
-      reward_reason.json: ok
-      summary.json: failed
-      target-stdout.md: ok
-    declared_absent_from_tree: &id023
-    - summary.json
-    verifier_tree: &id025
-    - final.diff
-    - final_score.md
-    - process.json
-    - reward.json
-    - reward.txt
-    - reward_reason.json
-    - target-stdout.md
-    - test-stdout.txt
-    - verdicts.jsonl
-  finding_id: F-DEL-LAYOUT-DECLARED-ARTIFACT-ABSENT-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-trajectories-zai__glm-5.3-run_1
-  instrument: G-DEL-LAYOUT
-  severity: medium
-  statement: 'The task manifest declares an artifact that this committed rollout''s verifier tree does
-    not carry: summary.json'
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1/trajectories/zai__glm-5.3/run_1
 - bucket: deterministic
   caps: HOLD
   critical_class: domain-integrity-upstream-provenance
@@ -1442,11 +1323,11 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: execution-attestation
-  evidence: &id081
+  evidence: &id070
     crucible_view_digest: a619b70101345155265126a381cc07048acce9993f6ca1e3639deebcb1217d85
     execution_operator_trust_policy: null
-    principals_bearing_required_role: &id085 []
-    source_root_declared_roles: &id087
+    principals_bearing_required_role: &id074 []
+    source_root_declared_roles: &id076
     - auditor_signer
     - checkpoint_signer
     - cohort_registry_issuer
@@ -1466,8 +1347,8 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: execution-attestation
-  evidence: &id082
-    absent_roots: &id083
+  evidence: &id071
+    absent_roots: &id072
     - identity: null
       kind: source_attestation_trust_root
       limitation: the source-attestation root above is ENGRAM-signed under a project-local key; no independent
@@ -1476,8 +1357,8 @@ findings:
       root_number: 6
       status: ABSENT
     crucible_view_digest: a619b70101345155265126a381cc07048acce9993f6ca1e3639deebcb1217d85
-    external_trust_roots_available: &id084 []
-    signature_trust_roots: &id086
+    external_trust_roots_available: &id073 []
+    signature_trust_roots: &id075
     - authorized_roles:
       - checkpoint_signer
       - pilot_signer
@@ -1524,7 +1405,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: execution-fidelity
-  evidence: &id054
+  evidence: &id049
     adequacy_approved: false
     approval: &id001
       adequacy_approved: false
@@ -1555,7 +1436,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: execution-fidelity
-  evidence: &id056
+  evidence: &id051
     adequacy_approved: false
     approval: &id003
       adequacy_approved: false
@@ -1586,7 +1467,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: execution-fidelity
-  evidence: &id058
+  evidence: &id053
     adequacy_approved: false
     approval: &id005
       adequacy_approved: false
@@ -1617,7 +1498,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: execution-fidelity
-  evidence: &id060
+  evidence: &id055
     adequacy_approved: false
     approval: &id007
       adequacy_approved: false
@@ -1648,7 +1529,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: execution-fidelity
-  evidence: &id062
+  evidence: &id057
     adequacy_approved: false
     approval: &id009
       adequacy_approved: false
@@ -1679,7 +1560,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: execution-fidelity
-  evidence: &id064
+  evidence: &id059
     adequacy_approved: false
     approval: &id011
       adequacy_approved: false
@@ -1710,7 +1591,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: execution-fidelity
-  evidence: &id053
+  evidence: &id048
     adequacy_approved: false
     approval: *id001
     approved: false
@@ -1733,7 +1614,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: execution-fidelity
-  evidence: &id055
+  evidence: &id050
     adequacy_approved: false
     approval: *id003
     approved: false
@@ -1756,7 +1637,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: execution-fidelity
-  evidence: &id057
+  evidence: &id052
     adequacy_approved: false
     approval: *id005
     approved: false
@@ -1779,7 +1660,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: execution-fidelity
-  evidence: &id059
+  evidence: &id054
     adequacy_approved: false
     approval: *id007
     approved: false
@@ -1802,7 +1683,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: execution-fidelity
-  evidence: &id061
+  evidence: &id056
     adequacy_approved: false
     approval: *id009
     approved: false
@@ -1825,7 +1706,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: execution-fidelity
-  evidence: &id063
+  evidence: &id058
     adequacy_approved: false
     approval: *id011
     approved: false
@@ -1848,7 +1729,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: execution-fidelity
-  evidence: &id072
+  evidence: &id067
     bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
     diff_comparison:
       reason: the scorer's submission and the agent's final state share no path
@@ -1873,7 +1754,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: execution-fidelity
-  evidence: &id073
+  evidence: &id068
     bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
     diff_comparison:
       reason: the scorer's submission and the agent's final state share no path
@@ -1897,7 +1778,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: execution-fidelity
-  evidence: &id074
+  evidence: &id069
     bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
     diff_comparison:
       reason: the scorer's submission and the agent's final state share no path
@@ -1921,22 +1802,22 @@ findings:
 - bucket: deterministic
   caps: BLOCK
   critical_class: execution-fidelity
-  evidence: &id067
+  evidence: &id062
     author_lane_record: BLOCK:INVALID_PILOT
-    roster_search: &id068
+    roster_search: &id063
       found: []
       realized_group_count:
         4c7b8d6f-c500-585d-b7b2-3519df55b1b3: 2
         6bf0c918-e9ad-5397-bb76-cf3e238f2df1: 2
         873914cf-93b2-57a0-a5c8-264bfa2d3b66: 2
       realized_groups:
-        4c7b8d6f-c500-585d-b7b2-3519df55b1b3: &id069
+        4c7b8d6f-c500-585d-b7b2-3519df55b1b3: &id064
         - claude-opus-5
         - zai__glm-5.3
-        6bf0c918-e9ad-5397-bb76-cf3e238f2df1: &id070
+        6bf0c918-e9ad-5397-bb76-cf3e238f2df1: &id065
         - claude-opus-5
         - zai__glm-5.3
-        873914cf-93b2-57a0-a5c8-264bfa2d3b66: &id071
+        873914cf-93b2-57a0-a5c8-264bfa2d3b66: &id066
         - claude-opus-5
         - zai__glm-5.3
       roster_found: false
@@ -2015,7 +1896,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: execution-fidelity
-  evidence: &id066
+  evidence: &id061
     bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
     conformance_predicate: trinity.trial-conformance/v1
     coverage: &id013
@@ -2036,21 +1917,21 @@ findings:
         statement: realized turns and wall clock are inside the declared caps
       scoring_completeness:
         observed:
-          missing:
-          - preserve-stdout.md
-          - summary.json
+          missing: []
           present:
           - final.diff
           - final_score.md
+          - preserve-stdout.md
           - process.json
           - reward.json
           - reward.txt
           - reward_reason.json
+          - summary.json
           - target-stdout.md
           - test-stdout.txt
           - verdicts.jsonl
-        outcome: nonconforming
-        statement: the verifier record set is incomplete, missing preserve-stdout.md, summary.json
+        outcome: conforming
+        statement: the verifier produced its full record set
       solver_identity:
         observed:
           config.json: zai/glm-5.3
@@ -2097,7 +1978,7 @@ findings:
     fidelity_coverage: &id014
       context_handling: conforming
       horizon_conformance: conforming
-      scoring_completeness: nonconforming
+      scoring_completeness: conforming
       solver_identity: conforming
       submission_capture: nonconforming
       task_binding: conforming
@@ -2111,13 +1992,8 @@ findings:
     predicate: fidelity_coverage
     rollout: zai__glm-5.3/run_1
     suppressing_violations: &id016
-    - signal_class: scoring_completeness
-      statement: the verifier record set is incomplete, missing preserve-stdout.md, summary.json
     - signal_class: submission_capture
       statement: 'the declared artifact transfer failed for 1 record(s): summary.json'
-    - signal_class: reward_reason
-      statement: the committed reward reason 'declared-targets-partially-absent' attributes a zero to
-        a grading failure rather than to the solver, which lowers the measured pass rate
   finding_id: FID-TRACE-STATUS-DISAGREEMENT-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-zai__glm-5.3-run_1
   instrument: G-FID-TRACE
   severity: high
@@ -2129,7 +2005,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: execution-fidelity
-  evidence: &id065
+  evidence: &id060
     bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
     conformance_predicate: trinity.trial-conformance/v1
     coverage: *id013
@@ -2146,15 +2022,15 @@ findings:
   finding_id: FID-TRACE-SUPPRESSING-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-zai__glm-5.3-run_1
   instrument: G-FID-TRACE
   severity: high
-  statement: 'Rollout zai__glm-5.3/run_1 carries 3 observed violation(s) in the suppressing direction,
+  statement: 'Rollout zai__glm-5.3/run_1 carries 1 observed violation(s) in the suppressing direction,
     meaning in the direction that lowers a measured pass rate and makes this task look harder than it
-    is. First: scoring_completeness, the verifier record set is incomplete, missing preserve-stdout.md,
-    summary.json. Class 17 carries no exemption for a finding that would lower a measured pass rate.'
+    is. First: submission_capture, the declared artifact transfer failed for 1 record(s): summary.json.
+    Class 17 carries no exemption for a finding that would lower a measured pass rate.'
   subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
 - bucket: deterministic
   caps: HOLD
   critical_class: provenance-carrier-integrity
-  evidence: &id034
+  evidence: &id030
     binding_envelope: unsigned-no-trust-root
   finding_id: F-CON-RECORD-ENVELOPE-UNSIGNED-4c7b8d6f
   instrument: G-CON-RECORD
@@ -2165,7 +2041,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: provenance-carrier-integrity
-  evidence: &id036
+  evidence: &id032
     binding_envelope: unsigned-no-trust-root
   finding_id: F-CON-RECORD-ENVELOPE-UNSIGNED-6bf0c918
   instrument: G-CON-RECORD
@@ -2176,7 +2052,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: provenance-carrier-integrity
-  evidence: &id038
+  evidence: &id034
     binding_envelope: unsigned-no-trust-root
   finding_id: F-CON-RECORD-ENVELOPE-UNSIGNED-873914cf
   instrument: G-CON-RECORD
@@ -2187,7 +2063,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: provenance-carrier-integrity
-  evidence: &id033
+  evidence: &id029
     path: solution/provenance.sig
   finding_id: F-CON-RECORD-SIGNATURE-ABSENT-4c7b8d6f
   instrument: G-CON-RECORD
@@ -2198,7 +2074,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: provenance-carrier-integrity
-  evidence: &id035
+  evidence: &id031
     path: solution/provenance.sig
   finding_id: F-CON-RECORD-SIGNATURE-ABSENT-6bf0c918
   instrument: G-CON-RECORD
@@ -2209,7 +2085,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: provenance-carrier-integrity
-  evidence: &id037
+  evidence: &id033
     path: solution/provenance.sig
   finding_id: F-CON-RECORD-SIGNATURE-ABSENT-873914cf
   instrument: G-CON-RECORD
@@ -2219,91 +2095,9 @@ findings:
   subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
 - bucket: deterministic
   caps: HOLD
-  critical_class: reference-fidelity
-  evidence: &id075
-    classification_mode: static-specification
-    entry_count: 1
-    interface_mode: names-only
-    issue_keys:
-    - issue_7
-    manifest_digest: 3985474ac79d3c15cc92360386cf0583496f2ac2cafdce6fcc5a08656eb88aa6
-    per_class_counts: &id078
-      exit-code-contract: 0
-      invented-or-assumed-interface: 1
-      output-literal: 0
-      validation-locus: 0
-    uuid: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-  finding_id: REF-NAMES-ONLY-INTERFACE-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-  instrument: G-REF-DIVERGENCE-TAXONOMY
-  severity: high
-  statement: The committed interface specification declares mode 'names-only' over 1 entries, and every
-    entry asserts an identifier without asserting behaviour. A checker built on such an entry is satisfied
-    by any implementation carrying the name, including a stub that returns immediately, so it cannot distinguish
-    a real implementation from an invented or assumed one. This is the shape that produces invented-or-assumed-interface
-    divergence against a real upstream artifact, and it bounds what a pass of these checkers can mean.
-  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-- bucket: deterministic
-  caps: HOLD
-  critical_class: reference-fidelity
-  evidence: &id076
-    classification_mode: static-specification
-    entry_count: 13
-    interface_mode: names-only
-    issue_keys:
-    - issue_1
-    - issue_10
-    - issue_19
-    - issue_29
-    manifest_digest: 7883edfe9a2d90c76cde292b16650ff89a4307c2acdddb34d285e4c1710776fd
-    per_class_counts: &id079
-      exit-code-contract: 0
-      invented-or-assumed-interface: 13
-      output-literal: 0
-      validation-locus: 0
-    uuid: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-  finding_id: REF-NAMES-ONLY-INTERFACE-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-  instrument: G-REF-DIVERGENCE-TAXONOMY
-  severity: high
-  statement: The committed interface specification declares mode 'names-only' over 13 entries, and every
-    entry asserts an identifier without asserting behaviour. A checker built on such an entry is satisfied
-    by any implementation carrying the name, including a stub that returns immediately, so it cannot distinguish
-    a real implementation from an invented or assumed one. This is the shape that produces invented-or-assumed-interface
-    divergence against a real upstream artifact, and it bounds what a pass of these checkers can mean.
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-- bucket: deterministic
-  caps: HOLD
-  critical_class: reference-fidelity
-  evidence: &id077
-    classification_mode: static-specification
-    entry_count: 15
-    interface_mode: names-only
-    issue_keys:
-    - issue_10
-    - issue_14
-    - issue_15
-    - issue_16
-    - issue_4
-    manifest_digest: fb8f0ce15c6e11dd2abaf37a8267ca24f9f99ae0a1904ad2a8b3b80ff8563aef
-    per_class_counts: &id080
-      exit-code-contract: 0
-      invented-or-assumed-interface: 15
-      output-literal: 0
-      validation-locus: 0
-    uuid: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-  finding_id: REF-NAMES-ONLY-INTERFACE-873914cf-93b2-57a0-a5c8-264bfa2d3b66
-  instrument: G-REF-DIVERGENCE-TAXONOMY
-  severity: high
-  statement: The committed interface specification declares mode 'names-only' over 15 entries, and every
-    entry asserts an identifier without asserting behaviour. A checker built on such an entry is satisfied
-    by any implementation carrying the name, including a stub that returns immediately, so it cannot distinguish
-    a real implementation from an invented or assumed one. This is the shape that produces invented-or-assumed-interface
-    divergence against a real upstream artifact, and it bounds what a pass of these checkers can mean.
-  subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-- bucket: deterministic
-  caps: HOLD
   critical_class: reward-coverage-ledger
-  evidence: &id088
-    attestation_clauses: &id090 []
+  evidence: &id077
+    attestation_clauses: &id079 []
   finding_id: F-LEDGER-NO-EXTERNAL-ENFORCEMENT
   instrument: G-REWARD-COVERAGE-LEDGER
   severity: high
@@ -2314,7 +2108,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: reward-coverage-ledger
-  evidence: &id089
+  evidence: &id078
     ledger_channels:
     - read
     - write
@@ -2344,29 +2138,9 @@ findings:
     establish enforcement of any channel. It is recorded as a lowering claim only.
   subject: project
 - bucket: deterministic
-  caps: HOLD
-  critical_class: reward-integrity
-  evidence: &id052
-    declared:
-    - '0'
-    - 1/2
-    - 1/2
-    measured:
-    - '0'
-    - '0'
-    - '0'
-    - 1/2
-    - 1/2
-    - 7/8
-  finding_id: F-REWARD-POPULATION-DIVERGENCE
-  instrument: rewarddistribution
-  severity: high
-  statement: The measured reward population differs from the population the approved scope declares.
-  subject: project
-- bucket: deterministic
   caps: BLOCK
   critical_class: reward-integrity
-  evidence: &id039
+  evidence: &id035
     declared_closure:
     - reward.json
     - reward.txt
@@ -2385,7 +2159,7 @@ findings:
 - bucket: deterministic
   caps: BLOCK
   critical_class: reward-integrity
-  evidence: &id041
+  evidence: &id037
     declared_closure:
     - reward.json
     - reward.txt
@@ -2404,7 +2178,7 @@ findings:
 - bucket: deterministic
   caps: BLOCK
   critical_class: reward-integrity
-  evidence: &id043
+  evidence: &id039
     declared_closure:
     - reward.json
     - reward.txt
@@ -2423,7 +2197,7 @@ findings:
 - bucket: deterministic
   caps: BLOCK
   critical_class: reward-integrity
-  evidence: &id045
+  evidence: &id041
     declared_closure:
     - reward.json
     - reward.txt
@@ -2442,7 +2216,7 @@ findings:
 - bucket: deterministic
   caps: BLOCK
   critical_class: reward-integrity
-  evidence: &id047
+  evidence: &id043
     declared_closure:
     - reward.json
     - reward.txt
@@ -2461,7 +2235,7 @@ findings:
 - bucket: deterministic
   caps: BLOCK
   critical_class: reward-integrity
-  evidence: &id049
+  evidence: &id045
     declared_closure:
     - reward.json
     - reward.txt
@@ -2480,7 +2254,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: reward-integrity
-  evidence: &id040
+  evidence: &id036
     verifier_environment_mode: shared
   finding_id: F-REWARD-VERIFIER-NOT-ISOLATED-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-claude-opus-5-run_1
   instrument: rewardprovenance
@@ -2491,7 +2265,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: reward-integrity
-  evidence: &id042
+  evidence: &id038
     verifier_environment_mode: shared
   finding_id: F-REWARD-VERIFIER-NOT-ISOLATED-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-zai__glm-5.3-run_1
   instrument: rewardprovenance
@@ -2502,7 +2276,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: reward-integrity
-  evidence: &id044
+  evidence: &id040
     verifier_environment_mode: shared
   finding_id: F-REWARD-VERIFIER-NOT-ISOLATED-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-claude-opus-5-run_1
   instrument: rewardprovenance
@@ -2513,7 +2287,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: reward-integrity
-  evidence: &id046
+  evidence: &id042
     verifier_environment_mode: shared
   finding_id: F-REWARD-VERIFIER-NOT-ISOLATED-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-zai__glm-5.3-run_1
   instrument: rewardprovenance
@@ -2524,7 +2298,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: reward-integrity
-  evidence: &id048
+  evidence: &id044
     verifier_environment_mode: shared
   finding_id: F-REWARD-VERIFIER-NOT-ISOLATED-873914cf-93b2-57a0-a5c8-264bfa2d3b66-claude-opus-5-run_1
   instrument: rewardprovenance
@@ -2535,7 +2309,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: reward-integrity
-  evidence: &id050
+  evidence: &id046
     verifier_environment_mode: shared
   finding_id: F-REWARD-VERIFIER-NOT-ISOLATED-873914cf-93b2-57a0-a5c8-264bfa2d3b66-zai__glm-5.3-run_1
   instrument: rewardprovenance
@@ -2546,7 +2320,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: reward-integrity
-  evidence: &id051
+  evidence: &id047
     rollouts: 6
     session_ids:
     - harbor-session
@@ -2559,7 +2333,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: screening-root-governance
-  evidence: &id030
+  evidence: &id027
     freeze_root_digest: 912ecaee60b83ceddfe015261f906ee191406abd1f00cdc7665c71e1a75a8920
     sets_without_freeze_row:
     - bigcode/the-stack
@@ -2572,7 +2346,7 @@ findings:
 - bucket: deterministic
   caps: HOLD
   critical_class: verifier-robustness
-  evidence: &id027
+  evidence: &id024
     bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
     dropped_count: 8
     dropped_sample:
@@ -2591,7 +2365,33 @@ findings:
   statement: 8 declared preserve target(s) do not execute on the unmodified base and were dropped from
     the preserve set, so those non-target tests are unobserved at base rather than observed green.
   subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-generated_at: '2026-09-23T13:36:47+00:00'
+- bucket: deterministic
+  caps: HOLD
+  critical_class: verifier-robustness
+  evidence: &id023
+    bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+    exact_membership: 14
+    fallback_targets:
+    - tests/utils/test_format.py::test_format_prop[prop11-{(_e) => addEvents([Event("mock_event", {})],
+      (_e), {})}]
+    - tests/utils/test_format.py::test_format_prop[prop12-{(_e) => addEvents([Event("mock_event", {arg:_e.target.value})],
+      (_e), {})}]
+    - 'tests/utils/test_format.py::test_format_prop[prop13-{(_e) => addEvents([Event("mock_event", {})],
+      (_e), {"stopPropagation": true})}]'
+    - 'tests/utils/test_format.py::test_format_prop[prop14-{(_e) => addEvents([Event("mock_event", {})],
+      (_e), {"preventDefault": true})}]'
+    locus: tests/harness_core.py lines 457 to 500
+    resolved: 18
+    rollout: zai__glm-5.3/run_1
+  finding_id: VER-INVARIANCE-NONMEMBERSHIP-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-zai__glm-5.3/run_1
+  instrument: G-VER-INVARIANCE
+  severity: high
+  statement: Target resolution does not reduce to set membership over normalized test names. resolve_declared
+    at harness_core.py lines 457 to 500 credited 4 declared target(s) through its suffix fallback over
+    ID_SEPARATORS at line 436 rather than through an exact parsed key, so a target can be credited to
+    a test whose identifier the declaration never names.
+  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+generated_at: '2026-09-24T07:02:31+00:00'
 instruments:
 - coverage_gaps:
   - caps: HOLD
@@ -2805,7 +2605,7 @@ instruments:
     - /Users/macbookpro/levi/samples/873914cf-93b2-57a0-a5c8-264bfa2d3b66/environment/sanitize-entrypoint.sh
     artifact_id: scanner-semgrep
     blocked_reason: null
-    elapsed_seconds: 1.159871
+    elapsed_seconds: 0.551528
     exit_code: 1
     stderr_bytes: 2199
     stderr_sha256: 6628ccd44bc1c41a71aadbd634275c2e0b06521b3474ac24c36bad03e2b12c93
@@ -2847,7 +2647,7 @@ instruments:
       determinations for other task uuids and no occurrence of this bundle uuid, so no task_hash is projected
       to compare against. The recipe the declared canonical_bundle_hash was produced by is not committed
       in this repository, so the audit harness cannot recompute that value independently; it recomputes
-      its own tree digest 933fbed58531f76b00e6fafae3b399848f0ca825dc7750e7d1b40ea12a036d40 instead and
+      its own tree digest f8e4909d53f7a0e1572ad8eab3b77c1dd6e6ab088a6c0b34da561feb667e075a instead and
       records it as evidence rather than as a match. The declared binding reads envelope unsigned-no-trust-root,
       so even the in-bundle hash 03aa306c4f584650a31ad57b7a54e669db2d3c9b2fe88a89f543a1b2855b7652 is unauthenticated.
       Every other step 8b check that committed bundle bytes can decide was still run.
@@ -2863,7 +2663,7 @@ instruments:
       determinations for other task uuids and no occurrence of this bundle uuid, so no task_hash is projected
       to compare against. The recipe the declared canonical_bundle_hash was produced by is not committed
       in this repository, so the audit harness cannot recompute that value independently; it recomputes
-      its own tree digest 929f24c6d433c4b0d856d413013f980042059fb78173961fa7a32eeb47c1cdcb instead and
+      its own tree digest 5a3840fc4635447eb676a41054183dc7c345a4718f438652650b5d08e9f37276 instead and
       records it as evidence rather than as a match. The declared binding reads envelope unsigned-no-trust-root,
       so even the in-bundle hash 10cb07aefb91b15c92125b980e429ccb46420074467ee8581774146d65f82ba1 is unauthenticated.
       Every other step 8b check that committed bundle bytes can decide was still run.
@@ -2879,7 +2679,7 @@ instruments:
       determinations for other task uuids and no occurrence of this bundle uuid, so no task_hash is projected
       to compare against. The recipe the declared canonical_bundle_hash was produced by is not committed
       in this repository, so the audit harness cannot recompute that value independently; it recomputes
-      its own tree digest 48c49bb283dd552c4bd354870d805623494db60c0dea323932ac6c4dc6c23af4 instead and
+      its own tree digest 84d6164cd65a5a2e5dbd21b994ff3907451f3323f7e3e72f516e5681b120f097 instead and
       records it as evidence rather than as a match. The declared binding reads envelope unsigned-no-trust-root,
       so even the in-bundle hash 8b0cdb100a78d89ef46315af507dab3058bbc6a497520713a9d8ae6142670b83 is unauthenticated.
       Every other step 8b check that committed bundle bytes can decide was still run.
@@ -2890,7 +2690,7 @@ instruments:
   instrument: G-LEAK-CANARY
   notes:
     bundles:
-    - audit_recomputed_tree_digest: 933fbed58531f76b00e6fafae3b399848f0ca825dc7750e7d1b40ea12a036d40
+    - audit_recomputed_tree_digest: f8e4909d53f7a0e1572ad8eab3b77c1dd6e6ab088a6c0b34da561feb667e075a
       binding_envelope: unsigned-no-trust-root
       bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
       declared_canonical_bundle_hash: 03aa306c4f584650a31ad57b7a54e669db2d3c9b2fe88a89f543a1b2855b7652
@@ -2917,7 +2717,7 @@ instruments:
           state: well_formed
           value_count: 4
       uuid_version: 5
-    - audit_recomputed_tree_digest: 929f24c6d433c4b0d856d413013f980042059fb78173961fa7a32eeb47c1cdcb
+    - audit_recomputed_tree_digest: 5a3840fc4635447eb676a41054183dc7c345a4718f438652650b5d08e9f37276
       binding_envelope: unsigned-no-trust-root
       bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
       declared_canonical_bundle_hash: 10cb07aefb91b15c92125b980e429ccb46420074467ee8581774146d65f82ba1
@@ -2944,7 +2744,7 @@ instruments:
           state: well_formed
           value_count: 4
       uuid_version: 5
-    - audit_recomputed_tree_digest: 48c49bb283dd552c4bd354870d805623494db60c0dea323932ac6c4dc6c23af4
+    - audit_recomputed_tree_digest: 84d6164cd65a5a2e5dbd21b994ff3907451f3323f7e3e72f516e5681b120f097
       binding_envelope: unsigned-no-trust-root
       bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
       declared_canonical_bundle_hash: 8b0cdb100a78d89ef46315af507dab3058bbc6a497520713a9d8ae6142670b83
@@ -3286,7 +3086,7 @@ instruments:
     - agent_visible:
       - instruction.md
       bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-      carrier_count: 39
+      carrier_count: 41
       lane: root
       measurements:
       - band: clear
@@ -3482,6 +3282,12 @@ instruments:
         reverse_containment: 0.0
         visible_ngrams: 3978
       - band: clear
+        carrier_ngrams: 1732
+        containment: 0.0
+        path: trajectories/zai__glm-5.3/run_1/verifier/preserve-stdout.md
+        reverse_containment: 0.0
+        visible_ngrams: 3978
+      - band: clear
         carrier_ngrams: 1401
         containment: 0.0
         path: trajectories/zai__glm-5.3/run_1/verifier/process.json
@@ -3500,9 +3306,15 @@ instruments:
         reverse_containment: 0.0
         visible_ngrams: 3978
       - band: clear
-        carrier_ngrams: 6
+        carrier_ngrams: 22
         containment: 0.0
         path: trajectories/zai__glm-5.3/run_1/verifier/reward_reason.json
+        reverse_containment: 0.0
+        visible_ngrams: 3978
+      - band: clear
+        carrier_ngrams: 24
+        containment: 0.0
+        path: trajectories/zai__glm-5.3/run_1/verifier/summary.json
         reverse_containment: 0.0
         visible_ngrams: 3978
       - band: clear
@@ -3928,18 +3740,8 @@ instruments:
   raw_artifacts: []
   standing: observed_violation
 - coverage_gaps: []
-  disposition_cap: HOLD
-  findings:
-  - bucket: deterministic
-    caps: HOLD
-    critical_class: delivery-format-and-ground-truth-integrity
-    evidence: *id020
-    finding_id: F-DEL-LAYOUT-DECLARED-ARTIFACT-ABSENT-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-trajectories-zai__glm-5.3-run_1
-    instrument: G-DEL-LAYOUT
-    severity: medium
-    statement: 'The task manifest declares an artifact that this committed rollout''s verifier tree does
-      not carry: summary.json'
-    subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1/trajectories/zai__glm-5.3/run_1
+  disposition_cap: SHIP
+  findings: []
   instrument: G-DEL-LAYOUT
   notes:
     defined_path_vocabulary:
@@ -3993,7 +3795,7 @@ instruments:
           summary.json: ok
           target-stdout.md: ok
         declared_absent_from_tree: []
-        declared_artifacts: &id021
+        declared_artifacts: &id020
         - final.diff
         - reward_reason.json
         - summary.json
@@ -4026,6 +3828,84 @@ instruments:
           final.diff: ok
           reward_reason.json: ok
           summary.json: ok
+          target-stdout.md: ok
+        declared_absent_from_tree: []
+        declared_artifacts: *id020
+        rollout: trajectories/zai__glm-5.3/run_1
+        tree_not_declared:
+        - final_score.md
+        - preserve-stdout.md
+        - process.json
+        - reward.json
+        - reward.txt
+        - test-stdout.txt
+        - verdicts.jsonl
+        verifier_tree:
+        - final.diff
+        - final_score.md
+        - preserve-stdout.md
+        - process.json
+        - reward.json
+        - reward.txt
+        - reward_reason.json
+        - summary.json
+        - target-stdout.md
+        - test-stdout.txt
+        - verdicts.jsonl
+      undefined_paths: []
+      uuid: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+    - committed_paths_total: 62
+      declared_artifacts:
+      - /logs/verifier/summary.json
+      - /logs/verifier/final.diff
+      - /logs/verifier/target-stdout.md
+      - /logs/verifier/reward_reason.json
+      declared_steps: []
+      declared_steps_without_tree: []
+      lane: root
+      on_disk_steps: []
+      on_disk_steps_without_declaration: []
+      required_paths_missing: []
+      required_paths_total: 24
+      rollout_artifact_reconciliation:
+      - collection_status:
+          artifacts: empty
+          final.diff: ok
+          reward_reason.json: ok
+          summary.json: ok
+          target-stdout.md: ok
+        declared_absent_from_tree: []
+        declared_artifacts: &id021
+        - final.diff
+        - reward_reason.json
+        - summary.json
+        - target-stdout.md
+        rollout: trajectories/claude-opus-5/run_1
+        tree_not_declared:
+        - final_score.md
+        - preserve-stdout.md
+        - process.json
+        - reward.json
+        - reward.txt
+        - test-stdout.txt
+        - verdicts.jsonl
+        verifier_tree:
+        - final.diff
+        - final_score.md
+        - preserve-stdout.md
+        - process.json
+        - reward.json
+        - reward.txt
+        - reward_reason.json
+        - summary.json
+        - target-stdout.md
+        - test-stdout.txt
+        - verdicts.jsonl
+      - collection_status:
+          artifacts: empty
+          final.diff: ok
+          reward_reason.json: ok
+          summary.json: failed
           target-stdout.md: ok
         declared_absent_from_tree: []
         declared_artifacts: *id021
@@ -4051,67 +3931,6 @@ instruments:
         - test-stdout.txt
         - verdicts.jsonl
       undefined_paths: []
-      uuid: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    - committed_paths_total: 60
-      declared_artifacts:
-      - /logs/verifier/summary.json
-      - /logs/verifier/final.diff
-      - /logs/verifier/target-stdout.md
-      - /logs/verifier/reward_reason.json
-      declared_steps: []
-      declared_steps_without_tree: []
-      lane: root
-      on_disk_steps: []
-      on_disk_steps_without_declaration: []
-      required_paths_missing: []
-      required_paths_total: 24
-      rollout_artifact_reconciliation:
-      - collection_status:
-          artifacts: empty
-          final.diff: ok
-          reward_reason.json: ok
-          summary.json: ok
-          target-stdout.md: ok
-        declared_absent_from_tree: []
-        declared_artifacts: &id024
-        - final.diff
-        - reward_reason.json
-        - summary.json
-        - target-stdout.md
-        rollout: trajectories/claude-opus-5/run_1
-        tree_not_declared:
-        - final_score.md
-        - preserve-stdout.md
-        - process.json
-        - reward.json
-        - reward.txt
-        - test-stdout.txt
-        - verdicts.jsonl
-        verifier_tree:
-        - final.diff
-        - final_score.md
-        - preserve-stdout.md
-        - process.json
-        - reward.json
-        - reward.txt
-        - reward_reason.json
-        - summary.json
-        - target-stdout.md
-        - test-stdout.txt
-        - verdicts.jsonl
-      - collection_status: *id022
-        declared_absent_from_tree: *id023
-        declared_artifacts: *id024
-        rollout: trajectories/zai__glm-5.3/run_1
-        tree_not_declared:
-        - final_score.md
-        - process.json
-        - reward.json
-        - reward.txt
-        - test-stdout.txt
-        - verdicts.jsonl
-        verifier_tree: *id025
-      undefined_paths: []
       uuid: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
     - committed_paths_total: 62
       declared_artifacts:
@@ -4134,7 +3953,7 @@ instruments:
           summary.json: ok
           target-stdout.md: ok
         declared_absent_from_tree: []
-        declared_artifacts: &id026
+        declared_artifacts: &id022
         - final.diff
         - reward_reason.json
         - summary.json
@@ -4167,7 +3986,7 @@ instruments:
           summary.json: ok
           target-stdout.md: ok
         declared_absent_from_tree: []
-        declared_artifacts: *id026
+        declared_artifacts: *id022
         rollout: trajectories/zai__glm-5.3/run_1
         tree_not_declared:
         - final_score.md
@@ -4201,7 +4020,7 @@ instruments:
     - 873914cf-93b2-57a0-a5c8-264bfa2d3b66
   ran: true
   raw_artifacts: []
-  standing: observed_violation
+  standing: demonstrated_coverage
 - coverage_gaps: []
   disposition_cap: SHIP
   findings: []
@@ -4465,8 +4284,8 @@ instruments:
   notes:
     committed_zero_count: 3
     committed_zero_reasons:
-    - declared-targets-partially-absent
     - no-target-resolved
+    - preserve-set-regression
     per_bundle:
     - contract:
         entry_point_prewrites:
@@ -4562,7 +4381,7 @@ instruments:
           reward.txt: true
           reward_reason.json: true
         is_zero: true
-        reason: declared-targets-partially-absent
+        reason: preserve-set-regression
         reward: 0.0
         reward_reason_reward: 0.0
         reward_txt: 0.0
@@ -4970,7 +4789,7 @@ instruments:
     - solution/recompute.py
     artifact_id: truth-regen-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-alpha
     blocked_reason: null
-    elapsed_seconds: 0.021966
+    elapsed_seconds: 0.023006
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -4982,7 +4801,7 @@ instruments:
     - solution/recompute.py
     artifact_id: truth-regen-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-bravo
     blocked_reason: null
-    elapsed_seconds: 0.020552
+    elapsed_seconds: 0.020719
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -4994,7 +4813,7 @@ instruments:
     - solution/recompute.py
     artifact_id: truth-regen-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-alpha
     blocked_reason: null
-    elapsed_seconds: 0.020799
+    elapsed_seconds: 0.020223
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -5006,7 +4825,7 @@ instruments:
     - solution/recompute.py
     artifact_id: truth-regen-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-bravo
     blocked_reason: null
-    elapsed_seconds: 0.020467
+    elapsed_seconds: 0.020664
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -5018,7 +4837,7 @@ instruments:
     - solution/recompute.py
     artifact_id: truth-regen-873914cf-93b2-57a0-a5c8-264bfa2d3b66-alpha
     blocked_reason: null
-    elapsed_seconds: 0.01974
+    elapsed_seconds: 0.020446
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -5030,7 +4849,7 @@ instruments:
     - solution/recompute.py
     artifact_id: truth-regen-873914cf-93b2-57a0-a5c8-264bfa2d3b66-bravo
     blocked_reason: null
-    elapsed_seconds: 0.019379
+    elapsed_seconds: 0.020714
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -5038,26 +4857,19 @@ instruments:
     stdout_sha256: 2fa61aa235534f49669318d3efbf3d353bbc1f34bc057343af6d49a07edfc913
     timed_out: false
   standing: insufficient_evidence
-- coverage_gaps:
-  - caps: HOLD
-    gap_id: D-VER-TRIALS-UNPROJECTED-STABILITY
-    instrument: G-VER-STABILITY
-    reason: trial-count-unprojected
-    statement: The approved scope binds no stability_trials under key verifier_robustness, so the repetition
-      count this probe must run at is unprojected. The harness refuses to invent one, and the derivable
-      replay below runs at a harness-chosen 3 repetitions that carry no authority as the bound count.
-    subject: project
-    surface: verifier_robustness
-  disposition_cap: HOLD
+- coverage_gaps: []
+  disposition_cap: SHIP
   findings: []
   instrument: G-VER-STABILITY
   notes:
+    bound_stability_trials: 3
     bundles:
       4c7b8d6f-c500-585d-b7b2-3519df55b1b3:
         derivable_scores:
         - 0.0
       6bf0c918-e9ad-5397-bb76-cf3e238f2df1:
         derivable_scores:
+        - 0.0
         - 0.5
       873914cf-93b2-57a0-a5c8-264bfa2d3b66:
         derivable_scores:
@@ -5085,7 +4897,7 @@ instruments:
     - 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/jdx_m_mise@sha256:8548f5c7004d60da6a8eaca625e5fb7152c40e355eada9a6bdea339b73fff6bf
     artifact_id: docker-inspect-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
     blocked_reason: null
-    elapsed_seconds: 0.029856
+    elapsed_seconds: 0.032158
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -5099,7 +4911,7 @@ instruments:
     - 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:b4d482d8e163d741ac086af764c04daabcd6aee412850fee8a80d8881d90f4ab
     artifact_id: docker-inspect-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
     blocked_reason: null
-    elapsed_seconds: 0.025627
+    elapsed_seconds: 0.027747
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -5113,7 +4925,7 @@ instruments:
     - 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:eca2d8710d1baffad6f1d273610bbce183857c73bed6574dce2252fb3fb446aa
     artifact_id: docker-inspect-873914cf-93b2-57a0-a5c8-264bfa2d3b66
     blocked_reason: null
-    elapsed_seconds: 0.027416
+    elapsed_seconds: 0.030233
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -5121,17 +4933,21 @@ instruments:
     stdout_sha256: 5a49bb3319a36a4901a2922426918d54f5381c73b34921abf37c128590ab705f
     timed_out: false
   standing: insufficient_evidence
-- coverage_gaps:
-  - caps: HOLD
-    gap_id: D-VER-LOG-UNPROJECTED-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-zai__glm-5.3-run_1
-    instrument: G-VER-INVARIANCE
-    reason: recorded-runner-log-absent
-    statement: A recorded runner log is absent from this rollout, so the bound perturbation set could
-      not be replayed over it. The harness refuses to fetch it and records the surface as unmeasured.
-    subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    surface: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1/trajectories/zai__glm-5.3/run_1/verifier
+- coverage_gaps: []
   disposition_cap: HOLD
-  findings: []
+  findings:
+  - bucket: deterministic
+    caps: HOLD
+    critical_class: verifier-robustness
+    evidence: *id023
+    finding_id: VER-INVARIANCE-NONMEMBERSHIP-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-zai__glm-5.3/run_1
+    instrument: G-VER-INVARIANCE
+    severity: high
+    statement: Target resolution does not reduce to set membership over normalized test names. resolve_declared
+      at harness_core.py lines 457 to 500 credited 4 declared target(s) through its suffix fallback over
+      ID_SEPARATORS at line 436 rather than through an exact parsed key, so a target can be credited to
+      a test whose identifier the declaration never names.
+    subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
   instrument: G-VER-INVARIANCE
   notes:
     variants:
@@ -5315,6 +5131,66 @@ instruments:
       suffix_fallback_targets: 0
       variant_keys: 318
       variant_reward: 0.5
+    - baseline_keys: 189
+      baseline_reward: 0.0
+      bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+      perturbation: line_order
+      reason_moved: false
+      rollout: zai__glm-5.3/run_1
+      score_moved: false
+      suffix_fallback_targets: 4
+      variant_keys: 189
+      variant_reward: 0.0
+    - baseline_keys: 189
+      baseline_reward: 0.0
+      bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+      perturbation: section_indentation_or_nesting
+      reason_moved: false
+      rollout: zai__glm-5.3/run_1
+      score_moved: false
+      suffix_fallback_targets: 4
+      variant_keys: 189
+      variant_reward: 0.0
+    - baseline_keys: 189
+      baseline_reward: 0.0
+      bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+      perturbation: dialect_or_suite_name_prefixes
+      reason_moved: false
+      rollout: zai__glm-5.3/run_1
+      score_moved: false
+      suffix_fallback_targets: 4
+      variant_keys: 189
+      variant_reward: 0.0
+    - baseline_keys: 189
+      baseline_reward: 0.0
+      bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+      perturbation: ordinal_suffixes
+      reason_moved: false
+      rollout: zai__glm-5.3/run_1
+      score_moved: false
+      suffix_fallback_targets: 4
+      variant_keys: 189
+      variant_reward: 0.0
+    - baseline_keys: 189
+      baseline_reward: 0.0
+      bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+      perturbation: timestamps
+      reason_moved: false
+      rollout: zai__glm-5.3/run_1
+      score_moved: false
+      suffix_fallback_targets: 4
+      variant_keys: 189
+      variant_reward: 0.0
+    - baseline_keys: 189
+      baseline_reward: 0.0
+      bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+      perturbation: interleaved_output
+      reason_moved: false
+      rollout: zai__glm-5.3/run_1
+      score_moved: false
+      suffix_fallback_targets: 4
+      variant_keys: 189
+      variant_reward: 0.0
     - baseline_keys: 158
       baseline_reward: 0.5
       bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
@@ -5437,17 +5313,9 @@ instruments:
       variant_reward: 0.875
   ran: true
   raw_artifacts: []
-  standing: demonstrated_coverage
-- coverage_gaps:
-  - caps: HOLD
-    gap_id: D-VER-SCORE-UNPROJECTED-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-zai__glm-5.3-run_1
-    instrument: G-VER-REPLAY
-    reason: reported-score-or-log-absent
-    statement: A reported score or a recorded runner log is absent from this rollout, so no reconciliation
-      was possible. The harness refuses to fetch either and records the surface as unmeasured.
-    subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    surface: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1/trajectories/zai__glm-5.3/run_1/verifier
-  disposition_cap: HOLD
+  standing: observed_violation
+- coverage_gaps: []
+  disposition_cap: SHIP
   findings: []
   instrument: G-VER-REPLAY
   notes:
@@ -5470,6 +5338,12 @@ instruments:
       recomputed_reason: graded
       reported: 0.5
       rollout: claude-opus-5/run_1
+    - bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+      diverged: false
+      recomputed: 0.0
+      recomputed_reason: preserve-set-regression
+      reported: 0.0
+      rollout: zai__glm-5.3/run_1
     - bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
       diverged: false
       recomputed: 0.5
@@ -5491,7 +5365,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: verifier-robustness
-    evidence: *id027
+    evidence: *id024
     finding_id: VER-BASELINE-DROPPED-AT-BASE-873914cf-93b2-57a0-a5c8-264bfa2d3b66
     instrument: G-VER-BASELINE
     severity: medium
@@ -5562,7 +5436,7 @@ instruments:
     - 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/jdx_m_mise@sha256:8548f5c7004d60da6a8eaca625e5fb7152c40e355eada9a6bdea339b73fff6bf
     artifact_id: docker-inspect-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
     blocked_reason: null
-    elapsed_seconds: 0.02817
+    elapsed_seconds: 0.028422
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -5576,7 +5450,7 @@ instruments:
     - 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:b4d482d8e163d741ac086af764c04daabcd6aee412850fee8a80d8881d90f4ab
     artifact_id: docker-inspect-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
     blocked_reason: null
-    elapsed_seconds: 0.026993
+    elapsed_seconds: 0.027353
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -5590,7 +5464,7 @@ instruments:
     - 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:eca2d8710d1baffad6f1d273610bbce183857c73bed6574dce2252fb3fb446aa
     artifact_id: docker-inspect-873914cf-93b2-57a0-a5c8-264bfa2d3b66
     blocked_reason: null
-    elapsed_seconds: 0.023549
+    elapsed_seconds: 0.020523
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -5598,20 +5472,12 @@ instruments:
     stdout_sha256: 5a49bb3319a36a4901a2922426918d54f5381c73b34921abf37c128590ab705f
     timed_out: false
   standing: insufficient_evidence
-- coverage_gaps:
-  - caps: HOLD
-    gap_id: D-VER-TRIALS-UNPROJECTED-FLAKINESS
-    instrument: G-VER-FLAKINESS
-    reason: trial-count-unprojected
-    statement: The approved scope binds no flakiness_trials under key verifier_robustness, so the repetition
-      count this probe must run at is unprojected. The harness refuses to invent one, and the derivable
-      replay below runs at a harness-chosen 3 repetitions that carry no authority as the bound count.
-    subject: project
-    surface: verifier_robustness
-  disposition_cap: HOLD
+- coverage_gaps: []
+  disposition_cap: SHIP
   findings: []
   instrument: G-VER-FLAKINESS
   notes:
+    bound_flakiness_trials: 3
     image_states:
     - blocked_reason: null
       digest_pinned: true
@@ -5659,7 +5525,7 @@ instruments:
     - 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/jdx_m_mise@sha256:8548f5c7004d60da6a8eaca625e5fb7152c40e355eada9a6bdea339b73fff6bf
     artifact_id: docker-inspect-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
     blocked_reason: null
-    elapsed_seconds: 0.020455
+    elapsed_seconds: 0.022161
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -5673,7 +5539,7 @@ instruments:
     - 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:b4d482d8e163d741ac086af764c04daabcd6aee412850fee8a80d8881d90f4ab
     artifact_id: docker-inspect-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
     blocked_reason: null
-    elapsed_seconds: 0.026129
+    elapsed_seconds: 0.023224
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -5687,7 +5553,7 @@ instruments:
     - 426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:eca2d8710d1baffad6f1d273610bbce183857c73bed6574dce2252fb3fb446aa
     artifact_id: docker-inspect-873914cf-93b2-57a0-a5c8-264bfa2d3b66
     blocked_reason: null
-    elapsed_seconds: 0.023959
+    elapsed_seconds: 0.022856
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -5718,7 +5584,7 @@ instruments:
       rollout: claude-opus-5/run_1
     - bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
       machine_readable: true
-      reason: declared-targets-partially-absent
+      reason: preserve-set-regression
       reward: 0.0
       rollout: zai__glm-5.3/run_1
     - bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
@@ -6197,18 +6063,8 @@ instruments:
   ran: true
   raw_artifacts: []
   standing: demonstrated_coverage
-- coverage_gaps:
-  - caps: HOLD
-    gap_id: D-COMPILATION-FLOOR-UNRESOLVED
-    instrument: G-RUB-COMPLETENESS
-    reason: compiled-weight-floor-unresolved
-    statement: The compiled_weight_floor the rubric surface must clear reads unresolved in the approved
-      scope, because it is carried by name from a .seed/contract.yaml that does not exist at this root.
-      The actual compiled weight share is recomputed and recorded below, but it cannot be compared against
-      a floor, so compiled coverage adequacy stays unmeasured rather than passed.
-    subject: project
-    surface: rubric
-  disposition_cap: HOLD
+- coverage_gaps: []
+  disposition_cap: SHIP
   findings: []
   instrument: G-RUB-COMPLETENESS
   notes:
@@ -6218,7 +6074,8 @@ instruments:
         compiled_items: 8
         compiled_weight: 8.0
         compiled_weight_share: 0.150943
-        floor_state: unresolved
+        floor: 0.125
+        floor_state: bound
         items: 21
         total_weight: 53.0
       6bf0c918-e9ad-5397-bb76-cf3e238f2df1:
@@ -6226,7 +6083,8 @@ instruments:
         compiled_items: 8
         compiled_weight: 8.0
         compiled_weight_share: 0.150943
-        floor_state: unresolved
+        floor: 0.125
+        floor_state: bound
         items: 21
         total_weight: 53.0
       873914cf-93b2-57a0-a5c8-264bfa2d3b66:
@@ -6234,9 +6092,11 @@ instruments:
         compiled_items: 8
         compiled_weight: 8.0
         compiled_weight_share: 0.145455
-        floor_state: unresolved
+        floor: 0.125
+        floor_state: bound
         items: 21
         total_weight: 55.0
+    compiled_weight_floor: 0.125
   ran: true
   raw_artifacts: []
   standing: insufficient_evidence
@@ -6276,7 +6136,7 @@ instruments:
   notes:
     bundles:
       4c7b8d6f-c500-585d-b7b2-3519df55b1b3:
-        not_varied: &id028
+        not_varied: &id025
         - hostname
         - uid
         - kernel
@@ -6295,7 +6155,7 @@ instruments:
           regenerated:
           - 916512faa0c5f92e3b470e48844ed3c9478467ac1279d0020c42bf100d7f7d48
           - 916512faa0c5f92e3b470e48844ed3c9478467ac1279d0020c42bf100d7f7d48
-        varied: &id029
+        varied: &id026
         - working_directory
         - HOME
         - USER
@@ -6305,7 +6165,7 @@ instruments:
         - LC_ALL
         - TZ
       6bf0c918-e9ad-5397-bb76-cf3e238f2df1:
-        not_varied: *id028
+        not_varied: *id025
         solution/rubrics.json:
           committed: e239afd6b90b5f6c264a67b62fded8d875568432be4d342b74d35584ef4166cd
           identity_stable: true
@@ -6320,9 +6180,9 @@ instruments:
           regenerated:
           - a61c461fa86f96abbe3224e315254dc2e615012ec916a4e1360d7dd36279ed70
           - a61c461fa86f96abbe3224e315254dc2e615012ec916a4e1360d7dd36279ed70
-        varied: *id029
+        varied: *id026
       873914cf-93b2-57a0-a5c8-264bfa2d3b66:
-        not_varied: *id028
+        not_varied: *id025
         solution/rubrics.json:
           committed: 338e9389e27de8298bb0d2b7374b2a81762065797899a25f651c0dc55cacbf79
           identity_stable: true
@@ -6337,15 +6197,15 @@ instruments:
           regenerated:
           - 84f20d5fcc41e696ff6875caa79440e049429cae975b06c9aee56c91eac02416
           - 84f20d5fcc41e696ff6875caa79440e049429cae975b06c9aee56c91eac02416
-        varied: *id029
+        varied: *id026
   ran: true
   raw_artifacts:
   - argv:
     - python3
-    - /var/folders/4v/7wd4855j6vb0qwdxksrh28500000gn/T/crucible-rub-regen-l4d5hpbh/run-0/solution/recompute.py
+    - /var/folders/4v/7wd4855j6vb0qwdxksrh28500000gn/T/crucible-rub-regen-5ngn2v8m/run-0/solution/recompute.py
     artifact_id: rub-regen-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-0
     blocked_reason: null
-    elapsed_seconds: 0.021709
+    elapsed_seconds: 0.020617
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -6354,10 +6214,10 @@ instruments:
     timed_out: false
   - argv:
     - python3
-    - /var/folders/4v/7wd4855j6vb0qwdxksrh28500000gn/T/crucible-rub-regen-l4d5hpbh/run-1/solution/recompute.py
+    - /var/folders/4v/7wd4855j6vb0qwdxksrh28500000gn/T/crucible-rub-regen-5ngn2v8m/run-1/solution/recompute.py
     artifact_id: rub-regen-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-1
     blocked_reason: null
-    elapsed_seconds: 0.020173
+    elapsed_seconds: 0.020012
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -6366,10 +6226,10 @@ instruments:
     timed_out: false
   - argv:
     - python3
-    - /var/folders/4v/7wd4855j6vb0qwdxksrh28500000gn/T/crucible-rub-regen-j2nn7fln/run-0/solution/recompute.py
+    - /var/folders/4v/7wd4855j6vb0qwdxksrh28500000gn/T/crucible-rub-regen-khz2s9f3/run-0/solution/recompute.py
     artifact_id: rub-regen-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-0
     blocked_reason: null
-    elapsed_seconds: 0.019551
+    elapsed_seconds: 0.020942
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -6378,10 +6238,10 @@ instruments:
     timed_out: false
   - argv:
     - python3
-    - /var/folders/4v/7wd4855j6vb0qwdxksrh28500000gn/T/crucible-rub-regen-j2nn7fln/run-1/solution/recompute.py
+    - /var/folders/4v/7wd4855j6vb0qwdxksrh28500000gn/T/crucible-rub-regen-khz2s9f3/run-1/solution/recompute.py
     artifact_id: rub-regen-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-1
     blocked_reason: null
-    elapsed_seconds: 0.020461
+    elapsed_seconds: 0.019297
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -6390,10 +6250,10 @@ instruments:
     timed_out: false
   - argv:
     - python3
-    - /var/folders/4v/7wd4855j6vb0qwdxksrh28500000gn/T/crucible-rub-regen-kvdhtpfc/run-0/solution/recompute.py
+    - /var/folders/4v/7wd4855j6vb0qwdxksrh28500000gn/T/crucible-rub-regen-v1rxcnfz/run-0/solution/recompute.py
     artifact_id: rub-regen-873914cf-93b2-57a0-a5c8-264bfa2d3b66-0
     blocked_reason: null
-    elapsed_seconds: 0.020941
+    elapsed_seconds: 0.020253
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -6402,10 +6262,10 @@ instruments:
     timed_out: false
   - argv:
     - python3
-    - /var/folders/4v/7wd4855j6vb0qwdxksrh28500000gn/T/crucible-rub-regen-kvdhtpfc/run-1/solution/recompute.py
+    - /var/folders/4v/7wd4855j6vb0qwdxksrh28500000gn/T/crucible-rub-regen-v1rxcnfz/run-1/solution/recompute.py
     artifact_id: rub-regen-873914cf-93b2-57a0-a5c8-264bfa2d3b66-1
     blocked_reason: null
-    elapsed_seconds: 0.019982
+    elapsed_seconds: 0.019638
     exit_code: 0
     stderr_bytes: 0
     stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -6458,7 +6318,7 @@ instruments:
         - accepted: false
           exit_code: 4
           is_known_wrong_control: true
-          recorded_reason: declared-targets-partially-absent
+          recorded_reason: preserve-set-regression
           recorded_score: 0.0
           rollout: zai__glm-5.3/run_1
         probe_assertions_present: false
@@ -6489,7 +6349,7 @@ instruments:
     - --no-header
     artifact_id: rub-replay-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-claude-opus-5-run_1
     blocked_reason: null
-    elapsed_seconds: 0.492017
+    elapsed_seconds: 0.493404
     exit_code: 4
     stderr_bytes: 95
     stderr_sha256: 6edf8ba8794a576d6c82cc200671f318f833ece6e882776f5182f26cf606f8ea
@@ -6507,7 +6367,7 @@ instruments:
     - --no-header
     artifact_id: rub-replay-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-zai__glm-5.3-run_1
     blocked_reason: null
-    elapsed_seconds: 0.40539
+    elapsed_seconds: 0.416829
     exit_code: 4
     stderr_bytes: 95
     stderr_sha256: 6edf8ba8794a576d6c82cc200671f318f833ece6e882776f5182f26cf606f8ea
@@ -6525,7 +6385,7 @@ instruments:
     - --no-header
     artifact_id: rub-replay-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-claude-opus-5-run_1
     blocked_reason: null
-    elapsed_seconds: 0.401382
+    elapsed_seconds: 0.416274
     exit_code: 4
     stderr_bytes: 95
     stderr_sha256: 168168825aaeae41a2776f08646a8748e425f5127999b1e934bc2f7b302c2f5f
@@ -6543,7 +6403,7 @@ instruments:
     - --no-header
     artifact_id: rub-replay-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-zai__glm-5.3-run_1
     blocked_reason: null
-    elapsed_seconds: 0.418246
+    elapsed_seconds: 0.415468
     exit_code: 4
     stderr_bytes: 95
     stderr_sha256: 168168825aaeae41a2776f08646a8748e425f5127999b1e934bc2f7b302c2f5f
@@ -6561,7 +6421,7 @@ instruments:
     - --no-header
     artifact_id: rub-replay-873914cf-93b2-57a0-a5c8-264bfa2d3b66-claude-opus-5-run_1
     blocked_reason: null
-    elapsed_seconds: 0.401523
+    elapsed_seconds: 0.409995
     exit_code: 4
     stderr_bytes: 95
     stderr_sha256: bf7d6c402b4576d1392832c2cf15271c4f308b74cd84de4704af069625cf9339
@@ -6656,7 +6516,7 @@ instruments:
     effective_root_digest: 6ef5c83e7951ac5c84faa97fc729bb7c587cdeefbd2504cfcd7e3dd7d163e727
     freshness:
       4c7b8d6f-c500-585d-b7b2-3519df55b1b3:
-        comparison_instant: '2026-09-23T13:36:43.788570+00:00'
+        comparison_instant: '2026-09-24T07:02:27.823829+00:00'
         declared_expiry: '2026-12-03T00:00:00+00:00'
         declared_expiry_agrees: true
         derived_expiry: '2026-12-03T00:00:00+00:00'
@@ -6664,7 +6524,7 @@ instruments:
         origin: '2026-09-04T00:00:00+00:00'
         overdue: false
       6bf0c918-e9ad-5397-bb76-cf3e238f2df1:
-        comparison_instant: '2026-09-23T13:36:43.788570+00:00'
+        comparison_instant: '2026-09-24T07:02:27.823829+00:00'
         declared_expiry: '2026-12-03T00:00:00+00:00'
         declared_expiry_agrees: true
         derived_expiry: '2026-12-03T00:00:00+00:00'
@@ -6672,7 +6532,7 @@ instruments:
         origin: '2026-09-04T00:00:00+00:00'
         overdue: false
       873914cf-93b2-57a0-a5c8-264bfa2d3b66:
-        comparison_instant: '2026-09-23T13:36:43.788570+00:00'
+        comparison_instant: '2026-09-24T07:02:27.823829+00:00'
         declared_expiry: '2026-12-03T00:00:00+00:00'
         declared_expiry_agrees: true
         derived_expiry: '2026-12-03T00:00:00+00:00'
@@ -6716,7 +6576,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: screening-root-governance
-    evidence: *id030
+    evidence: *id027
     finding_id: F-CON-FREEZE-ROW-MISSING
     instrument: G-CON-FREEZE
     severity: high
@@ -6815,7 +6675,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: contamination-screening
-    evidence: *id031
+    evidence: *id028
     finding_id: F-CON-NEARDUP-SAME-REPOSITORY-CORPUS-UNIT
     instrument: G-CON-NEARDUP
     severity: high
@@ -6961,19 +6821,7 @@ instruments:
     subject: project
     surface: containers
   disposition_cap: HOLD
-  findings:
-  - bucket: deterministic
-    caps: HOLD
-    critical_class: contamination-screening
-    evidence: *id032
-    finding_id: F-CON-STRIP-FIX-SIGNATURE-6bf0c918
-    instrument: G-CON-STRIP
-    severity: medium
-    statement: Fix absence matched signature lines of the private fix diff in the agent-facing statement.
-      The approved scope declares a names-only reference interface specification for this bundle, so restating
-      a signature is within the approved design and is retained at HOLD with that basis recorded rather
-      than read as a disclosure. No fragment carries an upstream pull-request or issue reference.
-    subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+  findings: []
   instrument: G-CON-STRIP
   notes:
     agent_visible_subtrees:
@@ -6997,6 +6845,7 @@ instruments:
       remote_producer_assertions:
       - test -z "$(git remote)"
       - remote absence asserted
+      signature_adjudication: null
       thread_absence: clean
       uuid: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
     - carrier_claimed_result_digest: unmeasured
@@ -7017,6 +6866,15 @@ instruments:
       remote_producer_assertions:
       - test -z "$(git remote)"
       - remote absence asserted
+      signature_adjudication:
+        basis: the bundle's committed task.toml [interface_spec] declares mode names-only, so restating
+          a signature realizes the approved design; adjudicated per the operator change request recorded
+          on the feedback chain (sequence 11), and no fragment carries an upstream pull-request or issue
+          reference
+        examples:
+        - 'orientation: Var[Literal["vertical", "horizontal"]]'
+        interface_signature_fragments: 1
+        outcome: within-approved-design
       thread_absence: clean
       uuid: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
     - carrier_claimed_result_digest: unmeasured
@@ -7036,6 +6894,7 @@ instruments:
       remote_producer_assertions:
       - test -z "$(git remote)"
       - remote absence asserted
+      signature_adjudication: null
       thread_absence: clean
       uuid: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
     checks:
@@ -7059,7 +6918,7 @@ instruments:
       from the agent-facing closure
   ran: true
   raw_artifacts: []
-  standing: observed_violation
+  standing: insufficient_evidence
 - coverage_gaps:
   - caps: HOLD
     gap_id: D-CON-UNMEASURED-ATOM
@@ -7153,7 +7012,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: provenance-carrier-integrity
-    evidence: *id033
+    evidence: *id029
     finding_id: F-CON-RECORD-SIGNATURE-ABSENT-4c7b8d6f
     instrument: G-CON-RECORD
     severity: high
@@ -7163,7 +7022,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: provenance-carrier-integrity
-    evidence: *id034
+    evidence: *id030
     finding_id: F-CON-RECORD-ENVELOPE-UNSIGNED-4c7b8d6f
     instrument: G-CON-RECORD
     severity: high
@@ -7173,7 +7032,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: provenance-carrier-integrity
-    evidence: *id035
+    evidence: *id031
     finding_id: F-CON-RECORD-SIGNATURE-ABSENT-6bf0c918
     instrument: G-CON-RECORD
     severity: high
@@ -7183,7 +7042,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: provenance-carrier-integrity
-    evidence: *id036
+    evidence: *id032
     finding_id: F-CON-RECORD-ENVELOPE-UNSIGNED-6bf0c918
     instrument: G-CON-RECORD
     severity: high
@@ -7193,7 +7052,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: provenance-carrier-integrity
-    evidence: *id037
+    evidence: *id033
     finding_id: F-CON-RECORD-SIGNATURE-ABSENT-873914cf
     instrument: G-CON-RECORD
     severity: high
@@ -7203,7 +7062,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: provenance-carrier-integrity
-    evidence: *id038
+    evidence: *id034
     finding_id: F-CON-RECORD-ENVELOPE-UNSIGNED-873914cf
     instrument: G-CON-RECORD
     severity: high
@@ -7219,7 +7078,7 @@ instruments:
       declared_canonical_bundle_hash: 03aa306c4f584650a31ad57b7a54e669db2d3c9b2fe88a89f543a1b2855b7652
       free_form_prose_fields: []
       freshness:
-        comparison_instant: '2026-09-23T13:36:43.788570+00:00'
+        comparison_instant: '2026-09-24T07:02:27.823829+00:00'
         declared_expiry: '2026-12-03T00:00:00+00:00'
         declared_expiry_agrees: true
         derived_expiry: '2026-12-03T00:00:00+00:00'
@@ -7245,7 +7104,7 @@ instruments:
       declared_canonical_bundle_hash: 10cb07aefb91b15c92125b980e429ccb46420074467ee8581774146d65f82ba1
       free_form_prose_fields: []
       freshness:
-        comparison_instant: '2026-09-23T13:36:43.788570+00:00'
+        comparison_instant: '2026-09-24T07:02:27.823829+00:00'
         declared_expiry: '2026-12-03T00:00:00+00:00'
         declared_expiry_agrees: true
         derived_expiry: '2026-12-03T00:00:00+00:00'
@@ -7271,7 +7130,7 @@ instruments:
       declared_canonical_bundle_hash: 8b0cdb100a78d89ef46315af507dab3058bbc6a497520713a9d8ae6142670b83
       free_form_prose_fields: []
       freshness:
-        comparison_instant: '2026-09-23T13:36:43.788570+00:00'
+        comparison_instant: '2026-09-24T07:02:27.823829+00:00'
         declared_expiry: '2026-12-03T00:00:00+00:00'
         declared_expiry_agrees: true
         derived_expiry: '2026-12-03T00:00:00+00:00'
@@ -7394,22 +7253,13 @@ instruments:
   ran: true
   raw_artifacts: []
   standing: insufficient_evidence
-- coverage_gaps:
-  - caps: HOLD
-    gap_id: D-REWARD-COMPONENTS-ABSENT-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-zai__glm-5.3-run_1
-    instrument: rewardprovenance
-    reason: components-absent-zero-without-grading
-    statement: This rollout records no component counts because it resolved through the zero-without-grading
-      path with reason declared-targets-partially-absent. The recorded reward therefore cannot be re-derived
-      arithmetically; it is accepted as attributed rather than as recomputed.
-    subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1/zai__glm-5.3/run_1
-    surface: trajectories
+- coverage_gaps: []
   disposition_cap: BLOCK
   findings:
   - bucket: deterministic
     caps: BLOCK
     critical_class: reward-integrity
-    evidence: *id039
+    evidence: *id035
     finding_id: F-REWARD-SCORER-OUTSIDE-CLOSURE-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-claude-opus-5-run_1
     instrument: rewardprovenance
     severity: critical
@@ -7420,7 +7270,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: reward-integrity
-    evidence: *id040
+    evidence: *id036
     finding_id: F-REWARD-VERIFIER-NOT-ISOLATED-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-claude-opus-5-run_1
     instrument: rewardprovenance
     severity: high
@@ -7430,7 +7280,7 @@ instruments:
   - bucket: deterministic
     caps: BLOCK
     critical_class: reward-integrity
-    evidence: *id041
+    evidence: *id037
     finding_id: F-REWARD-SCORER-OUTSIDE-CLOSURE-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-zai__glm-5.3-run_1
     instrument: rewardprovenance
     severity: critical
@@ -7441,7 +7291,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: reward-integrity
-    evidence: *id042
+    evidence: *id038
     finding_id: F-REWARD-VERIFIER-NOT-ISOLATED-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-zai__glm-5.3-run_1
     instrument: rewardprovenance
     severity: high
@@ -7451,7 +7301,7 @@ instruments:
   - bucket: deterministic
     caps: BLOCK
     critical_class: reward-integrity
-    evidence: *id043
+    evidence: *id039
     finding_id: F-REWARD-SCORER-OUTSIDE-CLOSURE-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-claude-opus-5-run_1
     instrument: rewardprovenance
     severity: critical
@@ -7462,7 +7312,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: reward-integrity
-    evidence: *id044
+    evidence: *id040
     finding_id: F-REWARD-VERIFIER-NOT-ISOLATED-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-claude-opus-5-run_1
     instrument: rewardprovenance
     severity: high
@@ -7472,7 +7322,7 @@ instruments:
   - bucket: deterministic
     caps: BLOCK
     critical_class: reward-integrity
-    evidence: *id045
+    evidence: *id041
     finding_id: F-REWARD-SCORER-OUTSIDE-CLOSURE-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-zai__glm-5.3-run_1
     instrument: rewardprovenance
     severity: critical
@@ -7483,7 +7333,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: reward-integrity
-    evidence: *id046
+    evidence: *id042
     finding_id: F-REWARD-VERIFIER-NOT-ISOLATED-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-zai__glm-5.3-run_1
     instrument: rewardprovenance
     severity: high
@@ -7493,7 +7343,7 @@ instruments:
   - bucket: deterministic
     caps: BLOCK
     critical_class: reward-integrity
-    evidence: *id047
+    evidence: *id043
     finding_id: F-REWARD-SCORER-OUTSIDE-CLOSURE-873914cf-93b2-57a0-a5c8-264bfa2d3b66-claude-opus-5-run_1
     instrument: rewardprovenance
     severity: critical
@@ -7504,7 +7354,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: reward-integrity
-    evidence: *id048
+    evidence: *id044
     finding_id: F-REWARD-VERIFIER-NOT-ISOLATED-873914cf-93b2-57a0-a5c8-264bfa2d3b66-claude-opus-5-run_1
     instrument: rewardprovenance
     severity: high
@@ -7514,7 +7364,7 @@ instruments:
   - bucket: deterministic
     caps: BLOCK
     critical_class: reward-integrity
-    evidence: *id049
+    evidence: *id045
     finding_id: F-REWARD-SCORER-OUTSIDE-CLOSURE-873914cf-93b2-57a0-a5c8-264bfa2d3b66-zai__glm-5.3-run_1
     instrument: rewardprovenance
     severity: critical
@@ -7525,7 +7375,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: reward-integrity
-    evidence: *id050
+    evidence: *id046
     finding_id: F-REWARD-VERIFIER-NOT-ISOLATED-873914cf-93b2-57a0-a5c8-264bfa2d3b66-zai__glm-5.3-run_1
     instrument: rewardprovenance
     severity: high
@@ -7567,9 +7417,9 @@ instruments:
     - carrier_agreement: true
       components_present: true
       declared_reward: '0'
-      reason: declared-targets-partially-absent
-      rederived_reward: null
-      resolution: zero-without-grading
+      reason: preserve-set-regression
+      rederived_reward: '0'
+      resolution: rederived
       rollout: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1/zai__glm-5.3/run_1
     - carrier_agreement: true
       components_present: true
@@ -7642,7 +7492,7 @@ instruments:
     instrument: rolloutintegrity
     reason: operator-signed-root-absent
     statement: No operator-signed trajectory root is projected for this corpus, so the recomputed Merkle
-      root has nothing to be compared against. The root is recorded as 721dd166dc39969544b3231bd91b95e4c8ce88c07a5b54e3b92c40958fd058cb
+      root has nothing to be compared against. The root is recorded as ac5d3bf676f33795091cb2d47f6be7103c424531e990ce056aaab744af90c0d4
       and the comparison resolves as unmeasured rather than as agreement.
     subject: project
     surface: trajectories
@@ -7660,7 +7510,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: reward-integrity
-    evidence: *id051
+    evidence: *id047
     finding_id: F-ROLLOUT-SESSION-IDENTIFIER-CONSTANT
     instrument: rolloutintegrity
     severity: high
@@ -7680,14 +7530,14 @@ instruments:
       rollout: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3/zai__glm-5.3/run_1
     - leaf: b8747725ea34674a5ff03ddb14dae9725d23ee004306b9be61725566e0cff8ea
       rollout: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1/claude-opus-5/run_1
-    - leaf: 5b870083d48d39d7688a8fee97d189345d624bc5310073b3bc7e096acda313d0
+    - leaf: 64ce9d917a450b90fb3fa0088d747c5200b720263dc76840ab85910f13086e29
       rollout: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1/zai__glm-5.3/run_1
     - leaf: 81095f6cc3971807eba4aa606095621e77063f8d26a6d97c60168b08d33e9dc9
       rollout: 873914cf-93b2-57a0-a5c8-264bfa2d3b66/claude-opus-5/run_1
     - leaf: 8b8d94dea916679d16eccfe14008c75919fc5af2ab34634f007e522ef6cb9601
       rollout: 873914cf-93b2-57a0-a5c8-264bfa2d3b66/zai__glm-5.3/run_1
     operator_signed_root: null
-    recomputed_merkle_root: 721dd166dc39969544b3231bd91b95e4c8ce88c07a5b54e3b92c40958fd058cb
+    recomputed_merkle_root: ac5d3bf676f33795091cb2d47f6be7103c424531e990ce056aaab744af90c0d4
   ran: true
   raw_artifacts: []
   standing: observed_violation
@@ -7703,26 +7553,8 @@ instruments:
       carry the matching coverage gap at HOLD.
     subject: project
     surface: trajectories
-  - caps: HOLD
-    gap_id: D-REWARD-SCOPE-POPULATION-DIVERGENCE
-    instrument: rewarddistribution
-    reason: declared-population-diverges-from-measured
-    statement: The reward population recorded in the approved scope does not match the population measured
-      from committed rollout bytes, so any figure computed from the declared list would differ from the
-      same figure computed from the tree.
-    subject: project
-    surface: trajectories
   disposition_cap: HOLD
-  findings:
-  - bucket: deterministic
-    caps: HOLD
-    critical_class: reward-integrity
-    evidence: *id052
-    finding_id: F-REWARD-POPULATION-DIVERGENCE
-    instrument: rewarddistribution
-    severity: high
-    statement: The measured reward population differs from the population the approved scope declares.
-    subject: project
+  findings: []
   instrument: rewarddistribution
   notes:
     arithmetic: exact rationals through fractions.Fraction, never floating point
@@ -7759,7 +7591,7 @@ instruments:
       - 7/8
   ran: true
   raw_artifacts: []
-  standing: observed_violation
+  standing: insufficient_evidence
 - coverage_gaps: []
   disposition_cap: SHIP
   findings: []
@@ -8394,7 +8226,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: execution-fidelity
-    evidence: *id053
+    evidence: *id048
     finding_id: FID-CONFIG-UNAPPROVED-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-claude-opus-5-run_1
     instrument: G-FID-CONFIG
     severity: high
@@ -8407,7 +8239,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: execution-fidelity
-    evidence: *id054
+    evidence: *id049
     finding_id: FID-CONFIG-INADEQUATE-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-claude-opus-5-run_1
     instrument: G-FID-CONFIG
     severity: medium
@@ -8419,7 +8251,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: execution-fidelity
-    evidence: *id055
+    evidence: *id050
     finding_id: FID-CONFIG-UNAPPROVED-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-zai__glm-5.3-run_1
     instrument: G-FID-CONFIG
     severity: high
@@ -8432,7 +8264,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: execution-fidelity
-    evidence: *id056
+    evidence: *id051
     finding_id: FID-CONFIG-INADEQUATE-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-zai__glm-5.3-run_1
     instrument: G-FID-CONFIG
     severity: medium
@@ -8444,7 +8276,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: execution-fidelity
-    evidence: *id057
+    evidence: *id052
     finding_id: FID-CONFIG-UNAPPROVED-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-claude-opus-5-run_1
     instrument: G-FID-CONFIG
     severity: high
@@ -8457,7 +8289,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: execution-fidelity
-    evidence: *id058
+    evidence: *id053
     finding_id: FID-CONFIG-INADEQUATE-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-claude-opus-5-run_1
     instrument: G-FID-CONFIG
     severity: medium
@@ -8469,7 +8301,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: execution-fidelity
-    evidence: *id059
+    evidence: *id054
     finding_id: FID-CONFIG-UNAPPROVED-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-zai__glm-5.3-run_1
     instrument: G-FID-CONFIG
     severity: high
@@ -8482,7 +8314,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: execution-fidelity
-    evidence: *id060
+    evidence: *id055
     finding_id: FID-CONFIG-INADEQUATE-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-zai__glm-5.3-run_1
     instrument: G-FID-CONFIG
     severity: medium
@@ -8494,7 +8326,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: execution-fidelity
-    evidence: *id061
+    evidence: *id056
     finding_id: FID-CONFIG-UNAPPROVED-873914cf-93b2-57a0-a5c8-264bfa2d3b66-claude-opus-5-run_1
     instrument: G-FID-CONFIG
     severity: high
@@ -8507,7 +8339,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: execution-fidelity
-    evidence: *id062
+    evidence: *id057
     finding_id: FID-CONFIG-INADEQUATE-873914cf-93b2-57a0-a5c8-264bfa2d3b66-claude-opus-5-run_1
     instrument: G-FID-CONFIG
     severity: medium
@@ -8519,7 +8351,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: execution-fidelity
-    evidence: *id063
+    evidence: *id058
     finding_id: FID-CONFIG-UNAPPROVED-873914cf-93b2-57a0-a5c8-264bfa2d3b66-zai__glm-5.3-run_1
     instrument: G-FID-CONFIG
     severity: high
@@ -8532,7 +8364,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: execution-fidelity
-    evidence: *id064
+    evidence: *id059
     finding_id: FID-CONFIG-INADEQUATE-873914cf-93b2-57a0-a5c8-264bfa2d3b66-zai__glm-5.3-run_1
     instrument: G-FID-CONFIG
     severity: medium
@@ -8619,19 +8451,19 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: execution-fidelity
-    evidence: *id065
+    evidence: *id060
     finding_id: FID-TRACE-SUPPRESSING-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-zai__glm-5.3-run_1
     instrument: G-FID-TRACE
     severity: high
-    statement: 'Rollout zai__glm-5.3/run_1 carries 3 observed violation(s) in the suppressing direction,
+    statement: 'Rollout zai__glm-5.3/run_1 carries 1 observed violation(s) in the suppressing direction,
       meaning in the direction that lowers a measured pass rate and makes this task look harder than it
-      is. First: scoring_completeness, the verifier record set is incomplete, missing preserve-stdout.md,
-      summary.json. Class 17 carries no exemption for a finding that would lower a measured pass rate.'
+      is. First: submission_capture, the declared artifact transfer failed for 1 record(s): summary.json.
+      Class 17 carries no exemption for a finding that would lower a measured pass rate.'
     subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
   - bucket: deterministic
     caps: HOLD
     critical_class: execution-fidelity
-    evidence: *id066
+    evidence: *id061
     finding_id: FID-TRACE-STATUS-DISAGREEMENT-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-zai__glm-5.3-run_1
     instrument: G-FID-TRACE
     severity: high
@@ -8775,7 +8607,7 @@ instruments:
   - bucket: deterministic
     caps: BLOCK
     critical_class: execution-fidelity
-    evidence: *id067
+    evidence: *id062
     finding_id: FID-POPULATION-UNPROVABLE
     instrument: G-FID-POPULATION
     severity: critical
@@ -8796,7 +8628,7 @@ instruments:
     author_lane_record: BLOCK:INVALID_PILOT
     contract_step: 8u
     core_control_evidence_for: execution_fidelity
-    roster_search: *id068
+    roster_search: *id063
     rows:
     - bundle: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
       fixed_group_count: null
@@ -8804,7 +8636,7 @@ instruments:
       instrument: G-FID-POPULATION
       precommitted_roster: null
       realized_group_count: 2
-      realized_groups: *id069
+      realized_groups: *id064
       reconciled: false
     - bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
       fixed_group_count: null
@@ -8812,7 +8644,7 @@ instruments:
       instrument: G-FID-POPULATION
       precommitted_roster: null
       realized_group_count: 2
-      realized_groups: *id070
+      realized_groups: *id065
       reconciled: false
     - bundle: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
       fixed_group_count: null
@@ -8820,7 +8652,7 @@ instruments:
       instrument: G-FID-POPULATION
       precommitted_roster: null
       realized_group_count: 2
-      realized_groups: *id071
+      realized_groups: *id066
       reconciled: false
   ran: true
   raw_artifacts: []
@@ -8831,7 +8663,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: execution-fidelity
-    evidence: *id072
+    evidence: *id067
     finding_id: FID-HANDOFF-UNVERIFIED-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-zai__glm-5.3-run_1
     instrument: G-FID-HANDOFF
     severity: high
@@ -8843,7 +8675,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: execution-fidelity
-    evidence: *id073
+    evidence: *id068
     finding_id: FID-HANDOFF-UNVERIFIED-873914cf-93b2-57a0-a5c8-264bfa2d3b66-claude-opus-5-run_1
     instrument: G-FID-HANDOFF
     severity: high
@@ -8855,7 +8687,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: execution-fidelity
-    evidence: *id074
+    evidence: *id069
     finding_id: FID-HANDOFF-UNVERIFIED-873914cf-93b2-57a0-a5c8-264bfa2d3b66-zai__glm-5.3-run_1
     instrument: G-FID-HANDOFF
     severity: high
@@ -8911,9 +8743,9 @@ instruments:
       instrument: G-FID-HANDOFF
       rollout: claude-opus-5/run_1
       verified: true
-    - *id072
-    - *id073
-    - *id074
+    - *id067
+    - *id068
+    - *id069
   ran: true
   raw_artifacts: []
   standing: observed_violation
@@ -9020,7 +8852,7 @@ instruments:
       n2p_total: 0
       p2p_total: 545
       parser: rust
-      parser_module_digest: 8fb978430098a3ee637d93c01c248e94ffa61992d17ebcc59bbbdcc706233da0
+      parser_module_digest: 20b28b4d2bd424c6ac03aa9427da2e551e5855b62515708da5b6ebf1f79e4992
       preserve_cmd: bash /tests/graded/run.sh
       reward_reduction: (resolved fail-to-pass + resolved extra) / (fail-to-pass total + extra total)
       rubric_check_id_count: 28
@@ -9046,7 +8878,7 @@ instruments:
       n2p_total: 0
       p2p_total: 286
       parser: pytest
-      parser_module_digest: 8fb978430098a3ee637d93c01c248e94ffa61992d17ebcc59bbbdcc706233da0
+      parser_module_digest: 20b28b4d2bd424c6ac03aa9427da2e551e5855b62515708da5b6ebf1f79e4992
       preserve_cmd: bash /tests/graded/run.sh
       reward_reduction: (resolved fail-to-pass + resolved extra) / (fail-to-pass total + extra total)
       rubric_check_id_count: 28
@@ -9072,7 +8904,7 @@ instruments:
       n2p_total: 0
       p2p_total: 142
       parser: pytest
-      parser_module_digest: 8fb978430098a3ee637d93c01c248e94ffa61992d17ebcc59bbbdcc706233da0
+      parser_module_digest: 20b28b4d2bd424c6ac03aa9427da2e551e5855b62515708da5b6ebf1f79e4992
       preserve_cmd: bash /tests/graded/run.sh
       reward_reduction: (resolved fail-to-pass + resolved extra) / (fail-to-pass total + extra total)
       rubric_check_id_count: 28
@@ -9138,10 +8970,10 @@ instruments:
       is_projected_candidate: false
       rollout: claude-opus-5/run_1
       uuid: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    - committed_reason: declared-targets-partially-absent
+    - committed_reason: preserve-set-regression
       committed_reward: 0.0
-      f2p_resolved: null
-      f2p_total: null
+      f2p_resolved: 10
+      f2p_total: 18
       is_projected_candidate: false
       rollout: zai__glm-5.3/run_1
       uuid: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
@@ -9216,49 +9048,7 @@ instruments:
     subject: project
     surface: reference_emulation
   disposition_cap: HOLD
-  findings:
-  - bucket: deterministic
-    caps: HOLD
-    critical_class: reference-fidelity
-    evidence: *id075
-    finding_id: REF-NAMES-ONLY-INTERFACE-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-    instrument: G-REF-DIVERGENCE-TAXONOMY
-    severity: high
-    statement: The committed interface specification declares mode 'names-only' over 1 entries, and every
-      entry asserts an identifier without asserting behaviour. A checker built on such an entry is satisfied
-      by any implementation carrying the name, including a stub that returns immediately, so it cannot
-      distinguish a real implementation from an invented or assumed one. This is the shape that produces
-      invented-or-assumed-interface divergence against a real upstream artifact, and it bounds what a
-      pass of these checkers can mean.
-    subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-  - bucket: deterministic
-    caps: HOLD
-    critical_class: reference-fidelity
-    evidence: *id076
-    finding_id: REF-NAMES-ONLY-INTERFACE-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-    instrument: G-REF-DIVERGENCE-TAXONOMY
-    severity: high
-    statement: The committed interface specification declares mode 'names-only' over 13 entries, and every
-      entry asserts an identifier without asserting behaviour. A checker built on such an entry is satisfied
-      by any implementation carrying the name, including a stub that returns immediately, so it cannot
-      distinguish a real implementation from an invented or assumed one. This is the shape that produces
-      invented-or-assumed-interface divergence against a real upstream artifact, and it bounds what a
-      pass of these checkers can mean.
-    subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-  - bucket: deterministic
-    caps: HOLD
-    critical_class: reference-fidelity
-    evidence: *id077
-    finding_id: REF-NAMES-ONLY-INTERFACE-873914cf-93b2-57a0-a5c8-264bfa2d3b66
-    instrument: G-REF-DIVERGENCE-TAXONOMY
-    severity: high
-    statement: The committed interface specification declares mode 'names-only' over 15 entries, and every
-      entry asserts an identifier without asserting behaviour. A checker built on such an entry is satisfied
-      by any implementation carrying the name, including a stub that returns immediately, so it cannot
-      distinguish a real implementation from an invented or assumed one. This is the shape that produces
-      invented-or-assumed-interface divergence against a real upstream artifact, and it bounds what a
-      pass of these checkers can mean.
-    subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+  findings: []
   instrument: G-REF-DIVERGENCE-TAXONOMY
   notes:
     bundles:
@@ -9303,7 +9093,11 @@ instruments:
           - key: preserve_cmd
             value: bash /tests/graded/run.sh
       interface_mode: names-only
-      per_class_counts: *id078
+      per_class_counts:
+        exit-code-contract: 0
+        invented-or-assumed-interface: 1
+        output-literal: 0
+        validation-locus: 0
       shape_histogram:
         bare-symbol: 0
         cli-flag: 1
@@ -9436,7 +9230,11 @@ instruments:
           - key: preserve_cmd
             value: bash /tests/graded/run.sh
       interface_mode: names-only
-      per_class_counts: *id079
+      per_class_counts:
+        exit-code-contract: 0
+        invented-or-assumed-interface: 13
+        output-literal: 0
+        validation-locus: 0
       shape_histogram:
         bare-symbol: 4
         cli-flag: 0
@@ -9583,7 +9381,11 @@ instruments:
           - key: preserve_cmd
             value: bash /tests/graded/run.sh
       interface_mode: names-only
-      per_class_counts: *id080
+      per_class_counts:
+        exit-code-contract: 0
+        invented-or-assumed-interface: 15
+        output-literal: 0
+        validation-locus: 0
       shape_histogram:
         bare-symbol: 5
         cli-flag: 0
@@ -9598,6 +9400,31 @@ instruments:
     - invented-or-assumed-interface
     - validation-locus
     measured_classification_available: false
+    names_only_refutations:
+      4c7b8d6f-c500-585d-b7b2-3519df55b1b3:
+        basis: 'refuted by measured probe discrimination: the schema-valid-wrong-content probe and the
+          empty submission both graded to exactly zero inside the pinned image, so the committed checkers
+          rejected name-bearing stubs'
+        empty_cache: .audit/adversary/live/4c7b8d6f-c500-585d-b7b2-3519df55b1b3/exec-empty-0e7d07ee6ebe.json
+        empty_reward: 0.0
+        schema_valid_cache: .audit/adversary/live/4c7b8d6f-c500-585d-b7b2-3519df55b1b3/G-ADV-SCHEMA-VALID-17dda66e6183.json
+        schema_valid_reward: 0.0
+      6bf0c918-e9ad-5397-bb76-cf3e238f2df1:
+        basis: 'refuted by measured probe discrimination: the schema-valid-wrong-content probe and the
+          empty submission both graded to exactly zero inside the pinned image, so the committed checkers
+          rejected name-bearing stubs'
+        empty_cache: .audit/adversary/live/6bf0c918-e9ad-5397-bb76-cf3e238f2df1/exec-empty-0e7d07ee6ebe.json
+        empty_reward: 0.0
+        schema_valid_cache: .audit/adversary/live/6bf0c918-e9ad-5397-bb76-cf3e238f2df1/G-ADV-SCHEMA-VALID-6675088772a2.json
+        schema_valid_reward: 0.0
+      873914cf-93b2-57a0-a5c8-264bfa2d3b66:
+        basis: 'refuted by measured probe discrimination: the schema-valid-wrong-content probe and the
+          empty submission both graded to exactly zero inside the pinned image, so the committed checkers
+          rejected name-bearing stubs'
+        empty_cache: .audit/adversary/live/873914cf-93b2-57a0-a5c8-264bfa2d3b66/exec-empty-0e7d07ee6ebe.json
+        empty_reward: 0.0
+        schema_valid_cache: .audit/adversary/live/873914cf-93b2-57a0-a5c8-264bfa2d3b66/G-ADV-SCHEMA-VALID-08454ff945c0.json
+        schema_valid_reward: 0.0
     per_class_counts_over_specification:
       exit-code-contract: 0
       invented-or-assumed-interface: 29
@@ -10004,41 +9831,41 @@ instruments:
     per_bundle:
     - attempt: 1
       attempt_basis: an absent predecessor record means attempt 1 under step 8w
-      bundle_digest: 933fbed58531f76b00e6fafae3b399848f0ca825dc7750e7d1b40ea12a036d40
+      bundle_digest: f8e4909d53f7a0e1572ad8eab3b77c1dd6e6ab088a6c0b34da561feb667e075a
       fingerprint_registry:
-        path: .audit/fingerprints/4c7b8d6f-c500-585d-b7b2-3519df55b1b3/933fbed58531f76b00e6fafae3b399848f0ca825dc7750e7d1b40ea12a036d40.json
+        path: .audit/fingerprints/4c7b8d6f-c500-585d-b7b2-3519df55b1b3/f8e4909d53f7a0e1572ad8eab3b77c1dd6e6ab088a6c0b34da561feb667e075a.json
         write_state: preexisting
       lineage_registry:
-        path: .audit/lineage/4c7b8d6f-c500-585d-b7b2-3519df55b1b3/933fbed58531f76b00e6fafae3b399848f0ca825dc7750e7d1b40ea12a036d40.json
+        path: .audit/lineage/4c7b8d6f-c500-585d-b7b2-3519df55b1b3/f8e4909d53f7a0e1572ad8eab3b77c1dd6e6ab088a6c0b34da561feb667e075a.json
         record_state: absent
         write_state: preexisting
       uuid: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
       verification: {}
     - attempt: 1
       attempt_basis: an absent predecessor record means attempt 1 under step 8w
-      bundle_digest: 929f24c6d433c4b0d856d413013f980042059fb78173961fa7a32eeb47c1cdcb
+      bundle_digest: 5a3840fc4635447eb676a41054183dc7c345a4718f438652650b5d08e9f37276
       fingerprint_registry:
-        path: .audit/fingerprints/6bf0c918-e9ad-5397-bb76-cf3e238f2df1/929f24c6d433c4b0d856d413013f980042059fb78173961fa7a32eeb47c1cdcb.json
+        path: .audit/fingerprints/6bf0c918-e9ad-5397-bb76-cf3e238f2df1/5a3840fc4635447eb676a41054183dc7c345a4718f438652650b5d08e9f37276.json
         write_state: preexisting
       lineage_registry:
-        path: .audit/lineage/6bf0c918-e9ad-5397-bb76-cf3e238f2df1/929f24c6d433c4b0d856d413013f980042059fb78173961fa7a32eeb47c1cdcb.json
+        path: .audit/lineage/6bf0c918-e9ad-5397-bb76-cf3e238f2df1/5a3840fc4635447eb676a41054183dc7c345a4718f438652650b5d08e9f37276.json
         record_state: absent
         write_state: preexisting
       uuid: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
       verification: {}
     - attempt: 1
       attempt_basis: an absent predecessor record means attempt 1 under step 8w
-      bundle_digest: 48c49bb283dd552c4bd354870d805623494db60c0dea323932ac6c4dc6c23af4
+      bundle_digest: 84d6164cd65a5a2e5dbd21b994ff3907451f3323f7e3e72f516e5681b120f097
       fingerprint_registry:
-        path: .audit/fingerprints/873914cf-93b2-57a0-a5c8-264bfa2d3b66/48c49bb283dd552c4bd354870d805623494db60c0dea323932ac6c4dc6c23af4.json
+        path: .audit/fingerprints/873914cf-93b2-57a0-a5c8-264bfa2d3b66/84d6164cd65a5a2e5dbd21b994ff3907451f3323f7e3e72f516e5681b120f097.json
         write_state: preexisting
       lineage_registry:
-        path: .audit/lineage/873914cf-93b2-57a0-a5c8-264bfa2d3b66/48c49bb283dd552c4bd354870d805623494db60c0dea323932ac6c4dc6c23af4.json
+        path: .audit/lineage/873914cf-93b2-57a0-a5c8-264bfa2d3b66/84d6164cd65a5a2e5dbd21b994ff3907451f3323f7e3e72f516e5681b120f097.json
         record_state: absent
         write_state: preexisting
       uuid: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
       verification: {}
-    recon_git_sha: acc0327f9eba4b1ed82cec14f75f1277da0fc3f5
+    recon_git_sha: 096941e13271bbcdff1e2461b1779ee2191321b7
     registry_roots:
       fingerprints: .audit/fingerprints
       lineage: .audit/lineage
@@ -10086,7 +9913,7 @@ instruments:
       uuid: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
     fingerprints:
       4c7b8d6f-c500-585d-b7b2-3519df55b1b3:
-        bundle_digest: 933fbed58531f76b00e6fafae3b399848f0ca825dc7750e7d1b40ea12a036d40
+        bundle_digest: f8e4909d53f7a0e1572ad8eab3b77c1dd6e6ab088a6c0b34da561feb667e075a
         environment_identity: image:426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/jdx_m_mise@sha256:8548f5c7004d60da6a8eaca625e5fb7152c40e355eada9a6bdea339b73fff6bf
         environment_key: baffa9c0bdea09fac2abac04e0463f2839fa647b77e96c5c3ba0452e294d5f17
         normalization_domain: nfkc_fold+lowercase+collapse_whitespace
@@ -10117,7 +9944,7 @@ instruments:
         - test_output.py
         uuid: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
       6bf0c918-e9ad-5397-bb76-cf3e238f2df1:
-        bundle_digest: 929f24c6d433c4b0d856d413013f980042059fb78173961fa7a32eeb47c1cdcb
+        bundle_digest: 5a3840fc4635447eb676a41054183dc7c345a4718f438652650b5d08e9f37276
         environment_identity: image:426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:b4d482d8e163d741ac086af764c04daabcd6aee412850fee8a80d8881d90f4ab
         environment_key: fe3eb79364b90530a6698fb8a3892890d4c2a26283d5be2c9dc4476410e96f73
         normalization_domain: nfkc_fold+lowercase+collapse_whitespace
@@ -10148,7 +9975,7 @@ instruments:
         - test_output.py
         uuid: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
       873914cf-93b2-57a0-a5c8-264bfa2d3b66:
-        bundle_digest: 48c49bb283dd552c4bd354870d805623494db60c0dea323932ac6c4dc6c23af4
+        bundle_digest: 84d6164cd65a5a2e5dbd21b994ff3907451f3323f7e3e72f516e5681b120f097
         environment_identity: image:426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:eca2d8710d1baffad6f1d273610bbce183857c73bed6574dce2252fb3fb446aa
         environment_key: bb670eb8d991844e18cef8d4e4b545d6bb660177922e13f82b70aaa22275277d
         normalization_domain: nfkc_fold+lowercase+collapse_whitespace
@@ -10220,7 +10047,7 @@ instruments:
     - --json
     artifact_id: collision-check-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
     blocked_reason: null
-    elapsed_seconds: 0.055587
+    elapsed_seconds: 0.037645
     exit_code: 1
     stderr_bytes: 550
     stderr_sha256: ee931a1c2ffae35d9dd3908df791ab8cbbf86f779fef2d0d67f87b54319f6116
@@ -10236,7 +10063,7 @@ instruments:
     - --json
     artifact_id: collision-check-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
     blocked_reason: null
-    elapsed_seconds: 0.03393
+    elapsed_seconds: 0.035535
     exit_code: 1
     stderr_bytes: 550
     stderr_sha256: ee931a1c2ffae35d9dd3908df791ab8cbbf86f779fef2d0d67f87b54319f6116
@@ -10252,7 +10079,7 @@ instruments:
     - --json
     artifact_id: collision-check-873914cf-93b2-57a0-a5c8-264bfa2d3b66
     blocked_reason: null
-    elapsed_seconds: 0.033552
+    elapsed_seconds: 0.03411
     exit_code: 1
     stderr_bytes: 550
     stderr_sha256: ee931a1c2ffae35d9dd3908df791ab8cbbf86f779fef2d0d67f87b54319f6116
@@ -10279,7 +10106,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: execution-attestation
-    evidence: *id081
+    evidence: *id070
     finding_id: ATT-EXECUTION-OPERATOR-POLICY-UNBOUND
     instrument: G-EXEC-ATTESTATION
     severity: high
@@ -10292,7 +10119,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: execution-attestation
-    evidence: *id082
+    evidence: *id071
     finding_id: ATT-NO-EXTERNAL-TRUST-ROOT
     instrument: G-EXEC-ATTESTATION
     severity: high
@@ -10359,14 +10186,14 @@ instruments:
         as release evidence and resolves as an unresolved coverage gap
     schema_required: trinity.execution/v2
     scope_binding:
-      live_digest: 6d4f0d32e68ad71b144bf702a0aec75bad4f68cd8572c2f312d951d3c8557e58
+      live_digest: 94a2af04121b322ec8de171ea34bc177a542448dd2a4be34f433b9efc93fba26
       matches: true
     trust_policy:
-      absent_roots: *id083
+      absent_roots: *id072
       execution_operator_in_declared_roles: false
       execution_operator_policy_bound: false
       execution_operator_trust_policy: null
-      external_trust_roots_available: *id084
+      external_trust_roots_available: *id073
       principals:
       - bears_required_role: false
         expires: '2027-09-16T00:00:00Z'
@@ -10405,9 +10232,9 @@ instruments:
         name: levi-clearer-01
         roles:
         - sentinel_clearer
-      principals_bearing_required_role: *id085
-      signature_trust_roots: *id086
-      source_root_declared_roles: *id087
+      principals_bearing_required_role: *id074
+      signature_trust_roots: *id075
+      source_root_declared_roles: *id076
       view_digest: a619b70101345155265126a381cc07048acce9993f6ca1e3639deebcb1217d85
       view_path: /Users/macbookpro/levi/.memory/crucible_view.yaml
       view_present: true
@@ -10434,21 +10261,8 @@ instruments:
   ran: true
   raw_artifacts: []
   standing: insufficient_evidence
-- coverage_gaps:
-  - caps: HOLD
-    gap_id: D-BUD-BLOCK-DECLARATION-CONFLICT
-    instrument: G-BUD-APPLICABILITY
-    reason: budget-block-determination-conflicts-with-approved-scope
-    statement: The approved scope file declares G-BUD mandated, recording its basis as 'budget blocks
-      present in every task.toml'. This instrument determines from the same committed bytes that no manifest
-      declares budget_hours, budget_envelope or budget_margin, and that the keys the scope cites are container
-      sizing and watchdog timeouts rather than a budget envelope with a margin. The exemption is taken
-      and the three G-BUD instruments do not run. The disagreement with the approved declaration is held
-      open here rather than resolved by this module in its own favour, because an instrument is not entitled
-      to overwrite an approved scope declaration about itself.
-    subject: project
-    surface: budget_conformance
-  disposition_cap: HOLD
+- coverage_gaps: []
+  disposition_cap: SHIP
   findings: []
   instrument: G-BUD-APPLICABILITY
   notes:
@@ -10521,10 +10335,9 @@ instruments:
     - G-BUD-RECONCILE
     g_bud_instruments_registered: false
     scope_declaration:
-      condition: Every bundle declares build_timeout_sec 3600, cpus 8, memory_mb 16384, agent timeout_sec
-        57600 and verifier timeout_sec 3600, so the budget block is present and 8s applies.
-      declared: true
-      mandated_by: budget blocks present in every task.toml
+      condition: ''
+      declared: false
+      mandated_by: ''
   ran: true
   raw_artifacts: []
   standing: insufficient_evidence
@@ -10993,7 +10806,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: reward-coverage-ledger
-    evidence: *id088
+    evidence: *id077
     finding_id: F-LEDGER-NO-EXTERNAL-ENFORCEMENT
     instrument: G-REWARD-COVERAGE-LEDGER
     severity: high
@@ -11004,7 +10817,7 @@ instruments:
   - bucket: deterministic
     caps: HOLD
     critical_class: reward-coverage-ledger
-    evidence: *id089
+    evidence: *id078
     finding_id: F-LEDGER-PRODUCER-VOCABULARY-DIVERGENT
     instrument: G-REWARD-COVERAGE-LEDGER
     severity: medium
@@ -11015,7 +10828,7 @@ instruments:
   instrument: G-REWARD-COVERAGE-LEDGER
   notes:
     applicable_pairs: 88
-    attestation_clauses: *id090
+    attestation_clauses: *id079
     boundaries:
     - definition
     - input
@@ -11205,21 +11018,42 @@ recon:
     path: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
     task_manifest_digest: fb8f0ce15c6e11dd2abaf37a8267ca24f9f99ae0a1904ad2a8b3b80ff8563aef
     uuid: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-  captured_at: '2026-09-23T13:36:36+00:00'
+  captured_at: '2026-09-24T07:02:20+00:00'
   dirty_bit: true
   dirty_entries:
-  - M .audit/adversary.py
+  - M .audit/contamination.py
+  - ' M .audit/evidence.yaml'
+  - ' M .audit/fidelity.yaml'
+  - ' M .audit/reference.py'
+  - ' M .audit/reward.py'
+  - ' M .audit/rubric.py'
   - ' M .audit/runs/crucible-ankitporwal04-20260923t005222z-dba1b1/feedback.chain.jsonl'
   - ' M .audit/runs/crucible-ankitporwal04-20260923t005222z-dba1b1/feedback.yaml'
-  - ?? .audit/adversary/live/4c7b8d6f-c500-585d-b7b2-3519df55b1b3/G-ADV-PER-DELIVERABLE-bebfb772b811.json
-  - ?? .audit/adversary/live/6bf0c918-e9ad-5397-bb76-cf3e238f2df1/G-ADV-NEGATED-6da07908cd20.json
-  - ?? .audit/adversary/live/6bf0c918-e9ad-5397-bb76-cf3e238f2df1/G-ADV-PER-DELIVERABLE-e502628017db.json
-  - ?? .audit/adversary/live/873914cf-93b2-57a0-a5c8-264bfa2d3b66/G-ADV-PER-DELIVERABLE-81756470dbb6.json
-  - ?? .audit/runs/crucible-ankitporwal04-20260923t005222z-dba1b1/reasoning-feedback-0010.txt
+  - ' M .audit/runs/crucible-ankitporwal04-20260923t005222z-dba1b1/phases/0.5.json'
+  - ' M .audit/runs/crucible-ankitporwal04-20260923t005222z-dba1b1/phases/0.json'
+  - ' M .audit/runs/crucible-ankitporwal04-20260923t005222z-dba1b1/phases/R.json'
+  - ' M .audit/runs/crucible-ankitporwal04-20260923t005222z-dba1b1/progress.yaml'
+  - ' M .audit/scope.approved'
+  - ' M .audit/scope.yaml'
+  - ' M .audit/verifier.py'
+  - ' M 4c7b8d6f-c500-585d-b7b2-3519df55b1b3/tests/harness_core.py'
+  - ' M 6bf0c918-e9ad-5397-bb76-cf3e238f2df1/tests/harness_core.py'
+  - ' M 6bf0c918-e9ad-5397-bb76-cf3e238f2df1/trajectories/zai__glm-5.3/run_1/verifier/reward_reason.json'
+  - ' M 873914cf-93b2-57a0-a5c8-264bfa2d3b66/tests/harness_core.py'
+  - ?? .audit/fingerprints/4c7b8d6f-c500-585d-b7b2-3519df55b1b3/f8e4909d53f7a0e1572ad8eab3b77c1dd6e6ab088a6c0b34da561feb667e075a.json
+  - ?? .audit/fingerprints/6bf0c918-e9ad-5397-bb76-cf3e238f2df1/5a3840fc4635447eb676a41054183dc7c345a4718f438652650b5d08e9f37276.json
+  - ?? .audit/fingerprints/873914cf-93b2-57a0-a5c8-264bfa2d3b66/84d6164cd65a5a2e5dbd21b994ff3907451f3323f7e3e72f516e5681b120f097.json
+  - ?? .audit/lineage/4c7b8d6f-c500-585d-b7b2-3519df55b1b3/f8e4909d53f7a0e1572ad8eab3b77c1dd6e6ab088a6c0b34da561feb667e075a.json
+  - ?? .audit/lineage/6bf0c918-e9ad-5397-bb76-cf3e238f2df1/5a3840fc4635447eb676a41054183dc7c345a4718f438652650b5d08e9f37276.json
+  - ?? .audit/lineage/873914cf-93b2-57a0-a5c8-264bfa2d3b66/84d6164cd65a5a2e5dbd21b994ff3907451f3323f7e3e72f516e5681b120f097.json
+  - ?? .audit/runs/crucible-ankitporwal04-20260923t005222z-dba1b1/reasoning-feedback-0011.txt
+  - ?? .audit/runs/crucible-ankitporwal04-20260923t005222z-dba1b1/reasoning-feedback-0012.txt
   - ?? .sentinel/
   - ?? .trinity/install/
-  git_sha: acc0327f9eba4b1ed82cec14f75f1277da0fc3f5
-  history_depth: 36
+  - ?? 6bf0c918-e9ad-5397-bb76-cf3e238f2df1/trajectories/zai__glm-5.3/run_1/verifier/preserve-stdout.md
+  - ?? 6bf0c918-e9ad-5397-bb76-cf3e238f2df1/trajectories/zai__glm-5.3/run_1/verifier/summary.json
+  git_sha: 096941e13271bbcdff1e2461b1779ee2191321b7
+  history_depth: 37
   root: .
   runtime:
     implementation: CPython
@@ -11298,10 +11132,10 @@ recon:
       runs: false
       sources: []
   scope:
-    approved_digest: 6d4f0d32e68ad71b144bf702a0aec75bad4f68cd8572c2f312d951d3c8557e58
+    approved_digest: 94a2af04121b322ec8de171ea34bc177a542448dd2a4be34f433b9efc93fba26
     approved_present: true
     capabilities_digest: 35ce89902e3824e7815000743109c5239b7471a07ae6177b2ba3fef3cfa224bb
-    live_digest: 6d4f0d32e68ad71b144bf702a0aec75bad4f68cd8572c2f312d951d3c8557e58
+    live_digest: 94a2af04121b322ec8de171ea34bc177a542448dd2a4be34f433b9efc93fba26
     matches: true
     scope_present: true
 reward_coverage_ledger:
@@ -12194,4 +12028,4 @@ reward_coverage_ledger:
   unresolved_rows: 51
 run_id: crucible-ankitporwal04-20260923t005222z-dba1b1
 schema: crucible.evidence/v1
-scope_digest: 6d4f0d32e68ad71b144bf702a0aec75bad4f68cd8572c2f312d951d3c8557e58
+scope_digest: 94a2af04121b322ec8de171ea34bc177a542448dd2a4be34f433b9efc93fba26

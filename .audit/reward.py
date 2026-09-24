@@ -314,8 +314,19 @@ def rederive_reward(components: dict[str, Any]) -> Fraction | None:
     The committed verifier reduces resolved targets over declared targets, so
     the re-derivation is that same ratio computed exactly. A zero denominator
     returns None rather than raising, because a bundle declaring no targets is a
-    finding for another instrument and not an arithmetic failure here.
+    finding for another instrument and not an arithmetic failure here. The
+    committed verifier also carries a preserve-set veto at run_tests.py lines
+    499 to 502: any broken preserve target forces the reward to exactly zero
+    with reason preserve-set-regression before the target ratio is consulted,
+    so a component record carrying preserve_broken above zero re-derives to
+    zero under the same committed arithmetic.
     """
+    try:
+        broken = int(components.get("preserve_broken") or 0)
+    except (TypeError, ValueError):
+        broken = 0
+    if broken > 0:
+        return Fraction(0)
     resolved = components.get("targets_resolved")
     total = components.get("targets_total")
     if resolved is None or total is None:

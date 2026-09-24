@@ -192,10 +192,10 @@ adversary_probes:
   ran: true
   rule: measured reward must be at or below the declared null floor 0.0
 counts:
-  coverage_gaps_total: 116
+  coverage_gaps_total: 108
   findings_block: 7
-  findings_hold: 46
-  findings_total: 53
+  findings_hold: 41
+  findings_total: 48
   instruments_not_run: 6
   instruments_total: 60
   ledger_rows: 88
@@ -203,19 +203,6 @@ counts:
   selfcheck_broken_required: 7
   selfcheck_rows: 44
 coverage_gaps:
-- caps: HOLD
-  gap_id: D-BUD-BLOCK-DECLARATION-CONFLICT
-  instrument: G-BUD-APPLICABILITY
-  reason: budget-block-determination-conflicts-with-approved-scope
-  statement: The approved scope file declares G-BUD mandated, recording its basis as 'budget blocks present
-    in every task.toml'. This instrument determines from the same committed bytes that no manifest declares
-    budget_hours, budget_envelope or budget_margin, and that the keys the scope cites are container sizing
-    and watchdog timeouts rather than a budget envelope with a margin. The exemption is taken and the
-    three G-BUD instruments do not run. The disagreement with the approved declaration is held open here
-    rather than resolved by this module in its own favour, because an instrument is not entitled to overwrite
-    an approved scope declaration about itself.
-  subject: project
-  surface: budget_conformance
 - caps: HOLD
   gap_id: D-CAL-PILOT-AGGREGATE-UNPROJECTED
   instrument: G-CAL-MONOTONICITY
@@ -239,16 +226,6 @@ coverage_gaps:
     CRUCIBLE may not cross and a finding citing it would be out of scope.
   subject: project
   surface: calibration
-- caps: HOLD
-  gap_id: D-COMPILATION-FLOOR-UNRESOLVED
-  instrument: G-RUB-COMPLETENESS
-  reason: compiled-weight-floor-unresolved
-  statement: The compiled_weight_floor the rubric surface must clear reads unresolved in the approved
-    scope, because it is carried by name from a .seed/contract.yaml that does not exist at this root.
-    The actual compiled weight share is recomputed and recorded below, but it cannot be compared against
-    a floor, so compiled coverage adequacy stays unmeasured rather than passed.
-  subject: project
-  surface: rubric
 - caps: HOLD
   gap_id: D-CON-ATTESTATION-UNAVAILABLE
   instrument: G-CON-EXCLUSION
@@ -486,7 +463,7 @@ coverage_gaps:
     determinations for other task uuids and no occurrence of this bundle uuid, so no task_hash is projected
     to compare against. The recipe the declared canonical_bundle_hash was produced by is not committed
     in this repository, so the audit harness cannot recompute that value independently; it recomputes
-    its own tree digest 933fbed58531f76b00e6fafae3b399848f0ca825dc7750e7d1b40ea12a036d40 instead and records
+    its own tree digest f8e4909d53f7a0e1572ad8eab3b77c1dd6e6ab088a6c0b34da561feb667e075a instead and records
     it as evidence rather than as a match. The declared binding reads envelope unsigned-no-trust-root,
     so even the in-bundle hash 03aa306c4f584650a31ad57b7a54e669db2d3c9b2fe88a89f543a1b2855b7652 is unauthenticated.
     Every other step 8b check that committed bundle bytes can decide was still run.
@@ -502,7 +479,7 @@ coverage_gaps:
     determinations for other task uuids and no occurrence of this bundle uuid, so no task_hash is projected
     to compare against. The recipe the declared canonical_bundle_hash was produced by is not committed
     in this repository, so the audit harness cannot recompute that value independently; it recomputes
-    its own tree digest 929f24c6d433c4b0d856d413013f980042059fb78173961fa7a32eeb47c1cdcb instead and records
+    its own tree digest 5a3840fc4635447eb676a41054183dc7c345a4718f438652650b5d08e9f37276 instead and records
     it as evidence rather than as a match. The declared binding reads envelope unsigned-no-trust-root,
     so even the in-bundle hash 10cb07aefb91b15c92125b980e429ccb46420074467ee8581774146d65f82ba1 is unauthenticated.
     Every other step 8b check that committed bundle bytes can decide was still run.
@@ -518,7 +495,7 @@ coverage_gaps:
     determinations for other task uuids and no occurrence of this bundle uuid, so no task_hash is projected
     to compare against. The recipe the declared canonical_bundle_hash was produced by is not committed
     in this repository, so the audit harness cannot recompute that value independently; it recomputes
-    its own tree digest 48c49bb283dd552c4bd354870d805623494db60c0dea323932ac6c4dc6c23af4 instead and records
+    its own tree digest 84d6164cd65a5a2e5dbd21b994ff3907451f3323f7e3e72f516e5681b120f097 instead and records
     it as evidence rather than as a match. The declared binding reads envelope unsigned-no-trust-root,
     so even the in-bundle hash 8b0cdb100a78d89ef46315af507dab3058bbc6a497520713a9d8ae6142670b83 is unauthenticated.
     Every other step 8b check that committed bundle bytes can decide was still run.
@@ -1072,15 +1049,6 @@ coverage_gaps:
   subject: project
   surface: reference_emulation
 - caps: HOLD
-  gap_id: D-REWARD-COMPONENTS-ABSENT-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-zai__glm-5.3-run_1
-  instrument: rewardprovenance
-  reason: components-absent-zero-without-grading
-  statement: This rollout records no component counts because it resolved through the zero-without-grading
-    path with reason declared-targets-partially-absent. The recorded reward therefore cannot be re-derived
-    arithmetically; it is accepted as attributed rather than as recomputed.
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1/zai__glm-5.3/run_1
-  surface: trajectories
-- caps: HOLD
   gap_id: D-REWARD-DEFINITION-RERUN-UNAVAILABLE-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
   instrument: rewarddefinition
   reason: rerun-environment-unavailable
@@ -1116,15 +1084,6 @@ coverage_gaps:
     support is capped. This resolves at HOLD rather than at BLOCK because building a required instrument
     never worsens a disposition against not building it, and the same surface with no instrument would
     carry the matching coverage gap at HOLD.
-  subject: project
-  surface: trajectories
-- caps: HOLD
-  gap_id: D-REWARD-SCOPE-POPULATION-DIVERGENCE
-  instrument: rewarddistribution
-  reason: declared-population-diverges-from-measured
-  statement: The reward population recorded in the approved scope does not match the population measured
-    from committed rollout bytes, so any figure computed from the declared list would differ from the
-    same figure computed from the tree.
   subject: project
   surface: trajectories
 - caps: HOLD
@@ -1189,7 +1148,7 @@ coverage_gaps:
   instrument: rolloutintegrity
   reason: operator-signed-root-absent
   statement: No operator-signed trajectory root is projected for this corpus, so the recomputed Merkle
-    root has nothing to be compared against. The root is recorded as 721dd166dc39969544b3231bd91b95e4c8ce88c07a5b54e3b92c40958fd058cb
+    root has nothing to be compared against. The root is recorded as ac5d3bf676f33795091cb2d47f6be7103c424531e990ce056aaab744af90c0d4
     and the comparison resolves as unmeasured rather than as agreement.
   subject: project
   surface: trajectories
@@ -1296,56 +1255,14 @@ coverage_gaps:
     so exact-versus-fallback score parity itself remains unmeasured.
   subject: project
   surface: patch_apply_paths
-- caps: HOLD
-  gap_id: D-VER-LOG-UNPROJECTED-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-zai__glm-5.3-run_1
-  instrument: G-VER-INVARIANCE
-  reason: recorded-runner-log-absent
-  statement: A recorded runner log is absent from this rollout, so the bound perturbation set could not
-    be replayed over it. The harness refuses to fetch it and records the surface as unmeasured.
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-  surface: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1/trajectories/zai__glm-5.3/run_1/verifier
-- caps: HOLD
-  gap_id: D-VER-SCORE-UNPROJECTED-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-zai__glm-5.3-run_1
-  instrument: G-VER-REPLAY
-  reason: reported-score-or-log-absent
-  statement: A reported score or a recorded runner log is absent from this rollout, so no reconciliation
-    was possible. The harness refuses to fetch either and records the surface as unmeasured.
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-  surface: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1/trajectories/zai__glm-5.3/run_1/verifier
-- caps: HOLD
-  gap_id: D-VER-TRIALS-UNPROJECTED-FLAKINESS
-  instrument: G-VER-FLAKINESS
-  reason: trial-count-unprojected
-  statement: The approved scope binds no flakiness_trials under key verifier_robustness, so the repetition
-    count this probe must run at is unprojected. The harness refuses to invent one, and the derivable
-    replay below runs at a harness-chosen 3 repetitions that carry no authority as the bound count.
-  subject: project
-  surface: verifier_robustness
-- caps: HOLD
-  gap_id: D-VER-TRIALS-UNPROJECTED-STABILITY
-  instrument: G-VER-STABILITY
-  reason: trial-count-unprojected
-  statement: The approved scope binds no stability_trials under key verifier_robustness, so the repetition
-    count this probe must run at is unprojected. The harness refuses to invent one, and the derivable
-    replay below runs at a harness-chosen 3 repetitions that carry no authority as the bound count.
-  subject: project
-  surface: verifier_robustness
 critical_classes:
-- caps:
-    HOLD: 2
-  class_cap: HOLD
-  critical_class: contamination-screening
-  finding_count: 2
-  finding_ids:
-  - F-CON-NEARDUP-SAME-REPOSITORY-CORPUS-UNIT
-  - F-CON-STRIP-FIX-SIGNATURE-6bf0c918
 - caps:
     HOLD: 1
   class_cap: HOLD
-  critical_class: delivery-format-and-ground-truth-integrity
+  critical_class: contamination-screening
   finding_count: 1
   finding_ids:
-  - F-DEL-LAYOUT-DECLARED-ARTIFACT-ABSENT-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-trajectories-zai__glm-5.3-run_1
+  - F-CON-NEARDUP-SAME-REPOSITORY-CORPUS-UNIT
 - caps:
     HOLD: 3
   class_cap: HOLD
@@ -1401,15 +1318,6 @@ critical_classes:
   - F-CON-RECORD-SIGNATURE-ABSENT-6bf0c918
   - F-CON-RECORD-SIGNATURE-ABSENT-873914cf
 - caps:
-    HOLD: 3
-  class_cap: HOLD
-  critical_class: reference-fidelity
-  finding_count: 3
-  finding_ids:
-  - REF-NAMES-ONLY-INTERFACE-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-  - REF-NAMES-ONLY-INTERFACE-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-  - REF-NAMES-ONLY-INTERFACE-873914cf-93b2-57a0-a5c8-264bfa2d3b66
-- caps:
     HOLD: 2
   class_cap: HOLD
   critical_class: reward-coverage-ledger
@@ -1419,12 +1327,11 @@ critical_classes:
   - F-LEDGER-PRODUCER-VOCABULARY-DIVERGENT
 - caps:
     BLOCK: 6
-    HOLD: 8
+    HOLD: 7
   class_cap: BLOCK
   critical_class: reward-integrity
-  finding_count: 14
+  finding_count: 13
   finding_ids:
-  - F-REWARD-POPULATION-DIVERGENCE
   - F-REWARD-SCORER-OUTSIDE-CLOSURE-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-claude-opus-5-run_1
   - F-REWARD-SCORER-OUTSIDE-CLOSURE-4c7b8d6f-c500-585d-b7b2-3519df55b1b3-zai__glm-5.3-run_1
   - F-REWARD-SCORER-OUTSIDE-CLOSURE-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-claude-opus-5-run_1
@@ -1446,17 +1353,18 @@ critical_classes:
   finding_ids:
   - F-CON-FREEZE-ROW-MISSING
 - caps:
-    HOLD: 1
+    HOLD: 2
   class_cap: HOLD
   critical_class: verifier-robustness
-  finding_count: 1
+  finding_count: 2
   finding_ids:
   - VER-BASELINE-DROPPED-AT-BASE-873914cf-93b2-57a0-a5c8-264bfa2d3b66
+  - VER-INVARIANCE-NONMEMBERSHIP-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-zai__glm-5.3/run_1
 disposition: BLOCK
 disposition_basis: The harness computed BLOCK as the cap over every instrument result. Block-capable findings
   stand from fifteen instruments and the selfcheck receipt carries seven required rows that never ran,
   which principle 7 treats as broken instruments rather than gaps. No waiver promotes this to SHIP.
-evidence_content_digest: af041d3732c761e459d4ea167aa5f734d64cfce354f29b26572fa2399c4dc7b1
+evidence_content_digest: b5c0bcc713fca8eecd5634ffccd5d188f75f5a81a067a06957b57734841933d3
 findings:
 - bucket: deterministic
   caps: HOLD
@@ -1571,50 +1479,6 @@ findings:
     same-repository presence is therefore recorded as an unmeasurable neighbourhood rather than as a clean
     screen.
   subject: project
-- bucket: deterministic
-  caps: HOLD
-  critical_class: contamination-screening
-  evidence:
-    basis: scope.reference_emulation declares names-only interface blocks
-    examples:
-    - 'orientation: Var[Literal["vertical", "horizontal"]]'
-    interface_signature_fragments: 1
-  finding_id: F-CON-STRIP-FIX-SIGNATURE-6bf0c918
-  instrument: G-CON-STRIP
-  severity: medium
-  statement: Fix absence matched signature lines of the private fix diff in the agent-facing statement.
-    The approved scope declares a names-only reference interface specification for this bundle, so restating
-    a signature is within the approved design and is retained at HOLD with that basis recorded rather
-    than read as a disclosure. No fragment carries an upstream pull-request or issue reference.
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-- bucket: deterministic
-  caps: HOLD
-  critical_class: delivery-format-and-ground-truth-integrity
-  evidence:
-    collection_status:
-      artifacts: empty
-      final.diff: ok
-      reward_reason.json: ok
-      summary.json: failed
-      target-stdout.md: ok
-    declared_absent_from_tree:
-    - summary.json
-    verifier_tree:
-    - final.diff
-    - final_score.md
-    - process.json
-    - reward.json
-    - reward.txt
-    - reward_reason.json
-    - target-stdout.md
-    - test-stdout.txt
-    - verdicts.jsonl
-  finding_id: F-DEL-LAYOUT-DECLARED-ARTIFACT-ABSENT-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-trajectories-zai__glm-5.3-run_1
-  instrument: G-DEL-LAYOUT
-  severity: medium
-  statement: 'The task manifest declares an artifact that this committed rollout''s verifier tree does
-    not carry: summary.json'
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1/trajectories/zai__glm-5.3/run_1
 - bucket: deterministic
   caps: HOLD
   critical_class: domain-integrity-upstream-provenance
@@ -2365,21 +2229,21 @@ findings:
         statement: realized turns and wall clock are inside the declared caps
       scoring_completeness:
         observed:
-          missing:
-          - preserve-stdout.md
-          - summary.json
+          missing: []
           present:
           - final.diff
           - final_score.md
+          - preserve-stdout.md
           - process.json
           - reward.json
           - reward.txt
           - reward_reason.json
+          - summary.json
           - target-stdout.md
           - test-stdout.txt
           - verdicts.jsonl
-        outcome: nonconforming
-        statement: the verifier record set is incomplete, missing preserve-stdout.md, summary.json
+        outcome: conforming
+        statement: the verifier produced its full record set
       solver_identity:
         observed:
           config.json: zai/glm-5.3
@@ -2426,7 +2290,7 @@ findings:
     fidelity_coverage: &id014
       context_handling: conforming
       horizon_conformance: conforming
-      scoring_completeness: nonconforming
+      scoring_completeness: conforming
       solver_identity: conforming
       submission_capture: nonconforming
       task_binding: conforming
@@ -2440,13 +2304,8 @@ findings:
     predicate: fidelity_coverage
     rollout: zai__glm-5.3/run_1
     suppressing_violations: &id016
-    - signal_class: scoring_completeness
-      statement: the verifier record set is incomplete, missing preserve-stdout.md, summary.json
     - signal_class: submission_capture
       statement: 'the declared artifact transfer failed for 1 record(s): summary.json'
-    - signal_class: reward_reason
-      statement: the committed reward reason 'declared-targets-partially-absent' attributes a zero to
-        a grading failure rather than to the solver, which lowers the measured pass rate
   finding_id: FID-TRACE-STATUS-DISAGREEMENT-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-zai__glm-5.3-run_1
   instrument: G-FID-TRACE
   severity: high
@@ -2475,10 +2334,10 @@ findings:
   finding_id: FID-TRACE-SUPPRESSING-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-zai__glm-5.3-run_1
   instrument: G-FID-TRACE
   severity: high
-  statement: 'Rollout zai__glm-5.3/run_1 carries 3 observed violation(s) in the suppressing direction,
+  statement: 'Rollout zai__glm-5.3/run_1 carries 1 observed violation(s) in the suppressing direction,
     meaning in the direction that lowers a measured pass rate and makes this task look harder than it
-    is. First: scoring_completeness, the verifier record set is incomplete, missing preserve-stdout.md,
-    summary.json. Class 17 carries no exemption for a finding that would lower a measured pass rate.'
+    is. First: submission_capture, the declared artifact transfer failed for 1 record(s): summary.json.
+    Class 17 carries no exemption for a finding that would lower a measured pass rate.'
   subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
 - bucket: deterministic
   caps: HOLD
@@ -2548,88 +2407,6 @@ findings:
   subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
 - bucket: deterministic
   caps: HOLD
-  critical_class: reference-fidelity
-  evidence:
-    classification_mode: static-specification
-    entry_count: 1
-    interface_mode: names-only
-    issue_keys:
-    - issue_7
-    manifest_digest: 3985474ac79d3c15cc92360386cf0583496f2ac2cafdce6fcc5a08656eb88aa6
-    per_class_counts:
-      exit-code-contract: 0
-      invented-or-assumed-interface: 1
-      output-literal: 0
-      validation-locus: 0
-    uuid: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-  finding_id: REF-NAMES-ONLY-INTERFACE-4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-  instrument: G-REF-DIVERGENCE-TAXONOMY
-  severity: high
-  statement: The committed interface specification declares mode 'names-only' over 1 entries, and every
-    entry asserts an identifier without asserting behaviour. A checker built on such an entry is satisfied
-    by any implementation carrying the name, including a stub that returns immediately, so it cannot distinguish
-    a real implementation from an invented or assumed one. This is the shape that produces invented-or-assumed-interface
-    divergence against a real upstream artifact, and it bounds what a pass of these checkers can mean.
-  subject: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
-- bucket: deterministic
-  caps: HOLD
-  critical_class: reference-fidelity
-  evidence:
-    classification_mode: static-specification
-    entry_count: 13
-    interface_mode: names-only
-    issue_keys:
-    - issue_1
-    - issue_10
-    - issue_19
-    - issue_29
-    manifest_digest: 7883edfe9a2d90c76cde292b16650ff89a4307c2acdddb34d285e4c1710776fd
-    per_class_counts:
-      exit-code-contract: 0
-      invented-or-assumed-interface: 13
-      output-literal: 0
-      validation-locus: 0
-    uuid: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-  finding_id: REF-NAMES-ONLY-INTERFACE-6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-  instrument: G-REF-DIVERGENCE-TAXONOMY
-  severity: high
-  statement: The committed interface specification declares mode 'names-only' over 13 entries, and every
-    entry asserts an identifier without asserting behaviour. A checker built on such an entry is satisfied
-    by any implementation carrying the name, including a stub that returns immediately, so it cannot distinguish
-    a real implementation from an invented or assumed one. This is the shape that produces invented-or-assumed-interface
-    divergence against a real upstream artifact, and it bounds what a pass of these checkers can mean.
-  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
-- bucket: deterministic
-  caps: HOLD
-  critical_class: reference-fidelity
-  evidence:
-    classification_mode: static-specification
-    entry_count: 15
-    interface_mode: names-only
-    issue_keys:
-    - issue_10
-    - issue_14
-    - issue_15
-    - issue_16
-    - issue_4
-    manifest_digest: fb8f0ce15c6e11dd2abaf37a8267ca24f9f99ae0a1904ad2a8b3b80ff8563aef
-    per_class_counts:
-      exit-code-contract: 0
-      invented-or-assumed-interface: 15
-      output-literal: 0
-      validation-locus: 0
-    uuid: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-  finding_id: REF-NAMES-ONLY-INTERFACE-873914cf-93b2-57a0-a5c8-264bfa2d3b66
-  instrument: G-REF-DIVERGENCE-TAXONOMY
-  severity: high
-  statement: The committed interface specification declares mode 'names-only' over 15 entries, and every
-    entry asserts an identifier without asserting behaviour. A checker built on such an entry is satisfied
-    by any implementation carrying the name, including a stub that returns immediately, so it cannot distinguish
-    a real implementation from an invented or assumed one. This is the shape that produces invented-or-assumed-interface
-    divergence against a real upstream artifact, and it bounds what a pass of these checkers can mean.
-  subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
-- bucket: deterministic
-  caps: HOLD
   critical_class: reward-coverage-ledger
   evidence:
     attestation_clauses: []
@@ -2671,26 +2448,6 @@ findings:
   statement: The committed capability declaration uses a producer vocabulary whose names are not the capability
     channels this ledger closes at, so no declared state maps onto a ledger row and the declaration cannot
     establish enforcement of any channel. It is recorded as a lowering claim only.
-  subject: project
-- bucket: deterministic
-  caps: HOLD
-  critical_class: reward-integrity
-  evidence:
-    declared:
-    - '0'
-    - 1/2
-    - 1/2
-    measured:
-    - '0'
-    - '0'
-    - '0'
-    - 1/2
-    - 1/2
-    - 7/8
-  finding_id: F-REWARD-POPULATION-DIVERGENCE
-  instrument: rewarddistribution
-  severity: high
-  statement: The measured reward population differs from the population the approved scope declares.
   subject: project
 - bucket: deterministic
   caps: BLOCK
@@ -2920,9 +2677,35 @@ findings:
   statement: 8 declared preserve target(s) do not execute on the unmodified base and were dropped from
     the preserve set, so those non-target tests are unobserved at base rather than observed green.
   subject: 873914cf-93b2-57a0-a5c8-264bfa2d3b66
+- bucket: deterministic
+  caps: HOLD
+  critical_class: verifier-robustness
+  evidence:
+    bundle: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
+    exact_membership: 14
+    fallback_targets:
+    - tests/utils/test_format.py::test_format_prop[prop11-{(_e) => addEvents([Event("mock_event", {})],
+      (_e), {})}]
+    - tests/utils/test_format.py::test_format_prop[prop12-{(_e) => addEvents([Event("mock_event", {arg:_e.target.value})],
+      (_e), {})}]
+    - 'tests/utils/test_format.py::test_format_prop[prop13-{(_e) => addEvents([Event("mock_event", {})],
+      (_e), {"stopPropagation": true})}]'
+    - 'tests/utils/test_format.py::test_format_prop[prop14-{(_e) => addEvents([Event("mock_event", {})],
+      (_e), {"preventDefault": true})}]'
+    locus: tests/harness_core.py lines 457 to 500
+    resolved: 18
+    rollout: zai__glm-5.3/run_1
+  finding_id: VER-INVARIANCE-NONMEMBERSHIP-6bf0c918-e9ad-5397-bb76-cf3e238f2df1-zai__glm-5.3/run_1
+  instrument: G-VER-INVARIANCE
+  severity: high
+  statement: Target resolution does not reduce to set membership over normalized test names. resolve_declared
+    at harness_core.py lines 457 to 500 credited 4 declared target(s) through its suffix fallback over
+    ID_SEPARATORS at line 436 rather than through an exact parsed key, so a target can be credited to
+    a test whose identifier the declaration never names.
+  subject: 6bf0c918-e9ad-5397-bb76-cf3e238f2df1
 run_id: crucible-ankitporwal04-20260923t005222z-dba1b1
 schema: crucible.findings/v1
-scope_digest: 6d4f0d32e68ad71b144bf702a0aec75bad4f68cd8572c2f312d951d3c8557e58
+scope_digest: 94a2af04121b322ec8de171ea34bc177a542448dd2a4be34f433b9efc93fba26
 selfcheck_broken_required:
 - SC-NC-BINDING-DIVERGENT
 - SC-NC-EMPTY-SUBMISSION-RESOLVES
