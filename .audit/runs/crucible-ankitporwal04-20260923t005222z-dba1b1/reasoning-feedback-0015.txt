@@ -1,0 +1,7 @@
+[
+  "The scope digest moved from 94a2af04121b322ec8de171ea34bc177a542448dd2a4be34f433b9efc93fba26 to 6db311f4b43747b58accf32716f3d9ab6462efc0cfd2507fd59d3ce59a990522 because .audit/scope.yaml gained a precommitted_roster block under trajectories.rollout_population and a rewritten group_count_basis.",
+  "Semantic content of the change: the roster binds agents claude-opus-5 and zai__glm-5.3 at one run per agent across three bundles for a fixed group count of six, grounded in requirements/appendix.md committed 2026-09-11 in the outer project (pre-rollout) and the CTO authorization dated 2026-09-19 recorded in notice.md, which was committed post hoc and therefore caps the count leg at HOLD rather than fully proven.",
+  "Phase 0.5 item 3 invalidates the prior approval on any semantic change to the bound scope, so the gate re-fires and a fresh approval record is appended before the new digest is written into .audit/scope.approved.",
+  "This is a human approval performed by delegate under the named gate_approver authority (Ankit Porwal, signature_trust_roots in the parent CRUCIBLE_VIEW), following the same precedent as feedback sequences 5, 6, 8, and 12.",
+  "No capability flips: autonomous_gates stays at state default; D-APPROVAL-ENVELOPE-UNSIGNED continues to stand because no DSSE envelope exists on this machine."
+]

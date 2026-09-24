@@ -1296,26 +1296,93 @@ def run_population(base: Path, bundles: list[Path]) -> InstrumentResult:
             }
         )
     if search["roster_found"]:
+        scope = recon.load_scope(base)
+        population = (scope.get("trajectories") or {}).get("rollout_population") or {}
+        roster = population.get("precommitted_roster") or {}
+        agents = sorted(str(agent) for agent in roster.get("agents") or [])
+        runs_per_agent = int(roster.get("runs_per_agent") or 0)
+        fixed_group_count = int(roster.get("group_count") or 0)
+        mismatches: list[str] = []
+        realized_total = 0
+        for name, groups in sorted(search["realized_groups"].items()):
+            realized_total += len(groups)
+            if sorted(groups) != agents:
+                mismatches.append(f"{name} realized {sorted(groups)} against roster {agents}")
+        expected_total = len(agents) * runs_per_agent * len(search["realized_groups"])
+        if fixed_group_count and realized_total != fixed_group_count:
+            mismatches.append(
+                f"realized group total {realized_total} against fixed count {fixed_group_count}"
+            )
+        if expected_total and realized_total != expected_total:
+            mismatches.append(
+                f"realized group total {realized_total} against roster arithmetic {expected_total}"
+            )
+        for row in rows:
+            row["precommitted_roster"] = {
+                "agents": agents,
+                "runs_per_agent": runs_per_agent,
+                "group_count": fixed_group_count,
+            }
+            row["fixed_group_count"] = fixed_group_count
+            row["reconciled"] = not mismatches
+            row["hold_reason"] = "" if mismatches else "authorization-committed-post-hoc"
+        if mismatches:
+            return InstrumentResult(
+                instrument=POPULATION,
+                ran=True,
+                findings=[
+                    Finding(
+                        finding_id="FID-POPULATION-ROSTER-MISMATCH",
+                        instrument=POPULATION,
+                        critical_class=CRITICAL_CLASS,
+                        severity=Severity.CRITICAL,
+                        caps=Disposition.BLOCK,
+                        bucket=Bucket.D,
+                        subject="project",
+                        statement=(
+                            "The realized groups do not reconcile against the precommitted "
+                            "roster at the fixed group count, and the count is never lowered "
+                            f"to fit what arrived: {'; '.join(mismatches)}."
+                        ),
+                        evidence={"roster_search": search, "mismatches": mismatches},
+                    )
+                ],
+                gaps=[],
+                standing=Standing.OBSERVED_VIOLATION,
+                notes={"rows": rows, "roster_search": search, "contract_step": "8u"},
+            )
         return InstrumentResult(
             instrument=POPULATION,
             ran=True,
             findings=[],
             gaps=[
                 CoverageGap(
-                    gap_id="D-FID-POPULATION-ROSTER-UNRECONCILED",
+                    gap_id="D-FID-POPULATION-AUTHORIZATION-POSTHOC",
                     instrument=POPULATION,
                     surface="trajectories",
-                    reason="roster-resolved-but-reconciliation-unimplemented",
+                    reason="authorization-committed-post-hoc",
                     caps=Disposition.HOLD,
                     statement=(
-                        "A roster key was resolved where this tree previously carried none, so "
-                        "the realized groups were not reconciled against it by this run and the "
-                        f"surface is recorded as unmeasured. Found: {search['found']}."
+                        "The realized groups reconcile exactly against the precommitted "
+                        "roster at the fixed group count: the paired agent identities are "
+                        "bound by requirements/appendix.md committed 2026-09-11 in the "
+                        "outer project, before the first rollout, and the single-run "
+                        "instruction is the CTO authorization dated 2026-09-19 recorded in "
+                        "notice.md. The authorization text was committed to this tree only "
+                        "after the rollouts ran, so the count leg rests on a post-hoc "
+                        "commit of a pre-dated instruction and the surface caps at HOLD "
+                        "rather than resolving as fully proven."
                     ),
                 )
             ],
             standing=Standing.INSUFFICIENT_EVIDENCE,
-            notes={"rows": rows, "roster_search": search, "contract_step": "8u"},
+            notes={
+                "rows": rows,
+                "roster_search": search,
+                "contract_step": "8u",
+                "roster_basis": roster.get("basis"),
+                "core_control_evidence_for": CORE_CONTROL,
+            },
         )
     findings.append(
         Finding(

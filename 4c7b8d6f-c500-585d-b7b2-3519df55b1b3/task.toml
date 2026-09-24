@@ -6,7 +6,7 @@ artifacts = ["/logs/verifier/summary.json", "/logs/verifier/final.diff", "/logs/
 name = "levi/s01-mise"
 version = "1.0.0"
 description = "The .NET tooling in mise currently only knows how to install .NET SDKs. A user who wants a specific .NET runtime installed, either alongside an SDK or on its own, has no way to exp"
-authors = [{ name = "FORGE", email = "forge@trinity.invalid" }]
+authors = [{ name = "Abhijeet Chaurasiya", email = "abhijeet.chaurasiya@ethara.ai" }]
 keywords = ["rust", "issue-resolving", "mise"]
 
 [metadata]

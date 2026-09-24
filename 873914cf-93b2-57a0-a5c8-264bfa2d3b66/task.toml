@@ -6,7 +6,7 @@ artifacts = ["/logs/verifier/summary.json", "/logs/verifier/final.diff", "/logs/
 name = "levi/t06-reflex"
 version = "1.0.0"
 description = "When a Pynecone application is started in production mode, the framework spins up the backend server using a process manager suited for serving many concurrent requests. On Linux a"
-authors = [{ name = "FORGE", email = "forge@trinity.invalid" }]
+authors = [{ name = "Dimple Soni", email = "dimple.soni@ethara.ai" }]
 keywords = ["python", "issue-resolving", "reflex", "agent:openhands-sdk"]
 
 [metadata]

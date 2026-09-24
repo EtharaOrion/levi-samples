@@ -364,9 +364,22 @@ trajectories:
     rollouts_per_bundle: 2
     total_rollouts: 6
     group_count_basis: >-
-      Two solver identities at one run each. No precommitted roster exists at this root, so
-      G-FID-POPULATION has no precommitted group count to reconcile against and the realized
-      population cannot be proven from committed bytes alone.
+      Two solver identities at one run each. The paired agent identities are bound by
+      requirements/appendix.md in the outer project (commit c517747, 2026-09-11, before the
+      first rollout) and the single-run instruction is the CTO authorization dated 2026-09-19
+      recorded in notice.md at this root, committed post hoc. G-FID-POPULATION reconciles the
+      realized groups against this precommitted roster at the fixed count.
+    precommitted_roster:
+      agents: [claude-opus-5, zai__glm-5.3]
+      runs_per_agent: 1
+      group_count: 6
+      basis: >-
+        Agent identities precommitted by requirements/appendix.md (outer project commit
+        c517747, authored 2026-09-11, naming Opus 5 and GLM-5.3 as the paired reference and
+        calibration models, predating the first rollout at 2026-09-21T05:26Z). The one-run
+        baseline is the CTO authorization dated 2026-09-19 recorded verbatim in notice.md,
+        committed to this tree after the rollouts ran, so the count leg is a post-hoc commit
+        of a pre-dated instruction and the instrument caps the surface at HOLD.
   per_bundle:
     - uuid: 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
       file_count: 39

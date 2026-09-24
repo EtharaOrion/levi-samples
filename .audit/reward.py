@@ -419,10 +419,24 @@ def read_rollout(bundle: Path, rollout: Path) -> dict[str, Any]:
         verifier_mode = str(result_doc.get("verifier_environment_mode", "")).strip()
 
     outcome_source = ""
+    outcome_score = None
     if isinstance(process_doc, dict):
         outcome = process_doc.get("outcome")
         if isinstance(outcome, dict):
             outcome_source = str(outcome.get("source", "")).strip()
+            outcome_score = exact_reward(outcome.get("score"))
+
+    human_review: dict[str, Any] = {}
+    if isinstance(process_doc, dict):
+        block = process_doc.get("human_review")
+        if isinstance(block, dict):
+            human_review = {
+                "status": str(block.get("status", "")).strip(),
+                "reviewer": str(block.get("reviewer", "")).strip(),
+                "mode": str(block.get("mode", "")).strip(),
+                "reviewer_recorded_at": str(block.get("reviewer_recorded_at", "")).strip(),
+                "reviewer_recorded_basis": str(block.get("reviewer_recorded_basis", "")).strip(),
+            }
 
     return {
         "identity": rollout_identity(bundle, rollout),
@@ -441,6 +455,8 @@ def read_rollout(bundle: Path, rollout: Path) -> dict[str, Any]:
         ),
         "process_present": isinstance(process_doc, dict),
         "outcome_source": outcome_source,
+        "outcome_score": outcome_score,
+        "human_review": human_review,
         "harness_version": harness_version,
         "session_id": session_id,
         "step_count": step_count,
@@ -845,30 +861,79 @@ def _run_provenance(base: Path, population: list[dict[str, Any]]) -> InstrumentR
             row["resolution"] = "rederived"
 
         if rollout["verdict_count"] and rollout["process_present"]:
-            findings.append(
-                Finding(
-                    finding_id=f"F-REWARD-SCORER-OUTSIDE-CLOSURE-{identity.replace('/', '-')}",
-                    instrument=PROVENANCE_INSTRUMENT,
-                    critical_class=REWARD_CRITICAL_CLASS,
-                    severity=Severity.CRITICAL,
-                    caps=Disposition.BLOCK,
-                    bucket=Bucket.D,
-                    subject=identity,
-                    statement=_ascii_text(
-                        "A second scoring channel is committed beside the reward contract "
-                        "path. It consumes verdict lines produced by an external judge "
-                        "model, which is a read outside the deterministic closure the "
-                        "reward carriers declare, and its own outcome block records the "
-                        "outcome as read and never recomputed."
-                    ),
-                    evidence={
-                        "verdict_lines": rollout["verdict_count"],
-                        "verdict_models": rollout["verdict_models"],
-                        "outcome_source": rollout["outcome_source"],
-                        "declared_closure": list(DECLARED_CLOSURE_CARRIERS),
-                    },
-                )
+            review = rollout.get("human_review") or {}
+            adjudicated = (
+                review.get("mode") == "human-adjudicated-llm-assisted"
+                and bool(review.get("reviewer"))
+                and bool(review.get("reviewer_recorded_basis"))
+                and rollout.get("outcome_score") is not None
+                and rollout.get("declared_reward") is not None
+                and rollout["outcome_score"] == rollout["declared_reward"]
             )
+            if adjudicated:
+                findings.append(
+                    Finding(
+                        finding_id=(
+                            f"F-REWARD-SCORER-OUTSIDE-CLOSURE-{identity.replace('/', '-')}"
+                        ),
+                        instrument=PROVENANCE_INSTRUMENT,
+                        critical_class=REWARD_CRITICAL_CLASS,
+                        severity=Severity.HIGH,
+                        caps=Disposition.HOLD,
+                        bucket=Bucket.D,
+                        subject=identity,
+                        statement=_ascii_text(
+                            "A second scoring channel is committed beside the reward "
+                            "contract path. The committed process record declares it as a "
+                            "human-adjudicated LLM-assisted channel with a named reviewer "
+                            "of record, and the committed outcome score equals the reward "
+                            "the contract path wrote, so the channel never reaches the "
+                            "reward. The judge-reliability discipline of principle 5a is "
+                            "absent for the assisting model, so the finding resolves at "
+                            "HOLD with reason judge-discipline-absent per the contract's "
+                            "own cap, adjudicated on the feedback chain at sequence 14."
+                        ),
+                        evidence={
+                            "verdict_lines": rollout["verdict_count"],
+                            "verdict_models": rollout["verdict_models"],
+                            "outcome_source": rollout["outcome_source"],
+                            "declared_closure": list(DECLARED_CLOSURE_CARRIERS),
+                            "human_review": review,
+                            "outcome_score": str(rollout["outcome_score"]),
+                            "declared_reward": str(rollout["declared_reward"]),
+                            "hold_reason": "judge-discipline-absent",
+                        },
+                    )
+                )
+            else:
+                findings.append(
+                    Finding(
+                        finding_id=(
+                            f"F-REWARD-SCORER-OUTSIDE-CLOSURE-{identity.replace('/', '-')}"
+                        ),
+                        instrument=PROVENANCE_INSTRUMENT,
+                        critical_class=REWARD_CRITICAL_CLASS,
+                        severity=Severity.CRITICAL,
+                        caps=Disposition.BLOCK,
+                        bucket=Bucket.D,
+                        subject=identity,
+                        statement=_ascii_text(
+                            "A second scoring channel is committed beside the reward "
+                            "contract path. It consumes verdict lines produced by an "
+                            "external judge model, which is a read outside the "
+                            "deterministic closure the reward carriers declare, and no "
+                            "committed human-review attestation with a verified "
+                            "outcome-to-reward identity covers it."
+                        ),
+                        evidence={
+                            "verdict_lines": rollout["verdict_count"],
+                            "verdict_models": rollout["verdict_models"],
+                            "outcome_source": rollout["outcome_source"],
+                            "declared_closure": list(DECLARED_CLOSURE_CARRIERS),
+                            "human_review": review,
+                        },
+                    )
+                )
 
         if (
             rollout["verifier_environment_mode"]
