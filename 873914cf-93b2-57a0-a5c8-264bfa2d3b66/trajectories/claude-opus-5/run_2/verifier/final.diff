@@ -1,0 +1,1966 @@
+diff --git a/README.md b/README.md
+index 5415276..4183c38 100644
+--- a/README.md
++++ b/README.md
+@@ -32,6 +32,8 @@ Pynecone requires the following to get started:
+ * Python 3.7+
+ * [Node.js 12.22.0+](https://nodejs.org/en/) (Don't worry, you'll never have to write any Javascript)
+ 
++Pynecone runs on Linux, macOS and Windows, in both development and production mode.
++
+ ```
+ $ pip install pynecone
+ ```
+@@ -198,7 +200,7 @@ You can create a multi-page app by adding more routes.
+ 
+ ## Status
+ 
+-As of December 2022, Pynecone has just been released publicly and is in the **Alpha Stage**.
++As of March 2023, Pynecone is in the **Alpha Stage**.
+ 
+  - :large_orange_diamond: **Public Alpha**: Anyone can install and use Pynecone. There may be issues, but we are working to resolve them actively.
+  - **Public Beta**: Stable enough for non-enterprise use-cases.
+diff --git a/pynecone/.templates/web/package.json b/pynecone/.templates/web/package.json
+index 38817fc..8fd3486 100644
+--- a/pynecone/.templates/web/package.json
++++ b/pynecone/.templates/web/package.json
+@@ -23,6 +23,7 @@
+     "react": "^17.0.2",
+     "react-copy-to-clipboard": "^5.1.0",
+     "react-dom": "^17.0.2",
++    "react-dropzone": "^14.2.3",
+     "react-markdown": "^8.0.3",
+     "react-plotly.js": "^2.6.0",
+     "react-syntax-highlighter": "^15.5.0",
+diff --git a/pynecone/.templates/web/pynecone.json b/pynecone/.templates/web/pynecone.json
+index eb98579..fbaba3e 100644
+--- a/pynecone/.templates/web/pynecone.json
++++ b/pynecone/.templates/web/pynecone.json
+@@ -1,3 +1,3 @@
+ {
+-    "version": "0.1.18"
++    "version": "0.1.19"
+ }
+\ No newline at end of file
+diff --git a/pynecone/.templates/web/utils/state.js b/pynecone/.templates/web/utils/state.js
+index fedf85b..f7517a5 100644
+--- a/pynecone/.templates/web/utils/state.js
++++ b/pynecone/.templates/web/utils/state.js
+@@ -1,9 +1,13 @@
+ // State management for Pynecone web apps.
++import axios from 'axios';
+ import io from 'socket.io-client';
+ 
+ // Global variable to hold the token.
+ let token;
+ 
++// Global variable to hold the files to upload.
++let files = [];
++
+ // Key for the token in the session storage.
+ const TOKEN_KEY = "token";
+ 
+@@ -45,6 +49,74 @@ export const getToken = () => {
+   return token;
+ };
+ 
++/**
++ * Set the files to upload.
++ * @param f The files to upload.
++ */
++export const File = (f) => {
++  files = f;
++};
++
++/**
++ * Get the files to upload.
++ * @returns The files to upload.
++ */
++export const getFiles = () => {
++  return files;
++};
++
++/**
++ * Get the files in an event payload, if any.
++ * @param event The event to check.
++ * @returns The files in the event payload, or null if there are none.
++ */
++const getEventFiles = (event) => {
++  for (const key in event.payload) {
++    const value = event.payload[key];
++    if (Array.isArray(value) && value.length > 0 && value[0] instanceof Blob) {
++      return value;
++    }
++  }
++  return null;
++};
++
++/**
++ * Upload the files of an event to the server.
++ * @param state The state to apply the update to.
++ * @param setResult The function to set the result.
++ * @param event The event containing the files.
++ * @param files The files to upload.
++ * @param endpoint The endpoint to upload the files to.
++ */
++export const uploadFiles = async (state, setResult, event, files, endpoint) => {
++  const formdata = new FormData();
++
++  // The token and the handler are prepended to the file name.
++  for (let i = 0; i < files.length; i++) {
++    formdata.append(
++      "files",
++      files[i],
++      getToken() + ":" + event.name + ":" + files[i].name
++    );
++  }
++
++  await axios
++    .post(endpoint, formdata, { headers: { "Content-Type": "multipart/form-data" } })
++    .then((response) => {
++      const update = response.data;
++      applyDelta(state, update.delta);
++      setResult({
++        processing: false,
++        state: state,
++        events: update.events,
++      });
++    })
++    .catch((error) => {
++      console.log(error);
++      setResult({ ...state, processing: false });
++    });
++};
++
+ /**
+  * Apply a delta to the state.
+  * @param state The state to apply the delta to.
+@@ -107,8 +179,9 @@ export const applyEvent = async (event, router, socket) => {
+  * @param setResult The function to set the result.
+  * @param router The router object.
+  * @param socket The socket object to send the event on.
++ * @param uploadEndpoint The endpoint to upload files to.
+  */
+-export const updateState = async (state, setState, result, setResult, router, socket) => {
++export const updateState = async (state, setState, result, setResult, router, socket, uploadEndpoint) => {
+   // If we are already processing an event, or there are no events to process, return.
+   if (result.processing || state.events.length == 0) {
+     return;
+@@ -123,6 +196,13 @@ export const updateState = async (state, setState, result, setResult, router, so
+   // Set new events to avoid reprocessing the same event.
+   setState({ ...state, events: state.events });
+ 
++  // If the event has files, upload them instead of sending the event.
++  const eventFiles = getEventFiles(event);
++  if (eventFiles) {
++    await uploadFiles(state, setResult, event, eventFiles, uploadEndpoint);
++    return;
++  }
++
+   // Apply the event.
+   const eventSent = await applyEvent(event, router, socket);
+   if (!eventSent) {
+@@ -138,8 +218,9 @@ export const updateState = async (state, setState, result, setResult, router, so
+  * @param setState The function to set the state.
+  * @param setResult The function to set the result.
+  * @param endpoint The endpoint to connect to.
++ * @param uploadEndpoint The endpoint to upload files to.
+  */
+-export const connect = async (socket, state, setState, result, setResult, router, endpoint, transports) => {
++export const connect = async (socket, state, setState, result, setResult, router, endpoint, uploadEndpoint, transports) => {
+   // Get backend URL object from the endpoint
+   const endpoint_url = new URL(endpoint)
+   // Create the socket.
+@@ -151,7 +232,7 @@ export const connect = async (socket, state, setState, result, setResult, router
+ 
+   // Once the socket is open, hydrate the page.
+   socket.current.on('connect', () => {
+-    updateState(state, setState, result, setResult, router, socket.current);
++    updateState(state, setState, result, setResult, router, socket.current, uploadEndpoint);
+   });
+ 
+   // On each received message, apply the delta and set the result.
+diff --git a/pynecone/__init__.py b/pynecone/__init__.py
+index 9027df0..d11431a 100644
+--- a/pynecone/__init__.py
++++ b/pynecone/__init__.py
+@@ -10,7 +10,15 @@ from .components.component import custom_component as component
+ from .components.graphing.victory import data
+ from .config import Config
+ from .constants import Env, Transports
+-from .event import EVENT_ARG, EventChain, console_log, redirect, window_alert
++from .event import (
++    EVENT_ARG,
++    EventChain,
++    UploadFile,
++    console_log,
++    redirect,
++    upload_files,
++    window_alert,
++)
+ from .middleware import Middleware
+ from .model import Model, session
+ from .route import route
+diff --git a/pynecone/app.py b/pynecone/app.py
+index 7cc676e..b0f85a2 100644
+--- a/pynecone/app.py
++++ b/pynecone/app.py
+@@ -1,8 +1,9 @@
+ """The main Pynecone app."""
+ 
++import inspect
+ from typing import Any, Callable, Coroutine, Dict, List, Optional, Type, Union
+ 
+-from fastapi import FastAPI
++from fastapi import FastAPI, Request, UploadFile
+ from fastapi.middleware import cors
+ from socketio import ASGIApp, AsyncNamespace, AsyncServer
+ 
+@@ -53,7 +54,7 @@ class App(Base):
+     middleware: List[Middleware] = []
+ 
+     # Event handlers to trigger when a page loads.
+-    load_events: Dict[str, EventHandler] = {}
++    load_events: Dict[str, List[EventHandler]] = {}
+ 
+     def __init__(self, *args, **kwargs):
+         """Initialize the app.
+@@ -124,6 +125,9 @@ class App(Base):
+         # To test the server.
+         self.api.get(str(constants.Endpoint.PING))(ping)
+ 
++        # To upload files.
++        self.api.post(str(constants.Endpoint.UPLOAD))(upload(self))
++
+     def add_cors(self):
+         """Add CORS middleware to the app."""
+         self.api.add_middleware(
+@@ -197,7 +201,8 @@ class App(Base):
+         title: str = constants.DEFAULT_TITLE,
+         description: str = constants.DEFAULT_DESCRIPTION,
+         image=constants.DEFAULT_IMAGE,
+-        on_load: Optional[EventHandler] = None,
++        on_load: Optional[Union[EventHandler, List[EventHandler]]] = None,
++        meta: List[Dict] = constants.DEFAULT_META_LIST,
+         path: Optional[str] = None,
+     ):
+         """Add a page to the app.
+@@ -212,7 +217,8 @@ class App(Base):
+             title: The title of the page.
+             description: The description of the page.
+             image: The image to display on the page.
+-            on_load: The event handler that will be called each time the page load.
++            on_load: The event handler(s) that will be called each time the page load.
++            meta: The metadata of the page.
+         """
+         if path is not None:
+             utils.deprecate(
+@@ -238,7 +244,7 @@ class App(Base):
+ 
+         # Add meta information to the component.
+         compiler_utils.add_meta(
+-            component, title=title, image=image, description=description
++            component, title=title, image=image, description=description, meta=meta
+         )
+ 
+         # Format the route.
+@@ -249,7 +255,9 @@ class App(Base):
+         self.pages[route] = component
+ 
+         if on_load:
+-            self.load_events[route] = on_load
++            self.load_events[route] = (
++                on_load if isinstance(on_load, list) else [on_load]
++            )
+ 
+     def _check_routes_conflict(self, new_route: str):
+         """Verify if there is any conflict between the new route and any existing route.
+@@ -284,7 +292,14 @@ class App(Base):
+                     f"You cannot use multiple catchall for the same dynamic route ({route} !== {new_route})"
+                 )
+ 
+-    def add_custom_404_page(self, component, title=None, image=None, description=None):
++    def add_custom_404_page(
++        self,
++        component,
++        title=None,
++        image=None,
++        description=None,
++        meta=constants.DEFAULT_META_LIST,
++    ):
+         """Define a custom 404 page for any url having no match.
+ 
+         If there is no page defined on 'index' route, add the 404 page to it.
+@@ -295,6 +310,7 @@ class App(Base):
+             title: The title of the page.
+             description: The description of the page.
+             image: The image to display on the page.
++            meta: The metadata of the page.
+         """
+         title = title or constants.TITLE_404
+         image = image or constants.FAVICON_404
+@@ -303,7 +319,7 @@ class App(Base):
+         component = component if isinstance(component, Component) else component()
+ 
+         compiler_utils.add_meta(
+-            component, title=title, image=image, description=description
++            component, title=title, image=image, description=description, meta=meta
+         )
+ 
+         froute = utils.format_route
+@@ -418,6 +434,80 @@ async def ping() -> str:
+     return "pong"
+ 
+ 
++def upload(app: App):
++    """Upload a file.
++
++    Args:
++        app: The app to upload the file for.
++
++    Returns:
++        The upload function.
++    """
++
++    async def upload_file(request: Request):
++        """Upload a file.
++
++        The filename of each file is prefixed with the token of the client and
++        the name of the event handler to call, i.e. "token:handler:filename".
++
++        Args:
++            request: The request with the files to upload.
++
++        Returns:
++            The state update after processing the event.
++        """
++        form = await request.form()
++        files: List[UploadFile] = form.getlist("files")  # type: ignore
++        token, handler = files[0].filename.split(":")[:2]
++
++        # Remove the prefix from the file names.
++        for file in files:
++            file.filename = file.filename.split(":")[-1]
++
++        # Get the state for the session.
++        state = app.state_manager.get_state(token)
++
++        # Process the event.
++        event = Event(
++            token=token, name=handler, payload=get_upload_payload(state, handler, files)
++        )
++        update = await state.process(event)
++        app.state_manager.set_state(token, state)
++        return update
++
++    return upload_file
++
++
++def get_upload_payload(
++    state: State, handler: str, files: List[UploadFile]
++) -> Dict[str, Any]:
++    """Get the payload to pass to the upload event handler.
++
++    The files are passed as a list if the handler takes a list, otherwise the
++    single uploaded file is passed.
++
++    Args:
++        state: The state to get the handler from.
++        handler: The full name of the event handler.
++        files: The uploaded files.
++
++    Returns:
++        The event payload.
++    """
++    path = handler.split(".")
++    substate = state.get_substate(path[:-1])
++    fn = getattr(substate, path[-1]).fn
++
++    # Get the name and type of the argument to pass the files to.
++    spec = inspect.getfullargspec(fn)
++    arg = spec.args[1]
++    type_ = spec.annotations.get(arg)
++
++    return {
++        arg: files if type_ is not None and utils._issubclass(type_, List) else files[0]
++    }
++
++
+ class EventNamespace(AsyncNamespace):
+     """The event namespace."""
+ 
+diff --git a/pynecone/compiler/compiler.py b/pynecone/compiler/compiler.py
+index 297fbfc..e41b0fb 100644
+--- a/pynecone/compiler/compiler.py
++++ b/pynecone/compiler/compiler.py
+@@ -15,7 +15,7 @@ from pynecone.style import Style
+ DEFAULT_IMPORTS: ImportDict = {
+     "react": {"useEffect", "useRef", "useState"},
+     "next/router": {"useRouter"},
+-    f"/{constants.STATE_PATH}": {"connect", "updateState", "E"},
++    f"/{constants.STATE_PATH}": {"connect", "updateState", "E", "getFiles"},
+     "": {"focus-visible/dist/focus-visible"},
+     "@chakra-ui/react": {constants.USE_COLOR_MODE},
+ }
+diff --git a/pynecone/compiler/templates.py b/pynecone/compiler/templates.py
+index c70f442..e91a6bc 100644
+--- a/pynecone/compiler/templates.py
++++ b/pynecone/compiler/templates.py
+@@ -138,6 +138,7 @@ def format_state(
+ 
+ # Events.
+ EVENT_ENDPOINT = constants.Endpoint.EVENT.name
++UPLOAD_ENDPOINT = constants.Endpoint.UPLOAD.name
+ EVENT_FN = join(
+     [
+         "const Event = events => {set_state}({{",
+@@ -164,7 +165,7 @@ USE_EFFECT = join(
+         "    return;",
+         "  }}",
+         f"  if (!{SOCKET}.current) {{{{",
+-        f"    connect({SOCKET}, {{state}}, {{set_state}}, {RESULT}, {SET_RESULT}, {ROUTER}, {EVENT_ENDPOINT}, {{transports}})",
++        f"    connect({SOCKET}, {{state}}, {{set_state}}, {RESULT}, {SET_RESULT}, {ROUTER}, {EVENT_ENDPOINT}, {UPLOAD_ENDPOINT}, {{transports}})",
+         "  }}",
+         "  const update = async () => {{",
+         f"    if ({RESULT}.{STATE} != null) {{{{",
+@@ -178,7 +179,7 @@ USE_EFFECT = join(
+         f"        {PROCESSING}: false,",
+         "      }})",
+         "    }}",
+-        f"    await updateState({{state}}, {{set_state}}, {RESULT}, {SET_RESULT}, {ROUTER}, {SOCKET}.current)",
++        f"    await updateState({{state}}, {{set_state}}, {RESULT}, {SET_RESULT}, {ROUTER}, {SOCKET}.current, {UPLOAD_ENDPOINT})",
+         "  }}",
+         "  update()",
+         "}})",
+diff --git a/pynecone/compiler/utils.py b/pynecone/compiler/utils.py
+index 7263df0..a731263 100644
+--- a/pynecone/compiler/utils.py
++++ b/pynecone/compiler/utils.py
+@@ -16,6 +16,7 @@ from pynecone.components.base import (
+     Image,
+     Link,
+     Main,
++    Meta,
+     Script,
+     Title,
+ )
+@@ -84,9 +85,12 @@ def compile_constants() -> str:
+     Returns:
+         A string of all the compiled constants.
+     """
+-    endpoint = constants.Endpoint.EVENT
++    endpoints = [constants.Endpoint.EVENT, constants.Endpoint.UPLOAD]
+     return templates.join(
+-        [compile_constant_declaration(name=endpoint.name, value=endpoint.get_url())]
++        [
++            compile_constant_declaration(name=endpoint.name, value=endpoint.get_url())
++            for endpoint in endpoints
++        ]
+     )
+ 
+ 
+@@ -277,7 +281,9 @@ def get_components_path() -> str:
+     return os.path.join(constants.WEB_UTILS_DIR, "components" + constants.JS_EXT)
+ 
+ 
+-def add_meta(page: Component, title: str, image: str, description: str) -> Component:
++def add_meta(
++    page: Component, title: str, image: str, description: str, meta: List[Dict]
++) -> Component:
+     """Add metadata to a page.
+ 
+     Args:
+@@ -285,15 +291,19 @@ def add_meta(page: Component, title: str, image: str, description: str) -> Compo
+         title: The title of the page.
+         image: The image for the page.
+         description: The description of the page.
++        meta: The metadata list.
+ 
+     Returns:
+         The component with the metadata added.
+     """
++    meta_tags = [Meta.create(**item) for item in meta]
++
+     page.children.append(
+         Head.create(
+             Title.create(title),
+             Description.create(content=description),
+             Image.create(content=image),
++            *meta_tags,
+         )
+     )
+ 
+diff --git a/pynecone/components/__init__.py b/pynecone/components/__init__.py
+index eb72b00..f387a2b 100644
+--- a/pynecone/components/__init__.py
++++ b/pynecone/components/__init__.py
+@@ -20,81 +20,6 @@ from .typography import *
+ if TYPE_CHECKING:
+     from typing import Any
+ 
+-# Add the convenience methods for all the components.
+-locals().update(
+-    {
+-        utils.to_snake_case(name): value.create
+-        for name, value in locals().items()
+-        if isinstance(value, type) and issubclass(value, Component)
+-    }
+-)
+-
+-
+-# Add responsive styles shortcuts.
+-def mobile_only(*children, **props):
+-    """Create a component that is only visible on mobile.
+-
+-    Args:
+-        *children: The children to pass to the component.
+-        **props: The props to pass to the component.
+-
+-    Returns:
+-        The component.
+-    """
+-    return Box.create(*children, **props, display=["block", "none", "none", "none"])
+-
+-
+-def tablet_only(*children, **props):
+-    """Create a component that is only visible on tablet.
+-
+-    Args:
+-        *children: The children to pass to the component.
+-        **props: The props to pass to the component.
+-
+-    Returns:
+-        The component.
+-    """
+-    return Box.create(*children, **props, display=["none", "block", "block", "none"])
+-
+-
+-def desktop_only(*children, **props):
+-    """Create a component that is only visible on desktop.
+-
+-    Args:
+-        *children: The children to pass to the component.
+-        **props: The props to pass to the component.
+-
+-    Returns:
+-        The component.
+-    """
+-    return Box.create(*children, **props, display=["none", "none", "none", "block"])
+-
+-
+-def tablet_and_desktop(*children, **props):
+-    """Create a component that is only visible on tablet and desktop.
+-
+-    Args:
+-        *children: The children to pass to the component.
+-        **props: The props to pass to the component.
+-
+-    Returns:
+-        The component.
+-    """
+-    return Box.create(*children, **props, display=["none", "block", "block", "block"])
+-
+-
+-def mobile_and_tablet(*children, **props):
+-    """Create a component that is only visible on mobile and tablet.
+-
+-    Args:
+-        *children: The children to pass to the component.
+-        **props: The props to pass to the component.
+-
+-    Returns:
+-        The component.
+-    """
+-    return Box.create(*children, **props, display=["block", "block", "block", "none"])
+-
+ 
+ def cond(condition: Any, c1: Any, c2: Any = None):
+     """Create a conditional component or Prop.
+diff --git a/pynecone/components/base/__init__.py b/pynecone/components/base/__init__.py
+index 8c83f8f..4095e19 100644
+--- a/pynecone/components/base/__init__.py
++++ b/pynecone/components/base/__init__.py
+@@ -4,4 +4,4 @@ from .body import Body
+ from .document import ColorModeScript, DocumentHead, Html, Main, Script
+ from .head import Head
+ from .link import Link
+-from .meta import Description, Image, Title
++from .meta import Description, Image, Meta, Title
+diff --git a/pynecone/components/base/meta.py b/pynecone/components/base/meta.py
+index a7fd114..fa4b6a2 100644
+--- a/pynecone/components/base/meta.py
++++ b/pynecone/components/base/meta.py
+@@ -30,6 +30,18 @@ class Meta(Component):
+ 
+     tag = "meta"
+ 
++    # The description of character encoding.
++    char_set: Optional[str] = None
++
++    # The value of meta.
++    content: Optional[str] = None
++
++    # The name of metadata.
++    name: Optional[str] = None
++
++    # The type of metadata value.
++    property: Optional[str] = None
++
+ 
+ class Description(Meta):
+     """A component that displays the title of the current page."""
+diff --git a/pynecone/components/component.py b/pynecone/components/component.py
+index b9f3b2e..610bcee 100644
+--- a/pynecone/components/component.py
++++ b/pynecone/components/component.py
+@@ -50,6 +50,9 @@ class Component(Base, ABC):
+     # The class name for the component.
+     class_name: Any = None
+ 
++    # Special component props.
++    special_props: Set[Var] = set()
++
+     @classmethod
+     def __init_subclass__(cls, **kwargs):
+         """Set default properties.
+@@ -186,14 +189,17 @@ class Component(Base, ABC):
+         arg = controlled_triggers.get(event_trigger, EVENT_ARG)
+ 
+         # If the input is a single event handler, wrap it in a list.
+-        if isinstance(value, EventHandler):
++        if isinstance(value, (EventHandler, EventSpec)):
+             value = [value]
+ 
+         # If the input is a list of event handlers, create an event chain.
+         if isinstance(value, List):
+             events = []
+             for v in value:
+-                if isinstance(v, EventHandler):
++                if isinstance(v, EventSpec):
++                    # Add the event spec to the chain.
++                    events.append(v)
++                elif isinstance(v, EventHandler):
+                     # Call the event handler to get the event.
+                     event = utils.call_event_handler(v, arg)
+ 
+@@ -285,7 +291,7 @@ class Component(Base, ABC):
+         # Create the base tag.
+         alias = self.get_alias()
+         name = alias if alias is not None else self.tag
+-        tag = Tag(name=name)
++        tag = Tag(name=name, special_props=self.special_props)
+ 
+         # Add component props to the tag.
+         props = {attr: getattr(self, attr) for attr in self.get_props()}
+diff --git a/pynecone/components/datadisplay/__init__.py b/pynecone/components/datadisplay/__init__.py
+index f1b2eb1..bd6b763 100644
+--- a/pynecone/components/datadisplay/__init__.py
++++ b/pynecone/components/datadisplay/__init__.py
+@@ -7,3 +7,28 @@ from .divider import Divider
+ from .list import List, ListItem, OrderedList, UnorderedList
+ from .stat import Stat, StatArrow, StatGroup, StatHelpText, StatLabel, StatNumber
+ from .table import Table, TableCaption, TableContainer, Tbody, Td, Tfoot, Th, Thead, Tr
++
++badge = Badge.create
++code = Code.create
++code_block = CodeBlock.create
++data_table = DataTable.create
++divider = Divider.create
++list = List.create
++list_item = ListItem.create
++ordered_list = OrderedList.create
++stat = Stat.create
++stat_arrow = StatArrow.create
++stat_group = StatGroup.create
++stat_help_text = StatHelpText.create
++stat_label = StatLabel.create
++stat_number = StatNumber.create
++table = Table.create
++table_caption = TableCaption.create
++table_container = TableContainer.create
++tbody = Tbody.create
++td = Td.create
++tfoot = Tfoot.create
++th = Th.create
++thead = Thead.create
++tr = Tr.create
++unordered_list = UnorderedList.create
+diff --git a/pynecone/components/datadisplay/list.py b/pynecone/components/datadisplay/list.py
+index b513745..f37a63f 100644
+--- a/pynecone/components/datadisplay/list.py
++++ b/pynecone/components/datadisplay/list.py
+@@ -1,6 +1,7 @@
+ """List components."""
+ 
+ from pynecone.components import Component
++from pynecone.components.layout.foreach import Foreach
+ from pynecone.components.libs.chakra import ChakraComponent
+ from pynecone.var import Var
+ 
+@@ -32,9 +33,10 @@ class List(ChakraComponent):
+             The list component.
+         """
+         if len(children) == 0:
+-            children = []
+-            for item in items or []:
+-                children.append(ListItem.create(item))
++            if isinstance(items, Var):
++                children = [Foreach.create(items, ListItem.create)]
++            else:
++                children = [ListItem.create(item) for item in items or []]
+         return super().create(*children, **props)
+ 
+ 
+diff --git a/pynecone/components/datadisplay/table.py b/pynecone/components/datadisplay/table.py
+index 94ffe79..035f5c6 100644
+--- a/pynecone/components/datadisplay/table.py
++++ b/pynecone/components/datadisplay/table.py
+@@ -1,6 +1,7 @@
+ """Table components."""
+ 
+ from pynecone.components.component import Component
++from pynecone.components.layout.foreach import Foreach
+ from pynecone.components.libs.chakra import ChakraComponent
+ from pynecone.var import Var
+ 
+@@ -96,7 +97,16 @@ class Tbody(ChakraComponent):
+             Component: _description_
+         """
+         if len(children) == 0:
+-            children = [Tr.create(cell_type="data", cells=row) for row in rows or []]
++            if isinstance(rows, Var):
++                children = [
++                    Foreach.create(
++                        rows, lambda row: Tr.create(cell_type="data", cells=row)
++                    )
++                ]
++            else:
++                children = [
++                    Tr.create(cell_type="data", cells=row) for row in rows or []
++                ]
+         return super().create(*children, **props)
+ 
+ 
+@@ -143,7 +153,10 @@ class Tr(ChakraComponent):
+         types = {"header": Th, "data": Td}
+         cell_cls = types.get(cell_type)
+         if len(children) == 0 and cell_cls:
+-            children = [cell_cls.create(cell) for cell in cells or []]
++            if isinstance(cells, Var):
++                children = [Foreach.create(cells, cell_cls.create)]
++            else:
++                children = [cell_cls.create(cell) for cell in cells or []]
+         return super().create(*children, **props)
+ 
+ 
+diff --git a/pynecone/components/disclosure/__init__.py b/pynecone/components/disclosure/__init__.py
+index 9c3c48f..12c2ba1 100644
+--- a/pynecone/components/disclosure/__init__.py
++++ b/pynecone/components/disclosure/__init__.py
+@@ -10,4 +10,14 @@ from .accordion import (
+ from .tabs import Tab, TabList, TabPanel, TabPanels, Tabs
+ from .visuallyhidden import VisuallyHidden
+ 
+-__all__ = [f for f in dir() if f[0].isupper()]  # type: ignore
++accordion = Accordion.create
++accordion_button = AccordionButton.create
++accordion_icon = AccordionIcon.create
++accordion_item = AccordionItem.create
++accordion_panel = AccordionPanel.create
++tab = Tab.create
++tab_list = TabList.create
++tab_panel = TabPanel.create
++tab_panels = TabPanels.create
++tabs = Tabs.create
++visually_hidden = VisuallyHidden.create
+diff --git a/pynecone/components/disclosure/accordion.py b/pynecone/components/disclosure/accordion.py
+index 3afb75f..7950542 100644
+--- a/pynecone/components/disclosure/accordion.py
++++ b/pynecone/components/disclosure/accordion.py
+@@ -1,8 +1,9 @@
+ """Container to stack elements with spacing."""
+ 
+-from typing import List, Optional, Union
++from typing import Any, List, Optional, Union
+ 
+ from pynecone.components.component import Component
++from pynecone.components.layout.foreach import Foreach
+ from pynecone.components.libs.chakra import ChakraComponent
+ from pynecone.var import Var
+ 
+@@ -41,23 +42,20 @@ class Accordion(ChakraComponent):
+             The accordion component
+         """
+         if len(children) == 0:
+-            children = []
+-            if not items:
+-                items = []
+-            for label, panel in items:
+-                if icon_pos == "right":
+-                    button = AccordionButton.create(label, AccordionIcon.create())
+-                elif icon_pos == "left":
+-                    button = AccordionButton.create(AccordionIcon.create(), label)
+-                else:
+-                    button = AccordionButton.create(label)
+-
+-                children.append(
+-                    AccordionItem.create(
+-                        button,
+-                        AccordionPanel.create(panel),
++            if isinstance(items, Var):
++                children = [
++                    Foreach.create(
++                        items,
++                        lambda item: create_accordion_item(
++                            item[0], item[1], icon_pos=icon_pos
++                        ),
+                     )
+-                )
++                ]
++            else:
++                children = [
++                    create_accordion_item(label, panel, icon_pos=icon_pos)
++                    for label, panel in items or []
++                ]
+         return super().create(*children, **props)
+ 
+ 
+@@ -92,3 +90,24 @@ class AccordionIcon(ChakraComponent):
+     """A chevron-down icon that rotates based on the expanded/collapsed state."""
+ 
+     tag = "AccordionIcon"
++
++
++def create_accordion_item(label: Any, panel: Any, icon_pos: str = "right") -> Component:
++    """Create an accordion item from a label and a panel.
++
++    Args:
++        label: The label of the accordion item.
++        panel: The panel of the accordion item.
++        icon_pos: The position of the arrow icon. "right", "left" or None.
++
++    Returns:
++        The accordion item.
++    """
++    if icon_pos == "right":
++        button = AccordionButton.create(label, AccordionIcon.create())
++    elif icon_pos == "left":
++        button = AccordionButton.create(AccordionIcon.create(), label)
++    else:
++        button = AccordionButton.create(label)
++
++    return AccordionItem.create(button, AccordionPanel.create(panel))
+diff --git a/pynecone/components/disclosure/tabs.py b/pynecone/components/disclosure/tabs.py
+index fedef29..1511bfb 100644
+--- a/pynecone/components/disclosure/tabs.py
++++ b/pynecone/components/disclosure/tabs.py
+@@ -1,6 +1,7 @@
+ """Tab components."""
+ 
+ from pynecone.components.component import Component
++from pynecone.components.layout.foreach import Foreach
+ from pynecone.components.libs.chakra import ChakraComponent
+ from pynecone.var import Var
+ 
+@@ -47,13 +48,12 @@ class Tabs(ChakraComponent):
+             The tab component
+         """
+         if len(children) == 0:
+-            tabs = []
+-            panels = []
+-            if not items:
+-                items = []
+-            for label, panel in items:
+-                tabs.append(Tab.create(label))
+-                panels.append(TabPanel.create(panel))
++            if isinstance(items, Var):
++                tabs = [Foreach.create(items, lambda item: Tab.create(item[0]))]
++                panels = [Foreach.create(items, lambda item: TabPanel.create(item[1]))]
++            else:
++                tabs = [Tab.create(label) for label, _ in items or []]
++                panels = [TabPanel.create(panel) for _, panel in items or []]
+             children = [TabList.create(*tabs), TabPanels.create(*panels)]  # type: ignore
+         return super().create(*children, **props)
+ 
+diff --git a/pynecone/components/feedback/__init__.py b/pynecone/components/feedback/__init__.py
+index 8037e36..c2f4938 100644
+--- a/pynecone/components/feedback/__init__.py
++++ b/pynecone/components/feedback/__init__.py
+@@ -5,3 +5,15 @@ from .circularprogress import CircularProgress, CircularProgressLabel
+ from .progress import Progress
+ from .skeleton import Skeleton, SkeletonCircle, SkeletonText
+ from .spinner import Spinner
++
++alert = Alert.create
++alert_description = AlertDescription.create
++alert_icon = AlertIcon.create
++alert_title = AlertTitle.create
++circular_progress = CircularProgress.create
++circular_progress_label = CircularProgressLabel.create
++progress = Progress.create
++skeleton = Skeleton.create
++skeleton_circle = SkeletonCircle.create
++skeleton_text = SkeletonText.create
++spinner = Spinner.create
+diff --git a/pynecone/components/forms/__init__.py b/pynecone/components/forms/__init__.py
+index 3ee6823..55bd912 100644
+--- a/pynecone/components/forms/__init__.py
++++ b/pynecone/components/forms/__init__.py
+@@ -27,5 +27,47 @@ from .select import Option, Select
+ from .slider import Slider, SliderFilledTrack, SliderMark, SliderThumb, SliderTrack
+ from .switch import Switch
+ from .textarea import TextArea
++from .upload import Upload
+ 
+-__all__ = [f for f in dir() if f[0].isupper()]  # type: ignore
++button = Button.create
++button_group = ButtonGroup.create
++checkbox = Checkbox.create
++checkbox_group = CheckboxGroup.create
++copy_to_clipboard = CopyToClipboard.create
++editable = Editable.create
++editable_input = EditableInput.create
++editable_preview = EditablePreview.create
++editable_textarea = EditableTextarea.create
++form_control = FormControl.create
++form_error_message = FormErrorMessage.create
++form_helper_text = FormHelperText.create
++form_label = FormLabel.create
++icon_button = IconButton.create
++input = Input.create
++input_group = InputGroup.create
++input_left_addon = InputLeftAddon.create
++input_right_addon = InputRightAddon.create
++number_decrement_stepper = NumberDecrementStepper.create
++number_increment_stepper = NumberIncrementStepper.create
++number_input = NumberInput.create
++number_input_field = NumberInputField.create
++number_input_stepper = NumberInputStepper.create
++option = Option.create
++password = Password.create
++pin_input = PinInput.create
++pin_input_field = PinInputField.create
++radio = Radio.create
++radio_group = RadioGroup.create
++range_slider = RangeSlider.create
++range_slider_filled_track = RangeSliderFilledTrack.create
++range_slider_thumb = RangeSliderThumb.create
++range_slider_track = RangeSliderTrack.create
++select = Select.create
++slider = Slider.create
++slider_filled_track = SliderFilledTrack.create
++slider_mark = SliderMark.create
++slider_thumb = SliderThumb.create
++slider_track = SliderTrack.create
++switch = Switch.create
++text_area = TextArea.create
++upload = Upload.create
+diff --git a/pynecone/components/forms/upload.py b/pynecone/components/forms/upload.py
+new file mode 100644
+index 0000000..189326a
+--- /dev/null
++++ b/pynecone/components/forms/upload.py
+@@ -0,0 +1,100 @@
++"""A file upload component."""
++
++from typing import Dict, List, Set
++
++from pynecone import constants
++from pynecone.components.component import Component
++from pynecone.components.forms.input import Input
++from pynecone.components.layout.box import Box
++from pynecone.components.tags import Tag
++from pynecone.event import EventChain
++from pynecone.var import BaseVar, Var
++
++# The event chain that sets the files to upload.
++upload_file = BaseVar(name="e => File(e)", type_=EventChain)
++
++# The props to spread on the dropzone and the file input.
++root_props = BaseVar(name="{...getRootProps()}", type_=None)
++input_props = BaseVar(name="{...getInputProps()}", type_=None)
++
++
++class Upload(Component):
++    """A file upload component."""
++
++    library = "react-dropzone"
++
++    tag = "ReactDropzone"
++
++    # The list of accepted file types.
++    accept: Var[Dict[str, List]]
++
++    # Whether the dropzone is disabled.
++    disabled: Var[bool]
++
++    # The maximum number of files that can be uploaded.
++    max_files: Var[int]
++
++    # The maximum file size (bytes) that can be uploaded.
++    max_size: Var[int]
++
++    # The minimum file size (bytes) that can be uploaded.
++    min_size: Var[int]
++
++    # Whether to allow multiple files to be uploaded.
++    multiple: Var[bool] = True  # type: ignore
++
++    # Whether to disable click to upload.
++    no_click: Var[bool]
++
++    # Whether to disable drag and drop.
++    no_drag: Var[bool]
++
++    # Whether to disable using the space/enter keys to upload.
++    no_keyboard: Var[bool]
++
++    @classmethod
++    def get_triggers(cls) -> Set[str]:
++        """Get the event triggers for the component.
++
++        Returns:
++            The event triggers.
++        """
++        return super().get_triggers() | {"on_drop"}
++
++    @classmethod
++    def create(cls, *children, **props) -> Component:
++        """Create an upload component.
++
++        Args:
++            *children: The children of the component.
++            **props: The properties of the component.
++
++        Returns:
++            The upload component.
++        """
++        # Split the props between the dropzone and the box it renders.
++        upload_props = {
++            key: value for key, value in props.items() if key in cls.get_props()
++        }
++        zone_props = {
++            key: value for key, value in props.items() if key not in upload_props
++        }
++
++        # The hidden input to select the files.
++        upload = Input.create(type_="file")
++        upload.special_props = {input_props}
++
++        # The dropzone to render the children in.
++        zone = Box.create(upload, *children, **zone_props)
++        zone.special_props = {root_props}
++
++        return super().create(zone, on_drop=upload_file, **upload_props)
++
++    def _get_imports(self):
++        return {
++            **super()._get_imports(),
++            f"/{constants.STATE_PATH}": {"File"},
++        }
++
++    def _render(self) -> Tag:
++        return super()._render().set(args=("{getRootProps, getInputProps}",))
+diff --git a/pynecone/components/graphing/__init__.py b/pynecone/components/graphing/__init__.py
+index dd48762..e5b776b 100644
+--- a/pynecone/components/graphing/__init__.py
++++ b/pynecone/components/graphing/__init__.py
+@@ -18,4 +18,18 @@ from .victory import (
+     Voronoi,
+ )
+ 
+-__all__ = [f for f in dir() if f[0].isupper()]  # type: ignore
++area = Area.create
++bar = Bar.create
++box_plot = BoxPlot.create
++candlestick = Candlestick.create
++chart = Chart.create
++chart_group = ChartGroup.create
++chart_stack = ChartStack.create
++error_bar = ErrorBar.create
++histogram = Histogram.create
++line = Line.create
++pie = Pie.create
++plotly = Plotly.create
++polar = Polar.create
++scatter = Scatter.create
++voronoi = Voronoi.create
+diff --git a/pynecone/components/layout/__init__.py b/pynecone/components/layout/__init__.py
+index 5c62768..5549059 100644
+--- a/pynecone/components/layout/__init__.py
++++ b/pynecone/components/layout/__init__.py
+@@ -9,8 +9,32 @@ from .foreach import Foreach
+ from .fragment import Fragment
+ from .grid import Grid, GridItem, ResponsiveGrid
+ from .html import Html
++from .responsive import (
++    desktop_only,
++    mobile_and_tablet,
++    mobile_only,
++    tablet_and_desktop,
++    tablet_only,
++)
+ from .spacer import Spacer
+ from .stack import Hstack, Stack, Vstack
+ from .wrap import Wrap, WrapItem
+ 
+-__all__ = [f for f in dir() if f[0].isupper()]  # type: ignore
++box = Box.create
++center = Center.create
++circle = Circle.create
++container = Container.create
++flex = Flex.create
++foreach = Foreach.create
++fragment = Fragment.create
++grid = Grid.create
++grid_item = GridItem.create
++hstack = Hstack.create
++html = Html.create
++responsive_grid = ResponsiveGrid.create
++spacer = Spacer.create
++square = Square.create
++stack = Stack.create
++vstack = Vstack.create
++wrap = Wrap.create
++wrap_item = WrapItem.create
+diff --git a/pynecone/components/layout/responsive.py b/pynecone/components/layout/responsive.py
+new file mode 100644
+index 0000000..5bc18ee
+--- /dev/null
++++ b/pynecone/components/layout/responsive.py
+@@ -0,0 +1,69 @@
++"""Responsive components."""
++
++from pynecone.components.component import Component
++from pynecone.components.layout.box import Box
++
++
++def mobile_only(*children, **props) -> Component:
++    """Create a component that is only visible on mobile.
++
++    Args:
++        *children: The children to pass to the component.
++        **props: The props to pass to the component.
++
++    Returns:
++        The component.
++    """
++    return Box.create(*children, **props, display=["block", "none", "none", "none"])
++
++
++def tablet_only(*children, **props) -> Component:
++    """Create a component that is only visible on tablet.
++
++    Args:
++        *children: The children to pass to the component.
++        **props: The props to pass to the component.
++
++    Returns:
++        The component.
++    """
++    return Box.create(*children, **props, display=["none", "block", "block", "none"])
++
++
++def desktop_only(*children, **props) -> Component:
++    """Create a component that is only visible on desktop.
++
++    Args:
++        *children: The children to pass to the component.
++        **props: The props to pass to the component.
++
++    Returns:
++        The component.
++    """
++    return Box.create(*children, **props, display=["none", "none", "none", "block"])
++
++
++def tablet_and_desktop(*children, **props) -> Component:
++    """Create a component that is only visible on tablet and desktop.
++
++    Args:
++        *children: The children to pass to the component.
++        **props: The props to pass to the component.
++
++    Returns:
++        The component.
++    """
++    return Box.create(*children, **props, display=["none", "block", "block", "block"])
++
++
++def mobile_and_tablet(*children, **props) -> Component:
++    """Create a component that is only visible on mobile and tablet.
++
++    Args:
++        *children: The children to pass to the component.
++        **props: The props to pass to the component.
++
++    Returns:
++        The component.
++    """
++    return Box.create(*children, **props, display=["block", "block", "block", "none"])
+diff --git a/pynecone/components/media/__init__.py b/pynecone/components/media/__init__.py
+index 8346a37..6114875 100644
+--- a/pynecone/components/media/__init__.py
++++ b/pynecone/components/media/__init__.py
+@@ -4,4 +4,8 @@ from .avatar import Avatar, AvatarBadge, AvatarGroup
+ from .icon import Icon
+ from .image import Image
+ 
+-__all__ = [f for f in dir() if f[0].isupper()]  # type: ignore
++avatar = Avatar.create
++avatar_badge = AvatarBadge.create
++avatar_group = AvatarGroup.create
++icon = Icon.create
++image = Image.create
+diff --git a/pynecone/components/media/icon.py b/pynecone/components/media/icon.py
+index 0d9ccf4..12b639e 100644
+--- a/pynecone/components/media/icon.py
++++ b/pynecone/components/media/icon.py
+@@ -38,7 +38,10 @@ class Icon(ChakraIconComponent):
+             )
+         if "tag" not in props.keys():
+             raise AttributeError("Missing 'tag' keyword-argument for Icon")
+-        if props["tag"] not in ICON_LIST:
++        if (
++            not isinstance(props["tag"], str)
++            or props["tag"].lower() not in ICON_LIST  # type: ignore
++        ):
+             raise ValueError(
+                 f"Invalid icon tag: {props['tag']}. Please use one of the following: {ICON_LIST}"
+             )
+diff --git a/pynecone/components/navigation/__init__.py b/pynecone/components/navigation/__init__.py
+index 9e6c8ad..c4ea272 100644
+--- a/pynecone/components/navigation/__init__.py
++++ b/pynecone/components/navigation/__init__.py
+@@ -5,4 +5,11 @@ from .link import Link
+ from .linkoverlay import LinkBox, LinkOverlay
+ from .nextlink import NextLink
+ 
+-__all__ = [f for f in dir() if f[0].isupper()]  # type: ignore
++breadcrumb = Breadcrumb.create
++breadcrumb_item = BreadcrumbItem.create
++breadcrumb_link = BreadcrumbLink.create
++breadcrumb_separator = BreadcrumbSeparator.create
++link = Link.create
++link_box = LinkBox.create
++link_overlay = LinkOverlay.create
++next_link = NextLink.create
+diff --git a/pynecone/components/overlay/__init__.py b/pynecone/components/overlay/__init__.py
+index 322d093..53f73cb 100644
+--- a/pynecone/components/overlay/__init__.py
++++ b/pynecone/components/overlay/__init__.py
+@@ -48,3 +48,42 @@ from .popover import (
+     PopoverTrigger,
+ )
+ from .tooltip import Tooltip
++
++alert_dialog = AlertDialog.create
++alert_dialog_body = AlertDialogBody.create
++alert_dialog_content = AlertDialogContent.create
++alert_dialog_footer = AlertDialogFooter.create
++alert_dialog_header = AlertDialogHeader.create
++alert_dialog_overlay = AlertDialogOverlay.create
++drawer = Drawer.create
++drawer_body = DrawerBody.create
++drawer_close_button = DrawerCloseButton.create
++drawer_content = DrawerContent.create
++drawer_footer = DrawerFooter.create
++drawer_header = DrawerHeader.create
++drawer_overlay = DrawerOverlay.create
++menu = Menu.create
++menu_button = MenuButton.create
++menu_divider = MenuDivider.create
++menu_group = MenuGroup.create
++menu_item = MenuItem.create
++menu_item_option = MenuItemOption.create
++menu_list = MenuList.create
++menu_option_group = MenuOptionGroup.create
++modal = Modal.create
++modal_body = ModalBody.create
++modal_close_button = ModalCloseButton.create
++modal_content = ModalContent.create
++modal_footer = ModalFooter.create
++modal_header = ModalHeader.create
++modal_overlay = ModalOverlay.create
++popover = Popover.create
++popover_anchor = PopoverAnchor.create
++popover_arrow = PopoverArrow.create
++popover_body = PopoverBody.create
++popover_close_button = PopoverCloseButton.create
++popover_content = PopoverContent.create
++popover_footer = PopoverFooter.create
++popover_header = PopoverHeader.create
++popover_trigger = PopoverTrigger.create
++tooltip = Tooltip.create
+diff --git a/pynecone/components/overlay/alertdialog.py b/pynecone/components/overlay/alertdialog.py
+index f299d6e..c0a2a28 100644
+--- a/pynecone/components/overlay/alertdialog.py
++++ b/pynecone/components/overlay/alertdialog.py
+@@ -102,7 +102,7 @@ class AlertDialog(ChakraComponent):
+             if props.get("on_close"):
+                 # get user defined close button or use default one
+                 if not close_button:
+-                    close_button = Icon.create(tag="CloseIcon")
++                    close_button = Icon.create(tag="close")
+                 contents.append(AlertDialogCloseButton.create(close_button))
+             elif close_button:
+                 raise AttributeError(
+diff --git a/pynecone/components/overlay/drawer.py b/pynecone/components/overlay/drawer.py
+index a01621c..977ba8d 100644
+--- a/pynecone/components/overlay/drawer.py
++++ b/pynecone/components/overlay/drawer.py
+@@ -107,7 +107,7 @@ class Drawer(ChakraComponent):
+             if props.get("on_close"):
+                 # use default close button if undefined
+                 if not close_button:
+-                    close_button = Icon.create(tag="CloseIcon")
++                    close_button = Icon.create(tag="close")
+                 contents.append(DrawerCloseButton.create(close_button))
+             elif close_button:
+                 raise AttributeError(
+diff --git a/pynecone/components/overlay/modal.py b/pynecone/components/overlay/modal.py
+index 2ec3b3d..59b6171 100644
+--- a/pynecone/components/overlay/modal.py
++++ b/pynecone/components/overlay/modal.py
+@@ -105,7 +105,7 @@ class Modal(ChakraComponent):
+             if props.get("on_close"):
+                 # get user defined close button or use default one
+                 if not close_button:
+-                    close_button = Icon.create(tag="CloseIcon")
++                    close_button = Icon.create(tag="close")
+                 contents.append(ModalCloseButton.create(close_button))
+             elif close_button:
+                 raise AttributeError(
+diff --git a/pynecone/components/tags/tag.py b/pynecone/components/tags/tag.py
+index 87f2550..516a2eb 100644
+--- a/pynecone/components/tags/tag.py
++++ b/pynecone/components/tags/tag.py
+@@ -5,7 +5,7 @@ from __future__ import annotations
+ import json
+ import os
+ import re
+-from typing import TYPE_CHECKING, Any, Dict, Optional, Union
++from typing import TYPE_CHECKING, Any, Dict, Optional, Set, Tuple, Union
+ 
+ from plotly.graph_objects import Figure
+ from plotly.io import to_json
+@@ -31,6 +31,12 @@ class Tag(Base):
+     # The inner contents of the tag.
+     contents: str = ""
+ 
++    # Args to pass to the tag, if it renders its contents as a function.
++    args: Optional[Tuple[str, ...]] = None
++
++    # Special props that aren't key value pairs.
++    special_props: Set[Var] = set()
++
+     def __init__(self, *args, **kwargs):
+         """Initialize the tag.
+ 
+@@ -106,16 +112,13 @@ class Tag(Base):
+         Returns:
+             The formatted props.
+         """
+-        # If there are no props, return an empty string.
+-        if len(self.props) == 0:
+-            return ""
+-
+         # Format all the props.
+-        return os.linesep.join(
++        props = [str(prop) for prop in self.special_props] + [
+             f"{name}={self.format_prop(prop)}"
+             for name, prop in self.props.items()
+             if prop is not None
+-        )
++        ]
++        return os.linesep.join(props)
+ 
+     def __str__(self) -> str:
+         """Render the tag as a React string.
+@@ -132,10 +135,17 @@ class Tag(Base):
+             # If there is no inner content, we don't need a closing tag.
+             tag_str = utils.wrap(f"{self.name}{props_str}/", "<")
+         else:
++            contents = self.contents
++            if self.args is not None:
++                # If there are args, the contents are rendered by a function.
++                contents = utils.wrap(
++                    f"({', '.join(self.args)}) => ({contents})", "{", check_first=False
++                )
++
+             # Otherwise wrap it in opening and closing tags.
+             open = utils.wrap(f"{self.name}{props_str}", "<")
+             close = utils.wrap(f"/{self.name}", "<")
+-            tag_str = utils.wrap(self.contents, open, close)
++            tag_str = utils.wrap(contents, open, close)
+ 
+         return tag_str
+ 
+diff --git a/pynecone/components/typography/__init__.py b/pynecone/components/typography/__init__.py
+index 6db3cc1..525276b 100644
+--- a/pynecone/components/typography/__init__.py
++++ b/pynecone/components/typography/__init__.py
+@@ -7,4 +7,7 @@ from .markdown import Markdown
+ from .span import Span
+ from .text import Text
+ 
+-__all__ = [f for f in dir() if f[0].isupper() or f in ("span",)]  # type: ignore
++heading = Heading.create
++markdown = Markdown.create
++span = Span.create
++text = Text.create
+diff --git a/pynecone/config.py b/pynecone/config.py
+index dfea094..2e8665d 100644
+--- a/pynecone/config.py
++++ b/pynecone/config.py
+@@ -1,6 +1,7 @@
+ """The Pynecone config."""
+ 
+ from typing import List, Optional
++from urllib.parse import urlparse
+ 
+ from pynecone import constants
+ from pynecone.base import Base
+@@ -18,6 +19,9 @@ class Config(Base):
+     # The frontend port.
+     port: str = constants.FRONTEND_PORT
+ 
++    # The backend port.
++    backend_port: str = constants.BACKEND_PORT
++
+     # The backend API url.
+     api_url: str = constants.API_URL
+ 
+@@ -58,3 +62,18 @@ class Config(Base):
+ 
+     # The maximum size of a message when using the polling backend transport.
+     polling_max_http_buffer_size: Optional[int] = constants.POLLING_MAX_HTTP_BUFFER_SIZE
++
++    def __init__(self, *args, **kwargs):
++        """Initialize the config.
++
++        Args:
++            *args: The args to pass to the Pydantic init method.
++            **kwargs: The kwargs to pass to the Pydantic init method.
++        """
++        super().__init__(*args, **kwargs)
++
++        # Apps that only set the api url should still serve the backend on its port.
++        if "backend_port" not in kwargs and "api_url" in kwargs:
++            port = urlparse(self.api_url).port
++            if port is not None:
++                self.backend_port = str(port)
+diff --git a/pynecone/constants.py b/pynecone/constants.py
+index 444d191..756bcc0 100644
+--- a/pynecone/constants.py
++++ b/pynecone/constants.py
+@@ -65,6 +65,8 @@ PCVERSION_APP_FILE = os.path.join(WEB_DIR, "pynecone.json")
+ # Commands to run the app.
+ # The frontend default port.
+ FRONTEND_PORT = "3000"
++# The backend default port.
++BACKEND_PORT = "8000"
+ # The backend api url.
+ API_URL = "http://localhost:8000"
+ # The default path where bun is installed.
+@@ -76,7 +78,8 @@ BACKEND_HOST = "0.0.0.0"
+ # The default timeout when launching the gunicorn server.
+ TIMEOUT = 120
+ # The command to run the backend in production mode.
+-RUN_BACKEND_PROD = f"gunicorn --worker-class uvicorn.workers.UvicornH11Worker --preload --timeout {TIMEOUT} --log-level critical".split()
++RUN_BACKEND_PROD = f"gunicorn --worker-class uvicorn.workers.UvicornH11Worker --preload --timeout {TIMEOUT}".split()
++RUN_BACKEND_PROD_WINDOWS = f"uvicorn --timeout-keep-alive {TIMEOUT}".split()
+ 
+ # Compiler variables.
+ # The extension for compiled Javascript files.
+@@ -123,6 +126,8 @@ DEFAULT_TITLE = "Pynecone App"
+ DEFAULT_DESCRIPTION = "A Pynecone app."
+ # The default image to show for Pynecone apps.
+ DEFAULT_IMAGE = "favicon.ico"
++# The default meta list to add to Pynecone apps.
++DEFAULT_META_LIST = []
+ 
+ 
+ # The gitignore file.
+@@ -163,6 +168,7 @@ class Endpoint(Enum):
+ 
+     PING = "ping"
+     EVENT = "event"
++    UPLOAD = "upload"
+ 
+     def __str__(self) -> str:
+         """Get the string representation of the endpoint.
+diff --git a/pynecone/event.py b/pynecone/event.py
+index 6d0b447..d647844 100644
+--- a/pynecone/event.py
++++ b/pynecone/event.py
+@@ -5,6 +5,8 @@ import inspect
+ import json
+ from typing import Any, Callable, Dict, List, Set, Tuple
+ 
++from fastapi import UploadFile
++
+ from pynecone.base import Base
+ from pynecone.var import BaseVar, Var
+ 
+@@ -122,8 +124,37 @@ class FrontendEvent(Base):
+ EVENT_ARG = BaseVar(name="_e", type_=FrontendEvent, is_local=True)
+ 
+ 
++def server_side(name: str, **kwargs) -> EventSpec:
++    """A server-side event.
++
++    Args:
++        name: The name of the event.
++        **kwargs: The arguments to pass to the event.
++
++    Returns:
++        An event spec for a server-side event.
++    """
++
++    def fn():
++        return None
++
++    fn.__qualname__ = name
++    return EventSpec(
++        handler=EventHandler(fn=fn),
++        args=tuple(
++            (
++                k,
++                v.full_name
++                if isinstance(v, Var)
++                else json.dumps(v, ensure_ascii=False),
++            )
++            for k, v in kwargs.items()
++        ),
++    )
++
++
+ # Special server-side events.
+-def redirect(path: str) -> Event:
++def redirect(path: str) -> EventSpec:
+     """Redirect to a new path.
+ 
+     Args:
+@@ -132,14 +163,10 @@ def redirect(path: str) -> Event:
+     Returns:
+         An event to redirect to the path.
+     """
+-    return Event(
+-        token="",
+-        name="_redirect",
+-        payload={"path": path},
+-    )
++    return server_side("_redirect", path=path)
+ 
+ 
+-def console_log(message: str) -> Event:
++def console_log(message: str) -> EventSpec:
+     """Do a console.log on the browser.
+ 
+     Args:
+@@ -148,14 +175,10 @@ def console_log(message: str) -> Event:
+     Returns:
+         An event to log the message.
+     """
+-    return Event(
+-        token="",
+-        name="_console",
+-        payload={"message": message},
+-    )
++    return server_side("_console", message=message)
+ 
+ 
+-def window_alert(message: str) -> Event:
++def window_alert(message: str) -> EventSpec:
+     """Create a window alert on the browser.
+ 
+     Args:
+@@ -164,11 +187,16 @@ def window_alert(message: str) -> Event:
+     Returns:
+         An event to alert the message.
+     """
+-    return Event(
+-        token="",
+-        name="_alert",
+-        payload={"message": message},
+-    )
++    return server_side("_alert", message=message)
++
++
++def upload_files() -> BaseVar:
++    """Get the files to upload.
++
++    Returns:
++        A var referencing the files selected by the upload component.
++    """
++    return BaseVar(name="getFiles()", type_=List[UploadFile])
+ 
+ 
+ # A set of common event triggers.
+diff --git a/pynecone/middleware/hydrate_middleware.py b/pynecone/middleware/hydrate_middleware.py
+index 5d933e5..aa7f221 100644
+--- a/pynecone/middleware/hydrate_middleware.py
++++ b/pynecone/middleware/hydrate_middleware.py
+@@ -29,13 +29,15 @@ class HydrateMiddleware(Middleware):
+         if event.name == utils.get_hydrate_event(state):
+             route = event.router_data.get(constants.RouteVar.PATH, "")
+             if route == "/":
+-                load_event = app.load_events.get(constants.INDEX_ROUTE)
++                load_events = app.load_events.get(constants.INDEX_ROUTE)
+             elif route:
+-                load_event = app.load_events.get(route.lstrip("/"))
++                load_events = app.load_events.get(route.lstrip("/"))
+             else:
+-                load_event = None
+-            if load_event:
+-                substate_path = utils.format_event_handler(load_event).split(".")
+-                ex_state = state.get_substate(substate_path[:-1])
+-                load_event.fn(ex_state)
++                load_events = None
++
++            if load_events:
++                for load_event in load_events:
++                    substate_path = utils.format_event_handler(load_event).split(".")
++                    ex_state = state.get_substate(substate_path[:-1])
++                    load_event.fn(ex_state)
+             return utils.format_state({state.get_name(): state.dict()})
+diff --git a/pynecone/pc.py b/pynecone/pc.py
+index c22328a..37ada15 100644
+--- a/pynecone/pc.py
++++ b/pynecone/pc.py
+@@ -69,8 +69,9 @@ def run(
+     port: str = typer.Option(None, help="Specify a different port."),
+ ):
+     """Run the app in the current directory."""
+-    frontend_port = utils.get_config().port if port is None else port
+-    backend_port = utils.get_api_port()
++    config = utils.get_config()
++    frontend_port = config.port if port is None else port
++    backend_port = config.backend_port
+ 
+     # If something is running on the ports, ask the user if they want to kill or change it.
+     if utils.is_process_on_port(frontend_port):
+diff --git a/pynecone/route.py b/pynecone/route.py
+index f6e43b9..fa0125b 100644
+--- a/pynecone/route.py
++++ b/pynecone/route.py
+@@ -1,6 +1,6 @@
+ """The route decorator and associated variables."""
+ 
+-from typing import Optional
++from typing import Dict, List, Optional, Union
+ 
+ from pynecone.event import EventHandler
+ 
+@@ -12,7 +12,8 @@ def route(
+     title: Optional[str] = None,
+     image: Optional[str] = None,
+     description: Optional[str] = None,
+-    on_load: Optional[EventHandler] = None,
++    on_load: Optional[Union[EventHandler, List[EventHandler]]] = None,
++    meta: Optional[List[Dict]] = None,
+ ):
+     """Decorate a function as a page.
+ 
+@@ -28,7 +29,8 @@ def route(
+         title: The title of the page.
+         image: The favicon of the page.
+         description: The description of the page
+-        on_load: The event handler called when the page load.
++        on_load: The event handler(s) called when the page load.
++        meta: The metadata of the page.
+ 
+     Returns:
+         The decorated function.
+@@ -46,6 +48,8 @@ def route(
+             kwargs["description"] = description
+         if on_load:
+             kwargs["on_load"] = on_load
++        if meta:
++            kwargs["meta"] = meta
+ 
+         DECORATED_ROUTES.append((render_fn, kwargs))
+ 
+diff --git a/pynecone/state.py b/pynecone/state.py
+index 0417b73..0ee1589 100644
+--- a/pynecone/state.py
++++ b/pynecone/state.py
+@@ -47,6 +47,12 @@ class State(Base, ABC):
+     # Backend vars that are never sent to the client.
+     backend_vars: ClassVar[Dict[str, Any]] = {}
+ 
++    # Backend vars inherited from the parent state.
++    inherited_backend_vars: ClassVar[Dict[str, Any]] = {}
++
++    # Backend vars defined on this state only.
++    new_backend_vars: ClassVar[Dict[str, Any]] = {}
++
+     # The parent state.
+     parent_state: Optional[State] = None
+ 
+@@ -130,13 +136,17 @@ class State(Base, ABC):
+         parent_state = cls.get_parent_state()
+         if parent_state is not None:
+             cls.inherited_vars = parent_state.vars
++            cls.inherited_backend_vars = parent_state.backend_vars
+ 
+-        cls.backend_vars = {
++        cls.new_backend_vars = {
+             name: value
+             for name, value in cls.__dict__.items()
+             if utils.is_backend_variable(name)
++            and name not in cls.inherited_backend_vars
+         }
+ 
++        cls.backend_vars = {**cls.inherited_backend_vars, **cls.new_backend_vars}
++
+         # Set the base and computed vars.
+         skip_vars = set(cls.inherited_vars) | {
+             "parent_state",
+@@ -451,7 +461,11 @@ class State(Base, ABC):
+             The value of the var.
+         """
+         # Get the var from the parent state.
+-        if name in super().__getattribute__("inherited_vars"):
++        inherited_vars = {
++            **super().__getattribute__("inherited_vars"),
++            **super().__getattribute__("inherited_backend_vars"),
++        }
++        if name in inherited_vars:
+             return getattr(super().__getattribute__("parent_state"), name)
+         elif name in super().__getattribute__("backend_vars"):
+             return super().__getattribute__("backend_vars").__getitem__(name)
+@@ -467,7 +481,8 @@ class State(Base, ABC):
+             value: The value of the attribute.
+         """
+         # Set the var on the parent state.
+-        if name in self.inherited_vars:
++        inherited_vars = {**self.inherited_vars, **self.inherited_backend_vars}
++        if name in inherited_vars:
+             setattr(self.parent_state, name, value)
+             return
+ 
+@@ -546,7 +561,10 @@ class State(Base, ABC):
+             error = traceback.format_exc()
+             print(error)
+             return StateUpdate(
+-                events=[window_alert("An error occurred. See logs for details.")]
++                events=utils.fix_events(
++                    [window_alert("An error occurred. See logs for details.")],
++                    event.token,
++                )
+             )
+ 
+         # Fix the returned events.
+diff --git a/pynecone/telemetry.py b/pynecone/telemetry.py
+index 73b4b49..96e3e25 100644
+--- a/pynecone/telemetry.py
++++ b/pynecone/telemetry.py
+@@ -77,7 +77,7 @@ def pynecone_telemetry(event: str, telemetry_enabled: bool) -> None:
+     try:
+         if telemetry_enabled:
+             telemetry = Telemetry()
+-            with open(constants.PCVERSION_APP_FILE) as f:  # type: ignore
++            with open(constants.PCVERSION_APP_FILE, encoding="utf-8") as f:  # type: ignore
+                 pynecone_json = json.load(f)
+                 distinct_id = pynecone_json["project_hash"]
+             post_hog = {
+diff --git a/pynecone/utils.py b/pynecone/utils.py
+index 51e4825..794325c 100644
+--- a/pynecone/utils.py
++++ b/pynecone/utils.py
+@@ -157,10 +157,18 @@ def _issubclass(cls: GenericType, cls_check: GenericType) -> bool:
+     # Special check for Any.
+     if cls_check == Any:
+         return True
+-    if cls in [Any, Callable]:
++    if cls in [Any, Callable, None]:
+         return False
++
++    # Get the base classes.
+     cls_base = get_base_class(cls)
+     cls_check_base = get_base_class(cls_check)
++
++    # The class we're checking should not be a union.
++    if isinstance(cls_base, tuple):
++        return False
++
++    # Check if the types match.
+     return cls_check_base == Any or issubclass(cls_base, cls_check_base)
+ 
+ 
+@@ -373,7 +381,7 @@ def create_config(app_name: str):
+     # Import here to avoid circular imports.
+     from pynecone.compiler import templates
+ 
+-    with open(constants.CONFIG_FILE, "w") as f:
++    with open(constants.CONFIG_FILE, "w", encoding="utf-8") as f:
+         f.write(templates.PCCONFIG.format(app_name=app_name))
+ 
+ 
+@@ -384,11 +392,11 @@ def initialize_gitignore():
+ 
+     # Subtract current ignored files.
+     if os.path.exists(constants.GITIGNORE_FILE):
+-        with open(constants.GITIGNORE_FILE, "r") as f:
++        with open(constants.GITIGNORE_FILE, "r", encoding="utf-8") as f:
+             files -= set(f.read().splitlines())
+ 
+     # Add the new files to the .gitignore file.
+-    with open(constants.GITIGNORE_FILE, "a") as f:
++    with open(constants.GITIGNORE_FILE, "a", encoding="utf-8") as f:
+         f.write(join(files))
+ 
+ 
+@@ -475,21 +483,21 @@ def is_latest_template() -> bool:
+     Returns:
+         Whether the app is using the latest template.
+     """
+-    with open(constants.PCVERSION_TEMPLATE_FILE) as f:  # type: ignore
++    with open(constants.PCVERSION_TEMPLATE_FILE, encoding="utf-8") as f:  # type: ignore
+         template_version = json.load(f)["version"]
+     if not os.path.exists(constants.PCVERSION_APP_FILE):
+         return False
+-    with open(constants.PCVERSION_APP_FILE) as f:  # type: ignore
++    with open(constants.PCVERSION_APP_FILE, encoding="utf-8") as f:  # type: ignore
+         app_version = json.load(f)["version"]
+     return app_version >= template_version
+ 
+ 
+ def set_pynecone_project_hash():
+     """Write the hash of the Pynecone project to a PCVERSION_APP_FILE."""
+-    with open(constants.PCVERSION_APP_FILE) as f:  # type: ignore
++    with open(constants.PCVERSION_APP_FILE, encoding="utf-8") as f:  # type: ignore
+         pynecone_json = json.load(f)
+         pynecone_json["project_hash"] = random.getrandbits(128)
+-    with open(constants.PCVERSION_APP_FILE, "w") as f:
++    with open(constants.PCVERSION_APP_FILE, "w", encoding="utf-8") as f:
+         json.dump(pynecone_json, f, ensure_ascii=False)
+ 
+ 
+@@ -509,7 +517,7 @@ def generate_sitemap(deploy_url: str):
+         }
+     )
+ 
+-    with open(constants.SITEMAP_CONFIG_FILE, "w") as f:
++    with open(constants.SITEMAP_CONFIG_FILE, "w", encoding="utf-8") as f:
+         f.write(templates.SITEMAP_CONFIG(config=config))
+ 
+ 
+@@ -716,7 +724,8 @@ def kill_process_on_port(port):
+         port: The port.
+     """
+     if get_process_on_port(port) is not None:
+-        get_process_on_port(port).kill()  # type: ignore
++        with contextlib.suppress(psutil.AccessDenied, PermissionError):
++            get_process_on_port(port).kill()  # type: ignore
+ 
+ 
+ def change_or_terminate_port(port, _type) -> str:
+@@ -799,16 +808,30 @@ def run_backend_prod(
+     setup_backend()
+ 
+     num_workers = get_num_workers()
+-    command = constants.RUN_BACKEND_PROD + [
+-        "--bind",
+-        f"0.0.0.0:{port}",
++    command = (
++        [
++            *constants.RUN_BACKEND_PROD_WINDOWS,
++            "--host",
++            "0.0.0.0",
++            "--port",
++            str(port),
++            f"{app_name}:{constants.APP_VAR}",
++        ]
++        if platform.system() == "Windows"
++        else [
++            *constants.RUN_BACKEND_PROD,
++            "--bind",
++            f"0.0.0.0:{port}",
++            "--threads",
++            str(num_workers),
++            f"{app_name}:{constants.APP_VAR}()",
++        ]
++    )
++    command += [
++        "--log-level",
++        loglevel.value,
+         "--workers",
+         str(num_workers),
+-        "--threads",
+-        str(num_workers),
+-        "--log-level",
+-        str(loglevel),
+-        f"{app_name}:{constants.APP_VAR}()",
+     ]
+     subprocess.run(command)
+ 
+@@ -1205,6 +1228,8 @@ def is_dataframe(value: Type) -> bool:
+     Returns:
+         Whether the value is a dataframe.
+     """
++    if is_generic_alias(value) or value == Any:
++        return False
+     return value.__name__ == "DataFrame"
+ 
+ 
+@@ -1217,6 +1242,8 @@ def is_figure(value: Type) -> bool:
+     Returns:
+         Whether the value is a figure.
+     """
++    if is_generic_alias(value) or value == Any:
++        return False
+     return value.__name__ == "Figure"
+ 
+ 
+@@ -1396,6 +1423,11 @@ def get_handler_args(event_spec: EventSpec, arg: Var) -> Tuple[Tuple[str, str],
+         ValueError: If the event handler has an invalid signature.
+     """
+     args = inspect.getfullargspec(event_spec.handler.fn).args
++
++    # Server-side events are not bound to a state, so their args are already set.
++    if len(args) == 0:
++        return event_spec.args
++
+     if len(args) < 2:
+         raise ValueError(
+             f"Event handler has an invalid signature, needed a method with a parameter, got {event_spec.handler}."
+@@ -1403,6 +1435,27 @@ def get_handler_args(event_spec: EventSpec, arg: Var) -> Tuple[Tuple[str, str],
+     return event_spec.args if len(args) > 2 else ((args[1], arg.name),)
+ 
+ 
++def decode_event_arg(value: Any) -> Any:
++    """Decode an event spec arg into the value to send in an event payload.
++
++    Event spec args are compiled to Javascript expressions, so JSON literals
++    are decoded back into Python values. Any other expression, such as a
++    reference to a state var, is passed through unchanged.
++
++    Args:
++        value: The event spec arg.
++
++    Returns:
++        The decoded arg.
++    """
++    if not isinstance(value, str):
++        return value
++    try:
++        return json.loads(value)
++    except ValueError:
++        return value
++
++
+ def fix_events(events: Optional[List[Event]], token: str) -> List[Event]:
+     """Fix a list of events returned by an event handler.
+ 
+@@ -1437,7 +1490,7 @@ def fix_events(events: Optional[List[Event]], token: str) -> List[Event]:
+                 e = e()
+             assert isinstance(e, EventSpec), f"Unexpected event type, {type(e)}."
+             name = format_event_handler(e.handler)
+-            payload = dict(e.args)
++            payload = {k: decode_event_arg(v) for k, v in e.args}
+ 
+         # Create an event and append it to the list.
+         out.append(

@@ -1,0 +1,3488 @@
+diff --git a/CONTRIBUTING.md b/CONTRIBUTING.md
+index feb7761..7e04608 100644
+--- a/CONTRIBUTING.md
++++ b/CONTRIBUTING.md
+@@ -5,7 +5,7 @@ For an extensive guide on the different ways to contribute to Reflex see our [Co
+ 
+ 
+ ## Running a Local Build of Reflex 
+-Here is a quick guide to how the run Reflex repo locally so you can start contributing to the project.
++Here is a quick guide on how to run the Reflex repo locally so you can start contributing to the project.
+ 
+ **Prerequisites:**
+ - Python >= 3.8
+@@ -64,16 +64,16 @@ Within the 'test' directory of Reflex you can add to a test file already there o
+ What to unit test?
+ - Any feature or significant change that has been added.
+ - Any edge cases or potential problem areas.
+- -Any interactions between different parts of the code.
++- Any interactions between different parts of the code.
+ 
+ 
+ ## ✅ Making a PR
+ 
+-Once you solve a current issue or improvement to Reflex, you can make a pr, and we will review the changes. 
++Once you solve a current issue or improvement to Reflex, you can make a PR, and we will review the changes.
+ 
+-Before submitting, a pull request, ensure the following steps are taken and test passing.
++Before submitting a pull request, ensure the following steps are taken and the tests are passing.
+ 
+-In your `reflex` directory run make sure all the unit tests are still passing using the following command.
++In your `reflex` directory, make sure all the unit tests are still passing using the following command.
+ This will fail if code coverage is below 80%.
+ ``` bash
+ poetry run pytest tests --cov --no-cov-on-fail --cov-report= 
+@@ -95,4 +95,4 @@ Note that pre-commit will only be installed when you use a Python version >= 3.8
+ pre-commit install
+ ```
+ 
+-That's it you can now submit your pr. Thanks for contributing to Reflex!
++That's it! You can now submit your PR. Thanks for contributing to Reflex!
+diff --git a/README.md b/README.md
+index 5929e4e..3c8b18f 100644
+--- a/README.md
++++ b/README.md
+@@ -12,12 +12,12 @@
+ [![PyPI version](https://badge.fury.io/py/reflex.svg)](https://badge.fury.io/py/reflex)
+ ![tests](https://github.com/pynecone-io/pynecone/actions/workflows/integration.yml/badge.svg)
+ ![versions](https://img.shields.io/pypi/pyversions/reflex.svg)
+-[![Documentaiton](https://img.shields.io/badge/Documentation%20-Introduction%20-%20%23007ec6)](https://reflex.dev/docs/getting-started/introduction)
++[![Documentation](https://img.shields.io/badge/Documentation%20-Introduction%20-%20%23007ec6)](https://reflex.dev/docs/getting-started/introduction)
+ [![Discord](https://img.shields.io/discord/1029853095527727165?color=%237289da&label=Discord)](https://discord.gg/T5WSbC2YtQ)
+ </div>
+ 
+ ---
+-[English](https://github.com/reflex-dev/reflex/blob/main/README.md) | [简体中文](https://github.com/reflex-dev/reflex/blob/main/docs/zh/zh_cn/README.md) | [繁體中文](https://github.com/reflex-dev/reflex/blob/main/docs/zh/zh_tw/README.md) | [Türkçe](https://github.com/reflex-dev/reflex/blob/main/docs/tr/README.md) | [हिंदी](https://github.com/reflex-dev/reflex/blob/main/docs/in/README.md) | [Português (Brasil)](https://github.com/reflex-dev/reflex/blob/main/docs/pt/pt_br/README.md) | [Italiano](https://github.com/reflex-dev/reflex/blob/main/docs/it/README.md) | [한국어](https://github.com/reflex-dev/reflex/blob/main/docs/kr/README.md)
++[English](https://github.com/reflex-dev/reflex/blob/main/README.md) | [简体中文](https://github.com/reflex-dev/reflex/blob/main/docs/zh/zh_cn/README.md) | [繁體中文](https://github.com/reflex-dev/reflex/blob/main/docs/zh/zh_tw/README.md) | [Türkçe](https://github.com/reflex-dev/reflex/blob/main/docs/tr/README.md) | [हिंदी](https://github.com/reflex-dev/reflex/blob/main/docs/in/README.md) | [Português (Brasil)](https://github.com/reflex-dev/reflex/blob/main/docs/pt/pt_br/README.md) | [Italiano](https://github.com/reflex-dev/reflex/blob/main/docs/it/README.md) | [Español](https://github.com/reflex-dev/reflex/blob/main/docs/es/README.md) | [한국어](https://github.com/reflex-dev/reflex/blob/main/docs/kr/README.md)
+ ---
+ ## ⚙️ Installation
+ 
+@@ -39,7 +39,7 @@ cd my_app_name
+ reflex init
+ ```
+ 
+-This command initializes a template app in your new directory. 
++This command initializes a template app in your new directory.
+ 
+ You can run this app in development mode:
+ 
+@@ -54,7 +54,7 @@ Now you can modify the source code in `my_app_name/my_app_name.py`. Reflex has f
+ 
+ ## 🫧 Example App
+ 
+-Let's go over an example: creating an image generation UI around DALL·E. For simplicity, we just call the OpenAI API, but you could replace this with an ML model run locally.
++Let's go over an example: creating an image generation UI around [DALL·E](https://platform.openai.com/docs/guides/images/image-generation?context=node). For simplicity, we just call the [OpenAI API](https://platform.openai.com/docs/api-reference/authentication), but you could replace this with an ML model run locally.
+ 
+ &nbsp;
+ 
+@@ -142,7 +142,7 @@ This `index` function defines the frontend of the app.
+ We use different components such as `center`, `vstack`, `input`, and `button` to build the frontend. Components can be nested within each other
+ to create complex layouts. And you can use keyword args to style them with the full power of CSS.
+ 
+-Reflex comes with [60+ built-in components](https://reflex.dev/docs/library) to help you get started. We are actively adding more components, and it's easy to [create your own components](https://reflex.dev/docs/advanced-guide/wrapping-react).
++Reflex comes with [60+ built-in components](https://reflex.dev/docs/library) to help you get started. We are actively adding more components, and it's easy to [create your own components](https://reflex.dev/docs/wrapping-react/overview/).
+ 
+ ### **State**
+ 
+@@ -178,7 +178,7 @@ def get_image(self):
+ 
+ Within the state, we define functions called event handlers that change the state vars. Event handlers are the way that we can modify the state in Reflex. They can be called in response to user actions, such as clicking a button or typing in a text box. These actions are called events.
+ 
+-Our DALL·E. app has an event handler, `get_image` to which get this image from the OpenAI API. Using `yield` in the middle of an event handler will cause the UI to update. Otherwise the UI will update at the end of the event handler.
++Our DALL·E app has an event handler, `get_image`, which gets this image from the OpenAI API. Using `yield` in the middle of an event handler will cause the UI to update. Otherwise the UI will update at the end of the event handler.
+ 
+ ### **Routing**
+ 
+@@ -201,14 +201,11 @@ You can create a multi-page app by adding more pages.
+ 
+ <div align="center">
+ 
+-📑 [Docs](https://reflex.dev/docs/getting-started/introduction) &nbsp; |  &nbsp; 🗞️ [Blog](https://reflex.dev/blog) &nbsp; |  &nbsp; 📱 [Component Library](https://reflex.dev/docs/library) &nbsp; |  &nbsp; 🖼️ [Gallery](https://reflex.dev/docs/gallery) &nbsp; |  &nbsp; 🛸 [Deployment](https://reflex.dev/docs/hosting/deploy)  &nbsp;   
++📑 [Docs](https://reflex.dev/docs/getting-started/introduction) &nbsp; | &nbsp; 🗞️ [Blog](https://reflex.dev/blog) &nbsp; | &nbsp; 📱 [Component Library](https://reflex.dev/docs/library) &nbsp; | &nbsp; 🖼️ [Gallery](https://reflex.dev/docs/gallery) &nbsp; | &nbsp; 🛸 [Deployment](https://reflex.dev/docs/hosting/deploy)
+ 
+ </div>
+ 
+ 
+-
+-
+-
+ ## ✅ Status
+ 
+ Reflex launched in December 2022 with the name Pynecone.
+@@ -228,9 +225,9 @@ We welcome contributions of any size! Below are some good ways to get started in
+ 
+ -   **Join Our Discord**: Our [Discord](https://discord.gg/T5WSbC2YtQ) is the best place to get help on your Reflex project and to discuss how you can contribute.
+ -   **GitHub Discussions**: A great way to talk about features you want added or things that are confusing/need clarification.
+--   **GitHub Issues**: These are an excellent way to report bugs. Additionally, you can try and solve an existing issue and submit a PR.
++-   **GitHub Issues**: [Issues](https://github.com/reflex-dev/reflex/issues) are an excellent way to report bugs. Additionally, you can try and solve an existing issue and submit a PR.
+ 
+-We are actively looking for contributors, no matter your skill level or experience.
++We are actively looking for contributors, no matter your skill level or experience. To contribute check out [CONTRIBUTING.md](https://github.com/reflex-dev/reflex/blob/main/CONTRIBUTING.md)
+ 
+ ## License
+ 
+diff --git a/docker-example/.dockerignore b/docker-example/.dockerignore
+index f4796c2..9f23c03 100644
+--- a/docker-example/.dockerignore
++++ b/docker-example/.dockerignore
+@@ -1,2 +1,5 @@
+ .web
+-__pycache__/*
+\ No newline at end of file
++__pycache__/*
++*.db
++.git
++.venv
+diff --git a/docker-example/Dockerfile b/docker-example/Dockerfile
+index a0c6894..0a289ef 100644
+--- a/docker-example/Dockerfile
++++ b/docker-example/Dockerfile
+@@ -17,7 +17,8 @@ RUN python3 -m venv $VIRTUAL_ENV
+ RUN pip install -r requirements.txt
+ 
+ # Deploy templates and prepare app
+-RUN reflex init
++# (the template is given explicitly, because the build is not interactive)
++RUN reflex init --template blank
+ 
+ # Export static copy of frontend to /app/.web/_static
+ RUN reflex export --frontend-only --no-zip
+diff --git a/docs/es/README.md b/docs/es/README.md
+new file mode 100644
+index 0000000..cc37fe1
+--- /dev/null
++++ b/docs/es/README.md
+@@ -0,0 +1,232 @@
++```diff
+++ ¿Buscas Pynecone? Estás en el repositorio correcto. Pynecone ha sido renombrado a Reflex. +
++```
++
++<div align="center">
++<img src="https://raw.githubusercontent.com/reflex-dev/reflex/main/docs/images/reflex_dark.svg#gh-light-mode-only" alt="Reflex Logo" width="300px">
++<img src="https://raw.githubusercontent.com/reflex-dev/reflex/main/docs/images/reflex_light.svg#gh-dark-mode-only" alt="Reflex Logo" width="300px">
++
++<hr>
++
++### **✨ Aplicaciones web personalizables y de alto rendimiento en Python puro. Despliega en segundos. ✨**
++[![PyPI version](https://badge.fury.io/py/reflex.svg)](https://badge.fury.io/py/reflex)
++![tests](https://github.com/pynecone-io/pynecone/actions/workflows/integration.yml/badge.svg)
++![versions](https://img.shields.io/pypi/pyversions/reflex.svg)
++[![Documentation](https://img.shields.io/badge/Documentation%20-Introduction%20-%20%23007ec6)](https://reflex.dev/docs/getting-started/introduction)
++[![Discord](https://img.shields.io/discord/1029853095527727165?color=%237289da&label=Discord)](https://discord.gg/T5WSbC2YtQ)
++</div>
++
++---
++[English](https://github.com/reflex-dev/reflex/blob/main/README.md) | [简体中文](https://github.com/reflex-dev/reflex/blob/main/docs/zh/zh_cn/README.md) | [繁體中文](https://github.com/reflex-dev/reflex/blob/main/docs/zh/zh_tw/README.md) | [Türkçe](https://github.com/reflex-dev/reflex/blob/main/docs/tr/README.md) | [हिंदी](https://github.com/reflex-dev/reflex/blob/main/docs/in/README.md) | [Português (Brasil)](https://github.com/reflex-dev/reflex/blob/main/docs/pt/pt_br/README.md) | [Italiano](https://github.com/reflex-dev/reflex/blob/main/docs/it/README.md) | [Español](https://github.com/reflex-dev/reflex/blob/main/docs/es/README.md) | [한국어](https://github.com/reflex-dev/reflex/blob/main/docs/kr/README.md)
++---
++
++## ⚙️ Instalación
++
++Abre un terminal y ejecuta (Requiere Python 3.8+):
++
++```bash
++pip install reflex
++```
++
++## 🥳 Crea tu primera aplicación
++
++Al instalar `reflex` también se instala la herramienta de línea de comandos `reflex`.
++
++Comprueba que la instalación fue exitosa creando un nuevo proyecto. (Reemplaza `mi_nombre_de_app` con el nombre de tu proyecto):
++
++```bash
++mkdir mi_nombre_de_app
++cd mi_nombre_de_app
++reflex init
++```
++
++Este comando inicializa una plantilla de aplicación en tu nuevo directorio.
++
++Puedes ejecutar esta aplicación en modo de desarrollo:
++
++```bash
++reflex run
++```
++
++Deberías ver tu aplicación ejecutándose en http://localhost:3000.
++
++Ahora puedes modificar el código fuente en `mi_nombre_de_app/mi_nombre_de_app.py`. Reflex se actualiza rápidamente, así que puedes ver tus cambios al instante cuando guardas el código.
++
++## 🫧 Ejemplo de aplicación
++
++Veamos un ejemplo: crear una interfaz de usuario para generación de imágenes con [DALL·E](https://platform.openai.com/docs/guides/images/image-generation?context=node). Para simplificar, solo llamamos a la [API de OpenAI](https://platform.openai.com/docs/api-reference/authentication), pero podrías reemplazarla por un modelo de aprendizaje automático ejecutado localmente.
++
++&nbsp;
++
++<div align="center">
++<img src="https://raw.githubusercontent.com/reflex-dev/reflex/main/docs/images/dalle.gif" alt="Una interfaz para DALL·E, mostrada en el proceso de generar una imagen." width="550" />
++</div>
++
++&nbsp;
++
++Aquí está el código completo para crear esto. ¡Todo se hace en un solo archivo de Python!
++
++```python
++import reflex as rx
++import openai
++
++openai.api_key = "YOUR_API_KEY"
++
++class State(rx.State):
++    """El estado de la aplicación."""
++    prompt = ""
++    image_url = ""
++    processing = False
++    complete = False
++
++    def get_image(self):
++        """Obtén la imagen a partir del prompt."""
++        if self.prompt == "":
++            return rx.window_alert("Prompt vacío")
++
++        self.processing, self.complete = True, False
++        yield
++        response = openai.Image.create(prompt=self.prompt, n=1, size="1024x1024")
++        self.image_url = response["data"][0]["url"]
++        self.processing, self.complete = False, True
++
++
++def index():
++    return rx.center(
++        rx.vstack(
++            rx.heading("DALL·E"),
++            rx.input(placeholder="Escribe un prompt", on_blur=State.set_prompt),
++            rx.button(
++                "Generar imagen",
++                on_click=State.get_image,
++                is_loading=State.processing,
++                width="100%",
++            ),
++            rx.cond(
++                State.complete,
++                     rx.image(
++                         src=State.image_url,
++                         height="25em",
++                         width="25em",
++                    )
++            ),
++            padding="2em",
++            shadow="lg",
++            border_radius="lg",
++        ),
++        width="100%",
++        height="100vh",
++    )
++
++# Añade el estado y la página a la aplicación.
++app = rx.App()
++app.add_page(index, title="reflex:DALL·E")
++app.compile()
++```
++
++## Analicemos esto.
++
++### **Interfaz de usuario (UI) en Reflex**
++
++Empecemos por la interfaz de usuario.
++
++```python
++def index():
++    return rx.center(
++        ...
++    )
++```
++
++Esta función `index` define el frontend de la aplicación.
++
++Usamos diferentes componentes como `center`, `vstack`, `input` y `button` para construir el frontend. Los componentes pueden anidarse unos dentro de otros para crear diseños complejos. Además, puedes usar argumentos con nombre (keyword args) para darles estilo con todo el poder de CSS.
++
++Reflex incluye [más de 60 componentes integrados](https://reflex.dev/docs/library) para ayudarte a empezar. Estamos añadiendo activamente más componentes y es fácil [crear tus propios componentes](https://reflex.dev/docs/wrapping-react/overview/).
++
++### **Estado (State)**
++
++Reflex representa tu interfaz de usuario como una función de tu estado.
++
++```python
++class State(rx.State):
++    """El estado de la aplicación."""
++    prompt = ""
++    image_url = ""
++    processing = False
++    complete = False
++```
++
++El estado define todas las variables (llamadas vars) de una aplicación que pueden cambiar y las funciones que las modifican.
++
++Aquí el estado está compuesto por un `prompt` y un `image_url`. También existen los booleanos `processing` y `complete` para indicar cuándo mostrar el indicador de progreso circular y la imagen.
++
++### **Manejadores de eventos (Event Handlers)**
++
++```python
++def get_image(self):
++    """Obtén la imagen a partir del prompt."""
++    if self.prompt == "":
++        return rx.window_alert("Prompt vacío")
++
++    self.processing, self.complete = True, False
++    yield
++    response = openai.Image.create(prompt=self.prompt, n=1, size="1024x1024")
++    self.image_url = response["data"][0]["url"]
++    self.processing, self.complete = False, True
++```
++
++Dentro del estado definimos funciones llamadas manejadores de eventos (event handlers) que modifican las variables del estado. Los manejadores de eventos son la forma en la que podemos modificar el estado en Reflex. Pueden ser llamados en respuesta a acciones del usuario, como hacer clic en un botón o escribir en un cuadro de texto. Estas acciones se denominan eventos.
++
++Nuestra aplicación DALL·E tiene un manejador de eventos, `get_image`, que obtiene la imagen desde la API de OpenAI. Usar `yield` en medio de un manejador de eventos hará que la interfaz se actualice. De lo contrario, la interfaz se actualizará al final del manejador de eventos.
++
++### **Enrutamiento (Routing)**
++
++Finalmente, definimos nuestra aplicación.
++
++```python
++app = rx.App()
++```
++
++Añadimos una página desde la raíz de la aplicación al componente index. También añadimos un título que se mostrará en la vista previa de la página o en la pestaña del navegador.
++
++```python
++app.add_page(index, title="DALL-E")
++app.compile()
++```
++
++Puedes crear una aplicación de varias páginas añadiendo más páginas.
++
++## 📑 Recursos
++
++<div align="center">
++
++📑 [Documentación](https://reflex.dev/docs/getting-started/introduction) &nbsp; | &nbsp; 🗞️ [Blog](https://reflex.dev/blog) &nbsp; | &nbsp; 📱 [Biblioteca de componentes](https://reflex.dev/docs/library) &nbsp; | &nbsp; 🖼️ [Galería](https://reflex.dev/docs/gallery) &nbsp; | &nbsp; 🛸 [Despliegue](https://reflex.dev/docs/hosting/deploy)
++
++</div>
++
++## ✅ Estado
++
++Reflex se lanzó en diciembre de 2022 con el nombre de Pynecone.
++
++Desde julio de 2023 estamos en la etapa de **Beta Pública**.
++
++-   :white_check_mark: **Alfa Pública**: Cualquiera puede instalar y usar Reflex. Puede haber problemas, pero estamos trabajando activamente para resolverlos.
++-   :large_orange_diamond: **Beta Pública**: Suficientemente estable para casos de uso no empresariales.
++-   **Beta Pública de Hosting**: _Opcionalmente_, despliega y hospeda tus aplicaciones en Reflex.
++-   **Pública**: Reflex está listo para producción.
++
++¡Reflex tiene nuevos lanzamientos y funcionalidades cada semana! Asegúrate de :star: marcar con una estrella y :eyes: seguir este repositorio para mantenerte al día.
++
++## Contribuciones
++
++¡Damos la bienvenida a contribuciones de cualquier tamaño! A continuación, algunas buenas formas de empezar en la comunidad de Reflex.
++
++-   **Únete a nuestro Discord**: Nuestro [Discord](https://discord.gg/T5WSbC2YtQ) es el mejor lugar para obtener ayuda con tu proyecto de Reflex y para discutir cómo puedes contribuir.
++-   **Discusiones en GitHub**: Una gran manera de hablar sobre las funcionalidades que quieres que se añadan o sobre cosas que son confusas o necesitan aclaración.
++-   **Issues en GitHub**: [Los issues](https://github.com/reflex-dev/reflex/issues) son una forma excelente de reportar errores. Además, puedes intentar resolver un issue existente y enviar un PR.
++
++Buscamos activamente colaboradores, sin importar tu nivel de habilidad o experiencia. Para contribuir, consulta [CONTRIBUTING.md](https://github.com/reflex-dev/reflex/blob/main/CONTRIBUTING.md).
++
++## Licencia
++
++Reflex es de código abierto y está licenciado bajo la [Licencia Apache 2.0](LICENSE).
+diff --git a/docs/in/README.md b/docs/in/README.md
+index 9a7fd71..9aca741 100644
+--- a/docs/in/README.md
++++ b/docs/in/README.md
+@@ -140,7 +140,7 @@ def index():
+ 
+ हम फ़्रंटएंड बनाने के लिए `center`, `vstack`, `input`, और `button` जैसे विभिन्न components का उपयोग करते हैं। Components को एक-दूसरे के भीतर डाल सकते हैं विस्तारित लेआउट बनाने के लिए। और आप CSS की पूरी ताक़त के साथ इन्हें स्टाइल करने के लिए कीवर्ड आर्ग्यूमेंट (keyword args) का उपयोग कर सकते हैं।
+ 
+-रिफ़्लेक्स के पास [60+ built-in components](https://reflex.dev/docs/library) हैं जो आपको शुरुआती मदद के लिए हैं। हम बहुत से components जोड़ रहे हैं, और अपने खुद के components बनाना भी आसान है। [create your own components](https://reflex.dev/docs/advanced-guide/wrapping-react)
++रिफ़्लेक्स के पास [60+ built-in components](https://reflex.dev/docs/library) हैं जो आपको शुरुआती मदद के लिए हैं। हम बहुत से components जोड़ रहे हैं, और अपने खुद के components बनाना भी आसान है। [create your own components](https://reflex.dev/docs/wrapping-react/overview/)
+ 
+ ### **स्टेट (State)**
+ 
+@@ -228,4 +228,4 @@ app.compile()
+ 
+ ## लाइसेंस (License)
+ 
+-रिफ्लेक्स ओपन-सोर्स है और [अपाचे लाइसेंस 2.0] (लाइसेंस) के तहत लाइसेंस प्राप्त है।
++रिफ्लेक्स ओपन-सोर्स है और [अपाचे लाइसेंस 2.0](LICENSE) के तहत लाइसेंस प्राप्त है।
+diff --git a/docs/it/README.md b/docs/it/README.md
+index c195438..73e8240 100644
+--- a/docs/it/README.md
++++ b/docs/it/README.md
+@@ -18,7 +18,7 @@
+ 
+ ---
+ [English](https://github.com/reflex-dev/reflex/blob/main/README.md) | [简体中文](https://github.com/reflex-dev/reflex/blob/main/docs/zh/zh_cn/README.md) | [繁體中文](https://github.com/reflex-dev/reflex/blob/main/docs/zh/zh_tw/README.md) | [Türkçe](https://github.com/reflex-dev/reflex/blob/main/docs/tr/README.md) | [हिंदी](https://github.com/reflex-dev/reflex/blob/main/docs/in/README.md) | [Português (Brasil)](https://github.com/reflex-dev/reflex/blob/main/docs/pt/pt_br/README.md) |
+-[Italiano](https://github.com/reflex-dev/reflex/blob/main/docs/it/README.md) | [한국어](https://github.com/reflex-dev/reflex/blob/main/docs/kr/README.md)
++[Italiano](https://github.com/reflex-dev/reflex/blob/main/docs/it/README.md) | [Español](https://github.com/reflex-dev/reflex/blob/main/docs/es/README.md) | [한국어](https://github.com/reflex-dev/reflex/blob/main/docs/kr/README.md)
+ ---
+ 
+ ## ⚙️ Installazione
+@@ -141,7 +141,7 @@ Questo `index` definisce il frontend dell'app.
+ 
+ Utilizziamo diversi componenti come `center`, `vstack`, `input`, e `button` per costruire il frontend. I componenti possono essere annidati gli uni negli altri per creare layout complessi. Puoi utilizzare argomenti chiave per stilizzarli con tutta la potenza di CSS.
+ 
+-Reflex offre [più di 60 componenti integrati](https://reflex.dev/docs/library) per aiutarti a iniziare. Stiamo attivamente aggiungendo più componenti ed è facile [creare i tuoi componenti](https://reflex.dev/docs/advanced-guide/wrapping-react).
++Reflex offre [più di 60 componenti integrati](https://reflex.dev/docs/library) per aiutarti a iniziare. Stiamo attivamente aggiungendo più componenti ed è facile [creare i tuoi componenti](https://reflex.dev/docs/wrapping-react/overview/).
+ 
+ ### **Stato (State)**
+ 
+diff --git a/docs/kr/README.md b/docs/kr/README.md
+index 0cd139c..6d2e50c 100644
+--- a/docs/kr/README.md
++++ b/docs/kr/README.md
+@@ -17,7 +17,7 @@
+ </div>
+ 
+ ---
+-[English](https://github.com/reflex-dev/reflex/blob/main/README.md) | [简体中文](https://github.com/reflex-dev/reflex/blob/main/docs/zh/zh_cn/README.md) | [繁體中文](https://github.com/reflex-dev/reflex/blob/main/docs/zh/zh_tw/README.md) | [Türkçe](https://github.com/reflex-dev/reflex/blob/main/docs/tr/README.md) | [हिंदी](https://github.com/reflex-dev/reflex/blob/main/docs/in/README.md) | [Português (Brasil)](https://github.com/reflex-dev/reflex/blob/main/docs/pt/pt_br/README.md) | [Italiano](https://github.com/reflex-dev/reflex/blob/main/docs/it/README.md) | [한국어](https://github.com/reflex-dev/reflex/blob/main/docs/kr/README.md)
++[English](https://github.com/reflex-dev/reflex/blob/main/README.md) | [简体中文](https://github.com/reflex-dev/reflex/blob/main/docs/zh/zh_cn/README.md) | [繁體中文](https://github.com/reflex-dev/reflex/blob/main/docs/zh/zh_tw/README.md) | [Türkçe](https://github.com/reflex-dev/reflex/blob/main/docs/tr/README.md) | [हिंदी](https://github.com/reflex-dev/reflex/blob/main/docs/in/README.md) | [Português (Brasil)](https://github.com/reflex-dev/reflex/blob/main/docs/pt/pt_br/README.md) | [Italiano](https://github.com/reflex-dev/reflex/blob/main/docs/it/README.md) | [Español](https://github.com/reflex-dev/reflex/blob/main/docs/es/README.md) | [한국어](https://github.com/reflex-dev/reflex/blob/main/docs/kr/README.md)
+ ---
+ ## ⚙️ 설치
+ 
+@@ -144,7 +144,7 @@ def index():
+ 그리고 키워드 인자를 사용하여 CSS의 모든 기능을 사용하여 스타일을 지정할 수 있습니다.
+ 
+ 
+-Reflex는 시작하기 위한 [60개 이상의 기본 컴포넌트](https://reflex.dev/docs/library)를 제공하고 있습니다. 더 많은 컴포넌트를 추가하고 있으며, [자신만의 컴포넌트를 생성하는 것](https://reflex.dev/docs/advanced-guide/wrapping-react)도 쉽습니다.
++Reflex는 시작하기 위한 [60개 이상의 기본 컴포넌트](https://reflex.dev/docs/library)를 제공하고 있습니다. 더 많은 컴포넌트를 추가하고 있으며, [자신만의 컴포넌트를 생성하는 것](https://reflex.dev/docs/wrapping-react/overview/)도 쉽습니다.
+ 
+ ### **State**
+ 
+diff --git a/docs/pt/pt_br/README.md b/docs/pt/pt_br/README.md
+index ce61540..ac69f00 100644
+--- a/docs/pt/pt_br/README.md
++++ b/docs/pt/pt_br/README.md
+@@ -142,7 +142,7 @@ Esta função `index` define o frontend do app.
+ Usamos diferentes componentes, como `center`, `vstack`, `input` e `button`, para construir o frontend. Componentes podem ser aninhados um no do outro
+ para criar layouts mais complexos. E você pode usar argumentos de chave-valor para estilizá-los com todo o poder do CSS.
+ 
+-O Reflex vem com [60+ componentes nativos](https://reflex.dev/docs/library) para te ajudar. Estamos adicionando ativamente mais componentes, mas também é fácil [criar seus próprios componentes](https://reflex.dev/docs/advanced-guide/wrapping-react). 
++O Reflex vem com [60+ componentes nativos](https://reflex.dev/docs/library) para te ajudar. Estamos adicionando ativamente mais componentes, mas também é fácil [criar seus próprios componentes](https://reflex.dev/docs/wrapping-react/overview/). 
+ 
+ ### **Estado**
+ 
+diff --git a/docs/tr/README.md b/docs/tr/README.md
+index cfbfdff..7215b42 100644
+--- a/docs/tr/README.md
++++ b/docs/tr/README.md
+@@ -142,7 +142,7 @@ Bu `index` fonkisyonu uygulamanın frontend'ini tanımlar.
+ Farklı bileşenler kullanıyoruz misal `center`, `vstack`, `input`, ve `button` frontend'i oluşturmak için kullanıyoruz. Bileşenler birbirinin içine yerleştirilebilir
+ karmaşık düzenler oluşturmak için. Ayrıca bunları CSS'nin tüm gücüyle şekillendirmek için args'ı kullanabilirsiniz.
+ 
+-Reflex size yardım için [60'tan fazla yerleşik bileşen](https://reflex.dev/docs/library) içerir. Aktif olarak çok daha fazla yeni bileşen ekliyoruz, ve bunları oluşturmak çok kolay [Kendi bileşenlerinizi oluşturun](https://reflex.dev/docs/advanced-guide/wrapping-react).
++Reflex size yardım için [60'tan fazla yerleşik bileşen](https://reflex.dev/docs/library) içerir. Aktif olarak çok daha fazla yeni bileşen ekliyoruz, ve bunları oluşturmak çok kolay [Kendi bileşenlerinizi oluşturun](https://reflex.dev/docs/wrapping-react/overview/).
+ 
+ ### **Durum**
+ 
+diff --git a/docs/zh/zh_cn/README.md b/docs/zh/zh_cn/README.md
+index ab278db..bf6dbe1 100644
+--- a/docs/zh/zh_cn/README.md
++++ b/docs/zh/zh_cn/README.md
+@@ -143,7 +143,7 @@ def index():
+ 我们用不同的组件比如 `center`, `vstack`, `input`, 和 `button` 来创建前端, 组件之间可以相互嵌入,来创建复杂的布局.
+ 并且您可以使用关键字参数来使用 CSS 的全部功能.
+ 
+-Reflex 拥有 [60+ 个内置组件](https://reflex.dev/docs/library) 来帮助您开始创建应用程序. 我们正在积极添加组件, 但是您也可以 [创建自己的组件](https://reflex.dev/docs/advanced-guide/wrapping-react).
++Reflex 拥有 [60+ 个内置组件](https://reflex.dev/docs/library) 来帮助您开始创建应用程序. 我们正在积极添加组件, 但是您也可以 [创建自己的组件](https://reflex.dev/docs/wrapping-react/overview/).
+ 
+ ### **State**
+ 
+diff --git a/docs/zh/zh_tw/README.md b/docs/zh/zh_tw/README.md
+index 37e48d4..098f661 100644
+--- a/docs/zh/zh_tw/README.md
++++ b/docs/zh/zh_tw/README.md
+@@ -140,7 +140,7 @@ def index():
+ 
+ 我們用不同的元件像是 `center`, `vstack`, `input`, 和 `button` 來建立前端，元件之間可互相套入以建立出複雜的版面配置。並且您可使用關鍵字引數 *keyword args* 運行 CSS 全部功能來設計這些元件們的樣式。
+ 
+-Reflex 擁有 [60+ 內建元件](https://reflex.dev/docs/library) 來幫助你開始建立應用程式。我們正積極添加元件，你也可以簡單地 [創建自己所屬的元件](https://reflex.dev/docs/advanced-guide/wrapping-react)。
++Reflex 擁有 [60+ 內建元件](https://reflex.dev/docs/library) 來幫助你開始建立應用程式。我們正積極添加元件，你也可以簡單地 [創建自己所屬的元件](https://reflex.dev/docs/wrapping-react/overview/)。
+ 
+ ### **應用程式狀態**
+ 
+diff --git a/pyproject.toml b/pyproject.toml
+index 2187939..322e0fa 100644
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -1,6 +1,6 @@
+ [tool.poetry]
+ name = "reflex"
+-version = "0.2.9"
++version = "0.3.2"
+ description = "Web apps in pure Python."
+ license = "Apache-2.0"
+ authors = [
+@@ -39,7 +39,7 @@ python-socketio = "^5.7.0"
+ redis = "^4.3.5"
+ rich = "^13.0.0"
+ sqlmodel = "^0.0.8"
+-typer = "0.4.2"
++typer = "0.9.0"
+ uvicorn = "^0.20.0"
+ watchdog = "^2.3.1"
+ watchfiles = "^0.19.0"
+diff --git a/reflex/.templates/apps/base/code/__init__.py b/reflex/.templates/apps/base/code/__init__.py
+deleted file mode 100644
+index e1d2863..0000000
+--- a/reflex/.templates/apps/base/code/__init__.py
++++ /dev/null
+@@ -1 +0,0 @@
+-"""Base template for Reflex."""
+diff --git a/reflex/.templates/apps/base/README.md b/reflex/.templates/apps/sidebar/README.md
+similarity index 93%
+rename from reflex/.templates/apps/base/README.md
+rename to reflex/.templates/apps/sidebar/README.md
+index 1b34b63..aac4540 100644
+--- a/reflex/.templates/apps/base/README.md
++++ b/reflex/.templates/apps/sidebar/README.md
+@@ -1,9 +1,9 @@
+ # Welcome to Reflex!
+ 
+-This is the base Reflex template - installed when you run `reflex init`.
++This is the sidebar Reflex template - installed when you run `reflex init --template sidebar`.
+ 
+ If you want to use a different template, pass the `--template` flag to `reflex init`.
+-For example, if you want a more basic starting point, you can run:
++For example, if you want the most basic starting point, you can run:
+ 
+ ```bash
+ reflex init --template blank
+diff --git a/reflex/.templates/apps/base/assets/favicon.ico b/reflex/.templates/apps/sidebar/assets/favicon.ico
+similarity index 100%
+rename from reflex/.templates/apps/base/assets/favicon.ico
+rename to reflex/.templates/apps/sidebar/assets/favicon.ico
+diff --git a/reflex/.templates/apps/base/assets/github.svg b/reflex/.templates/apps/sidebar/assets/github.svg
+similarity index 100%
+rename from reflex/.templates/apps/base/assets/github.svg
+rename to reflex/.templates/apps/sidebar/assets/github.svg
+diff --git a/reflex/.templates/apps/base/assets/icon.svg b/reflex/.templates/apps/sidebar/assets/icon.svg
+similarity index 100%
+rename from reflex/.templates/apps/base/assets/icon.svg
+rename to reflex/.templates/apps/sidebar/assets/icon.svg
+diff --git a/reflex/.templates/apps/base/assets/logo.svg b/reflex/.templates/apps/sidebar/assets/logo.svg
+similarity index 100%
+rename from reflex/.templates/apps/base/assets/logo.svg
+rename to reflex/.templates/apps/sidebar/assets/logo.svg
+diff --git a/reflex/.templates/apps/base/assets/paneleft.svg b/reflex/.templates/apps/sidebar/assets/paneleft.svg
+similarity index 100%
+rename from reflex/.templates/apps/base/assets/paneleft.svg
+rename to reflex/.templates/apps/sidebar/assets/paneleft.svg
+diff --git a/reflex/.templates/apps/sidebar/code/__init__.py b/reflex/.templates/apps/sidebar/code/__init__.py
+new file mode 100644
+index 0000000..a0ef704
+--- /dev/null
++++ b/reflex/.templates/apps/sidebar/code/__init__.py
+@@ -0,0 +1 @@
++"""Sidebar template for Reflex."""
+diff --git a/reflex/.templates/apps/base/code/components/__init__.py b/reflex/.templates/apps/sidebar/code/components/__init__.py
+similarity index 100%
+rename from reflex/.templates/apps/base/code/components/__init__.py
+rename to reflex/.templates/apps/sidebar/code/components/__init__.py
+diff --git a/reflex/.templates/apps/base/code/components/sidebar.py b/reflex/.templates/apps/sidebar/code/components/sidebar.py
+similarity index 100%
+rename from reflex/.templates/apps/base/code/components/sidebar.py
+rename to reflex/.templates/apps/sidebar/code/components/sidebar.py
+diff --git a/reflex/.templates/apps/base/code/pages/__init__.py b/reflex/.templates/apps/sidebar/code/pages/__init__.py
+similarity index 100%
+rename from reflex/.templates/apps/base/code/pages/__init__.py
+rename to reflex/.templates/apps/sidebar/code/pages/__init__.py
+diff --git a/reflex/.templates/apps/base/code/pages/dashboard.py b/reflex/.templates/apps/sidebar/code/pages/dashboard.py
+similarity index 100%
+rename from reflex/.templates/apps/base/code/pages/dashboard.py
+rename to reflex/.templates/apps/sidebar/code/pages/dashboard.py
+diff --git a/reflex/.templates/apps/base/code/pages/index.py b/reflex/.templates/apps/sidebar/code/pages/index.py
+similarity index 100%
+rename from reflex/.templates/apps/base/code/pages/index.py
+rename to reflex/.templates/apps/sidebar/code/pages/index.py
+diff --git a/reflex/.templates/apps/base/code/pages/settings.py b/reflex/.templates/apps/sidebar/code/pages/settings.py
+similarity index 100%
+rename from reflex/.templates/apps/base/code/pages/settings.py
+rename to reflex/.templates/apps/sidebar/code/pages/settings.py
+diff --git a/reflex/.templates/apps/base/code/base.py b/reflex/.templates/apps/sidebar/code/sidebar.py
+similarity index 100%
+rename from reflex/.templates/apps/base/code/base.py
+rename to reflex/.templates/apps/sidebar/code/sidebar.py
+diff --git a/reflex/.templates/apps/base/code/state.py b/reflex/.templates/apps/sidebar/code/state.py
+similarity index 100%
+rename from reflex/.templates/apps/base/code/state.py
+rename to reflex/.templates/apps/sidebar/code/state.py
+diff --git a/reflex/.templates/apps/base/code/styles.py b/reflex/.templates/apps/sidebar/code/styles.py
+similarity index 93%
+rename from reflex/.templates/apps/base/code/styles.py
+rename to reflex/.templates/apps/sidebar/code/styles.py
+index 6261d3f..74fa950 100644
+--- a/reflex/.templates/apps/base/code/styles.py
++++ b/reflex/.templates/apps/sidebar/code/styles.py
+@@ -13,10 +13,13 @@ hover_accent_bg = {"_hover": {"bg": accent_color}}
+ content_width_vw = "90vw"
+ sidebar_width = "20em"
+ 
+-template_page_style = {"padding_top": "5em", "padding_x": ["auto", "2em"]}
++template_page_style = {
++    "padding_top": "5em",
++    "padding_x": ["auto", "2em"],
++    "flex": "1",
++}
+ 
+ template_content_style = {
+-    "width": "100%",
+     "align_items": "flex-start",
+     "box_shadow": box_shadow,
+     "border_radius": border_radius,
+diff --git a/reflex/.templates/apps/base/code/templates/__init__.py b/reflex/.templates/apps/sidebar/code/templates/__init__.py
+similarity index 100%
+rename from reflex/.templates/apps/base/code/templates/__init__.py
+rename to reflex/.templates/apps/sidebar/code/templates/__init__.py
+diff --git a/reflex/.templates/apps/base/code/templates/template.py b/reflex/.templates/apps/sidebar/code/templates/template.py
+similarity index 99%
+rename from reflex/.templates/apps/base/code/templates/template.py
+rename to reflex/.templates/apps/sidebar/code/templates/template.py
+index 03111d6..4664b60 100644
+--- a/reflex/.templates/apps/base/code/templates/template.py
++++ b/reflex/.templates/apps/sidebar/code/templates/template.py
+@@ -116,7 +116,6 @@ def template(
+                     ),
+                     **styles.template_page_style,
+                 ),
+-                rx.spacer(),
+                 menu_button(),
+                 align_items="flex-start",
+                 transition="left 0.5s, width 0.5s",
+diff --git a/reflex/.templates/web/utils/helpers/dataeditor.js b/reflex/.templates/web/utils/helpers/dataeditor.js
+index bd8ce89..1467eda 100644
+--- a/reflex/.templates/web/utils/helpers/dataeditor.js
++++ b/reflex/.templates/web/utils/helpers/dataeditor.js
+@@ -1,56 +1,74 @@
+-import { GridCellKind } from "@glideapps/glide-data-grid"
++import { GridCellKind } from "@glideapps/glide-data-grid";
+ 
+ export function getDEColumn(columns, col) {
+-    let c = columns[col];
+-    c.pos = col;
+-    return c;
++  let c = columns[col];
++  c.pos = col;
++  return c;
+ }
+ 
+ export function getDERow(data, row) {
+-    return data[row];
++  return data[row];
+ }
+ 
+ export function locateCell(row, column) {
+-    if (Array.isArray(row)) {
+-        return row[column.pos];
+-    } else {
+-        return row[column.id];
+-    }
++  if (Array.isArray(row)) {
++    return row[column.pos];
++  } else {
++    return row[column.id];
++  }
+ }
+ 
+ export function formatCell(value, column) {
+-    const editable = column.editable || true
+-    switch (column.type) {
+-        case "int":
+-        case "float":
+-            return {
+-                kind: GridCellKind.Number,
+-                data: value,
+-                displayData: value + "",
+-                readonly: !editable,
+-                allowOverlay: editable,
+-            }
+-        case "datetime":
+-        // value = moment format?
+-        case "str":
+-            return {
+-                kind: GridCellKind.Text,
+-                data: value,
+-                displayData: value,
+-                readonly: !editable,
+-                allowOverlay: editable,
+-            }
+-        case "bool":
+-            return {
+-                kind: GridCellKind.Boolean,
+-                data: value,
+-                readonly: !editable,
+-            }
+-        default:
+-            return {
+-                kind: GridCellKind.Text,
+-                data: value,
+-                displayData: "type not specified in column definition"
+-            }
+-    };
+-};
++  const editable = column.editable ?? true;
++  switch (column.type) {
++    case "int":
++    case "float":
++      return {
++        kind: GridCellKind.Number,
++        data: value,
++        displayData: value + "",
++        readonly: !editable,
++        allowOverlay: editable,
++      };
++    case "datetime":
++    // TODO: use a formatter for datetime values
++    case "str":
++      return {
++        kind: GridCellKind.Text,
++        data: value,
++        displayData: value,
++        readonly: !editable,
++        allowOverlay: editable,
++      };
++    case "bool":
++      return {
++        kind: GridCellKind.Boolean,
++        data: value,
++        readonly: !editable,
++      };
++    default:
++      return {
++        kind: GridCellKind.Text,
++        data: value,
++        displayData: "type not specified in column definition",
++      };
++  }
++}
++
++/**
++ * The overlay editors of glide-data-grid are rendered inside a div with the id
++ * "portal", which has to exist exactly once in the document. Otherwise the
++ * editors of all but the first grid on the page are misplaced.
++ */
++export function ensureDataEditorPortal() {
++  if (typeof document === "undefined" || document.getElementById("portal")) {
++    return;
++  }
++  const portal = document.createElement("div");
++  portal.id = "portal";
++  portal.style.position = "fixed";
++  portal.style.left = "0";
++  portal.style.top = "0";
++  portal.style.zIndex = "9999";
++  document.body.appendChild(portal);
++}
+diff --git a/reflex/.templates/web/utils/state.js b/reflex/.templates/web/utils/state.js
+index 1c0c637..51c0d5b 100644
+--- a/reflex/.templates/web/utils/state.js
++++ b/reflex/.templates/web/utils/state.js
+@@ -200,7 +200,11 @@ export const applyEvent = async (event, socket) => {
+     try {
+       const eval_result = eval(event.payload.javascript_code);
+       if (event.payload.callback) {
+-        eval(event.payload.callback)(eval_result)
++        if (!!eval_result && typeof eval_result.then === "function") {
++          eval(event.payload.callback)(await eval_result)
++        } else {
++          eval(event.payload.callback)(eval_result)
++        }
+       }
+     } catch (e) {
+       console.log("_call_script", e);
+@@ -486,8 +490,13 @@ export const useEventLoop = (
+   const [connectError, setConnectError] = useState(null)
+ 
+   // Function to add new events to the event queue.
+-  const addEvents = (events, _e) => {
+-    preventDefault(_e);
++  const addEvents = (events, _e, event_actions) => {
++    if (event_actions?.preventDefault && _e?.preventDefault) {
++      _e.preventDefault();
++    }
++    if (event_actions?.stopPropagation && _e?.stopPropagation) {
++      _e.stopPropagation();
++    }
+     queueEvents(events, socket)
+   }
+ 
+@@ -532,16 +541,6 @@ export const isTrue = (val) => {
+   return Array.isArray(val) ? val.length > 0 : !!val;
+ };
+ 
+-/**
+- * Prevent the default event for form submission.
+- * @param event
+- */
+-export const preventDefault = (event) => {
+-  if (event && event.type == "submit") {
+-    event.preventDefault();
+-  }
+-};
+-
+ /**
+  * Get the value from a ref.
+  * @param ref The ref to get the value from.
+diff --git a/reflex/__init__.py b/reflex/__init__.py
+index 34f9e9b..017d7b7 100644
+--- a/reflex/__init__.py
++++ b/reflex/__init__.py
+@@ -24,12 +24,14 @@ from .event import call_script as call_script
+ from .event import clear_local_storage as clear_local_storage
+ from .event import console_log as console_log
+ from .event import download as download
++from .event import prevent_default as prevent_default
+ from .event import redirect as redirect
+ from .event import remove_cookie as remove_cookie
+ from .event import remove_local_storage as remove_local_storage
+ from .event import set_clipboard as set_clipboard
+ from .event import set_focus as set_focus
+ from .event import set_value as set_value
++from .event import stop_propagation as stop_propagation
+ from .event import window_alert as window_alert
+ from .middleware import Middleware as Middleware
+ from .model import Model as Model
+diff --git a/reflex/compiler/compiler.py b/reflex/compiler/compiler.py
+index 7ee5c6d..e9b8899 100644
+--- a/reflex/compiler/compiler.py
++++ b/reflex/compiler/compiler.py
+@@ -28,7 +28,6 @@ DEFAULT_IMPORTS: imports.ImportDict = {
+         ImportVar(tag="Event"),
+         ImportVar(tag="isTrue"),
+         ImportVar(tag="spreadArraysOrObjects"),
+-        ImportVar(tag="preventDefault"),
+         ImportVar(tag="refs"),
+         ImportVar(tag="getRefValue"),
+         ImportVar(tag="getRefValues"),
+diff --git a/reflex/components/component.py b/reflex/components/component.py
+index ee9c99a..56a33df 100644
+--- a/reflex/components/component.py
++++ b/reflex/components/component.py
+@@ -20,6 +20,7 @@ from reflex.event import (
+ )
+ from reflex.style import Style
+ from reflex.utils import console, format, imports, types
++from reflex.utils.serializers import serializer
+ from reflex.vars import BaseVar, ImportVar, Var
+ 
+ 
+@@ -127,6 +128,7 @@ class Component(Base, ABC):
+         fields = self.get_fields()
+         triggers = self.get_event_triggers().keys()
+         props = self.get_props()
++        component_props = self.get_component_props()
+ 
+         # Add any events triggers.
+         if "event_triggers" not in kwargs:
+@@ -145,6 +147,15 @@ class Component(Base, ABC):
+             else:
+                 continue
+ 
++            # Props expecting a component only accept components (not Vars).
++            if key in component_props:
++                if value is not None and not isinstance(value, Component):
++                    raise TypeError(
++                        f"Invalid value passed for prop {key} of the `{type(self).__name__}` "
++                        f"component, expected a Component, got value {value} of type {type(value)}."
++                    )
++                continue
++
+             # Check whether the key is a component prop.
+             if types._issubclass(field_type, Var):
+                 try:
+@@ -242,6 +253,9 @@ class Component(Base, ABC):
+             if value._var_type is not EventChain:
+                 raise ValueError(f"Invalid event chain: {value}")
+             return value
++        elif isinstance(value, EventChain):
++            # Trust that the caller knows what they're doing passing an EventChain directly
++            return value
+ 
+         arg_spec = triggers.get(event_trigger, lambda: [])
+ 
+@@ -291,20 +305,26 @@ class Component(Base, ABC):
+             raise ValueError(f"Invalid event chain: {value}")
+ 
+         # Add args to the event specs if necessary.
+-        events = [
+-            EventSpec(
+-                handler=e.handler,
+-                args=get_handler_args(e),
+-                client_handler_name=e.client_handler_name,
+-            )
+-            for e in events
+-        ]
++        events = [e.with_args(get_handler_args(e)) for e in events]
++
++        # Collect event_actions from each spec
++        event_actions = {}
++        for e in events:
++            event_actions.update(e.event_actions)
+ 
+         # Return the event chain.
+         if isinstance(arg_spec, Var):
+-            return EventChain(events=events, args_spec=None)
++            return EventChain(
++                events=events,
++                args_spec=None,
++                event_actions=event_actions,
++            )
+         else:
+-            return EventChain(events=events, args_spec=arg_spec)  # type: ignore
++            return EventChain(
++                events=events,
++                args_spec=arg_spec,  # type: ignore
++                event_actions=event_actions,
++            )
+ 
+     def get_event_triggers(self) -> Dict[str, Any]:
+         """Get the event triggers for the component.
+@@ -382,6 +402,20 @@ class Component(Base, ABC):
+         """
+         return set(cls.get_fields()) - set(Component.get_fields())
+ 
++    @classmethod
++    def get_component_props(cls) -> Set[str]:
++        """Get the props that expected a component as value.
++
++        Returns:
++            The set of component fields.
++        """
++        return {
++            name
++            for name, field in cls.get_fields().items()
++            if name in cls.get_props()
++            and types._issubclass(field.outer_type_, Component)
++        }
++
+     @classmethod
+     def get_initial_props(cls) -> Set[str]:
+         """Get the initial props to set for the component.
+@@ -592,11 +626,27 @@ class Component(Base, ABC):
+             dep: {ImportVar(tag=None, render=False)} for dep in self.lib_dependencies
+         }
+ 
++    def _get_props_imports(self) -> List[imports.ImportDict]:
++        """Get the imports needed for components props.
++
++        Returns:
++            The imports for the components props of the component.
++        """
++        return [
++            getattr(self, prop).get_imports()
++            for prop in self.get_component_props()
++            if getattr(self, prop) is not None
++        ]
++
+     def _get_imports(self) -> imports.ImportDict:
+-        imports = {}
++        _imports = {}
+         if self.library is not None and self.tag is not None:
+-            imports[self.library] = {self.import_var}
+-        return {**self._get_dependencies_imports(), **imports}
++            _imports[self.library] = {self.import_var}
++        return imports.merge_imports(
++            *self._get_props_imports(),
++            self._get_dependencies_imports(),
++            _imports,
++        )
+ 
+     def get_imports(self) -> imports.ImportDict:
+         """Get all the libraries and fields that are used by the component.
+@@ -979,3 +1029,18 @@ class NoSSRComponent(Component):
+             else ""
+         )
+         return "".join((library_import, mod_import, opts_fragment))
++
++
++@serializer
++def serialize_component(comp: Component) -> str:
++    """Serialize a component.
++
++    Used to render a component passed as the value of a prop.
++
++    Args:
++        comp: The component to serialize.
++
++    Returns:
++        The serialized component.
++    """
++    return str(comp)
+diff --git a/reflex/components/datadisplay/dataeditor.py b/reflex/components/datadisplay/dataeditor.py
+index 6f4fc8c..0611f22 100644
+--- a/reflex/components/datadisplay/dataeditor.py
++++ b/reflex/components/datadisplay/dataeditor.py
+@@ -209,13 +209,17 @@ class DataEditor(NoSSRComponent):
+                         tag=f"{format.format_library_name(self.library)}/dist/index.css"
+                     )
+                 },
++                # useEffect is used to set up the shared overlay editor portal.
++                "react": {ImportVar(tag="useEffect")},
+                 self.library: {ImportVar(tag="GridCellKind")},
+                 "/utils/helpers/dataeditor.js": {
+-                    ImportVar(tag=f"getDEColumn", is_default=False, install=False),
+-                    ImportVar(tag=f"getDERow", is_default=False, install=False),
+-                    ImportVar(tag=f"locateCell", is_default=False, install=False),
+-                    ImportVar(tag=f"formatCell", is_default=False, install=False),
+-                    ImportVar(tag=f"onEditCell", is_default=False, install=False),
++                    ImportVar(tag="getDEColumn", is_default=False, install=False),
++                    ImportVar(tag="getDERow", is_default=False, install=False),
++                    ImportVar(tag="locateCell", is_default=False, install=False),
++                    ImportVar(tag="formatCell", is_default=False, install=False),
++                    ImportVar(
++                        tag="ensureDataEditorPortal", is_default=False, install=False
++                    ),
+                 },
+             },
+         )
+@@ -235,6 +239,7 @@ class DataEditor(NoSSRComponent):
+             "on_cell_clicked": lambda pos: [pos],
+             "on_cell_context_menu": lambda pos: [pos],
+             "on_cell_edited": edit_sig,
++            "on_column_resize": lambda col, width: [col, width],
+             "on_group_header_clicked": edit_sig,
+             "on_group_header_context_menu": lambda grp_idx, data: [grp_idx, data],
+             "on_group_header_renamed": lambda idx, val: [idx, val],
+@@ -256,22 +261,20 @@ class DataEditor(NoSSRComponent):
+         data_callback = f"getData_{editor_id}"
+         self.get_cell_content = Var.create(data_callback, _var_is_local=False)  # type: ignore
+ 
+-        code = [f"function {data_callback}([col, row])" "{"]
+-
+-        code.extend(
+-            [
+-                f"  if (row < {self.data._var_full_name}.length && col < {self.columns._var_full_name}.length)"
+-                " {",
+-                f"    const column = getDEColumn({self.columns._var_full_name}, col);",
+-                f"    const rowData = getDERow({self.data._var_full_name}, row);",
+-                f"    const cellData = locateCell(rowData, column);",
+-                "    return formatCell(cellData, column);",
+-                "  }",
+-                "  return { kind: GridCellKind.Loading};",
+-            ]
+-        )
+-
+-        code.append("}")
++        code = [
++            # The overlay editors of all the grids on the page share a single portal.
++            "useEffect(() => ensureDataEditorPortal(), []);",
++            f"function {data_callback}([col, row])" " {",
++            f"  if (row < {self.data._var_full_name}.length && col < {self.columns._var_full_name}.length)"
++            " {",
++            f"    const column = getDEColumn({self.columns._var_full_name}, col);",
++            f"    const rowData = getDERow({self.data._var_full_name}, row);",
++            "    const cellData = locateCell(rowData, column);",
++            "    return formatCell(cellData, column);",
++            "  }",
++            "  return { kind: GridCellKind.Loading };",
++            "}",
++        ]
+ 
+         return "\n".join(code)
+ 
+@@ -335,7 +338,6 @@ class DataEditor(NoSSRComponent):
+         grid = super().create(*children, **props)
+         return Div.create(
+             grid,
+-            Div.create(id="portal"),
+             width=props.pop("width", "100%"),
+             height=props.pop("height", "100%"),
+         )
+diff --git a/reflex/components/datadisplay/dataeditor.pyi b/reflex/components/datadisplay/dataeditor.pyi
+index 756215e..51ac9ab 100644
+--- a/reflex/components/datadisplay/dataeditor.pyi
++++ b/reflex/components/datadisplay/dataeditor.pyi
+@@ -3,7 +3,7 @@
+ # This file was generated by `scripts/pyi_generator.py`!
+ # ------------------------------------------------------
+ 
+-from typing import Dict, Union, Literal, overload, List, Any, Optional
++from typing import Any, List, Literal, Dict, Union, Optional, overload
+ from reflex.vars import Var, BaseVar, ComputedVar
+ from reflex.event import EventChain, EventHandler, EventSpec
+ from reflex.style import Style
+@@ -115,6 +115,9 @@ class DataEditor(NoSSRComponent):
+         on_cell_edited: Optional[
+             Union[EventHandler, EventSpec, List, function, BaseVar]
+         ] = None,
++        on_column_resize: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
+         on_delete: Optional[
+             Union[EventHandler, EventSpec, List, function, BaseVar]
+         ] = None,
+diff --git a/reflex/components/forms/form.py b/reflex/components/forms/form.py
+index 2572c57..fdf8447 100644
+--- a/reflex/components/forms/form.py
++++ b/reflex/components/forms/form.py
+@@ -1,10 +1,11 @@
+ """Form components."""
+ 
+-from typing import Any, Dict
++from typing import Any, Callable, Dict, List, Union
+ 
+ from reflex.components.component import Component
+ from reflex.components.libs.chakra import ChakraComponent
+ from reflex.constants import EventTriggers
++from reflex.event import EventChain, EventHandler, EventSpec
+ from reflex.vars import Var
+ 
+ 
+@@ -16,6 +17,27 @@ class Form(ChakraComponent):
+     # What the form renders to.
+     as_: Var[str] = "form"  # type: ignore
+ 
++    def _create_event_chain(
++        self,
++        event_trigger: str,
++        value: Union[
++            Var, EventHandler, EventSpec, List[Union[EventHandler, EventSpec]], Callable
++        ],
++    ) -> Union[EventChain, Var]:
++        """Override the event chain creation to preventDefault for on_submit.
++
++        Args:
++            event_trigger: The event trigger.
++            value: The value of the event trigger.
++
++        Returns:
++            The event chain.
++        """
++        chain = super()._create_event_chain(event_trigger, value)
++        if event_trigger == EventTriggers.ON_SUBMIT and isinstance(chain, EventChain):
++            return chain.prevent_default
++        return chain
++
+     def get_event_triggers(self) -> Dict[str, Any]:
+         """Get the event triggers that pass the component's value to the handler.
+ 
+diff --git a/reflex/components/forms/form.pyi b/reflex/components/forms/form.pyi
+index dc6a89e..1622d3c 100644
+--- a/reflex/components/forms/form.pyi
++++ b/reflex/components/forms/form.pyi
+@@ -1,23 +1,94 @@
+-"""Stub file for form.py"""
++"""Stub file for reflex/components/forms/form.py"""
+ # ------------------- DO NOT EDIT ----------------------
+ # This file was generated by `scripts/pyi_generator.py`!
+ # ------------------------------------------------------
+ 
+-from typing import Any, Dict, Optional, Union, overload
+-from reflex.components.libs.chakra import ChakraComponent
+-from reflex.components.component import Component
++from typing import Dict, Any, List, Optional, Union, Literal, overload
+ from reflex.vars import Var, BaseVar, ComputedVar
+-from reflex.event import EventHandler, EventChain, EventSpec
++from reflex.event import EventChain, EventHandler, EventSpec
++from reflex.style import Style
++from typing import Any, Callable, Dict, List, Union
++from reflex.components.component import Component
++from reflex.components.libs.chakra import ChakraComponent
++from reflex.constants import EventTriggers
++from reflex.event import EventChain, EventHandler, EventSpec
++from reflex.vars import Var
+ 
+ class Form(ChakraComponent):
++    def get_event_triggers(self) -> Dict[str, Any]: ...
+     @overload
+     @classmethod
+-    def create(cls, *children, as_: Optional[Union[Var[str], str]] = None, on_blur: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_click: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_context_menu: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_double_click: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_focus: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mount: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_down: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_enter: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_leave: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_move: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_out: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_over: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_up: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_scroll: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_submit: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_unmount: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, **props) -> "Form":  # type: ignore
++    def create(  # type: ignore
++        cls,
++        *children,
++        as_: Optional[Union[Var[str], str]] = None,
++        style: Optional[Style] = None,
++        key: Optional[Any] = None,
++        id: Optional[Any] = None,
++        class_name: Optional[Any] = None,
++        autofocus: Optional[bool] = None,
++        custom_attrs: Optional[Dict[str, str]] = None,
++        on_blur: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_click: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_context_menu: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_double_click: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_focus: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mount: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_down: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_enter: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_leave: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_move: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_out: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_over: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_up: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_scroll: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_submit: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_unmount: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        **props
++    ) -> "Form":
+         """Create the component.
+ 
+         Args:
+             *children: The children of the component.
+             as_: What the form renders to.
++            style: The style of the component.
++            key: A unique key for the component.
++            id: The id for the component.
++            class_name: The class name for the component.
++            autofocus: Whether the component should take the focus once the page is loaded
++            custom_attrs: custom attribute
+             **props: The props of the component.
+ 
+         Returns:
+@@ -31,20 +102,88 @@ class Form(ChakraComponent):
+ class FormControl(ChakraComponent):
+     @overload
+     @classmethod
+-    def create(cls, *children, label, input, help_text, error_message, is_disabled: Optional[Union[Var[bool], bool]] = None, is_invalid: Optional[Union[Var[bool], bool]] = None, is_read_only: Optional[Union[Var[bool], bool]] = None, is_required: Optional[Union[Var[bool], bool]] = None, on_blur: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_click: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_context_menu: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_double_click: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_focus: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mount: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_down: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_enter: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_leave: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_move: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_out: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_over: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_up: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_scroll: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_unmount: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, **props) -> "FormControl":  # type: ignore
++    def create(  # type: ignore
++        cls,
++        *children,
++        label=None,
++        input=None,
++        help_text=None,
++        error_message=None,
++        is_disabled: Optional[Union[Var[bool], bool]] = None,
++        is_invalid: Optional[Union[Var[bool], bool]] = None,
++        is_read_only: Optional[Union[Var[bool], bool]] = None,
++        is_required: Optional[Union[Var[bool], bool]] = None,
++        style: Optional[Style] = None,
++        key: Optional[Any] = None,
++        id: Optional[Any] = None,
++        class_name: Optional[Any] = None,
++        autofocus: Optional[bool] = None,
++        custom_attrs: Optional[Dict[str, str]] = None,
++        on_blur: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_click: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_context_menu: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_double_click: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_focus: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mount: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_down: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_enter: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_leave: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_move: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_out: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_over: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_up: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_scroll: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_unmount: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        **props
++    ) -> "FormControl":
+         """Create a form control component.
+ 
+         Args:
+             *children: The children of the form control.
+-            is_disabled: If true, the form control will be disabled.
+-            is_invalid: If true, the form control will be invalid.
+-            is_read_only: If true, the form control will be readonly
+-            is_required: If true, the form control will be required.
+-            label: The label text used to inform users as to what information is requested for a text field.
+             label: The label of the form control.
+             input: The input of the form control.
+             help_text: The help text of the form control.
+             error_message: The error message of the form control.
++            is_disabled: If true, the form control will be disabled.
++            is_invalid: If true, the form control will be invalid.
++            is_read_only: If true, the form control will be readonly
++            is_required: If true, the form control will be required.
++            style: The style of the component.
++            key: A unique key for the component.
++            id: The id for the component.
++            class_name: The class name for the component.
++            autofocus: Whether the component should take the focus once the page is loaded
++            custom_attrs: custom attribute
+             **props: The properties of the form control.
+ 
+         Raises:
+@@ -56,13 +195,76 @@ class FormControl(ChakraComponent):
+         ...
+ 
+ class FormHelperText(ChakraComponent):
++    ...
++
+     @overload
+     @classmethod
+-    def create(cls, *children, on_blur: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_click: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_context_menu: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_double_click: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_focus: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mount: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_down: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_enter: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_leave: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_move: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_out: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_over: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_up: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_scroll: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_unmount: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, **props) -> "FormHelperText":  # type: ignore
++    def create(  # type: ignore
++        cls,
++        *children,
++        style: Optional[Style] = None,
++        key: Optional[Any] = None,
++        id: Optional[Any] = None,
++        class_name: Optional[Any] = None,
++        autofocus: Optional[bool] = None,
++        custom_attrs: Optional[Dict[str, str]] = None,
++        on_blur: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_click: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_context_menu: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_double_click: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_focus: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mount: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_down: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_enter: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_leave: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_move: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_out: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_over: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_up: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_scroll: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_unmount: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        **props
++    ) -> "FormHelperText":
+         """Create the component.
+ 
+         Args:
+             *children: The children of the component.
++            style: The style of the component.
++            key: A unique key for the component.
++            id: The id for the component.
++            class_name: The class name for the component.
++            autofocus: Whether the component should take the focus once the page is loaded
++            custom_attrs: custom attribute
+             **props: The props of the component.
+ 
+         Returns:
+@@ -74,14 +276,78 @@ class FormHelperText(ChakraComponent):
+         ...
+ 
+ class FormLabel(ChakraComponent):
++    ...
++
+     @overload
+     @classmethod
+-    def create(cls, *children, html_for: Optional[Union[Var[str], str]] = None, on_blur: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_click: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_context_menu: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_double_click: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_focus: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mount: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_down: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_enter: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_leave: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_move: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_out: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_over: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_up: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_scroll: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_unmount: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, **props) -> "FormLabel":  # type: ignore
++    def create(  # type: ignore
++        cls,
++        *children,
++        html_for: Optional[Union[Var[str], str]] = None,
++        style: Optional[Style] = None,
++        key: Optional[Any] = None,
++        id: Optional[Any] = None,
++        class_name: Optional[Any] = None,
++        autofocus: Optional[bool] = None,
++        custom_attrs: Optional[Dict[str, str]] = None,
++        on_blur: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_click: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_context_menu: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_double_click: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_focus: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mount: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_down: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_enter: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_leave: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_move: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_out: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_over: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_up: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_scroll: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_unmount: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        **props
++    ) -> "FormLabel":
+         """Create the component.
+ 
+         Args:
+             *children: The children of the component.
+             html_for: Link
++            style: The style of the component.
++            key: A unique key for the component.
++            id: The id for the component.
++            class_name: The class name for the component.
++            autofocus: Whether the component should take the focus once the page is loaded
++            custom_attrs: custom attribute
+             **props: The props of the component.
+ 
+         Returns:
+@@ -93,13 +359,76 @@ class FormLabel(ChakraComponent):
+         ...
+ 
+ class FormErrorMessage(ChakraComponent):
++    ...
++
+     @overload
+     @classmethod
+-    def create(cls, *children, on_blur: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_click: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_context_menu: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_double_click: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_focus: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mount: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_down: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_enter: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_leave: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_move: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_out: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_over: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_up: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_scroll: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_unmount: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, **props) -> "FormErrorMessage":  # type: ignore
++    def create(  # type: ignore
++        cls,
++        *children,
++        style: Optional[Style] = None,
++        key: Optional[Any] = None,
++        id: Optional[Any] = None,
++        class_name: Optional[Any] = None,
++        autofocus: Optional[bool] = None,
++        custom_attrs: Optional[Dict[str, str]] = None,
++        on_blur: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_click: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_context_menu: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_double_click: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_focus: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mount: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_down: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_enter: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_leave: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_move: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_out: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_over: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_up: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_scroll: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_unmount: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        **props
++    ) -> "FormErrorMessage":
+         """Create the component.
+ 
+         Args:
+             *children: The children of the component.
++            style: The style of the component.
++            key: A unique key for the component.
++            id: The id for the component.
++            class_name: The class name for the component.
++            autofocus: Whether the component should take the focus once the page is loaded
++            custom_attrs: custom attribute
+             **props: The props of the component.
+ 
+         Returns:
+diff --git a/reflex/components/forms/iconbutton.py b/reflex/components/forms/iconbutton.py
+index 59f5b60..ac5549c 100644
+--- a/reflex/components/forms/iconbutton.py
++++ b/reflex/components/forms/iconbutton.py
+@@ -1,5 +1,8 @@
+ """An icon button component."""
+ 
++from typing import Optional
++
++from reflex.components.component import Component
+ from reflex.components.typography.text import Text
+ from reflex.vars import Var
+ 
+@@ -16,7 +19,7 @@ class IconButton(Text):
+     aria_label: Var[str]
+ 
+     # The icon to be used in the button.
+-    icon: Var[str]
++    icon: Optional[Component]
+ 
+     # If true, the button will be styled in its active state.
+     is_active: Var[bool]
+diff --git a/reflex/components/forms/iconbutton.pyi b/reflex/components/forms/iconbutton.pyi
+index 9d50c91..b3c6fd9 100644
+--- a/reflex/components/forms/iconbutton.pyi
++++ b/reflex/components/forms/iconbutton.pyi
+@@ -1,18 +1,87 @@
+-"""Stub file for iconbutton.py"""
++"""Stub file for reflex/components/forms/iconbutton.py"""
+ # ------------------- DO NOT EDIT ----------------------
+ # This file was generated by `scripts/pyi_generator.py`!
+ # ------------------------------------------------------
+ 
+-from typing import Optional, Union, overload
++from typing import Literal, Optional, List, Any, Union, overload, Dict
++from reflex.vars import Var, BaseVar, ComputedVar
++from reflex.event import EventChain, EventHandler, EventSpec
++from reflex.style import Style
++from typing import Optional
+ from reflex.components.component import Component
+ from reflex.components.typography.text import Text
+-from reflex.vars import Var, BaseVar, ComputedVar
+-from reflex.event import EventHandler, EventChain, EventSpec
++from reflex.vars import Var
+ 
+ class IconButton(Text):
++    ...
++
+     @overload
+     @classmethod
+-    def create(cls, *children, type: Optional[Union[Var[str], str]] = None, aria_label: Optional[Union[Var[str], str]] = None, icon: Optional[Union[Var[str], str]] = None, is_active: Optional[Union[Var[bool], bool]] = None, is_disabled: Optional[Union[Var[bool], bool]] = None, is_loading: Optional[Union[Var[bool], bool]] = None, is_round: Optional[Union[Var[bool], bool]] = None, spinner: Optional[Union[Var[str], str]] = None, on_blur: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_click: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_context_menu: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_double_click: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_focus: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mount: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_down: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_enter: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_leave: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_move: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_out: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_over: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_up: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_scroll: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_unmount: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, **props) -> "IconButton":  # type: ignore
++    def create(  # type: ignore
++        cls,
++        *children,
++        type: Optional[Union[Var[str], str]] = None,
++        aria_label: Optional[Union[Var[str], str]] = None,
++        icon: Optional[Component] = None,
++        is_active: Optional[Union[Var[bool], bool]] = None,
++        is_disabled: Optional[Union[Var[bool], bool]] = None,
++        is_loading: Optional[Union[Var[bool], bool]] = None,
++        is_round: Optional[Union[Var[bool], bool]] = None,
++        spinner: Optional[Union[Var[str], str]] = None,
++        as_: Optional[Union[Var[str], str]] = None,
++        style: Optional[Style] = None,
++        key: Optional[Any] = None,
++        id: Optional[Any] = None,
++        class_name: Optional[Any] = None,
++        autofocus: Optional[bool] = None,
++        custom_attrs: Optional[Dict[str, str]] = None,
++        on_blur: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_click: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_context_menu: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_double_click: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_focus: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mount: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_down: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_enter: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_leave: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_move: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_out: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_over: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_up: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_scroll: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_unmount: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        **props
++    ) -> "IconButton":
+         """Create the component.
+ 
+         Args:
+@@ -25,6 +94,13 @@ class IconButton(Text):
+             is_loading: If true, the button will show a spinner.
+             is_round: If true, the button will be perfectly round. Else, it'll be slightly round
+             spinner: Replace the spinner component when isLoading is set to true
++            as_: Override the tag. The default tag is `<p>`.
++            style: The style of the component.
++            key: A unique key for the component.
++            id: The id for the component.
++            class_name: The class name for the component.
++            autofocus: Whether the component should take the focus once the page is loaded
++            custom_attrs: custom attribute
+             **props: The props of the component.
+ 
+         Returns:
+diff --git a/reflex/components/forms/pininput.py b/reflex/components/forms/pininput.py
+index 4d81df7..62eb5d0 100644
+--- a/reflex/components/forms/pininput.py
++++ b/reflex/components/forms/pininput.py
+@@ -16,7 +16,7 @@ class PinInput(ChakraComponent):
+ 
+     tag = "PinInput"
+ 
+-    # State var to bind the the input.
++    # State var to bind the input.
+     value: Var[str]
+ 
+     # If true, the pin input receives focus on mount
+diff --git a/reflex/components/forms/pininput.pyi b/reflex/components/forms/pininput.pyi
+index aff296a..f6d0224 100644
+--- a/reflex/components/forms/pininput.pyi
++++ b/reflex/components/forms/pininput.pyi
+@@ -20,7 +20,7 @@ class PinInput(ChakraComponent):
+ 
+         Args:
+             *children: The children of the component.
+-            value: State var to bind the the input.
++            value: State var to bind the input.
+             auto_focus: If true, the pin input receives focus on mount
+             default_value: The default value of the pin input
+             error_border_color: The border color when the input is invalid.
+diff --git a/reflex/components/forms/radio.py b/reflex/components/forms/radio.py
+index 81fdcb2..c33a2d8 100644
+--- a/reflex/components/forms/radio.py
++++ b/reflex/components/forms/radio.py
+@@ -17,7 +17,7 @@ class RadioGroup(ChakraComponent):
+ 
+     tag = "RadioGroup"
+ 
+-    # State var to bind the the input.
++    # State var to bind the input.
+     value: Var[Any]
+ 
+     # The default value.
+diff --git a/reflex/components/forms/radio.pyi b/reflex/components/forms/radio.pyi
+index 769f9e9..be321ca 100644
+--- a/reflex/components/forms/radio.pyi
++++ b/reflex/components/forms/radio.pyi
+@@ -18,7 +18,7 @@ class RadioGroup(ChakraComponent):
+ 
+         Args:
+             *children: The children of the component.
+-            value: State var to bind the the input.
++            value: State var to bind the input.
+             default_value: The default value.
+             **props: The props of the component.
+ 
+diff --git a/reflex/components/forms/rangeslider.py b/reflex/components/forms/rangeslider.py
+index 9879d0c..4802fec 100644
+--- a/reflex/components/forms/rangeslider.py
++++ b/reflex/components/forms/rangeslider.py
+@@ -15,7 +15,7 @@ class RangeSlider(ChakraComponent):
+ 
+     tag = "RangeSlider"
+ 
+-    # State var to bind the the input.
++    # State var to bind the input.
+     value: Var[List[int]]
+ 
+     # The default values.
+diff --git a/reflex/components/forms/rangeslider.pyi b/reflex/components/forms/rangeslider.pyi
+index 5e2c01f..ffd6a81 100644
+--- a/reflex/components/forms/rangeslider.pyi
++++ b/reflex/components/forms/rangeslider.pyi
+@@ -19,7 +19,7 @@ class RangeSlider(ChakraComponent):
+ 
+         Args:
+             *children: The children of the component.
+-            value: State var to bind the the input.
++            value: State var to bind the input.
+             default_value: The default values.
+             direction: The writing mode ("ltr" | "rtl")
+             focus_thumb_on_change: If false, the slider handle will not capture focus when value changes.
+diff --git a/reflex/components/graphing/recharts/cartesian.py b/reflex/components/graphing/recharts/cartesian.py
+index 503149f..8c75986 100644
+--- a/reflex/components/graphing/recharts/cartesian.py
++++ b/reflex/components/graphing/recharts/cartesian.py
+@@ -47,10 +47,10 @@ class Axis(Recharts):
+     # Allow the axis has duplicated categorys or not when the type of axis is "category".
+     allow_duplicated_category: Var[bool]
+ 
+-    # If set false, no axis line will be drawn. If set a object, the option is the configuration of axis line.
++    # If set false, no axis line will be drawn. If set an object, the option is the configuration of axis line.
+     axis_line: Var[bool]
+ 
+-    # If set false, no axis tick lines will be drawn. If set a object, the option is the configuration of tick lines.
++    # If set false, no axis tick lines will be drawn. If set an object, the option is the configuration of tick lines.
+     tick_line: Var[bool]
+ 
+     # If set true, flips ticks around the axis line, displaying the labels inside the chart instead of outside.
+@@ -549,10 +549,10 @@ class CartesianAxis(Grid):
+     # The orientation of axis 'top' | 'bottom' | 'left' | 'right'
+     orientation: Var[LiteralOrientationTopBottomLeftRight]
+ 
+-    # If set false, no axis line will be drawn. If set a object, the option is the configuration of axis line.
++    # If set false, no axis line will be drawn. If set an object, the option is the configuration of axis line.
+     axis_line: Var[bool]
+ 
+-    # If set false, no axis tick lines will be drawn. If set a object, the option is the configuration of tick lines.
++    # If set false, no axis tick lines will be drawn. If set an object, the option is the configuration of tick lines.
+     tick_line: Var[bool]
+ 
+     # The length of tick line.
+diff --git a/reflex/components/graphing/recharts/cartesian.pyi b/reflex/components/graphing/recharts/cartesian.pyi
+index ef458db..49fb3b3 100644
+--- a/reflex/components/graphing/recharts/cartesian.pyi
++++ b/reflex/components/graphing/recharts/cartesian.pyi
+@@ -24,8 +24,8 @@ class Axis(Recharts):
+             allow_decimals: Allow the ticks of XAxis to be decimals or not.
+             allow_data_overflow: When domain of the axis is specified and the type of the axis is 'number', if allowDataOverflow is set to be false, the domain will be adjusted when the minimum value of data is smaller than domain[0] or the maximum value of data is greater than domain[1] so that the axis displays all data values. If set to true, graphic elements (line, area, bars) will be clipped to conform to the specified domain.
+             allow_duplicated_category: Allow the axis has duplicated categorys or not when the type of axis is "category".
+-            axis_line: If set false, no axis line will be drawn. If set a object, the option is the configuration of axis line.
+-            tick_line: If set false, no axis tick lines will be drawn. If set a object, the option is the configuration of tick lines.
++            axis_line: If set false, no axis line will be drawn. If set an object, the option is the configuration of axis line.
++            tick_line: If set false, no axis tick lines will be drawn. If set an object, the option is the configuration of tick lines.
+             mirror: If set true, flips ticks around the axis line, displaying the labels inside the chart instead of outside.
+             reversed: Reverse the ticks or not.
+             scale: If 'auto' set, the scale function is decided by the type of chart, and the props type. 'auto' | 'linear' | 'pow' | 'sqrt' | 'log' | 'identity' | 'time' | 'band' | 'point' | 'ordinal' | 'quantile' | 'quantize' | 'utc' | 'sequential' | 'threshold' | Function
+@@ -452,8 +452,8 @@ class CartesianAxis(Grid):
+         Args:
+             *children: The children of the component.
+             orientation: The orientation of axis 'top' | 'bottom' | 'left' | 'right'
+-            axis_line: If set false, no axis line will be drawn. If set a object, the option is the configuration of axis line.
+-            tick_line: If set false, no axis tick lines will be drawn. If set a object, the option is the configuration of tick lines.
++            axis_line: If set false, no axis line will be drawn. If set an object, the option is the configuration of axis line.
++            tick_line: If set false, no axis tick lines will be drawn. If set an object, the option is the configuration of tick lines.
+             tick_size: The length of tick line.
+             interval: If set 0, all the ticks will be shown. If set preserveStart", "preserveEnd" or "preserveStartEnd", the ticks which is to be shown or hidden will be calculated automatically.
+             ticks: If set false, no ticks will be drawn.
+diff --git a/reflex/components/graphing/recharts/polar.py b/reflex/components/graphing/recharts/polar.py
+index 44817a7..9d05de4 100644
+--- a/reflex/components/graphing/recharts/polar.py
++++ b/reflex/components/graphing/recharts/polar.py
+@@ -302,7 +302,7 @@ class PolarRadiusAxis(Recharts):
+     # The count of ticks.
+     tick_count: Var[int]
+ 
+-    # If 'auto' set, the scale funtion is linear scale. 'auto' | 'linear' | 'pow' | 'sqrt' | 'log' | 'identity' | 'time' | 'band' | 'point' | 'ordinal' | 'quantile' | 'quantize' | 'utc' | 'sequential' | 'threshold'
++    # If 'auto' set, the scale function is linear scale. 'auto' | 'linear' | 'pow' | 'sqrt' | 'log' | 'identity' | 'time' | 'band' | 'point' | 'ordinal' | 'quantile' | 'quantize' | 'utc' | 'sequential' | 'threshold'
+     scale: Var[LiteralScale]
+ 
+     # Valid children components
+diff --git a/reflex/components/graphing/recharts/polar.pyi b/reflex/components/graphing/recharts/polar.pyi
+index 79d04b1..18b44b2 100644
+--- a/reflex/components/graphing/recharts/polar.pyi
++++ b/reflex/components/graphing/recharts/polar.pyi
+@@ -172,7 +172,7 @@ class PolarRadiusAxis(Recharts):
+             axis_line: If false set, axis line will not be drawn. If true set, axis line will be drawn which have the props calculated internally. If object set, axis line will be drawn which have the props mergered by the internal calculated props and the option.
+             tick: The width or height of tick.
+             tick_count: The count of ticks.
+-            scale: If 'auto' set, the scale funtion is linear scale. 'auto' | 'linear' | 'pow' | 'sqrt' | 'log' | 'identity' | 'time' | 'band' | 'point' | 'ordinal' | 'quantile' | 'quantize' | 'utc' | 'sequential' | 'threshold'
++            scale: If 'auto' set, the scale function is linear scale. 'auto' | 'linear' | 'pow' | 'sqrt' | 'log' | 'identity' | 'time' | 'band' | 'point' | 'ordinal' | 'quantile' | 'quantize' | 'utc' | 'sequential' | 'threshold'
+             valid_children: Valid children components
+             **props: The props of the component.
+ 
+diff --git a/reflex/components/layout/foreach.py b/reflex/components/layout/foreach.py
+index 3256155..4106119 100644
+--- a/reflex/components/layout/foreach.py
++++ b/reflex/components/layout/foreach.py
+@@ -18,6 +18,9 @@ class Foreach(Component):
+     # A function from the render args to the component.
+     render_fn: Callable = Fragment.create
+ 
++    # The name of the index var, unique for every foreach component.
++    index_var_name: str = ""
++
+     @classmethod
+     def create(cls, iterable: Var[Iterable], render_fn: Callable, **props) -> Foreach:
+         """Create a foreach component.
+@@ -33,48 +36,59 @@ class Foreach(Component):
+         Raises:
+             TypeError: If the iterable is of type Any.
+         """
+-        try:
+-            type_ = (
+-                iterable._var_type
+-                if iterable._var_type.mro()[0] == dict
+-                else iterable._var_type.__args__[0]
+-            )
+-        except Exception:
+-            type_ = Any
+         iterable = Var.create(iterable)  # type: ignore
+         if iterable._var_type == Any:
+             raise TypeError(
+                 f"Could not foreach over var of type Any. (If you are trying to foreach over a state var, add a type annotation to the var.)"
+             )
+-        arg = BaseVar(_var_name="_", _var_type=type_, _var_is_local=True)
+-        return cls(
++        component = cls(
+             iterable=iterable,
+             render_fn=render_fn,
+-            children=[IterTag.render_component(render_fn, arg=arg)],
++            index_var_name=get_unique_variable_name(),
+             **props,
+         )
++        # Keep a ref to a rendered component to determine correct imports/hooks/styles.
++        tag = component._render()
++        arg = BaseVar(
++            _var_name="_",
++            _var_type=component._get_arg_type(),
++            _var_is_local=True,
++        )
++        component.children = [tag.render_component(render_fn, arg=arg)]
++        return component
+ 
+-    def _render(self) -> IterTag:
+-        return IterTag(iterable=self.iterable, render_fn=self.render_fn)
+-
+-    def render(self):
+-        """Render the component.
++    def _get_arg_type(self) -> Any:
++        """Get the type of the arg passed to the render function.
+ 
+         Returns:
+-            The dictionary for template of component.
++            The type of the elements of the iterable.
+         """
+-        tag = self._render()
+         try:
+-            type_ = (
++            return (
+                 self.iterable._var_type
+                 if self.iterable._var_type.mro()[0] == dict
+                 else self.iterable._var_type.__args__[0]
+             )
+         except Exception:
+-            type_ = Any
++            return Any
++
++    def _render(self) -> IterTag:
++        return IterTag(
++            iterable=self.iterable,
++            render_fn=self.render_fn,
++            index_var_name=self.index_var_name,
++        )
++
++    def render(self):
++        """Render the component.
++
++        Returns:
++            The dictionary for template of component.
++        """
++        tag = self._render()
+         arg = BaseVar(
+             _var_name=get_unique_variable_name(),
+-            _var_type=type_,
++            _var_type=self._get_arg_type(),
+         )
+         index_arg = tag.get_index_var_arg()
+         component = tag.render_component(self.render_fn, arg)
+diff --git a/reflex/components/navigation/stepper.py b/reflex/components/navigation/stepper.py
+index e99e9e8..546ffb7 100644
+--- a/reflex/components/navigation/stepper.py
++++ b/reflex/components/navigation/stepper.py
+@@ -1,11 +1,13 @@
+ """A component to indicate progress through a multi-step process."""
+ 
+-from typing import List, Optional, Tuple
++from typing import List, Literal, Optional, Tuple
+ 
+ from reflex.components.component import Component
+ from reflex.components.libs.chakra import ChakraComponent, LiteralColorScheme
+ from reflex.vars import Var
+ 
++LiteralStepperOrientation = Literal["vertical", "horizontal"]
++
+ 
+ class Stepper(ChakraComponent):
+     """The parent container for a stepper."""
+@@ -24,6 +26,9 @@ class Stepper(ChakraComponent):
+     # The size of the steps in the stepper.
+     size: Var[str]
+ 
++    # The orientation of the stepper.
++    orientation: Var[LiteralStepperOrientation]
++
+     @classmethod
+     def create(
+         cls, *children, items: Optional[List[Tuple]] = None, **props
+@@ -84,7 +89,7 @@ class StepNumber(ChakraComponent):
+ 
+ 
+ class StepSeparator(ChakraComponent):
+-    """The component separting steps."""
++    """The component separating steps."""
+ 
+     tag = "StepSeparator"
+ 
+diff --git a/reflex/components/navigation/stepper.pyi b/reflex/components/navigation/stepper.pyi
+index 8cb4dc8..80125c7 100644
+--- a/reflex/components/navigation/stepper.pyi
++++ b/reflex/components/navigation/stepper.pyi
+@@ -1,45 +1,228 @@
+-"""Stub file for stepper.py"""
++"""Stub file for reflex/components/navigation/stepper.py"""
+ # ------------------- DO NOT EDIT ----------------------
+ # This file was generated by `scripts/pyi_generator.py`!
+ # ------------------------------------------------------
+ 
+-from typing import List, Literal, Optional, Tuple, Union, overload
+-from reflex.components.libs.chakra import ChakraComponent
+-from reflex.components.component import Component
++from typing import Union, Any, Dict, List, overload, Literal, Optional
+ from reflex.vars import Var, BaseVar, ComputedVar
+-from reflex.event import EventHandler, EventChain, EventSpec
++from reflex.event import EventChain, EventHandler, EventSpec
++from reflex.style import Style
++from typing import List, Literal, Optional, Tuple
++from reflex.components.component import Component
++from reflex.components.libs.chakra import ChakraComponent, LiteralColorScheme
++from reflex.vars import Var
+ 
+ class Stepper(ChakraComponent):
+     @overload
+     @classmethod
+-    def create(cls, *children, items: Optional[List[Tuple]] = None, colorScheme: Optional[Union[Var[Literal["gray", "red", "orange", "yellow", "green", "teal", "blue", "cyan", "purple", "pink", "whiteAlpha", "blackAlpha", "linkedin", "facebook", "messenger", "whatsapp", "twitter", "telegram"]], Literal["gray", "red", "orange", "yellow", "green", "teal", "blue", "cyan", "purple", "pink", "whiteAlpha", "blackAlpha", "linkedin", "facebook", "messenger", "whatsapp", "twitter", "telegram"]]] = None, index: Optional[Union[Var[int], int]] = None, size: Optional[Union[Var[str], str]] = None, on_blur: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_click: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_context_menu: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_double_click: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_focus: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mount: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_down: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_enter: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_leave: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_move: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_out: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_over: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_up: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_scroll: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_unmount: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, **props) -> "Stepper":  # type: ignore
++    def create(  # type: ignore
++        cls,
++        *children,
++        items: Optional[List[Tuple]] = None,
++        colorScheme: Optional[
++            Union[
++                Var[
++                    Literal[
++                        "none",
++                        "gray",
++                        "red",
++                        "orange",
++                        "yellow",
++                        "green",
++                        "teal",
++                        "blue",
++                        "cyan",
++                        "purple",
++                        "pink",
++                        "whiteAlpha",
++                        "blackAlpha",
++                        "linkedin",
++                        "facebook",
++                        "messenger",
++                        "whatsapp",
++                        "twitter",
++                        "telegram",
++                    ]
++                ],
++                Literal[
++                    "none",
++                    "gray",
++                    "red",
++                    "orange",
++                    "yellow",
++                    "green",
++                    "teal",
++                    "blue",
++                    "cyan",
++                    "purple",
++                    "pink",
++                    "whiteAlpha",
++                    "blackAlpha",
++                    "linkedin",
++                    "facebook",
++                    "messenger",
++                    "whatsapp",
++                    "twitter",
++                    "telegram",
++                ],
++            ]
++        ] = None,
++        index: Optional[Union[Var[int], int]] = None,
++        size: Optional[Union[Var[str], str]] = None,
++        orientation: Optional[
++            Union[
++                Var[Literal["vertical", "horizontal"]],
++                Literal["vertical", "horizontal"],
++            ]
++        ] = None,
++        style: Optional[Style] = None,
++        key: Optional[Any] = None,
++        id: Optional[Any] = None,
++        class_name: Optional[Any] = None,
++        autofocus: Optional[bool] = None,
++        custom_attrs: Optional[Dict[str, str]] = None,
++        on_blur: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_click: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_context_menu: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_double_click: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_focus: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mount: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_down: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_enter: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_leave: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_move: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_out: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_over: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_up: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_scroll: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_unmount: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        **props
++    ) -> "Stepper":
+         """Create a Stepper component.
+ 
+-               If the kw-args `items` is provided and is a list, they will be added as children.
++        If the kw-args `items` is provided and is a list, they will be added as children.
+ 
+-               Args:
+-                   *children: The children of the component.
+-                   colorScheme: The color scheme to use for the stepper; default is blue.
+-                   index: Chakra provides a useSteps hook to control the stepper.
+-        Instead, use an integer state value to set progress in the stepper.
+-        The index of the current step.
+-                   size: The size of the steps in the stepper.
+-                   items (list): The child components for each step.
+-                   **props: The properties of the component.
++        Args:
++            *children: The children of the component.
++            items (list): The child components for each step.
++            colorScheme: The color scheme to use for the stepper; default is blue.
++            index: Chakra provides a useSteps hook to control the stepper.  Instead, use an integer state value to set progress in the stepper.  The index of the current step.
++            size: The size of the steps in the stepper.
++            orientation: The orientation of the stepper.
++            style: The style of the component.
++            key: A unique key for the component.
++            id: The id for the component.
++            class_name: The class name for the component.
++            autofocus: Whether the component should take the focus once the page is loaded
++            custom_attrs: custom attribute
++            **props: The properties of the component.
+ 
+-               Returns:
+-                   The stepper component.
++        Returns:
++            The stepper component.
+         """
+         ...
+ 
+ class Step(ChakraComponent):
++    ...
++
+     @overload
+     @classmethod
+-    def create(cls, *children, on_blur: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_click: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_context_menu: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_double_click: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_focus: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mount: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_down: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_enter: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_leave: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_move: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_out: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_over: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_up: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_scroll: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_unmount: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, **props) -> "Step":  # type: ignore
++    def create(  # type: ignore
++        cls,
++        *children,
++        style: Optional[Style] = None,
++        key: Optional[Any] = None,
++        id: Optional[Any] = None,
++        class_name: Optional[Any] = None,
++        autofocus: Optional[bool] = None,
++        custom_attrs: Optional[Dict[str, str]] = None,
++        on_blur: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_click: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_context_menu: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_double_click: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_focus: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mount: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_down: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_enter: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_leave: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_move: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_out: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_over: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_up: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_scroll: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_unmount: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        **props
++    ) -> "Step":
+         """Create the component.
+ 
+         Args:
+             *children: The children of the component.
++            style: The style of the component.
++            key: A unique key for the component.
++            id: The id for the component.
++            class_name: The class name for the component.
++            autofocus: Whether the component should take the focus once the page is loaded
++            custom_attrs: custom attribute
+             **props: The props of the component.
+ 
+         Returns:
+@@ -51,13 +234,76 @@ class Step(ChakraComponent):
+         ...
+ 
+ class StepDescription(ChakraComponent):
++    ...
++
+     @overload
+     @classmethod
+-    def create(cls, *children, on_blur: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_click: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_context_menu: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_double_click: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_focus: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mount: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_down: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_enter: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_leave: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_move: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_out: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_over: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_up: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_scroll: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_unmount: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, **props) -> "StepDescription":  # type: ignore
++    def create(  # type: ignore
++        cls,
++        *children,
++        style: Optional[Style] = None,
++        key: Optional[Any] = None,
++        id: Optional[Any] = None,
++        class_name: Optional[Any] = None,
++        autofocus: Optional[bool] = None,
++        custom_attrs: Optional[Dict[str, str]] = None,
++        on_blur: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_click: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_context_menu: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_double_click: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_focus: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mount: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_down: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_enter: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_leave: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_move: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_out: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_over: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_up: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_scroll: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_unmount: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        **props
++    ) -> "StepDescription":
+         """Create the component.
+ 
+         Args:
+             *children: The children of the component.
++            style: The style of the component.
++            key: A unique key for the component.
++            id: The id for the component.
++            class_name: The class name for the component.
++            autofocus: Whether the component should take the focus once the page is loaded
++            custom_attrs: custom attribute
+             **props: The props of the component.
+ 
+         Returns:
+@@ -69,13 +315,76 @@ class StepDescription(ChakraComponent):
+         ...
+ 
+ class StepIcon(ChakraComponent):
++    ...
++
+     @overload
+     @classmethod
+-    def create(cls, *children, on_blur: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_click: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_context_menu: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_double_click: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_focus: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mount: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_down: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_enter: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_leave: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_move: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_out: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_over: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_up: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_scroll: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_unmount: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, **props) -> "StepIcon":  # type: ignore
++    def create(  # type: ignore
++        cls,
++        *children,
++        style: Optional[Style] = None,
++        key: Optional[Any] = None,
++        id: Optional[Any] = None,
++        class_name: Optional[Any] = None,
++        autofocus: Optional[bool] = None,
++        custom_attrs: Optional[Dict[str, str]] = None,
++        on_blur: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_click: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_context_menu: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_double_click: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_focus: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mount: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_down: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_enter: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_leave: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_move: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_out: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_over: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_up: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_scroll: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_unmount: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        **props
++    ) -> "StepIcon":
+         """Create the component.
+ 
+         Args:
+             *children: The children of the component.
++            style: The style of the component.
++            key: A unique key for the component.
++            id: The id for the component.
++            class_name: The class name for the component.
++            autofocus: Whether the component should take the focus once the page is loaded
++            custom_attrs: custom attribute
+             **props: The props of the component.
+ 
+         Returns:
+@@ -87,13 +396,76 @@ class StepIcon(ChakraComponent):
+         ...
+ 
+ class StepIndicator(ChakraComponent):
++    ...
++
+     @overload
+     @classmethod
+-    def create(cls, *children, on_blur: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_click: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_context_menu: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_double_click: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_focus: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mount: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_down: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_enter: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_leave: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_move: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_out: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_over: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_up: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_scroll: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_unmount: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, **props) -> "StepIndicator":  # type: ignore
++    def create(  # type: ignore
++        cls,
++        *children,
++        style: Optional[Style] = None,
++        key: Optional[Any] = None,
++        id: Optional[Any] = None,
++        class_name: Optional[Any] = None,
++        autofocus: Optional[bool] = None,
++        custom_attrs: Optional[Dict[str, str]] = None,
++        on_blur: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_click: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_context_menu: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_double_click: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_focus: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mount: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_down: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_enter: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_leave: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_move: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_out: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_over: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_up: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_scroll: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_unmount: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        **props
++    ) -> "StepIndicator":
+         """Create the component.
+ 
+         Args:
+             *children: The children of the component.
++            style: The style of the component.
++            key: A unique key for the component.
++            id: The id for the component.
++            class_name: The class name for the component.
++            autofocus: Whether the component should take the focus once the page is loaded
++            custom_attrs: custom attribute
+             **props: The props of the component.
+ 
+         Returns:
+@@ -105,13 +477,76 @@ class StepIndicator(ChakraComponent):
+         ...
+ 
+ class StepNumber(ChakraComponent):
++    ...
++
+     @overload
+     @classmethod
+-    def create(cls, *children, on_blur: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_click: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_context_menu: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_double_click: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_focus: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mount: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_down: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_enter: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_leave: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_move: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_out: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_over: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_up: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_scroll: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_unmount: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, **props) -> "StepNumber":  # type: ignore
++    def create(  # type: ignore
++        cls,
++        *children,
++        style: Optional[Style] = None,
++        key: Optional[Any] = None,
++        id: Optional[Any] = None,
++        class_name: Optional[Any] = None,
++        autofocus: Optional[bool] = None,
++        custom_attrs: Optional[Dict[str, str]] = None,
++        on_blur: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_click: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_context_menu: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_double_click: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_focus: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mount: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_down: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_enter: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_leave: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_move: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_out: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_over: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_up: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_scroll: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_unmount: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        **props
++    ) -> "StepNumber":
+         """Create the component.
+ 
+         Args:
+             *children: The children of the component.
++            style: The style of the component.
++            key: A unique key for the component.
++            id: The id for the component.
++            class_name: The class name for the component.
++            autofocus: Whether the component should take the focus once the page is loaded
++            custom_attrs: custom attribute
+             **props: The props of the component.
+ 
+         Returns:
+@@ -123,13 +558,76 @@ class StepNumber(ChakraComponent):
+         ...
+ 
+ class StepSeparator(ChakraComponent):
++    ...
++
+     @overload
+     @classmethod
+-    def create(cls, *children, on_blur: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_click: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_context_menu: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_double_click: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_focus: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mount: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_down: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_enter: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_leave: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_move: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_out: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_over: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_up: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_scroll: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_unmount: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, **props) -> "StepSeparator":  # type: ignore
++    def create(  # type: ignore
++        cls,
++        *children,
++        style: Optional[Style] = None,
++        key: Optional[Any] = None,
++        id: Optional[Any] = None,
++        class_name: Optional[Any] = None,
++        autofocus: Optional[bool] = None,
++        custom_attrs: Optional[Dict[str, str]] = None,
++        on_blur: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_click: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_context_menu: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_double_click: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_focus: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mount: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_down: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_enter: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_leave: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_move: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_out: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_over: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_up: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_scroll: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_unmount: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        **props
++    ) -> "StepSeparator":
+         """Create the component.
+ 
+         Args:
+             *children: The children of the component.
++            style: The style of the component.
++            key: A unique key for the component.
++            id: The id for the component.
++            class_name: The class name for the component.
++            autofocus: Whether the component should take the focus once the page is loaded
++            custom_attrs: custom attribute
+             **props: The props of the component.
+ 
+         Returns:
+@@ -141,36 +639,161 @@ class StepSeparator(ChakraComponent):
+         ...
+ 
+ class StepStatus(ChakraComponent):
++    ...
++
+     @overload
+     @classmethod
+-    def create(cls, *children, active: Optional[Union[Var[str], str]] = None, complete: Optional[Union[Var[str], str]] = None, incomplete: Optional[Union[Var[str], str]] = None, on_blur: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_click: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_context_menu: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_double_click: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_focus: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mount: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_down: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_enter: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_leave: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_move: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_out: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_over: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_up: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_scroll: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_unmount: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, **props) -> "StepStatus":  # type: ignore
++    def create(  # type: ignore
++        cls,
++        *children,
++        active: Optional[Union[Var[str], str]] = None,
++        complete: Optional[Union[Var[str], str]] = None,
++        incomplete: Optional[Union[Var[str], str]] = None,
++        style: Optional[Style] = None,
++        key: Optional[Any] = None,
++        id: Optional[Any] = None,
++        class_name: Optional[Any] = None,
++        autofocus: Optional[bool] = None,
++        custom_attrs: Optional[Dict[str, str]] = None,
++        on_blur: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_click: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_context_menu: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_double_click: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_focus: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mount: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_down: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_enter: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_leave: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_move: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_out: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_over: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_up: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_scroll: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_unmount: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        **props
++    ) -> "StepStatus":
+         """Create the component.
+ 
+-               Args:
+-                   *children: The children of the component.
+-                   active: [not working yet]
+-        active, complete, and incomplete should also be able to accept StepIcon or StepNumber components
+-        currently, these props only support strings
+-                   complete:
+-                   incomplete:
+-                   **props: The props of the component.
++        Args:
++            *children: The children of the component.
++            active: [not working yet]  active, complete, and incomplete should also be able to accept StepIcon or StepNumber components  currently, these props only support strings
++            style: The style of the component.
++            key: A unique key for the component.
++            id: The id for the component.
++            class_name: The class name for the component.
++            autofocus: Whether the component should take the focus once the page is loaded
++            custom_attrs: custom attribute
++            **props: The props of the component.
+ 
+-               Returns:
+-                   The component.
++        Returns:
++            The component.
+ 
+-               Raises:
+-                   TypeError: If an invalid child is passed.
++        Raises:
++            TypeError: If an invalid child is passed.
+         """
+         ...
+ 
+ class StepTitle(ChakraComponent):
++    ...
++
+     @overload
+     @classmethod
+-    def create(cls, *children, on_blur: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_click: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_context_menu: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_double_click: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_focus: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mount: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_down: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_enter: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_leave: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_move: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_out: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_over: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_up: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_scroll: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_unmount: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, **props) -> "StepTitle":  # type: ignore
++    def create(  # type: ignore
++        cls,
++        *children,
++        style: Optional[Style] = None,
++        key: Optional[Any] = None,
++        id: Optional[Any] = None,
++        class_name: Optional[Any] = None,
++        autofocus: Optional[bool] = None,
++        custom_attrs: Optional[Dict[str, str]] = None,
++        on_blur: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_click: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_context_menu: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_double_click: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_focus: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mount: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_down: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_enter: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_leave: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_move: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_out: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_over: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_mouse_up: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_scroll: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        on_unmount: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
++        **props
++    ) -> "StepTitle":
+         """Create the component.
+ 
+         Args:
+             *children: The children of the component.
++            style: The style of the component.
++            key: A unique key for the component.
++            id: The id for the component.
++            class_name: The class name for the component.
++            autofocus: Whether the component should take the focus once the page is loaded
++            custom_attrs: custom attribute
+             **props: The props of the component.
+ 
+         Returns:
+diff --git a/reflex/components/tags/iter_tag.py b/reflex/components/tags/iter_tag.py
+index e70e241..8ca2f4c 100644
+--- a/reflex/components/tags/iter_tag.py
++++ b/reflex/components/tags/iter_tag.py
+@@ -5,15 +5,12 @@ import inspect
+ from typing import TYPE_CHECKING, Callable, List
+ 
+ from reflex.components.tags.tag import Tag
+-from reflex.vars import BaseVar, Var
++from reflex.vars import BaseVar, Var, get_unique_variable_name
+ 
+ if TYPE_CHECKING:
+     from reflex.components.component import Component
+ 
+ 
+-INDEX_VAR = "i"
+-
+-
+ class IterTag(Tag):
+     """An iterator tag."""
+ 
+@@ -23,33 +20,45 @@ class IterTag(Tag):
+     # The component render function for each item in the iterable.
+     render_fn: Callable
+ 
+-    @staticmethod
+-    def get_index_var() -> Var:
++    # The name of the index var. It is unique to avoid shadowing the index var
++    # of an enclosing iteration.
++    index_var_name: str = ""
++
++    def __init__(self, *args, **kwargs):
++        """Initialize the tag.
++
++        Args:
++            *args: Args to initialize the tag.
++            **kwargs: Kwargs to initialize the tag.
++        """
++        if not kwargs.get("index_var_name"):
++            kwargs["index_var_name"] = get_unique_variable_name()
++        super().__init__(*args, **kwargs)
++
++    def get_index_var(self) -> Var:
+         """Get the index var for the tag.
+ 
+         Returns:
+             The index var.
+         """
+         return BaseVar(
+-            _var_name=INDEX_VAR,
++            _var_name=self.index_var_name,
+             _var_type=int,
+         )
+ 
+-    @staticmethod
+-    def get_index_var_arg() -> Var:
++    def get_index_var_arg(self) -> Var:
+         """Get the index var for the tag.
+ 
+         Returns:
+             The index var.
+         """
+         return BaseVar(
+-            _var_name=INDEX_VAR,
++            _var_name=self.index_var_name,
+             _var_type=int,
+             _var_is_local=True,
+         )
+ 
+-    @staticmethod
+-    def render_component(render_fn: Callable, arg: Var) -> Component:
++    def render_component(self, render_fn: Callable, arg: Var) -> Component:
+         """Render the component.
+ 
+         Args:
+@@ -66,7 +75,7 @@ class IterTag(Tag):
+ 
+         # Get the render function arguments.
+         args = inspect.getfullargspec(render_fn).args
+-        index = IterTag.get_index_var()
++        index = self.get_index_var()
+ 
+         if len(args) == 1:
+             # If the render function doesn't take the index as an argument.
+diff --git a/reflex/config.py b/reflex/config.py
+index 9ab7dd5..e9937a9 100644
+--- a/reflex/config.py
++++ b/reflex/config.py
+@@ -15,6 +15,25 @@ from reflex.base import Base
+ from reflex.utils import console
+ 
+ 
++def codespaces_forwarded_url(port: int) -> str | None:
++    """Get the public url of a forwarded port when running in Github Codespaces.
++
++    In Codespaces, each port is forwarded on a hostname of its own, so the
++    frontend cannot reach the backend through localhost.
++
++    Args:
++        port: The port that is forwarded.
++
++    Returns:
++        The url the port is reachable at, or None when not running in Codespaces.
++    """
++    codespace_name = os.environ.get("CODESPACE_NAME")
++    forwarding_domain = os.environ.get("GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN")
++    if not codespace_name or not forwarding_domain:
++        return None
++    return f"https://{codespace_name}-{port}.{forwarding_domain}"
++
++
+ class DBConfig(Base):
+     """Database config."""
+ 
+@@ -185,6 +204,9 @@ class Config(Base):
+     # Additional frontend packages to install.
+     frontend_packages: List[str] = []
+ 
++    # The worker class used in production mode
++    gunicorn_worker_class: str = "uvicorn.workers.UvicornH11Worker"
++
+     # Params to remove eventually.
+     # For rest are for deploy only.
+     # The rxdeploy url.
+@@ -223,6 +245,9 @@ class Config(Base):
+         self._non_default_attributes.update(kwargs)
+         self._replace_defaults(**kwargs)
+ 
++        # Point the default URLs at the forwarded ports in Github Codespaces.
++        self._replace_codespaces_defaults()
++
+     @staticmethod
+     def check_deprecated_values(**kwargs):
+         """Check for deprecated config values.
+@@ -311,6 +336,18 @@ class Config(Base):
+         ):
+             self.deploy_url = f"http://localhost:{kwargs['frontend_port']}"
+ 
++    def _replace_codespaces_defaults(self):
++        """Point the default URLs at the forwarded ports in Github Codespaces."""
++        if "api_url" not in self._non_default_attributes:
++            api_url = codespaces_forwarded_url(self.backend_port)
++            if api_url is not None:
++                self.api_url = api_url
++
++        if "deploy_url" not in self._non_default_attributes:
++            deploy_url = codespaces_forwarded_url(self.frontend_port)
++            if deploy_url is not None:
++                self.deploy_url = deploy_url
++
+     def _set_persistent(self, **kwargs):
+         """Set values in this config and in the environment so they persist into subprocess.
+ 
+@@ -323,6 +360,7 @@ class Config(Base):
+             setattr(self, key, value)
+         self._non_default_attributes.update(kwargs)
+         self._replace_defaults(**kwargs)
++        self._replace_codespaces_defaults()
+ 
+ 
+ def get_config(reload: bool = False) -> Config:
+diff --git a/reflex/config.pyi b/reflex/config.pyi
+index ebe015f..3925dfe 100644
+--- a/reflex/config.pyi
++++ b/reflex/config.pyi
+@@ -5,6 +5,8 @@ from reflex.base import Base as Base
+ from reflex.utils import console as console
+ from typing import Any, Dict, List, Optional, overload
+ 
++def codespaces_forwarded_url(port: int) -> Optional[str]: ...
++
+ class DBConfig(Base):
+     engine: str
+     username: Optional[str]
+@@ -65,6 +67,7 @@ class Config(Base):
+     next_compression: bool
+     event_namespace: Optional[str]
+     frontend_packages: List[str]
++    gunicorn_worker_class: str
+     rxdeploy_url: Optional[str]
+     cp_backend_url: str
+     cp_web_url: str
+@@ -91,6 +94,7 @@ class Config(Base):
+         next_compression: Optional[bool] = None,
+         event_namespace: Optional[str] = None,
+         frontend_packages: Optional[List[str]] = None,
++        gunicorn_worker_class: Optional[str] = None,
+         rxdeploy_url: Optional[str] = None,
+         cp_backend_url: Optional[str] = None,
+         cp_web_url: Optional[str] = None,
+@@ -100,6 +104,7 @@ class Config(Base):
+     @staticmethod
+     def check_deprecated_values(**kwargs) -> None: ...
+     def update_from_env(self) -> None: ...
++    def _replace_codespaces_defaults(self) -> None: ...
+     def get_event_namespace(self) -> str | None: ...
+     def _set_persistent(self, **kwargs) -> None: ...
+ 
+diff --git a/reflex/event.py b/reflex/event.py
+index 4221832..76993f2 100644
+--- a/reflex/event.py
++++ b/reflex/event.py
+@@ -101,7 +101,36 @@ def _no_chain_background_task(
+     raise TypeError(f"{fn} is marked as a background task, but is not async.")
+ 
+ 
+-class EventHandler(Base):
++class EventActionsMixin(Base):
++    """Mixin for DOM event actions."""
++
++    # Whether to `preventDefault` or `stopPropagation` on the event.
++    event_actions: Dict[str, bool] = {}
++
++    @property
++    def stop_propagation(self):
++        """Stop the event from bubbling up the DOM tree.
++
++        Returns:
++            New EventHandler-like with stopPropagation set to True.
++        """
++        return self.copy(
++            update={"event_actions": {"stopPropagation": True, **self.event_actions}},
++        )
++
++    @property
++    def prevent_default(self):
++        """Prevent the default behavior of the event.
++
++        Returns:
++            New EventHandler-like with preventDefault set to True.
++        """
++        return self.copy(
++            update={"event_actions": {"preventDefault": True, **self.event_actions}},
++        )
++
++
++class EventHandler(EventActionsMixin):
+     """An event handler responds to an event to update the state."""
+ 
+     # The function to call in response to the event.
+@@ -150,6 +179,7 @@ class EventHandler(Base):
+                     client_handler_name="uploadFiles",
+                     # `files` is defined in the Upload component's _use_hooks
+                     args=((Var.create_safe("files"), Var.create_safe("files")),),
++                    event_actions=self.event_actions.copy(),
+                 )
+ 
+             # Otherwise, convert to JSON.
+@@ -162,10 +192,12 @@ class EventHandler(Base):
+         payload = tuple(zip(fn_args, values))
+ 
+         # Return the event spec.
+-        return EventSpec(handler=self, args=payload)
++        return EventSpec(
++            handler=self, args=payload, event_actions=self.event_actions.copy()
++        )
+ 
+ 
+-class EventSpec(Base):
++class EventSpec(EventActionsMixin):
+     """An event specification.
+ 
+     Whereas an Event object is passed during runtime, a spec is used
+@@ -187,8 +219,24 @@ class EventSpec(Base):
+         # Required to allow tuple fields.
+         frozen = True
+ 
++    def with_args(self, args: Tuple[Tuple[Var, Var], ...]) -> EventSpec:
++        """Copy the event spec, with updated args.
+ 
+-class EventChain(Base):
++        Args:
++            args: The new args to pass to the function.
++
++        Returns:
++            The event spec with updated args.
++        """
++        return type(self)(
++            handler=self.handler,
++            client_handler_name=self.client_handler_name,
++            args=args,
++            event_actions=self.event_actions.copy(),
++        )
++
++
++class EventChain(EventActionsMixin):
+     """Container for a chain of events that will be executed in order."""
+ 
+     events: List[EventSpec]
+@@ -381,7 +429,7 @@ def set_clipboard(content: str) -> EventSpec:
+     )
+ 
+ 
+-def download(url: str, filename: Optional[str] = None) -> EventSpec:
++def download(url: str | Var, filename: Optional[str | Var] = None) -> EventSpec:
+     """Download the file at a given path.
+ 
+     Args:
+@@ -394,12 +442,16 @@ def download(url: str, filename: Optional[str] = None) -> EventSpec:
+     Returns:
+         EventSpec: An event to download the associated file.
+     """
+-    if not url.startswith("/"):
+-        raise ValueError("The URL argument should start with a /")
++    if isinstance(url, str):
++        if not url.startswith("/"):
++            raise ValueError("The URL argument should start with a /")
++
++        # if filename is not provided, infer it from url
++        if filename is None:
++            filename = url.rpartition("/")[-1]
+ 
+-    # if filename is not provided, infer it from url
+     if filename is None:
+-        filename = url.rpartition("/")[-1]
++        filename = ""
+ 
+     return server_side(
+         "_download",
+@@ -687,3 +739,8 @@ def get_fn_signature(fn: Callable) -> inspect.Signature:
+         "state", inspect.Parameter.POSITIONAL_OR_KEYWORD, annotation=Any
+     )
+     return signature.replace(parameters=(new_param, *signature.parameters.values()))
++
++
++# These chains can be used for their side effects when no other events are desired.
++stop_propagation = EventChain(events=[], args_spec=lambda: []).stop_propagation
++prevent_default = EventChain(events=[], args_spec=lambda: []).prevent_default
+diff --git a/reflex/reflex.py b/reflex/reflex.py
+index dca9a16..030ce32 100644
+--- a/reflex/reflex.py
++++ b/reflex/reflex.py
+@@ -31,7 +31,11 @@ from reflex.utils import (
+ )
+ 
+ # Create the app.
+-cli = typer.Typer(add_completion=False)
++try:
++    cli = typer.Typer(add_completion=False, pretty_exceptions_enable=False)
++except TypeError:
++    # Older versions of typer don't support the pretty_exceptions_enable kwarg.
++    cli = typer.Typer(add_completion=False)
+ 
+ # Get the config.
+ config = get_config()
+@@ -68,8 +72,8 @@ def main(
+ 
+ def _init(
+     name: str,
+-    template: constants.Templates.Kind,
+-    loglevel: constants.LogLevel,
++    template: Optional[constants.Templates.Kind] = None,
++    loglevel: constants.LogLevel = config.loglevel,
+ ):
+     """Initialize a new Reflex app in the given directory."""
+     # Set the log level.
+@@ -90,6 +94,8 @@ def _init(
+ 
+     # Set up the app directory, only if the config doesn't exist.
+     if not os.path.exists(constants.Config.FILE):
++        if template is None:
++            template = prerequisites.prompt_for_template()
+         prerequisites.create_config(app_name)
+         prerequisites.initialize_app_directory(app_name, template)
+         telemetry.send("init")
+@@ -112,7 +118,7 @@ def init(
+         None, metavar="APP_NAME", help="The name of the app to initialize."
+     ),
+     template: constants.Templates.Kind = typer.Option(
+-        constants.Templates.Kind.BASE.value,
++        None,
+         help="The template to initialize the app with.",
+     ),
+     loglevel: constants.LogLevel = typer.Option(
+@@ -669,10 +675,16 @@ def deploy(
+ 
+     console.print("Waiting for server to report progress ...")
+     # Display the key events such as build, deploy, etc
+-    server_report_deploy_success = asyncio.get_event_loop().run_until_complete(
+-        hosting.display_deploy_milestones(key, from_iso_timestamp=deploy_requested_at)
++    server_report_deploy_success = hosting.poll_deploy_milestones(
++        key, from_iso_timestamp=deploy_requested_at
+     )
+-    if not server_report_deploy_success:
++
++    if server_report_deploy_success is None:
++        console.warn("Hosting server is not reporting the deployment status.")
++        console.warn(
++            f"Check the server logs using `reflex deployments build-logs {key}`"
++        )
++    elif not server_report_deploy_success:
+         console.error("Hosting server reports failure.")
+         console.error(
+             f"Check the server logs using `reflex deployments build-logs {key}`"
+diff --git a/reflex/utils/exec.py b/reflex/utils/exec.py
+index f43234b..e63f1e7 100644
+--- a/reflex/utils/exec.py
++++ b/reflex/utils/exec.py
+@@ -185,7 +185,7 @@ def run_backend_prod(
+     """
+     num_workers = processes.get_num_workers()
+     config = get_config()
+-    RUN_BACKEND_PROD = f"gunicorn --worker-class uvicorn.workers.UvicornH11Worker --preload --timeout {config.timeout} --log-level critical".split()
++    RUN_BACKEND_PROD = f"gunicorn --worker-class {config.gunicorn_worker_class} --preload --timeout {config.timeout} --log-level critical".split()
+     RUN_BACKEND_PROD_WINDOWS = f"uvicorn --timeout-keep-alive {config.timeout}".split()
+     app_module = f"{config.app_name}.{config.app_name}:{constants.CompileVars.APP}"
+     command = (
+diff --git a/reflex/utils/format.py b/reflex/utils/format.py
+index 1ec24dd..857a61f 100644
+--- a/reflex/utils/format.py
++++ b/reflex/utils/format.py
+@@ -314,7 +314,7 @@ def format_prop(
+                 arg_def = "(_e)"
+ 
+             chain = ",".join([format_event(event) for event in prop.events])
+-            event = f"addEvents([{chain}], {arg_def})"
++            event = f"addEvents([{chain}], {arg_def}, {json_dumps(prop.event_actions)})"
+             prop = f"{arg_def} => {event}"
+ 
+         # Handle other types.
+diff --git a/reflex/utils/hosting.py b/reflex/utils/hosting.py
+index 1e05ea4..c4aeb05 100644
+--- a/reflex/utils/hosting.py
++++ b/reflex/utils/hosting.py
+@@ -41,14 +41,21 @@ GET_DEPLOYMENT_STATUS_ENDPOINT = f"{config.cp_backend_url}/deployments"
+ GET_REGIONS_ENDPOINT = f"{config.cp_backend_url}/deployments/regions"
+ # Websocket endpoint to stream logs of a deployment
+ DEPLOYMENT_LOGS_ENDPOINT = f'{config.cp_backend_url.replace("http", "ws")}/deployments'
++# Endpoint to query the deploy milestones of a deployment over http
++GET_DEPLOYMENT_MILESTONES_ENDPOINT = f"{config.cp_backend_url}/deployments"
+ # Expected server response time to new deployment request. In seconds.
+ DEPLOYMENT_PICKUP_DELAY = 30
+ # End of deployment workflow message. Used to determine if it is the last message from server.
+ END_OF_DEPLOYMENT_MESSAGES = ["deploy success"]
+ # How many iterations to try and print the deployment event messages from server during deployment.
+ DEPLOYMENT_EVENT_MESSAGES_RETRIES = 90
++# How long to wait between polls for deploy milestones. In seconds.
++DEPLOYMENT_EVENT_MESSAGES_POLL_INTERVAL = 1
+ # Timeout limit for http requests
+ HTTP_REQUEST_TIMEOUT = 60  # seconds
++# The deployment key is part of the hostname of the deployed app,
++# so only domain name safe characters are allowed.
++DEPLOYMENT_KEY_PATTERN = re.compile(r"^[a-zA-Z0-9-]+$")
+ 
+ 
+ def get_existing_access_token() -> tuple[str, str]:
+@@ -179,6 +186,20 @@ def authorization_header(token: str) -> dict[str, str]:
+     return {"Authorization": f"Bearer {token}"}
+ 
+ 
++def requires_access_token() -> str:
++    """Fetch the access token from the existing config if applicable.
++
++    Returns:
++        The access token. If not found, return empty string for it instead.
++    """
++    # Check if the user is authenticated
++    access_token, _ = get_existing_access_token()
++    if not access_token:
++        console.debug("Unable to fetch the access token from the existing config.")
++
++    return access_token
++
++
+ def requires_authenticated() -> str:
+     """Check if the user is authenticated.
+ 
+@@ -414,7 +435,7 @@ def deploy(
+         The response containing the URL of the site to be deployed if successful, None otherwise.
+     """
+     # Check if the user is authenticated
+-    if not (token := requires_authenticated()):
++    if not (token := requires_access_token()):
+         raise Exception("not authenticated")
+ 
+     try:
+@@ -902,6 +923,21 @@ def validate_token_with_retries(access_token: str) -> bool:
+     return False
+ 
+ 
++def is_valid_deployment_key(key: str) -> bool:
++    """Check if the deployment key is a valid domain name label.
++
++    The deployment key becomes part of the hostname of the deployed app,
++    so it can only contain characters allowed in a domain name.
++
++    Args:
++        key: The deployment key to check.
++
++    Returns:
++        True if the key only contains domain name safe characters.
++    """
++    return re.match(DEPLOYMENT_KEY_PATTERN, key) is not None
++
++
+ def interactive_get_deployment_key_from_user_input(
+     pre_deploy_response: DeploymentPrepareResponse,
+     app_name: str,
+@@ -937,9 +973,21 @@ def interactive_get_deployment_key_from_user_input(
+ 
+         # If user takes the suggestion, we will use the suggested key and proceed
+         while key_input := console.ask(
+-            f"Choose a name for your deployed app. Enter to use default.",
++            "Choose a name for your deployed app. "
++            "Only domain name safe characters are allowed. Enter to use default.",
+             default=key_candidate,
+         ):
++            if not is_valid_deployment_key(key_input):
++                console.error(
++                    f"Invalid name: {key_input}. "
++                    "Only domain name safe characters are allowed: letters, digits and hyphens."
++                )
++                continue
++            if any(char.isupper() for char in key_input):
++                key_input = key_input.lower()
++                console.info(
++                    f"Domain names are case insensitive, using {key_input} instead."
++                )
+             try:
+                 pre_deploy_response = prepare_deploy(
+                     app_name,
+@@ -1062,6 +1110,90 @@ async def display_deploy_milestones(key: str, from_iso_timestamp: datetime) -> b
+     return False
+ 
+ 
++def get_deployment_milestones(
++    key: str, from_iso_timestamp: datetime, token: str
++) -> list[dict]:
++    """Query the hosting server for the deploy milestones of a deployment.
++
++    Args:
++        key: The deployment key.
++        from_iso_timestamp: Only the milestones after this timestamp are returned.
++        token: The access token of the authenticated user.
++
++    Returns:
++        The list of milestone messages, oldest first. Empty if the server
++        has nothing new to report or the query is not successful.
++    """
++    try:
++        response = httpx.get(
++            f"{GET_DEPLOYMENT_MILESTONES_ENDPOINT}/{key}/milestones",
++            headers=authorization_header(token),
++            params={
++                "from_iso_timestamp": from_iso_timestamp.astimezone().isoformat(),
++            },
++            timeout=HTTP_REQUEST_TIMEOUT,
++        )
++        response.raise_for_status()
++        response_json = response.json()
++    except Exception as ex:
++        console.debug(f"Unable to get deployment milestones due to {ex}.")
++        return []
++    if not response_json:
++        console.debug("Server responded, no new milestones yet, this is normal")
++        return []
++    if not isinstance(response_json, list):
++        console.debug(f"Expect server to return a list, got {response_json}")
++        return []
++    return [row for row in response_json if isinstance(row, dict)]
++
++
++def poll_deploy_milestones(key: str, from_iso_timestamp: datetime) -> bool | None:
++    """Periodically poll the hosting server for deploy milestones.
++
++    Args:
++        key: The deployment key.
++        from_iso_timestamp: The timestamp of the deployment request time, this helps with the milestone query.
++
++    Raises:
++        ValueError: If a non-empty key is not provided.
++        Exception: If the user is not authenticated.
++
++    Returns:
++        False if server reports back failure, True otherwise. None if the
++        server never reports a conclusive milestone.
++    """
++    if not key:
++        raise ValueError("Non-empty key is required for querying deploy status.")
++    if not (token := requires_authenticated()):
++        raise Exception("not authenticated")
++
++    for _ in range(DEPLOYMENT_EVENT_MESSAGES_RETRIES):
++        for milestone in get_deployment_milestones(key, from_iso_timestamp, token):
++            # Only show the timestamp and actual message
++            console.print(
++                " | ".join(
++                    [
++                        convert_to_local_time(milestone["timestamp"]),
++                        milestone["message"],
++                    ]
++                )
++            )
++            # Update the query timestamp so the same milestones are not printed twice
++            with contextlib.suppress(ValueError):
++                from_iso_timestamp = datetime.fromisoformat(milestone["timestamp"])
++            server_message = milestone["message"].lower()
++            if "fail" in server_message:
++                console.debug("Received failure message, stop polling milestones")
++                return False
++            if any(msg in server_message for msg in END_OF_DEPLOYMENT_MESSAGES):
++                console.debug(
++                    "Received end of deployment message, stop polling milestones"
++                )
++                return True
++        time.sleep(DEPLOYMENT_EVENT_MESSAGES_POLL_INTERVAL)
++    return None
++
++
+ def wait_for_server_to_pick_up_request():
+     """Wait for server to pick up the request. Right now is just sleep."""
+     with console.status(
+diff --git a/reflex/utils/prerequisites.py b/reflex/utils/prerequisites.py
+index 7aad162..eb681b5 100644
+--- a/reflex/utils/prerequisites.py
++++ b/reflex/utils/prerequisites.py
+@@ -241,6 +241,34 @@ def initialize_requirements_txt():
+         console.info(f"Unable to check {fp} for reflex dependency.")
+ 
+ 
++def prompt_for_template() -> constants.Templates.Kind:
++    """Prompt the user to specify a template.
++
++    Returns:
++        The template the user selected.
++    """
++    # Show the user the available templates.
++    console.print("Get started with a template:")
++    console.print(f"({constants.Templates.Kind.BLANK.value}) A blank Reflex app.")
++    console.print(
++        f"({constants.Templates.Kind.SIDEBAR.value}) A multi-page app with a sidebar."
++    )
++
++    # Prompt the user to select a template.
++    try:
++        template = console.ask(
++            "Which template would you like to use?",
++            choices=[template.value for template in constants.Templates.Kind],
++            default=constants.Templates.Kind.BLANK.value,
++        )
++    except EOFError:
++        # Not running interactively (for example during a container build).
++        console.debug("Not an interactive terminal, using the default template.")
++        template = constants.Templates.Kind.BLANK.value
++
++    return constants.Templates.Kind(template)
++
++
+ def initialize_app_directory(app_name: str, template: constants.Templates.Kind):
+     """Initialize the app directory on reflex init.
+ 

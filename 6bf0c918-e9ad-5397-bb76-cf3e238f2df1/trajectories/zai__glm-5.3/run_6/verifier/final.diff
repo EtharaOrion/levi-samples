@@ -1,0 +1,2142 @@
+diff --git a/CONTRIBUTING.md b/CONTRIBUTING.md
+index feb7761..4421a4c 100644
+--- a/CONTRIBUTING.md
++++ b/CONTRIBUTING.md
+@@ -37,43 +37,29 @@ poetry run reflex run
+ All the changes you make to the repository will be reflected in your running app.
+ 
+ 
+-## 🧪 Testing and QA
+-
+-Within the 'test' directory of Reflex you can add to a test file already there or create a new test python file if it doesn't fit into the existing layout.
+-
+-#### What to unit test?
+-- Any feature or significant change that has been added.
+-- Any edge cases or potential problem areas.
+-- Any interactions between different parts of the code.
+-
+-Now Init/Run
+-``` bash
+-poetry run reflex init
+-poetry run reflex run
+-```
+-
+ All the changes you make to the repository will be reflected in your running app.
+-* We have the examples folder in the .gitignore, so your changes in reflex/examples won't be reflected in your commit.
++Note that the `examples` folder is in the `.gitignore`, so changes in `reflex/examples`
++won't be reflected in your commit.
+ 
+ ## 🧪 Testing and QA
+ 
+-Any feature or significant change added should be accompanied with unit tests.
++Any feature or significant change should be accompanied by unit tests.
+ 
+-Within the 'test' directory of Reflex you can add to a test file already there or create a new test python file if it doesn't fit into the existing layout.
++Within the `tests` directory of Reflex you can add to a test file that is already there, or create a new test python file if it doesn't fit into the existing layout.
+ 
+ What to unit test?
+ - Any feature or significant change that has been added.
+ - Any edge cases or potential problem areas.
+- -Any interactions between different parts of the code.
++- Any interactions between different parts of the code.
+ 
+ 
+ ## ✅ Making a PR
+ 
+-Once you solve a current issue or improvement to Reflex, you can make a pr, and we will review the changes. 
++Once you solve a current issue or make an improvement to Reflex, you can open a pull request, and we will review the changes.
+ 
+-Before submitting, a pull request, ensure the following steps are taken and test passing.
++Before submitting a pull request, ensure the following steps are taken and the tests are passing.
+ 
+-In your `reflex` directory run make sure all the unit tests are still passing using the following command.
++In your `reflex` directory, make sure all the unit tests are still passing using the following command.
+ This will fail if code coverage is below 80%.
+ ``` bash
+ poetry run pytest tests --cov --no-cov-on-fail --cov-report= 
+@@ -95,4 +81,4 @@ Note that pre-commit will only be installed when you use a Python version >= 3.8
+ pre-commit install
+ ```
+ 
+-That's it you can now submit your pr. Thanks for contributing to Reflex!
++That's it, you can now submit your pull request. Thanks for contributing to Reflex!
+diff --git a/README.md b/README.md
+index 5929e4e..0a2e31d 100644
+--- a/README.md
++++ b/README.md
+@@ -12,12 +12,12 @@
+ [![PyPI version](https://badge.fury.io/py/reflex.svg)](https://badge.fury.io/py/reflex)
+ ![tests](https://github.com/pynecone-io/pynecone/actions/workflows/integration.yml/badge.svg)
+ ![versions](https://img.shields.io/pypi/pyversions/reflex.svg)
+-[![Documentaiton](https://img.shields.io/badge/Documentation%20-Introduction%20-%20%23007ec6)](https://reflex.dev/docs/getting-started/introduction)
++[![Documentation](https://img.shields.io/badge/Documentation%20-Introduction%20-%20%23007ec6)](https://reflex.dev/docs/getting-started/introduction)
+ [![Discord](https://img.shields.io/discord/1029853095527727165?color=%237289da&label=Discord)](https://discord.gg/T5WSbC2YtQ)
+ </div>
+ 
+ ---
+-[English](https://github.com/reflex-dev/reflex/blob/main/README.md) | [简体中文](https://github.com/reflex-dev/reflex/blob/main/docs/zh/zh_cn/README.md) | [繁體中文](https://github.com/reflex-dev/reflex/blob/main/docs/zh/zh_tw/README.md) | [Türkçe](https://github.com/reflex-dev/reflex/blob/main/docs/tr/README.md) | [हिंदी](https://github.com/reflex-dev/reflex/blob/main/docs/in/README.md) | [Português (Brasil)](https://github.com/reflex-dev/reflex/blob/main/docs/pt/pt_br/README.md) | [Italiano](https://github.com/reflex-dev/reflex/blob/main/docs/it/README.md) | [한국어](https://github.com/reflex-dev/reflex/blob/main/docs/kr/README.md)
++[English](https://github.com/reflex-dev/reflex/blob/main/README.md) | [简体中文](https://github.com/reflex-dev/reflex/blob/main/docs/zh/zh_cn/README.md) | [繁體中文](https://github.com/reflex-dev/reflex/blob/main/docs/zh/zh_tw/README.md) | [Español](https://github.com/reflex-dev/reflex/blob/main/docs/es/README.md) | [Türkçe](https://github.com/reflex-dev/reflex/blob/main/docs/tr/README.md) | [हिंदी](https://github.com/reflex-dev/reflex/blob/main/docs/in/README.md) | [Português (Brasil)](https://github.com/reflex-dev/reflex/blob/main/docs/pt/pt_br/README.md) | [Italiano](https://github.com/reflex-dev/reflex/blob/main/docs/it/README.md) | [한국어](https://github.com/reflex-dev/reflex/blob/main/docs/kr/README.md)
+ ---
+ ## ⚙️ Installation
+ 
+@@ -54,7 +54,7 @@ Now you can modify the source code in `my_app_name/my_app_name.py`. Reflex has f
+ 
+ ## 🫧 Example App
+ 
+-Let's go over an example: creating an image generation UI around DALL·E. For simplicity, we just call the OpenAI API, but you could replace this with an ML model run locally.
++Let's go over an example: creating an image generation UI around [DALL·E](https://platform.openai.com/docs/guides/images). For simplicity, we just call the [OpenAI API](https://platform.openai.com/docs/api-reference/authentication), but you could replace this with an ML model run locally.
+ 
+ &nbsp;
+ 
+@@ -66,6 +66,8 @@ Let's go over an example: creating an image generation UI around DALL·E. For si
+ 
+ Here is the complete code to create this. This is all done in one Python file!
+ 
++Get your [OpenAI API key](https://platform.openai.com/docs/api-reference/authentication) and set it below.
++
+ ```python
+ import reflex as rx
+ import openai
+@@ -142,7 +144,7 @@ This `index` function defines the frontend of the app.
+ We use different components such as `center`, `vstack`, `input`, and `button` to build the frontend. Components can be nested within each other
+ to create complex layouts. And you can use keyword args to style them with the full power of CSS.
+ 
+-Reflex comes with [60+ built-in components](https://reflex.dev/docs/library) to help you get started. We are actively adding more components, and it's easy to [create your own components](https://reflex.dev/docs/advanced-guide/wrapping-react).
++Reflex comes with [60+ built-in components](https://reflex.dev/docs/library) to help you get started. We are actively adding more components, and it's easy to [create your own components](https://reflex.dev/docs/advanced-guide/wrapping-react/).
+ 
+ ### **State**
+ 
+@@ -178,7 +180,7 @@ def get_image(self):
+ 
+ Within the state, we define functions called event handlers that change the state vars. Event handlers are the way that we can modify the state in Reflex. They can be called in response to user actions, such as clicking a button or typing in a text box. These actions are called events.
+ 
+-Our DALL·E. app has an event handler, `get_image` to which get this image from the OpenAI API. Using `yield` in the middle of an event handler will cause the UI to update. Otherwise the UI will update at the end of the event handler.
++Our DALL·E app has an event handler, `get_image`, which gets this image from the OpenAI API. Using `yield` in the middle of an event handler will cause the UI to update. Otherwise the UI will update at the end of the event handler.
+ 
+ ### **Routing**
+ 
+@@ -228,7 +230,9 @@ We welcome contributions of any size! Below are some good ways to get started in
+ 
+ -   **Join Our Discord**: Our [Discord](https://discord.gg/T5WSbC2YtQ) is the best place to get help on your Reflex project and to discuss how you can contribute.
+ -   **GitHub Discussions**: A great way to talk about features you want added or things that are confusing/need clarification.
+--   **GitHub Issues**: These are an excellent way to report bugs. Additionally, you can try and solve an existing issue and submit a PR.
++-   **GitHub Issues**: These are an excellent way to report bugs. Additionally, you can try and solve an [existing issue](https://github.com/reflex-dev/reflex/issues) and submit a PR.
++
++Before submitting a PR, make sure to read the [contributing guidelines](CONTRIBUTING.md).
+ 
+ We are actively looking for contributors, no matter your skill level or experience.
+ 
+diff --git a/docker-example/.dockerignore b/docker-example/.dockerignore
+index f4796c2..7d883ab 100644
+--- a/docker-example/.dockerignore
++++ b/docker-example/.dockerignore
+@@ -1,2 +1,11 @@
+ .web
+-__pycache__/*
+\ No newline at end of file
++__pycache__/
++*.pyc
++.git
++.gitignore
++node_modules
++.venv
++venv
++.env
++*.db
++*.sqlite
+diff --git a/docker-example/Caddy.Dockerfile b/docker-example/Caddy.Dockerfile
+index 557d22f..49d2c71 100644
+--- a/docker-example/Caddy.Dockerfile
++++ b/docker-example/Caddy.Dockerfile
+@@ -1,4 +1,4 @@
+ FROM library/caddy
+ 
+ COPY --from=local/reflex-app /app/.web/_static /srv
+-ADD Caddyfile /etc/caddy/Caddyfile
+\ No newline at end of file
++ADD Caddyfile /etc/caddy/Caddyfile
+diff --git a/docker-example/compose.yaml b/docker-example/compose.yaml
+index 4d89290..a910a85 100644
+--- a/docker-example/compose.yaml
++++ b/docker-example/compose.yaml
+@@ -18,4 +18,4 @@ services:
+       context: .
+       dockerfile: Caddy.Dockerfile
+     depends_on:
+-      - app
+\ No newline at end of file
++      - app
+diff --git a/docs/es/README.md b/docs/es/README.md
+new file mode 100644
+index 0000000..9e9afae
+--- /dev/null
++++ b/docs/es/README.md
+@@ -0,0 +1,241 @@
++```diff
+++ ¿Buscas Pynecone? Estás en el repositorio correcto. Pynecone ha sido renombrado a Reflex. +
++```
++
++<div align="center">
++<img src="https://raw.githubusercontent.com/reflex-dev/reflex/main/docs/images/reflex_dark.svg#gh-light-mode-only" alt="Logotipo de Reflex" width="300px">
++<img src="https://raw.githubusercontent.com/reflex-dev/reflex/main/docs/images/reflex_light.svg#gh-dark-mode-only" alt="Logotipo de Reflex" width="300px">
++
++<hr>
++
++### **✨ Aplicaciones web rápidas y personalizables en Python puro. Despliega en segundos. ✨**
++[![Versión en PyPI](https://badge.fury.io/py/reflex.svg)](https://badge.fury.io/py/reflex)
++![tests](https://github.com/pynecone-io/pynecone/actions/workflows/integration.yml/badge.svg)
++![versiones](https://img.shields.io/pypi/pyversions/reflex.svg)
++[![Documentación](https://img.shields.io/badge/Documentaci%C3%B3n%20-Introducci%C3%B3n%20-%20%23007ec6)](https://reflex.dev/docs/getting-started/introduction)
++[![Discord](https://img.shields.io/discord/1029853095527727165?color=%237289da&label=Discord)](https://discord.gg/T5WSbC2YtQ)
++</div>
++
++---
++[English](https://github.com/reflex-dev/reflex/blob/main/README.md) | [简体中文](https://github.com/reflex-dev/reflex/blob/main/docs/zh/zh_cn/README.md) | [繁體中文](https://github.com/reflex-dev/reflex/blob/main/docs/zh/zh_tw/README.md) | [Español](https://github.com/reflex-dev/reflex/blob/main/docs/es/README.md) | [Türkçe](https://github.com/reflex-dev/reflex/blob/main/docs/tr/README.md) | [हिंदी](https://github.com/reflex-dev/reflex/blob/main/docs/in/README.md) | [Português (Brasil)](https://github.com/reflex-dev/reflex/blob/main/docs/pt/pt_br/README.md) | [Italiano](https://github.com/reflex-dev/reflex/blob/main/docs/it/README.md) | [한국어](https://github.com/reflex-dev/reflex/blob/main/docs/kr/README.md)
++---
++## ⚙️ Instalación
++
++Abre una terminal y ejecuta (requiere Python 3.8+):
++
++```bash
++pip install reflex
++```
++
++## 🥳 Crea tu primera aplicación
++
++Al instalar `reflex` también se instala la herramienta de línea de comandos `reflex`.
++
++Comprueba que la instalación fue exitosa creando un nuevo proyecto. (Reemplaza `my_app_name` con el nombre de tu proyecto):
++
++```bash
++mkdir my_app_name
++cd my_app_name
++reflex init
++```
++
++Este comando inicializa una aplicación de plantilla en tu nuevo directorio.
++
++Puedes ejecutar la aplicación en modo de desarrollo:
++
++```bash
++reflex run
++```
++
++Deberías ver tu aplicación corriendo en http://localhost:3000.
++
++Ahora puedes modificar el código fuente en `my_app_name/my_app_name.py`. Reflex se actualiza rápidamente, así que podrás ver tus cambios instantáneamente al guardar el código.
++
++
++## 🫧 Aplicación de ejemplo
++
++Repasemos un ejemplo: crear una interfaz de generación de imágenes con [DALL·E](https://platform.openai.com/docs/guides/images). Para simplificar, solo llamamos a la [API de OpenAI](https://platform.openai.com/docs/api-reference/authentication), pero podrías reemplazarla por un modelo de ML ejecutado localmente.
++
++&nbsp;
++
++<div align="center">
++<img src="https://raw.githubusercontent.com/reflex-dev/reflex/main/docs/images/dalle.gif" alt="Una interfaz para DALL·E, en el proceso de generar una imagen." width="550" />
++</div>
++
++&nbsp;
++
++Aquí está el código completo para crearla. ¡Todo se hace en un solo archivo de Python!
++
++Obtén tu [clave de API de OpenAI](https://platform.openai.com/docs/api-reference/authentication) y configúrala abajo.
++
++```python
++import reflex as rx
++import openai
++
++openai.api_key = "YOUR_API_KEY"
++
++class State(rx.State):
++    """El estado de la aplicación."""
++    prompt = ""
++    image_url = ""
++    processing = False
++    complete = False
++
++    def get_image(self):
++        """Obtiene la imagen a partir del prompt."""
++        if self.prompt == "":
++            return rx.window_alert("Prompt vacío")
++
++        self.processing, self.complete = True, False
++        yield
++        response = openai.Image.create(prompt=self.prompt, n=1, size="1024x1024")
++        self.image_url = response["data"][0]["url"]
++        self.processing, self.complete = False, True
++
++
++def index():
++    return rx.center(
++        rx.vstack(
++            rx.heading("DALL·E"),
++            rx.input(placeholder="Escribe un prompt", on_blur=State.set_prompt),
++            rx.button(
++                "Generar imagen",
++                on_click=State.get_image,
++                is_loading=State.processing,
++                width="100%",
++            ),
++            rx.cond(
++                State.complete,
++                     rx.image(
++                         src=State.image_url,
++                         height="25em",
++                         width="25em",
++                    )
++            ),
++            padding="2em",
++            shadow="lg",
++            border_radius="lg",
++        ),
++        width="100%",
++        height="100vh",
++    )
++
++# Agrega el estado y la página a la aplicación.
++app = rx.App()
++app.add_page(index, title="reflex:DALL·E")
++app.compile()
++```
++
++## Vamos a desglosarlo.
++
++### **Interfaz de usuario con Reflex**
++
++Empecemos con la interfaz de usuario.
++
++```python
++def index():
++    return rx.center(
++        ...
++    )
++```
++
++Esta función `index` define el frontend de la aplicación.
++
++Usamos diferentes componentes como `center`, `vstack`, `input` y `button` para construir el frontend. Los componentes pueden anidarse unos dentro de otros
++para crear diseños complejos. Y puedes usar argumentos con nombre para darles estilo con todo el poder de CSS.
++
++Reflex incluye [más de 60 componentes integrados](https://reflex.dev/docs/library) para ayudarte a empezar. Estamos agregando componentes activamente, y es fácil [crear tus propios componentes](https://reflex.dev/docs/advanced-guide/wrapping-react/).
++
++### **Estado**
++
++Reflex representa tu interfaz de usuario como una función de tu estado.
++
++```python
++class State(rx.State):
++    """El estado de la aplicación."""
++    prompt = ""
++    image_url = ""
++    processing = False
++    complete = False
++```
++
++El estado define todas las variables (llamadas vars) en una aplicación que pueden cambiar, y las funciones que las cambian.
++
++Aquí el estado se compone de un `prompt` y una `image_url`. También están los booleanos `processing` y `complete` para indicar cuándo mostrar el progreso circular y la imagen.
++
++### **Manejadores de eventos**
++
++```python
++def get_image(self):
++    """Obtiene la imagen a partir del prompt."""
++    if self.prompt == "":
++        return rx.window_alert("Prompt vacío")
++
++    self.processing, self.complete = True, False
++    yield
++    response = openai.Image.create(prompt=self.prompt, n=1, size="1024x1024")
++    self.image_url = response["data"][0]["url"]
++    self.processing, self.complete = False, True
++```
++
++Dentro del estado, definimos funciones llamadas manejadores de eventos que cambian las variables de estado. Los manejadores de eventos son la forma en que podemos modificar el estado en Reflex. Pueden ejecutarse en respuesta a acciones del usuario, como hacer clic en un botón o escribir en un campo de texto. Estas acciones se llaman eventos.
++
++Nuestra aplicación de DALL·E tiene un manejador de eventos, `get_image`, que obtiene la imagen desde la API de OpenAI. Usar `yield` en medio de un manejador de eventos provoca que la interfaz se actualice. De lo contrario, la interfaz se actualizará al final del manejador de eventos.
++
++### **Enrutamiento**
++
++Finalmente, definimos nuestra aplicación.
++
++```python
++app = rx.App()
++```
++
++Agregamos una página desde la raíz de la aplicación al componente index. También agregamos un título que aparecerá en la vista previa de la página o pestaña del navegador.
++
++```python
++app.add_page(index, title="DALL-E")
++app.compile()
++```
++
++Puedes crear una aplicación de múltiples páginas agregando más páginas.
++
++## 📑 Recursos
++
++<div align="center">
++
++📑 [Documentación](https://reflex.dev/docs/getting-started/introduction) &nbsp; |  &nbsp; 🗞️ [Blog](https://reflex.dev/blog) &nbsp; |  &nbsp; 📱 [Biblioteca de componentes](https://reflex.dev/docs/library) &nbsp; |  &nbsp; 🖼️ [Galería](https://reflex.dev/docs/gallery) &nbsp; |  &nbsp; 🛸 [Despliegue](https://reflex.dev/docs/hosting/deploy)  &nbsp;   
++
++</div>
++
++
++
++
++
++## ✅ Estado
++
++Reflex fue lanzado en diciembre de 2022 con el nombre de Pynecone.
++
++A partir de julio de 2023, estamos en la etapa de **Beta Pública**.
++
++-   :white_check_mark: **Alfa pública**: Cualquiera puede instalar y usar Reflex. Puede haber problemas, pero estamos trabajando para resolverlos activamente.
++-   :large_orange_diamond: **Beta pública**: Lo suficientemente estable para casos de uso no empresariales.
++-   **Beta de hosting público**: _Opcionalmente_, despliega y aloja tus aplicaciones en Reflex.
++-   **Pública**: Reflex está listo para producción.
++
++¡Reflex lanza nuevas versiones y funcionalidades cada semana! Asegúrate de ponerle :star: estrella y :eyes: vigilar este repositorio para mantenerte al día.
++
++## Contribuir
++
++¡Damos la bienvenida a contribuciones de cualquier tamaño! Aquí hay algunas buenas formas de empezar en la comunidad de Reflex.
++
++-   **Únete a nuestro Discord**: Nuestro [Discord](https://discord.gg/T5WSbC2YtQ) es el mejor lugar para obtener ayuda con tu proyecto de Reflex y discutir cómo puedes contribuir.
++-   **Discusiones de GitHub**: Una excelente manera de hablar sobre las funcionalidades que quieres que se agreguen o cosas que son confusas o necesitan aclaración.
++-   **Issues de GitHub**: Son una excelente manera de reportar errores. Además, puedes intentar resolver un [issue existente](https://github.com/reflex-dev/reflex/issues) y enviar un PR.
++
++Antes de enviar un PR, asegúrate de leer la [guía de contribución](https://github.com/reflex-dev/reflex/blob/main/CONTRIBUTING.md).
++
++Estamos buscando activamente contribuidores, sin importar tu nivel de habilidad o experiencia.
++
++## Licencia
++
++Reflex es de código abierto y está licenciado bajo la [Licencia Apache 2.0](https://github.com/reflex-dev/reflex/blob/main/LICENSE).
+diff --git a/docs/in/README.md b/docs/in/README.md
+index 9a7fd71..74b9ed2 100644
+--- a/docs/in/README.md
++++ b/docs/in/README.md
+@@ -228,4 +228,4 @@ app.compile()
+ 
+ ## लाइसेंस (License)
+ 
+-रिफ्लेक्स ओपन-सोर्स है और [अपाचे लाइसेंस 2.0] (लाइसेंस) के तहत लाइसेंस प्राप्त है।
++रिफ्लेक्स ओपन-सोर्स है और [अपाचे लाइसेंस 2.0](लाइसेंस) के तहत लाइसेंस प्राप्त है।
+diff --git a/pyproject.toml b/pyproject.toml
+index 2187939..18ed84e 100644
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -1,6 +1,6 @@
+ [tool.poetry]
+ name = "reflex"
+-version = "0.2.9"
++version = "0.3.2"
+ description = "Web apps in pure Python."
+ license = "Apache-2.0"
+ authors = [
+@@ -39,7 +39,7 @@ python-socketio = "^5.7.0"
+ redis = "^4.3.5"
+ rich = "^13.0.0"
+ sqlmodel = "^0.0.8"
+-typer = "0.4.2"
++typer = "^0.9.0"
+ uvicorn = "^0.20.0"
+ watchdog = "^2.3.1"
+ watchfiles = "^0.19.0"
+diff --git a/reflex/.templates/apps/base/README.md b/reflex/.templates/apps/sidebar/README.md
+similarity index 96%
+rename from reflex/.templates/apps/base/README.md
+rename to reflex/.templates/apps/sidebar/README.md
+index 1b34b63..d7e1e54 100644
+--- a/reflex/.templates/apps/base/README.md
++++ b/reflex/.templates/apps/sidebar/README.md
+@@ -1,6 +1,6 @@
+ # Welcome to Reflex!
+ 
+-This is the base Reflex template - installed when you run `reflex init`.
++This is the sidebar Reflex template - installed when you run `reflex init --template sidebar`.
+ 
+ If you want to use a different template, pass the `--template` flag to `reflex init`.
+ For example, if you want a more basic starting point, you can run:
+diff --git a/reflex/.templates/apps/base/assets/favicon.ico b/reflex/.templates/apps/sidebar/assets/favicon.ico
+similarity index 100%
+rename from reflex/.templates/apps/base/assets/favicon.ico
+rename to reflex/.templates/apps/sidebar/assets/favicon.ico
+diff --git a/reflex/.templates/apps/base/assets/github.svg b/reflex/.templates/apps/sidebar/assets/github.svg
+similarity index 100%
+rename from reflex/.templates/apps/base/assets/github.svg
+rename to reflex/.templates/apps/sidebar/assets/github.svg
+diff --git a/reflex/.templates/apps/base/assets/icon.svg b/reflex/.templates/apps/sidebar/assets/icon.svg
+similarity index 100%
+rename from reflex/.templates/apps/base/assets/icon.svg
+rename to reflex/.templates/apps/sidebar/assets/icon.svg
+diff --git a/reflex/.templates/apps/base/assets/logo.svg b/reflex/.templates/apps/sidebar/assets/logo.svg
+similarity index 100%
+rename from reflex/.templates/apps/base/assets/logo.svg
+rename to reflex/.templates/apps/sidebar/assets/logo.svg
+diff --git a/reflex/.templates/apps/base/assets/paneleft.svg b/reflex/.templates/apps/sidebar/assets/paneleft.svg
+similarity index 100%
+rename from reflex/.templates/apps/base/assets/paneleft.svg
+rename to reflex/.templates/apps/sidebar/assets/paneleft.svg
+diff --git a/reflex/.templates/apps/base/code/__init__.py b/reflex/.templates/apps/sidebar/code/__init__.py
+similarity index 100%
+rename from reflex/.templates/apps/base/code/__init__.py
+rename to reflex/.templates/apps/sidebar/code/__init__.py
+diff --git a/reflex/.templates/apps/base/code/components/__init__.py b/reflex/.templates/apps/sidebar/code/components/__init__.py
+similarity index 100%
+rename from reflex/.templates/apps/base/code/components/__init__.py
+rename to reflex/.templates/apps/sidebar/code/components/__init__.py
+diff --git a/reflex/.templates/apps/base/code/components/sidebar.py b/reflex/.templates/apps/sidebar/code/components/sidebar.py
+similarity index 100%
+rename from reflex/.templates/apps/base/code/components/sidebar.py
+rename to reflex/.templates/apps/sidebar/code/components/sidebar.py
+diff --git a/reflex/.templates/apps/base/code/pages/__init__.py b/reflex/.templates/apps/sidebar/code/pages/__init__.py
+similarity index 100%
+rename from reflex/.templates/apps/base/code/pages/__init__.py
+rename to reflex/.templates/apps/sidebar/code/pages/__init__.py
+diff --git a/reflex/.templates/apps/base/code/pages/dashboard.py b/reflex/.templates/apps/sidebar/code/pages/dashboard.py
+similarity index 100%
+rename from reflex/.templates/apps/base/code/pages/dashboard.py
+rename to reflex/.templates/apps/sidebar/code/pages/dashboard.py
+diff --git a/reflex/.templates/apps/base/code/pages/index.py b/reflex/.templates/apps/sidebar/code/pages/index.py
+similarity index 100%
+rename from reflex/.templates/apps/base/code/pages/index.py
+rename to reflex/.templates/apps/sidebar/code/pages/index.py
+diff --git a/reflex/.templates/apps/base/code/pages/settings.py b/reflex/.templates/apps/sidebar/code/pages/settings.py
+similarity index 100%
+rename from reflex/.templates/apps/base/code/pages/settings.py
+rename to reflex/.templates/apps/sidebar/code/pages/settings.py
+diff --git a/reflex/.templates/apps/base/code/base.py b/reflex/.templates/apps/sidebar/code/sidebar.py
+similarity index 100%
+rename from reflex/.templates/apps/base/code/base.py
+rename to reflex/.templates/apps/sidebar/code/sidebar.py
+diff --git a/reflex/.templates/apps/base/code/state.py b/reflex/.templates/apps/sidebar/code/state.py
+similarity index 100%
+rename from reflex/.templates/apps/base/code/state.py
+rename to reflex/.templates/apps/sidebar/code/state.py
+diff --git a/reflex/.templates/apps/base/code/styles.py b/reflex/.templates/apps/sidebar/code/styles.py
+similarity index 93%
+rename from reflex/.templates/apps/base/code/styles.py
+rename to reflex/.templates/apps/sidebar/code/styles.py
+index 6261d3f..4569e2f 100644
+--- a/reflex/.templates/apps/base/code/styles.py
++++ b/reflex/.templates/apps/sidebar/code/styles.py
+@@ -13,10 +13,13 @@ hover_accent_bg = {"_hover": {"bg": accent_color}}
+ content_width_vw = "90vw"
+ sidebar_width = "20em"
+ 
+-template_page_style = {"padding_top": "5em", "padding_x": ["auto", "2em"]}
++template_page_style = {
++    "padding_top": "5em",
++    "padding_x": ["auto", "2em"],
++    "flex_grow": 1,
++}
+ 
+ template_content_style = {
+-    "width": "100%",
+     "align_items": "flex-start",
+     "box_shadow": box_shadow,
+     "border_radius": border_radius,
+diff --git a/reflex/.templates/apps/base/code/templates/__init__.py b/reflex/.templates/apps/sidebar/code/templates/__init__.py
+similarity index 100%
+rename from reflex/.templates/apps/base/code/templates/__init__.py
+rename to reflex/.templates/apps/sidebar/code/templates/__init__.py
+diff --git a/reflex/.templates/apps/base/code/templates/template.py b/reflex/.templates/apps/sidebar/code/templates/template.py
+similarity index 97%
+rename from reflex/.templates/apps/base/code/templates/template.py
+rename to reflex/.templates/apps/sidebar/code/templates/template.py
+index 03111d6..a1d5b44 100644
+--- a/reflex/.templates/apps/base/code/templates/template.py
++++ b/reflex/.templates/apps/sidebar/code/templates/template.py
+@@ -77,7 +77,7 @@ def template(
+         title: The title of the page.
+         image: The favicon of the page.
+         description: The description of the page.
+-        meta: Additionnal meta to add to the page.
++        meta: Additional meta to add to the page.
+         on_load: The event handler(s) called when the page load.
+         script_tags: Scripts to attach to the page.
+ 
+@@ -116,7 +116,6 @@ def template(
+                     ),
+                     **styles.template_page_style,
+                 ),
+-                rx.spacer(),
+                 menu_button(),
+                 align_items="flex-start",
+                 transition="left 0.5s, width 0.5s",
+diff --git a/reflex/.templates/web/utils/helpers/dataeditor.js b/reflex/.templates/web/utils/helpers/dataeditor.js
+index bd8ce89..479bbc2 100644
+--- a/reflex/.templates/web/utils/helpers/dataeditor.js
++++ b/reflex/.templates/web/utils/helpers/dataeditor.js
+@@ -19,7 +19,7 @@ export function locateCell(row, column) {
+ }
+ 
+ export function formatCell(value, column) {
+-    const editable = column.editable || true
++    const editable = column.editable ?? true
+     switch (column.type) {
+         case "int":
+         case "float":
+@@ -44,7 +44,9 @@ export function formatCell(value, column) {
+             return {
+                 kind: GridCellKind.Boolean,
+                 data: value,
++                displayData: value ? "true" : "false",
+                 readonly: !editable,
++                allowOverlay: editable,
+             }
+         default:
+             return {
+@@ -52,5 +54,5 @@ export function formatCell(value, column) {
+                 data: value,
+                 displayData: "type not specified in column definition"
+             }
+-    };
+-};
++    }
++}
+diff --git a/reflex/.templates/web/utils/state.js b/reflex/.templates/web/utils/state.js
+index 1c0c637..ebefe95 100644
+--- a/reflex/.templates/web/utils/state.js
++++ b/reflex/.templates/web/utils/state.js
+@@ -74,12 +74,16 @@ export const getToken = () => {
+ export const getEventURL = () => {
+   // Get backend URL object from the endpoint.
+   const endpoint = new URL(EVENTURL);
+-  if (endpoint.hostname === "localhost") {
++  if (endpoint.hostname === "localhost" || endpoint.hostname === "127.0.0.1") {
+     // If the backend URL references localhost, and the frontend is not on localhost,
+-    // then use the frontend host.
++    // then use the frontend host. This is the case when the app is served from
++    // a remote host, such as a tunnel, a container, or a Github Codespace.
+     const frontend_hostname = window.location.hostname;
+-    if (frontend_hostname !== "localhost") {
++    if (frontend_hostname !== "localhost" && frontend_hostname !== "127.0.0.1") {
+       endpoint.hostname = frontend_hostname;
++      // The frontend is served over https in those environments, so the backend
++      // has to be reached over the same protocol, otherwise the browser blocks it.
++      endpoint.protocol = window.location.protocol;
+     }
+   }
+   return endpoint
+@@ -200,7 +204,9 @@ export const applyEvent = async (event, socket) => {
+     try {
+       const eval_result = eval(event.payload.javascript_code);
+       if (event.payload.callback) {
+-        eval(event.payload.callback)(eval_result)
++        Promise.resolve(eval_result).then((result) => {
++          eval(event.payload.callback)(result);
++        });
+       }
+     } catch (e) {
+       console.log("_call_script", e);
+@@ -389,10 +395,11 @@ export const uploadFiles = async (handler, files) => {
+  * @param name The name of the event.
+  * @param payload The payload of the event.
+  * @param handler The client handler to process event.
++ * @param event_actions The actions to apply on the DOM event.
+  * @returns The event object.
+  */
+-export const Event = (name, payload = {}, handler = null) => {
+-  return { name, payload, handler };
++export const Event = (name, payload = {}, handler = null, event_actions = {}) => {
++  return { name, payload, handler, event_actions };
+ };
+ 
+ /**
+@@ -486,8 +493,8 @@ export const useEventLoop = (
+   const [connectError, setConnectError] = useState(null)
+ 
+   // Function to add new events to the event queue.
+-  const addEvents = (events, _e) => {
+-    preventDefault(_e);
++  const addEvents = (events, _e, event_actions = {}) => {
++    applyEventActions(_e, events, event_actions);
+     queueEvents(events, socket)
+   }
+ 
+@@ -533,11 +540,21 @@ export const isTrue = (val) => {
+ };
+ 
+ /**
+- * Prevent the default event for form submission.
+- * @param event
++ * Apply the requested event actions to the DOM event, if any.
++ * @param event The DOM event.
++ * @param events The events to be processed.
++ * @param event_actions The event actions requested for the whole chain.
+  */
+-export const preventDefault = (event) => {
+-  if (event && event.type == "submit") {
++export const applyEventActions = (event, events, event_actions = {}) => {
++  const stop_propagation =
++    event_actions.stop_propagation || events.some((e) => e.event_actions?.stop_propagation);
++  const prevent_default =
++    event_actions.prevent_default || events.some((e) => e.event_actions?.prevent_default);
++  // Only call the event actions when they are defined on the DOM event.
++  if (event && stop_propagation && event.stopPropagation) {
++    event.stopPropagation();
++  }
++  if (event && prevent_default && event.preventDefault) {
+     event.preventDefault();
+   }
+ };
+diff --git a/reflex/__init__.py b/reflex/__init__.py
+index 34f9e9b..017d7b7 100644
+--- a/reflex/__init__.py
++++ b/reflex/__init__.py
+@@ -24,12 +24,14 @@ from .event import call_script as call_script
+ from .event import clear_local_storage as clear_local_storage
+ from .event import console_log as console_log
+ from .event import download as download
++from .event import prevent_default as prevent_default
+ from .event import redirect as redirect
+ from .event import remove_cookie as remove_cookie
+ from .event import remove_local_storage as remove_local_storage
+ from .event import set_clipboard as set_clipboard
+ from .event import set_focus as set_focus
+ from .event import set_value as set_value
++from .event import stop_propagation as stop_propagation
+ from .event import window_alert as window_alert
+ from .middleware import Middleware as Middleware
+ from .model import Model as Model
+diff --git a/reflex/compiler/compiler.py b/reflex/compiler/compiler.py
+index 7ee5c6d..e9b8899 100644
+--- a/reflex/compiler/compiler.py
++++ b/reflex/compiler/compiler.py
+@@ -28,7 +28,6 @@ DEFAULT_IMPORTS: imports.ImportDict = {
+         ImportVar(tag="Event"),
+         ImportVar(tag="isTrue"),
+         ImportVar(tag="spreadArraysOrObjects"),
+-        ImportVar(tag="preventDefault"),
+         ImportVar(tag="refs"),
+         ImportVar(tag="getRefValue"),
+         ImportVar(tag="getRefValues"),
+diff --git a/reflex/components/component.py b/reflex/components/component.py
+index ee9c99a..ff607ca 100644
+--- a/reflex/components/component.py
++++ b/reflex/components/component.py
+@@ -11,18 +11,72 @@ from reflex.base import Base
+ from reflex.components.tags import Tag
+ from reflex.constants import Dirs, EventTriggers
+ from reflex.event import (
++    EventActions,
+     EventChain,
+     EventHandler,
+     EventSpec,
+     call_event_fn,
+     call_event_handler,
+     get_handler_args,
++    is_event_action,
+ )
+ from reflex.style import Style
+ from reflex.utils import console, format, imports, types
+ from reflex.vars import BaseVar, ImportVar, Var
+ 
+ 
++def _accepts_components(field) -> bool:
++    """Check if a field accepts a component as value.
++
++    Args:
++        field: The field to check.
++
++    Returns:
++        True if the field accepts a component, such as props annotated with
++        Optional[Component] or Optional[Union[Var[str], Component]].
++    """
++    return types._issubclass(field.type_, Component) or any(
++        types._issubclass(arg, Component) for arg in types.get_args(field.outer_type_)
++    )
++
++
++def _flatten_var_types(type_: Any) -> List[Any]:
++    """Flatten the unions of a type into the list of its members.
++
++    Args:
++        type_: The type to flatten.
++
++    Returns:
++        The members of the type, or the type itself if it is not a union.
++    """
++    args = types.get_args(type_)
++    if args and types.is_union(type_):
++        return [member for arg in args for member in _flatten_var_types(arg)]
++    return [type_]
++
++
++def _get_var_type_of_field(field) -> Any | None:
++    """Get the type of the values the field accepts as a Var.
++
++    Args:
++        field: The field to get the var type of.
++
++    Returns:
++        The type of the vars accepted by the field, None if it accepts no var.
++    """
++    for candidate in [
++        *_flatten_var_types(field.outer_type_),
++        *_flatten_var_types(field.type_),
++    ]:
++        if types._issubclass(candidate, Var):
++            args = types.get_args(candidate)
++            if args:
++                return args[0]
++            # An unparametrized Var accepts values of any type.
++            return Any
++    return None
++
++
+ class Component(Base, ABC):
+     """The base class for all Reflex components."""
+ 
+@@ -145,8 +199,15 @@ class Component(Base, ABC):
+             else:
+                 continue
+ 
++            # Components can be passed as props, they are rendered as-is.
++            if isinstance(value, Component) and _accepts_components(fields[key]):
++                continue
++
+             # Check whether the key is a component prop.
+-            if types._issubclass(field_type, Var):
++            var_prop_type = (
++                _get_var_type_of_field(fields[key]) if key in props else None
++            )
++            if types._issubclass(field_type, Var) or var_prop_type is not None:
+                 try:
+                     # Try to create a var from the value.
+                     kwargs[key] = Var.create(value)
+@@ -155,7 +216,11 @@ class Component(Base, ABC):
+                     if kwargs[key] is None:
+                         raise TypeError
+ 
+-                    expected_type = fields[key].outer_type_.__args__[0]
++                    expected_type = (
++                        var_prop_type
++                        if var_prop_type is not None
++                        else fields[key].outer_type_.__args__[0]
++                    )
+ 
+                     if (
+                         types.is_literal(expected_type)
+@@ -296,15 +361,26 @@ class Component(Base, ABC):
+                 handler=e.handler,
+                 args=get_handler_args(e),
+                 client_handler_name=e.client_handler_name,
++                event_actions=e.event_actions,
+             )
+             for e in events
+         ]
+ 
++        # The standalone event actions never trigger a state update of their own,
++        # so they are only applied to the DOM event and dropped from the chain.
++        event_actions = EventActions(
++            stop_propagation=any(e.event_actions.stop_propagation for e in events),
++            prevent_default=any(e.event_actions.prevent_default for e in events),
++        )
++        events = [e for e in events if not is_event_action(e.handler)]
++
+         # Return the event chain.
+         if isinstance(arg_spec, Var):
+-            return EventChain(events=events, args_spec=None)
++            return EventChain(
++                events=events, args_spec=None, event_actions=event_actions
++            )
+         else:
+-            return EventChain(events=events, args_spec=arg_spec)  # type: ignore
++            return EventChain(events=events, args_spec=arg_spec, event_actions=event_actions)  # type: ignore
+ 
+     def get_event_triggers(self) -> Dict[str, Any]:
+         """Get the event triggers for the component.
+@@ -362,7 +438,9 @@ class Component(Base, ABC):
+ 
+         # Add component props to the tag.
+         props = {
+-            attr[:-1] if attr.endswith("_") else attr: getattr(self, attr)
++            attr[:-1]
++            if attr.endswith("_")
++            else attr: self._format_prop_value(getattr(self, attr))
+             for attr in self.get_props()
+         }
+ 
+@@ -373,6 +451,41 @@ class Component(Base, ABC):
+ 
+         return tag.add_props(**props)
+ 
++    def _format_prop_value(self, value: Any) -> Any:
++        """Format the value of a prop for rendering.
++
++        Components passed as props are rendered as nested components.
++
++        Args:
++            value: The value of the prop.
++
++        Returns:
++            The formatted value of the prop.
++        """
++        from reflex.compiler.templates import COMPONENT
++
++        if isinstance(value, Component):
++            # The component is rendered inline, so the jinja template of a
++            # single component is reused here.
++            return BaseVar(
++                _var_name=COMPONENT.render(component=value).strip(),
++                _var_type=Any,
++                _var_is_local=True,
++            )
++        return value
++
++    def _get_prop_components(self) -> List[Component]:
++        """Get the components that are passed as props to this component.
++
++        Returns:
++            The list of components passed as props.
++        """
++        return [
++            value
++            for attr in self.get_props()
++            if isinstance(value := getattr(self, attr, None), Component)
++        ]
++
+     @classmethod
+     def get_props(cls) -> Set[str]:
+         """Get the unique fields for the component.
+@@ -555,6 +668,10 @@ class Component(Base, ABC):
+         for child in self.children:
+             code |= child.get_custom_code()
+ 
++        # Add the custom code for the components passed as props.
++        for component in self._get_prop_components():
++            code |= component.get_custom_code()
++
+         # Return the code.
+         return code
+ 
+@@ -584,6 +701,10 @@ class Component(Base, ABC):
+         for child in self.children:
+             dynamic_imports |= child.get_dynamic_imports()
+ 
++        # Get the dynamic imports from the components passed as props
++        for component in self._get_prop_components():
++            dynamic_imports |= component.get_dynamic_imports()
++
+         # Return the dynamic imports
+         return dynamic_imports
+ 
+@@ -604,8 +725,11 @@ class Component(Base, ABC):
+         Returns:
+             The import dict with the required imports.
+         """
++        prop_components = self._get_prop_components()
+         return imports.merge_imports(
+-            self._get_imports(), *[child.get_imports() for child in self.children]
++            self._get_imports(),
++            *[child.get_imports() for child in self.children],
++            *[component.get_imports() for component in prop_components],
+         )
+ 
+     def _get_mount_lifecycle_hook(self) -> str | None:
+@@ -684,6 +808,10 @@ class Component(Base, ABC):
+         for child in self.children:
+             code |= child.get_hooks()
+ 
++        # Add the hook code for the components passed as props.
++        for component in self._get_prop_components():
++            code |= component.get_hooks()
++
+         return code
+ 
+     def get_ref(self) -> str | None:
+@@ -709,6 +837,8 @@ class Component(Base, ABC):
+             refs.add(ref)
+         for child in self.children:
+             refs |= child.get_refs()
++        for component in self._get_prop_components():
++            refs |= component.get_refs()
+         return refs
+ 
+     def get_custom_components(
+diff --git a/reflex/components/datadisplay/dataeditor.py b/reflex/components/datadisplay/dataeditor.py
+index 6f4fc8c..a737a6a 100644
+--- a/reflex/components/datadisplay/dataeditor.py
++++ b/reflex/components/datadisplay/dataeditor.py
+@@ -158,7 +158,7 @@ class DataEditor(NoSSRComponent):
+     # The minimum width a column can be resized to.
+     min_column_width: Var[int]
+ 
+-    # Determins the height of each row.
++    # Determines the height of each row.
+     row_height: Var[int]
+ 
+     # Kind of row markers.
+@@ -215,7 +215,6 @@ class DataEditor(NoSSRComponent):
+                     ImportVar(tag=f"getDERow", is_default=False, install=False),
+                     ImportVar(tag=f"locateCell", is_default=False, install=False),
+                     ImportVar(tag=f"formatCell", is_default=False, install=False),
+-                    ImportVar(tag=f"onEditCell", is_default=False, install=False),
+                 },
+             },
+         )
+@@ -235,6 +234,7 @@ class DataEditor(NoSSRComponent):
+             "on_cell_clicked": lambda pos: [pos],
+             "on_cell_context_menu": lambda pos: [pos],
+             "on_cell_edited": edit_sig,
++            "on_column_resize": lambda column, width: [column, width],
+             "on_group_header_clicked": edit_sig,
+             "on_group_header_context_menu": lambda grp_idx, data: [grp_idx, data],
+             "on_group_header_renamed": lambda idx, val: [idx, val],
+@@ -332,10 +332,15 @@ class DataEditor(NoSSRComponent):
+             console.warn(
+                 "getCellContent is not user configurable, the provided value will be discarded"
+             )
++
++        # Each data editor renders its own portal, so they can't share an id
++        # when several of them are used in the same page.
++        portal_id = f"portal_{get_unique_variable_name()}"
++
+         grid = super().create(*children, **props)
+         return Div.create(
+             grid,
+-            Div.create(id="portal"),
++            Div.create(id=portal_id),
+             width=props.pop("width", "100%"),
+             height=props.pop("height", "100%"),
+         )
+diff --git a/reflex/components/datadisplay/dataeditor.pyi b/reflex/components/datadisplay/dataeditor.pyi
+index 756215e..ecd96af 100644
+--- a/reflex/components/datadisplay/dataeditor.pyi
++++ b/reflex/components/datadisplay/dataeditor.pyi
+@@ -115,6 +115,9 @@ class DataEditor(NoSSRComponent):
+         on_cell_edited: Optional[
+             Union[EventHandler, EventSpec, List, function, BaseVar]
+         ] = None,
++        on_column_resize: Optional[
++            Union[EventHandler, EventSpec, List, function, BaseVar]
++        ] = None,
+         on_delete: Optional[
+             Union[EventHandler, EventSpec, List, function, BaseVar]
+         ] = None,
+diff --git a/reflex/components/forms/form.py b/reflex/components/forms/form.py
+index 2572c57..301964c 100644
+--- a/reflex/components/forms/form.py
++++ b/reflex/components/forms/form.py
+@@ -1,10 +1,11 @@
+ """Form components."""
+ 
+-from typing import Any, Dict
++from typing import Any, Callable, Dict, List, Union
+ 
+ from reflex.components.component import Component
+ from reflex.components.libs.chakra import ChakraComponent
+ from reflex.constants import EventTriggers
++from reflex.event import EventChain, EventHandler, EventSpec
+ from reflex.vars import Var
+ 
+ 
+@@ -41,6 +42,32 @@ class Form(ChakraComponent):
+             EventTriggers.ON_SUBMIT: lambda e0: [form_refs],
+         }
+ 
++    def _create_event_chain(
++        self,
++        event_trigger: str,
++        value: Union[
++            Var, EventHandler, EventSpec, List[Union[EventHandler, EventSpec]], Callable
++        ],
++    ) -> Union[EventChain, Var]:
++        """Create an event chain from a variety of input types.
++
++        The default behavior of the browser on form submission is prevented,
++        since the submit is handled by the event handlers of the form.
++
++        Args:
++            event_trigger: The event trigger to bind the chain to.
++            value: The value to create the event chain from.
++
++        Returns:
++            The event chain.
++        """
++        event_chain = super()._create_event_chain(event_trigger, value)
++        if event_trigger == EventTriggers.ON_SUBMIT and isinstance(
++            event_chain, EventChain
++        ):
++            event_chain = event_chain.prevent_default
++        return event_chain
++
+ 
+ class FormControl(ChakraComponent):
+     """Provide context to form components."""
+diff --git a/reflex/components/forms/iconbutton.py b/reflex/components/forms/iconbutton.py
+index 59f5b60..f231e6a 100644
+--- a/reflex/components/forms/iconbutton.py
++++ b/reflex/components/forms/iconbutton.py
+@@ -1,5 +1,8 @@
+ """An icon button component."""
+ 
++from typing import Optional, Union
++
++from reflex.components.component import Component
+ from reflex.components.typography.text import Text
+ from reflex.vars import Var
+ 
+@@ -15,8 +18,9 @@ class IconButton(Text):
+     #  A label that describes the button
+     aria_label: Var[str]
+ 
+-    # The icon to be used in the button.
+-    icon: Var[str]
++    # The icon to be used in the button. It can either be the name of an icon
++    # or a component, such as the one returned by rx.icon.
++    icon: Optional[Union[Var[str], Component]]
+ 
+     # If true, the button will be styled in its active state.
+     is_active: Var[bool]
+diff --git a/reflex/components/forms/iconbutton.pyi b/reflex/components/forms/iconbutton.pyi
+index 9d50c91..38fa39a 100644
+--- a/reflex/components/forms/iconbutton.pyi
++++ b/reflex/components/forms/iconbutton.pyi
+@@ -12,14 +12,15 @@ from reflex.event import EventHandler, EventChain, EventSpec
+ class IconButton(Text):
+     @overload
+     @classmethod
+-    def create(cls, *children, type: Optional[Union[Var[str], str]] = None, aria_label: Optional[Union[Var[str], str]] = None, icon: Optional[Union[Var[str], str]] = None, is_active: Optional[Union[Var[bool], bool]] = None, is_disabled: Optional[Union[Var[bool], bool]] = None, is_loading: Optional[Union[Var[bool], bool]] = None, is_round: Optional[Union[Var[bool], bool]] = None, spinner: Optional[Union[Var[str], str]] = None, on_blur: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_click: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_context_menu: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_double_click: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_focus: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mount: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_down: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_enter: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_leave: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_move: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_out: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_over: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_up: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_scroll: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_unmount: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, **props) -> "IconButton":  # type: ignore
++    def create(cls, *children, type: Optional[Union[Var[str], str]] = None, aria_label: Optional[Union[Var[str], str]] = None, icon: Optional[Union[Var[str], str, Component]] = None, is_active: Optional[Union[Var[bool], bool]] = None, is_disabled: Optional[Union[Var[bool], bool]] = None, is_loading: Optional[Union[Var[bool], bool]] = None, is_round: Optional[Union[Var[bool], bool]] = None, spinner: Optional[Union[Var[str], str]] = None, on_blur: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_click: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_context_menu: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_double_click: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_focus: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mount: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_down: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_enter: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_leave: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_move: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_out: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_over: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_up: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_scroll: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_unmount: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, **props) -> "IconButton":  # type: ignore
+         """Create the component.
+ 
+         Args:
+             *children: The children of the component.
+             type: The type of button.
+             aria_label:  A label that describes the button
+-            icon: The icon to be used in the button.
++            icon: The icon to be used in the button. It can either be the name of
++                an icon or a component, such as the one returned by rx.icon.
+             is_active: If true, the button will be styled in its active state.
+             is_disabled: If true, the button will be disabled.
+             is_loading: If true, the button will show a spinner.
+diff --git a/reflex/components/layout/foreach.py b/reflex/components/layout/foreach.py
+index 3256155..c839c07 100644
+--- a/reflex/components/layout/foreach.py
++++ b/reflex/components/layout/foreach.py
+@@ -50,7 +50,9 @@ class Foreach(Component):
+         return cls(
+             iterable=iterable,
+             render_fn=render_fn,
+-            children=[IterTag.render_component(render_fn, arg=arg)],
++            children=[
++                IterTag(iterable=iterable, render_fn=render_fn).render_component(arg)
++            ],
+             **props,
+         )
+ 
+@@ -77,7 +79,7 @@ class Foreach(Component):
+             _var_type=type_,
+         )
+         index_arg = tag.get_index_var_arg()
+-        component = tag.render_component(self.render_fn, arg)
++        component = tag.render_component(arg)
+         return dict(
+             tag.add_props(
+                 **self.event_triggers,
+diff --git a/reflex/components/navigation/stepper.py b/reflex/components/navigation/stepper.py
+index e99e9e8..f76b8bb 100644
+--- a/reflex/components/navigation/stepper.py
++++ b/reflex/components/navigation/stepper.py
+@@ -1,6 +1,6 @@
+ """A component to indicate progress through a multi-step process."""
+ 
+-from typing import List, Optional, Tuple
++from typing import List, Literal, Optional, Tuple
+ 
+ from reflex.components.component import Component
+ from reflex.components.libs.chakra import ChakraComponent, LiteralColorScheme
+@@ -21,6 +21,9 @@ class Stepper(ChakraComponent):
+     # The index of the current step.
+     index: Var[int]
+ 
++    # The orientation of the stepper.
++    orientation: Var[Literal["vertical", "horizontal"]]
++
+     # The size of the steps in the stepper.
+     size: Var[str]
+ 
+@@ -84,7 +87,7 @@ class StepNumber(ChakraComponent):
+ 
+ 
+ class StepSeparator(ChakraComponent):
+-    """The component separting steps."""
++    """The component separating steps."""
+ 
+     tag = "StepSeparator"
+ 
+diff --git a/reflex/components/navigation/stepper.pyi b/reflex/components/navigation/stepper.pyi
+index 8cb4dc8..2a6b710 100644
+--- a/reflex/components/navigation/stepper.pyi
++++ b/reflex/components/navigation/stepper.pyi
+@@ -12,7 +12,7 @@ from reflex.event import EventHandler, EventChain, EventSpec
+ class Stepper(ChakraComponent):
+     @overload
+     @classmethod
+-    def create(cls, *children, items: Optional[List[Tuple]] = None, colorScheme: Optional[Union[Var[Literal["gray", "red", "orange", "yellow", "green", "teal", "blue", "cyan", "purple", "pink", "whiteAlpha", "blackAlpha", "linkedin", "facebook", "messenger", "whatsapp", "twitter", "telegram"]], Literal["gray", "red", "orange", "yellow", "green", "teal", "blue", "cyan", "purple", "pink", "whiteAlpha", "blackAlpha", "linkedin", "facebook", "messenger", "whatsapp", "twitter", "telegram"]]] = None, index: Optional[Union[Var[int], int]] = None, size: Optional[Union[Var[str], str]] = None, on_blur: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_click: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_context_menu: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_double_click: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_focus: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mount: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_down: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_enter: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_leave: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_move: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_out: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_over: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_up: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_scroll: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_unmount: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, **props) -> "Stepper":  # type: ignore
++    def create(cls, *children, items: Optional[List[Tuple]] = None, colorScheme: Optional[Union[Var[Literal["gray", "red", "orange", "yellow", "green", "teal", "blue", "cyan", "purple", "pink", "whiteAlpha", "blackAlpha", "linkedin", "facebook", "messenger", "whatsapp", "twitter", "telegram"]], Literal["gray", "red", "orange", "yellow", "green", "teal", "blue", "cyan", "purple", "pink", "whiteAlpha", "blackAlpha", "linkedin", "facebook", "messenger", "whatsapp", "twitter", "telegram"]]] = None, index: Optional[Union[Var[int], int]] = None, orientation: Optional[Union[Var[str], str]] = None, size: Optional[Union[Var[str], str]] = None, on_blur: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_click: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_context_menu: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_double_click: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_focus: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mount: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_down: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_enter: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_leave: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_move: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_out: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_over: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_mouse_up: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_scroll: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, on_unmount: Optional[Union[EventHandler, EventSpec, List, function, BaseVar]] = None, **props) -> "Stepper":  # type: ignore
+         """Create a Stepper component.
+ 
+                If the kw-args `items` is provided and is a list, they will be added as children.
+@@ -21,6 +21,7 @@ class Stepper(ChakraComponent):
+                    *children: The children of the component.
+                    colorScheme: The color scheme to use for the stepper; default is blue.
+                    index: Chakra provides a useSteps hook to control the stepper.
++                   orientation: The orientation of the stepper.
+         Instead, use an integer state value to set progress in the stepper.
+         The index of the current step.
+                    size: The size of the steps in the stepper.
+diff --git a/reflex/components/tags/iter_tag.py b/reflex/components/tags/iter_tag.py
+index e70e241..09b28f0 100644
+--- a/reflex/components/tags/iter_tag.py
++++ b/reflex/components/tags/iter_tag.py
+@@ -4,16 +4,30 @@ from __future__ import annotations
+ import inspect
+ from typing import TYPE_CHECKING, Callable, List
+ 
++import pydantic
++
+ from reflex.components.tags.tag import Tag
+-from reflex.vars import BaseVar, Var
++from reflex.vars import BaseVar, Var, get_unique_variable_name
+ 
+ if TYPE_CHECKING:
+     from reflex.components.component import Component
+ 
+-
+ INDEX_VAR = "i"
+ 
+ 
++def _get_index_var() -> Var:
++    """Get a unique index var to iterate with.
++
++    Returns:
++        The unique index var.
++    """
++    return BaseVar(
++        _var_name=get_unique_variable_name(),
++        _var_type=int,
++        _var_is_local=True,
++    )
++
++
+ class IterTag(Tag):
+     """An iterator tag."""
+ 
+@@ -23,37 +37,30 @@ class IterTag(Tag):
+     # The component render function for each item in the iterable.
+     render_fn: Callable
+ 
+-    @staticmethod
+-    def get_index_var() -> Var:
++    # The index of the current item in the iterable. The name is unique for
++    # every tag, so nested iterations do not shadow each other.
++    index_var: Var = pydantic.Field(default_factory=_get_index_var)
++
++    def get_index_var(self) -> Var:
+         """Get the index var for the tag.
+ 
+         Returns:
+             The index var.
+         """
+-        return BaseVar(
+-            _var_name=INDEX_VAR,
+-            _var_type=int,
+-        )
++        return self.index_var
+ 
+-    @staticmethod
+-    def get_index_var_arg() -> Var:
+-        """Get the index var for the tag.
++    def get_index_var_arg(self) -> Var:
++        """Get the index var to pass to the render function.
+ 
+         Returns:
+             The index var.
+         """
+-        return BaseVar(
+-            _var_name=INDEX_VAR,
+-            _var_type=int,
+-            _var_is_local=True,
+-        )
+-
+-    @staticmethod
+-    def render_component(render_fn: Callable, arg: Var) -> Component:
++        return self.index_var
++
++    def render_component(self, arg: Var) -> Component:
+         """Render the component.
+ 
+         Args:
+-            render_fn: The render function.
+             arg: The argument to pass to the render function.
+ 
+         Returns:
+@@ -65,16 +72,16 @@ class IterTag(Tag):
+         from reflex.components.layout.fragment import Fragment
+ 
+         # Get the render function arguments.
+-        args = inspect.getfullargspec(render_fn).args
+-        index = IterTag.get_index_var()
++        args = inspect.getfullargspec(self.render_fn).args
++        index = self.get_index_var()
+ 
+         if len(args) == 1:
+             # If the render function doesn't take the index as an argument.
+-            component = render_fn(arg)
++            component = self.render_fn(arg)
+         else:
+             # If the render function takes the index as an argument.
+             assert len(args) == 2
+-            component = render_fn(arg, index)
++            component = self.render_fn(arg, index)
+ 
+         # Nested foreach components or cond must be wrapped in fragments.
+         if isinstance(component, (Foreach, Cond)):
+diff --git a/reflex/config.py b/reflex/config.py
+index 9ab7dd5..128bb4e 100644
+--- a/reflex/config.py
++++ b/reflex/config.py
+@@ -176,6 +176,9 @@ class Config(Base):
+     # Timeout when launching the gunicorn server. TODO(rename this to backend_timeout?)
+     timeout: int = 120
+ 
++    # The gunicorn worker class.
++    gunicorn_worker_class: str = "uvicorn.workers.UvicornH11Worker"
++
+     # Whether to enable or disable nextJS gzip compression.
+     next_compression: bool = True
+ 
+diff --git a/reflex/config.pyi b/reflex/config.pyi
+index ebe015f..2ef97b0 100644
+--- a/reflex/config.pyi
++++ b/reflex/config.pyi
+@@ -62,6 +62,7 @@ class Config(Base):
+     cors_allowed_origins: List[str]
+     tailwind: Optional[Dict[str, Any]]
+     timeout: int
++    gunicorn_worker_class: str
+     next_compression: bool
+     event_namespace: Optional[str]
+     frontend_packages: List[str]
+@@ -88,6 +89,7 @@ class Config(Base):
+         cors_allowed_origins: Optional[List[str]] = None,
+         tailwind: Optional[Dict[str, Any]] = None,
+         timeout: Optional[int] = None,
++        gunicorn_worker_class: Optional[str] = None,
+         next_compression: Optional[bool] = None,
+         event_namespace: Optional[str] = None,
+         frontend_packages: Optional[List[str]] = None,
+diff --git a/reflex/event.py b/reflex/event.py
+index 4221832..663e265 100644
+--- a/reflex/event.py
++++ b/reflex/event.py
+@@ -101,7 +101,57 @@ def _no_chain_background_task(
+     raise TypeError(f"{fn} is marked as a background task, but is not async.")
+ 
+ 
+-class EventHandler(Base):
++class EventActions(Base):
++    """Event actions to control the DOM event behavior."""
++
++    # Whether to stop the propagation of the DOM event.
++    stop_propagation: bool = False
++
++    # Whether to prevent the default behavior of the DOM event.
++    prevent_default: bool = False
++
++
++class EventActionsMixin(Base):
++    """Mixin to add event actions to event related classes."""
++
++    # The actions to perform on the DOM event.
++    event_actions: EventActions = EventActions()
++
++    def _add_event_action(self, action: str) -> EventActionsMixin:
++        """Get a copy of this object with the given event action enabled.
++
++        Args:
++            action: The name of the event action to enable.
++
++        Returns:
++            A new object with the event action enabled.
++        """
++        return self.copy(
++            update={
++                "event_actions": self.event_actions.copy(update={action: True}),
++            }
++        )
++
++    @property
++    def stop_propagation(self) -> EventActionsMixin:
++        """Get an equivalent object which stops the propagation of the DOM event.
++
++        Returns:
++            The new object with the stop_propagation event action.
++        """
++        return self._add_event_action("stop_propagation")
++
++    @property
++    def prevent_default(self) -> EventActionsMixin:
++        """Get an equivalent object which prevents the default behavior of the DOM event.
++
++        Returns:
++            The new object with the prevent_default event action.
++        """
++        return self._add_event_action("prevent_default")
++
++
++class EventHandler(EventActionsMixin):
+     """An event handler responds to an event to update the state."""
+ 
+     # The function to call in response to the event.
+@@ -162,10 +212,14 @@ class EventHandler(Base):
+         payload = tuple(zip(fn_args, values))
+ 
+         # Return the event spec.
+-        return EventSpec(handler=self, args=payload)
++        return EventSpec(
++            handler=self,
++            args=payload,
++            event_actions=self.event_actions,
++        )
+ 
+ 
+-class EventSpec(Base):
++class EventSpec(EventActionsMixin):
+     """An event specification.
+ 
+     Whereas an Event object is passed during runtime, a spec is used
+@@ -188,7 +242,7 @@ class EventSpec(Base):
+         frozen = True
+ 
+ 
+-class EventChain(Base):
++class EventChain(EventActionsMixin):
+     """Container for a chain of events that will be executed in order."""
+ 
+     events: List[EventSpec]
+@@ -196,6 +250,60 @@ class EventChain(Base):
+     args_spec: Optional[Callable]
+ 
+ 
++def _event_action_handler_fn(*args):
++    """No-op function backing the standalone event actions.
++
++    Args:
++        *args: The arguments of the event trigger, which are ignored.
++
++    Returns:
++        None
++    """
++    return None
++
++
++_event_action_handler_fn.__qualname__ = "EventActionState.handler"
++
++
++class EventActionState:
++    """State of the standalone event actions.
++
++    The standalone event actions (`rx.stop_propagation` and `rx.prevent_default`)
++    never update the state, they only act on the DOM event itself. This class
++    provides the placeholder handler they are attached to.
++    """
++
++    # The no-op handler carrying the event actions.
++    handler: EventHandler = EventHandler(fn=_event_action_handler_fn)
++
++    @classmethod
++    def get_full_name(cls) -> str:
++        """Get the name of this state.
++
++        Returns:
++            The name of the state.
++        """
++        return format.to_snake_case(cls.__name__)
++
++
++def is_event_action(event_spec: EventSpec | EventHandler) -> bool:
++    """Check if the given event only carries event actions.
++
++    Args:
++        event_spec: The event handler or event spec to check.
++
++    Returns:
++        True if the event never updates the state and only acts on the DOM event.
++    """
++    handler = event_spec.handler if isinstance(event_spec, EventSpec) else event_spec
++    return handler.fn.__qualname__ == _event_action_handler_fn.__qualname__
++
++
++# Standalone event actions, which can be assigned directly to an event trigger.
++stop_propagation: EventHandler = EventActionState.handler.stop_propagation  # type: ignore
++prevent_default: EventHandler = EventActionState.handler.prevent_default  # type: ignore
++
++
+ class Target(Base):
+     """A Javascript event target."""
+ 
+@@ -381,7 +489,9 @@ def set_clipboard(content: str) -> EventSpec:
+     )
+ 
+ 
+-def download(url: str, filename: Optional[str] = None) -> EventSpec:
++def download(
++    url: str | Var[str], filename: Optional[str | Var[str]] = None
++) -> EventSpec:
+     """Download the file at a given path.
+ 
+     Args:
+@@ -394,12 +504,17 @@ def download(url: str, filename: Optional[str] = None) -> EventSpec:
+     Returns:
+         EventSpec: An event to download the associated file.
+     """
+-    if not url.startswith("/"):
+-        raise ValueError("The URL argument should start with a /")
+-
+-    # if filename is not provided, infer it from url
+-    if filename is None:
+-        filename = url.rpartition("/")[-1]
++    # The URL of a state var is only known at runtime, so it can't be validated here.
++    if not isinstance(url, Var):
++        if not url.startswith("/"):
++            raise ValueError("The URL argument should start with a /")
++
++        # if filename is not provided, infer it from url
++        if filename is None:
++            filename = url.rpartition("/")[-1]
++    elif filename is None:
++        # Let the browser infer the name of the file from the url.
++        filename = ""
+ 
+     return server_side(
+         "_download",
+@@ -501,6 +616,12 @@ def call_event_handler(
+     Returns:
+         The event spec from calling the event handler.
+     """
++    # Standalone event actions accept any args, since they only act on the DOM event.
++    if is_event_action(event_handler):
++        if isinstance(arg_spec, ArgsSpec):
++            return event_handler(*parse_args_spec(arg_spec))  # type: ignore
++        return event_handler()
++
+     args = inspect.getfullargspec(event_handler.fn).args
+ 
+     # handle new API using lambda to define triggers
+diff --git a/reflex/page.py b/reflex/page.py
+index 784b4ee..d60b8eb 100644
+--- a/reflex/page.py
++++ b/reflex/page.py
+@@ -31,7 +31,7 @@ def page(
+         title: The title of the page.
+         image: The favicon of the page.
+         description: The description of the page.
+-        meta: Additionnal meta to add to the page.
++        meta: Additional meta to add to the page.
+         on_load: The event handler(s) called when the page load.
+         script_tags: scripts to attach to the page
+ 
+diff --git a/reflex/reflex.py b/reflex/reflex.py
+index dca9a16..fd4e545 100644
+--- a/reflex/reflex.py
++++ b/reflex/reflex.py
+@@ -2,6 +2,7 @@
+ 
+ import asyncio
+ import atexit
++import inspect
+ import json
+ import os
+ import shutil
+@@ -27,11 +28,31 @@ from reflex.utils import (
+     hosting,
+     prerequisites,
+     processes,
++    prompts,
+     telemetry,
+ )
+ 
++
++def _typer_app(**kwargs) -> typer.Typer:
++    """Create a typer app.
++
++    Kwargs which are not supported by the installed version of typer are
++    ignored, so the CLI remains compatible with older typer versions.
++
++    Args:
++        **kwargs: The kwargs to pass to typer.Typer.
++
++    Returns:
++        The typer app.
++    """
++    supported_kwargs = inspect.signature(typer.Typer).parameters
++    return typer.Typer(
++        **{key: value for key, value in kwargs.items() if key in supported_kwargs}
++    )
++
++
+ # Create the app.
+-cli = typer.Typer(add_completion=False)
++cli = _typer_app(add_completion=False, pretty_exceptions_enable=False)
+ 
+ # Get the config.
+ config = get_config()
+@@ -111,8 +132,8 @@ def init(
+     name: str = typer.Option(
+         None, metavar="APP_NAME", help="The name of the app to initialize."
+     ),
+-    template: constants.Templates.Kind = typer.Option(
+-        constants.Templates.Kind.BASE.value,
++    template: Optional[constants.Templates.Kind] = typer.Option(
++        None,
+         help="The template to initialize the app with.",
+     ),
+     loglevel: constants.LogLevel = typer.Option(
+@@ -120,6 +141,8 @@ def init(
+     ),
+ ):
+     """Initialize a new Reflex app in the current directory."""
++    if template is None:
++        template = prompts.get_template(app_dir=Path.cwd())
+     _init(name, template, loglevel)
+ 
+ 
+@@ -383,7 +406,7 @@ def logout(
+     hosting.delete_token_from_config(include_invitation_code=True)
+ 
+ 
+-db_cli = typer.Typer()
++db_cli = _typer_app(pretty_exceptions_enable=False)
+ 
+ 
+ def _skip_compile():
+@@ -585,7 +608,7 @@ def deploy(
+                 console.warn(
+                     f"{region_input} is not a valid region. Must be one of {enabled_regions}"
+                 )
+-                console.warn("Run `reflex deploymemts regions` to see details.")
++                console.warn("Run `reflex deployments regions` to see details.")
+         regions = regions or [region_input]
+ 
+         # process the envs
+@@ -733,7 +756,7 @@ def demo(
+     #     )
+ 
+ 
+-deployments_cli = typer.Typer()
++deployments_cli = _typer_app(pretty_exceptions_enable=False)
+ 
+ 
+ @deployments_cli.command(name="list")
+diff --git a/reflex/state.py b/reflex/state.py
+index ff2233a..956c3bd 100644
+--- a/reflex/state.py
++++ b/reflex/state.py
+@@ -65,7 +65,7 @@ class HeaderData(Base):
+     accept_language: str = ""
+ 
+     def __init__(self, router_data: Optional[dict] = None):
+-        """Initalize the HeaderData object based on router_data.
++        """Initialize the HeaderData object based on router_data.
+ 
+         Args:
+             router_data: the router_data dict.
+@@ -87,7 +87,7 @@ class PageData(Base):
+     params: dict = {}
+ 
+     def __init__(self, router_data: Optional[dict] = None):
+-        """Initalize the PageData object based on router_data.
++        """Initialize the PageData object based on router_data.
+ 
+         Args:
+             router_data: the router_data dict.
+@@ -110,7 +110,7 @@ class SessionData(Base):
+     session_id: str = ""
+ 
+     def __init__(self, router_data: Optional[dict] = None):
+-        """Initalize the SessionData object based on router_data.
++        """Initialize the SessionData object based on router_data.
+ 
+         Args:
+             router_data: the router_data dict.
+diff --git a/reflex/utils/exec.py b/reflex/utils/exec.py
+index f43234b..f4b0e73 100644
+--- a/reflex/utils/exec.py
++++ b/reflex/utils/exec.py
+@@ -185,7 +185,11 @@ def run_backend_prod(
+     """
+     num_workers = processes.get_num_workers()
+     config = get_config()
+-    RUN_BACKEND_PROD = f"gunicorn --worker-class uvicorn.workers.UvicornH11Worker --preload --timeout {config.timeout} --log-level critical".split()
++    RUN_BACKEND_PROD = (
++        "gunicorn "
++        f"--worker-class {config.gunicorn_worker_class} "
++        f"--preload --timeout {config.timeout} --log-level critical"
++    ).split()
+     RUN_BACKEND_PROD_WINDOWS = f"uvicorn --timeout-keep-alive {config.timeout}".split()
+     app_module = f"{config.app_name}.{config.app_name}:{constants.CompileVars.APP}"
+     command = (
+diff --git a/reflex/utils/format.py b/reflex/utils/format.py
+index 1ec24dd..35f3cc7 100644
+--- a/reflex/utils/format.py
++++ b/reflex/utils/format.py
+@@ -16,7 +16,7 @@ from reflex.vars import BaseVar, Var
+ 
+ if TYPE_CHECKING:
+     from reflex.components.component import ComponentStyle
+-    from reflex.event import EventChain, EventHandler, EventSpec
++    from reflex.event import EventActions, EventChain, EventHandler, EventSpec
+ 
+ WRAP_MAP = {
+     "{": "}",
+@@ -310,11 +310,13 @@ def format_prop(
+                 arg_def = f"({arg_def})"
+             else:
+                 # add a default argument for addEvents if none were specified in prop.args_spec
+-                # used to trigger the preventDefault() on the event.
++                # used to trigger the event actions on the DOM event.
+                 arg_def = "(_e)"
+ 
+             chain = ",".join([format_event(event) for event in prop.events])
+-            event = f"addEvents([{chain}], {arg_def})"
++            event = f"addEvents([{chain}], {arg_def}"
++            event += _format_uncarried_event_actions(prop)
++            event += ")"
+             prop = f"{arg_def} => {event}"
+ 
+         # Handle other types.
+@@ -412,6 +414,8 @@ def format_event(event_spec: EventSpec) -> str:
+     Returns:
+         The compiled event.
+     """
++    from reflex.event import EventActions
++
+     args = ",".join(
+         [
+             ":".join(
+@@ -432,9 +436,65 @@ def format_event(event_spec: EventSpec) -> str:
+ 
+     if event_spec.client_handler_name:
+         event_args.append(wrap(event_spec.client_handler_name, '"'))
++    if event_spec.event_actions != EventActions():
++        event_args.append(format_event_actions(event_spec.event_actions))
+     return f"Event({', '.join(event_args)})"
+ 
+ 
++def format_event_actions(event_actions: EventActions) -> str:
++    """Format the event actions of an event as a javascript object.
++
++    Args:
++        event_actions: The event actions to format.
++
++    Returns:
++        The compiled event actions.
++    """
++    return (
++        "{"
++        + ",".join(
++            f"{action}:true"
++            for action in ("stop_propagation", "prevent_default")
++            if getattr(event_actions, action)
++        )
++        + "}"
++    )
++
++
++def _format_uncarried_event_actions(event_chain: EventChain) -> str:
++    """Format the event actions of a chain which are not carried by its events.
++
++    Args:
++        event_chain: The event chain.
++
++    Returns:
++        The compiled event actions, as an extra argument of addEvents.
++    """
++    from reflex.event import EventActions
++
++    carried_actions = EventActions(
++        stop_propagation=any(
++            e.event_actions.stop_propagation for e in event_chain.events
++        ),
++        prevent_default=any(
++            e.event_actions.prevent_default for e in event_chain.events
++        ),
++    )
++    uncarried_actions = EventActions(
++        stop_propagation=(
++            event_chain.event_actions.stop_propagation
++            and not carried_actions.stop_propagation
++        ),
++        prevent_default=(
++            event_chain.event_actions.prevent_default
++            and not carried_actions.prevent_default
++        ),
++    )
++    if uncarried_actions == EventActions():
++        return ""
++    return f", {format_event_actions(uncarried_actions)}"
++
++
+ def format_event_chain(
+     event_chain: EventChain | Var[EventChain],
+     event_arg: Var | None = None,
+@@ -443,7 +503,7 @@ def format_event_chain(
+ 
+     Args:
+         event_chain: The event chain to queue on the frontend.
+-        event_arg: The browser-native event (only used to preventDefault).
++        event_arg: The browser-native event (used to apply the event actions).
+ 
+     Returns:
+         Compiled javascript code to queue the given event chain on the frontend.
+@@ -456,20 +516,16 @@ def format_event_chain(
+ 
+         if event_chain._var_type is not EventChain:
+             raise ValueError(f"Invalid event chain: {event_chain}")
+-        return "".join(
+-            [
+-                "(() => {",
+-                format_var(event_chain),
+-                f"; preventDefault({format_var(event_arg)})" if event_arg else "",
+-                "})()",
+-            ]
+-        )
++        # The events of a var chain are only known at runtime, so the event
++        # actions it may carry cannot be applied at compile time.
++        return "".join(["(() => {", format_var(event_chain), "})()"])
+ 
+     chain = ",".join([format_event(event) for event in event_chain.events])
+     return "".join(
+         [
+             f"addEvents([{chain}]",
+             f", {format_var(event_arg)}" if event_arg else "",
++            _format_uncarried_event_actions(event_chain),
+             ")",
+         ]
+     )
+diff --git a/reflex/utils/hosting.py b/reflex/utils/hosting.py
+index 1e05ea4..8bd6bfc 100644
+--- a/reflex/utils/hosting.py
++++ b/reflex/utils/hosting.py
+@@ -1,6 +1,7 @@
+ """Hosting service related utilities."""
+ from __future__ import annotations
+ 
++import asyncio
+ import contextlib
+ import enum
+ import json
+@@ -41,12 +42,16 @@ GET_DEPLOYMENT_STATUS_ENDPOINT = f"{config.cp_backend_url}/deployments"
+ GET_REGIONS_ENDPOINT = f"{config.cp_backend_url}/deployments/regions"
+ # Websocket endpoint to stream logs of a deployment
+ DEPLOYMENT_LOGS_ENDPOINT = f'{config.cp_backend_url.replace("http", "ws")}/deployments'
++# Http endpoint to query the deploy milestones of a deployment
++DEPLOYMENT_MILESTONES_ENDPOINT = f"{config.cp_backend_url}/deployments"
+ # Expected server response time to new deployment request. In seconds.
+ DEPLOYMENT_PICKUP_DELAY = 30
+ # End of deployment workflow message. Used to determine if it is the last message from server.
+ END_OF_DEPLOYMENT_MESSAGES = ["deploy success"]
+ # How many iterations to try and print the deployment event messages from server during deployment.
+ DEPLOYMENT_EVENT_MESSAGES_RETRIES = 90
++# How long to wait between two queries of the deploy milestones. In seconds.
++DEPLOYMENT_MILESTONE_POLL_INTERVAL = 1
+ # Timeout limit for http requests
+ HTTP_REQUEST_TIMEOUT = 60  # seconds
+ 
+@@ -191,6 +196,19 @@ def requires_authenticated() -> str:
+     return authenticate_on_browser(invitation_code)
+ 
+ 
++def requires_access_token() -> str:
++    """Get the access token required to talk to the hosting server.
++
++    The token is read from the existing config without validation, since it
++    was already validated by the first request to the hosting server.
++
++    Returns:
++        The access token or empty string if the user is not logged in.
++    """
++    access_token, _ = get_existing_access_token()
++    return access_token
++
++
+ class DeploymentPrepInfo(Base):
+     """The params/settings returned from the prepare endpoint
+     including the deployment key and the frontend/backend URLs once deployed.
+@@ -413,9 +431,9 @@ def deploy(
+     Returns:
+         The response containing the URL of the site to be deployed if successful, None otherwise.
+     """
+-    # Check if the user is authenticated
+-    if not (token := requires_authenticated()):
+-        raise Exception("not authenticated")
++    # The access token was already validated by the first request to the
++    # hosting server, so it is only read from the local config here.
++    token = requires_access_token()
+ 
+     try:
+         params = DeploymentsPostParam(
+@@ -937,9 +955,23 @@ def interactive_get_deployment_key_from_user_input(
+ 
+         # If user takes the suggestion, we will use the suggested key and proceed
+         while key_input := console.ask(
+-            f"Choose a name for your deployed app. Enter to use default.",
++            "Choose a unique name for your deployed app. "
++            "Enter to use default. Only lowercase letters, numbers, and dashes are allowed.",
+             default=key_candidate,
+         ):
++            lower_cased_key_input = key_input.strip().lower()
++            if lower_cased_key_input != key_input:
++                console.print(
++                    f"Converting the app name to lowercase: {lower_cased_key_input}"
++                )
++            key_input = lower_cased_key_input
++            if not is_valid_deployment_key(key_input):
++                console.error(
++                    f"Invalid app name '{key_input}'. "
++                    "Only lowercase letters, numbers, and dashes are allowed, "
++                    "the name must start and end with a letter or number."
++                )
++                continue
+             try:
+                 pre_deploy_response = prepare_deploy(
+                     app_name,
+@@ -965,6 +997,21 @@ def interactive_get_deployment_key_from_user_input(
+     return key_candidate, api_url, deploy_url
+ 
+ 
++def is_valid_deployment_key(key: str) -> bool:
++    """Check if the given name is a valid name for a deployment.
++
++    The name becomes part of the domain name of the deployed app, so only the
++    characters allowed in a domain name are accepted.
++
++    Args:
++        key: The deployment key to check.
++
++    Returns:
++        True if the name only contains characters valid in a domain name.
++    """
++    return re.fullmatch(r"[a-z0-9]([a-z0-9-]*[a-z0-9])?", key) is not None
++
++
+ def process_envs(envs: list[str]) -> dict[str, str]:
+     """Process the environment variables.
+ 
+@@ -1009,57 +1056,99 @@ def log_out_on_browser():
+ async def display_deploy_milestones(key: str, from_iso_timestamp: datetime) -> bool:
+     """Display the deploy milestone messages reported back from the hosting server.
+ 
++    The milestones are polled from the server, so a dropped connection does
++    not end the reporting of the milestones.
++
+     Args:
+         key: The deployment key.
+         from_iso_timestamp: The timestamp of the deployment request time, this helps with the milestone query.
+ 
+     Raises:
+         ValueError: If a non-empty key is not provided.
+-        Exception: If the user is not authenticated.
+ 
+     Returns:
+         False if server reports back failure, True otherwise.
+     """
++    if not key:
++        raise ValueError("Non-empty key is required for querying deploy status.")
++
++    for _ in range(DEPLOYMENT_EVENT_MESSAGES_RETRIES):
++        server_report_deploy_success = poll_deploy_milestones(key, from_iso_timestamp)
++        if server_report_deploy_success is not None:
++            return server_report_deploy_success
++        # No new milestone yet, query the server again in a moment.
++        await asyncio.sleep(DEPLOYMENT_MILESTONE_POLL_INTERVAL)
++    return False
++
++
++def poll_deploy_milestones(key: str, from_iso_timestamp: datetime) -> bool | None:
++    """Query the deploy milestones of a deployment once over the http endpoint.
++
++    Args:
++        key: The deployment key.
++        from_iso_timestamp: The timestamp of the deployment request time, this helps with the milestone query.
++
++    Raises:
++        ValueError: If a non-empty key is not provided.
++        Exception: If the user is not authenticated.
++
++    Returns:
++        False if the server reports a failure, True if the deployment is complete,
++        None if there is no new milestone to report yet.
++    """
+     if not key:
+         raise ValueError("Non-empty key is required for querying deploy status.")
+     if not (token := requires_authenticated()):
+         raise Exception("not authenticated")
+ 
+     try:
+-        logs_endpoint = f"{DEPLOYMENT_LOGS_ENDPOINT}/{key}/logs?access_token={token}&log_type={LogType.DEPLOY_LOG.value}&from_iso_timestamp={from_iso_timestamp.astimezone().isoformat()}"
+-        console.debug(f"log server endpoint: {logs_endpoint}")
+-        _ws = websockets.connect(logs_endpoint)  # type: ignore
+-        async with _ws as ws:
+-            # Stream back the deploy events reported back from the server
+-            for _ in range(DEPLOYMENT_EVENT_MESSAGES_RETRIES):
+-                row_json = json.loads(await ws.recv())
+-                console.debug(f"Server responded with: {row_json}")
+-                if row_json and isinstance(row_json, dict):
+-                    # Only show the timestamp and actual message
+-                    console.print(
+-                        " | ".join(
+-                            [
+-                                convert_to_local_time(row_json["timestamp"]),
+-                                row_json["message"],
+-                            ]
+-                        )
++        logs_endpoint = f"{DEPLOYMENT_MILESTONES_ENDPOINT}/{key}/logs"
++        params = {
++            "log_type": LogType.DEPLOY_LOG.value,
++            "from_iso_timestamp": from_iso_timestamp.astimezone().isoformat(),
++        }
++        console.debug(f"milestones server endpoint: {logs_endpoint} {params}")
++        response = httpx.get(
++            logs_endpoint,
++            params=params,
++            headers=authorization_header(token),
++            timeout=HTTP_REQUEST_TIMEOUT,
++        )
++        if response.status_code == HTTPStatus.NO_CONTENT:
++            # There are no new milestones yet, this is normal.
++            console.debug("Server responded, no new events yet, this is normal")
++            return None
++        response.raise_for_status()
++        milestones = response.json()
++        console.debug(f"Server responded with milestones: {milestones}")
++
++        for row_json in milestones or []:
++            if row_json and isinstance(row_json, dict):
++                # Only show the timestamp and actual message
++                console.print(
++                    " | ".join(
++                        [
++                            convert_to_local_time(row_json["timestamp"]),
++                            row_json["message"],
++                        ]
+                     )
+-                    server_message = row_json["message"].lower()
+-                    if "fail" in server_message:
+-                        console.debug(
+-                            "Received failure message, stop event message streaming"
+-                        )
+-                        return False
+-                    if any(msg in server_message for msg in END_OF_DEPLOYMENT_MESSAGES):
+-                        console.debug(
+-                            "Received end of deployment message, stop event message streaming"
+-                        )
+-                        return True
+-                else:
+-                    console.debug("Server responded, no new events yet, this is normal")
++                )
++                server_message = row_json["message"].lower()
++                if "fail" in server_message:
++                    console.debug(
++                        "Received failure message, stop event message streaming"
++                    )
++                    return False
++                if any(msg in server_message for msg in END_OF_DEPLOYMENT_MESSAGES):
++                    console.debug(
++                        "Received end of deployment message, stop event message streaming"
++                    )
++                    return True
++            else:
++                console.debug("Server responded, no new events yet, this is normal")
+     except Exception as ex:
+         console.debug(f"Unable to get more deployment events due to {ex}.")
+-    return False
++    return None
+ 
+ 
+ def wait_for_server_to_pick_up_request():
+diff --git a/reflex/utils/prompts.py b/reflex/utils/prompts.py
+new file mode 100644
+index 0000000..98e0c0e
+--- /dev/null
++++ b/reflex/utils/prompts.py
+@@ -0,0 +1,56 @@
++"""Functions to prompt the user for input in the CLI."""
++
++from __future__ import annotations
++
++import sys
++from pathlib import Path
++
++from reflex import constants
++from reflex.utils import console
++
++# The order the templates are proposed to the user in.
++TEMPLATE_ORDER = [
++    constants.Templates.Kind.BLANK,
++    constants.Templates.Kind.SIDEBAR,
++    constants.Templates.Kind.DEMO,
++]
++
++
++def get_template(app_dir: Path) -> constants.Templates.Kind:
++    """Prompt the user for the template to initialize the app with.
++
++    Args:
++        app_dir: The directory of the app.
++
++    Returns:
++        The template to initialize the app with. The blank template is used
++        when the user cannot be prompted, for example on an existing app or
++        when the CLI is not attached to a terminal.
++    """
++    if not can_prompt(app_dir):
++        return constants.Templates.Kind.BLANK
++
++    template = console.ask(
++        "Get started with one of the following templates?",
++        choices=[kind.value for kind in TEMPLATE_ORDER],
++        default=constants.Templates.Kind.BLANK.value,
++    )
++    return constants.Templates.Kind(template)
++
++
++def can_prompt(app_dir: Path) -> bool:
++    """Check if the user can be prompted for input.
++
++    Args:
++        app_dir: The directory of the app.
++
++    Returns:
++        True if the app is initialized for the first time in an interactive
++        terminal, so the user can be asked questions.
++    """
++    if (app_dir / constants.Config.FILE).exists():
++        # The app is re-initialized, so the template is not used.
++        return False
++    # The user cannot answer questions when the CLI is not attached to a
++    # terminal, such as in a container or a CI job.
++    return sys.stdin is not None and sys.stdin.isatty()
+diff --git a/requirements.txt b/requirements.txt
+new file mode 100644
+index 0000000..e69de29
+diff --git a/scripts/pyi_generator.py b/scripts/pyi_generator.py
+index 78ab0db..ac7e8f3 100644
+--- a/scripts/pyi_generator.py
++++ b/scripts/pyi_generator.py
+@@ -536,7 +536,7 @@ class StubGenerator(ast.NodeTransformer):
+ 
+ class PyiGenerator:
+     """A .pyi file generator that will scan all defined Component in Reflex and
+-    generate the approriate stub.
++    generate the appropriate stub.
+     """
+ 
+     modules: list = []

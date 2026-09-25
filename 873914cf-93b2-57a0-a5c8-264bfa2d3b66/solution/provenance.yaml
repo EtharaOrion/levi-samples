@@ -1,16 +1,3 @@
-# Per-unit provenance carrier. Generated, never hand-authored.
-# GENERATED SECTION. DO NOT HAND-EDIT.
-# FORGE canary block. Derived from the canonical content hash.
-# FORGE-CANARY[00]=E553CE85A6EB1F7D4A7659959DEDB7A0
-# FORGE-CANARY[01]=A9641C2DD6753F65E328BF2EBA5300DC
-# FORGE-CANARY[02]=31FE7C963D6FB908C38453B641ADF0E7
-# FORGE-CANARY[03]=3B134102F505CD43087B73B2BFADFFCF
-#
-# Every outcome below is a producer claim and never evidence. A reader recomputes each one from
-# committed bytes and the named roots; an assertion here may be contradicted and must never be
-# relied upon. The binding block at the end is excluded from the canonical bundle hash and is
-# covered by the detached signature instead, which is what makes the two bindings acyclic.
-
 schema: forge.provenance/v1
 instance_id: reflex-dev__reflex-977cc6990f22
 slot_id: T06
@@ -35,9 +22,6 @@ source:
   event_attestation_signer: null
   attestation_state: attestation-unavailable
 
-# How this instance was measured, in-band, so a reader never has to reconstruct it from
-# logs. A slot that validated on a repaired image, with part of the reference excluded, or
-# with a declared target dropped, says so here beside its numbers.
 measurement_provenance:
   state: unrecorded
   basis: "unrecorded; no-measured-image-or-reference-exclusions-asserted"

@@ -1,0 +1,23 @@
+{
+    "task": {
+        "path": "/home/ec2-user/harbor-probe/pass8-20260922t/873914cf-93b2-57a0-a5c8-264bfa2d3b66"
+    },
+    "trial_name": "873914cf-93b2-57a0-a5c8-264bfa2d__zcEJPNJ",
+    "trials_dir": "/home/ec2-user/harbor-jobs/pass8-batch-2026-09-22-twenty-20260925a-opus-gap-t06-a4",
+    "agent": {
+        "name": "openhands-sdk",
+        "model_name": "claude-opus-5",
+        "kwargs": {
+            "max_iterations": 1000,
+            "reasoning_effort": "high"
+        }
+    },
+    "environment": {
+        "type": "docker",
+        "delete": false,
+        "kwargs": {
+            "keep_containers": true
+        }
+    },
+    "job_id": "2c2be067-3f54-486a-9aad-c0263c3b1536"
+}

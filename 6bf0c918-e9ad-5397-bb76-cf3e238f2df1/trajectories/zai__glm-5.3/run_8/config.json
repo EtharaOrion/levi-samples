@@ -1,0 +1,23 @@
+{
+    "task": {
+        "path": "/home/ec2-user/harbor-probe/glm-20260924a-a2-a8/6bf0c918-e9ad-5397-bb76-cf3e238f2df1"
+    },
+    "trial_name": "6bf0c918-e9ad-5397-bb76-cf3e238f__VitwPDB",
+    "trials_dir": "/home/ec2-user/harbor-jobs/glm-batch-2026-09-22-twenty-20260926a-t15-resample-t15-a15",
+    "agent": {
+        "name": "openhands-sdk",
+        "model_name": "zai/glm-5.3",
+        "kwargs": {
+            "max_iterations": 1000,
+            "reasoning_effort": "high"
+        }
+    },
+    "environment": {
+        "type": "docker",
+        "delete": false,
+        "kwargs": {
+            "keep_containers": true
+        }
+    },
+    "job_id": "d4dd1dcc-6d3c-450b-a15c-801c8451395b"
+}

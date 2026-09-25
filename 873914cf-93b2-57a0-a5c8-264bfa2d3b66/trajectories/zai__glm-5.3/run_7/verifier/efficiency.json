@@ -1,0 +1,32 @@
+{
+ "absent": [],
+ "commitment": "ratelimit-repair",
+ "derivation": {
+  "basis": "Derived from this run's own trajectory bytes. A field the trajectory does not carry is null and listed in absent, never filled.",
+  "cached_tokens": "final_metrics.total_cached_tokens",
+  "completion_tokens": "final_metrics.total_completion_tokens",
+  "cost_usd": "final_metrics.total_cost_usd",
+  "finish_called": "any tool_calls[].function_name == \"finish\"",
+  "prompt_tokens": "final_metrics.total_prompt_tokens",
+  "reasoning_tokens": "final_metrics.extra.total_reasoning_tokens",
+  "scored": "false; efficiency is recorded and never enters a score",
+  "source": "staging/873914cf-93b2-57a0-a5c8-264bfa2d3b66/trajectories/zai__glm-5.3/run_7/agent/trajectory.json",
+  "source_sha256": "28752b89bc491e603f022ddec30be411f73d338e1fbf5d56949e1b3724d19d74",
+  "steps": "count of steps whose source is \"agent\""
+ },
+ "efficiency": {
+  "cached_tokens": 56729728,
+  "completion_tokens": 162327,
+  "cost_usd": 16.054699479999996,
+  "finish_called": true,
+  "prompt_tokens": 57151679,
+  "reasoning_tokens": 58954,
+  "scored": false,
+  "steps": 353
+ },
+ "model": "zai__glm-5.3",
+ "run": "T06-a10",
+ "run_id": "run_7",
+ "schema": "forge.efficiency/v1",
+ "task_uuid": "873914cf-93b2-57a0-a5c8-264bfa2d3b66"
+}

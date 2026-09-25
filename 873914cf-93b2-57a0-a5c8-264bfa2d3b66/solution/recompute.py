@@ -25,11 +25,9 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 BUNDLE = os.path.dirname(HERE)
 BANNER = "GENERATED SECTION. DO NOT HAND-EDIT."
 
-
 def load():
     with open(os.path.join(HERE, "grounding.yaml"), encoding="utf-8") as handle:
         return json.load(handle)
-
 
 def canary_block(g):
     return "\n".join(
@@ -37,13 +35,11 @@ def canary_block(g):
         for index, value in enumerate(g["canary_values"])
     )
 
-
 def canary(g):
     lines = ["# FORGE canary block. Derived from the canonical content hash."]
     for line in canary_block(g).splitlines():
         lines.append("# " + line)
     return "\n".join(lines)
-
 
 def write(path, text, executable=False):
     full = os.path.join(BUNDLE, path)
@@ -52,7 +48,6 @@ def write(path, text, executable=False):
         handle.write(text)
     if executable:
         os.chmod(full, 0o755)
-
 
 def solve_sh(g):
     return "\n".join([
@@ -73,7 +68,6 @@ def solve_sh(g):
         '    commit -q --no-verify -m "reference solution" || true',
         "",
     ])
-
 
 def truth_md(g):
     out = ["# TRUTH.md - %s" % g["instance_id"], "", BANNER, "", canary(g), "", "## Defect", ""]
@@ -114,7 +108,6 @@ def truth_md(g):
     out += ["```", ""]
     return "\n".join(out)
 
-
 def rubrics_json(g):
     items = []
     for item in g["rubric_items"]:
@@ -139,11 +132,9 @@ def rubrics_json(g):
     }
     return json.dumps(doc, indent=2, sort_keys=True) + "\n"
 
-
 def _slug(text):
     out = re.sub(r"[^0-9a-zA-Z]+", "_", str(text)).strip("_").lower()
     return re.sub(r"_+", "_", out)
-
 
 def test_output_py(g):
     """The task-specific deterministic channel, emitted from grounding.yaml.
@@ -363,7 +354,6 @@ def test_output_py(g):
     ]
     return "\n".join(out)
 
-
 def main():
     g = load()
     write("solution/solve.sh", solve_sh(g), executable=True)
@@ -372,7 +362,6 @@ def main():
     write("tests/test_output.py", test_output_py(g))
     print("regenerated 4 artifacts from grounding.yaml")
     return 0
-
 
 if __name__ == "__main__":
     sys.exit(main())

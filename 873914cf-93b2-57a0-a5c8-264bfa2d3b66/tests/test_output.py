@@ -18,17 +18,10 @@ import pytest
 LOGS = os.environ.get('TRINITY_LOGS', '/logs/verifier')
 HERE = os.path.dirname(os.path.abspath(__file__))
 TASK_DIR = os.path.dirname(HERE)
-# Derived from where the module lives rather than embedded. The uuid is a function
-# of the canonical hash and this file is inside that hash, so embedding it would be
-# circular; reading it from the directory also means the module cannot disagree
-# with the bundle it ships in.
 TASK_UUID = os.path.basename(TASK_DIR)
 INSTANCE_ID = 'reflex-dev__reflex-977cc6990f22'
 
-
 def reward():
-    # reward.json carries numeric values only, because Harbor rejects the whole
-    # object if any value is a string. The reason lives beside it.
     with open(os.path.join(LOGS, 'reward.json'), encoding='utf-8') as handle:
         record = json.load(handle)
     path = os.path.join(LOGS, 'reward_reason.json')
@@ -37,14 +30,12 @@ def reward():
             record = dict(json.load(handle), **record)
     return record
 
-
 def summary():
     path = os.path.join(LOGS, 'summary.json')
     if not os.path.exists(path):
         pytest.fail('the graded run recorded no structural summary')
     with open(path, encoding='utf-8') as handle:
         return json.load(handle)
-
 
 def submission_diff():
     path = os.path.join(LOGS, 'final.diff')
@@ -53,15 +44,12 @@ def submission_diff():
     with open(path, encoding='utf-8', errors='replace') as handle:
         return handle.read()
 
-
 def touched_paths():
     import re as _re
     text = submission_diff()
     return set(_re.findall(r'^\+\+\+ b/(.+)$', text, _re.M))
 
-
 def rubric_probes():
-    # Probe literals live in rubrics.json, never in this module.
     with open(os.path.join(TASK_DIR, 'tests', 'rubrics.json'), encoding='utf-8') as h:
         doc = json.load(h)
     out = {}
@@ -69,7 +57,6 @@ def rubric_probes():
         for req in site.get('requirements') or []:
             out[req['id']] = (site.get('path'), req.get('probe') or {})
     return out
-
 
 def probe_satisfied(req_id):
     path, probe = rubric_probes().get(req_id, (None, {}))
@@ -79,17 +66,14 @@ def probe_satisfied(req_id):
         return path in touched_paths() if path else False
     return any(frag and frag in text for frag in any_of)
 
-
 def test_reward_is_written_and_in_range():
     value = reward()['reward']
     assert 0.0 <= value <= 1.0
-
 
 def test_every_zero_carries_a_machine_readable_reason():
     record = reward()
     if record['reward'] == 0.0:
         assert record.get('reason'), 'a zero score must name its reason'
-
 
 class TestFairPlay:
     """Hard gates. A failure here voids the run outright.
@@ -111,7 +95,6 @@ class TestFairPlay:
         assert observed == declared, (
             'the run graded ' + str(observed) + ' targets and the bundle declares '
             + str(declared))
-
 
 class TestReachedTheLoadBearingSites:
     """One node per site the reference change touches. Recorded, not asserted.
@@ -160,7 +143,6 @@ class TestReachedTheLoadBearingSites:
         reached = 'pynecone/components/component.py' in touched_paths()
         record_property('E1-touched:pynecone/components/component.py', 'reached' if reached else 'not-reached')
 
-
 class TestRequirementsTheOutcomeChannelCannotSee:
     """Scored here, because no fail-to-pass or none-to-pass test observes them.
 
@@ -204,7 +186,6 @@ class TestRequirementsTheOutcomeChannelCannotSee:
         record_property('E2-req:S7-changed', 'met' if ok else 'unmet')
         assert ok, 'site requirement S7-changed is not satisfied by final.diff'
 
-
 class TestRequirementsAlreadyPricedByTheOutcomeChannel:
     """Recorded only. The outcome channel already scores these through its
     fail-to-pass targets, so weighting them here would pay for one fact twice.
@@ -219,7 +200,6 @@ class TestRequirementsAlreadyPricedByTheOutcomeChannel:
         'The reference change to pynecone/components/component.py is present. Any edit that achieves the same observable behaviour satisfies this.'
         ok = probe_satisfied('S8-changed')
         record_property('E2-req:S8-changed', 'met' if ok else 'unmet')
-
 
 class TestTheScoreIsUsable:
     def test_score_is_well_formed(self):

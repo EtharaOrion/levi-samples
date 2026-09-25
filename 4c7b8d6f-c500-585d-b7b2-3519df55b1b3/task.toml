@@ -1,7 +1,12 @@
 schema_version = "1.4"
 
-artifacts = ["/logs/verifier/summary.json", "/logs/verifier/final.diff", "/logs/verifier/target-stdout.md", "/logs/verifier/reward_reason.json"]
-
+artifacts = [
+  "/logs/verifier/summary.json",
+  "/logs/verifier/final.diff",
+  "/logs/verifier/target-stdout.md",
+  "/logs/verifier/reward_reason.json",
+  { source = "/home/mise", destination = "workspace", exclude = ["target", ".git/modules"] },
+]
 [task]
 name = "levi/s01-mise"
 version = "1.0.0"
@@ -14,29 +19,11 @@ slot_id = "S01"
 milestone = "batch-2026-09-15-a"
 language = "rust"
 primary_archetype = "AR1"
-difficulty_band = "UNGRADED"
+difficulty_band = "expert"
 target_tier = "frontier-defeat"
 source_hunks = 533
 source_files = 83
 delivery_format = "levi"
-# Two identities, because the Dockerfile form has two artefacts and only one of
-# them is a registry object. `base_image_ref` is what `environment/Dockerfile`
-# builds FROM: a fully qualified reference carrying registry, repository, readable
-# tag and the index manifest digest, so it resolves for any consumer holding
-# credentials and cannot drift when the tag is overwritten. The digest is the
-# multi-arch index digest rather than a platform sub-manifest, so an amd64
-# consumer resolves its own platform; `base_image_platform_manifest_digest`
-# records the arm64 sub-manifest this host actually measured, which is evidence
-# and never a substitute for the reference.
-#
-# The image that Dockerfile produces is built once, for linux/amd64 and
-# linux/arm64, by .seed/push_image.py and pushed as one index under the levi
-# namespace; `[environment].docker_image` pins that index by digest. The build
-# fetches a pinned uv, a Python interpreter and PyPI packages, so two builds of
-# these bytes are not the same image, and the pin is what makes every consumer
-# run the one that was checked. `environment_build_digest` is a SHA-256 over the
-# bytes this bundle carries to build it, inside `canonical_content_hash`, and it
-# is the digest the pushed image was built from.
 image_pin_kind = "pushed-sanitized-index-digest"
 image_pin_portable = true
 base_image_ref = "426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-milo/jdx_m_mise:pr-8524@sha256:df61963482812a1239195f25326ea9b385012c74ed79acc73cf41d3f59f5bc27"
@@ -44,9 +31,6 @@ base_image_digest = "sha256:df61963482812a1239195f25326ea9b385012c74ed79acc73cf4
 base_image_platform_manifest_digest = "sha256:8a3e30826c4442f62e72a44af24155ad3ecc71e194a14e0f98acf823ac138838"
 base_image_registry_namespace = "426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-milo"
 environment_build_digest = "23a744c8e23b64187333ac63454aa88c8bd84bc79feb9c87f6308d07c7b30874"
-# No instruction-following carrier ships this cycle. requirements/client-requirements.md
-# defers the overlay and states that a manifest naming a carrier it does not ship is
-# itself a defect, so the manifest names none and cites the recorded deferral instead.
 instruction_following_carrier = "none"
 instruction_following_state = "deferred"
 instruction_following_gap = "if-overlay-deferred"
@@ -54,18 +38,7 @@ signals_shipped = ["outcome"]
 signals_authored_unconsumed = ["instruction_following"]
 
 [environment]
-# docker_image is the sanitized image environment/Dockerfile builds, pushed as a
-# linux/amd64 + linux/arm64 index and pinned by index digest, never by tag. Harbor's
-# should_use_prebuilt_docker_image returns True whenever it is set, so Harbor pulls this
-# image and does not build environment/Dockerfile, which stays in the bundle as the
-# recomputable derivation of it. It is never the milo base: that image carries the
-# evaluator's /home/fix.patch. The arm64 half is the one Phase 2 measures on the
-# authoring host; the amd64 half is built under emulation and is unmeasured until an
-# amd64 host runs Phase 2 (gap amd64-half-unmeasured).
 docker_image = "426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/jdx_m_mise@sha256:8548f5c7004d60da6a8eaca625e5fb7152c40e355eada9a6bdea339b73fff6bf"
-#
-# The local image id of the image the authoring build produced on this host. NOT a
-# registry digest; the registry identity is docker_image above.
 local_image_id = "sha256:2962270c1dcf3820042935701c5f2db67a4c0145881fc24cf5bdea801aaa8959"
 network_mode = "no-network"
 build_timeout_sec = 3600.0
@@ -75,36 +48,29 @@ storage_mb = 20480
 gpus = 0
 workdir = "/home/mise"
 
-# Snapshot guard: the graded targets include files the hidden test patch owns, and the
-# snapshot tool rewrites them when the suite runs. These stop that rewrite, so running the
-# tests cannot by itself turn a submission into a verifier-tree modification.
 [environment.env]
 INSTA_FORCE_UPDATE = "0"
 INSTA_UPDATE = "no"
 
 [agent]
-# The agent reaches the model and nothing else. Harbor installs the openhands-sdk agent
-# INSIDE this environment and drives it with environment.exec, so the provider enforces
-# this policy against the agent's own traffic. no-network here does not mean the agent
-# cannot cheat; it means the agent cannot reach a model at all and never runs.
-#
-# The runtime is pre-baked into environment/Dockerfile at a pinned version, so nothing
-# here needs a package index, a Python download service or a distro repository at run
-# time. Grading is unaffected: [environment] and [verifier] stay no-network.
-#
-# allowed_hosts entries are what a CONSUMER needs. Harbor admits hostnames, IP addresses
-# and CIDR only, with no port, so these are host-level grants and cannot be narrowed to
-# a single service. 
 network_mode = "allowlist"
 allowed_hosts = ["api.anthropic.com", "172.17.0.1/32"]
 agent_sdk_version = "1.49.1"
 timeout_sec = 57600.0
 
 [verifier]
-environment_mode = "shared"
+environment_mode = "separate"
 network_mode = "no-network"
 timeout_sec = 3600.0
 null_floor = 0.0
+
+[verifier.environment]
+network_mode = "no-network"
+build_timeout_sec = 3600.0
+cpus = 8
+memory_mb = 16384
+storage_mb = 20480
+gpus = 0
 
 [span_provenance]
 instance_identity = "jdx/mise v2026.4.3..v2026.4.4"

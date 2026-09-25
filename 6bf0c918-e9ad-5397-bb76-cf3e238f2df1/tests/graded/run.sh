@@ -1,6 +1,8 @@
 #!/bin/bash
 set -eo pipefail
 cd /home/reflex
+git checkout HEAD -- tests/conftest.py 2>/dev/null || rm -f tests/conftest.py
+
 TEST_FILES=$({ grep -E '^diff --git a/tests/' /tests/test.patch     | sed -E 's#^diff --git a/(.+) b/.*#\1#'     | grep -E '\.py$' | grep -vE 'conftest\.py|__init__\.py' | sort -u; } || true)
 EXIST=""
 for f in $TEST_FILES; do if [ -f "$f" ]; then EXIST="$EXIST $f"; fi; done

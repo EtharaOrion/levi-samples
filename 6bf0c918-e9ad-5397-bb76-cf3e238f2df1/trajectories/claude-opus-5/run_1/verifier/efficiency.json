@@ -1,0 +1,32 @@
+{
+ "absent": [],
+ "commitment": "20260922a-six",
+ "derivation": {
+  "basis": "Derived from this run's own trajectory bytes. A field the trajectory does not carry is null and listed in absent, never filled.",
+  "cached_tokens": "final_metrics.total_cached_tokens",
+  "completion_tokens": "final_metrics.total_completion_tokens",
+  "cost_usd": "final_metrics.total_cost_usd",
+  "finish_called": "any tool_calls[].function_name == \"finish\"",
+  "prompt_tokens": "final_metrics.total_prompt_tokens",
+  "reasoning_tokens": "final_metrics.extra.total_reasoning_tokens",
+  "scored": "false; efficiency is recorded and never enters a score",
+  "source": "staging/6bf0c918-e9ad-5397-bb76-cf3e238f2df1/trajectories/claude-opus-5/run_1/agent/trajectory.json",
+  "source_sha256": "2f15c5b9493690854d8e05c7e58cb5d51355e6d5b1b0a2ec86b269263efcf4aa",
+  "steps": "count of steps whose source is \"agent\""
+ },
+ "efficiency": {
+  "cached_tokens": 53969053,
+  "completion_tokens": 150336,
+  "cost_usd": 33.05882275,
+  "finish_called": true,
+  "prompt_tokens": 54339704,
+  "reasoning_tokens": 69728,
+  "scored": false,
+  "steps": 269
+ },
+ "model": "claude-opus-5",
+ "run": "T15-a1",
+ "run_id": "run_1",
+ "schema": "forge.efficiency/v1",
+ "task_uuid": "6bf0c918-e9ad-5397-bb76-cf3e238f2df1"
+}

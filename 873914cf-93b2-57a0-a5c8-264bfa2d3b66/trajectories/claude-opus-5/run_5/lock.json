@@ -1,0 +1,42 @@
+{
+    "schema_version": 2,
+    "task": {
+        "name": "873914cf-93b2-57a0-a5c8-264bfa2d3b66",
+        "version": "1.0.0",
+        "type": "local",
+        "digest": "sha256:896cf57cc8d6834f6a3a8a53908c98ca505ff7ee1601b5f301872f159c18a1e9",
+        "path": "/home/ec2-user/harbor-probe/pass8-20260922t/873914cf-93b2-57a0-a5c8-264bfa2d3b66"
+    },
+    "install_only": false,
+    "timeout_multiplier": 1.0,
+    "agent": {
+        "name": "openhands-sdk",
+        "model_name": "claude-opus-5",
+        "skills": [],
+        "resume_trajectory": false,
+        "extra_allowed_hosts": [],
+        "kwargs": {
+            "max_iterations": 1000,
+            "reasoning_effort": "high"
+        },
+        "mcp_servers": []
+    },
+    "bridge_inputs": {},
+    "skills": [],
+    "environment": {
+        "type": "docker",
+        "force_build": false,
+        "delete": false,
+        "cpu_enforcement_policy": "auto",
+        "memory_enforcement_policy": "auto",
+        "extra_docker_compose": [],
+        "kwargs": {
+            "keep_containers": true
+        },
+        "extra_allowed_hosts": []
+    },
+    "verifier": {
+        "disable": false,
+        "environment_mode": "shared"
+    }
+}
