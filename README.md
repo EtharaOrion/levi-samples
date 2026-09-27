@@ -1,8 +1,5 @@
 <p align="center">
-  <picture>
-    <source type="image/svg+xml" srcset="images/hero.svg">
-    <img src="images/hero.svg" alt="Levi — agentic software-engineering capability, measured offline on outcome and process" width="880">
-  </picture>
+  <img src="images/hero.jpg" alt="Levi — agentic software-engineering capability, measured offline on outcome and process" width="880">
 </p>
 
 <p align="center">
