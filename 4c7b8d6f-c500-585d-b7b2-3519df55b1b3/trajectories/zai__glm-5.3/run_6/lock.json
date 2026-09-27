@@ -5,7 +5,7 @@
         "version": "1.0.0",
         "type": "local",
         "digest": "sha256:dda68939fa8fdde9a268b1f8f1247e95aaa326ebf09434759daf0f79707e3a58",
-        "path": "/home/ec2-user/harbor-probe/glm-20260924a-a2-a8/4c7b8d6f-c500-585d-b7b2-3519df55b1b3"
+        "path": "/home/runner/harbor-probe/glm-20260924a-a2-a8/4c7b8d6f-c500-585d-b7b2-3519df55b1b3"
     },
     "install_only": false,
     "timeout_multiplier": 1.0,
