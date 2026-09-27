@@ -119,7 +119,7 @@ def score(tests_dir: Path, out_dir: Path) -> tuple[float | None, dict]:
     base = os.environ.get("JUDGE_BASE_URL", "").strip() or "https://api.openai.com/v1"
     cfg = {"model": model, "api_key": key, "base_url": base,
            "flavour": "anthropic" if "anthropic" in base else "openai",
-           "temperature": float(os.environ.get("JUDGE_TEMPERATURE", "0")),
+           "temperature": float(os.environ.get("JUDGE_TEMPERATURE", "1")),
            "max_tokens": int(os.environ.get("JUDGE_MAX_TOKENS", "2048")),
            "version": os.environ.get("ANTHROPIC_VERSION", "2023-06-01"),
            "timeout": float(os.environ.get("JUDGE_TIMEOUT", "180"))}

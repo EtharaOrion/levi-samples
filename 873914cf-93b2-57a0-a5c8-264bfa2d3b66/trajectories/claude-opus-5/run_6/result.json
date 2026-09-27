@@ -2,15 +2,15 @@
     "id": "53ab77c5-b238-46b9-9016-aa1e938bd799",
     "task_name": "levi/t06-reflex",
     "trial_name": "873914cf-93b2-57a0-a5c8-264bfa2d__nBaKE6h",
-    "trial_uri": "file:///home/ec2-user/harbor-jobs/pass8-batch-2026-09-22-twenty-20260925a-opus-gap-t06-a6/873914cf-93b2-57a0-a5c8-264bfa2d__nBaKE6h",
+    "trial_uri": "file:///home/runner/harbor-jobs/pass8-batch-2026-09-22-twenty-20260925a-opus-gap-t06-a6/873914cf-93b2-57a0-a5c8-264bfa2d__nBaKE6h",
     "task_id": {
-        "path": "/home/ec2-user/harbor-probe/pass8-20260922t/873914cf-93b2-57a0-a5c8-264bfa2d3b66"
+        "path": "/home/runner/harbor-probe/pass8-20260922t/873914cf-93b2-57a0-a5c8-264bfa2d3b66"
     },
     "source": null,
     "task_checksum": "8e5f3b12a57bbb1308bd884b6ae619caa92a497ae1435d339c5932c68b424e26",
     "config": {
         "task": {
-            "path": "/home/ec2-user/harbor-probe/pass8-20260922t/873914cf-93b2-57a0-a5c8-264bfa2d3b66",
+            "path": "/home/runner/harbor-probe/pass8-20260922t/873914cf-93b2-57a0-a5c8-264bfa2d3b66",
             "git_url": null,
             "git_commit_id": null,
             "name": null,
@@ -20,7 +20,7 @@
             "source": null
         },
         "trial_name": "873914cf-93b2-57a0-a5c8-264bfa2d__nBaKE6h",
-        "trials_dir": "/home/ec2-user/harbor-jobs/pass8-batch-2026-09-22-twenty-20260925a-opus-gap-t06-a6",
+        "trials_dir": "/home/runner/harbor-jobs/pass8-batch-2026-09-22-twenty-20260925a-opus-gap-t06-a6",
         "install_only": false,
         "timeout_multiplier": 1.0,
         "agent_timeout_multiplier": null,

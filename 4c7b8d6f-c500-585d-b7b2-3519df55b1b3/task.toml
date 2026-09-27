@@ -56,7 +56,7 @@ INSTA_UPDATE = "no"
 
 [agent]
 network_mode = "allowlist"
-allowed_hosts = ["api.anthropic.com", "172.17.0.1/32"]
+allowed_hosts = ["api.anthropic.com", "api.z.ai"]
 agent_sdk_version = "1.49.1"
 timeout_sec = 57600.0
 
@@ -80,7 +80,7 @@ gpus = 0
 JUDGE_MODEL = '{{ env.JUDGE_MODEL | default(value="") }}'
 JUDGE_API_KEY = '{{ env.JUDGE_API_KEY | default(value="") }}'
 JUDGE_BASE_URL = '{{ env.JUDGE_BASE_URL | default(value="") }}'
-JUDGE_TEMPERATURE = '{{ env.JUDGE_TEMPERATURE | default(value="0") }}'
+JUDGE_TEMPERATURE = '{{ env.JUDGE_TEMPERATURE | default(value="1") }}'
 JUDGE_SEED = '{{ env.JUDGE_SEED | default(value="0") }}'
 [span_provenance]
 instance_identity = "jdx/mise v2026.4.3..v2026.4.4"

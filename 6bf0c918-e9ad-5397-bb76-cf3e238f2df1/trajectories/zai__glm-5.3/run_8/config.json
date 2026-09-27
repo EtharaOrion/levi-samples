@@ -1,9 +1,9 @@
 {
     "task": {
-        "path": "/home/ec2-user/harbor-probe/glm-20260924a-a2-a8/6bf0c918-e9ad-5397-bb76-cf3e238f2df1"
+        "path": "/home/runner/harbor-probe/glm-20260924a-a2-a8/6bf0c918-e9ad-5397-bb76-cf3e238f2df1"
     },
     "trial_name": "6bf0c918-e9ad-5397-bb76-cf3e238f__VitwPDB",
-    "trials_dir": "/home/ec2-user/harbor-jobs/glm-batch-2026-09-22-twenty-20260926a-t15-resample-t15-a15",
+    "trials_dir": "/home/runner/harbor-jobs/glm-batch-2026-09-22-twenty-20260926a-t15-resample-t15-a15",
     "agent": {
         "name": "openhands-sdk",
         "model_name": "zai/glm-5.3",

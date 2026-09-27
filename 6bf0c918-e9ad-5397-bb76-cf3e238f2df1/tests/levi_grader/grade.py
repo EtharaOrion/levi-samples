@@ -174,10 +174,11 @@ def run(tests_dir: Path, patch: Path, out_dir: Path) -> dict:
     }
     (out_dir / "grading.json").write_text(
         json.dumps(grading, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    # reward.json carries the outcome channel only; the composed score_eval and
+    # every other channel live in grading.json.
     (out_dir / "reward.json").write_text(
-        json.dumps({"reward": score_eval, "outcome": round(outcome, 4), "deterministic": det,
-                    "rubric": rubric, "process": process}, sort_keys=True) + "\n", encoding="utf-8")
-    (out_dir / "reward.txt").write_text("%.6f\n" % score_eval, encoding="utf-8")
+        json.dumps({"reward": round(outcome, 6)}, sort_keys=True) + "\n", encoding="utf-8")
+    (out_dir / "reward.txt").write_text("%.6f\n" % outcome, encoding="utf-8")
 
     f = lambda v: "n/a" if v is None else str(v)
     (out_dir / "final_score.md").write_text("\n".join([

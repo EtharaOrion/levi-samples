@@ -55,7 +55,7 @@ workdir = "/home/reflex"
 
 [agent]
 network_mode = "allowlist"
-allowed_hosts = ["api.anthropic.com", "172.17.0.1/32"]
+allowed_hosts = ["api.anthropic.com", "api.z.ai"]
 agent_sdk_version = "1.49.1"
 timeout_sec = 57600.0
 
@@ -66,7 +66,7 @@ timeout_sec = 3600.0
 null_floor = 0.0
 
 [verifier.environment]
-docker_image = "426628337772.dkr.ecr.ap-south-1.amazonaws.com/levi@sha256:ae806d87b1c39230275640d63b14fa813dc7c1fb47a76da71a55da4d69f8c7a0"
+docker_image = "426628337772.dkr.ecr.ap-south-1.amazonaws.com/levi@sha256:8b36520ad92cd7e5b8f761cc7879cc56e69050698a31bcd19cb0020e6b16c4d1"
 network_mode = "allowlist"
 allowed_hosts = ["api.openai.com", "api.anthropic.com"]
 build_timeout_sec = 3600.0
@@ -79,7 +79,7 @@ gpus = 0
 JUDGE_MODEL = '{{ env.JUDGE_MODEL | default(value="") }}'
 JUDGE_API_KEY = '{{ env.JUDGE_API_KEY | default(value="") }}'
 JUDGE_BASE_URL = '{{ env.JUDGE_BASE_URL | default(value="") }}'
-JUDGE_TEMPERATURE = '{{ env.JUDGE_TEMPERATURE | default(value="0") }}'
+JUDGE_TEMPERATURE = '{{ env.JUDGE_TEMPERATURE | default(value="1") }}'
 JUDGE_SEED = '{{ env.JUDGE_SEED | default(value="0") }}'
 [span_provenance]
 instance_identity = "reflex-dev/reflex v0.1.18..v0.1.19"
