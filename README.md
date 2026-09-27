@@ -246,11 +246,6 @@ aws ecr get-login-password --region ap-south-1 \
   | docker login --username AWS --password-stdin \
     426628337772.dkr.ecr.ap-south-1.amazonaws.com
 
-# rubric channel (optional; outcome + deterministic run without it)
-export JUDGE_MODEL=gpt-5.6
-export JUDGE_API_KEY=...
-# export JUDGE_BASE_URL=https://api.anthropic.com   # adapter switches automatically
-
 harbor run 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
 ```
 
@@ -286,10 +281,8 @@ oracle (solve.sh)  outcome 1.0    every graded target resolved, offline, reprodu
 Both were measured inside the pinned images with the network disabled. Oracle runs twice produce
 byte-identical summaries, so the outcome channel is deterministic.
 
-The rubric half of the process channel is not bit-reproducible. It is sampled at `temperature=1`, and
-`rubric.json` records the model, endpoint, temperature, prompt hash and rubric hash for every run.
-An Anthropic endpoint exposes no seed, which `seed_honoured` records. Re-grading will shift rubric
-verdicts; the deterministic checks and the outcome channel will not.
+The rubric half of the process channel is not bit-reproducible. It is sampled at `temperature=1`.
+Re-grading will shift rubric verdicts; the deterministic checks and the outcome channel will not.
 
 ## Limitations
 
@@ -302,10 +295,7 @@ verdicts; the deterministic checks and the outcome channel will not.
   deterministic value exactly.
 - **`reward.json` carries the outcome channel only.** The composed `score_eval` and the
   deterministic and rubric channels live in `grading.json`.
-- **Human review covers 3 of 48 runs.** Two `run_1`s show recorded reviewer intervention (verdicts
-  overturned); the rest carry judge output as emitted. The attestation block is present on all runs
-  and should not be read as per-run adjudication.
 - **`glm-5.3`'s reflex T15 arm spans two batches** four days apart, including three resampled runs.
-- **Two graded artefacts are exact-text snapshots.** Snapshot tests reward matching the reference's
+- **Two graded artifacts are exact-text snapshots.** Snapshot tests reward matching the reference's
   private naming and ordering, which the instruction does not state — depressing scores for
   functionally correct work, most visibly on mise.
