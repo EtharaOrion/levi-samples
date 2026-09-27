@@ -1,0 +1,80 @@
+{
+  "canary_block": "FORGE-CANARY[00]=24553901DC6282770870EDB77847B933\nFORGE-CANARY[01]=E5E6C24D72D8532B145FBBE50F827476\nFORGE-CANARY[02]=A95995746EB340C766897008A27FF7FC\nFORGE-CANARY[03]=8042888AF71769D13D156A4A17FF2E7A",
+  "compilation_floor_note": "Every rubric item whose judgment reduces deterministically over its named evidence is emitted as a compiled test in tests/test_output.py. The bound compilation_floor in .seed/contract.yaml is carried by name only and reads conservative-default-unresolved, because requirements/ pins no value and touchstones/ records no disposition over one, so no domain-specific number is authored here.",
+  "items": [
+    {
+      "criterion": "A shared mechanism carrying a dictionary of DOM event actions is introduced and inherited by both the event handler and event spec classes.",
+      "dimension": "issue_coverage",
+      "evaluation_rule": "Answer Yes if the diff adds a shared component (such as a mixin or base class) holding a mapping of DOM actions and both the event handler class and the event spec class inherit or otherwise carry it. Answer No if only one of them carries the actions, or if no shared action-carrying field exists. An equivalent implementation using different class or field names that reaches the same observable behaviour answers Yes.",
+      "evaluation_target": "final_diff",
+      "evidence": [
+        "final_diff"
+      ],
+      "id": "R1",
+      "mode": "human_review",
+      "weight": 5
+    },
+    {
+      "criterion": "The stop-propagation and prevent-default accessors return a fresh copy with the added action and never mutate the receiver.",
+      "dimension": "issue_coverage",
+      "evaluation_rule": "Answer Yes if each chainable accessor for stopPropagation and preventDefault produces a copy of the object with the action added rather than assigning to the original in place. Answer No if either accessor mutates self, or if accessing one does not add the corresponding action. An equivalent implementation reaching the same non-mutating, order-independent behaviour answers Yes regardless of naming.",
+      "evaluation_target": "final_diff",
+      "evidence": [
+        "final_diff"
+      ],
+      "id": "R2",
+      "mode": "human_review",
+      "weight": 3
+    },
+    {
+      "criterion": "Event actions thread through compilation so a called handler and combined specs preserve and aggregate their actions onto the event chain.",
+      "dimension": "issue_coverage",
+      "evaluation_rule": "Answer Yes if calling a handler passes a copy of its actions into the produced spec, spec rebuilding during chain construction preserves the actions rather than dropping them, and the union of per-spec actions is attached to the resulting event chain. Answer No if actions are lost during field-by-field spec reconstruction or never aggregated onto the chain. An equivalent implementation using a preserving copy helper and reaching the same observable propagation answers Yes.",
+      "evaluation_target": "final_diff",
+      "evidence": [
+        "final_diff"
+      ],
+      "id": "R3",
+      "mode": "human_review",
+      "weight": 5
+    },
+    {
+      "criterion": "Two top-level attributes producing action-only event chains are defined and exported from the package's public entry point.",
+      "dimension": "issue_coverage",
+      "evaluation_rule": "Answer Yes if two public attributes (one for stopPropagation and one for preventDefault) are defined so they compile to an event chain carrying only the requested DOM action with no state update, and both are exported from the package's top-level init module. Answer No if either is missing, not exported, or carries an unintended state update. An equivalent implementation with different attribute names reaching the same action-only behaviour answers Yes.",
+      "evaluation_target": "final_diff",
+      "evidence": [
+        "final_diff"
+      ],
+      "id": "R4",
+      "mode": "human_review",
+      "weight": 3
+    },
+    {
+      "criterion": "The hardcoded form-submit preventDefault is removed from the frontend runtime and re-expressed as prevent_default on the form component's submit trigger.",
+      "dimension": "issue_coverage",
+      "evaluation_rule": "Answer Yes if the diff removes the special-cased form submit preventDefault from the frontend runtime script and the form component declares prevent_default on its submit trigger via the new mechanism, preserving submission behaviour. Answer No if the runtime special case is removed without replacing it at the form definition, or if the form declaration is missing. An equivalent implementation reaching the same preserved behaviour answers Yes.",
+      "evaluation_target": "final_diff",
+      "evidence": [
+        "final_diff"
+      ],
+      "id": "R5",
+      "mode": "human_review",
+      "weight": 3
+    },
+    {
+      "criterion": "The test run demonstrates that action-free triggers behave unchanged while combined actions apply as specified.",
+      "dimension": "verification",
+      "evaluation_rule": "Answer Yes if the verification output shows the relevant event and component tests executing and passing, confirming that triggers and chains without actions compile identically and that combined stopPropagation and preventDefault actions attach as expected. Answer No if tests are absent, fail, or do not exercise the action behaviour. Any test suite reaching the same observable confirmation answers Yes.",
+      "evaluation_target": "verification_output",
+      "evidence": [
+        "verification_output"
+      ],
+      "id": "R6",
+      "mode": "human_review",
+      "weight": 1
+    }
+  ],
+  "schema_note": "The item schema is closed at eight fields. The semantic residue that blocks compilation for each human-review item is recorded in TRUTH.md, because a ninth field here would break the closed schema.",
+  "source": "generated by solution/recompute.py from solution/grounding.yaml"
+}

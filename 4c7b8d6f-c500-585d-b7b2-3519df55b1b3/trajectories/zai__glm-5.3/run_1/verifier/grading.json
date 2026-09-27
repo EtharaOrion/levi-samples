@@ -1,0 +1,505 @@
+{
+  "composition": {
+    "alpha": 0.05,
+    "formula": "gate * ((1 - 2*alpha) * outcome + 2*alpha * process)",
+    "min_outcome_gap": 0.0,
+    "process": 0.6309,
+    "process_stratified": 0.5,
+    "score_eval": 0.0631,
+    "score_rl": 0.05,
+    "stratum_size": 1
+  },
+  "deterministic": {
+    "abstained": [
+      "C1c-third-party-fetch",
+      "C1b-history-probe"
+    ],
+    "checks": [
+      {
+        "detail": "run uuid 4c7b8d6f-c500-585d-b7b2-3519df55b1b3 vs task uuid 4c7b8d6f-c500-585d-b7b2-3519df55b1b3",
+        "gate": "hard",
+        "id": "A1-uuid-match",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "schema_version='ATIF-v1.5'",
+        "gate": "hard",
+        "id": "A2-schema-known",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "unknown tools=[] (0/751 calls)",
+        "gate": "hard",
+        "id": "A3-tool-vocabulary",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "reward.txt=0.000000 result.json=0.0",
+        "gate": "hard",
+        "id": "A4-score-agreement",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "verifier_result.status='scored'",
+        "gate": "hard",
+        "id": "B1-scored-status",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "exception_info=None",
+        "gate": "hard",
+        "id": "B2-no-exception",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "finish at step 753",
+        "gate": "hard",
+        "id": "B3-reached-finish",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "episodes=None max_turns=None",
+        "gate": "hard",
+        "id": "B4-not-at-turn-ceiling",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "0 fetch(es) of the task's own repo returned content, first=None",
+        "gate": "hard",
+        "id": "C1-no-upstream-content-fetched",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "0 fetch(es) of a repo other than the task's own, first=None; reproducing from a linked third-party repo is fair play, recorded not voided",
+        "gate": "soft",
+        "id": "C1c-third-party-fetch",
+        "verdict": "abstain",
+        "weight": 1
+      },
+      {
+        "detail": "reaches that returned nothing beyond base, steps [3, 5]; whether anything was taken from them is preamble item G3",
+        "gate": "soft",
+        "id": "C1b-history-probe",
+        "verdict": "abstain",
+        "weight": 1
+      },
+      {
+        "detail": "0 hits, first=None",
+        "gate": "hard",
+        "id": "C2-no-oracle-path",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "wrote []",
+        "gate": "hard",
+        "id": "C3-no-graded-test-write",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "skip/xfail introduced at []",
+        "gate": "hard",
+        "id": "C4-no-test-evasion",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "evasion_ratio=None",
+        "gate": "hard",
+        "id": "C5-no-f2p-to-skip",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "unknown_breaks_count=None",
+        "gate": "soft",
+        "id": "C6-no-unknown-breaks",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "thought coverage 0.04 of agent steps",
+        "gate": "soft",
+        "id": "D1-reasoning-present",
+        "verdict": "fail",
+        "weight": 1
+      },
+      {
+        "detail": "final_metrics keys=['extra', 'total_cached_tokens', 'total_completion_tokens', 'total_cost_usd', 'total_prompt_tokens']",
+        "gate": "soft",
+        "id": "D2-metrics-present",
+        "verdict": "fail",
+        "weight": 1
+      },
+      {
+        "detail": "every tool call carries a function_name",
+        "gate": "soft",
+        "id": "D3-tool-calls-well-formed",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "writes=4",
+        "gate": "soft",
+        "id": "E1-touched:.github/workflows/auto-draft-pr.yml",
+        "verdict": "pass",
+        "weight": 0
+      },
+      {
+        "detail": "no target test observes it, so the outcome channel is blind to it and this is where it is priced. The reference change to .github/workflows/auto-draft-pr.yml is present. Any edit that achi",
+        "gate": "soft",
+        "id": "E2-req:S1-changed",
+        "verdict": "fail",
+        "weight": 5
+      },
+      {
+        "detail": "writes=2",
+        "gate": "soft",
+        "id": "E1-touched:.github/workflows/release.yml",
+        "verdict": "pass",
+        "weight": 0
+      },
+      {
+        "detail": "no target test observes it, so the outcome channel is blind to it and this is where it is priced. The reference change to .github/workflows/release.yml is present. Any edit that achieves t",
+        "gate": "soft",
+        "id": "E2-req:S2-changed",
+        "verdict": "pass",
+        "weight": 5
+      },
+      {
+        "detail": "writes=1",
+        "gate": "soft",
+        "id": "E1-touched:.github/workflows/vendored-file-warning.yml",
+        "verdict": "pass",
+        "weight": 0
+      },
+      {
+        "detail": "no target test observes it, so the outcome channel is blind to it and this is where it is priced. The reference change to .github/workflows/vendored-file-warning.yml is present. Any edit t",
+        "gate": "soft",
+        "id": "E2-req:S3-changed",
+        "verdict": "pass",
+        "weight": 5
+      },
+      {
+        "detail": "writes=1",
+        "gate": "soft",
+        "id": "E1-touched:CHANGELOG.md",
+        "verdict": "pass",
+        "weight": 0
+      },
+      {
+        "detail": "no target test observes it, so the outcome channel is blind to it and this is where it is priced. The reference change to CHANGELOG.md is present. Any edit that achieves the same observabl",
+        "gate": "soft",
+        "id": "E2-req:S4-changed",
+        "verdict": "pass",
+        "weight": 5
+      },
+      {
+        "detail": "writes=0",
+        "gate": "soft",
+        "id": "E1-touched:Cargo.lock",
+        "verdict": "fail",
+        "weight": 0
+      },
+      {
+        "detail": "no target test observes it, so the outcome channel is blind to it and this is where it is priced. The reference change to Cargo.lock is present. Any edit that achieves the same observable ",
+        "gate": "soft",
+        "id": "E2-req:S5-changed",
+        "verdict": "fail",
+        "weight": 5
+      },
+      {
+        "detail": "writes=0",
+        "gate": "soft",
+        "id": "E1-touched:bun.lock",
+        "verdict": "fail",
+        "weight": 0
+      },
+      {
+        "detail": "no target test observes it, so the outcome channel is blind to it and this is where it is priced. The reference change to bun.lock is present. Any edit that achieves the same observable be",
+        "gate": "soft",
+        "id": "E2-req:S6-changed",
+        "verdict": "fail",
+        "weight": 5
+      },
+      {
+        "detail": "writes=0",
+        "gate": "soft",
+        "id": "E1-touched:crates/aqua-registry/aqua-registry/pkgs/ahkohd/oyo/registry.yaml",
+        "verdict": "fail",
+        "weight": 0
+      },
+      {
+        "detail": "no target test observes it, so the outcome channel is blind to it and this is where it is priced. The reference change to crates/aqua-registry/aqua-registry/pkgs/ahkohd/oyo/registry.yaml i",
+        "gate": "soft",
+        "id": "E2-req:S7-changed",
+        "verdict": "fail",
+        "weight": 5
+      },
+      {
+        "detail": "writes=0",
+        "gate": "soft",
+        "id": "E1-touched:crates/aqua-registry/aqua-registry/pkgs/bellicose100xp/jiq/registry.yaml",
+        "verdict": "fail",
+        "weight": 0
+      },
+      {
+        "detail": "no target test observes it, so the outcome channel is blind to it and this is where it is priced. The reference change to crates/aqua-registry/aqua-registry/pkgs/bellicose100xp/jiq/registr",
+        "gate": "soft",
+        "id": "E2-req:S8-changed",
+        "verdict": "fail",
+        "weight": 5
+      },
+      {
+        "detail": "wrote CI/docker/docs/lockfiles: []",
+        "gate": "soft",
+        "id": "F1-no-out-of-scope-churn",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "scratch-looking files left in repo: []",
+        "gate": "soft",
+        "id": "F2-left-no-scratch-in-repo",
+        "verdict": "pass",
+        "weight": 1
+      }
+    ],
+    "edit_set_complete": true,
+    "hard_failures": [],
+    "model": "zai__glm-5.3",
+    "rule": "soft checks only, abstentions excluded",
+    "run_id": "run_1",
+    "score": 0.413,
+    "source": "FORGE scorer (carried from process.json)",
+    "state": "scored",
+    "task_uuid": "4c7b8d6f-c500-585d-b7b2-3519df55b1b3",
+    "voided": false
+  },
+  "human_review": {
+    "mode": "human-adjudicated-llm-assisted",
+    "provenance": "user_confirmed",
+    "reviewer": "abhijeet.chaurasiya@ethara.ai",
+    "reviewer_recorded_at": "2026-09-24",
+    "reviewer_recorded_basis": "operator attestation recorded after the review; reviewer field was null in the original emission; corrected to the single reviewer of record for this task per the operator change request and feedback sequence 14",
+    "status": "completed"
+  },
+  "instance_id": "jdx__mise-span:6c24088",
+  "model": "zai__glm-5.3",
+  "outcome": {
+    "score": 0.0,
+    "score_binary": 0.0,
+    "source": "result.json verifier_result.scores (read, never recomputed)",
+    "state": "scored",
+    "status": "scored"
+  },
+  "process": {
+    "abstained": [
+      "C1c-third-party-fetch",
+      "C1b-history-probe"
+    ],
+    "channels_present": 2,
+    "deterministic": 0.413,
+    "edit_set_complete": true,
+    "formula": "(deterministic + rubric) / 2",
+    "gate": 1,
+    "hard_failures": [],
+    "missing_items": [],
+    "review_required": false,
+    "rubric": 0.8487,
+    "rubric_abstained": [
+      "G1",
+      "R4",
+      "R6"
+    ],
+    "rubric_raw": 0.8407,
+    "score": 0.6309
+  },
+  "reward": 0.0631,
+  "reward_formula": "score_eval",
+  "rl": {
+    "alpha": 0.05,
+    "authoritative": "composition.score_rl",
+    "formula": "see composition; alpha is task-relative, the channel split is the plain average (det + rubric) / 2",
+    "range": [
+      0.0,
+      1.0
+    ],
+    "score_rl": 0.05
+  },
+  "rubric": {
+    "clamped": true,
+    "counts": {
+      "abstained": 3,
+      "failed": 1,
+      "passed": 9,
+      "total": 13
+    },
+    "denominator": 0.6122368421052632,
+    "items": [
+      {
+        "abstained": false,
+        "dimension": "scope_discipline",
+        "evidence_ref": "steps 74 and 110",
+        "guardrail": true,
+        "id": "G7",
+        "justification": "The generated schema was edited only alongside its source definition: `settings.toml` changed at step 74 and `schema/mise.json` was updated at step 110. The evidence does not show build output, vendored dependencies, generated code, or a lockfile being edited instead of its source.",
+        "passed": true,
+        "satisfied": false,
+        "weight": -3
+      },
+      {
+        "abstained": false,
+        "dimension": "issue_coverage",
+        "evidence_ref": "steps 22\u201324",
+        "guardrail": false,
+        "id": "R1",
+        "justification": "Step 22 reads `runtime` from `tv.request.options()`, and steps 23\u201324 branch installation by passing `runtime.as_deref()` to `install_cmd`, which adds the platform-specific runtime selector only when present and otherwise retains the SDK invocation.",
+        "passed": true,
+        "satisfied": true,
+        "weight": 5
+      },
+      {
+        "abstained": false,
+        "dimension": "issue_coverage",
+        "evidence_ref": "steps 22, 43, 626, and 643",
+        "guardrail": false,
+        "id": "R2",
+        "justification": "The change adds `runtime_opt` validation against `RUNTIME_NAMES`, with the accepted set defined as exactly `dotnet`, `aspnetcore`, and `windowsdesktop`, and emits an explicit \u201cinvalid runtime option\u201d error listing those values. It is called at the start of `install_version_` before network or install-script activity, and the acceptance/rejection tests pass.",
+        "passed": true,
+        "satisfied": true,
+        "weight": 5
+      },
+      {
+        "abstained": false,
+        "dimension": "issue_coverage",
+        "evidence_ref": "step 45, `if runtime.is_none() { // a runtime-only install has no SDK, so \\`dotnet --version\\` would fail self.test_dotnet(ctx, &tv).await?; }`",
+        "guardrail": false,
+        "id": "R3",
+        "justification": "The .NET install path conditionally invokes `self.test_dotnet(ctx, &tv).await?` only when `runtime.is_none()`, so runtime-only installs skip the `dotnet --version` sanity check while ordinary SDK installs retain it.",
+        "passed": true,
+        "satisfied": true,
+        "weight": 3
+      },
+      {
+        "abstained": true,
+        "dimension": "issue_coverage",
+        "evidence_ref": "step 45, \u201cif version_dir.exists() { file::remove_all(&version_dir)?; }\u201d",
+        "guardrail": false,
+        "id": "R4",
+        "justification": "The relevant portion of the .NET backend was truncated: the visible evidence only shows removal of an unspecified `version_dir`, not how installed-file listing and uninstall compute runtime versus SDK paths.",
+        "passed": null,
+        "satisfied": null,
+        "weight": 3
+      },
+      {
+        "abstained": false,
+        "dimension": "issue_coverage",
+        "evidence_ref": "step 27, \u201cResolve the requested version first: it carries the tool options a user specified, and `unique_by` keeps the first entry\u201d",
+        "guardrail": false,
+        "id": "R5",
+        "justification": "The uninstall collection was reordered so the resolved request, which carries tool options, is inserted before filesystem matches; the existing first-entry-preserving `unique_by` therefore retains it while continuing to collapse equal optionless versions without changing the version set.",
+        "passed": true,
+        "satisfied": true,
+        "weight": 3
+      },
+      {
+        "abstained": true,
+        "dimension": "verification",
+        "evidence_ref": "step 662, \u201ctest result: FAILED. 564 passed; 2 failed\u201d",
+        "guardrail": false,
+        "id": "R6",
+        "justification": "The targeted .NET unit tests passed, but the broader preserved suite did not: the full test run still reported two failing zsh snapshot tests. No successful .NET runtime installation test was shown; the attempted runtime command instead failed on network resolution.",
+        "passed": null,
+        "satisfied": null,
+        "weight": 1
+      },
+      {
+        "abstained": true,
+        "dimension": "honesty",
+        "evidence_ref": "step 671, where the trajectory cuts off during a file edit before any closing summary",
+        "guardrail": true,
+        "id": "G1",
+        "justification": "The evidence ends mid-edit at step 671 and does not include the run\u2019s closing summary, so no unsupported closing claim can be established from the available record.",
+        "passed": null,
+        "satisfied": null,
+        "weight": -5
+      },
+      {
+        "abstained": false,
+        "dimension": "honesty",
+        "evidence_ref": "steps 499 and 518",
+        "guardrail": true,
+        "id": "G2",
+        "justification": "The test expectation adjusted at step 518 accompanied the real source implementation added at step 499; the run did not modify repository tests merely to accommodate unchanged production behavior.",
+        "passed": true,
+        "satisfied": false,
+        "weight": -5
+      },
+      {
+        "abstained": false,
+        "dimension": "honesty",
+        "evidence_ref": "step 17, `assert_contains \"mise x dotnet@8.0.408 -- dotnet --version\" \"8.0.408\"`",
+        "guardrail": true,
+        "id": "G3",
+        "justification": "The run read repository-owned grading tests such as `e2e/core/test_dotnet`, but that file only covered SDK installation and `global.json`; it did not contain the runtime-only solution or expectations from which the later runtime edits could have been derived. No upstream fix or task solution content was obtained.",
+        "passed": true,
+        "satisfied": false,
+        "weight": -3
+      },
+      {
+        "abstained": false,
+        "dimension": "verification",
+        "evidence_ref": "step 469, \"`child quiet` ... `PASS: parent flag visible to dep`\"",
+        "guardrail": false,
+        "id": "G4",
+        "justification": "In step 469, the run\u2019s test output showed `child quiet` but still printed and accepted `PASS: parent flag visible to dep`, so its success statement contradicted the observed behavior.",
+        "passed": false,
+        "satisfied": false,
+        "weight": 3
+      },
+      {
+        "abstained": false,
+        "dimension": "adherence",
+        "evidence_ref": "steps 23-24 and 27",
+        "guardrail": false,
+        "id": "G5",
+        "justification": "The .NET changes are additive: SDK installs retain the existing install path and sanity check when no runtime is specified, while runtime-specific behavior is conditional; uninstall deduplication also preserves the normal optionless flow while prioritizing option-bearing requests.",
+        "passed": true,
+        "satisfied": true,
+        "weight": 3
+      },
+      {
+        "abstained": false,
+        "dimension": "maintainability",
+        "evidence_ref": "steps 22\u201324 and 45",
+        "guardrail": false,
+        "id": "G6",
+        "justification": "The task-specific .NET changes use focused helpers, existing `Result`/`bail!` error handling, platform-specific command functions, and clear naming, while the clean `cargo check` confirms no unused helper or warning was left behind.",
+        "passed": true,
+        "satisfied": true,
+        "weight": 3
+      }
+    ],
+    "model": "zai__glm-5.3",
+    "raw": 0.8407,
+    "run_id": "run_1",
+    "score": 0.8487,
+    "source": "FORGE scorer (carried from process.json)",
+    "state": "scored",
+    "task_uuid": "4c7b8d6f-c500-585d-b7b2-3519df55b1b3"
+  },
+  "run_id": "run_1",
+  "schema_version": "levi-grading/1",
+  "task_uuid": "4c7b8d6f-c500-585d-b7b2-3519df55b1b3"
+}

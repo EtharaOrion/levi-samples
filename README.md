@@ -1,318 +1,301 @@
 <p align="center">
-  <img src="images/levi-hero.png" alt="LEVI — long horizon, multi turn tasks" width="1000">
+  <img src="images/hero.jpg" alt="Levi — agentic software-engineering capability, measured offline on outcome and process" width="880">
 </p>
 
-**An evaluation of Opus 5 on three software-engineering tasks, with eight recorded attempts per task.**
-These tasks bundle multiple announced issues from `reflex-dev/reflex` and
-`dgtlmoon/changedetection.io`. Each includes the issue prompt, container definition, reference
-patch, grading material, and recorded agent trajectories.
+<p align="center">
+  <strong>Levi — measuring agentic software-engineering capability on real, offline issue-resolution tasks, graded on outcome and on process.</strong>
+</p>
 
-Across **24 runs**, the mean evaluation score is **42.55%**. **One run satisfies the full
-test-success criterion**, covering **one of the three tasks**. The headline score includes partial
-credit; it is not the percentage of tasks solved.
+<p align="center">
+  <a href="#scoring-methodology"><img alt="Scoring: outcome + process" src="https://img.shields.io/badge/scoring-outcome_%C2%B7_process-35d0ba?labelColor=0a1414"></a>
+  <a href="#dataset-structure"><img alt="Agent: network-sealed" src="https://img.shields.io/badge/agent-network--sealed-35d0ba?labelColor=0a1414"></a>
+  <a href="#difficulty-tiers"><img alt="8 runs per model" src="https://img.shields.io/badge/grid-3_tasks_%C3%97_2_models_%C3%97_8_runs-e2ac52?labelColor=0a1414"></a>
+</p>
 
-The set carries one task per measured tier — Easy, Hard, and Expert — so the three span the
-difficulty range rather than clustering. Charts and tables are computed from the shipped bundles.
-All use the same task ordering and source values; image labels are rounded only for display, with
-decimal ties rounded up.
+<p align="center"><sub>
+  <a href="#summary">Summary</a> · <a href="#repository-layout">Layout</a> · <a href="#the-three-tasks">Tasks</a> · <a href="#difficulty-tiers">Tiers</a> · <a href="#results">Results</a> · <a href="#analysis">Analysis</a> · <a href="#dataset-structure">Dataset</a> · <a href="#trajectory-structure">Trajectories</a> · <a href="#scoring-methodology">Scoring</a> · <a href="#running-a-task">Running</a> · <a href="#reproduction">Reproduction</a> · <a href="#limitations">Limitations</a>
+</sub></p>
+
+# Levi: 3-Task Evaluation Sample
+
+**Levi measures agentic software-engineering capability on real issue-resolution tasks, graded both
+on outcome and on how the work was done.**
+
+Each task takes a real span of merged upstream work, pins the repository to the commit immediately
+before that work landed, and asks an agent to resolve the issues from scratch — offline, with no
+access to the upstream solution. Grading adds a **process-scoring layer** on top of the pass/fail
+test outcome, so a run that reaches the right answer by the wrong route is distinguishable from one
+that does not.
+
+This sample is narrow and deep: **3 tasks × 2 models × 8 runs = 48 graded rollouts.** Each per-task
+figure below is a mean over eight attempts rather than a single observation.
+
+> Curated, quality-controlled sample. Dataset format, trajectory format and scoring are identical to
+> the corpus it is drawn from.
 
 ## Summary
 
 | Property | Value |
-| --- | --- |
-| Tasks | **3**, spanning **21 announced issues** |
-| Agent | `opus-5` (`anthropic/claude-opus-5`) |
-| Runs | **8 per task; 24 total**, with every run from 1 to 8 present |
-| Judge | `gpt-5.6-sol` on all 24 process records |
-| Measured difficulty | **Easy 1 · Hard 1 · Expert 1** |
-| Network configuration | Agent and verifier both declare `network_mode = "none"` |
-| Score | `score_eval` in [0, 1], combining test outcome and process |
-| Codebases | 2 (`reflex-dev/reflex`, `dgtlmoon/changedetection.io`) |
-| Quality coverage | 24 records; 21 scored, 3 unjudged |
+| :--- | :--- |
+| Tasks | **3**, across 2 distinct upstream repositories |
+| Models | `claude-opus-5` (`anthropic/claude-opus-5`) and `glm-5.3` (`zai/glm-5.3`) |
+| Runs & grid | 8 per model per task = **48 total**; full 2 × 8 grid, no gaps |
+| Agent scaffold | `openhands-sdk`; per-run trajectories recorded |
+| Agent network | sealed — `no-network` for the agent phase |
+| Grader | vendored in-bundle at `tests/levi_grader`, driven by `tests/test.sh` |
+| Images | 6 multi-arch (`amd64` + `arm64`) tags in one ECR repo, pinned by index digest |
 
-| Metric | Recorded result |
-| --- | --- |
-| **Mean evaluation score** | **42.55%** |
-| Mean test-outcome score | 42.00% |
-| Mean process score | 0.6515 |
-| Mean quality score, scored runs only | 0.5034 (n = 21) |
-| Full-test successes (`score_binary = 1`) | **1 / 24 (4.17%)** |
-| Tasks with at least one full-test success in eight runs | **1 / 3 (33.33%)** |
-| Total recorded agent cost | **$440.64 across 24 attempts** |
-| Mean recorded episodes / turns | 340.96 / 168.88 |
-| Turns per run | 109–267, every run above 100 |
+## Repository layout
 
-Costs refer to recorded agent usage, without adding judge or infrastructure costs. The records
-contain **613,985,433 prompt tokens**, **601,037,082 cached tokens**, and **2,367,994 completion
-tokens**; prompt and cache fields are reported separately, and recorded episodes and trajectory
-steps are distinct counters.
+```
+images/                    hero + charts used by this README
+<task-uuid>/
+├── task.toml              Harbor task config: images, verifier, network, metadata
+├── instruction.md         what the agent was given
+├── environment/
+│   ├── Dockerfile         builds the sanitised agent image from the measured base
+│   ├── manifests.patch    dependency-manifest slice for the offline crate cache (mise only)
+│   └── sanitize-entrypoint.sh
+├── tests/                 the grader — copied into the verifier at grade time
+│   ├── test.sh            the only entrypoint
+│   ├── levi_grader/       grade.py, judge.py, __main__.py
+│   ├── run_tests.py       outcome channel
+│   ├── harness_core.py    output parsers
+│   ├── graded/run.sh      the graded test command
+│   ├── test_output.py     deterministic process checks
+│   ├── config.json        f2p/p2p ids, commands, base commit
+│   ├── rubrics.json       13 rubric items
+│   └── test.patch         the hidden graded tests
+├── solution/              gold patch, TRUTH.md, grounding, provenance, solve.sh
+└── trajectories/
+    ├── claude-opus-5/run_1..run_8/
+    └── zai__glm-5.3/run_1..run_8/
+```
+
+## The three tasks
+
+| UUID | Slot | Repo | Span | Language | F2P / P2P |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| `4c7b8d6f-c500-585d-b7b2-3519df55b1b3` | S01 | `jdx/mise` | `v2026.4.3..v2026.4.4`, 42 PRs | Rust | 5 / 545 |
+| `6bf0c918-e9ad-5397-bb76-cf3e238f2df1` | T15 | `reflex-dev/reflex` | `v0.3.1..v0.3.2` | Python | 18 / 286 |
+| `873914cf-93b2-57a0-a5c8-264bfa2d3b66` | T06 | `reflex-dev/reflex` | `v0.1.18..v0.1.19` | Python | 8 / 150 |
+
+The two reflex tasks are the same repository at very different points in its history — T06 predates
+the project's rename from pynecone. Different base commits, different graded sets, different images.
 
 ## Difficulty tiers
 
-A measured tier is assigned from the **arithmetic mean of the eight `score_eval` values for a task**.
-The bands below use explicit inclusive/exclusive boundaries.
+Assigned from pass@8 measured per model, where a *pass* means every graded target resolved
+(`reward == 1.0`).
 
-| Tier | Mean `score_eval` band | Task | Runs | Mean score |
-| --- | --- | --- | --- | --- |
-| Easy | 0.500 ≤ μ < 0.875 | `reflex-dev__reflex-1369` | 8 | 82.24% |
-| Hard | 0.250 ≤ μ < 0.375 | `dgtlmoon__changedetection.io-3433` | 8 | 28.33% |
-| Expert | 0 ≤ μ < 0.250 | `dgtlmoon__changedetection.io-594` | 8 | 17.08% |
+| Task | Tier | `claude-opus-5` pass@8 | `glm-5.3` pass@8 |
+| :--- | :--- | ---: | ---: |
+| mise | `expert` | 0 / 8 | 0 / 8 |
+| reflex T15 | `easy` | 4 / 8 | 0 / 8 |
+| reflex T06 | `easy` | 1 / 8 | 0 / 8 |
 
-No task measures Trivial or Medium. The Medium band, 0.375 ≤ μ < 0.500, is empty: the observed
-means fall either side of it, and no label was assigned that a run did not earn.
-
-Each `task.toml` now carries the tier its eight runs measured, so the stored label and this report
-agree on all three tasks.
+`glm-5.3` solved none of the three outright across 24 attempts. It does earn substantial partial
+credit, so the strict pass@8 figure understates it.
 
 ## Results
 
-### 1. Per-task performance
+### Mean score_eval by tier
 
-| Task | Mean score | Min–max | Turns (min–max) | Mean turns | Full-test successes | Measured tier |
-| --- | --- | --- | --- | --- | --- | --- |
-| [reflex-1369](56e866ec-41f7-428b-9c91-51b9787ce934/instruction.md) | **82.24%** | 79.07%–98.55% | 109–135 | 125.6 | 1 / 8 | easy |
-| [changedetection.io-3433](8ab81969-37a0-4f3b-86af-d21560f386ce/instruction.md) | **28.33%** | 6.79%–92.64% | 189–267 | 235.8 | 0 / 8 | hard |
-| [changedetection.io-594](5fee266c-fa53-41c7-bdbd-285e188670ac/instruction.md) | **17.08%** | 6.84%–88.45% | 120–171 | 145.2 | 0 / 8 | expert |
-
-The table reports each task’s arithmetic mean and observed minimum–maximum span. The span
-describes these eight observations; it is not a confidence interval. Turns are agent steps recorded
-in `final_metrics.total_steps`; every run in this set exceeds 100.
-
-#### Performance by task
+| Tier | Tasks | `claude-opus-5` | `glm-5.3` |
+| :--- | ---: | ---: | ---: |
+| `expert` | 1 | **0.0650** | 0.0595 |
+| `easy` | 2 | **0.7261** | 0.4413 |
+| **Overall** | 3 | **0.5057** | **0.2807** |
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="images/performance_by_task-dark.png">
-  <source media="(prefers-color-scheme: light)" srcset="images/performance_by_task-light.png">
-  <img src="images/performance_by_task-light.png" alt="Opus 5 performance by task, shown as a line graph. reflex-1369: 82.24%; changedetection.io-3433: 28.33%; changedetection.io-594: 17.08%. X-axis: Tasks. Y-axis: Performance (%), the mean evaluation score across eight attempts per task." width="1000">
+  <source media="(prefers-color-scheme: dark)" srcset="images/score_eval_by_tier-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="images/score_eval_by_tier-light.svg">
+  <img alt="Mean score_eval by difficulty tier, claude-opus-5 vs glm-5.3" src="images/score_eval_by_tier-light.svg" width="880">
 </picture>
 
-The x-axis lists the three tasks; the y-axis shows **Performance (%)**, calculated as the mean
-of each task’s eight `score_eval` values × 100. Points use the same task order and means as the
-per-task table above. Performance includes partial credit; full-test successes are counted separately.
+Both models fall by roughly an order of magnitude from `easy` to `expert`, so the shipped tier order
+holds for both. The gap between them does not: opus-5 leads by 0.285 on `easy` and by 0.006 on
+`expert`, where neither model resolves a single graded target and the little that separates them is
+process score alone.
 
-### 2. All eight attempts
+Per-task figures, for reference:
 
-| Task | R1 | R2 | R3 | R4 | R5 | R6 | R7 | R8 | Mean |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| reflex-1369 | 79.93% | 98.55% | 80.75% | 79.85% | 79.57% | 80.13% | 79.07% | 80.05% | 82.24% |
-| changedetection.io-3433 | 92.46% | 92.64% | 6.82% | 6.97% | 7.07% | 7.07% | 6.79% | 6.82% | 28.33% |
-| changedetection.io-594 | 6.85% | 7.00% | 6.86% | 88.45% | 6.84% | 6.92% | 6.87% | 6.88% | 17.08% |
-
-The single full-test success occurs at **`reflex-1369/run_2`**. Its evaluation score is below
-100% because process is also graded. Run numbers identify separate recorded attempts, not stages in a learning curve.
-
-### 3. Outcome and process
-
-| Task | Mean outcome | Mean process | Mean `score_eval` |
-| --- | --- | --- | --- |
-| reflex-1369 | 0.8250 | 0.7986 | 0.8224 |
-| changedetection.io-3433 | 0.2800 | 0.3988 | 0.2833 |
-| changedetection.io-594 | 0.1550 | 0.7570 | 0.1708 |
-
-Outcome and process means use all eight runs per task.
-
-The composition can increase or decrease the outcome score. For example,
-`changedetection.io-594` rises from 0.1550 mean outcome to 0.1708 mean evaluation, while
-`reflex-1369` falls from 0.8250 to 0.8224. `score_eval − outcome` is the net effect of replacing some outcome weight with process,
-not a separate additive reward.
+| Task | Category | `claude-opus-5` | `glm-5.3` |
+| :--- | :--- | ---: | ---: |
+| mise | `expert` | **0.0650** | 0.0595 |
+| reflex T15 | `easy` | **0.7987** | 0.3674 |
+| reflex T06 | `easy` | **0.6535** | 0.5151 |
 
 ## Analysis
 
-**The means conceal large differences in repeatability.** `reflex-1369` stays between 79.07%
-and 98.55%, with seven runs passing 4/5 target tests and one passing all five. It is the only task
-here that ever reaches full test success, and it does so once in eight attempts.
+**mise scores zero on outcome for all 16 runs, and that needs reading carefully.** Every one of the
+eight `claude-opus-5` runs modified `src/plugins/core/dotnet.rs` and `docs/lang/dotnet.md` — the
+models did implement the requested .NET runtime feature, and all 545 preserve tests passed in every
+run. They scored 0/5 because the five graded targets are exact snapshot tests in `mise_toml` and
+`zsh`, and none exercises the .NET objective. The failures are identifier and ordering mismatches
+(`depends: None` vs `depends: []`, a missing zsh hook flag), not absent functionality.
 
-**The two lower-scoring changedetection.io tasks have distinct high and low groups.** On
-`changedetection.io-594`, seven runs pass 2/37 targets; run 4 passes 33/37. Its median evaluation
-score is **6.88%**, compared with a **17.08%** mean. On `changedetection.io-3433`, runs 1–2 pass
-33/35 targets, while runs 3–8 pass 2/35; the median is **7.02%**, compared with a **28.33%** mean.
-These eight-run means describe substantial observed variation, rather than establishing stable
-long-run difficulty estimates.
+So mise's `expert` tier reflects a graded set that does not observe its stated objective. Treat the
+number as a property of the task as much as of the models.
 
-The failure logs provide context for those groups. The low-scoring
-[`changedetection.io-594/run_3`](5fee266c-fa53-41c7-bdbd-285e188670ac/trajectories/opus-5/run_3/verifier/test-stdout.md)
-contains widespread `werkzeug.routing.BuildError` failures. In
-[`changedetection.io-3433/run_3`](8ab81969-37a0-4f3b-86af-d21560f386ce/trajectories/opus-5/run_3/verifier/test-stdout.md),
-many failures assert that rendered HTML should contain `has-unread-changes`.
-These are observed failure patterns, not a claim that every failed assertion has an independent cause.
+**`glm-5.3` trails consistently without being absent.** On reflex T06 it averages 0.516 against
+opus-5's 0.641 while never fully solving. Its failures cluster on partial target resolution rather
+than regressions — preserve suites stay green.
 
-**No run in this set breaks a preserve-set test.** Every recorded regression factor is 1.0, so each
-outcome score reflects target recall alone with no regression penalty applied.
-
-**Full-test success covers the recorded target and preserve sets.** The prompts contain 21
-announced issues, and not every requirement is directly exercised by those test sets. For example,
-all five targets for `reflex-1369` concern websocket namespace configuration; its prompt contains
-six issues. Process criteria provide additional evidence about scope and implementation, so a
-binary test success should not be read as proof that every announced issue was completely resolved.
+**Two reflex `glm-5.3` runs score zero through a collection cascade.** A submission that makes a
+module unimportable causes every test in it to count as broken, tripping the preserve-set regression
+gate and zeroing an otherwise ~0.56 run. The grader is behaving as designed — a submission that
+breaks 126 preserved tests has broken them — but it widens apparent variance beyond the capability
+gap.
 
 ## Coverage
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="images/language_coverage-dark.png">
-  <source media="(prefers-color-scheme: light)" srcset="images/language_coverage-light.png">
-  <img src="images/language_coverage-light.png" alt="Donut chart. Outer ring: language, Python 100%. Inner ring: codebase, changedetection.io 2 tasks and reflex 1 task." width="1000">
+  <source media="(prefers-color-scheme: dark)" srcset="images/tasks_by_language-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="images/tasks_by_language-light.svg">
+  <img alt="Language coverage" src="images/tasks_by_language-light.svg" width="880">
 </picture>
 
-All three tasks are Python. The outer ring is language coverage; the inner ring splits the same
-three tasks by codebase, `dgtlmoon/changedetection.io` 2 and `reflex-dev/reflex` 1.
+**2 distinct upstream org/repo pairs**, one of them used twice at different points in its history.
+Language is read from each task's `task.toml` `keywords[0]`.
+
+| UUID | Repo | Language | Tier |
+| :--- | :--- | :--- | :--- |
+| `4c7b8d6f…` | `jdx/mise` | Rust | `expert` |
+| `6bf0c918…` | `reflex-dev/reflex` | Python | `easy` |
+| `873914cf…` | `reflex-dev/reflex` | Python | `easy` |
 
 ## Dataset structure
 
-```text
-<uuid>/
-├── task.toml                  # identity, stored tier, resources, network policy
-├── instruction.md             # complete multi-issue prompt
-├── environment/Dockerfile     # environment definition
-├── solution/
-│   ├── fix.patch              # supplied reference patch
-│   ├── solve.sh               # reference-patch application script
-│   └── TRUTH.md               # reference account of defects and requirements
-└── tests/
-    ├── config.json            # repository, base commit, commands, transition sets
-    ├── test.patch             # grading tests
-    ├── test.sh                # verifier entrypoint
-    ├── run_tests.py           # test execution and strict transition checks
-    ├── test_output.py         # deterministic process checks
-    ├── rubrics.json           # process criteria and source-site probes
-    └── quality.json           # fixed seven-item quality definition
-```
+Each task ships everything needed to grade it offline:
+
+- **Agent image** — sanitised. Built from the upstream measured image with the reference patch, the
+  hidden tests and the upstream git history removed, then flattened to a single layer so nothing
+  survives under a whiteout. The agent runs `no-network`.
+- **Verifier image** — built `FROM` the sanitised agent image, ensures pytest, bakes `/tests`.
+- **`tests/`** — the grader, copied into the verifier by Harbor after the agent finishes.
+- **`solution/`** — the gold patch and `solve.sh`, mounted only for oracle runs.
 
 ## Trajectory structure
 
-```text
-<uuid>/trajectories/opus-5/run_N/       # N = 1…8
-├── result.json                       # agent metrics, scores, diagnostics, assay
-├── config.json                       # run configuration
-├── agent/
-│   ├── trajectory.json               # ATIF-v1.7 structured trace
-│   ├── recording.cast                # terminal recording
-│   └── opus.pane                     # pane snapshot
-├── artifacts/
-│   ├── agent.patch                   # recorded agent diff
-│   └── manifest.json                 # artifact index
-└── verifier/
-    ├── score.md                      # recorded outcome
-    ├── final_score.md                # readable score breakdown
-    ├── test-stdout.md                # test execution output
-    ├── process.json                  # detailed process and composed scores
-    ├── verdicts.jsonl                # process judge log
-    ├── quality.json                  # seven-item quality result; may be unjudged
-    └── quality_verdicts.jsonl         # quality judge log
+18 files per run:
+
+```
+config.json  lock.json  result.json
+agent/       trajectory.json  openhands_sdk.txt  run_agent.py
+artifacts/   manifest.json
+verifier/    final.diff  grading.json  verdicts.jsonl  final_score.md
+             reward.json  reward.txt  reward_reason.json  summary.json
+             target-stdout.md  preserve-stdout.md  test-stdout.txt
 ```
 
-Outcome and process values come from `result.json → verifier_result.scores`; their detailed
-counterparts are in `verifier/process.json`. Code-quality scores come from
-`verifier/quality.json → score`. All 24 runs contain the structured trajectory, the terminal
-recording, the standalone patch, and the quality files; 21 of those files carry a numeric score and
-three are unjudged.
+`final.diff` is the submission. `reward.json` is the outcome channel only. `grading.json` carries
+every channel, its state, and the composed `score_eval`.
+`verdicts.jsonl` holds the 13 rubric verdicts. `trajectory.json` is the step-by-step record the
+process channel is graded against.
 
 ## Scoring methodology
 
-### Mean evaluation score and full-test success
+Two channels are computed per run and composed into a single headline score.
 
-```text
-task mean = sum(score_eval for runs 1…8) / 8
-overall mean = sum(the three task means) / 3
-full-test success rate = count(score_binary == 1) / 24
-observed eight-run task coverage = count(tasks with any score_binary == 1) / 3
+```mermaid
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#123230','primaryTextColor':'#eef2ea','primaryBorderColor':'#35d0ba','lineColor':'#35d0ba','fontFamily':'Georgia, DM Sans, Segoe UI, sans-serif'}}}%%
+flowchart LR
+  A["Task<br/>instruction.md + Docker env"] --> B["Agent<br/>recorded trajectory"]
+  B --> C["final.diff<br/>the submission"]
+  C --> D["OUTCOME<br/>run_tests.py - targets x preserve"]
+  B --> E["PROCESS<br/>deterministic checks + rubrics.json"]
+  D --> F["score_eval = gate ·<br/>((1−2α)·outcome + 2α·process)"]
+  E --> F
+  classDef node fill:#0f2723,stroke:#35d0ba,color:#eef2ea;
+  classDef sealed fill:#123230,stroke:#e2ac52,color:#eef2ea;
+  class A,B,C,F node;
+  class D,E sealed;
 ```
 
-This report uses **mean evaluation score** for the continuous average, keeping it distinct
-from success within eight attempts. The observed
-eight-run success coverage here is **33.33%**; the mean evaluation score is **42.55%**.
+The outcome channel and the process channel, composed:
 
-### Outcome and process
+```
+OUTCOME   tests/run_tests.py     graded targets x preserve set, via tests/graded/run.sh
+PROCESS   tests/test_output.py   deterministic site and requirement checks, under pytest
+          tests/rubrics.json     13 rubric criteria
 
-The stored continuous outcome values reproduce the following calculation from the diagnostics:
-
-```text
-recall = hits_new / t_eff_total
-outcome = round(recall × regression_factor, 2)
-process = (score_deterministic + score_rubric) / 2
-score_eval = gate × ((1 − 2α) × outcome + 2α × process)
+process    = mean(deterministic, rubric)
+score_eval = gate x ((1 - 2a) x outcome + 2a x process),   a = 0.05
 ```
 
-`t_eff_total` removes baseline-passing targets; the preserve-set regression penalty reduces
-credit when required P2P tests break. All 24 records have an open gate (`gate = 1`).
-α takes the stored values **0.013158, 0.013889, and 0.050000**, making the
-process weight approximately **2.63–10.00%** and the outcome weight **90.00–97.37%**.
+So `score_eval` is `0.9 × outcome + 0.1 × process`. Outcome dominates; process differentiates runs
+that reach the same outcome by different routes. A hard-gate failure in the deterministic channel
+voids the run (`invalid.json`) rather than scoring it.
 
-`score_rl` uses the same composition with a process value normalized within an outcome stratum.
-It is not used for the report's means or tiers. The stored stratum sizes vary across runs.
+The rubric half of the process channel is the only part needing network egress. Without a judge key
+it is skipped cleanly and grading returns outcome plus the deterministic checks.
 
-Across the three current process-rubric definitions there are **43 judged items**, including **12 with
-negative weights**, and **24 source sites**. The rubric dimensions contain 16 issue-coverage,
-9 honesty, 7 verification, 5 maintainability, 3 adherence, and 3 scope-discipline items.
-The 24 process records contain **344 item evaluations**, including **21 rubric abstentions**;
-the verdict logs also contain 344 lines. Recorded rubric criteria and weights can differ from
-the current definitions, so these files are not treated as an exact replay specification.
+**Grader hardening.** `test.sh` runs the grader from `/` with `python3 -P` so a submission cannot
+shadow an import; it always exits 0; and on a crash it discards the output directory in favour of
+`invalid.json`, because anything left there may have been planted. Submissions that edit
+grader-controlled paths — `.cargo/**`, `**/conftest.py`, `pytest.ini`, `.gitattributes`,
+`rust-toolchain*` and similar — are refused outright, independently of the test-patch ownership
+check.
 
-Each definition configures 14 hard and 14 soft check types. The actual process logs emit **13 hard
-and 24 soft checks per run**, including expanded site checks; `A5-trajectory-present` is not
-separately emitted. All **312 emitted hard checks pass**. This distinction avoids counting every
-configured check type as an executed hard gate.
+## Running a task
+
+```bash
+export AWS_DEFAULT_REGION=ap-south-1
+aws ecr get-login-password --region ap-south-1 \
+  | docker login --username AWS --password-stdin \
+    426628337772.dkr.ecr.ap-south-1.amazonaws.com
+
+harbor run 4c7b8d6f-c500-585d-b7b2-3519df55b1b3
+```
+
+Results land in `/logs/verifier`: `reward.json` is the outcome channel (what Harbor reads);
+`grading.json` carries every channel plus the composed `score_eval`.
+
+### Images
+
+One ECR repository, six multi-arch tags, all pinned by index digest in `task.toml`:
+
+```
+426628337772.dkr.ecr.ap-south-1.amazonaws.com/levi
+
+levi:4c7b8d6f            agent      sha256:8548f5c7004d60da6a8eaca625e5fb7152c40e355eada9a6bdea339b73fff6bf
+levi:6bf0c918            agent      sha256:b4d482d8e163d741ac086af764c04daabcd6aee412850fee8a80d8881d90f4ab
+levi:873914cf            agent      sha256:eca2d8710d1baffad6f1d273610bbce183857c73bed6574dce2252fb3fb446aa
+levi:verifier-4c7b8d6f   verifier   sha256:371309e436035e7997742b425ecde38ae36f265a4f0aabf30d7075adf52d4615
+levi:verifier-6bf0c918   verifier   sha256:b4f47752dd4bec2cd8d2be68229a4bf675744ea4e47ce4fd5d3a6250e019146a
+levi:verifier-873914cf   verifier   sha256:8b36520ad92cd7e5b8f761cc7879cc56e69050698a31bcd19cb0020e6b16c4d1
+```
+
+Pull access to `repository/levi` is sufficient. The upstream *measured* base images live in a
+separate namespace and are **not** required to run a task — they still contain the reference
+solution and hidden tests.
 
 ## Reproduction
 
-No trajectory re-execution is needed to recompute the reported scores from the shipped
-bundles. Run this example from the repository root:
-
-```python
-import json, glob, collections, statistics
-
-ev = collections.defaultdict(list); solved = collections.Counter()
-for f in glob.glob("*/trajectories/opus-5/run_*/result.json"):
-    uuid = f.split("/")[0]
-    sc = json.load(open(f))["verifier_result"]["scores"]
-    ev[uuid].append(sc["score_eval"])
-    solved[uuid] += int(sc["score_binary"] == 1.0)
-
-for uuid in sorted(ev):
-    tier = [l for l in open(f"{uuid}/task.toml") if l.startswith("difficulty")][0].split('"')[1]
-    print(f"{uuid} {tier:8s} mean={statistics.mean(ev[uuid]):.4f} solved={solved[uuid]}/8")
+```
+null submission    outcome 0.0    no graded target resolved
+oracle (solve.sh)  outcome 1.0    every graded target resolved, offline, reproducible
 ```
 
-All README images live directly in `images/`. The `<picture>` elements select dark or light
-charts according to the viewer’s theme, with the light version as the fallback.
+Both were measured inside the pinned images with the network disabled. Oracle runs twice produce
+byte-identical summaries, so the outcome channel is deterministic.
 
-The tier axis is that per-task mean, banded as Trivial 0.875 ≤ μ, Easy 0.500 ≤ μ < 0.875,
-Medium 0.375 ≤ μ < 0.500, Hard 0.250 ≤ μ < 0.375, Expert μ < 0.250. Per-run costs and token
-counts come from `trajectories/opus-5/run_N/agent/trajectory.json` under `final_metrics`.
+The rubric half of the process channel is not bit-reproducible. It is sampled at `temperature=1`.
+Re-grading will shift rubric verdicts; the deterministic checks and the outcome channel will not.
 
-## Verification and limitations
+## Limitations
 
-Every number in this report was recomputed from the shipped bundles rather than carried over: the
-complete 3 × 8 run grid, task and model identity, evaluation and outcome composition, and agreement
-between the result and process records. This validates the saved arithmetic; it does not
-independently replay the grading.
-
-- **Small, concentrated sample.** Three tasks come from two repositories, using one agent and one
-  process judge. Eight attempts reveal observed variation but do not establish population-level
-  performance, statistical independence, or inter-judge agreement.
-- **Tier resolution.** One task occupies each populated band, so a tier mean is a single task mean.
-  No task measures Trivial or Medium.
-- **Quality coverage.** All 24 runs ship an exported agent patch and a quality record. 21 carry a
-  numeric quality score and 3 are unjudged. Every run records non-zero cost.
-- **Recorded checks have limits.** The hard checks report no upstream-content fetches, oracle-path
-  reads, graded-test writes, or test evasion. The soft `C6-no-unknown-breaks` check fails on all eight
-  `reflex-1369` runs, each reporting one unknown break outside the preserve set. Its binary successes
-  still refer specifically to the required target and preserve sets.
-- **Replay needs the original runtime.** The Dockerfiles reference registry-hosted base images.
-  Continuous/process composition is present in the scored records, while the shipped
-  `run_tests.py` implements strict transition validation. Rebuilding full evaluation would require
-  the corresponding harness and judge setup in addition to these task files.
-- **Provenance scope.** The supplied configurations record repository identity and base commits.
-  These three `task.toml` files do not contain an `[upstream_provenance]` block,
-  and no corpus audit verdict or contamination-screen evidence is included here. No SHIP disposition,
-  dataset licence, or zero-overlap claim is established by these bundles.
-
-<details>
-<summary>Task identities and pinned base commits</summary>
-
-| Task | UUID | Base commit |
-| --- | --- | --- |
-| reflex-1369 | `56e866ec-41f7-428b-9c91-51b9787ce934` | `bfec196d84b6122646297100a553751ff5c6548c` |
-| changedetection.io-3433 | `8ab81969-37a0-4f3b-86af-d21560f386ce` | `cbeefeccbb5c69a71c1946efd99402649af2f465` |
-| changedetection.io-594 | `5fee266c-fa53-41c7-bdbd-285e188670ac` | `0e385b1c22b5c031e450d9b9c226e89e759ee4db` |
-
-</details>
+- **mise's graded set does not cover its stated objective.** 0/5 targets touch the .NET runtime
+  feature the instruction asks for; the five snapshot targets sit in unrelated subsystems. This is
+  the single most important caveat in the sample.
+- **The deterministic channel's weighting is uniform** over recorded site checks in this release.
+  The `checks` array inside each run's `grading.json` preserves the per-check gates and weights from
+  the original scoring, so the two can be reconciled, but a re-grade will not reproduce the shipped
+  deterministic value exactly.
+- **`reward.json` carries the outcome channel only.** The composed `score_eval` and the
+  deterministic and rubric channels live in `grading.json`.
+- **`glm-5.3`'s reflex T15 arm spans two batches** four days apart, including three resampled runs.
+- **Two graded artifacts are exact-text snapshots.** Snapshot tests reward matching the reference's
+  private naming and ordering, which the instruction does not state — depressing scores for
+  functionally correct work, most visibly on mise.

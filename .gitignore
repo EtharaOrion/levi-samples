@@ -1,0 +1,7 @@
+.trinity/runtime/
+.trinity/secrets/
+.ruff_cache/
+__pycache__/
+.pytest_cache/
+.audit/.venv/
+.DS_Store

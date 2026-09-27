@@ -1,0 +1,130 @@
+{
+    "id": "284844a1-b702-4f1b-b917-d0da8c58f0e5",
+    "task_name": "levi/t06-reflex",
+    "trial_name": "873914cf-93b2-57a0-a5c8-264bfa2d__zcEJPNJ",
+    "trial_uri": "file:///home/runner/harbor-jobs/pass8-batch-2026-09-22-twenty-20260925a-opus-gap-t06-a4/873914cf-93b2-57a0-a5c8-264bfa2d__zcEJPNJ",
+    "task_id": {
+        "path": "/home/runner/harbor-probe/pass8-20260922t/873914cf-93b2-57a0-a5c8-264bfa2d3b66"
+    },
+    "source": null,
+    "task_checksum": "8e5f3b12a57bbb1308bd884b6ae619caa92a497ae1435d339c5932c68b424e26",
+    "config": {
+        "task": {
+            "path": "/home/runner/harbor-probe/pass8-20260922t/873914cf-93b2-57a0-a5c8-264bfa2d3b66",
+            "git_url": null,
+            "git_commit_id": null,
+            "name": null,
+            "ref": null,
+            "overwrite": false,
+            "download_dir": null,
+            "source": null
+        },
+        "trial_name": "873914cf-93b2-57a0-a5c8-264bfa2d__zcEJPNJ",
+        "trials_dir": "/home/runner/harbor-jobs/pass8-batch-2026-09-22-twenty-20260925a-opus-gap-t06-a4",
+        "install_only": false,
+        "timeout_multiplier": 1.0,
+        "agent_timeout_multiplier": null,
+        "verifier_timeout_multiplier": null,
+        "agent_setup_timeout_multiplier": null,
+        "environment_build_timeout_multiplier": null,
+        "agent": {
+            "name": "openhands-sdk",
+            "import_path": null,
+            "model_name": "claude-opus-5",
+            "n_concurrent": null,
+            "concurrency_group": null,
+            "skills": [],
+            "override_timeout_sec": null,
+            "override_setup_timeout_sec": null,
+            "max_timeout_sec": null,
+            "resume_trajectory": false,
+            "load_trajectory": null,
+            "extra_allowed_hosts": [],
+            "kwargs": {
+                "max_iterations": 1000,
+                "reasoning_effort": "high"
+            },
+            "mcp_servers": []
+        },
+        "user_agent": null,
+        "environment": {
+            "type": "docker",
+            "import_path": null,
+            "force_build": false,
+            "delete": false,
+            "cpu_enforcement_policy": "auto",
+            "memory_enforcement_policy": "auto",
+            "override_cpus": null,
+            "override_memory_mb": null,
+            "override_storage_mb": null,
+            "override_gpus": null,
+            "override_tpu": null,
+            "mounts": null,
+            "extra_docker_compose": [],
+            "kwargs": {
+                "keep_containers": true
+            },
+            "extra_allowed_hosts": []
+        },
+        "verifier": {
+            "override_timeout_sec": null,
+            "max_timeout_sec": null,
+            "disable": false
+        },
+        "artifacts": [],
+        "extra_instruction_paths": [],
+        "extra_instructions": [],
+        "job_id": "2c2be067-3f54-486a-9aad-c0263c3b1536",
+        "source_trial": null
+    },
+    "agent_info": {
+        "name": "openhands-sdk",
+        "version": "1.49.1",
+        "model_info": {
+            "name": "claude-opus-5",
+            "provider": null
+        }
+    },
+    "agent_result": {
+        "n_input_tokens": 48525373,
+        "n_cache_tokens": 48182535,
+        "n_output_tokens": 146304,
+        "cost_usd": 29.891044999999984,
+        "model_usage": {
+            "claude-opus-5": {
+                "n_input_tokens": 0,
+                "n_cache_tokens": 0,
+                "n_output_tokens": 0,
+                "cost_usd": null
+            }
+        },
+        "rollout_details": null,
+        "metadata": null
+    },
+    "verifier_result": {
+        "rewards": {
+            "reward": 0.625
+        }
+    },
+    "verifier_environment_mode": "shared",
+    "exception_info": null,
+    "started_at": "2026-09-25T08:24:10.515869Z",
+    "finished_at": "2026-09-25T09:03:12.587386Z",
+    "environment_setup": {
+        "started_at": "2026-09-25T08:24:10.533037Z",
+        "finished_at": "2026-09-25T08:24:18.062042Z"
+    },
+    "agent_setup": {
+        "started_at": "2026-09-25T08:24:18.062088Z",
+        "finished_at": "2026-09-25T08:24:33.329383Z"
+    },
+    "agent_execution": {
+        "started_at": "2026-09-25T08:24:33.329492Z",
+        "finished_at": "2026-09-25T09:02:55.931953Z"
+    },
+    "verifier": {
+        "started_at": "2026-09-25T09:02:56.768273Z",
+        "finished_at": "2026-09-25T09:03:01.489888Z"
+    },
+    "step_results": null
+}

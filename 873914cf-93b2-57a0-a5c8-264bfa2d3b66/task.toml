@@ -1,0 +1,104 @@
+schema_version = "1.4"
+
+artifacts = [
+  "/logs/agent/trajectory.json",
+  "/logs/verifier/summary.json",
+  "/logs/verifier/final.diff",
+  "/logs/verifier/target-stdout.md",
+  "/logs/verifier/reward_reason.json",
+  { source = "/home/reflex", destination = "workspace", exclude = [".web", "node_modules", "__pycache__", ".venv"] },
+]
+[task]
+name = "levi/t06-reflex"
+version = "1.0.0"
+description = "When a Pynecone application is started in production mode, the framework spins up the backend server using a process manager suited for serving many concurrent requests. On Linux a"
+authors = [{ name = "Dimple Soni", email = "dimple.soni@ethara.ai" }]
+keywords = ["python", "issue-resolving", "reflex", "agent:openhands-sdk"]
+
+[metadata]
+uuid = "873914cf-93b2-57a0-a5c8-264bfa2d3b66"
+required_agent = "openhands-sdk"
+required_agent_basis = "harbor run --agent openhands-sdk; the neighbouring `openhands` agent cannot install in this bundle and fails as a network error"
+agent_sdk_version_metadata = "1.49.1"
+slot_id = "T06"
+milestone = "batch-2026-09-22-twenty"
+language = "python"
+primary_archetype = "AR1"
+difficulty_band = "easy"
+target_tier = "frontier-defeat"
+source_hunks = 104
+source_files = 3
+delivery_format = "levi"
+image_pin_kind = "pushed-sanitized-index-digest"
+image_pin_portable = true
+base_image_ref = "426628337772.dkr.ecr.ap-south-1.amazonaws.com/levi:873914cf@sha256:eca2d8710d1baffad6f1d273610bbce183857c73bed6574dce2252fb3fb446aa"
+base_image_digest = "sha256:eca2d8710d1baffad6f1d273610bbce183857c73bed6574dce2252fb3fb446aa"
+base_image_platform_manifest_digest = "sha256:feb1885ae818e5eb6b5a153f2a11cc75a84ae2388788d1db78e3484344c532cc"
+base_image_registry_namespace = "426628337772.dkr.ecr.ap-south-1.amazonaws.com/levi"
+environment_build_digest = "a81370678bd247ef5b913d399fbdced9bfc7086ea522a859a1ec64cb6a876339"
+instruction_following_carrier = "none"
+instruction_following_state = "deferred"
+instruction_following_gap = "if-overlay-deferred"
+signals_shipped = ["outcome"]
+signals_authored_unconsumed = ["instruction_following"]
+
+[environment]
+docker_image = "426628337772.dkr.ecr.ap-south-1.amazonaws.com/levi@sha256:eca2d8710d1baffad6f1d273610bbce183857c73bed6574dce2252fb3fb446aa"
+local_image_id = "sha256:844744ef3ba7a2bf175f3f4446cfc4d26324deea3276dddc3570263e0e1926d7"
+network_mode = "no-network"
+build_timeout_sec = 3600.0
+cpus = 8
+memory_mb = 16384
+storage_mb = 20480
+gpus = 0
+workdir = "/home/reflex"
+
+[agent]
+network_mode = "allowlist"
+allowed_hosts = ["api.anthropic.com", "api.z.ai"]
+agent_sdk_version = "1.49.1"
+timeout_sec = 57600.0
+
+[verifier]
+environment_mode = "separate"
+network_mode = "no-network"
+timeout_sec = 3600.0
+null_floor = 0.0
+
+[verifier.environment]
+docker_image = "426628337772.dkr.ecr.ap-south-1.amazonaws.com/levi@sha256:8b36520ad92cd7e5b8f761cc7879cc56e69050698a31bcd19cb0020e6b16c4d1"
+network_mode = "allowlist"
+allowed_hosts = ["api.openai.com", "api.anthropic.com"]
+build_timeout_sec = 3600.0
+cpus = 8
+memory_mb = 16384
+storage_mb = 20480
+gpus = 0
+
+[verifier.env]
+JUDGE_MODEL = '{{ env.JUDGE_MODEL | default(value="") }}'
+JUDGE_API_KEY = '{{ env.JUDGE_API_KEY | default(value="") }}'
+JUDGE_BASE_URL = '{{ env.JUDGE_BASE_URL | default(value="") }}'
+JUDGE_TEMPERATURE = '{{ env.JUDGE_TEMPERATURE | default(value="1") }}'
+JUDGE_SEED = '{{ env.JUDGE_SEED | default(value="0") }}'
+[span_provenance]
+instance_identity = "reflex-dev/reflex v0.1.18..v0.1.19"
+span_label = "v0.1.18..v0.1.19"
+number_interval = "570-571-583-588-589-591-593-594-596-601-614-615-616-617-618-622-624-625-626-629-630"
+pr_count = 21
+enumerated_issue_count = 21
+realized_breadth_subsystems = 3
+f2p_count = 8
+objective_f2p_reconciliation = "Every fail-to-pass identifier resolves to a subsystem the stated objective names, and the objective names no behaviour outside the graded set. Declared here and proven by the Phase 2 feasibility bundle, not by this record."
+image_reference_is_not_provenance = "Upstream image tags name one representative pull request of a span, so a tag naming a single pull request is never read as evidence that the task is single-pull-request work, and it never substitutes for the recorded span."
+
+[interface_spec]
+mode = "names-only"
+issue_4 = ["Icon.create(cls, *children, **props)", "Icon.tag"]
+issue_10 = ["_alert", "_console", "_redirect", "def console_log(message: str) -> EventSpec", "def fn()", "def redirect(path: str) -> EventSpec", "def window_alert(message: str) -> EventSpec"]
+issue_14 = ["alert", "icon"]
+issue_15 = ["utils._issubclass(cls: GenericType, cls_check: GenericType) -> bool"]
+issue_16 = ["Upload.create(cls, *children, **props) -> Component", "Upload.tag", "Tag.args"]
+
+
+

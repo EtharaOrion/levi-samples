@@ -1,0 +1,190 @@
+diff --git a/tests/components/layout/test_cond.py b/tests/components/layout/test_cond.py
+index fe30c372d67..23a94c73452 100644
+--- a/tests/components/layout/test_cond.py
++++ b/tests/components/layout/test_cond.py
+@@ -4,8 +4,7 @@
+ import pytest
+ 
+ import pynecone as pc
+-from pynecone.components import cond
+-from pynecone.components.layout.cond import Cond
++from pynecone.components.layout.cond import Cond, cond
+ from pynecone.components.layout.fragment import Fragment
+ from pynecone.components.typography.text import Text
+ from pynecone.var import Var
+diff --git a/tests/components/media/test_icon.py b/tests/components/media/test_icon.py
+index dc1480b0d05..bf82d8449a7 100644
+--- a/tests/components/media/test_icon.py
++++ b/tests/components/media/test_icon.py
+@@ -39,3 +39,17 @@ def test_invalid_icon(tag):
+     """
+     with pytest.raises(ValueError):
+         Icon.create(tag=tag)
++
++
++@pytest.mark.parametrize(
++    "tag",
++    ["Check", "Close", "eDit"],
++)
++def test_tag_with_capital(tag: str):
++    """Test that an icon that tag with capital does not raise an error.
++
++    Args:
++        tag: The icon tag.
++    """
++    icon = Icon.create(tag=tag)
++    assert icon.tag == utils.to_title_case(tag) + "Icon"
+diff --git a/tests/test_event.py b/tests/test_event.py
+index c4f648ea319..8bada92ebc6 100644
+--- a/tests/test_event.py
++++ b/tests/test_event.py
+@@ -1,4 +1,9 @@
+-from pynecone.event import Event, EventHandler
++import json
++
++import pytest
++
++from pynecone import event
++from pynecone.event import Event, EventHandler, EventSpec
+ from pynecone.var import Var
+ 
+ 
+@@ -46,3 +51,42 @@ def test_fn_with_args(_, arg1, arg2):
+     assert event_spec.handler == handler
+     assert event_spec.local_args == ()
+     assert event_spec.args == (("arg1", "first"), ("arg2", "second"))
++
++    first, second = 123, "456"
++    handler = EventHandler(fn=test_fn_with_args)
++    event_spec = handler(first, second)  # type: ignore
++
++    assert event_spec.handler == handler
++    assert event_spec.local_args == ()
++    assert event_spec.args == (
++        ("arg1", json.dumps(first, ensure_ascii=False)),
++        ("arg2", json.dumps(second, ensure_ascii=False)),
++    )
++
++    handler = EventHandler(fn=test_fn_with_args)
++    with pytest.raises(TypeError):
++        handler(test_fn)  # type: ignore
++
++
++def test_event_redirect():
++    """Test the event redirect function."""
++    spec = event.redirect("/path")
++    assert isinstance(spec, EventSpec)
++    assert spec.handler.fn.__qualname__ == "_redirect"
++    assert spec.args == (("path", "/path"),)
++
++
++def test_event_console_log():
++    """Test the event console log function."""
++    spec = event.console_log("message")
++    assert isinstance(spec, EventSpec)
++    assert spec.handler.fn.__qualname__ == "_console"
++    assert spec.args == (("message", "message"),)
++
++
++def test_event_window_alert():
++    """Test the event window alert function."""
++    spec = event.window_alert("message")
++    assert isinstance(spec, EventSpec)
++    assert spec.handler.fn.__qualname__ == "_alert"
++    assert spec.args == (("message", "message"),)
+diff --git a/tests/test_style.py b/tests/test_style.py
+new file mode 100644
+index 00000000000..c5c60305ac5
+--- /dev/null
++++ b/tests/test_style.py
+@@ -0,0 +1,39 @@
++import pytest
++
++from pynecone import style
++from pynecone.var import Var
++
++test_style = [
++    ({"a": 1}, {"a": 1}),
++    ({"a": Var.create("abc")}, {"a": "abc"}),
++    ({"test_case": 1}, {"testCase": 1}),
++    ({"test_case": {"a": 1}}, {"testCase": {"a": 1}}),
++]
++
++
++@pytest.mark.parametrize(
++    "style_dict,expected",
++    test_style,
++)
++def test_convert(style_dict, expected):
++    """Test Format a style dictionary.
++
++    Args:
++        style_dict: The style to check.
++        expected: The expected formatted style.
++    """
++    assert style.convert(style_dict) == expected
++
++
++@pytest.mark.parametrize(
++    "style_dict,expected",
++    test_style,
++)
++def test_create_style(style_dict, expected):
++    """Test style dictionary.
++
++    Args:
++        style_dict: The style to check.
++        expected: The expected formatted style.
++    """
++    assert style.Style(style_dict) == expected
+diff --git a/tests/test_utils.py b/tests/test_utils.py
+index 878df73228d..c373706b669 100644
+--- a/tests/test_utils.py
++++ b/tests/test_utils.py
+@@ -1,8 +1,9 @@
+-import typing
++from typing import Any, List, Union
+ 
+ import pytest
+ 
+ from pynecone import utils
++from pynecone.var import Var
+ 
+ 
+ @pytest.mark.parametrize(
+@@ -195,8 +196,8 @@ def test_merge_imports():
+         (int, False),
+         (float, False),
+         (bool, False),
+-        (typing.List, True),
+-        (typing.List[int], True),
++        (List, True),
++        (List[int], True),
+     ],
+ )
+ def test_is_generic_alias(cls: type, expected: bool):
+@@ -261,3 +262,24 @@ def test_setup_frontend(tmp_path, mocker):
+ )
+ def test_is_backend_variable(input, output):
+     assert utils.is_backend_variable(input) == output
++
++
++@pytest.mark.parametrize(
++    "cls, cls_check, expected",
++    [
++        (int, int, True),
++        (int, float, False),
++        (int, Union[int, float], True),
++        (float, Union[int, float], True),
++        (str, Union[int, float], False),
++        (List[int], List[int], True),
++        (List[int], List[float], True),
++        (Union[int, float], Union[int, float], False),
++        (Union[int, Var[int]], Var[int], False),
++        (int, Any, True),
++        (Any, Any, True),
++        (Union[int, float], Any, True),
++    ],
++)
++def test_issubclass(cls: type, cls_check: type, expected: bool):
++    assert utils._issubclass(cls, cls_check) == expected

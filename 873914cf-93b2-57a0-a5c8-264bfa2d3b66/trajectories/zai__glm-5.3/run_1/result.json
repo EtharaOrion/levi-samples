@@ -1,0 +1,130 @@
+{
+    "id": "12b6008c-8728-4146-987c-a5ef4f6e6c1e",
+    "task_name": "levi/t06-reflex",
+    "trial_name": "873914cf-93b2-57a0-a5c8-264bfa2d__sssqBy3",
+    "trial_uri": "file:///home/runner/harbor-jobs/glm-batch-2026-09-22-twenty-20260923b-three-t06-a1/873914cf-93b2-57a0-a5c8-264bfa2d__sssqBy3",
+    "task_id": {
+        "path": "/home/runner/harbor-probe/glm-20260923b/873914cf-93b2-57a0-a5c8-264bfa2d3b66"
+    },
+    "source": null,
+    "task_checksum": "517cdb39eb932654f0def3b0520fda5ae8dd465500b61bde5d201023e3dc5bb3",
+    "config": {
+        "task": {
+            "path": "/home/runner/harbor-probe/glm-20260923b/873914cf-93b2-57a0-a5c8-264bfa2d3b66",
+            "git_url": null,
+            "git_commit_id": null,
+            "name": null,
+            "ref": null,
+            "overwrite": false,
+            "download_dir": null,
+            "source": null
+        },
+        "trial_name": "873914cf-93b2-57a0-a5c8-264bfa2d__sssqBy3",
+        "trials_dir": "/home/runner/harbor-jobs/glm-batch-2026-09-22-twenty-20260923b-three-t06-a1",
+        "install_only": false,
+        "timeout_multiplier": 1.0,
+        "agent_timeout_multiplier": null,
+        "verifier_timeout_multiplier": null,
+        "agent_setup_timeout_multiplier": null,
+        "environment_build_timeout_multiplier": null,
+        "agent": {
+            "name": "openhands-sdk",
+            "import_path": null,
+            "model_name": "zai/glm-5.3",
+            "n_concurrent": null,
+            "concurrency_group": null,
+            "skills": [],
+            "override_timeout_sec": null,
+            "override_setup_timeout_sec": null,
+            "max_timeout_sec": null,
+            "resume_trajectory": false,
+            "load_trajectory": null,
+            "extra_allowed_hosts": [],
+            "kwargs": {
+                "max_iterations": 1000,
+                "reasoning_effort": "high"
+            },
+            "mcp_servers": []
+        },
+        "user_agent": null,
+        "environment": {
+            "type": "docker",
+            "import_path": null,
+            "force_build": false,
+            "delete": false,
+            "cpu_enforcement_policy": "auto",
+            "memory_enforcement_policy": "auto",
+            "override_cpus": null,
+            "override_memory_mb": null,
+            "override_storage_mb": null,
+            "override_gpus": null,
+            "override_tpu": null,
+            "mounts": null,
+            "extra_docker_compose": [],
+            "kwargs": {
+                "keep_containers": true
+            },
+            "extra_allowed_hosts": []
+        },
+        "verifier": {
+            "override_timeout_sec": null,
+            "max_timeout_sec": null,
+            "disable": false
+        },
+        "artifacts": [],
+        "extra_instruction_paths": [],
+        "extra_instructions": [],
+        "job_id": "a8a9d0b2-8aa3-4be9-b86a-6f7ed008b809",
+        "source_trial": null
+    },
+    "agent_info": {
+        "name": "openhands-sdk",
+        "version": "1.49.1",
+        "model_info": {
+            "name": "glm-5.3",
+            "provider": "zai"
+        }
+    },
+    "agent_result": {
+        "n_input_tokens": 46330074,
+        "n_cache_tokens": 46082496,
+        "n_output_tokens": 169532,
+        "cost_usd": 13.073998959999999,
+        "model_usage": {
+            "zai/glm-5.3": {
+                "n_input_tokens": 0,
+                "n_cache_tokens": 0,
+                "n_output_tokens": 0,
+                "cost_usd": null
+            }
+        },
+        "rollout_details": null,
+        "metadata": null
+    },
+    "verifier_result": {
+        "rewards": {
+            "reward": 0.875
+        }
+    },
+    "verifier_environment_mode": "shared",
+    "exception_info": null,
+    "started_at": "2026-09-22T19:40:41.041137Z",
+    "finished_at": "2026-09-22T20:53:31.965716Z",
+    "environment_setup": {
+        "started_at": "2026-09-22T19:40:41.122720Z",
+        "finished_at": "2026-09-22T19:40:46.329022Z"
+    },
+    "agent_setup": {
+        "started_at": "2026-09-22T19:40:46.329072Z",
+        "finished_at": "2026-09-22T19:41:01.476400Z"
+    },
+    "agent_execution": {
+        "started_at": "2026-09-22T19:41:01.476526Z",
+        "finished_at": "2026-09-22T20:53:15.041923Z"
+    },
+    "verifier": {
+        "started_at": "2026-09-22T20:53:15.855669Z",
+        "finished_at": "2026-09-22T20:53:20.509924Z"
+    },
+    "step_results": null
+}

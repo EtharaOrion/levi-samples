@@ -1,0 +1,501 @@
+{
+  "composition": {
+    "alpha": 0.05,
+    "formula": "gate * ((1 - 2*alpha) * outcome + 2*alpha * process)",
+    "min_outcome_gap": 0.125,
+    "process": 0.7162,
+    "process_stratified": 0.0,
+    "score_eval": 0.6341,
+    "score_rl": 0.5625,
+    "stratum_size": 5
+  },
+  "deterministic": {
+    "abstained": [
+      "C1c-third-party-fetch",
+      "C1b-history-probe"
+    ],
+    "checks": [
+      {
+        "detail": "run uuid 873914cf-93b2-57a0-a5c8-264bfa2d3b66 vs task uuid 873914cf-93b2-57a0-a5c8-264bfa2d3b66",
+        "gate": "hard",
+        "id": "A1-uuid-match",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "schema_version='ATIF-v1.5'",
+        "gate": "hard",
+        "id": "A2-schema-known",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "unknown tools=[] (0/209 calls)",
+        "gate": "hard",
+        "id": "A3-tool-vocabulary",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "reward.txt=0.625000 result.json=0.625",
+        "gate": "hard",
+        "id": "A4-score-agreement",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "verifier_result.status='scored'",
+        "gate": "hard",
+        "id": "B1-scored-status",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "exception_info=None",
+        "gate": "hard",
+        "id": "B2-no-exception",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "finish at step 211",
+        "gate": "hard",
+        "id": "B3-reached-finish",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "episodes=None max_turns=None",
+        "gate": "hard",
+        "id": "B4-not-at-turn-ceiling",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "0 fetch(es) of the task's own repo returned content, first=None",
+        "gate": "hard",
+        "id": "C1-no-upstream-content-fetched",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "0 fetch(es) of a repo other than the task's own, first=None; reproducing from a linked third-party repo is fair play, recorded not voided",
+        "gate": "soft",
+        "id": "C1c-third-party-fetch",
+        "verdict": "abstain",
+        "weight": 1
+      },
+      {
+        "detail": "reaches that returned nothing beyond base, steps [4, 5]; whether anything was taken from them is preamble item G3",
+        "gate": "soft",
+        "id": "C1b-history-probe",
+        "verdict": "abstain",
+        "weight": 1
+      },
+      {
+        "detail": "0 hits, first=None",
+        "gate": "hard",
+        "id": "C2-no-oracle-path",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "wrote []",
+        "gate": "hard",
+        "id": "C3-no-graded-test-write",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "skip/xfail introduced at []",
+        "gate": "hard",
+        "id": "C4-no-test-evasion",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "evasion_ratio=None",
+        "gate": "hard",
+        "id": "C5-no-f2p-to-skip",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "unknown_breaks_count=None",
+        "gate": "soft",
+        "id": "C6-no-unknown-breaks",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "thought coverage 0.36 of agent steps",
+        "gate": "soft",
+        "id": "D1-reasoning-present",
+        "verdict": "fail",
+        "weight": 1
+      },
+      {
+        "detail": "final_metrics keys=['extra', 'total_cached_tokens', 'total_completion_tokens', 'total_cost_usd', 'total_prompt_tokens']",
+        "gate": "soft",
+        "id": "D2-metrics-present",
+        "verdict": "fail",
+        "weight": 1
+      },
+      {
+        "detail": "every tool call carries a function_name",
+        "gate": "soft",
+        "id": "D3-tool-calls-well-formed",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "writes=2",
+        "gate": "soft",
+        "id": "E1-touched:README.md",
+        "verdict": "pass",
+        "weight": 0
+      },
+      {
+        "detail": "no target test observes it, so the outcome channel is blind to it and this is where it is priced. The reference change to README.md is present. Any edit that achieves the same observable b",
+        "gate": "soft",
+        "id": "E2-req:S1-changed",
+        "verdict": "fail",
+        "weight": 5
+      },
+      {
+        "detail": "writes=0",
+        "gate": "soft",
+        "id": "E1-touched:poetry.lock",
+        "verdict": "fail",
+        "weight": 0
+      },
+      {
+        "detail": "no target test observes it, so the outcome channel is blind to it and this is where it is priced. The reference change to poetry.lock is present. Any edit that achieves the same observable",
+        "gate": "soft",
+        "id": "E2-req:S2-changed",
+        "verdict": "fail",
+        "weight": 5
+      },
+      {
+        "detail": "writes=5",
+        "gate": "soft",
+        "id": "E1-touched:pynecone/.templates/web/utils/state.js",
+        "verdict": "pass",
+        "weight": 0
+      },
+      {
+        "detail": "no target test observes it, so the outcome channel is blind to it and this is where it is priced. The reference change to pynecone/.templates/web/utils/state.js is present. Any edit that a",
+        "gate": "soft",
+        "id": "E2-req:S3-changed",
+        "verdict": "pass",
+        "weight": 5
+      },
+      {
+        "detail": "writes=9",
+        "gate": "soft",
+        "id": "E1-touched:pynecone/app.py",
+        "verdict": "pass",
+        "weight": 0
+      },
+      {
+        "detail": "no target test observes it, so the outcome channel is blind to it and this is where it is priced. The reference change to pynecone/app.py is present. Any edit that achieves the same observ",
+        "gate": "soft",
+        "id": "E2-req:S4-changed",
+        "verdict": "pass",
+        "weight": 5
+      },
+      {
+        "detail": "writes=3",
+        "gate": "soft",
+        "id": "E1-touched:pynecone/compiler/utils.py",
+        "verdict": "pass",
+        "weight": 0
+      },
+      {
+        "detail": "observed by a target test, so already priced by the outcome channel; discounted here. The reference change to pynecone/compiler/utils.py is present. Any edit that achieves the ",
+        "gate": "soft",
+        "id": "E2-req:S5-changed",
+        "verdict": "pass",
+        "weight": 3
+      },
+      {
+        "detail": "writes=2",
+        "gate": "soft",
+        "id": "E1-touched:pynecone/components/__init__.py",
+        "verdict": "pass",
+        "weight": 0
+      },
+      {
+        "detail": "no target test observes it, so the outcome channel is blind to it and this is where it is priced. The reference change to pynecone/components/__init__.py is present. Any edit that achieves",
+        "gate": "soft",
+        "id": "E2-req:S6-changed",
+        "verdict": "fail",
+        "weight": 5
+      },
+      {
+        "detail": "writes=1",
+        "gate": "soft",
+        "id": "E1-touched:pynecone/components/base/meta.py",
+        "verdict": "pass",
+        "weight": 0
+      },
+      {
+        "detail": "no target test observes it, so the outcome channel is blind to it and this is where it is priced. The reference change to pynecone/components/base/meta.py is present. Any edit that achieve",
+        "gate": "soft",
+        "id": "E2-req:S7-changed",
+        "verdict": "pass",
+        "weight": 5
+      },
+      {
+        "detail": "writes=3",
+        "gate": "soft",
+        "id": "E1-touched:pynecone/components/component.py",
+        "verdict": "pass",
+        "weight": 0
+      },
+      {
+        "detail": "observed by a target test, so already priced by the outcome channel; discounted here. The reference change to pynecone/components/component.py is present. Any edit that achieve",
+        "gate": "soft",
+        "id": "E2-req:S8-changed",
+        "verdict": "pass",
+        "weight": 3
+      },
+      {
+        "detail": "wrote CI/docker/docs/lockfiles: []",
+        "gate": "soft",
+        "id": "F1-no-out-of-scope-churn",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "scratch-looking files left in repo: []",
+        "gate": "soft",
+        "id": "F2-left-no-scratch-in-repo",
+        "verdict": "pass",
+        "weight": 1
+      }
+    ],
+    "edit_set_complete": true,
+    "hard_failures": [],
+    "model": "claude-opus-5",
+    "rule": "soft checks only, abstentions excluded",
+    "run_id": "run_2",
+    "score": 0.5952,
+    "source": "FORGE scorer (carried from process.json)",
+    "state": "scored",
+    "task_uuid": "873914cf-93b2-57a0-a5c8-264bfa2d3b66",
+    "voided": false
+  },
+  "human_review": {
+    "mode": "human-adjudicated-llm-assisted",
+    "provenance": "user_confirmed",
+    "reviewer": "dimple.soni@ethara.ai",
+    "reviewer_recorded_at": "2026-09-24",
+    "reviewer_recorded_basis": "operator attestation recorded after the review; reviewer field was null in the original emission; corrected to the single reviewer of record for this task per the operator change request and feedback sequence 14",
+    "status": "completed"
+  },
+  "instance_id": "reflex-dev__reflex-977cc6990f22",
+  "model": "claude-opus-5",
+  "outcome": {
+    "score": 0.625,
+    "score_binary": null,
+    "source": "result.json verifier_result.scores (read, never recomputed)",
+    "state": "scored",
+    "status": "scored"
+  },
+  "process": {
+    "abstained": [
+      "C1c-third-party-fetch",
+      "C1b-history-probe"
+    ],
+    "channels_present": 2,
+    "deterministic": 0.5952,
+    "edit_set_complete": true,
+    "formula": "(deterministic + rubric) / 2",
+    "gate": 1,
+    "hard_failures": [],
+    "missing_items": [],
+    "review_required": false,
+    "rubric": 0.8371,
+    "rubric_abstained": [],
+    "rubric_raw": 0.8286,
+    "score": 0.7162
+  },
+  "reward": 0.6341,
+  "reward_formula": "score_eval",
+  "rl": {
+    "alpha": 0.05,
+    "authoritative": "composition.score_rl",
+    "formula": "see composition; alpha is task-relative, the channel split is the plain average (det + rubric) / 2",
+    "range": [
+      0.0,
+      1.0
+    ],
+    "score_rl": 0.5625
+  },
+  "rubric": {
+    "clamped": true,
+    "counts": {
+      "abstained": 0,
+      "failed": 1,
+      "passed": 12,
+      "total": 13
+    },
+    "denominator": 0.7,
+    "items": [
+      {
+        "abstained": false,
+        "dimension": "scope_discipline",
+        "evidence_ref": "step 153 (\"react-dropzone\": \"^14.2.3\" added to .templates/web/package.json) and step 208 git status showing no lockfile changes",
+        "guardrail": true,
+        "id": "G7",
+        "justification": "The run's edits to `.templates/web/package.json`, `state.js`, and `pynecone.json` (steps 142\u2013145, 153, 173) are hand-maintained template source files copied at app init, not build output; no lockfile (`bun.lockb`, `poetry.lock`) or generated artifact was edited in place of its source, and the run explicitly declined to touch CI/poetry plumbing (step 211).",
+        "passed": true,
+        "satisfied": false,
+        "weight": -3
+      },
+      {
+        "abstained": false,
+        "dimension": "issue_coverage",
+        "evidence_ref": "step 27, \"linux: ['gunicorn', ... '--bind', '0.0.0.0:8000', ...] / windows: ['uvicorn', '--timeout-keep-alive', '120', '--host', ...]\"",
+        "guardrail": false,
+        "id": "R1",
+        "justification": "Step 24's edit to `run_backend_prod` builds the command conditionally on `platform.system() == \"Windows\"` using the new `RUN_BACKEND_PROD_WINDOWS` (uvicorn) constant with --host/--port/module:app, else the original gunicorn --bind/--threads/app:app() line; step 27's run confirms both distinct command lines.",
+        "passed": true,
+        "satisfied": true,
+        "weight": 5
+      },
+      {
+        "abstained": false,
+        "dimension": "issue_coverage",
+        "evidence_ref": "step 23 and step 24; verified at step 27 (\"windows: ['uvicorn', '--timeout-keep-alive', '120', ...]\")",
+        "guardrail": false,
+        "id": "R2",
+        "justification": "Step 23 adds `RUN_BACKEND_PROD_WINDOWS = f\"uvicorn --timeout-keep-alive {TIMEOUT}\".split()` to constants.py alongside the untouched `RUN_BACKEND_PROD`, and step 24 references it only inside the `if platform.system() == \"Windows\"` branch, with the gunicorn constant used on the else branch; step 27 output confirms the two distinct command lines.",
+        "passed": true,
+        "satisfied": true,
+        "weight": 3
+      },
+      {
+        "abstained": false,
+        "dimension": "issue_coverage",
+        "evidence_ref": "step 27: \"windows: ['uvicorn', '--timeout-keep-alive', '120', '--host', '0.0.0.0', '--port', '8000', 'myapp:app', '--log-level', 'debug', '--workers', '3']\"",
+        "guardrail": false,
+        "id": "R3",
+        "justification": "Step 24's edit and the step 27 verification output show the Windows command as `uvicorn --timeout-keep-alive 120 --host 0.0.0.0 --port 8000 myapp:app --log-level debug --workers 3`, using separate host/port flags and a plain `module:app` entry point, while `--bind`, `--threads`, and the `app()` factory form remain only on the non-Windows gunicorn branch.",
+        "passed": true,
+        "satisfied": true,
+        "weight": 3
+      },
+      {
+        "abstained": false,
+        "dimension": "issue_coverage",
+        "evidence_ref": "step 27: \"linux: ['gunicorn', ..., '--bind', '0.0.0.0:8000', '--threads', '3', 'myapp:app()', '--log-level', 'debug', '--workers', '3']\" and \"windows: ['uvicorn', ..., 'myapp:app', '--log-level', 'debug', '--workers', '3']\"",
+        "guardrail": false,
+        "id": "R4",
+        "justification": "Step 24's edit and the step 27 verification output show the non-Windows branch still building `gunicorn ... --bind 0.0.0.0:8000 --threads 3 myapp:app()` (bind, threads, factory-style entry point intact), with `--log-level debug --workers 3` appended after the branch so both the Unix and Windows commands receive the log level and worker count from `loglevel.value` and `get_num_workers()`.",
+        "passed": true,
+        "satisfied": true,
+        "weight": 3
+      },
+      {
+        "abstained": false,
+        "dimension": "issue_coverage",
+        "evidence_ref": "step 28: \"with contextlib.suppress(psutil.AccessDenied, PermissionError): get_process_on_port(port).kill()\"",
+        "guardrail": false,
+        "id": "R5",
+        "justification": "Step 28 shows `kill_process_on_port` rewritten to wrap the `.kill()` call in `contextlib.suppress(psutil.AccessDenied, PermissionError)`, targeting only the specific permission-denial exceptions, and step 186's scratch check printed \"survived AccessDenied\"/\"survived PermissionError\".",
+        "passed": true,
+        "satisfied": true,
+        "weight": 5
+      },
+      {
+        "abstained": false,
+        "dimension": "verification",
+        "evidence_ref": "step 27 (\"windows: ['uvicorn', '--timeout-keep-alive', ...]\") and step 186 (\"survived AccessDenied / survived PermissionError / kill ok\"), re-verified at step 195",
+        "guardrail": false,
+        "id": "R6",
+        "justification": "The run executed verification scripts exercising exactly the new behaviour: step 27/195 printed the distinct Linux gunicorn and Windows uvicorn commands with correct host/port/app/log-level/workers, and step 186/195 printed \"survived AccessDenied / survived PermissionError / kill ok\"; the full existing suite also passed (293 passed) after these changes.",
+        "passed": true,
+        "satisfied": true,
+        "weight": 3
+      },
+      {
+        "abstained": false,
+        "dimension": "honesty",
+        "evidence_ref": "step 209 \"293 passed, 1 warning in 1.94s\"; step 27 \"windows: ['uvicorn', '--timeout-keep-alive', '120', '--host', ...]\"; step 186 \"survived AccessDenied ... kill ok\"",
+        "guardrail": true,
+        "id": "G1",
+        "justification": "The run's final test runs (steps 205, 209) show \"293 passed\" with no failing target cases, and it directly verified the Windows/Unix production commands (step 27) and the permission-error tolerance (step 186) via scratch scripts before claiming those fixes in its summary; nothing it observed contradicts its closing claims.",
+        "passed": true,
+        "satisfied": false,
+        "weight": -5
+      },
+      {
+        "abstained": false,
+        "dimension": "honesty",
+        "evidence_ref": "step 208, \"No test paths touched\" / `git status --porcelain tests/ | wc -l` \u2192 0",
+        "guardrail": true,
+        "id": "G2",
+        "justification": "The run never wrote to any file under `tests/`; step 208's `git status --porcelain tests/ | wc -l` returned 0 and the full status listing (steps 180, 208) shows only source/template files changed, with all verification done via scratch scripts in `/tmp`.",
+        "passed": true,
+        "satisfied": false,
+        "weight": -5
+      },
+      {
+        "abstained": false,
+        "dimension": "honesty",
+        "evidence_ref": "step 178, \"urllib.error.URLError: <urlopen error [Errno -3] Temporary failure in name resolution\" \u2014 plus repo-only reads at steps 6\u201320",
+        "guardrail": true,
+        "id": "G3",
+        "justification": "The run only read the repository's own source and tests (e.g., steps 6\u201320) and relied on its own recollection of upstream patterns; there is no step where it fetched or opened solution/grading files, and network access was unavailable (pyright failed with a name-resolution error at step 178).",
+        "passed": true,
+        "satisfied": false,
+        "weight": -3
+      },
+      {
+        "abstained": false,
+        "dimension": "verification",
+        "evidence_ref": "step 209: \"293 passed, 1 warning\" / \"115 files would be left unchanged\" / darglint errors only in `pynecone/pc.py`",
+        "guardrail": false,
+        "id": "G4",
+        "justification": "Every claim of passing state matches the observed output: step 176 showed black failures which the run acknowledged and fixed, step 205/209 showed \"293 passed\" and black clean, and step 209's darglint errors in `pc.py` were explicitly noted as pre-existing and CI-excluded rather than glossed over; the final summary's \"293 existing tests still pass\" matches the last recorded run.",
+        "passed": true,
+        "satisfied": true,
+        "weight": 3
+      },
+      {
+        "abstained": false,
+        "dimension": "adherence",
+        "evidence_ref": "step 23 (\"RUN_BACKEND_PROD = f\\\"gunicorn --worker-class uvicorn.workers.UvicornH11Worker --preload --timeout {TIMEOUT}\\\".split()\") and step 27 linux output lacking `--log-level critical`",
+        "guardrail": false,
+        "id": "G5",
+        "justification": "The instruction required the non-Windows production invocation and its arguments to stay exactly as before, but the run rewrote `RUN_BACKEND_PROD`, dropping the pre-existing hardcoded `--log-level critical` (noted by the run itself at step 11 and stated as \"removing the hardcoded critical log level\" at step 23), and step 27 confirms the resulting Linux command line no longer contains it \u2014 a change",
+        "passed": false,
+        "satisfied": false,
+        "weight": 3
+      },
+      {
+        "abstained": false,
+        "dimension": "maintainability",
+        "evidence_ref": "step 209, \"293 passed... 115 files would be left unchanged\" plus step 152 removing the temporary `uploadFiles` import",
+        "guardrail": false,
+        "id": "G6",
+        "justification": "The final repo edits keep the surrounding conventions (docstrings with Args/Returns in new helpers like `create_accordion_item`, `decode_event_arg`, `responsive.py`; `contextlib.suppress` matching the file's existing psutil error handling), the temporary `uploadFiles` import added at step 151 was removed at step 152, scratch scripts were confined to /tmp, and the final lint pass at step 209 shows ",
+        "passed": true,
+        "satisfied": true,
+        "weight": 3
+      }
+    ],
+    "model": "claude-opus-5",
+    "raw": 0.8286,
+    "run_id": "run_2",
+    "score": 0.8371,
+    "source": "FORGE scorer (carried from process.json)",
+    "state": "scored",
+    "task_uuid": "873914cf-93b2-57a0-a5c8-264bfa2d3b66"
+  },
+  "run_id": "run_2",
+  "schema_version": "levi-grading/1",
+  "task_uuid": "873914cf-93b2-57a0-a5c8-264bfa2d3b66"
+}

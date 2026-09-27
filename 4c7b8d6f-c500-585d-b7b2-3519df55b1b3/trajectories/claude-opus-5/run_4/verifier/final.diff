@@ -1,0 +1,3214 @@
+diff --git a/.github/workflows/auto-draft-pr.yml b/.github/workflows/auto-draft-pr.yml
+new file mode 100644
+index 0000000..8d48a2e
+--- /dev/null
++++ b/.github/workflows/auto-draft-pr.yml
+@@ -0,0 +1,31 @@
++name: auto-draft-pr
++
++on:
++  pull_request_target:
++    types: [opened]
++
++permissions:
++  pull-requests: write
++
++jobs:
++  auto-draft:
++    runs-on: ubuntu-latest
++    if: >
++      github.event.pull_request.draft == false &&
++      github.event.pull_request.user.login != 'jdx' &&
++      github.event.pull_request.user.login != 'renovate[bot]'
++    steps:
++      # fine-grained PATs can't run the convertPullRequestToDraft mutation, so use github.token
++      - name: Convert PR to draft
++        env:
++          GH_TOKEN: ${{ github.token }}
++          PR_URL: ${{ github.event.pull_request.html_url }}
++        run: gh pr ready --undo "$PR_URL"
++      - name: Comment on PR
++        env:
++          GH_TOKEN: ${{ secrets.MISE_PR_COMMENT_TOKEN }}
++          PR_URL: ${{ github.event.pull_request.html_url }}
++        run: |
++          gh pr comment "$PR_URL" --body "Thanks for the contribution! This PR was automatically converted to a draft so CI and review time aren't spent on it while it's still in progress.
++
++          Mark it **Ready for review** when you'd like a human to take a look."
+diff --git a/.github/workflows/docker.yml b/.github/workflows/docker.yml
+index 491c0a5..dc92af3 100644
+--- a/.github/workflows/docker.yml
++++ b/.github/workflows/docker.yml
+@@ -25,6 +25,7 @@ jobs:
+           - deb
+           - rpm
+           - copr
++          - e2e
+     runs-on: ubuntu-latest
+     permissions:
+       contents: read
+diff --git a/.github/workflows/release.yml b/.github/workflows/release.yml
+index cef135b..a3087ba 100644
+--- a/.github/workflows/release.yml
++++ b/.github/workflows/release.yml
+@@ -262,6 +262,28 @@ jobs:
+       - build-tarball-windows
+     if: ${{ !cancelled() && !failure() }}
+     steps:
++      # `!failure()` treats skipped jobs as passing, so a failed matrix variant (e.g. armv7)
++      # would otherwise let the release through with missing artifacts
++      - name: Verify all build targets succeeded
++        run: |
++          failed=""
++          for job in \
++            "build-tarball-linux=${{ needs.build-tarball-linux.result }}" \
++            "build-tarball-macos=${{ needs.build-tarball-macos.result }}" \
++            "build-tarball-windows=${{ needs.build-tarball-windows.result }}" \
++            "e2e-linux=${{ needs.e2e-linux.result }}" \
++            "rpm=${{ needs.rpm.result }}" \
++            "deb=${{ needs.deb.result }}"; do
++            name="${job%%=*}"
++            result="${job#*=}"
++            if [[ "$result" != "success" ]]; then
++              failed="$failed $name($result)"
++            fi
++          done
++          if [[ -n "$failed" ]]; then
++            echo "::error::refusing to release, upstream jobs did not succeed:$failed"
++            exit 1
++          fi
+       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+         with:
+           fetch-depth: 0
+diff --git a/.github/workflows/semantic-pr-lint.yml b/.github/workflows/semantic-pr-lint.yml
+index db3821f..1732efa 100644
+--- a/.github/workflows/semantic-pr-lint.yml
++++ b/.github/workflows/semantic-pr-lint.yml
+@@ -16,7 +16,7 @@ jobs:
+     steps:
+       - uses: amannn/action-semantic-pull-request@e32d7e603df1aa1ba07e981f2a23455dee596825 # v5
+         env:
+-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
++          GITHUB_TOKEN: ${{ secrets.MISE_PR_COMMENT_TOKEN || secrets.GITHUB_TOKEN }}
+         with:
+           types: |
+             fix
+diff --git a/.github/workflows/test.yml b/.github/workflows/test.yml
+index b5edb25..821badd 100644
+--- a/.github/workflows/test.yml
++++ b/.github/workflows/test.yml
+@@ -207,6 +207,36 @@ jobs:
+           retry_wait_seconds: 30
+           max_attempts: 2
+           command: mise run test:coverage
++  docker-e2e:
++    name: docker-e2e-${{matrix.tranche}}
++    runs-on: ubuntu-latest
++    needs: [build-ubuntu]
++    timeout-minutes: 60
++    # opt-in: run manually or by setting the MISE_E2E_DOCKER_CI repo variable
++    if: github.event_name == 'workflow_dispatch' || vars.MISE_E2E_DOCKER_CI == '1'
++    strategy:
++      fail-fast: false
++      matrix:
++        tranche: [0, 1, 2, 3]
++    env:
++      MISE_E2E_DOCKER: 1
++      MISE_E2E_DOCKER_IMAGE: ghcr.io/jdx/mise:e2e
++    steps:
++      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
++        with:
++          fetch-depth: 0
++      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
++        with:
++          name: mise-ubuntu-latest
++          path: target/debug
++      - run: chmod +x target/debug/mise
++      - run: docker pull "$MISE_E2E_DOCKER_IMAGE"
++      - name: Run e2e tests in Docker
++        env:
++          TEST_TRANCHE: ${{matrix.tranche}}
++          TEST_TRANCHE_COUNT: 4
++        run: ./e2e/run_all_tests
++
+   windows-unit:
+     runs-on: windows-latest
+     timeout-minutes: 30
+diff --git a/.github/workflows/vendored-file-warning.yml b/.github/workflows/vendored-file-warning.yml
+new file mode 100644
+index 0000000..97049cf
+--- /dev/null
++++ b/.github/workflows/vendored-file-warning.yml
+@@ -0,0 +1,29 @@
++name: vendored-file-warning
++
++on:
++  pull_request_target:
++    types: [opened, synchronize, reopened]
++    paths:
++      - "crates/aqua-registry/aqua-registry/pkgs/**"
++
++permissions:
++  pull-requests: write
++
++jobs:
++  warn:
++    runs-on: ubuntu-latest
++    steps:
++      - name: Comment once about vendored aqua-registry changes
++        env:
++          GH_TOKEN: ${{ secrets.MISE_PR_COMMENT_TOKEN || github.token }}
++          PR_URL: ${{ github.event.pull_request.html_url }}
++          MARKER: "<!-- vendored-aqua-registry-warning -->"
++        run: |
++          if gh pr view "$PR_URL" --json comments --jq '.comments[].body' | grep -qF "$MARKER"; then
++            echo "warning already posted"
++            exit 0
++          fi
++          gh pr comment "$PR_URL" --body "$MARKER
++          This PR modifies files under \`crates/aqua-registry/aqua-registry/pkgs/\`, which is a vendored copy of the [aqua-registry](https://github.com/aquaproj/aqua-registry).
++
++          Changes here will be overwritten the next time the registry is updated. Please submit package definitions to the upstream aqua-registry instead."
+diff --git a/CHANGELOG.md b/CHANGELOG.md
+index 0ce86f1..cc2520f 100644
+--- a/CHANGELOG.md
++++ b/CHANGELOG.md
+@@ -1,5 +1,72 @@
+ # Changelog
+ 
++## [2026.4.4](https://github.com/jdx/mise/compare/v2026.4.3..v2026.4.4) - 2026-04-04
++
++### 🚀 Features
++
++- **(ci)** auto-convert external PRs to draft mode by @jdx in [#8896](https://github.com/jdx/mise/pull/8896)
++- **(deps)** add `depends` field for user-specified tool dependencies by @cprecioso in [#8776](https://github.com/jdx/mise/pull/8776)
++- **(dotnet)** support runtime-only installs by @fragon10 in [#8524](https://github.com/jdx/mise/pull/8524)
++- **(npm)** apply install_before to transitive dependencies by @risu729 in [#8851](https://github.com/jdx/mise/pull/8851)
++- **(task)** allow passing arguments to task dependencies via {{usage.*}} templates by @jdx in [#8893](https://github.com/jdx/mise/pull/8893)
++- add options field to BackendListVersionsCtx by @esteve in [#8875](https://github.com/jdx/mise/pull/8875)
++
++### 🐛 Bug Fixes
++
++- **(backend)** filter PEP 440 .dev versions in fuzzy version matching by @richardthe3rd in [#8849](https://github.com/jdx/mise/pull/8849)
++- **(ci)** update COPR BuildRequires rust version to match MSRV 1.88 by @jdx in [#8911](https://github.com/jdx/mise/pull/8911)
++- **(ci)** add Ruby build dependencies to e2e Docker image by @jdx in [#8910](https://github.com/jdx/mise/pull/8910)
++- **(ci)** add missing build dependencies to e2e Docker image by @jdx in [#8912](https://github.com/jdx/mise/pull/8912)
++- **(ci)** add missing build dependencies to e2e Docker image by @jdx in [#8914](https://github.com/jdx/mise/pull/8914)
++- **(ci)** use Node 24 LTS for corepack e2e test by @jdx in [#8915](https://github.com/jdx/mise/pull/8915)
++- **(ci)** add libxml2 and pkg-config to e2e Docker image by @jdx in [#8917](https://github.com/jdx/mise/pull/8917)
++- **(ci)** add libxml2-dev to e2e image and disable Swift SPM tests by @jdx in [#8918](https://github.com/jdx/mise/pull/8918)
++- **(docs)** use sans-serif font for badges by @jdx in [#8887](https://github.com/jdx/mise/pull/8887)
++- **(env)** parse --env=VALUE and -E=VALUE flag forms correctly by @jdx in [#8889](https://github.com/jdx/mise/pull/8889)
++- **(exec)** use i64::from() for seccomp syscall numbers to survive autofix by @jdx in [#8882](https://github.com/jdx/mise/pull/8882)
++- **(github)** preserve tool options like filter_bins when version specified via CLI by @jdx in [#8888](https://github.com/jdx/mise/pull/8888)
++- **(github)** use alias-specific options when tool_alias has its own config by @jdx in [#8892](https://github.com/jdx/mise/pull/8892)
++- **(install)** add locked_verify_provenance setting and detect github attestations at lock time by @jdx in [#8901](https://github.com/jdx/mise/pull/8901)
++- **(lock)** prune stale version entries during filtered `mise lock <tool>` runs by @altendky in [#8599](https://github.com/jdx/mise/pull/8599)
++- **(python)** use lockfile URL for precompiled installs by @hehaoqian in [#8750](https://github.com/jdx/mise/pull/8750)
++- **(release)** verify all build targets succeed before releasing by @jdx in [#8886](https://github.com/jdx/mise/pull/8886)
++- **(ruby)** support build revisions for precompiled binaries in mise.lock by @jdx in [#8900](https://github.com/jdx/mise/pull/8900)
++- **(swift)** fall back to Ubuntu 24.04 for unsupported Ubuntu versions by @jdx in [#8916](https://github.com/jdx/mise/pull/8916)
++- **(zsh)** avoid duplicate trust warning after cd by @timothysparg in [#8898](https://github.com/jdx/mise/pull/8898)
++- update flake.lock and add fix for rust-bindgen to default.nix by @esteve in [#8874](https://github.com/jdx/mise/pull/8874)
++- when direnv diff is empty, do not try to parse it by @yaleman in [#8857](https://github.com/jdx/mise/pull/8857)
++- skip trust check for plain .tool-versions in task list by @dportalesr in [#8876](https://github.com/jdx/mise/pull/8876)
++
++### 🚜 Refactor
++
++- **(go)** rename go_* settings to go.* namespace by @jdbruijn in [#8598](https://github.com/jdx/mise/pull/8598)
++
++### 📚 Documentation
++
++- **(tasks)** clarify task_config.includes behavior by @risu729 in [#8905](https://github.com/jdx/mise/pull/8905)
++
++### 🧪 Testing
++
++- **(ci)** run e2e tests inside Docker containers by @jdx in [#8899](https://github.com/jdx/mise/pull/8899)
++
++### 📦️ Dependency Updates
++
++- bump ubi from 0.8 to 0.9 by @jdx in [#8906](https://github.com/jdx/mise/pull/8906)
++- bump zip from 3 to 8 by @jdx in [#8908](https://github.com/jdx/mise/pull/8908)
++- update lockfile deps (hold back rattler) by @jdx in [#8909](https://github.com/jdx/mise/pull/8909)
++- update bun.lock by @jdx in [#8913](https://github.com/jdx/mise/pull/8913)
++
++### 📦 Registry
++
++- add turso ([github:tursodatabase/turso-cli](https://github.com/tursodatabase/turso-cli)) by @kenn in [#8884](https://github.com/jdx/mise/pull/8884)
++- remove carp test by @jdx in [#8894](https://github.com/jdx/mise/pull/8894)
++
++### Chore
++
++- **(ci)** add workflow to warn PRs modifying vendored aqua-registry by @jdx in [#8897](https://github.com/jdx/mise/pull/8897)
++- **(ci)** use github.token for draft conversion in auto-draft workflow by @jdx in [#8903](https://github.com/jdx/mise/pull/8903)
++- remove deprecated settings older than 12 months by @jdx in [#8904](https://github.com/jdx/mise/pull/8904)
++
+ ## [2026.4.3](https://github.com/jdx/mise/compare/v2026.4.2..v2026.4.3) - 2026-04-03
+ 
+ ### 🐛 Bug Fixes
+diff --git a/Cargo.lock b/Cargo.lock
+index 3a5f840..c5a0cf6 100644
+--- a/Cargo.lock
++++ b/Cargo.lock
+@@ -5299,6 +5299,12 @@ dependencies = [
+  "sha2",
+ ]
+ 
++[[package]]
++name = "lzma-rust2"
++version = "0.16.2"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "47bb1e988e6fb779cf720ad431242d3f03167c1b3f2b1aae7f1a94b2495b36ae"
++
+ [[package]]
+ name = "lzma-sys"
+ version = "0.1.20"
+@@ -5445,7 +5451,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "mise"
+-version = "2026.4.3"
++version = "2026.4.4"
+ dependencies = [
+  "age",
+  "aho-corasick",
+@@ -5573,7 +5579,7 @@ dependencies = [
+  "winapi",
+  "xx",
+  "xz2",
+- "zip 3.0.0",
++ "zip 8.5.0",
+  "zipsign-api",
+  "zstd",
+ ]
+@@ -8446,13 +8452,13 @@ dependencies = [
+ 
+ [[package]]
+ name = "sevenz-rust2"
+-version = "0.19.4"
++version = "0.20.2"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "414256b6bb303a2a38ad800096664c3b332295c17b7ef0674bf0acf44284036c"
++checksum = "29225600349ef74beda5a9fffb36ac660a24613c0bde9315d0c49be1d51e9c24"
+ dependencies = [
+  "crc32fast",
+  "js-sys",
+- "lzma-rust2",
++ "lzma-rust2 0.16.2",
+  "wasm-bindgen",
+ ]
+ 
+@@ -9662,14 +9668,15 @@ checksum = "562d481066bde0658276a35467c4af00bdc6ee726305698a55b86e61d7ad82bb"
+ 
+ [[package]]
+ name = "ubi"
+-version = "0.8.4"
++version = "0.9.0"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "78f4c4ae20814754faab516f44cf1da14e11c510541ceb8555695cf03aadafb1"
++checksum = "eb72e0fb81c47ba1a6adcb248084193109710f482786856ff5e820605ac52546"
+ dependencies = [
+  "anyhow",
+  "async-trait",
+  "binstall-tar",
+  "bzip2 0.6.1",
++ "chrono",
+  "document-features",
+  "flate2",
+  "itertools 0.14.0",
+@@ -11054,7 +11061,7 @@ dependencies = [
+  "getrandom 0.3.4",
+  "hmac",
+  "indexmap 2.13.0",
+- "lzma-rust2",
++ "lzma-rust2 0.15.7",
+  "memchr",
+  "pbkdf2",
+  "ppmd-rust",
+@@ -11066,6 +11073,20 @@ dependencies = [
+  "zstd",
+ ]
+ 
++[[package]]
++name = "zip"
++version = "8.5.0"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "2726508a48f38dceb22b35ecbbd2430efe34ff05c62bd3285f965d7911b33464"
++dependencies = [
++ "crc32fast",
++ "flate2",
++ "indexmap 2.13.0",
++ "memchr",
++ "typed-path 0.12.2",
++ "zopfli",
++]
++
+ [[package]]
+ name = "zipsign-api"
+ version = "0.1.5"
+diff --git a/Cargo.toml b/Cargo.toml
+index 410625c..32e9984 100644
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -8,7 +8,7 @@ members = [
+ 
+ [package]
+ name = "mise"
+-version = "2026.4.3"
++version = "2026.4.4"
+ edition = "2024"
+ description = "The front-end to your dev env"
+ authors = ["Jeff Dickey (@jdx)"]
+@@ -186,7 +186,7 @@ tokio = { version = "1", features = ["full"] }
+ tokio-retry = "0.3"
+ toml = { version = "0.9", features = ["parse", "preserve_order"] }
+ toml_edit = { version = "0.24", features = ["parse"] }
+-ubi = { version = "0.8", default-features = false }
++ubi = { version = "0.9", default-features = false }
+ url = "2"
+ urlencoding = "2"
+ usage-lib = { version = "2", features = ["clap", "docs"] }
+@@ -198,7 +198,7 @@ walkdir = "2"
+ which = "7"
+ xx = { version = "2.5", default-features = false, features = ["glob"] }
+ xz2 = "0.1"
+-zip = { version = "3", default-features = false, features = ["deflate"] }
++zip = { version = "8", default-features = false, features = ["deflate"] }
+ zstd = "0.13"
+ 
+ [target.'cfg(unix)'.dependencies]
+diff --git a/completions/_mise b/completions/_mise
+index f9f974d..ee5cc04 100644
+--- a/completions/_mise
++++ b/completions/_mise
+@@ -23,7 +23,7 @@ _mise() {
+       return 1
+   fi
+ 
+-  local spec_file="${TMPDIR:-/tmp}/usage__usage_spec_mise_2026_4_3.spec"
++  local spec_file="${TMPDIR:-/tmp}/usage__usage_spec_mise_2026_4_4.spec"
+   if [[ ! -f "$spec_file" ]]; then
+     mise usage >| "$spec_file"
+   fi
+diff --git a/completions/mise.bash b/completions/mise.bash
+index ccd523c..3ad8ea8 100644
+--- a/completions/mise.bash
++++ b/completions/mise.bash
+@@ -9,7 +9,7 @@ _mise() {
+ 
+ 	local cur prev words cword was_split comp_args
+     _comp_initialize -n : -- "$@" || return
+-    local spec_file="${TMPDIR:-/tmp}/usage__usage_spec_mise_2026_4_3.spec"
++    local spec_file="${TMPDIR:-/tmp}/usage__usage_spec_mise_2026_4_4.spec"
+     if [[ ! -f "$spec_file" ]]; then
+         mise usage >| "$spec_file"
+     fi
+diff --git a/completions/mise.fish b/completions/mise.fish
+index 66b11d7..60a067a 100644
+--- a/completions/mise.fish
++++ b/completions/mise.fish
+@@ -8,7 +8,7 @@ if ! type -p usage &> /dev/null
+     return 1
+ end
+ set -l tmpdir (if set -q TMPDIR; echo $TMPDIR; else; echo /tmp; end)
+-set -l spec_file "$tmpdir/usage__usage_spec_mise_2026_4_3.spec"
++set -l spec_file "$tmpdir/usage__usage_spec_mise_2026_4_4.spec"
+ if not test -f "$spec_file"
+     mise usage | string collect > "$spec_file"
+ end
+diff --git a/completions/mise.ps1 b/completions/mise.ps1
+index 50e5503..47e7e92 100644
+--- a/completions/mise.ps1
++++ b/completions/mise.ps1
+@@ -10,7 +10,7 @@ Register-ArgumentCompleter -Native -CommandName 'mise' -ScriptBlock {
+     param($wordToComplete, $commandAst, $cursorPosition)
+ 
+     $tmpDir = if ($env:TEMP) { $env:TEMP } else { [System.IO.Path]::GetTempPath() }
+-    $specFile = Join-Path $tmpDir "usage__usage_spec_mise_2026_4_3.kdl"
++    $specFile = Join-Path $tmpDir "usage__usage_spec_mise_2026_4_4.kdl"
+ 
+     if (-not (Test-Path $specFile)) {
+     mise usage | Out-File -FilePath $specFile -Encoding utf8
+diff --git a/crates/vfox/src/hooks/backend_exec_env.rs b/crates/vfox/src/hooks/backend_exec_env.rs
+index 0eced16..b8ddc43 100644
+--- a/crates/vfox/src/hooks/backend_exec_env.rs
++++ b/crates/vfox/src/hooks/backend_exec_env.rs
+@@ -10,7 +10,7 @@ pub struct BackendExecEnvContext {
+     pub tool: String,
+     pub version: String,
+     pub install_path: PathBuf,
+-    pub options: IndexMap<String, String>,
++    pub options: IndexMap<String, serde_json::Value>,
+ }
+ 
+ #[derive(Debug)]
+diff --git a/crates/vfox/src/hooks/backend_install.rs b/crates/vfox/src/hooks/backend_install.rs
+index 18e73ee..a706900 100644
+--- a/crates/vfox/src/hooks/backend_install.rs
++++ b/crates/vfox/src/hooks/backend_install.rs
+@@ -11,7 +11,7 @@ pub struct BackendInstallContext {
+     pub version: String,
+     pub install_path: PathBuf,
+     pub download_path: PathBuf,
+-    pub options: IndexMap<String, String>,
++    pub options: IndexMap<String, serde_json::Value>,
+ }
+ 
+ #[derive(Debug)]
+diff --git a/crates/vfox/src/hooks/backend_list_versions.rs b/crates/vfox/src/hooks/backend_list_versions.rs
+index 5faf324..44dba5a 100644
+--- a/crates/vfox/src/hooks/backend_list_versions.rs
++++ b/crates/vfox/src/hooks/backend_list_versions.rs
+@@ -1,9 +1,11 @@
+ use crate::{Plugin, error::Result};
+-use mlua::{FromLua, IntoLua, Lua, Value, prelude::LuaError};
++use indexmap::IndexMap;
++use mlua::{FromLua, IntoLua, Lua, LuaSerdeExt, Value, prelude::LuaError};
+ 
+ #[derive(Debug, Clone)]
+ pub struct BackendListVersionsContext {
+     pub tool: String,
++    pub options: IndexMap<String, serde_json::Value>,
+ }
+ 
+ #[derive(Debug, Clone)]
+@@ -29,6 +31,7 @@ impl IntoLua for BackendListVersionsContext {
+     fn into_lua(self, lua: &mlua::Lua) -> mlua::Result<Value> {
+         let table = lua.create_table()?;
+         table.set("tool", self.tool)?;
++        table.set("options", lua.to_value(&self.options)?)?;
+         Ok(Value::Table(table))
+     }
+ }
+diff --git a/crates/vfox/src/vfox.rs b/crates/vfox/src/vfox.rs
+index 52ac3b3..fe82721 100644
+--- a/crates/vfox/src/vfox.rs
++++ b/crates/vfox/src/vfox.rs
+@@ -282,10 +282,16 @@ impl Vfox {
+         plugin.mise_env(ctx).await
+     }
+ 
+-    pub async fn backend_list_versions(&self, sdk: &str, tool: &str) -> Result<Vec<String>> {
++    pub async fn backend_list_versions(
++        &self,
++        sdk: &str,
++        tool: &str,
++        options: IndexMap<String, serde_json::Value>,
++    ) -> Result<Vec<String>> {
+         let plugin = self.get_sdk(sdk)?;
+         let ctx = BackendListVersionsContext {
+             tool: tool.to_string(),
++            options,
+         };
+         plugin.backend_list_versions(ctx).await.map(|r| r.versions)
+     }
+@@ -297,7 +303,7 @@ impl Vfox {
+         version: &str,
+         install_path: PathBuf,
+         download_path: PathBuf,
+-        options: IndexMap<String, String>,
++        options: IndexMap<String, serde_json::Value>,
+     ) -> Result<()> {
+         let plugin = self.get_sdk(sdk)?;
+         let ctx = BackendInstallContext {
+@@ -317,7 +323,7 @@ impl Vfox {
+         tool: &str,
+         version: &str,
+         install_path: PathBuf,
+-        options: IndexMap<String, String>,
++        options: IndexMap<String, serde_json::Value>,
+     ) -> Result<Vec<EnvKey>> {
+         let plugin = self.get_sdk(sdk)?;
+         let ctx = BackendExecEnvContext {
+diff --git a/crates/vfox/types/mise-plugin.lua b/crates/vfox/types/mise-plugin.lua
+index d2db25b..f4b55bb 100644
+--- a/crates/vfox/types/mise-plugin.lua
++++ b/crates/vfox/types/mise-plugin.lua
+@@ -102,6 +102,7 @@ ARCH_TYPE = ""
+ 
+ ---@class BackendListVersionsCtx
+ ---@field tool string Tool name
++---@field options table Tool options from mise.toml
+ 
+ ---@class BackendListVersionsResult
+ ---@field versions string[] List of available versions
+diff --git a/default.nix b/default.nix
+index e56d070..537cae3 100644
+--- a/default.nix
++++ b/default.nix
+@@ -2,7 +2,7 @@
+ 
+ rustPlatform.buildRustPackage {
+   pname = "mise";
+-  version = "2026.4.3";
++  version = "2026.4.4";
+ 
+   src = lib.cleanSource ./.;
+ 
+@@ -15,6 +15,8 @@ rustPlatform.buildRustPackage {
+     clang
+     llvmPackages.libclang
+     pkg-config
++    # sets LIBCLANG_PATH/BINDGEN_EXTRA_CLANG_ARGS so bindgen (aws-lc-sys) can find libclang
++    rustPlatform.bindgenHook
+   ];
+   buildInputs = with pkgs; [
+     bash
+diff --git a/docs/.vitepress/theme/custom.css b/docs/.vitepress/theme/custom.css
+index d1acc95..edcb40c 100644
+--- a/docs/.vitepress/theme/custom.css
++++ b/docs/.vitepress/theme/custom.css
+@@ -947,6 +947,7 @@ div[class*="language-"] .copy:hover {
+ .badge {
+   display: inline-block;
+   padding: 0.25rem 0.5rem;
++  font-family: var(--vp-font-family-base);
+   font-size: 0.75rem;
+   font-weight: 600;
+   border-radius: 4px;
+diff --git a/docs/backend-plugin-development.md b/docs/backend-plugin-development.md
+index 02182b8..6f52fd0 100644
+--- a/docs/backend-plugin-development.md
++++ b/docs/backend-plugin-development.md
+@@ -226,9 +226,10 @@ Backend plugins receive context through the `ctx` parameter passed to each hook
+ 
+ ### BackendListVersions Context
+ 
+-| Variable   | Description   | Example      |
+-| ---------- | ------------- | ------------ |
+-| `ctx.tool` | The tool name | `"prettier"` |
++| Variable      | Description                  | Example                    |
++| ------------- | ---------------------------- | -------------------------- |
++| `ctx.tool`    | The tool name                | `"prettier"`               |
++| `ctx.options` | Tool options from `mise.toml` | `{ registry = "npmjs" }`  |
+ 
+ ### BackendInstall Context
+ 
+@@ -238,6 +239,7 @@ Backend plugins receive context through the `ctx` parameter passed to each hook
+ | `ctx.version`       | The requested version  | `"3.0.0"`                                                          |
+ | `ctx.install_path`  | Installation directory | `"/home/user/.local/share/mise/installs/vfox-npm-prettier/3.0.0"`  |
+ | `ctx.download_path` | Download directory     | `"/home/user/.local/share/mise/downloads/vfox-npm-prettier/3.0.0"` |
++| `ctx.options`       | Tool options from `mise.toml` | `{ registry = "npmjs" }`                                    |
+ 
+ ### BackendExecEnv Context
+ 
+diff --git a/docs/configuration.md b/docs/configuration.md
+index 08353cc..de3b203 100644
+--- a/docs/configuration.md
++++ b/docs/configuration.md
+@@ -176,6 +176,7 @@ See [Tools](/dev-tools/). In addition to specifying versions, each tool entry ca
+ - `os`: Restrict installation to certain operating systems
+ - `install_env`: Environment vars used during install
+ - `postinstall`: Command to run after installation completes for that specific tool
++- `depends`: Other tools which must be installed before this one
+ 
+ Examples:
+ 
+@@ -342,7 +343,7 @@ task.output = "prefix" # see Tasks Runner for more information
+ paranoid = false       # see MISE_PARANOID
+ 
+ shorthands_file = '~/.config/mise/shorthands.toml' # path to the shorthands file, see `MISE_SHORTHANDS_FILE`
+-disable_default_shorthands = false # disable the default shorthands, see `MISE_DISABLE_DEFAULT_SHORTHANDS`
++disable_default_registry = false # disable the default registry, see `MISE_DISABLE_DEFAULT_REGISTRY`
+ disable_tools = ['node']           # disable specific tools, generally used to turn off core tools
+ 
+ env_file = '.env' # load env vars from a dotenv file, see `MISE_ENV_FILE`
+diff --git a/docs/dev-tools/backends/npm.md b/docs/dev-tools/backends/npm.md
+index 3f38d5d..52c3508 100644
+--- a/docs/dev-tools/backends/npm.md
++++ b/docs/dev-tools/backends/npm.md
+@@ -42,6 +42,28 @@ The version will be set in `~/.config/mise/config.toml` with the following forma
+ "npm:prettier" = "latest"
+ ```
+ 
++## Minimum release age
++
++The [`install_before`](/configuration/settings.html#install_before) setting (or the `--before` CLI
++flag, or a per-tool `install_before` option) also applies to npm packages:
++
++- the selected top-level version is checked against the cutoff, so even an exact request like
++  `npm:prettier@3.1.0` fails if that version was published on or after the cutoff
++- the cutoff is forwarded to the package manager so transitive dependencies are gated too, using
++  each package manager's native flag:
++
++| Package manager | Flag                                    |
++| --------------- | --------------------------------------- |
++| `npm`           | `--before <timestamp>`                   |
++| `bun`           | `--minimum-release-age <seconds>`        |
++| `pnpm`          | `--config.minimumReleaseAge=<minutes>`   |
++
++npm intentionally stays on `--before` rather than `--min-release-age`: npm implements
++`min-release-age` by translating it into `before`, and mise already knows the exact cutoff.
++
++Older releases of these package managers may not understand these flags; mise forwards them
++without checking the package manager version.
++
+ ## Settings
+ 
+ Set these with `mise settings set [VARIABLE] [VALUE]` or by setting the environment variable listed.
+diff --git a/docs/dev-tools/index.md b/docs/dev-tools/index.md
+index 5a87c79..1af6e0c 100644
+--- a/docs/dev-tools/index.md
++++ b/docs/dev-tools/index.md
+@@ -168,6 +168,27 @@ Behavior:
+ - Environment variables include `MISE_TOOL_INSTALL_PATH` pointing to the tool's install directory.
+ - If the install fails, the `postinstall` command is not run.
+ 
++### Tool dependencies
++
++Some tools need another tool to be installed first. mise already knows about the dependencies of its
++built-in backends (e.g. `npm:` tools need `node`), but you can declare your own with the `depends`
++field:
++
++```toml
++[tools]
++node = "22"
++"npm:prettier" = { version = "latest", depends = ["node"] }
++# a single tool can be given as a string
++python = { version = "3.13", depends = "uv" }
++```
++
++Behavior:
++
++- The listed tools are fully installed before the dependent tool starts installing.
++- Dependencies that are not part of the same install are ignored.
++- If a dependency fails to install, the dependent tool is not installed.
++- Circular dependencies are reported as an error.
++
+ ## OS-Specific Tools
+ 
+ You can restrict tools to specific operating systems using the `os` field:
+diff --git a/docs/lang/dotnet.md b/docs/lang/dotnet.md
+index f598312..812fac3 100644
+--- a/docs/lang/dotnet.md
++++ b/docs/lang/dotnet.md
+@@ -37,6 +37,37 @@ mise use dotnet@9
+ dotnet --list-sdks
+ ```
+ 
++## Runtime-only installs
++
++By default mise installs the .NET SDK. If you only need a runtime (for example to run an app built
++against an older .NET version), set the `runtime` tool option to the framework you want:
++
++```sh
++mise use dotnet[runtime=dotnet]@8.0.14
++dotnet --list-runtimes
++```
++
++```toml
++[tools]
++dotnet = ["9", { version = "8.0.14", runtime = "dotnet" }]
++```
++
++Valid values for `runtime` are:
++
++| Value             | Framework                                      |
++| ----------------- | ---------------------------------------------- |
++| `dotnet`          | `Microsoft.NETCore.App` (the shared runtime)    |
++| `aspnetcore`      | `Microsoft.AspNetCore.App`                      |
++| `windowsdesktop`  | `Microsoft.WindowsDesktop.App` (Windows only)   |
++
++Any other value is rejected with a validation error.
++
++::: info
++A runtime-only install does not provide the `dotnet` SDK commands (such as `dotnet build`), so mise
++skips the usual `dotnet --version` check after installing. Install an SDK version alongside the
++runtime if you need the full CLI.
++:::
++
+ ## `global.json` support
+ 
+ mise recognizes `global.json` as an idiomatic version file. If your project contains a `global.json`
+diff --git a/docs/lang/go.md b/docs/lang/go.md
+index 319836b..ef3012e 100644
+--- a/docs/lang/go.md
++++ b/docs/lang/go.md
+@@ -43,6 +43,13 @@ github.com/daixiang0/gci # allows comments
+ github.com/jesseduffield/lazygit
+ ```
+ 
++The location of this file can be changed with the `go.default_packages_file` setting or the
++`MISE_GO_DEFAULT_PACKAGES_FILE` environment variable:
++
++```sh
++MISE_GO_DEFAULT_PACKAGES_FILE=~/.config/mise/default-go-packages mise install go@latest
++```
++
+ ## Settings
+ 
+ <script setup>
+diff --git a/docs/paranoid.md b/docs/paranoid.md
+index 2e1127a..284f04c 100644
+--- a/docs/paranoid.md
++++ b/docs/paranoid.md
+@@ -56,6 +56,13 @@ Normally mise uses HTTP because loading the TLS module takes about 10ms and this
+ affects commonly used commands so it is a noticeably delay.
+ In paranoid mode, all endpoints will be fetched over HTTPS.
+ 
++## Provenance re-verification
++
++Normally, when `mise.lock` already records both a checksum and provenance for a tool, mise trusts
++that record and skips re-running attestation/SLSA/cosign/minisign verification at install time.
++Under paranoid, [`locked_verify_provenance`](/configuration/settings.html#locked_verify_provenance)
++is enabled so provenance is verified again on every install.
++
+ ## More?
+ 
+ If you have suggestions for more that could be added to paranoid, please let
+diff --git a/docs/tasks/file-tasks.md b/docs/tasks/file-tasks.md
+index 3c667d2..0230b2d 100644
+--- a/docs/tasks/file-tasks.md
++++ b/docs/tasks/file-tasks.md
+@@ -1,6 +1,6 @@
+ # File Tasks
+ 
+-In addition to defining tasks through the configuration, they can also be defined as standalone script files in one of the following directories:
++In addition to defining tasks through the configuration, they can also be defined as standalone script files. By default mise looks for them in the following directories:
+ 
+ - `mise-tasks/:task_name`
+ - `.mise-tasks/:task_name`
+@@ -8,7 +8,9 @@ In addition to defining tasks through the configuration, they can also be define
+ - `.mise/tasks/:task_name`
+ - `.config/mise/tasks/:task_name`
+ 
+-Note that you can configure directories using the [task_config](/tasks/task-configuration.html#task-config-options) section.
++These are defaults: setting [`task_config.includes`](/tasks/task-configuration.html#task-config-includes)
++replaces this list for that config scope, so list the defaults explicitly if you want to keep them
++alongside your own directories.
+ 
+ Here is an example of a file task that builds a Rust CLI:
+ 
+diff --git a/docs/tasks/task-configuration.md b/docs/tasks/task-configuration.md
+index f19921d..9e86369 100644
+--- a/docs/tasks/task-configuration.md
++++ b/docs/tasks/task-configuration.md
+@@ -129,6 +129,32 @@ run = "./deploy.sh"
+ 
+ Note: These environment variables are passed only to the specified dependency, not to the current task or other dependencies.
+ 
++#### Passing the task's own arguments to dependencies
++
++Dependencies can reference the arguments the task was called with using `{{usage.*}}` templates.
++These are rendered after the task's own [usage spec](/tasks/task-arguments) has been parsed:
++
++```mise-toml
++[tasks.build]
++usage = 'arg "<app>"'
++run = 'echo "building {{usage.app}}"'
++
++[tasks.deploy]
++usage = 'arg "<app>"'
++depends = [{ task = "build", args = ["{{usage.app}}"] }]
++run = 'echo "deploying {{usage.app}}"'
++```
++
++```sh
++$ mise run deploy myapp
++[build] building myapp
++[deploy] deploying myapp
++```
++
++This works with the string syntax too (`depends = ["build {{usage.app}}"]`), with flags as well as
++positional args, and through dependency chains — each task parses its own usage spec and renders its
++dependencies with the values it received.
++
+ ### `depends_post`
+ 
+ - **Type**: `string | string[] | { task: string, args?: string[], env?: { [key]: string } }[]`
+@@ -529,16 +555,41 @@ dir = "{{cwd}}"
+ 
+ ### `task_config.includes`
+ 
+-Add toml files containing toml tasks, or file tasks to include when looking for tasks.
++Add toml files containing toml tasks, or directories of file tasks, to include when looking for tasks.
+ 
+ ```toml
+ [task_config]
+ includes = [
+     "tasks.toml", # a task toml file
+-    "mytasks"     # a directory containing file tasks (in addition to the default file tasks directories)
++    "mytasks"     # a directory containing file tasks
+ ]
+ ```
+ 
++::: warning
++Setting `task_config.includes` **replaces** the [default file task directories](/tasks/file-tasks.html)
++for that config scope — it does not add to them. If you want the defaults plus your own paths, list
++the defaults explicitly:
++
++```toml
++[task_config]
++includes = [
++    "mise-tasks",
++    ".mise-tasks",
++    "mise/tasks",
++    ".mise/tasks",
++    ".config/mise/tasks",
++    "mytasks",
++]
++```
++
++:::
++
++For local/monorepo task discovery, the nearest config file that sets `task_config.includes` wins:
++a subdirectory's config overrides the includes of its parent for tasks discovered under it.
++
++Global config files are loaded independently of project configs, so each global config file uses
++its own `task_config.includes` or the defaults if it doesn't set any.
++
+ If using included task toml files, note that they have a different format than the `mise.toml` file. They are just a list of tasks.
+ The file should be the same format as the `[tasks]` section of `mise.toml` but without the `[task]` prefix:
+ 
+diff --git a/docs/tips-and-tricks.md b/docs/tips-and-tricks.md
+index 3c38cc9..088d61b 100644
+--- a/docs/tips-and-tricks.md
++++ b/docs/tips-and-tricks.md
+@@ -174,6 +174,11 @@ install_before = "1d"  # trivy updates are time-sensitive, use a shorter window
+ 
+ Precedence: `--before` CLI flag > per-tool `install_before` > global `install_before` setting.
+ 
++For `npm:` tools the cutoff is also applied to the exact version requested and forwarded to the
++package manager so transitive dependencies are gated as well. See the
++[npm backend docs](/dev-tools/backends/npm.html#minimum-release-age) for the
++package-manager-specific details.
++
+ See [`install_before`](/configuration/settings.html#install_before) for more details.
+ 
+ ## [`mise up --bump`](/cli/upgrade.html)
+diff --git a/packaging/copr/build-copr.sh b/packaging/copr/build-copr.sh
+index 3b83e21..2d4ae06 100755
+--- a/packaging/copr/build-copr.sh
++++ b/packaging/copr/build-copr.sh
+@@ -185,7 +185,7 @@ URL:            https://mise.jdx.dev
+ Source0:        https://github.com/jdx/mise/archive/v%{version}/mise-%{version}.tar.gz
+ Source1:        mise-vendor-%{version}.tar.gz
+ 
+-BuildRequires:  rust >= 1.85
++BuildRequires:  rust >= 1.88
+ BuildRequires:  cargo
+ BuildRequires:  gcc
+ BuildRequires:  git
+diff --git a/packaging/rpm/mise.spec b/packaging/rpm/mise.spec
+index 8ccf603..b30b018 100644
+--- a/packaging/rpm/mise.spec
++++ b/packaging/rpm/mise.spec
+@@ -1,6 +1,6 @@
+ Summary: The front-end to your dev env
+ Name: mise
+-Version: 2026.4.3
++Version: 2026.4.4
+ Release: 1
+ URL: https://github.com/jdx/mise/
+ Group: System
+diff --git a/registry/carp.toml b/registry/carp.toml
+index 0286097..f423ceb 100644
+--- a/registry/carp.toml
++++ b/registry/carp.toml
+@@ -1,5 +1,4 @@
+ description = "Carp Language"
+-test = { cmd = "which carp", expected = "" } # hangs in non-interactive shells
+ 
+ [[backends]]
+ full = "github:carp-lang/Carp"
+diff --git a/registry/turso.toml b/registry/turso.toml
+new file mode 100644
+index 0000000..8ff200e
+--- /dev/null
++++ b/registry/turso.toml
+@@ -0,0 +1,3 @@
++backends = ["github:tursodatabase/turso-cli"]
++description = "CLI for Turso, the SQLite-compatible edge database"
++test = { cmd = "turso --version", expected = "{{version}}" }
+diff --git a/schema/mise.json b/schema/mise.json
+index 4f51429..652d5ab 100644
+--- a/schema/mise.json
++++ b/schema/mise.json
+@@ -502,11 +502,6 @@
+           "description": "Architecture to use for precompiled binaries.",
+           "type": "string"
+         },
+-        "asdf": {
+-          "description": "use asdf as a default plugin backend",
+-          "type": "boolean",
+-          "deprecated": true
+-        },
+         "asdf_compat": {
+           "description": "set to true to ensure .tool-versions will be compatible with asdf",
+           "type": "boolean",
+@@ -549,11 +544,6 @@
+             }
+           }
+         },
+-        "cargo_binstall": {
+-          "description": "Use cargo-binstall instead of cargo install if available",
+-          "type": "boolean",
+-          "deprecated": true
+-        },
+         "cd": {
+           "description": "Path to change to after launching mise",
+           "type": "string"
+@@ -619,11 +609,6 @@
+           "description": "Disable the default mapping of short tool names like `php` -> `asdf:mise-plugins/asdf-php`. This parameter disables only for the backends `vfox` and `asdf`.",
+           "type": "boolean"
+         },
+-        "disable_default_shorthands": {
+-          "description": "Disables built-in shorthands to asdf/vfox plugins",
+-          "type": "boolean",
+-          "deprecated": true
+-        },
+         "disable_hints": {
+           "default": [],
+           "description": "Turns off helpful hints when using different mise features",
+@@ -784,24 +769,64 @@
+           "description": "Path which is used as `{{config_root}}` for the global config file. Default is `$HOME`. This must be an env var.",
+           "type": "string"
+         },
++        "go": {
++          "type": "object",
++          "additionalProperties": false,
++          "properties": {
++            "default_packages_file": {
++              "default": "~/.default-go-packages",
++              "description": "Path to a file containing default go packages to install when installing go",
++              "type": "string"
++            },
++            "download_mirror": {
++              "default": "https://dl.google.com/go",
++              "description": "Mirror to download go sdk tarballs from.",
++              "type": "string"
++            },
++            "repo": {
++              "default": "https://github.com/golang/go",
++              "description": "URL to fetch go from.",
++              "type": "string"
++            },
++            "set_gobin": {
++              "description": "Changes where `go install` installs binaries to.",
++              "type": "boolean"
++            },
++            "set_gopath": {
++              "description": "[deprecated] Set to true to set GOPATH=~/.local/share/mise/installs/go/.../packages.",
++              "type": "boolean",
++              "deprecated": true
++            },
++            "set_goroot": {
++              "default": true,
++              "description": "Sets GOROOT=~/.local/share/mise/installs/go/.../.",
++              "type": "boolean"
++            },
++            "skip_checksum": {
++              "description": "Set to true to skip checksum verification when downloading go sdk tarballs.",
++              "type": "boolean"
++            }
++          }
++        },
+         "go_default_packages_file": {
+-          "default": "~/.default-go-packages",
+           "description": "Path to a file containing default go packages to install when installing go",
+-          "type": "string"
++          "type": "string",
++          "deprecated": true
+         },
+         "go_download_mirror": {
+-          "default": "https://dl.google.com/go",
+           "description": "Mirror to download go sdk tarballs from.",
+-          "type": "string"
++          "type": "string",
++          "deprecated": true
+         },
+         "go_repo": {
+-          "default": "https://github.com/golang/go",
+           "description": "URL to fetch go from.",
+-          "type": "string"
++          "type": "string",
++          "deprecated": true
+         },
+         "go_set_gobin": {
+           "description": "Changes where `go install` installs binaries to.",
+-          "type": "boolean"
++          "type": "boolean",
++          "deprecated": true
+         },
+         "go_set_gopath": {
+           "description": "[deprecated] Set to true to set GOPATH=~/.local/share/mise/installs/go/.../packages.",
+@@ -809,13 +834,14 @@
+           "deprecated": true
+         },
+         "go_set_goroot": {
+-          "default": true,
+           "description": "Sets GOROOT=~/.local/share/mise/installs/go/.../.",
+-          "type": "boolean"
++          "type": "boolean",
++          "deprecated": true
+         },
+         "go_skip_checksum": {
+           "description": "Set to true to skip checksum verification when downloading go sdk tarballs.",
+-          "type": "boolean"
++          "type": "boolean",
++          "deprecated": true
+         },
+         "gpg_verify": {
+           "description": "Use gpg to verify all tool signatures.",
+@@ -922,6 +948,11 @@
+           "description": "Require lockfile URLs to be present during installation.",
+           "type": "boolean"
+         },
++        "locked_verify_provenance": {
++          "default": false,
++          "description": "Re-verify provenance at install time even when the lockfile already records it.",
++          "type": "boolean"
++        },
+         "lockfile": {
+           "description": "Create and read lockfiles for tool versions.",
+           "type": "boolean"
+@@ -1031,11 +1062,6 @@
+           "type": "object",
+           "additionalProperties": false,
+           "properties": {
+-            "bun": {
+-              "description": "Use bun instead of npm if bun is installed and on PATH.",
+-              "type": "boolean",
+-              "deprecated": true
+-            },
+             "package_manager": {
+               "default": "npm",
+               "description": "Package manager to use for installing npm packages.",
+@@ -1091,10 +1117,6 @@
+             }
+           }
+         },
+-        "pipx_uvx": {
+-          "description": "Use uvx instead of pipx if uv is installed and on PATH.",
+-          "type": "boolean"
+-        },
+         "plugin_autoupdate_last_check_duration": {
+           "default": "7d",
+           "description": "How long to wait before updating plugins automatically (note this isn't currently implemented).",
+@@ -1176,46 +1198,6 @@
+             }
+           }
+         },
+-        "python_compile": {
+-          "description": "If true, compile python from source. If false, use precompiled binaries. If not set, use precompiled binaries if available.",
+-          "type": "boolean",
+-          "deprecated": true
+-        },
+-        "python_default_packages_file": {
+-          "description": "Path to a file containing default python packages to install when installing python.",
+-          "type": "string",
+-          "deprecated": true
+-        },
+-        "python_patch_url": {
+-          "description": "URL to fetch python patches from.",
+-          "type": "string",
+-          "deprecated": true
+-        },
+-        "python_patches_directory": {
+-          "description": "Directory to fetch python patches from.",
+-          "type": "string",
+-          "deprecated": true
+-        },
+-        "python_precompiled_arch": {
+-          "description": "Specify the architecture to use for precompiled binaries.",
+-          "type": "string",
+-          "deprecated": true
+-        },
+-        "python_precompiled_os": {
+-          "description": "Specify the OS to use for precompiled binaries.",
+-          "type": "string",
+-          "deprecated": true
+-        },
+-        "python_pyenv_repo": {
+-          "description": "URL to fetch pyenv from for compiling python.",
+-          "type": "string",
+-          "deprecated": true
+-        },
+-        "python_venv_stdlib": {
+-          "description": "Prefer to use venv from Python's standard library.",
+-          "type": "boolean",
+-          "deprecated": true
+-        },
+         "quiet": {
+           "description": "Suppress all output except errors.",
+           "type": "boolean"
+@@ -1596,11 +1578,6 @@
+           "description": "Shows more verbose output such as installation logs when installing tools.",
+           "type": "boolean"
+         },
+-        "vfox": {
+-          "description": "Use vfox as a default plugin backend instead of asdf.",
+-          "type": "boolean",
+-          "deprecated": true
+-        },
+         "windows_default_file_shell_args": {
+           "default": "cmd /c",
+           "description": "Default shell arguments for Windows to be used for file commands. For example, `cmd /c` for cmd.exe.",
+@@ -2093,6 +2070,20 @@
+             "postinstall": {
+               "description": "command to run after tool installation",
+               "type": "string"
++            },
++            "depends": {
++              "description": "tools that must be installed before this tool",
++              "oneOf": [
++                {
++                  "type": "string"
++                },
++                {
++                  "type": "array",
++                  "items": {
++                    "type": "string"
++                  }
++                }
++              ]
+             }
+           },
+           "required": ["version"],
+diff --git a/settings.toml b/settings.toml
+index f35bb3c..269ff68 100644
+--- a/settings.toml
++++ b/settings.toml
+@@ -147,18 +147,6 @@ env = "MISE_ARCH"
+ optional = true
+ type = "String"
+ 
+-[asdf]
+-deprecated = "Use disable_backends instead."
+-description = "use asdf as a default plugin backend"
+-docs = """
+-Use asdf as a default plugin backend. This means running something like `mise use cmake` will
+-default to using an asdf plugin for cmake.
+-"""
+-env = "MISE_ASDF"
+-hide = true
+-optional = true
+-type = "Bool"
+-
+ [asdf_compat]
+ deprecated = "no longer supported"
+ description = "set to true to ensure .tool-versions will be compatible with asdf"
+@@ -236,13 +224,6 @@ env = "MISE_CARGO_REGISTRY_NAME"
+ optional = true
+ type = "String"
+ 
+-[cargo_binstall]
+-deprecated = "Use cargo.binstall instead."
+-description = "Use cargo-binstall instead of cargo install if available"
+-hide = true
+-optional = true
+-type = "Bool"
+-
+ [cd]
+ description = "Path to change to after launching mise"
+ env = "MISE_CD"
+@@ -354,18 +335,6 @@ description = "Disable the default mapping of short tool names like `php` -> `as
+ env = "MISE_DISABLE_DEFAULT_REGISTRY"
+ type = "Bool"
+ 
+-[disable_default_shorthands]
+-deprecated = "Replaced with `disable_default_registry`"
+-description = "Disables built-in shorthands to asdf/vfox plugins"
+-docs = """
+-Disables the shorthand aliases for installing plugins. You will have to specify full URLs when
+-installing plugins, e.g.: `mise plugin install node https://github.com/asdf-vm/asdf-node.git`
+-"""
+-env = "MISE_DISABLE_DEFAULT_SHORTHANDS"
+-hide = true
+-optional = true
+-type = "Bool"
+-
+ [disable_hints]
+ default = []
+ description = "Turns off helpful hints when using different mise features"
+@@ -720,25 +689,25 @@ env = "MISE_GLOBAL_CONFIG_ROOT"
+ optional = true
+ type = "Path"
+ 
+-[go_default_packages_file]
++[go.default_packages_file]
+ default = "~/.default-go-packages"
+ description = "Path to a file containing default go packages to install when installing go"
+ env = "MISE_GO_DEFAULT_PACKAGES_FILE"
+ type = "Path"
+ 
+-[go_download_mirror]
++[go.download_mirror]
+ default = "https://dl.google.com/go"
+ description = "Mirror to download go sdk tarballs from."
+ env = "MISE_GO_DOWNLOAD_MIRROR"
+ type = "String"
+ 
+-[go_repo]
++[go.repo]
+ default = "https://github.com/golang/go"
+ description = "URL to fetch go from."
+ env = "MISE_GO_REPO"
+ type = "Url"
+ 
+-[go_set_gobin]
++[go.set_gobin]
+ description = "Changes where `go install` installs binaries to."
+ docs = """
+ Defaults to `~/.local/share/mise/installs/go/.../bin`.
+@@ -749,23 +718,72 @@ env = "MISE_GO_SET_GOBIN"
+ optional = true
+ type = "Bool"
+ 
+-[go_set_gopath]
++[go.set_gopath]
+ deprecated = "Use env._go.set_goroot instead."
+ description = "[deprecated] Set to true to set GOPATH=~/.local/share/mise/installs/go/.../packages."
+ env = "MISE_GO_SET_GOPATH"
+ type = "Bool"
+ 
+-[go_set_goroot]
++[go.set_goroot]
+ default = true
+ description = "Sets GOROOT=~/.local/share/mise/installs/go/.../."
+ env = "MISE_GO_SET_GOROOT"
+ type = "Bool"
+ 
+-[go_skip_checksum]
++[go.skip_checksum]
+ description = "Set to true to skip checksum verification when downloading go sdk tarballs."
+ env = "MISE_GO_SKIP_CHECKSUM"
+ type = "Bool"
+ 
++[go_default_packages_file]
++deprecated = "Use go.default_packages_file instead."
++description = "Path to a file containing default go packages to install when installing go"
++hide = true
++optional = true
++type = "Path"
++
++[go_download_mirror]
++deprecated = "Use go.download_mirror instead."
++description = "Mirror to download go sdk tarballs from."
++hide = true
++optional = true
++type = "String"
++
++[go_repo]
++deprecated = "Use go.repo instead."
++description = "URL to fetch go from."
++hide = true
++optional = true
++type = "Url"
++
++[go_set_gobin]
++deprecated = "Use go.set_gobin instead."
++description = "Changes where `go install` installs binaries to."
++hide = true
++optional = true
++type = "Bool"
++
++[go_set_gopath]
++deprecated = "Use go.set_gopath instead."
++description = "[deprecated] Set to true to set GOPATH=~/.local/share/mise/installs/go/.../packages."
++hide = true
++optional = true
++type = "Bool"
++
++[go_set_goroot]
++deprecated = "Use go.set_goroot instead."
++description = "Sets GOROOT=~/.local/share/mise/installs/go/.../."
++hide = true
++optional = true
++type = "Bool"
++
++[go_skip_checksum]
++deprecated = "Use go.skip_checksum instead."
++description = "Set to true to skip checksum verification when downloading go sdk tarballs."
++hide = true
++optional = true
++type = "Bool"
++
+ [gpg_verify]
+ description = "Use gpg to verify all tool signatures."
+ env = "MISE_GPG_VERIFY"
+@@ -917,6 +935,10 @@ Can be overridden with the `--before` CLI flag or per-tool with the `install_bef
+ version = "latest"
+ install_before = "7d"  # override for this tool only
+ ```
++
++**npm packages**: for `npm:` tools the cutoff also applies to explicitly pinned versions
++(the install fails if the requested version is newer than the cutoff) and is forwarded to the
++package manager so transitive dependencies are gated as well.
+ """
+ env = "MISE_INSTALL_BEFORE"
+ optional = true
+@@ -992,6 +1014,21 @@ Equivalent to passing `--locked` to `mise install`.
+ env = "MISE_LOCKED"
+ type = "Bool"
+ 
++[locked_verify_provenance]
++default = false
++description = "Re-verify provenance at install time even when the lockfile already records it."
++docs = """
++By default, when the lockfile has both a checksum and a provenance entry for a tool, mise trusts
++the recorded provenance and skips re-running attestation/SLSA/cosign/minisign verification during
++`mise install` — the checksum already guarantees the artifact is the one that was verified when
++the lockfile was written.
++
++Set this to `true` to always re-verify provenance at install time. This is automatically enabled
++when [paranoid](#paranoid) is set.
++"""
++env = "MISE_LOCKED_VERIFY_PROVENANCE"
++type = "Bool"
++
+ [lockfile]
+ description = "Create and read lockfiles for tool versions."
+ docs = """
+@@ -1214,24 +1251,6 @@ This also runs in shims if the terminal is interactive.
+ env = "MISE_NOT_FOUND_AUTO_INSTALL"
+ type = "Bool"
+ 
+-[npm.bun]
+-deprecated = "Use npm.package_manager instead."
+-description = "Use bun instead of npm if bun is installed and on PATH."
+-docs = """
+-If true, mise will use `bun` instead of `npm` if
+-[`bun`](https://bun.sh/) is installed and on PATH.
+-This makes installing CLIs faster by using `bun` as the package manager.
+-
+-You can install it with mise:
+-
+-```sh
+-mise use -g bun
+-```
+-"""
+-env = "MISE_NPM_BUN"
+-hide = true
+-type = "Bool"
+-
+ [npm.package_manager]
+ default = "npm"
+ description = "Package manager to use for installing npm packages."
+@@ -1348,12 +1367,6 @@ env = "MISE_PIPX_UVX"
+ optional = true
+ type = "Bool"
+ 
+-[pipx_uvx]
+-description = "Use uvx instead of pipx if uv is installed and on PATH."
+-hide = true
+-optional = true
+-type = "Bool"
+-
+ [plugin_autoupdate_last_check_duration]
+ default = "7d"
+ description = "How long to wait before updating plugins automatically (note this isn't currently implemented)."
+@@ -1497,62 +1510,6 @@ description = "Prefer to use venv from Python's standard library."
+ env = "MISE_VENV_STDLIB"
+ type = "Bool"
+ 
+-[python_compile]
+-deprecated = "Use python.compile instead."
+-description = "If true, compile python from source. If false, use precompiled binaries. If not set, use precompiled binaries if available."
+-hide = true
+-optional = true
+-type = "Bool"
+-
+-[python_default_packages_file]
+-deprecated = "Use python.default_packages_file instead."
+-description = "Path to a file containing default python packages to install when installing python."
+-hide = true
+-optional = true
+-type = "Path"
+-
+-[python_patch_url]
+-deprecated = "Use python.patch_url instead."
+-description = "URL to fetch python patches from."
+-hide = true
+-optional = true
+-type = "String"
+-
+-[python_patches_directory]
+-deprecated = "Use python.patch_url instead."
+-description = "Directory to fetch python patches from."
+-hide = true
+-optional = true
+-type = "Path"
+-
+-[python_precompiled_arch]
+-deprecated = "Use python.precompiled_arch instead."
+-description = "Specify the architecture to use for precompiled binaries."
+-hide = true
+-optional = true
+-type = "String"
+-
+-[python_precompiled_os]
+-deprecated = "Use python.precompiled_os instead."
+-description = "Specify the OS to use for precompiled binaries."
+-hide = true
+-optional = true
+-type = "String"
+-
+-[python_pyenv_repo]
+-deprecated = "Use python.pyenv_repo instead."
+-description = "URL to fetch pyenv from for compiling python."
+-hide = true
+-optional = true
+-type = "String"
+-
+-[python_venv_stdlib]
+-deprecated = "Use python.venv_stdlib instead."
+-description = "Prefer to use venv from Python's standard library."
+-hide = true
+-optional = true
+-type = "Bool"
+-
+ [quiet]
+ description = "Suppress all output except errors."
+ env = "MISE_QUIET"
+@@ -2178,18 +2135,6 @@ description = "Shows more verbose output such as installation logs when installi
+ env = "MISE_VERBOSE"
+ type = "Bool"
+ 
+-[vfox]
+-deprecated = "Use disable_backends instead."
+-description = "Use vfox as a default plugin backend instead of asdf."
+-docs = """
+-Use vfox as a default plugin backend. This means running something like `mise use cmake` will
+-default to using a vfox plugin for cmake.
+-"""
+-env = "MISE_VFOX"
+-hide = true
+-optional = true
+-type = "Bool"
+-
+ [windows_default_file_shell_args]
+ default = "cmd /c"
+ description = "Default shell arguments for Windows to be used for file commands. For example, `cmd /c` for cmd.exe."
+diff --git a/snapcraft.yaml b/snapcraft.yaml
+index 9c17ff9..d61af0a 100644
+--- a/snapcraft.yaml
++++ b/snapcraft.yaml
+@@ -9,7 +9,7 @@
+ 
+ name: mise
+ title: mise-en-place
+-version: "2026.4.3"
++version: "2026.4.4"
+ summary: The front-end to your dev env
+ description: |
+   mise-en-place is a command line tool to manage your development environment.
+diff --git a/src/backend/aqua.rs b/src/backend/aqua.rs
+index 53b6115..0af3e26 100644
+--- a/src/backend/aqua.rs
++++ b/src/backend/aqua.rs
+@@ -474,8 +474,11 @@ impl Backend for AquaBackend {
+         _config: &Arc<Config>,
+         tv: &ToolVersion,
+     ) -> Result<Vec<PathBuf>> {
+-        if self.symlink_bins(tv) {
+-            return Ok(vec![tv.install_path().join(".mise-bins")]);
++        let mise_bins = tv.install_path().join(".mise-bins");
++        // the directory only exists when the tool was installed with bin filtering, but the
++        // options may not be available on every request (e.g.: CLI-created requests)
++        if self.symlink_bins(tv) || mise_bins.exists() {
++            return Ok(vec![mise_bins]);
+         }
+ 
+         let install_path = tv.install_path();
+@@ -655,8 +658,10 @@ impl Backend for AquaBackend {
+                 .flatten(),
+         };
+ 
+-        // Detect provenance from aqua registry config
+-        let provenance = self.detect_provenance_type(&pkg);
++        // Detect provenance from aqua registry config and github attestations
++        let provenance = self
++            .detect_provenance_type(&pkg, checksum.as_deref())
++            .await;
+ 
+         Ok(PlatformInfo {
+             url,
+@@ -668,20 +673,58 @@ impl Backend for AquaBackend {
+ }
+ 
+ impl AquaBackend {
++    /// Query the GitHub attestation API for an asset digest, without downloading the asset.
++    async fn has_github_attestations(&self, owner: &str, repo_name: &str, digest: &str) -> bool {
++        match sigstore_verification::sources::github::GitHubSource::new(
++            owner,
++            repo_name,
++            env::GITHUB_TOKEN.as_deref(),
++        ) {
++            Ok(source) => {
++                use sigstore_verification::AttestationSource;
++                let artifact_ref = sigstore_verification::ArtifactRef::from_digest(digest);
++                match source.fetch_attestations(&artifact_ref).await {
++                    Ok(attestations) => !attestations.is_empty(),
++                    Err(e) => {
++                        debug!("GitHub attestation API query failed for {owner}/{repo_name}: {e}");
++                        false
++                    }
++                }
++            }
++            Err(e) => {
++                debug!("failed to create GitHub attestation source for {owner}/{repo_name}: {e}");
++                false
++            }
++        }
++    }
++
+     /// Detect provenance type from aqua registry package config.
+     ///
+     /// Returns the highest-priority provenance type that is configured and
+-    /// enabled for the package. GithubAttestations is NOT detected here
+-    /// because it requires downloading the artifact to query the attestation
+-    /// API — it is recorded at install-time after successful verification.
+-    ///
+-    /// NOTE: For packages with both `slsa_provenance` and `github_artifact_attestations`,
+-    /// this returns `Slsa`. Subsequent `mise install` will enforce SLSA verification even
+-    /// though attestations would also work. If SLSA verification fails (missing asset,
+-    /// format change), the lockfile entry must be deleted and re-locked.
+-    fn detect_provenance_type(&self, pkg: &AquaPackage) -> Option<ProvenanceType> {
++    /// enabled for the package. GithubAttestations are detected by querying the
++    /// attestation API with the asset digest from the GitHub API (no download needed).
++    async fn detect_provenance_type(
++        &self,
++        pkg: &AquaPackage,
++        asset_digest: Option<&str>,
++    ) -> Option<ProvenanceType> {
+         let settings = Settings::get();
+ 
++        // Check github-attestations first (highest priority, matching install verification order)
++        if settings.github_attestations
++            && settings.aqua.github_attestations
++            && let Some(attestations) = &pkg.github_artifact_attestations
++            && attestations.enabled != Some(false)
++            && let Some(digest) = asset_digest
++            && !pkg.repo_owner.is_empty()
++            && !pkg.repo_name.is_empty()
++            && self
++                .has_github_attestations(&pkg.repo_owner, &pkg.repo_name, digest)
++                .await
++        {
++            return Some(ProvenanceType::GithubAttestations);
++        }
++
+         // Check for SLSA provenance (highest priority available at lock-time)
+         if settings.slsa
+             && settings.aqua.slsa
+@@ -1014,11 +1057,12 @@ impl AquaBackend {
+         // However, still check that the recorded provenance type's setting is enabled —
+         // disabling a verification setting with a provenance-bearing lockfile is a downgrade.
+         let platform_key = self.get_platform_key();
++        let force_verify = Settings::get().locked_verify_provenance;
+         let has_lockfile_integrity = tv
+             .lock_platforms
+             .get(&platform_key)
+             .is_some_and(|pi| pi.checksum.is_some() && pi.provenance.is_some());
+-        if has_lockfile_integrity {
++        if has_lockfile_integrity && !force_verify {
+             self.ensure_provenance_setting_enabled(tv, &platform_key)?;
+         } else {
+             self.verify_provenance(ctx, tv, pkg, v, filename).await?;
+diff --git a/src/backend/github.rs b/src/backend/github.rs
+index 59c88ec..5472540 100644
+--- a/src/backend/github.rs
++++ b/src/backend/github.rs
+@@ -336,8 +336,11 @@ impl Backend for UnifiedGitBackend {
+         _config: &Arc<Config>,
+         tv: &ToolVersion,
+     ) -> Result<Vec<std::path::PathBuf>> {
+-        if self.get_filter_bins(tv).is_some() {
+-            return Ok(vec![tv.install_path().join(".mise-bins")]);
++        let mise_bins = tv.install_path().join(".mise-bins");
++        // the directory only exists when the tool was installed with filter_bins, but the
++        // options may not be available on every request (e.g.: CLI-created requests)
++        if self.get_filter_bins(tv).is_some() || mise_bins.exists() {
++            return Ok(vec![mise_bins]);
+         }
+ 
+         self.discover_bin_paths(tv)
+@@ -622,6 +625,7 @@ impl UnifiedGitBackend {
+         // downloaded file. We only want to skip provenance when the lockfile already
+         // had integrity data before this install.
+         let platform_key = self.get_platform_key();
++        let force_verify = Settings::get().locked_verify_provenance;
+         let has_lockfile_integrity = tv
+             .lock_platforms
+             .get(&platform_key)
+@@ -629,7 +633,7 @@ impl UnifiedGitBackend {
+ 
+         self.verify_checksum(ctx, tv, &file_path)?;
+ 
+-        if has_lockfile_integrity {
++        if has_lockfile_integrity && !force_verify {
+             // Still check that the recorded provenance type's setting is enabled —
+             // disabling a verification setting with a provenance-bearing lockfile is a downgrade.
+             self.ensure_provenance_setting_enabled(tv, &platform_key)?;
+diff --git a/src/backend/npm.rs b/src/backend/npm.rs
+index 1f0f5d9..dc9c4dc 100644
+--- a/src/backend/npm.rs
++++ b/src/backend/npm.rs
+@@ -7,10 +7,12 @@ use crate::cli::args::BackendArg;
+ use crate::cmd::CmdLineRunner;
+ use crate::config::settings::NpmPackageManager;
+ use crate::config::{Config, Settings};
++use crate::duration::parse_into_timestamp;
+ use crate::install_context::InstallContext;
+ use crate::timeout;
+ use crate::toolset::ToolVersion;
+ use async_trait::async_trait;
++use jiff::Timestamp;
+ use serde_json::Value;
+ use std::{fmt::Debug, sync::Arc};
+ use tokio::sync::Mutex as TokioMutex;
+@@ -156,7 +158,16 @@ impl Backend for NPMBackend {
+ 
+     async fn install_version_(&self, ctx: &InstallContext, tv: ToolVersion) -> Result<ToolVersion> {
+         self.check_install_deps(&ctx.config).await;
+-        match Settings::get().npm.package_manager {
++        let package_manager = Settings::get().npm.package_manager;
++        let cutoff = install_before_cutoff(&tv)?;
++        if let Some(cutoff) = cutoff {
++            self.verify_version_age(&ctx.config, &tv, cutoff).await?;
++        }
++        // age-gating for transitive dependencies, using each package manager's own flag
++        let age_args = cutoff
++            .map(|c| transitive_age_args(package_manager, c))
++            .unwrap_or_default();
++        match package_manager {
+             NpmPackageManager::Bun => {
+                 CmdLineRunner::new("bun")
+                     .arg("install")
+@@ -167,6 +178,7 @@ impl Backend for NPMBackend {
+                     // https://github.com/jdx/mise/discussions/7541
+                     .arg("--linker")
+                     .arg("hoisted")
++                    .args(&age_args)
+                     .with_pr(ctx.pr.as_ref())
+                     .envs(ctx.ts.env_with_path_without_tools(&ctx.config).await?)
+                     .env("BUN_INSTALL_GLOBAL_DIR", tv.install_path())
+@@ -192,6 +204,7 @@ impl Backend for NPMBackend {
+                     .arg(tv.install_path())
+                     .arg("--global-bin-dir")
+                     .arg(&bin_dir)
++                    .args(&age_args)
+                     .with_pr(ctx.pr.as_ref())
+                     .envs(ctx.ts.env_with_path_without_tools(&ctx.config).await?)
+                     .prepend_path(ctx.ts.list_paths(&ctx.config).await)?
+@@ -213,6 +226,7 @@ impl Backend for NPMBackend {
+                     .arg(format!("{}@{}", self.tool_name(), tv.version))
+                     .arg("--prefix")
+                     .arg(tv.install_path())
++                    .args(&age_args)
+                     .with_pr(ctx.pr.as_ref())
+                     .envs(ctx.ts.env_with_path_without_tools(&ctx.config).await?)
+                     .env("NPM_CONFIG_UPDATE_NOTIFIER", "false")
+@@ -243,7 +257,68 @@ impl Backend for NPMBackend {
+     }
+ }
+ 
++/// The effective `install_before` cutoff for a tool.
++/// Precedence: `--before` CLI flag > per-tool `install_before` option > global setting.
++fn install_before_cutoff(tv: &ToolVersion) -> Result<Option<Timestamp>> {
++    if let Some(ts) = crate::duration::cli_before_date() {
++        return Ok(Some(ts));
++    }
++    if let Some(before) = tv.request.options().get("install_before") {
++        return Ok(Some(parse_into_timestamp(before)?));
++    }
++    if let Some(before) = &Settings::get().install_before {
++        return Ok(Some(parse_into_timestamp(before)?));
++    }
++    Ok(None)
++}
++
++/// Arguments which make the package manager apply the same age cutoff to transitive
++/// dependencies. Each package manager exposes this differently.
++fn transitive_age_args(package_manager: NpmPackageManager, cutoff: Timestamp) -> Vec<String> {
++    let age_secs = (Timestamp::now().as_second() - cutoff.as_second()).max(0);
++    match package_manager {
++        // npm implements min-release-age by translating it into --before, and we already have
++        // an exact cutoff, so use --before directly
++        NpmPackageManager::Npm => vec!["--before".to_string(), cutoff.to_string()],
++        NpmPackageManager::Bun => {
++            vec!["--minimum-release-age".to_string(), age_secs.to_string()]
++        }
++        NpmPackageManager::Pnpm => {
++            vec![format!("--config.minimumReleaseAge={}", age_secs / 60)]
++        }
++    }
++}
++
+ impl NPMBackend {
++    /// Fail if the selected version was released on or after the `install_before` cutoff.
++    /// Exact versions (e.g. `npm:pkg@1.2.3`) skip date-based version resolution, so this
++    /// check makes them fail closed rather than silently bypassing the cutoff.
++    async fn verify_version_age(
++        &self,
++        config: &Arc<Config>,
++        tv: &ToolVersion,
++        cutoff: Timestamp,
++    ) -> Result<()> {
++        let versions = self.list_remote_versions_with_info(config).await?;
++        let Some(info) = versions.iter().find(|v| v.version == tv.version) else {
++            return Ok(());
++        };
++        let Some(created_at) = &info.created_at else {
++            debug!("no release date for {tv}, skipping install_before check");
++            return Ok(());
++        };
++        let Ok(created_at) = parse_into_timestamp(created_at) else {
++            debug!("could not parse release date {created_at} for {tv}");
++            return Ok(());
++        };
++        if created_at >= cutoff {
++            return Err(eyre::eyre!(
++                "{tv} was released at {created_at} which is on or after the install_before cutoff of {cutoff}"
++            ));
++        }
++        Ok(())
++    }
++
+     pub fn from_arg(ba: BackendArg) -> Self {
+         Self {
+             latest_version_cache: TokioMutex::new(
+diff --git a/src/backend/vfox.rs b/src/backend/vfox.rs
+index f160022..3711e86 100644
+--- a/src/backend/vfox.rs
++++ b/src/backend/vfox.rs
+@@ -61,8 +61,14 @@ impl Backend for VfoxBackend {
+                     Settings::get().ensure_experimental("custom backends")?;
+                     debug!("Using backend method for plugin: {}", this.pathname);
+                     let tool_name = this.get_tool_name()?;
++                    // prefer options from the config entry, falling back to those given on
++                    // the backend arg itself (e.g.: `vfox:foo[opt=1]`)
++                    let opts = config
++                        .get_tool_opts(this.ba())
++                        .await?
++                        .unwrap_or_else(|| this.ba().opts());
+                     let versions = vfox
+-                        .backend_list_versions(&this.pathname, tool_name)
++                        .backend_list_versions(&this.pathname, tool_name, opts.opts_as_json())
+                         .await
+                         .wrap_err("Backend list versions method failed")?;
+                     return Ok(versions
+@@ -118,7 +124,7 @@ impl Backend for VfoxBackend {
+                 &tv.version,
+                 tv.install_path(),
+                 tv.download_path(),
+-                tool_opts.opts_as_strings(),
++                tool_opts.opts_as_json(),
+             )
+             .await
+             .wrap_err("Backend install method failed")?;
+@@ -389,18 +395,7 @@ impl VfoxBackend {
+                         tool_name,
+                         &tv.version,
+                         tv.install_path(),
+-                        opts.opts
+-                            .iter()
+-                            .map(|(k, v)| {
+-                                (
+-                                    k.clone(),
+-                                    match v {
+-                                        toml::Value::String(s) => s.clone(),
+-                                        _ => v.to_string(),
+-                                    },
+-                                )
+-                            })
+-                            .collect(),
++                        opts.opts_as_json(),
+                     )
+                     .await
+                     .wrap_err("Backend exec env method failed")?
+diff --git a/src/cli/hook_env.rs b/src/cli/hook_env.rs
+index d5268af..5477632 100644
+--- a/src/cli/hook_env.rs
++++ b/src/cli/hook_env.rs
+@@ -425,8 +425,13 @@ impl HookEnv {
+         installs: &[PathBuf],
+         to_remove: &[PathBuf],
+     ) -> Result<Option<EnvDiffOperation>> {
++        if input.trim().is_empty() {
++            debug!("DIRENV_DIFF is empty, nothing to update");
++            return Ok(None);
++        }
+         let mut diff = DirenvDiff::parse(input)?;
+         if diff.new_path().is_empty() {
++            debug!("DIRENV_DIFF has no new PATH, nothing to update");
+             return Ok(None);
+         }
+         for path in to_remove {
+diff --git a/src/cli/install.rs b/src/cli/install.rs
+index a0ed645..99cf034 100644
+--- a/src/cli/install.rs
++++ b/src/cli/install.rs
+@@ -245,7 +245,9 @@ impl Install {
+     /// Per-tool and global setting fallbacks are handled in ToolRequest::resolve.
+     fn get_before_date(&self) -> Result<Option<Timestamp>> {
+         if let Some(before) = &self.before {
+-            return Ok(Some(parse_into_timestamp(before)?));
++            let ts = parse_into_timestamp(before)?;
++            crate::duration::set_cli_before_date(Some(ts));
++            return Ok(Some(ts));
+         }
+         Ok(None)
+     }
+diff --git a/src/cli/lock.rs b/src/cli/lock.rs
+index 754f61e..e27ea0a 100644
+--- a/src/cli/lock.rs
++++ b/src/cli/lock.rs
+@@ -137,6 +137,7 @@ impl Lock {
+             // Process tools and update lockfile
+             let mut lockfile = Lockfile::read(lockfile_path)?;
+             self.prune_stale_entries_if_needed(&mut lockfile, &tools);
++            self.prune_stale_versions_for_targeted_tools(&mut lockfile, &tools);
+             let (results, provenance_errors) = self
+                 .process_tools(&settings, &tools, &target_platforms, &mut lockfile)
+                 .await?;
+@@ -195,6 +196,27 @@ impl Lock {
+         stale_tools
+     }
+ 
++    /// Remove lockfile entries whose version is no longer a resolved version of a tool being
++    /// locked. Only tools present in `tools` are considered, so for filtered runs
++    /// (`mise lock <tool>`) non-targeted tools are left untouched.
++    fn prune_stale_versions_for_targeted_tools(
++        &self,
++        lockfile: &mut Lockfile,
++        tools: &[(crate::cli::args::BackendArg, crate::toolset::ToolVersion)],
++    ) {
++        let mut versions_by_tool: std::collections::BTreeMap<String, BTreeSet<String>> =
++            Default::default();
++        for (ba, tv) in tools {
++            versions_by_tool
++                .entry(ba.short.clone())
++                .or_default()
++                .insert(tv.version.clone());
++        }
++        for (short, versions) in versions_by_tool {
++            lockfile.retain_tool_versions(&short, &versions);
++        }
++    }
++
+     fn stale_entries_if_pruned(
+         &self,
+         lockfile: &Lockfile,
+diff --git a/src/cli/run.rs b/src/cli/run.rs
+index fc86516..23fe60f 100644
+--- a/src/cli/run.rs
++++ b/src/cli/run.rs
+@@ -324,6 +324,14 @@ impl Run {
+                 task.args.extend(self.args_last.clone());
+             }
+         }
++
++        // now that CLI args are known, render dependencies which reference `{{usage.*}}`
++        for task in &mut task_list {
++            if task.has_unrendered_depends() {
++                let usage_ctx = crate::task::parse_usage_values_from_task(&config, task).await?;
++                task.render_depends_with_usage(&config, &usage_ctx).await?;
++            }
++        }
+         time!("run get_task_lists");
+ 
+         // Resolve transitive dependencies once upfront so we can:
+diff --git a/src/cli/uninstall.rs b/src/cli/uninstall.rs
+index e475c99..3380e6d 100644
+--- a/src/cli/uninstall.rs
++++ b/src/cli/uninstall.rs
+@@ -125,20 +125,25 @@ impl Uninstall {
+                     .filter(|v| v.starts_with(&query))
+                     .collect_vec(),
+             };
+-            let mut tvs = matches
+-                .into_iter()
+-                .map(|v| {
+-                    let tvr = ToolRequest::new(backend.ba().clone(), v, ToolSource::Unknown)?;
+-                    let tv = ToolVersion::new(tvr, v.into());
+-                    Ok((backend.clone(), tv))
+-                })
+-                .collect::<Result<Vec<_>>>()?;
++            // the resolved request carries tool options, so it must come first: dedup keeps
++            // the first entry for a given (tool, version) pair
++            let mut tvs = Vec::new();
+             if let Some(tvr) = &ta.tvr {
+                 tvs.push((
+                     backend.clone(),
+                     tvr.resolve(config, &Default::default()).await?,
+                 ));
+             }
++            tvs.extend(
++                matches
++                    .into_iter()
++                    .map(|v| {
++                        let tvr = ToolRequest::new(backend.ba().clone(), v, ToolSource::Unknown)?;
++                        let tv = ToolVersion::new(tvr, v.into());
++                        Ok((backend.clone(), tv))
++                    })
++                    .collect::<Result<Vec<_>>>()?,
++            );
+             if tvs.is_empty() {
+                 warn!(
+                     "no versions found for {}",
+diff --git a/src/cli/upgrade.rs b/src/cli/upgrade.rs
+index 6657c55..76ba3f1 100644
+--- a/src/cli/upgrade.rs
++++ b/src/cli/upgrade.rs
+@@ -388,7 +388,9 @@ impl Upgrade {
+     /// Per-tool and global setting fallbacks are handled in ToolRequest::resolve.
+     fn get_before_date(&self) -> Result<Option<Timestamp>> {
+         if let Some(before) = &self.before {
+-            return Ok(Some(parse_into_timestamp(before)?));
++            let ts = parse_into_timestamp(before)?;
++            crate::duration::set_cli_before_date(Some(ts));
++            return Ok(Some(ts));
+         }
+         Ok(None)
+     }
+diff --git a/src/cli/use.rs b/src/cli/use.rs
+index 4e21458..6f6de7b 100644
+--- a/src/cli/use.rs
++++ b/src/cli/use.rs
+@@ -365,7 +365,9 @@ impl Use {
+     /// Per-tool and global setting fallbacks are handled in ToolRequest::resolve.
+     fn get_before_date(&self) -> Result<Option<Timestamp>> {
+         if let Some(before) = &self.before {
+-            return Ok(Some(parse_into_timestamp(before)?));
++            let ts = parse_into_timestamp(before)?;
++            crate::duration::set_cli_before_date(Some(ts));
++            return Ok(Some(ts));
+         }
+         Ok(None)
+     }
+diff --git a/src/config/mod.rs b/src/config/mod.rs
+index 0c268d9..494d4c0 100644
+--- a/src/config/mod.rs
++++ b/src/config/mod.rs
+@@ -356,12 +356,21 @@ impl Config {
+         // while the config entry has short="gitlab-f-bibonne-treesize" with api_url set.
+         // We check the resolved name first because the direct short match might find
+         // a CLI-created tool request without options.
++        // However, when the alias itself has its own config entry with options
++        // (e.g. a tool_alias with a different asset_pattern), those options win.
+         let full = backend_arg.full();
+         let resolved_ba = BackendArg::new(full, None);
+-        let tool_request = trs
+-            .iter()
+-            .find(|tr| tr.0.short == resolved_ba.short)
+-            .or_else(|| trs.iter().find(|tr| tr.0.short == backend_arg.short));
++        let by_alias = trs.iter().find(|tr| tr.0.short == backend_arg.short);
++        let by_resolved = trs.iter().find(|tr| tr.0.short == resolved_ba.short);
++        let alias_has_opts = by_alias
++            .as_ref()
++            .and_then(|tr| tr.1.first())
++            .is_some_and(|req| !req.options().is_empty());
++        let tool_request = if alias_has_opts {
++            by_alias
++        } else {
++            by_resolved.or(by_alias)
++        };
+         Ok(tool_request.and_then(|tr| tr.1.first().map(|req| req.options())))
+     }
+ 
+diff --git a/src/config/settings.rs b/src/config/settings.rs
+index 5fd88be..e4651a4 100644
+--- a/src/config/settings.rs
++++ b/src/config/settings.rs
+@@ -344,6 +344,9 @@ impl Settings {
+                 settings.ruby.compile = Some(true);
+             }
+         }
++        if settings.paranoid {
++            settings.locked_verify_provenance = true;
++        }
+         if settings.gpg_verify.is_some() {
+             settings.node.gpg_verify = settings.node.gpg_verify.or(settings.gpg_verify);
+             settings.swift.gpg_verify = settings.swift.gpg_verify.or(settings.gpg_verify);
+@@ -407,47 +410,26 @@ impl Settings {
+             self.not_found_auto_install = false;
+             self.task.run_auto_install = false;
+         }
+-        if let Some(false) = self.asdf {
+-            self.disable_backends.push("asdf".to_string());
+-        }
+-        if let Some(false) = self.vfox {
+-            self.disable_backends.push("vfox".to_string());
+-        }
+-        if let Some(disable_default_shorthands) = self.disable_default_shorthands {
+-            self.disable_default_registry = disable_default_shorthands;
+-        }
+-        if let Some(cargo_binstall) = self.cargo_binstall {
+-            self.cargo.binstall = cargo_binstall;
+-        }
+-        if let Some(pipx_uvx) = self.pipx_uvx {
+-            self.pipx.uvx = Some(pipx_uvx);
+-        }
+-        if let Some(python_compile) = self.python_compile {
+-            self.python.compile = Some(python_compile);
+-        }
+-        if let Some(python_default_packages_file) = &self.python_default_packages_file {
+-            self.python.default_packages_file = Some(python_default_packages_file.clone());
+-        }
+-        if let Some(python_patch_url) = &self.python_patch_url {
+-            self.python.patch_url = Some(python_patch_url.clone());
++        if let Some(v) = &self.go_default_packages_file {
++            self.go.default_packages_file = v.clone();
+         }
+-        if let Some(python_patches_directory) = &self.python_patches_directory {
+-            self.python.patches_directory = Some(python_patches_directory.clone());
++        if let Some(v) = &self.go_download_mirror {
++            self.go.download_mirror = v.clone();
+         }
+-        if let Some(python_precompiled_arch) = &self.python_precompiled_arch {
+-            self.python.precompiled_arch = Some(python_precompiled_arch.clone());
++        if let Some(v) = &self.go_repo {
++            self.go.repo = v.clone();
+         }
+-        if let Some(python_precompiled_os) = &self.python_precompiled_os {
+-            self.python.precompiled_os = Some(python_precompiled_os.clone());
++        if let Some(v) = self.go_set_gobin {
++            self.go.set_gobin = Some(v);
+         }
+-        if let Some(python_pyenv_repo) = &self.python_pyenv_repo {
+-            self.python.pyenv_repo = python_pyenv_repo.clone();
++        if let Some(v) = self.go_set_gopath {
++            self.go.set_gopath = v;
+         }
+-        if let Some(python_venv_stdlib) = self.python_venv_stdlib {
+-            self.python.venv_stdlib = python_venv_stdlib;
++        if let Some(v) = self.go_set_goroot {
++            self.go.set_goroot = v;
+         }
+-        if self.npm.bun {
+-            self.npm.package_manager = NpmPackageManager::Bun;
++        if let Some(v) = self.go_skip_checksum {
++            self.go.skip_checksum = v;
+         }
+     }
+ 
+diff --git a/src/direnv.rs b/src/direnv.rs
+index dedc6e7..57da21c 100644
+--- a/src/direnv.rs
++++ b/src/direnv.rs
+@@ -22,15 +22,26 @@ pub struct DirenvDiff {
+ 
+ impl DirenvDiff {
+     pub fn parse(input: &str) -> Result<DirenvDiff> {
+-        // let bytes = BASE64_URL_SAFE.decode(input)?;
+-        // let uncompressed = inflate_bytes_zlib(&bytes).unwrap();
+-        // Ok(serde_json::from_slice(&uncompressed[..])?)
++        if input.trim().is_empty() {
++            debug!("empty direnv diff, nothing to parse");
++            return Ok(DirenvDiff {
++                old: HashMap::new(),
++                new: HashMap::new(),
++            });
++        }
+         let mut writer = Vec::new();
+         let mut decoder = ZlibDecoder::new(writer);
+-        let bytes = BASE64_URL_SAFE.decode(input)?;
+-        decoder.write_all(&bytes[..])?;
+-        writer = decoder.finish()?;
+-        Ok(serde_json::from_slice(&writer[..])?)
++        let bytes = BASE64_URL_SAFE
++            .decode(input)
++            .map_err(|err| eyre::eyre!("failed to base64-decode direnv diff: {err}"))?;
++        decoder
++            .write_all(&bytes[..])
++            .map_err(|err| eyre::eyre!("failed to decompress direnv diff: {err}"))?;
++        writer = decoder
++            .finish()
++            .map_err(|err| eyre::eyre!("failed to decompress direnv diff: {err}"))?;
++        Ok(serde_json::from_slice(&writer[..])
++            .map_err(|err| eyre::eyre!("failed to deserialize direnv diff: {err}"))?)
+     }
+ 
+     pub fn new_path(&self) -> Vec<PathBuf> {
+diff --git a/src/duration.rs b/src/duration.rs
+index 0c852ea..7ad89e1 100644
+--- a/src/duration.rs
++++ b/src/duration.rs
+@@ -3,6 +3,18 @@ pub use std::time::Duration;
+ use eyre::{Result, bail};
+ use jiff::{Span, Timestamp, Zoned, civil::date};
+ 
++/// The `--before` cutoff given on the command line, if any. Stored globally so that code far
++/// from the CLI (e.g.: backends forwarding age limits to package managers) can honor it.
++static CLI_BEFORE_DATE: std::sync::RwLock<Option<Timestamp>> = std::sync::RwLock::new(None);
++
++pub fn set_cli_before_date(ts: Option<Timestamp>) {
++    *CLI_BEFORE_DATE.write().unwrap() = ts;
++}
++
++pub fn cli_before_date() -> Option<Timestamp> {
++    *CLI_BEFORE_DATE.read().unwrap()
++}
++
+ pub const HOURLY: Duration = Duration::from_secs(60 * 60);
+ pub const DAILY: Duration = Duration::from_secs(60 * 60 * 24);
+ pub const WEEKLY: Duration = Duration::from_secs(60 * 60 * 24 * 7);
+diff --git a/src/env.rs b/src/env.rs
+index 1642287..0a5971a 100644
+--- a/src/env.rs
++++ b/src/env.rs
+@@ -646,16 +646,36 @@ fn environment(args: &[String]) -> Vec<String> {
+         // When running as shim, ignore command line args and use env vars only
+         vec![]
+     } else {
+-        // Try to get from command line args first
+-        args.windows(2)
+-            .take_while(|window| !window.iter().any(|a| a == "--"))
+-            .filter_map(|window| {
+-                if arg_defs.contains(&*window[0]) {
+-                    Some(window[1].clone())
+-                } else {
+-                    None
++        // Try to get from command line args first. Both `--env prod` and `--env=prod` forms
++        // are supported.
++        let mut values: Vec<String> = vec![];
++        let mut iter = args.iter().skip(1).peekable();
++        let mut seen_task = false;
++        while let Some(arg) = iter.next() {
++            if arg == "--" {
++                break;
++            }
++            if let Some((flag, value)) = arg.split_once('=') {
++                if arg_defs.contains(flag) {
++                    values.push(value.to_string());
++                    continue;
+                 }
+-            })
++            } else if arg_defs.contains(&**arg) {
++                if let Some(value) = iter.next() {
++                    values.push(value.clone());
++                }
++                continue;
++            }
++            if seen_task {
++                // args after `mise run <task>` belong to the task, not to mise
++                break;
++            }
++            if arg == "run" || arg == "r" {
++                seen_task = true;
++            }
++        }
++        values
++            .into_iter()
+             .flat_map(|s| {
+                 s.split(',')
+                     .filter(|s| !s.is_empty())
+diff --git a/src/github.rs b/src/github.rs
+index 5d9c862..68131d9 100644
+--- a/src/github.rs
++++ b/src/github.rs
+@@ -265,6 +265,48 @@ pub async fn get_release(repo: &str, tag: &str) -> Result<GithubRelease> {
+         .clone())
+ }
+ 
++/// Get a release for a version, preferring the highest build revision tag if one exists.
++///
++/// Some repos (e.g.: jdx/ruby) publish rebuilds of the same upstream version as
++/// `{version}-{N}` tags. When present, the highest N is used, otherwise the plain
++/// `{version}` tag is used.
++pub async fn get_release_with_build_revision(repo: &str, version: &str) -> Result<GithubRelease> {
++    let tags = match list_releases(repo).await {
++        Ok(releases) => releases
++            .into_iter()
++            .map(|r| r.tag_name)
++            .collect::<Vec<String>>(),
++        Err(err) => {
++            debug!("failed to list releases for {repo}: {err}");
++            vec![]
++        }
++    };
++    let tag = pick_best_build_revision(&tags, version).unwrap_or_else(|| version.to_string());
++    get_release(repo, &tag).await
++}
++
++/// Given a list of release tags, return the best tag for `version`:
++/// the highest `{version}-{N}` build revision, or `{version}` if none exist.
++pub fn pick_best_build_revision(tags: &[String], version: &str) -> Option<String> {
++    let prefix = format!("{version}-");
++    let best = tags
++        .iter()
++        .filter_map(|tag| {
++            tag.strip_prefix(&prefix)
++                .and_then(|rev| rev.parse::<u64>().ok())
++                .map(|rev| (rev, tag.clone()))
++        })
++        .max_by_key(|(rev, _)| *rev)
++        .map(|(_, tag)| tag);
++    match best {
++        Some(tag) => Some(tag),
++        None => tags
++            .iter()
++            .find(|tag| *tag == version)
++            .map(|tag| tag.to_string()),
++    }
++}
++
+ pub async fn get_release_for_url(api_url: &str, repo: &str, tag: &str) -> Result<GithubRelease> {
+     let key = format!("{api_url}-{repo}-{tag}").to_kebab_case();
+     let cache = get_release_cache(&key).await;
+diff --git a/src/lockfile.rs b/src/lockfile.rs
+index fc87acc..5c1bf50 100644
+--- a/src/lockfile.rs
++++ b/src/lockfile.rs
+@@ -653,6 +653,18 @@ impl Lockfile {
+             .collect()
+     }
+ 
++    /// Keep only the given versions of a tool, dropping entries for stale versions.
++    /// Does nothing if the tool is not present in the lockfile.
++    pub fn retain_tool_versions(&mut self, short: &str, keep_versions: &BTreeSet<String>) {
++        if let Some(versions) = self.tools.get_mut(short) {
++            versions.retain(|t| keep_versions.contains(&t.version));
++            if versions.is_empty() {
++                self.tools.remove(short);
++            }
++            self.cleanup_unreferenced_conda_packages();
++        }
++    }
++
+     fn should_keep_tool(
+         short: &str,
+         versions: &[LockfileTool],
+diff --git a/src/plugins/core/dotnet.rs b/src/plugins/core/dotnet.rs
+index e5e8b18..bb8f884 100644
+--- a/src/plugins/core/dotnet.rs
++++ b/src/plugins/core/dotnet.rs
+@@ -35,6 +35,22 @@ impl DotnetPlugin {
+         Settings::get().dotnet.isolated
+     }
+ 
++    /// Returns the validated `runtime` tool option if one was requested
++    fn runtime_opt(tv: &ToolVersion) -> Result<Option<String>> {
++        match tv.request.options().get("runtime") {
++            Some(runtime) => {
++                if !VALID_RUNTIMES.iter().any(|r| *r == runtime) {
++                    return Err(eyre::eyre!(
++                        "invalid dotnet runtime option: {runtime}, expected one of: {}",
++                        VALID_RUNTIMES.join(", ")
++                    ));
++                }
++                Ok(Some(runtime.to_string()))
++            }
++            None => Ok(None),
++        }
++    }
++
+     async fn test_dotnet(&self, ctx: &InstallContext, tv: &ToolVersion) -> Result<()> {
+         ctx.pr.set_message("dotnet --version".into());
+         CmdLineRunner::new(DOTNET_BIN)
+@@ -112,6 +128,7 @@ impl Backend for DotnetPlugin {
+     }
+ 
+     async fn install_version_(&self, ctx: &InstallContext, tv: ToolVersion) -> Result<ToolVersion> {
++        let runtime = Self::runtime_opt(&tv)?;
+         let isolated = Self::is_isolated();
+         let install_dir = if isolated {
+             tv.install_path()
+@@ -131,9 +148,15 @@ impl Backend for DotnetPlugin {
+         file::make_executable(&script_path)?;
+ 
+         // Run install script
+-        ctx.pr
+-            .set_message(format!("Installing .NET SDK {}", tv.version));
+-        install_cmd(&script_path, &install_dir, &tv.version)
++        match &runtime {
++            Some(runtime) => ctx
++                .pr
++                .set_message(format!("Installing .NET runtime {runtime} {}", tv.version)),
++            None => ctx
++                .pr
++                .set_message(format!("Installing .NET SDK {}", tv.version)),
++        }
++        install_cmd(&script_path, &install_dir, &tv.version, runtime.as_deref())
+             .with_pr(ctx.pr.as_ref())
+             .envs(self.exec_env(&ctx.config, &ctx.ts, &tv).await?)
+             .execute()?;
+@@ -144,7 +167,10 @@ impl Backend for DotnetPlugin {
+             file::make_symlink(&install_dir, &tv.install_path())?;
+         }
+ 
+-        self.test_dotnet(ctx, &tv).await?;
++        // runtime-only installs don't ship the SDK, so `dotnet --version` would fail
++        if runtime.is_none() {
++            self.test_dotnet(ctx, &tv).await?;
++        }
+ 
+         Ok(tv)
+     }
+@@ -155,13 +181,17 @@ impl Backend for DotnetPlugin {
+         _pr: &dyn SingleReport,
+         tv: &ToolVersion,
+     ) -> Result<()> {
++        let runtime = Self::runtime_opt(tv)?;
+         if Self::is_isolated() {
+             // Isolated: mise handles removal of install_path by default
+         } else {
+-            // Shared: only remove this SDK version from the shared root
+-            let sdk_dir = dotnet_root().join("sdk").join(&tv.version);
+-            if sdk_dir.exists() {
+-                file::remove_all(&sdk_dir)?;
++            // Shared: only remove this version from the shared root
++            let dir = match &runtime {
++                Some(runtime) => runtime_dir(runtime, &tv.version),
++                None => dotnet_root().join("sdk").join(&tv.version),
++            };
++            if dir.exists() {
++                file::remove_all(&dir)?;
+             }
+         }
+         Ok(())
+@@ -220,6 +250,19 @@ fn install_script_path() -> PathBuf {
+     dirs::CACHE.join("dotnet").join(INSTALL_SCRIPT_NAME)
+ }
+ 
++/// valid values for the `runtime` tool option, as accepted by dotnet-install
++const VALID_RUNTIMES: &[&str] = &["dotnet", "aspnetcore", "windowsdesktop"];
++
++/// the directory a runtime is installed into, e.g. shared/Microsoft.NETCore.App/8.0.14
++fn runtime_dir(runtime: &str, version: &str) -> PathBuf {
++    let framework = match runtime {
++        "aspnetcore" => "Microsoft.AspNetCore.App",
++        "windowsdesktop" => "Microsoft.WindowsDesktop.App",
++        _ => "Microsoft.NETCore.App",
++    };
++    dotnet_root().join("shared").join(framework).join(version)
++}
++
+ #[cfg(unix)]
+ const DOTNET_BIN: &str = "dotnet";
+ 
+@@ -243,18 +286,32 @@ fn install_script_url() -> &'static str {
+ }
+ 
+ #[cfg(unix)]
+-fn install_cmd<'a>(script_path: &Path, install_dir: &Path, version: &str) -> CmdLineRunner<'a> {
+-    CmdLineRunner::new(script_path)
++fn install_cmd<'a>(
++    script_path: &Path,
++    install_dir: &Path,
++    version: &str,
++    runtime: Option<&str>,
++) -> CmdLineRunner<'a> {
++    let mut cmd = CmdLineRunner::new(script_path)
+         .arg("--install-dir")
+         .arg(install_dir)
+         .arg("--version")
+         .arg(version)
+-        .arg("--no-path")
++        .arg("--no-path");
++    if let Some(runtime) = runtime {
++        cmd = cmd.arg("--runtime").arg(runtime);
++    }
++    cmd
+ }
+ 
+ #[cfg(windows)]
+-fn install_cmd<'a>(script_path: &Path, install_dir: &Path, version: &str) -> CmdLineRunner<'a> {
+-    CmdLineRunner::new("powershell")
++fn install_cmd<'a>(
++    script_path: &Path,
++    install_dir: &Path,
++    version: &str,
++    runtime: Option<&str>,
++) -> CmdLineRunner<'a> {
++    let mut cmd = CmdLineRunner::new("powershell")
+         .arg("-ExecutionPolicy")
+         .arg("Bypass")
+         .arg("-File")
+@@ -263,7 +320,11 @@ fn install_cmd<'a>(script_path: &Path, install_dir: &Path, version: &str) -> Cmd
+         .arg(install_dir)
+         .arg("-Version")
+         .arg(version)
+-        .arg("-NoPath")
++        .arg("-NoPath");
++    if let Some(runtime) = runtime {
++        cmd = cmd.arg("-Runtime").arg(runtime);
++    }
++    cmd
+ }
+ 
+ // --- Microsoft releases API types ---
+diff --git a/src/plugins/core/go.rs b/src/plugins/core/go.rs
+index 6febd6e..eb71795 100644
+--- a/src/plugins/core/go.rs
++++ b/src/plugins/core/go.rs
+@@ -70,7 +70,7 @@ impl GoPlugin {
+         pr: &dyn SingleReport,
+     ) -> eyre::Result<()> {
+         let settings = Settings::get();
+-        let default_packages_file = file::replace_path(&settings.go_default_packages_file);
++        let default_packages_file = file::replace_path(&settings.go.default_packages_file);
+         let body = file::read_to_string(default_packages_file).unwrap_or_default();
+         for package in body.lines() {
+             let package = package.split('#').next().unwrap_or_default().trim();
+@@ -122,7 +122,7 @@ impl GoPlugin {
+         HTTP.download_file(&*tarball_url, &tarball_path, Some(pr))
+             .await?;
+ 
+-        if !settings.go_skip_checksum {
++        if !settings.go.skip_checksum {
+             let platform_key = self.get_platform_key();
+             let platform_info = tv.lock_platforms.entry(platform_key).or_default();
+             platform_info.url = Some(tarball_url.to_string());
+@@ -169,8 +169,8 @@ impl GoPlugin {
+             warn!("failed to install default go packages: {err:#}");
+         }
+         let settings = Settings::get();
+-        if settings.go_set_gopath {
+-            warn!("setting go_set_gopath is deprecated");
++        if settings.go.set_gopath {
++            warn!("setting go.set_gopath is deprecated");
+         }
+         Ok(())
+     }
+@@ -181,15 +181,15 @@ impl GoPlugin {
+             map.insert(k.to_string(), v.to_string_lossy().to_string());
+         };
+         let settings = Settings::get();
+-        let gobin = settings.go_set_gobin;
++        let gobin = settings.go.set_gobin;
+         let gobin_env_is_set = env::PRISTINE_ENV.contains_key("GOBIN");
+         if gobin == Some(true) || (gobin.is_none() && !gobin_env_is_set) {
+             set("GOBIN", self.gobin(tv));
+         }
+-        if settings.go_set_goroot {
++        if settings.go.set_goroot {
+             set("GOROOT", self.goroot(tv));
+         }
+-        if settings.go_set_gopath {
++        if settings.go.set_gopath {
+             set("GOPATH", self.gopath(tv));
+         }
+         Ok(map)
+@@ -212,10 +212,11 @@ impl Backend for GoPlugin {
+ 
+     async fn _list_remote_versions(&self, _config: &Arc<Config>) -> eyre::Result<Vec<VersionInfo>> {
+         // Extract repo name (e.g., "golang/go") from the configured URL
+-        // The go_repo setting is like "https://github.com/golang/go"
++        // The go.repo setting is like "https://github.com/golang/go"
+         let settings = Settings::get();
+         let repo = settings
+-            .go_repo
++            .go
++            .repo
+             .trim_start_matches("https://")
+             .trim_start_matches("http://")
+             .trim_start_matches("github.com/")
+@@ -243,7 +244,7 @@ impl Backend for GoPlugin {
+             // Fast path: use git ls-remote to get all go tags efficiently
+             // We can't use github::list_tags here because golang/go has 500+ tags
+             // and the "go1.x" version tags aren't on the first page of API results
+-            let go_repo = Settings::get().go_repo.clone();
++            let go_repo = Settings::get().go.repo.clone();
+             plugins::core::run_fetch_task_with_timeout_async(async move || {
+                 let output = crate::cmd::cmd_read_async_inherited_env(
+                     "git",
+@@ -349,7 +350,7 @@ impl Backend for GoPlugin {
+         };
+         Ok(Some(format!(
+             "{}/go{}.{}-{}.{}",
+-            &settings.go_download_mirror, tv.version, platform, arch, ext
++            &settings.go.download_mirror, tv.version, platform, arch, ext
+         )))
+     }
+ 
+@@ -367,7 +368,7 @@ impl Backend for GoPlugin {
+             .ok_or_else(|| eyre::eyre!("Failed to get go tarball URL"))?;
+ 
+         // Go provides .sha256 files alongside each tarball
+-        let checksum = if !settings.go_skip_checksum {
++        let checksum = if !settings.go.skip_checksum {
+             let checksum_url = format!("{}.sha256", &url);
+             fetch_checksum_from_file(&checksum_url, "sha256").await
+         } else {
+diff --git a/src/plugins/core/python.rs b/src/plugins/core/python.rs
+index 53a839e..226c702 100644
+--- a/src/plugins/core/python.rs
++++ b/src/plugins/core/python.rs
+@@ -233,6 +233,16 @@ impl PythonPlugin {
+         ctx: &InstallContext,
+         tv: &mut ToolVersion,
+     ) -> eyre::Result<()> {
++        let platform_key = self.get_platform_key();
++        // prefer the URL already recorded in the lockfile so locked installs are reproducible
++        let locked_url = tv
++            .lock_platforms
++            .get(&platform_key)
++            .and_then(|pi| pi.url.clone());
++        if let Some(url) = locked_url {
++            debug!("using python url from lockfile: {url}");
++            return self.install_precompiled_url(ctx, tv, &url).await;
++        }
+         let precompiled_versions = self.fetch_precompiled_remote_versions().await?;
+         let precompile_info = precompiled_versions
+             .iter()
+@@ -269,6 +279,18 @@ impl PythonPlugin {
+             }
+         };
+ 
++        let url = format!(
++            "https://github.com/astral-sh/python-build-standalone/releases/download/{tag}/{filename}"
++        );
++        self.install_precompiled_url(ctx, tv, &url).await
++    }
++
++    async fn install_precompiled_url(
++        &self,
++        ctx: &InstallContext,
++        tv: &mut ToolVersion,
++        url: &str,
++    ) -> eyre::Result<()> {
+         if cfg!(unix) {
+             hint!(
+                 "python_precompiled",
+@@ -278,16 +300,13 @@ impl PythonPlugin {
+             );
+         }
+ 
+-        let url = format!(
+-            "https://github.com/astral-sh/python-build-standalone/releases/download/{tag}/{filename}"
+-        );
+         let filename = url.split('/').next_back().unwrap();
+         let install = tv.install_path();
+         let download = tv.download_path();
+         let tarball_path = download.join(filename);
+ 
+         ctx.pr.set_message(format!("download {filename}"));
+-        HTTP.download_file(&url, &tarball_path, Some(ctx.pr.as_ref()))
++        HTTP.download_file(url, &tarball_path, Some(ctx.pr.as_ref()))
+             .await?;
+ 
+         // Record the URL in lock_platforms so verify_checksum can find it
+diff --git a/src/plugins/core/ruby.rs b/src/plugins/core/ruby.rs
+index 9aa3287..57d3cf3 100644
+--- a/src/plugins/core/ruby.rs
++++ b/src/plugins/core/ruby.rs
+@@ -509,13 +509,29 @@ impl RubyPlugin {
+         version: &str,
+         platform: &str,
+         prefer_no_yjit: bool,
++        locked_build_revision: Option<&str>,
+     ) -> Result<Option<(String, Option<String>)>> {
+-        let release = match github::get_release(repo, version).await {
+-            Ok(r) => r,
+-            Err(err) => {
+-                debug!("no precompiled ruby found for {version}: {err}");
+-                return Ok(None);
+-            }
++        // prefer the build revision recorded in the lockfile so relocking doesn't silently
++        // move to a newer rebuild of the same ruby version
++        let release = match locked_build_revision {
++            Some(tag) => match github::get_release(repo, tag).await {
++                Ok(r) => Some(r),
++                Err(err) => {
++                    debug!("locked build revision {tag} not found: {err}");
++                    None
++                }
++            },
++            None => None,
++        };
++        let release = match release {
++            Some(r) => r,
++            None => match github::get_release_with_build_revision(repo, version).await {
++                Ok(r) => r,
++                Err(err) => {
++                    debug!("no precompiled ruby found for {version}: {err}");
++                    return Ok(None);
++                }
++            },
+         };
+         let standard_name = format!("ruby-{}.{}.tar.gz", version, platform);
+         let no_yjit_name = format!("ruby-{}.{}.no_yjit.tar.gz", version, platform);
+@@ -550,6 +566,7 @@ impl RubyPlugin {
+         version: &str,
+         platform: &str,
+         prefer_no_yjit: bool,
++        locked_build_revision: Option<&str>,
+     ) -> Result<Option<(String, Option<String>)>> {
+         let settings = Settings::get();
+         let source = &settings.ruby.precompiled_url;
+@@ -562,11 +579,38 @@ impl RubyPlugin {
+             )))
+         } else {
+             // GitHub repo shorthand (default: "jdx/ruby")
+-            self.find_precompiled_asset_in_repo(source, version, platform, prefer_no_yjit)
+-                .await
++            self.find_precompiled_asset_in_repo(
++                source,
++                version,
++                platform,
++                prefer_no_yjit,
++                locked_build_revision,
++            )
++            .await
+         }
+     }
+ 
++    /// Extract a build revision tag (e.g.: "3.3.11-1") from URLs already in the lockfile,
++    /// so re-locking keeps the exact build that was locked.
++    fn extract_build_revision_from_lock_platforms(
++        tv: &ToolVersion,
++        version: &str,
++    ) -> Option<String> {
++        let re = regex!(r"/download/([^/]+)/");
++        tv.lock_platforms
++            .values()
++            .filter_map(|pi| pi.url.as_ref())
++            .filter_map(|url| {
++                re.captures(url)
++                    .and_then(|caps| caps.get(1))
++                    .map(|m| m.as_str().to_string())
++            })
++            .find(|tag| {
++                tag.strip_prefix(&format!("{version}-"))
++                    .is_some_and(|rev| rev.parse::<u64>().is_ok())
++            })
++    }
++
+     /// Convert a Ruby GitHub tag name to a version string.
+     /// Ruby uses tags like "v3_3_0" for version "3.3.0"
+     fn tag_to_version(tag: &str) -> Option<String> {
+@@ -616,8 +660,15 @@ impl RubyPlugin {
+             return Ok(None);
+         };
+ 
++        let locked_build_revision =
++            Self::extract_build_revision_from_lock_platforms(tv, &tv.version);
+         let Some((url, checksum)) = self
+-            .resolve_precompiled_url(&tv.version, &platform, Self::needs_no_yjit())
++            .resolve_precompiled_url(
++                &tv.version,
++                &platform,
++                Self::needs_no_yjit(),
++                locked_build_revision.as_deref(),
++            )
+             .await?
+         else {
+             return Ok(None);
+@@ -956,7 +1007,12 @@ impl Backend for RubyPlugin {
+         if self.should_try_precompiled()
+             && let Some(platform) = self.precompiled_platform_for_target(target)
+             && let Some((url, checksum)) = self
+-                .resolve_precompiled_url(&tv.version, &platform, false)
++                .resolve_precompiled_url(
++                    &tv.version,
++                    &platform,
++                    false,
++                    Self::extract_build_revision_from_lock_platforms(tv, &tv.version).as_deref(),
++                )
+                 .await?
+         {
+             // Detect provenance for precompiled binaries
+diff --git a/src/plugins/core/swift.rs b/src/plugins/core/swift.rs
+index fecf8d5..2cf0e40 100644
+--- a/src/plugins/core/swift.rs
++++ b/src/plugins/core/swift.rs
+@@ -279,7 +279,11 @@ fn platform_directory() -> String {
+         let settings = Settings::get();
+         let arch = settings.arch();
+         if os_release.id == "ubuntu" && arch == "arm64" {
+-            let retval = format!("{}{}-aarch64", os_release.id, os_release.version_id);
++            let retval = format!(
++                "{}{}-aarch64",
++                os_release.id,
++                ubuntu_swift_version(&os_release.version_id)
++            );
+             retval.replace(".", "")
+         } else {
+             platform().replace(".", "")
+@@ -289,6 +293,17 @@ fn platform_directory() -> String {
+     }
+ }
+ 
++/// Swift only publishes binaries for a few Ubuntu releases, so unsupported versions
++/// (e.g.: 26.04) fall back to the latest supported one.
++fn ubuntu_swift_version(version_id: &str) -> String {
++    const SUPPORTED: &[&str] = &["20.04", "22.04", "24.04"];
++    if SUPPORTED.contains(&version_id) {
++        version_id.to_string()
++    } else {
++        "24.04".to_string()
++    }
++}
++
+ fn platform() -> String {
+     if let Some(platform) = &Settings::get().swift.platform {
+         return platform.clone();
+@@ -304,6 +319,8 @@ fn platform() -> String {
+             "ubi9".to_string() // only 9 is available
+         } else if os_release.id == "fedora" {
+             "fedora39".to_string() // only 39 is available
++        } else if os_release.id == "ubuntu" {
++            format!("ubuntu{}", ubuntu_swift_version(&os_release.version_id))
+         } else {
+             format!("{}{}", os_release.id, os_release.version_id)
+         }
+diff --git a/src/plugins/mod.rs b/src/plugins/mod.rs
+index 4cbda56..a336f3c 100644
+--- a/src/plugins/mod.rs
++++ b/src/plugins/mod.rs
+@@ -216,7 +216,7 @@ pub fn warn_if_env_plugin_shadows_registry(name: &str, plugin_path: &Path) {
+ 
+ pub static VERSION_REGEX: Lazy<regex::Regex> = Lazy::new(|| {
+     Regex::new(
+-        r"(?i)(^Available versions:|-src|-dev|-latest|-stm|[-\\.]rc|-milestone|-alpha|-beta|[-\\.]pre|-next|-test|([abc])[0-9]+|snapshot|SNAPSHOT|master)"
++        r"(?i)(^Available versions:|-src|[-\\.]dev|-latest|-stm|[-\\.]rc|-milestone|-alpha|-beta|[-\\.]pre|-next|-test|([abc])[0-9]+|snapshot|SNAPSHOT|master)"
+     )
+         .unwrap()
+ });
+diff --git a/src/sandbox/seccomp.rs b/src/sandbox/seccomp.rs
+index e00ce94..56cbac3 100644
+--- a/src/sandbox/seccomp.rs
++++ b/src/sandbox/seccomp.rs
+@@ -47,9 +47,12 @@ pub fn apply_seccomp_net_filter() -> Result<()> {
+ 
+     // Block socket() and socketpair() for inet families
+     // This is sufficient — if you can't create an inet socket, you can't do networking
+-    for syscall in [libc::SYS_socket, libc::SYS_socketpair] {
++    // SYS_* is i32 on armv7 and i64 elsewhere; i64::from handles both, and `as i64` would be
++    // flagged as an unnecessary cast by clippy on 64-bit targets
++    #[allow(clippy::useless_conversion)]
++    for syscall in [libc::SYS_socket, libc::SYS_socketpair].map(i64::from) {
+         rules.insert(
+-            syscall as i64,
++            syscall,
+             vec![socket_rule_inet.clone(), socket_rule_inet6.clone()],
+         );
+     }
+diff --git a/src/shell/zsh.rs b/src/shell/zsh.rs
+index 8126eb2..537d67c 100644
+--- a/src/shell/zsh.rs
++++ b/src/shell/zsh.rs
+@@ -69,14 +69,9 @@ impl Shell for Zsh {
+             _mise_hook_chpwd() {{
+               eval "$({exe} hook-env{flags} -s zsh --reason chpwd)";
+             }}
+-            typeset -ag precmd_functions;
+-            if [[ -z "${{precmd_functions[(r)_mise_hook_precmd]+1}}" ]]; then
+-              precmd_functions=( _mise_hook_precmd ${{precmd_functions[@]}} )
+-            fi
+-            typeset -ag chpwd_functions;
+-            if [[ -z "${{chpwd_functions[(r)_mise_hook_chpwd]+1}}" ]]; then
+-              chpwd_functions=( _mise_hook_chpwd ${{chpwd_functions[@]}} )
+-            fi
++            autoload -Uz add-zsh-hook
++            add-zsh-hook precmd _mise_hook_precmd
++            add-zsh-hook chpwd _mise_hook_chpwd
+ 
+             _mise_hook
+             "#});
+@@ -107,8 +102,9 @@ impl Shell for Zsh {
+ 
+     fn deactivate(&self) -> String {
+         formatdoc! {r#"
+-        precmd_functions=( ${{precmd_functions:#_mise_hook_precmd}} )
+-        chpwd_functions=( ${{chpwd_functions:#_mise_hook_chpwd}} )
++        autoload -Uz add-zsh-hook
++        add-zsh-hook -d precmd _mise_hook_precmd
++        add-zsh-hook -d chpwd _mise_hook_chpwd
+         (( $+functions[_mise_hook_precmd] )) && unset -f _mise_hook_precmd
+         (( $+functions[_mise_hook_chpwd] )) && unset -f _mise_hook_chpwd
+         (( $+functions[_mise_hook] )) && unset -f _mise_hook
+diff --git a/src/task/deps.rs b/src/task/deps.rs
+index 09bddde..db89d18 100644
+--- a/src/task/deps.rs
++++ b/src/task/deps.rs
+@@ -63,11 +63,17 @@ impl Deps {
+             add_idx(t, &mut graph);
+         }
+         let all_tasks_to_run = resolve_depends(config, tasks).await?;
+-        while let Some(a) = stack.pop() {
++        while let Some(mut a) = stack.pop() {
+             if seen.contains(&a) {
+                 // prevent infinite loop
+                 continue;
+             }
++            // deps referencing `{{usage.*}}` are rendered here, where the args this task
++            // received (from the CLI or from its parent task) are known
++            if a.has_unrendered_depends() {
++                let usage_ctx = crate::task::parse_usage_values_from_task(config, &a).await?;
++                a.render_depends_with_usage(config, &usage_ctx).await?;
++            }
+             let a_idx = add_idx(&a, &mut graph);
+             let (pre, post) = a.resolve_depends(config, &all_tasks_to_run).await?;
+             for b in pre {
+diff --git a/src/task/mod.rs b/src/task/mod.rs
+index 61fdd65..7c3d8ab 100644
+--- a/src/task/mod.rs
++++ b/src/task/mod.rs
+@@ -19,6 +19,7 @@ use serde::{Deserialize, Serialize};
+ use std::borrow::Cow;
+ use std::cmp::Ordering;
+ use std::collections::BTreeMap;
++use std::collections::HashMap;
+ use std::collections::HashSet;
+ use std::fmt::{Debug, Display, Formatter};
+ use std::hash::{Hash, Hasher};
+@@ -271,6 +272,14 @@ pub struct Task {
+     pub depends_post: Vec<TaskDep>,
+     #[serde(default, deserialize_with = "deserialize_arr")]
+     pub wait_for: Vec<TaskDep>,
++    /// unrendered dependency templates, kept so deps referencing `{{usage.*}}` can be
++    /// re-rendered once the task's args are known
++    #[serde(skip)]
++    pub depends_raw: Vec<TaskDep>,
++    #[serde(skip)]
++    pub depends_post_raw: Vec<TaskDep>,
++    #[serde(skip)]
++    pub wait_for_raw: Vec<TaskDep>,
+     #[serde(default)]
+     pub env: EnvList,
+     #[serde(default)]
+@@ -635,6 +644,8 @@ impl Task {
+             .depends
+             .iter()
+             .chain(self.depends_post.iter())
++            // deps with unresolved `{{usage.*}}` refs are resolved later, once args are known
++            .filter(|td| !td.has_usage_ref())
+             .map(|td| match_tasks_with_context(tasks, td, Some(self)))
+             .flatten_ok()
+             .filter_ok(|t| t.name != self.name)
+@@ -680,6 +691,7 @@ impl Task {
+                     .iter()
+                     .chain(self.wait_for.iter())
+                     .chain(self.depends_post.iter())
++                    .filter(|td| !td.has_usage_ref())
+                     .map(|td| resolve_task_pattern(&td.task, Some(self)))
+                     .filter_map(|resolved| extract_monorepo_path(&resolved)),
+             )
+@@ -700,12 +712,14 @@ impl Task {
+         let depends = self
+             .depends
+             .iter()
++            .filter(|td| !td.has_usage_ref())
+             .map(|td| match_tasks_with_context(&tasks, td, Some(self)))
+             .flatten_ok()
+             .collect_vec();
+         let wait_for = self
+             .wait_for
+             .iter()
++            .filter(|td| !td.has_usage_ref())
+             .map(|td| {
+                 match_tasks_with_context(&tasks, td, Some(self))
+                     .map(|tasks| tasks.into_iter().map(|t| (t, td)).collect_vec())
+@@ -730,6 +744,7 @@ impl Task {
+         let depends_post = self
+             .depends_post
+             .iter()
++            .filter(|td| !td.has_usage_ref())
+             .map(|td| match_tasks_with_context(&tasks, td, Some(self)))
+             .flatten_ok()
+             .filter_ok(|t| t.name != self.name)
+@@ -1070,13 +1085,27 @@ impl Task {
+             self.outputs = TaskOutputs::Auto;
+         }
+         self.raw_outputs = self.outputs.render(&mut tera, &tera_ctx)?;
++        // deps referencing `{{usage.*}}` can't be rendered yet since the task's args are not
++        // known at config load time — they are rendered later via render_depends_with_usage()
++        self.depends_raw = self.depends.clone();
++        self.depends_post_raw = self.depends_post.clone();
++        self.wait_for_raw = self.wait_for.clone();
+         for d in &mut self.depends {
++            if d.has_usage_ref() {
++                continue;
++            }
+             d.render(&mut tera, &tera_ctx)?;
+         }
+         for d in &mut self.depends_post {
++            if d.has_usage_ref() {
++                continue;
++            }
+             d.render(&mut tera, &tera_ctx)?;
+         }
+         for d in &mut self.wait_for {
++            if d.has_usage_ref() {
++                continue;
++            }
+             d.render(&mut tera, &tera_ctx)?;
+         }
+         if let Some(dir) = &mut self.dir {
+@@ -1091,6 +1120,53 @@ impl Task {
+         Ok(())
+     }
+ 
++    /// true if any dependency still references `{{ usage.* }}` and therefore has not been
++    /// rendered yet
++    pub fn has_unrendered_depends(&self) -> bool {
++        self.depends
++            .iter()
++            .chain(self.depends_post.iter())
++            .chain(self.wait_for.iter())
++            .any(|td| td.has_usage_ref())
++    }
++
++    /// Re-render dependencies which reference `{{ usage.* }}` now that the task's arguments
++    /// have been parsed into `usage_ctx`.
++    pub async fn render_depends_with_usage(
++        &mut self,
++        config: &Arc<Config>,
++        usage_ctx: &HashMap<String, tera::Value>,
++    ) -> Result<()> {
++        if !self.has_unrendered_depends() {
++            return Ok(());
++        }
++        let config_root = self
++            .config_root
++            .clone()
++            .or_else(|| config.project_root.clone())
++            .unwrap_or_default();
++        let mut tera = get_tera(Some(&config_root));
++        let mut tera_ctx = self.tera_ctx(config).await?;
++        tera_ctx.insert("usage", usage_ctx);
++        let lists = [
++            (&self.depends_raw, &mut self.depends),
++            (&self.depends_post_raw, &mut self.depends_post),
++            (&self.wait_for_raw, &mut self.wait_for),
++        ];
++        for (raw, rendered) in lists {
++            for (i, dep) in rendered.iter_mut().enumerate() {
++                if !dep.has_usage_ref() {
++                    continue;
++                }
++                if let Some(raw_dep) = raw.get(i) {
++                    *dep = raw_dep.clone();
++                }
++                dep.render(&mut tera, &tera_ctx)?;
++            }
++        }
++        Ok(())
++    }
++
+     pub fn name_to_path(&self) -> PathBuf {
+         self.name.replace(':', path::MAIN_SEPARATOR_STR).into()
+     }
+@@ -1265,6 +1341,24 @@ pub(crate) fn resolve_task_pattern(pattern: &str, parent_task: Option<&Task>) ->
+     pattern.to_string()
+ }
+ 
++/// Parse a task's usage spec against its args so `{{ usage.* }}` references in its
++/// dependencies can be rendered with the values the task was actually called with.
++pub async fn parse_usage_values_from_task(
++    config: &Arc<Config>,
++    task: &Task,
++) -> Result<HashMap<String, tera::Value>> {
++    let spec = task.parse_usage_spec_for_display(config).await?;
++    let mut usage_ctx = TaskScriptParser::make_usage_ctx_from_spec_defaults(&spec);
++    let args = once(String::new())
++        .chain(task.args.iter().cloned())
++        .collect_vec();
++    match usage::Parser::new(&spec).parse(&args) {
++        Ok(m) => usage_ctx.extend(TaskScriptParser::make_usage_ctx(&m)),
++        Err(e) => debug!("failed to parse args for {}: {e}", task.name),
++    }
++    Ok(usage_ctx)
++}
++
+ fn match_tasks_with_context(
+     tasks: &BTreeMap<String, &Task>,
+     td: &TaskDep,
+@@ -1340,6 +1434,9 @@ impl Default for Task {
+             depends: vec![],
+             depends_post: vec![],
+             wait_for: vec![],
++            depends_raw: vec![],
++            depends_post_raw: vec![],
++            wait_for_raw: vec![],
+             env: Default::default(),
+             vars: Default::default(),
+             inherited_env: Default::default(),
+diff --git a/src/task/task_dep.rs b/src/task/task_dep.rs
+index 555d164..4be7c50 100644
+--- a/src/task/task_dep.rs
++++ b/src/task/task_dep.rs
+@@ -14,6 +14,13 @@ pub struct TaskDep {
+ }
+ 
+ impl TaskDep {
++    /// true if this dependency references `{{ usage.* }}`, which can only be rendered once
++    /// the parent task's arguments have been parsed
++    pub fn has_usage_ref(&self) -> bool {
++        let has = |s: &String| s.contains("{{") && s.contains("usage.");
++        has(&self.task) || self.args.iter().any(has) || self.env.values().any(has)
++    }
++
+     pub fn render(
+         &mut self,
+         tera: &mut tera::Tera,
+diff --git a/src/task/task_list.rs b/src/task/task_list.rs
+index 0f86d7e..ce0172f 100644
+--- a/src/task/task_list.rs
++++ b/src/task/task_list.rs
+@@ -13,7 +13,7 @@ use fuzzy_matcher::{FuzzyMatcher, skim::SkimMatcherV2};
+ use itertools::Itertools;
+ use std::collections::HashSet;
+ use std::iter::once;
+-use std::path::PathBuf;
++use std::path::{Path, PathBuf};
+ use std::sync::Arc;
+ 
+ /// Find non-executable files in task include directories.
+@@ -102,6 +102,18 @@ fn suggest_similar_commands(name: &str) -> Vec<String> {
+         .collect()
+ }
+ 
++/// A `.tool-versions` file without tera template syntax cannot define tasks or execute code,
++/// so it does not need to be trusted (matching the parsing logic in `ToolVersions::parse_str`).
++fn is_plain_tool_versions(path: &Path) -> bool {
++    if path.file_name().and_then(|f| f.to_str()) != Some(".tool-versions") {
++        return false;
++    }
++    match file::read_to_string(path) {
++        Ok(s) => !(s.contains("{{") || s.contains("{%") || s.contains("{#")),
++        Err(_) => false,
++    }
++}
++
+ /// Show an error when a task is not found, with helpful suggestions
+ async fn err_no_task(config: &Config, name: &str) -> Result<()> {
+     // Check early if the name looks like a mistyped CLI subcommand
+@@ -128,6 +140,7 @@ async fn err_no_task(config: &Config, name: &str) -> Result<()> {
+             let config_files = config_files_in_dir(cwd);
+             let untrusted_configs: Vec<_> = config_files
+                 .iter()
++                .filter(|p| !is_plain_tool_versions(p))
+                 .filter(|p| !is_trusted(&config_trust_root(p)) && !is_trusted(p))
+                 .collect();
+ 
+@@ -454,6 +467,7 @@ pub async fn resolve_depends(config: &Arc<Config>, tasks: Vec<Task>) -> Result<V
+                     .iter()
+                     .chain(t.wait_for.iter())
+                     .chain(t.depends_post.iter())
++                    .filter(|td| !td.has_usage_ref())
+                     .map(|td| resolve_task_pattern(&td.task, Some(t)))
+                     .filter_map(|resolved| extract_monorepo_path(&resolved))
+             }))
+diff --git a/src/task/task_script_parser.rs b/src/task/task_script_parser.rs
+index cf99610..3420256 100644
+--- a/src/task/task_script_parser.rs
++++ b/src/task/task_script_parser.rs
+@@ -792,7 +792,7 @@ impl TaskScriptParser {
+         Ok(out)
+     }
+ 
+-    fn make_usage_ctx(usage: &usage::parse::ParseOutput) -> HashMap<String, tera::Value> {
++    pub fn make_usage_ctx(usage: &usage::parse::ParseOutput) -> HashMap<String, tera::Value> {
+         let mut usage_ctx: HashMap<String, tera::Value> = HashMap::new();
+ 
+         // These values are not escaped or shell-quoted.
+diff --git a/src/toolset/builder.rs b/src/toolset/builder.rs
+index 38341a2..514fea8 100644
+--- a/src/toolset/builder.rs
++++ b/src/toolset/builder.rs
+@@ -138,7 +138,19 @@ impl ToolsetBuilder {
+             let mut arg_ts = Toolset::new(ToolSource::Argument);
+             for arg in args {
+                 if let Some(tvr) = &arg.tvr {
+-                    arg_ts.add_version(tvr.clone());
++                    let mut tvr = tvr.clone();
++                    // a version given on the CLI would otherwise drop options like filter_bins
++                    // which were set for this tool in config
++                    if tvr.options().is_empty()
++                        && let Some(existing) = ts
++                            .list_current_requests()
++                            .into_iter()
++                            .find(|t| t.ba() == &arg.ba)
++                        && !existing.options().is_empty()
++                    {
++                        tvr.set_options(existing.options());
++                    }
++                    arg_ts.add_version(tvr);
+                 } else if self.default_to_latest {
+                     // this logic is required for `mise x` because with that specific command mise
+                     // should default to installing the "latest" version if no version is specified
+diff --git a/src/toolset/tool_deps.rs b/src/toolset/tool_deps.rs
+index 53e3de7..e1ed49e 100644
+--- a/src/toolset/tool_deps.rs
++++ b/src/toolset/tool_deps.rs
+@@ -14,6 +14,19 @@ fn tool_key(tr: &ToolRequest) -> ToolKey {
+     format!("{}@{}", tr.ba().full(), tr.version())
+ }
+ 
++/// Tools explicitly listed in the `depends` tool option, e.g.:
++/// `python = { version = "3.13", depends = ["uv"] }`
++fn user_depends(tr: &ToolRequest) -> Vec<String> {
++    match tr.options().opts.get("depends") {
++        Some(toml::Value::String(s)) => vec![s.clone()],
++        Some(toml::Value::Array(arr)) => arr
++            .iter()
++            .filter_map(|v| v.as_str().map(|s| s.to_string()))
++            .collect(),
++        _ => vec![],
++    }
++}
++
+ /// Manages a dependency graph of tools for installation scheduling.
+ /// Thin wrapper around `DepsGraph<ToolKey, ToolRequest>` with
+ /// tool-specific dependency resolution.
+@@ -42,6 +55,28 @@ impl ToolDeps {
+         for tr in &requests {
+             let tr_key = tool_key(tr);
+ 
++            // user-specified dependencies from the `depends` tool option
++            for dep in user_depends(tr) {
++                let dep_ba = crate::cli::args::BackendArg::from(dep.as_str());
++                let dep_fulls = dep_ba.all_fulls();
++                let mut found = false;
++                for other_tr in &requests {
++                    let other_fulls = other_tr.ba().all_fulls();
++                    if dep_fulls.iter().any(|f| other_fulls.contains(f)) {
++                        let other_key = tool_key(other_tr);
++                        if tr_key != other_key {
++                            found = true;
++                            edges.push((tr_key.clone(), other_key));
++                        }
++                    }
++                }
++                if !found {
++                    debug!(
++                        "{tr}: depends on {dep} which is not being installed, ignoring dependency"
++                    );
++                }
++            }
++
+             if let Ok(backend) = tr.backend()
+                 && let Ok(deps) = backend.get_all_dependencies(true)
+             {
+diff --git a/src/toolset/tool_version_options.rs b/src/toolset/tool_version_options.rs
+index 373f98b..43440fc 100644
+--- a/src/toolset/tool_version_options.rs
++++ b/src/toolset/tool_version_options.rs
+@@ -4,7 +4,8 @@ use indexmap::IndexMap;
+ /// be persisted in the manifest or included in `full_with_opts()`.
+ // install_env is a named field on ToolVersionOptions (serde puts it in self.install_env),
+ // but parse_tool_options() can still place it in opts, so we filter it here as well.
+-pub const EPHEMERAL_OPT_KEYS: &[&str] = &["postinstall", "install_env", "install_before"];
++pub const EPHEMERAL_OPT_KEYS: &[&str] =
++    &["postinstall", "install_env", "install_before", "depends"];
+ 
+ #[derive(Debug, Default, Clone, PartialEq, serde::Deserialize, serde::Serialize)]
+ pub struct ToolVersionOptions {
+@@ -86,6 +87,22 @@ impl ToolVersionOptions {
+             .collect()
+     }
+ 
++    /// Convert opts to json values so arbitrary toml values can be passed to plugins.
++    pub fn opts_as_json(&self) -> IndexMap<String, serde_json::Value> {
++        self.opts
++            .iter()
++            .map(|(k, v)| {
++                let v = serde_json::to_value(v).unwrap_or_else(|_| {
++                    serde_json::Value::String(match v {
++                        toml::Value::String(s) => s.clone(),
++                        _ => v.to_string(),
++                    })
++                });
++                (k.clone(), v)
++            })
++            .collect()
++    }
++
+     pub fn merge(&mut self, other: &IndexMap<String, toml::Value>) {
+         for (key, value) in other {
+             self.opts.entry(key.to_string()).or_insert(value.clone());

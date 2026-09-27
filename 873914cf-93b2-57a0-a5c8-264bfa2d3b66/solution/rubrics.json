@@ -1,0 +1,80 @@
+{
+  "canary_block": "FORGE-CANARY[00]=E553CE85A6EB1F7D4A7659959DEDB7A0\nFORGE-CANARY[01]=A9641C2DD6753F65E328BF2EBA5300DC\nFORGE-CANARY[02]=31FE7C963D6FB908C38453B641ADF0E7\nFORGE-CANARY[03]=3B134102F505CD43087B73B2BFADFFCF",
+  "compilation_floor_note": "Every rubric item whose judgment reduces deterministically over its named evidence is emitted as a compiled test in tests/test_output.py. The bound compilation_floor in .seed/contract.yaml is carried by name only and reads conservative-default-unresolved, because requirements/ pins no value and touchstones/ records no disposition over one, so no domain-specific number is authored here.",
+  "items": [
+    {
+      "criterion": "The production backend launch selects a Windows-capable server when running on Windows and retains the Unix process manager on other platforms.",
+      "dimension": "issue_coverage",
+      "evaluation_rule": "Answer Yes if the code that assembles the production backend command inspects the running platform (for example via platform.system()) and constructs a different command on Windows using a natively runnable server, while keeping a distinct branch for non-Windows. Answer No if all platforms receive the same command, or if the Unix-only server is used unconditionally, or if no platform check exists. An equivalent structuring that yields two platform-specific command lines with the same observable behaviour answers Yes.",
+      "evaluation_target": "final_diff",
+      "evidence": [
+        "final_diff"
+      ],
+      "id": "R1",
+      "mode": "human_review",
+      "weight": 5
+    },
+    {
+      "criterion": "A constant naming the Windows-capable backend server command is introduced and referenced only on the Windows branch.",
+      "dimension": "issue_coverage",
+      "evaluation_rule": "Answer Yes if a new constant (or equivalent named reference) describing the Windows-capable server is added and is used only within the Windows-specific branch of the production launch, leaving the existing Unix server constant in place. Answer No if no such constant or reference is added, or if the Windows server name is hardcoded inline in a way that ignores the existing constant pattern, or if it leaks into the Unix branch. Any equivalent named definition producing the same Windows invocation answers Yes.",
+      "evaluation_target": "final_diff",
+      "evidence": [
+        "final_diff"
+      ],
+      "id": "R2",
+      "mode": "human_review",
+      "weight": 3
+    },
+    {
+      "criterion": "The Windows branch passes host, port, and a module:app style entry point using the alternate server's own argument style rather than the Unix server's flags.",
+      "dimension": "issue_coverage",
+      "evaluation_rule": "Answer Yes if the Windows command supplies the host and port separately (not as a single bind string) and uses the module:app entry point without the factory-style call parentheses, and does not use the Unix-only threads flag in that server's incompatible form. Answer No if the Windows branch reuses the bind argument or the factory-style entry point that the alternate server cannot accept. An equivalent argument shape valid for the chosen Windows server answers Yes.",
+      "evaluation_target": "final_diff",
+      "evidence": [
+        "final_diff"
+      ],
+      "id": "R3",
+      "mode": "human_review",
+      "weight": 3
+    },
+    {
+      "criterion": "The Unix production invocation preserves its prior argument shape and both branches continue to honor the log level and worker count.",
+      "dimension": "issue_coverage",
+      "evaluation_rule": "Answer Yes if the non-Windows branch still uses the bind address, the threads argument, and the factory-style entry point exactly as before, and if the log level and worker count are passed to the server on both branches with their original values. Answer No if the Unix argument shape is altered in a way that changes its behaviour, or if the log level or worker count is dropped, reformatted incorrectly, or applied to only one branch. An equivalent structuring that keeps the Unix command line functionally identical and honors both settings answers Yes.",
+      "evaluation_target": "final_diff",
+      "evidence": [
+        "final_diff"
+      ],
+      "id": "R4",
+      "mode": "human_review",
+      "weight": 3
+    },
+    {
+      "criterion": "The port-cleanup kill call is guarded so that a permission-denied error from the process library is suppressed rather than aborting the run.",
+      "dimension": "issue_coverage",
+      "evaluation_rule": "Answer Yes if the call that terminates the process holding the target port is wrapped so that only the process library's permission-denied exception is suppressed and execution continues gracefully. Answer No if the kill call remains unguarded, or if a broad exception is suppressed instead of the specific denial case, hiding unrelated failures. An equivalent guard using a try block or contextlib.suppress targeting the specific denial exception answers Yes.",
+      "evaluation_target": "final_diff",
+      "evidence": [
+        "final_diff"
+      ],
+      "id": "R5",
+      "mode": "human_review",
+      "weight": 5
+    },
+    {
+      "criterion": "The targeted test suite covering the platform branching and cleanup tolerance passes.",
+      "dimension": "verification",
+      "evaluation_rule": "Answer Yes if the run output shows the relevant tests executing and passing, demonstrating that the platform-aware command construction and the port-cleanup resilience behave as expected. Answer No if the tests fail, error, are skipped, or if no test output is present. Passing results from an equivalent implementation that exercises the same observable behaviour answer Yes.",
+      "evaluation_target": "verification_output",
+      "evidence": [
+        "verification_output"
+      ],
+      "id": "R6",
+      "mode": "human_review",
+      "weight": 3
+    }
+  ],
+  "schema_note": "The item schema is closed at eight fields. The semantic residue that blocks compilation for each human-review item is recorded in TRUTH.md, because a ninth field here would break the closed schema.",
+  "source": "generated by solution/recompute.py from solution/grounding.yaml"
+}

@@ -1,0 +1,22 @@
+schema: forge.policy/v1
+channels:
+  - channel: network_egress
+    state: allowed
+  - channel: source_host_egress
+    state: allowed
+  - channel: package_registry_egress
+    state: allowed
+  - channel: model_api_egress
+    state: allowed
+  - channel: filesystem_write_outside_workspace
+    state: allowed
+  - channel: verifier_tree_read
+    state: denied
+  - channel: solution_tree_read
+    state: denied
+  - channel: version_control_history_read
+    state: restricted
+  - channel: subprocess_execution
+    state: allowed
+  - channel: workspace_read_write
+    state: allowed
