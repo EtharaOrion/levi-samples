@@ -1,9 +1,9 @@
 {
     "task": {
-        "path": "/home/runner/harbor-probe/pass8-20260922t/6bf0c918-e9ad-5397-bb76-cf3e238f2df1"
+        "path": "/home/ec2-user/harbor-probe/pass8-20260922t/6bf0c918-e9ad-5397-bb76-cf3e238f2df1"
     },
     "trial_name": "6bf0c918-e9ad-5397-bb76-cf3e238f__PanorDL",
-    "trials_dir": "/home/runner/harbor-jobs/pass8-batch-2026-09-22-twenty-20260925b-t15-extend-t15-a14",
+    "trials_dir": "/home/ec2-user/harbor-jobs/pass8-batch-2026-09-22-twenty-20260925b-t15-extend-t15-a14",
     "agent": {
         "name": "openhands-sdk",
         "model_name": "claude-opus-5",

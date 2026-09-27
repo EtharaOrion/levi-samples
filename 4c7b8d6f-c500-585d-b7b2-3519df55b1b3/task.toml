@@ -1,6 +1,7 @@
 schema_version = "1.4"
 
 artifacts = [
+  "/logs/agent/trajectory.json",
   "/logs/verifier/summary.json",
   "/logs/verifier/final.diff",
   "/logs/verifier/target-stdout.md",
@@ -15,6 +16,7 @@ authors = [{ name = "Abhijeet Chaurasiya", email = "abhijeet.chaurasiya@ethara.a
 keywords = ["rust", "issue-resolving", "mise"]
 
 [metadata]
+uuid = "4c7b8d6f-c500-585d-b7b2-3519df55b1b3"
 slot_id = "S01"
 milestone = "batch-2026-09-15-a"
 language = "rust"
@@ -26,10 +28,10 @@ source_files = 83
 delivery_format = "levi"
 image_pin_kind = "pushed-sanitized-index-digest"
 image_pin_portable = true
-base_image_ref = "426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-milo/jdx_m_mise:pr-8524@sha256:df61963482812a1239195f25326ea9b385012c74ed79acc73cf41d3f59f5bc27"
-base_image_digest = "sha256:df61963482812a1239195f25326ea9b385012c74ed79acc73cf41d3f59f5bc27"
+base_image_ref = "426628337772.dkr.ecr.ap-south-1.amazonaws.com/levi:4c7b8d6f@sha256:8548f5c7004d60da6a8eaca625e5fb7152c40e355eada9a6bdea339b73fff6bf"
+base_image_digest = "sha256:8548f5c7004d60da6a8eaca625e5fb7152c40e355eada9a6bdea339b73fff6bf"
 base_image_platform_manifest_digest = "sha256:8a3e30826c4442f62e72a44af24155ad3ecc71e194a14e0f98acf823ac138838"
-base_image_registry_namespace = "426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-milo"
+base_image_registry_namespace = "426628337772.dkr.ecr.ap-south-1.amazonaws.com/levi"
 environment_build_digest = "23a744c8e23b64187333ac63454aa88c8bd84bc79feb9c87f6308d07c7b30874"
 instruction_following_carrier = "none"
 instruction_following_state = "deferred"
@@ -38,7 +40,7 @@ signals_shipped = ["outcome"]
 signals_authored_unconsumed = ["instruction_following"]
 
 [environment]
-docker_image = "426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/jdx_m_mise@sha256:8548f5c7004d60da6a8eaca625e5fb7152c40e355eada9a6bdea339b73fff6bf"
+docker_image = "426628337772.dkr.ecr.ap-south-1.amazonaws.com/levi@sha256:8548f5c7004d60da6a8eaca625e5fb7152c40e355eada9a6bdea339b73fff6bf"
 local_image_id = "sha256:2962270c1dcf3820042935701c5f2db67a4c0145881fc24cf5bdea801aaa8959"
 network_mode = "no-network"
 build_timeout_sec = 3600.0
@@ -65,13 +67,21 @@ timeout_sec = 3600.0
 null_floor = 0.0
 
 [verifier.environment]
-network_mode = "no-network"
+docker_image = "426628337772.dkr.ecr.ap-south-1.amazonaws.com/levi@sha256:371309e436035e7997742b425ecde38ae36f265a4f0aabf30d7075adf52d4615"
+network_mode = "allowlist"
+allowed_hosts = ["api.openai.com", "api.anthropic.com"]
 build_timeout_sec = 3600.0
 cpus = 8
 memory_mb = 16384
 storage_mb = 20480
 gpus = 0
 
+[verifier.env]
+JUDGE_MODEL = '{{ env.JUDGE_MODEL | default(value="") }}'
+JUDGE_API_KEY = '{{ env.JUDGE_API_KEY | default(value="") }}'
+JUDGE_BASE_URL = '{{ env.JUDGE_BASE_URL | default(value="") }}'
+JUDGE_TEMPERATURE = '{{ env.JUDGE_TEMPERATURE | default(value="0") }}'
+JUDGE_SEED = '{{ env.JUDGE_SEED | default(value="0") }}'
 [span_provenance]
 instance_identity = "jdx/mise v2026.4.3..v2026.4.4"
 span_label = "v2026.4.3..v2026.4.4"
@@ -86,3 +96,6 @@ image_reference_is_not_provenance = "Upstream image tags name one representative
 [interface_spec]
 mode = "names-only"
 issue_7 = ["CLI flag --minimum-release-age"]
+
+
+

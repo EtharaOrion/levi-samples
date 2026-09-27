@@ -2,15 +2,15 @@
     "id": "2bfd27ac-bc8f-4a95-815b-b8c5292b8583",
     "task_name": "levi/s01-mise",
     "trial_name": "4c7b8d6f-c500-585d-b7b2-3519df55__hFBgegq",
-    "trial_uri": "file:///home/runner/harbor-jobs/glm-batch-2026-09-22-twenty-20260924b-six-a3-a8-s01-a6/4c7b8d6f-c500-585d-b7b2-3519df55__hFBgegq",
+    "trial_uri": "file:///home/ec2-user/harbor-jobs/glm-batch-2026-09-22-twenty-20260924b-six-a3-a8-s01-a6/4c7b8d6f-c500-585d-b7b2-3519df55__hFBgegq",
     "task_id": {
-        "path": "/home/runner/harbor-probe/glm-20260924a-a2-a8/4c7b8d6f-c500-585d-b7b2-3519df55b1b3"
+        "path": "/home/ec2-user/harbor-probe/glm-20260924a-a2-a8/4c7b8d6f-c500-585d-b7b2-3519df55b1b3"
     },
     "source": null,
     "task_checksum": "abc93a7499e2a8374456db123b9f7f56a759ed4543fae39e0e5303ad0e04ed02",
     "config": {
         "task": {
-            "path": "/home/runner/harbor-probe/glm-20260924a-a2-a8/4c7b8d6f-c500-585d-b7b2-3519df55b1b3",
+            "path": "/home/ec2-user/harbor-probe/glm-20260924a-a2-a8/4c7b8d6f-c500-585d-b7b2-3519df55b1b3",
             "git_url": null,
             "git_commit_id": null,
             "name": null,
@@ -20,7 +20,7 @@
             "source": null
         },
         "trial_name": "4c7b8d6f-c500-585d-b7b2-3519df55__hFBgegq",
-        "trials_dir": "/home/runner/harbor-jobs/glm-batch-2026-09-22-twenty-20260924b-six-a3-a8-s01-a6",
+        "trials_dir": "/home/ec2-user/harbor-jobs/glm-batch-2026-09-22-twenty-20260924b-six-a3-a8-s01-a6",
         "install_only": false,
         "timeout_multiplier": 1.0,
         "agent_timeout_multiplier": null,

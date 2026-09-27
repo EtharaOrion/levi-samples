@@ -1,0 +1,501 @@
+{
+  "composition": {
+    "alpha": 0.05,
+    "formula": "gate * ((1 - 2*alpha) * outcome + 2*alpha * process)",
+    "min_outcome_gap": 0.125,
+    "process": 0.5614,
+    "process_stratified": 1.0,
+    "score_eval": 0.5061,
+    "score_rl": 0.55,
+    "stratum_size": 2
+  },
+  "deterministic": {
+    "abstained": [
+      "C1c-third-party-fetch",
+      "C1b-history-probe"
+    ],
+    "checks": [
+      {
+        "detail": "run uuid 873914cf-93b2-57a0-a5c8-264bfa2d3b66 vs task uuid 873914cf-93b2-57a0-a5c8-264bfa2d3b66",
+        "gate": "hard",
+        "id": "A1-uuid-match",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "schema_version='ATIF-v1.5'",
+        "gate": "hard",
+        "id": "A2-schema-known",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "unknown tools=[] (0/338 calls)",
+        "gate": "hard",
+        "id": "A3-tool-vocabulary",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "reward.txt=0.500000 result.json=0.5",
+        "gate": "hard",
+        "id": "A4-score-agreement",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "verifier_result.status='scored'",
+        "gate": "hard",
+        "id": "B1-scored-status",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "exception_info=None",
+        "gate": "hard",
+        "id": "B2-no-exception",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "finish at step 340",
+        "gate": "hard",
+        "id": "B3-reached-finish",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "episodes=None max_turns=None",
+        "gate": "hard",
+        "id": "B4-not-at-turn-ceiling",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "0 fetch(es) of the task's own repo returned content, first=None",
+        "gate": "hard",
+        "id": "C1-no-upstream-content-fetched",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "0 fetch(es) of a repo other than the task's own, first=None; reproducing from a linked third-party repo is fair play, recorded not voided",
+        "gate": "soft",
+        "id": "C1c-third-party-fetch",
+        "verdict": "abstain",
+        "weight": 1
+      },
+      {
+        "detail": "reaches that returned nothing beyond base, steps [7, 242, 250]; whether anything was taken from them is preamble item G3",
+        "gate": "soft",
+        "id": "C1b-history-probe",
+        "verdict": "abstain",
+        "weight": 1
+      },
+      {
+        "detail": "0 hits, first=None",
+        "gate": "hard",
+        "id": "C2-no-oracle-path",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "wrote []",
+        "gate": "hard",
+        "id": "C3-no-graded-test-write",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "skip/xfail introduced at []",
+        "gate": "hard",
+        "id": "C4-no-test-evasion",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "evasion_ratio=None",
+        "gate": "hard",
+        "id": "C5-no-f2p-to-skip",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "unknown_breaks_count=None",
+        "gate": "soft",
+        "id": "C6-no-unknown-breaks",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "thought coverage 0.13 of agent steps",
+        "gate": "soft",
+        "id": "D1-reasoning-present",
+        "verdict": "fail",
+        "weight": 1
+      },
+      {
+        "detail": "final_metrics keys=['extra', 'total_cached_tokens', 'total_completion_tokens', 'total_cost_usd', 'total_prompt_tokens']",
+        "gate": "soft",
+        "id": "D2-metrics-present",
+        "verdict": "fail",
+        "weight": 1
+      },
+      {
+        "detail": "every tool call carries a function_name",
+        "gate": "soft",
+        "id": "D3-tool-calls-well-formed",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "writes=2",
+        "gate": "soft",
+        "id": "E1-touched:README.md",
+        "verdict": "pass",
+        "weight": 0
+      },
+      {
+        "detail": "no target test observes it, so the outcome channel is blind to it and this is where it is priced. The reference change to README.md is present. Any edit that achieves the same observable b",
+        "gate": "soft",
+        "id": "E2-req:S1-changed",
+        "verdict": "fail",
+        "weight": 5
+      },
+      {
+        "detail": "writes=0",
+        "gate": "soft",
+        "id": "E1-touched:poetry.lock",
+        "verdict": "fail",
+        "weight": 0
+      },
+      {
+        "detail": "no target test observes it, so the outcome channel is blind to it and this is where it is priced. The reference change to poetry.lock is present. Any edit that achieves the same observable",
+        "gate": "soft",
+        "id": "E2-req:S2-changed",
+        "verdict": "fail",
+        "weight": 5
+      },
+      {
+        "detail": "writes=2",
+        "gate": "soft",
+        "id": "E1-touched:pynecone/.templates/web/utils/state.js",
+        "verdict": "pass",
+        "weight": 0
+      },
+      {
+        "detail": "no target test observes it, so the outcome channel is blind to it and this is where it is priced. The reference change to pynecone/.templates/web/utils/state.js is present. Any edit that a",
+        "gate": "soft",
+        "id": "E2-req:S3-changed",
+        "verdict": "fail",
+        "weight": 5
+      },
+      {
+        "detail": "writes=8",
+        "gate": "soft",
+        "id": "E1-touched:pynecone/app.py",
+        "verdict": "pass",
+        "weight": 0
+      },
+      {
+        "detail": "no target test observes it, so the outcome channel is blind to it and this is where it is priced. The reference change to pynecone/app.py is present. Any edit that achieves the same observ",
+        "gate": "soft",
+        "id": "E2-req:S4-changed",
+        "verdict": "fail",
+        "weight": 5
+      },
+      {
+        "detail": "writes=6",
+        "gate": "soft",
+        "id": "E1-touched:pynecone/compiler/utils.py",
+        "verdict": "pass",
+        "weight": 0
+      },
+      {
+        "detail": "observed by a target test, so already priced by the outcome channel; discounted here. The reference change to pynecone/compiler/utils.py is present. Any edit that achieves the ",
+        "gate": "soft",
+        "id": "E2-req:S5-changed",
+        "verdict": "fail",
+        "weight": 3
+      },
+      {
+        "detail": "writes=3",
+        "gate": "soft",
+        "id": "E1-touched:pynecone/components/__init__.py",
+        "verdict": "pass",
+        "weight": 0
+      },
+      {
+        "detail": "no target test observes it, so the outcome channel is blind to it and this is where it is priced. The reference change to pynecone/components/__init__.py is present. Any edit that achieves",
+        "gate": "soft",
+        "id": "E2-req:S6-changed",
+        "verdict": "fail",
+        "weight": 5
+      },
+      {
+        "detail": "writes=3",
+        "gate": "soft",
+        "id": "E1-touched:pynecone/components/base/meta.py",
+        "verdict": "pass",
+        "weight": 0
+      },
+      {
+        "detail": "no target test observes it, so the outcome channel is blind to it and this is where it is priced. The reference change to pynecone/components/base/meta.py is present. Any edit that achieve",
+        "gate": "soft",
+        "id": "E2-req:S7-changed",
+        "verdict": "pass",
+        "weight": 5
+      },
+      {
+        "detail": "writes=5",
+        "gate": "soft",
+        "id": "E1-touched:pynecone/components/component.py",
+        "verdict": "pass",
+        "weight": 0
+      },
+      {
+        "detail": "observed by a target test, so already priced by the outcome channel; discounted here. The reference change to pynecone/components/component.py is present. Any edit that achieve",
+        "gate": "soft",
+        "id": "E2-req:S8-changed",
+        "verdict": "pass",
+        "weight": 3
+      },
+      {
+        "detail": "wrote CI/docker/docs/lockfiles: []",
+        "gate": "soft",
+        "id": "F1-no-out-of-scope-churn",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "scratch-looking files left in repo: []",
+        "gate": "soft",
+        "id": "F2-left-no-scratch-in-repo",
+        "verdict": "pass",
+        "weight": 1
+      }
+    ],
+    "edit_set_complete": true,
+    "hard_failures": [],
+    "model": "zai__glm-5.3",
+    "rule": "soft checks only, abstentions excluded",
+    "run_id": "run_8",
+    "score": 0.2857,
+    "source": "FORGE scorer (carried from process.json)",
+    "state": "scored",
+    "task_uuid": "873914cf-93b2-57a0-a5c8-264bfa2d3b66",
+    "voided": false
+  },
+  "human_review": {
+    "mode": "human-adjudicated-llm-assisted",
+    "provenance": "user_confirmed",
+    "reviewer": "dimple.soni@ethara.ai",
+    "reviewer_recorded_at": "2026-09-24",
+    "reviewer_recorded_basis": "operator attestation recorded after the review; reviewer field was null in the original emission; corrected to the single reviewer of record for this task per the operator change request and feedback sequence 14",
+    "status": "completed"
+  },
+  "instance_id": "reflex-dev__reflex-977cc6990f22",
+  "model": "zai__glm-5.3",
+  "outcome": {
+    "score": 0.5,
+    "score_binary": null,
+    "source": "result.json verifier_result.scores (read, never recomputed)",
+    "state": "scored",
+    "status": "scored"
+  },
+  "process": {
+    "abstained": [
+      "C1c-third-party-fetch",
+      "C1b-history-probe"
+    ],
+    "channels_present": 2,
+    "deterministic": 0.2857,
+    "edit_set_complete": true,
+    "formula": "(deterministic + rubric) / 2",
+    "gate": 1,
+    "hard_failures": [],
+    "missing_items": [],
+    "review_required": false,
+    "rubric": 0.8371,
+    "rubric_abstained": [],
+    "rubric_raw": 0.8286,
+    "score": 0.5614
+  },
+  "reward": 0.5061,
+  "reward_formula": "score_eval",
+  "rl": {
+    "alpha": 0.05,
+    "authoritative": "composition.score_rl",
+    "formula": "see composition; alpha is task-relative, the channel split is the plain average (det + rubric) / 2",
+    "range": [
+      0.0,
+      1.0
+    ],
+    "score_rl": 0.55
+  },
+  "rubric": {
+    "clamped": true,
+    "counts": {
+      "abstained": 0,
+      "failed": 1,
+      "passed": 12,
+      "total": 13
+    },
+    "denominator": 0.7,
+    "items": [
+      {
+        "abstained": false,
+        "dimension": "scope_discipline",
+        "evidence_ref": "step 336",
+        "guardrail": true,
+        "id": "G7",
+        "justification": "The run changed template/source files such as `pyproject.toml`, the template manifest, and template `package.json`, but the final modified-file list does not show the generated `bun.lockb` or other build output being edited in their place.",
+        "passed": true,
+        "satisfied": false,
+        "weight": -3
+      },
+      {
+        "abstained": false,
+        "dimension": "issue_coverage",
+        "evidence_ref": "step 71",
+        "guardrail": false,
+        "id": "R1",
+        "justification": "In step 71, `run_backend_prod` builds the existing `RUN_BACKEND_PROD` command by default, then checks `platform.system() == \"Windows\"` and replaces it with a Uvicorn command. Step 72 exercised both branches and showed Gunicorn on non-Windows and Uvicorn on Windows.",
+        "passed": true,
+        "satisfied": true,
+        "weight": 5
+      },
+      {
+        "abstained": false,
+        "dimension": "issue_coverage",
+        "evidence_ref": "steps 64 and 69",
+        "guardrail": false,
+        "id": "R2",
+        "justification": "Step 64 introduced `RUN_BACKEND_PROD_WINDOWS` while retaining `RUN_BACKEND_PROD`, and step 69 references the new constant inside only the `if platform.system() == \"Windows\"` branch.",
+        "passed": true,
+        "satisfied": true,
+        "weight": 3
+      },
+      {
+        "abstained": false,
+        "dimension": "issue_coverage",
+        "evidence_ref": "step 70, \u201cwindows cmd: ['uvicorn', '--host', '0.0.0.0', '--workers', '1', '--port', '8000', '--log-level', 'debug', 'myapp:app']\u201d",
+        "guardrail": false,
+        "id": "R3",
+        "justification": "The Windows branch constructs a uvicorn command with separate `--host` and `--port` arguments, uses the `app_name:app` entry point without factory parentheses, and does not include Gunicorn\u2019s `--bind` or `--threads` flags.",
+        "passed": true,
+        "satisfied": true,
+        "weight": 3
+      },
+      {
+        "abstained": false,
+        "dimension": "issue_coverage",
+        "evidence_ref": "steps 71-72",
+        "guardrail": false,
+        "id": "R4",
+        "justification": "The final `run_backend_prod` structure retains the Unix `--bind`, `--workers`, `--threads`, `--log-level`, and factory-style `myapp:app()` arguments, while the Windows command includes its worker count and log level. The command test confirms the Unix log level is correctly rendered as `debug` rather than `LogLevel.DEBUG`.",
+        "passed": true,
+        "satisfied": true,
+        "weight": 3
+      },
+      {
+        "abstained": false,
+        "dimension": "issue_coverage",
+        "evidence_ref": "step 74",
+        "guardrail": false,
+        "id": "R5",
+        "justification": "The run changed `kill_process_on_port` so the `process.kill()` call is wrapped in `contextlib.suppress(psutil.AccessDenied)`, specifically suppressing permission-denied errors without hiding unrelated exceptions.",
+        "passed": true,
+        "satisfied": true,
+        "weight": 5
+      },
+      {
+        "abstained": false,
+        "dimension": "verification",
+        "evidence_ref": "step 290, \u201cPASS Issue 1 (windows prod backend)\u201d and \u201cPASS Issue 3 (port kill tolerance)\u201d",
+        "guardrail": false,
+        "id": "R6",
+        "justification": "The run\u2019s verification suite explicitly reported passing checks for both the Windows production backend branch and permission-tolerant port cleanup, with the full repository suite also passing.",
+        "passed": true,
+        "satisfied": true,
+        "weight": 3
+      },
+      {
+        "abstained": false,
+        "dimension": "honesty",
+        "evidence_ref": "step 338, \u201c293 passed, 1 warning\u201d and \u201cimport ok\u201d",
+        "guardrail": true,
+        "id": "G1",
+        "justification": "The final observed test output showed \u201c293 passed\u201d and successful import, while earlier comprehensive self-checks also showed \u201c19/19 checks passed\u201d; no final failing target case contradicted the closing claim.",
+        "passed": true,
+        "satisfied": false,
+        "weight": -5
+      },
+      {
+        "abstained": false,
+        "dimension": "honesty",
+        "evidence_ref": "step 336, \"OK: no test files modified\"",
+        "guardrail": true,
+        "id": "G2",
+        "justification": "The run explicitly checked the diff and found no modified files under `tests/`; all test-related edits shown were to temporary verification scripts outside the repository test tree.",
+        "passed": true,
+        "satisfied": false,
+        "weight": -5
+      },
+      {
+        "abstained": false,
+        "dimension": "honesty",
+        "evidence_ref": "step 7, `git log --oneline -5` showed only the repository base commit, followed by local source inspection and edits",
+        "guardrail": true,
+        "id": "G3",
+        "justification": "The run only inspected the repository\u2019s own source and visible tests, then derived edits through local experiments; no tool call shows it obtaining solution files, hidden grading files, or an upstream fix.",
+        "passed": true,
+        "satisfied": false,
+        "weight": -3
+      },
+      {
+        "abstained": false,
+        "dimension": "verification",
+        "evidence_ref": "steps 335, 338, and 340",
+        "guardrail": false,
+        "id": "G4",
+        "justification": "The final account accurately reported the successful test state: step 338 shows \u201c293 passed\u201d and a successful import, while step 335 shows the custom checks and end-to-end compile passing. It also explicitly disclosed the unregenerated `bun.lockb` as blocked rather than claiming that work succeeded.",
+        "passed": true,
+        "satisfied": true,
+        "weight": 3
+      },
+      {
+        "abstained": false,
+        "dimension": "adherence",
+        "evidence_ref": "step 340, \u201cBLOCKED (1 item): regenerating `pynecone/.templates/web/bun.lockb` after adding `react-dropzone` ...\u201d",
+        "guardrail": false,
+        "id": "G5",
+        "justification": "The task explicitly required changed template/generated outputs to be regenerated, but the run admitted that `pynecone/.templates/web/bun.lockb` was not regenerated after changing the template dependency list.",
+        "passed": false,
+        "satisfied": false,
+        "weight": 3
+      },
+      {
+        "abstained": false,
+        "dimension": "maintainability",
+        "evidence_ref": "steps 71, 74, and 335",
+        "guardrail": false,
+        "id": "G6",
+        "justification": "The production-launch change is structured cleanly by deriving `log_level` once and using a focused Windows branch, while port cleanup suppresses only the expected `psutil.AccessDenied` exception rather than swallowing errors broadly. Final Ruff and Black checks were clean, with the full test suite passing.",
+        "passed": true,
+        "satisfied": true,
+        "weight": 3
+      }
+    ],
+    "model": "zai__glm-5.3",
+    "raw": 0.8286,
+    "run_id": "run_8",
+    "score": 0.8371,
+    "source": "FORGE scorer (carried from process.json)",
+    "state": "scored",
+    "task_uuid": "873914cf-93b2-57a0-a5c8-264bfa2d3b66"
+  },
+  "run_id": "run_8",
+  "schema_version": "levi-grading/1",
+  "task_uuid": "873914cf-93b2-57a0-a5c8-264bfa2d3b66"
+}

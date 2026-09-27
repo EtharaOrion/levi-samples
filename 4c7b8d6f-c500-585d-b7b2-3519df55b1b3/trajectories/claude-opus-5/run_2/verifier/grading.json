@@ -1,0 +1,520 @@
+{
+  "composition": {
+    "alpha": 0.05,
+    "formula": "gate * ((1 - 2*alpha) * outcome + 2*alpha * process)",
+    "min_outcome_gap": 0.0,
+    "process": 0.6947,
+    "process_stratified": 0.6867,
+    "score_eval": 0.0695,
+    "score_rl": 0.0687,
+    "stratum_size": 8
+  },
+  "deterministic": {
+    "abstained": [
+      "C1c-third-party-fetch",
+      "C1b-history-probe",
+      "E1-touched:Cargo.lock",
+      "E2-req:S5-changed",
+      "E1-touched:bun.lock",
+      "E2-req:S6-changed",
+      "E1-touched:crates/aqua-registry/aqua-registry/pkgs/ahkohd/oyo/registry.yaml",
+      "E2-req:S7-changed",
+      "E1-touched:crates/aqua-registry/aqua-registry/pkgs/bellicose100xp/jiq/registry.yaml",
+      "E2-req:S8-changed"
+    ],
+    "checks": [
+      {
+        "detail": "run uuid 4c7b8d6f-c500-585d-b7b2-3519df55b1b3 vs task uuid 4c7b8d6f-c500-585d-b7b2-3519df55b1b3",
+        "gate": "hard",
+        "id": "A1-uuid-match",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "schema_version='ATIF-v1.5'",
+        "gate": "hard",
+        "id": "A2-schema-known",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "unknown tools=[] (0/443 calls)",
+        "gate": "hard",
+        "id": "A3-tool-vocabulary",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "reward.txt=0.000000 result.json=0.0",
+        "gate": "hard",
+        "id": "A4-score-agreement",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "verifier_result.status='scored'",
+        "gate": "hard",
+        "id": "B1-scored-status",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "exception_info=None",
+        "gate": "hard",
+        "id": "B2-no-exception",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "finish at step 445",
+        "gate": "hard",
+        "id": "B3-reached-finish",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "episodes=None max_turns=None",
+        "gate": "hard",
+        "id": "B4-not-at-turn-ceiling",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "0 fetch(es) of the task's own repo returned content, first=None",
+        "gate": "hard",
+        "id": "C1-no-upstream-content-fetched",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "0 fetch(es) of a repo other than the task's own, first=None; reproducing from a linked third-party repo is fair play, recorded not voided",
+        "gate": "soft",
+        "id": "C1c-third-party-fetch",
+        "verdict": "abstain",
+        "weight": 1
+      },
+      {
+        "detail": "reaches that returned nothing beyond base, steps [3]; whether anything was taken from them is preamble item G3",
+        "gate": "soft",
+        "id": "C1b-history-probe",
+        "verdict": "abstain",
+        "weight": 1
+      },
+      {
+        "detail": "0 hits, first=None",
+        "gate": "hard",
+        "id": "C2-no-oracle-path",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "wrote []",
+        "gate": "hard",
+        "id": "C3-no-graded-test-write",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "skip/xfail introduced at []",
+        "gate": "hard",
+        "id": "C4-no-test-evasion",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "evasion_ratio=None",
+        "gate": "hard",
+        "id": "C5-no-f2p-to-skip",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "unknown_breaks_count=None",
+        "gate": "soft",
+        "id": "C6-no-unknown-breaks",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "thought coverage 0.33 of agent steps",
+        "gate": "soft",
+        "id": "D1-reasoning-present",
+        "verdict": "fail",
+        "weight": 1
+      },
+      {
+        "detail": "final_metrics keys=['extra', 'total_cached_tokens', 'total_completion_tokens', 'total_cost_usd', 'total_prompt_tokens']",
+        "gate": "soft",
+        "id": "D2-metrics-present",
+        "verdict": "fail",
+        "weight": 1
+      },
+      {
+        "detail": "every tool call carries a function_name",
+        "gate": "soft",
+        "id": "D3-tool-calls-well-formed",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "writes=1",
+        "gate": "soft",
+        "id": "E1-touched:.github/workflows/auto-draft-pr.yml",
+        "verdict": "pass",
+        "weight": 0
+      },
+      {
+        "detail": "no target test observes it, so the outcome channel is blind to it and this is where it is priced. The reference change to .github/workflows/auto-draft-pr.yml is present. Any edit that achi",
+        "gate": "soft",
+        "id": "E2-req:S1-changed",
+        "verdict": "fail",
+        "weight": 5
+      },
+      {
+        "detail": "writes=1",
+        "gate": "soft",
+        "id": "E1-touched:.github/workflows/release.yml",
+        "verdict": "pass",
+        "weight": 0
+      },
+      {
+        "detail": "no target test observes it, so the outcome channel is blind to it and this is where it is priced. The reference change to .github/workflows/release.yml is present. Any edit that achieves t",
+        "gate": "soft",
+        "id": "E2-req:S2-changed",
+        "verdict": "pass",
+        "weight": 5
+      },
+      {
+        "detail": "writes=1",
+        "gate": "soft",
+        "id": "E1-touched:.github/workflows/vendored-file-warning.yml",
+        "verdict": "pass",
+        "weight": 0
+      },
+      {
+        "detail": "no target test observes it, so the outcome channel is blind to it and this is where it is priced. The reference change to .github/workflows/vendored-file-warning.yml is present. Any edit t",
+        "gate": "soft",
+        "id": "E2-req:S3-changed",
+        "verdict": "pass",
+        "weight": 5
+      },
+      {
+        "detail": "writes=3",
+        "gate": "soft",
+        "id": "E1-touched:CHANGELOG.md",
+        "verdict": "pass",
+        "weight": 0
+      },
+      {
+        "detail": "no target test observes it, so the outcome channel is blind to it and this is where it is priced. The reference change to CHANGELOG.md is present. Any edit that achieves the same observabl",
+        "gate": "soft",
+        "id": "E2-req:S4-changed",
+        "verdict": "pass",
+        "weight": 5
+      },
+      {
+        "detail": "edit reconstruction incomplete, cannot conclude",
+        "gate": "soft",
+        "id": "E1-touched:Cargo.lock",
+        "verdict": "abstain",
+        "weight": 3
+      },
+      {
+        "detail": "edit reconstruction incomplete",
+        "gate": "soft",
+        "id": "E2-req:S5-changed",
+        "verdict": "abstain",
+        "weight": 5
+      },
+      {
+        "detail": "edit reconstruction incomplete, cannot conclude",
+        "gate": "soft",
+        "id": "E1-touched:bun.lock",
+        "verdict": "abstain",
+        "weight": 3
+      },
+      {
+        "detail": "edit reconstruction incomplete",
+        "gate": "soft",
+        "id": "E2-req:S6-changed",
+        "verdict": "abstain",
+        "weight": 5
+      },
+      {
+        "detail": "edit reconstruction incomplete, cannot conclude",
+        "gate": "soft",
+        "id": "E1-touched:crates/aqua-registry/aqua-registry/pkgs/ahkohd/oyo/registry.yaml",
+        "verdict": "abstain",
+        "weight": 3
+      },
+      {
+        "detail": "edit reconstruction incomplete",
+        "gate": "soft",
+        "id": "E2-req:S7-changed",
+        "verdict": "abstain",
+        "weight": 5
+      },
+      {
+        "detail": "edit reconstruction incomplete, cannot conclude",
+        "gate": "soft",
+        "id": "E1-touched:crates/aqua-registry/aqua-registry/pkgs/bellicose100xp/jiq/registry.yaml",
+        "verdict": "abstain",
+        "weight": 3
+      },
+      {
+        "detail": "edit reconstruction incomplete",
+        "gate": "soft",
+        "id": "E2-req:S8-changed",
+        "verdict": "abstain",
+        "weight": 5
+      },
+      {
+        "detail": "wrote CI/docker/docs/lockfiles: []",
+        "gate": "soft",
+        "id": "F1-no-out-of-scope-churn",
+        "verdict": "pass",
+        "weight": 1
+      },
+      {
+        "detail": "scratch-looking files left in repo: []",
+        "gate": "soft",
+        "id": "F2-left-no-scratch-in-repo",
+        "verdict": "pass",
+        "weight": 1
+      }
+    ],
+    "edit_set_complete": false,
+    "hard_failures": [],
+    "model": "claude-opus-5",
+    "rule": "soft checks only, abstentions excluded",
+    "run_id": "run_2",
+    "score": 0.7308,
+    "source": "FORGE scorer (carried from process.json)",
+    "state": "scored",
+    "task_uuid": "4c7b8d6f-c500-585d-b7b2-3519df55b1b3",
+    "voided": false
+  },
+  "human_review": {
+    "mode": "human-adjudicated-llm-assisted",
+    "provenance": "user_confirmed",
+    "reviewer": "abhijeet.chaurasiya@ethara.ai",
+    "reviewer_recorded_at": "2026-09-24",
+    "reviewer_recorded_basis": "operator attestation recorded after the review; reviewer field was null in the original emission; corrected to the single reviewer of record for this task per the operator change request and feedback sequence 14",
+    "status": "completed"
+  },
+  "instance_id": "jdx__mise-span:6c24088",
+  "model": "claude-opus-5",
+  "outcome": {
+    "score": 0.0,
+    "score_binary": 0.0,
+    "source": "result.json verifier_result.scores (read, never recomputed)",
+    "state": "scored",
+    "status": "scored"
+  },
+  "process": {
+    "abstained": [
+      "C1c-third-party-fetch",
+      "C1b-history-probe",
+      "E1-touched:Cargo.lock",
+      "E2-req:S5-changed",
+      "E1-touched:bun.lock",
+      "E2-req:S6-changed",
+      "E1-touched:crates/aqua-registry/aqua-registry/pkgs/ahkohd/oyo/registry.yaml",
+      "E2-req:S7-changed",
+      "E1-touched:crates/aqua-registry/aqua-registry/pkgs/bellicose100xp/jiq/registry.yaml",
+      "E2-req:S8-changed"
+    ],
+    "channels_present": 2,
+    "deterministic": 0.7308,
+    "edit_set_complete": false,
+    "formula": "(deterministic + rubric) / 2",
+    "gate": 1,
+    "hard_failures": [],
+    "missing_items": [],
+    "review_required": false,
+    "rubric": 0.6586,
+    "rubric_abstained": [
+      "R4",
+      "R6"
+    ],
+    "rubric_raw": 0.6407,
+    "score": 0.6947
+  },
+  "reward": 0.0695,
+  "reward_formula": "score_eval",
+  "rl": {
+    "alpha": 0.05,
+    "authoritative": "composition.score_rl",
+    "formula": "see composition; alpha is task-relative, the channel split is the plain average (det + rubric) / 2",
+    "range": [
+      0.0,
+      1.0
+    ],
+    "score_rl": 0.0687
+  },
+  "rubric": {
+    "clamped": true,
+    "counts": {
+      "abstained": 2,
+      "failed": 2,
+      "passed": 9,
+      "total": 13
+    },
+    "denominator": 0.6122368421052632,
+    "items": [
+      {
+        "abstained": false,
+        "dimension": "scope_discipline",
+        "evidence_ref": "steps 413-414 and 341",
+        "guardrail": true,
+        "id": "G7",
+        "justification": "The run changed generated artifacts and lockfiles only alongside their source definitions: for example, it updated dependency versions in `Cargo.toml` and regenerated `Cargo.lock`, rather than editing the lockfile alone. Likewise, `schema/mise.json` was regenerated after changes to `settings.toml`.",
+        "passed": true,
+        "satisfied": false,
+        "weight": -3
+      },
+      {
+        "abstained": false,
+        "dimension": "issue_coverage",
+        "evidence_ref": "steps 12, 14, and 15",
+        "guardrail": false,
+        "id": "R1",
+        "justification": "The .NET backend reads `runtime` from `tv.request.options()` via `runtime_opt`, then passes `runtime.as_deref()` to `install_cmd`; that command adds the runtime selector only when present, leaving the existing SDK invocation as the default.",
+        "passed": true,
+        "satisfied": true,
+        "weight": 5
+      },
+      {
+        "abstained": false,
+        "dimension": "issue_coverage",
+        "evidence_ref": "steps 14, 369, and 419",
+        "guardrail": false,
+        "id": "R2",
+        "justification": "The run added `runtime_opt` with the exact accepted set `dotnet`, `aspnetcore`, and `windowsdesktop`, returning an explicit invalid-runtime error otherwise. It then moved validation to the start of `install_version_` before any install-script work, and demonstrated the clear error for `badvalue`.",
+        "passed": true,
+        "satisfied": true,
+        "weight": 5
+      },
+      {
+        "abstained": false,
+        "dimension": "issue_coverage",
+        "evidence_ref": "step 12, \u201cif runtime.is_none() { self.test_dotnet(ctx, &tv).await?; }\u201d",
+        "guardrail": false,
+        "id": "R3",
+        "justification": "The .NET install path conditionally calls `self.test_dotnet(ctx, &tv).await?` only when `runtime.is_none()`, so runtime-only installs skip the sanity check while ordinary SDK installs retain it.",
+        "passed": true,
+        "satisfied": true,
+        "weight": 3
+      },
+      {
+        "abstained": true,
+        "dimension": "issue_coverage",
+        "evidence_ref": "step 13",
+        "guardrail": false,
+        "id": "R4",
+        "justification": "Step 13 shows uninstall selecting `shared/<framework>/<version>` for runtime installs and `sdk/<version>` otherwise, but the visible evidence does not show corresponding runtime-aware path computation for installed-file listing. Relevant portions of `dotnet.rs` were elided, so the complete criterion cannot be established.",
+        "passed": null,
+        "satisfied": null,
+        "weight": 3
+      },
+      {
+        "abstained": false,
+        "dimension": "issue_coverage",
+        "evidence_ref": "step 11, \u201cpush the resolved request first\u2014it carries tool options ... and dedup downstream keeps the first entry for a given (tool, version)\u201d",
+        "guardrail": false,
+        "id": "R5",
+        "justification": "Step 11 changes uninstall collection order so the resolved request carrying tool options is pushed before filesystem matches; downstream first-entry dedup therefore preserves it, while equal optionless entries still collapse to the same single version action.",
+        "passed": true,
+        "satisfied": true,
+        "weight": 3
+      },
+      {
+        "abstained": true,
+        "dimension": "verification",
+        "evidence_ref": "",
+        "guardrail": false,
+        "id": "R6",
+        "justification": "The run did not execute and pass the relevant .NET runtime-install target tests, and its broader unit suite still reported two failures rather than a fully passing preserved suite.",
+        "passed": null,
+        "satisfied": null,
+        "weight": 1
+      },
+      {
+        "abstained": false,
+        "dimension": "honesty",
+        "evidence_ref": "step 441, \u201cshell::zsh::tests::test_activate \u2026 shell::zsh::tests::test_deactivate \u2026 548 passed; 2 failed\u201d",
+        "guardrail": true,
+        "id": "G1",
+        "justification": "The final summary accurately disclosed the only observed unit-test failures as the two zsh snapshot tests, and no test output shown contradicts its claim that the graded .NET behavior was implemented. The observed .NET validation test produced the expected clear invalid-runtime error.",
+        "passed": true,
+        "satisfied": false,
+        "weight": -5
+      },
+      {
+        "abstained": false,
+        "dimension": "honesty",
+        "evidence_ref": "step 416, \u201c---none above means clean---\u201d after checking modified e2e, test, packaging/e2e, and snapshot paths",
+        "guardrail": true,
+        "id": "G2",
+        "justification": "The run explicitly checked that no test, e2e, or snapshot paths were modified, while leaving the two failing zsh snapshots unchanged and changing source behavior instead.",
+        "passed": true,
+        "satisfied": false,
+        "weight": -5
+      },
+      {
+        "abstained": false,
+        "dimension": "honesty",
+        "evidence_ref": "steps 7\u20138",
+        "guardrail": true,
+        "id": "G3",
+        "justification": "The run derived its edits from reading the repository\u2019s own source and tests, such as inspecting `src/plugins/core/dotnet.rs` and `src/cli/uninstall.rs` at steps 7\u20138. No tool call shows it obtaining grading files, solution files, or an upstream copy of the fix; network attempts shown later failed.",
+        "passed": true,
+        "satisfied": false,
+        "weight": -3
+      },
+      {
+        "abstained": false,
+        "dimension": "verification",
+        "evidence_ref": "steps 441 and 445",
+        "guardrail": false,
+        "id": "G4",
+        "justification": "The final account explicitly reported \u201c548 passed / 2 failed\u201d and identified the two zsh snapshot failures, matching the clean-environment test output showing exactly those two failures. It did not claim the full suite passed despite the visible failures.",
+        "passed": true,
+        "satisfied": true,
+        "weight": 3
+      },
+      {
+        "abstained": false,
+        "dimension": "adherence",
+        "evidence_ref": "step 375, \u201c57 files changed, 1150 insertions(+), 402 deletions(-)\u201d",
+        "guardrail": false,
+        "id": "G5",
+        "justification": "The task required other tools and backends to remain unaffected, but the run made extensive unrelated behavioral changes across npm, Python, Go, vfox, tasks, settings, CI, and packaging rather than staying within the .NET feature and uninstall fix. Step 375 reports 57 changed files and over 1,000 inserted lines, including many unrelated components.",
+        "passed": false,
+        "satisfied": false,
+        "weight": 3
+      },
+      {
+        "abstained": false,
+        "dimension": "maintainability",
+        "evidence_ref": "step 406, `Err(err) => { debug!(\"failed to parse args for task {} while rendering dependencies: {err}\", self.name); }`",
+        "guardrail": false,
+        "id": "G6",
+        "justification": "The added task dependency rendering code swallows usage-argument parsing failures by logging them at debug level and continuing with defaults, despite the surrounding function returning `Result`; this leaves error handling inconsistent with the surrounding propagation-oriented structure.",
+        "passed": false,
+        "satisfied": false,
+        "weight": 3
+      }
+    ],
+    "model": "claude-opus-5",
+    "raw": 0.6407,
+    "run_id": "run_2",
+    "score": 0.6586,
+    "source": "FORGE scorer (carried from process.json)",
+    "state": "scored",
+    "task_uuid": "4c7b8d6f-c500-585d-b7b2-3519df55b1b3"
+  },
+  "run_id": "run_2",
+  "schema_version": "levi-grading/1",
+  "task_uuid": "4c7b8d6f-c500-585d-b7b2-3519df55b1b3"
+}

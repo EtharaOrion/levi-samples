@@ -2,15 +2,15 @@
     "id": "52dd48fd-ed45-459a-99c9-295a57f515ec",
     "task_name": "levi/t06-reflex",
     "trial_name": "873914cf-93b2-57a0-a5c8-264bfa2d__4ETLfrg",
-    "trial_uri": "file:///home/runner/harbor-jobs/glm-batch-2026-09-22-twenty-20260924b-six-a3-a8-t06-a8/873914cf-93b2-57a0-a5c8-264bfa2d__4ETLfrg",
+    "trial_uri": "file:///home/ec2-user/harbor-jobs/glm-batch-2026-09-22-twenty-20260924b-six-a3-a8-t06-a8/873914cf-93b2-57a0-a5c8-264bfa2d__4ETLfrg",
     "task_id": {
-        "path": "/home/runner/harbor-probe/glm-20260924a-a2-a8/873914cf-93b2-57a0-a5c8-264bfa2d3b66"
+        "path": "/home/ec2-user/harbor-probe/glm-20260924a-a2-a8/873914cf-93b2-57a0-a5c8-264bfa2d3b66"
     },
     "source": null,
     "task_checksum": "517cdb39eb932654f0def3b0520fda5ae8dd465500b61bde5d201023e3dc5bb3",
     "config": {
         "task": {
-            "path": "/home/runner/harbor-probe/glm-20260924a-a2-a8/873914cf-93b2-57a0-a5c8-264bfa2d3b66",
+            "path": "/home/ec2-user/harbor-probe/glm-20260924a-a2-a8/873914cf-93b2-57a0-a5c8-264bfa2d3b66",
             "git_url": null,
             "git_commit_id": null,
             "name": null,
@@ -20,7 +20,7 @@
             "source": null
         },
         "trial_name": "873914cf-93b2-57a0-a5c8-264bfa2d__4ETLfrg",
-        "trials_dir": "/home/runner/harbor-jobs/glm-batch-2026-09-22-twenty-20260924b-six-a3-a8-t06-a8",
+        "trials_dir": "/home/ec2-user/harbor-jobs/glm-batch-2026-09-22-twenty-20260924b-six-a3-a8-t06-a8",
         "install_only": false,
         "timeout_multiplier": 1.0,
         "agent_timeout_multiplier": null,

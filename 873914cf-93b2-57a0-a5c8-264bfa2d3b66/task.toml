@@ -1,6 +1,7 @@
 schema_version = "1.4"
 
 artifacts = [
+  "/logs/agent/trajectory.json",
   "/logs/verifier/summary.json",
   "/logs/verifier/final.diff",
   "/logs/verifier/target-stdout.md",
@@ -15,6 +16,7 @@ authors = [{ name = "Dimple Soni", email = "dimple.soni@ethara.ai" }]
 keywords = ["python", "issue-resolving", "reflex", "agent:openhands-sdk"]
 
 [metadata]
+uuid = "873914cf-93b2-57a0-a5c8-264bfa2d3b66"
 required_agent = "openhands-sdk"
 required_agent_basis = "harbor run --agent openhands-sdk; the neighbouring `openhands` agent cannot install in this bundle and fails as a network error"
 agent_sdk_version_metadata = "1.49.1"
@@ -29,10 +31,10 @@ source_files = 3
 delivery_format = "levi"
 image_pin_kind = "pushed-sanitized-index-digest"
 image_pin_portable = true
-base_image_ref = "426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-milo/reflex-dev_m_reflex:pr-570@sha256:feb1885ae818e5eb6b5a153f2a11cc75a84ae2388788d1db78e3484344c532cc"
-base_image_digest = "sha256:feb1885ae818e5eb6b5a153f2a11cc75a84ae2388788d1db78e3484344c532cc"
+base_image_ref = "426628337772.dkr.ecr.ap-south-1.amazonaws.com/levi:873914cf@sha256:eca2d8710d1baffad6f1d273610bbce183857c73bed6574dce2252fb3fb446aa"
+base_image_digest = "sha256:eca2d8710d1baffad6f1d273610bbce183857c73bed6574dce2252fb3fb446aa"
 base_image_platform_manifest_digest = "sha256:feb1885ae818e5eb6b5a153f2a11cc75a84ae2388788d1db78e3484344c532cc"
-base_image_registry_namespace = ""
+base_image_registry_namespace = "426628337772.dkr.ecr.ap-south-1.amazonaws.com/levi"
 environment_build_digest = "a81370678bd247ef5b913d399fbdced9bfc7086ea522a859a1ec64cb6a876339"
 instruction_following_carrier = "none"
 instruction_following_state = "deferred"
@@ -41,7 +43,7 @@ signals_shipped = ["outcome"]
 signals_authored_unconsumed = ["instruction_following"]
 
 [environment]
-docker_image = "426628337772.dkr.ecr.ap-south-1.amazonaws.com/rfp-coding-q1-tag-levi/reflex-dev_m_reflex@sha256:eca2d8710d1baffad6f1d273610bbce183857c73bed6574dce2252fb3fb446aa"
+docker_image = "426628337772.dkr.ecr.ap-south-1.amazonaws.com/levi@sha256:eca2d8710d1baffad6f1d273610bbce183857c73bed6574dce2252fb3fb446aa"
 local_image_id = "sha256:844744ef3ba7a2bf175f3f4446cfc4d26324deea3276dddc3570263e0e1926d7"
 network_mode = "no-network"
 build_timeout_sec = 3600.0
@@ -64,13 +66,21 @@ timeout_sec = 3600.0
 null_floor = 0.0
 
 [verifier.environment]
-network_mode = "no-network"
+docker_image = "426628337772.dkr.ecr.ap-south-1.amazonaws.com/levi@sha256:ae806d87b1c39230275640d63b14fa813dc7c1fb47a76da71a55da4d69f8c7a0"
+network_mode = "allowlist"
+allowed_hosts = ["api.openai.com", "api.anthropic.com"]
 build_timeout_sec = 3600.0
 cpus = 8
 memory_mb = 16384
 storage_mb = 20480
 gpus = 0
 
+[verifier.env]
+JUDGE_MODEL = '{{ env.JUDGE_MODEL | default(value="") }}'
+JUDGE_API_KEY = '{{ env.JUDGE_API_KEY | default(value="") }}'
+JUDGE_BASE_URL = '{{ env.JUDGE_BASE_URL | default(value="") }}'
+JUDGE_TEMPERATURE = '{{ env.JUDGE_TEMPERATURE | default(value="0") }}'
+JUDGE_SEED = '{{ env.JUDGE_SEED | default(value="0") }}'
 [span_provenance]
 instance_identity = "reflex-dev/reflex v0.1.18..v0.1.19"
 span_label = "v0.1.18..v0.1.19"
@@ -89,3 +99,6 @@ issue_10 = ["_alert", "_console", "_redirect", "def console_log(message: str) ->
 issue_14 = ["alert", "icon"]
 issue_15 = ["utils._issubclass(cls: GenericType, cls_check: GenericType) -> bool"]
 issue_16 = ["Upload.create(cls, *children, **props) -> Component", "Upload.tag", "Tag.args"]
+
+
+
