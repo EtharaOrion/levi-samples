@@ -943,31 +943,6 @@ i32 (armv7) and i64 (x86_64/aarch64)
 - [ ] Verify `build-tarball-linux-armv7` CI job passes
 - [ ] Verify clippy/autofix doesn't revert the change
 
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
-
-<!-- CURSOR_SUMMARY -->
----
-
-> [!NOTE]
-> **Low Risk**
-> Low risk: behavior is unchanged, but it touches Linux seccomp rule 
-construction; main risk is mis-conversion of syscall numbers on some 
-architectures.
-> 
-> **Overview**
-> Updates the Linux seccomp network filter to build the syscall rule map using 
-`i64::from` (via `.map(i64::from)`) instead of casting, and suppresses Clippy’s 
-`useless_conversion` to prevent autofix from reverting the change.
-> 
-> This keeps syscall keys consistently typed across architectures when inserting
-`SYS_socket`/`SYS_socketpair` rules.
-> 
-> <sup>Reviewed by [Cursor Bugbot](https://cursor.com/bugbot) for commit 
-c14c90faabdad24f22a3dd6f4cd8cd1392ffe63a. Bugbot is set up for automated code 
-reviews on this repo. Configure 
-[here](https://www.cursor.com/dashboard/bugbot).</sup>
-<!-- /CURSOR_SUMMARY -->
-
 ## Issue 14
 
 Pull request #8884: registry: add turso (github:tursodatabase/turso-cli)
@@ -1004,33 +979,6 @@ armv7 failures cause `e2e-linux`, `rpm`, and `deb` to be skipped, but
 correctly
 - [ ] Verify the release job fails early if any build target fails (e.g. armv7)
 
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
-
-<!-- CURSOR_SUMMARY -->
----
-
-> [!NOTE]
-> **Medium Risk**
-> Medium risk because it changes release pipeline gating and could block 
-publishing if any upstream job is skipped or misreported, but it does not touch 
-product/runtime code.
-> 
-> **Overview**
-> **Prevents publishing releases when prerequisites are incomplete.** The 
-`release` workflow now runs an explicit verification step that checks 
-`needs.*.result` for `build-tarball-*`, `e2e-linux`, `rpm`, and `deb`, and fails
-the job with a clear error message if any did not return `success`.
-> 
-> This closes a gap where `!cancelled() && !failure()` could allow the release 
-to proceed when upstream jobs were *skipped* (e.g., due to matrix variant 
-failures) rather than failed.
-> 
-> <sup>Reviewed by [Cursor Bugbot](https://cursor.com/bugbot) for commit 
-ba5b580917337059bac44493f57b39a338686744. Bugbot is set up for automated code 
-reviews on this repo. Configure 
-[here](https://www.cursor.com/dashboard/bugbot).</sup>
-<!-- /CURSOR_SUMMARY -->
-
 ## Issue 16
 
 Pull request #8887: fix(docs): use sans-serif font for badges
@@ -1043,27 +991,6 @@ instead of the base sans-serif font (Roc Grotesk)
 ## Test plan
 - [ ] Verify experimental/warning badges render in Roc Grotesk on docs pages 
 (e.g., sandboxing, secrets)
-
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
-
-<!-- CURSOR_SUMMARY -->
----
-
-> [!NOTE]
-> **Low Risk**
-> Low risk: a single CSS change that only affects badge typography in the docs 
-theme.
-> 
-> **Overview**
-> Ensures docs `.badge` styling explicitly uses the base sans-serif font by 
-adding `font-family: var(--vp-font-family-base)`, preventing badges from 
-inheriting the serif heading font.
-> 
-> <sup>Reviewed by [Cursor Bugbot](https://cursor.com/bugbot) for commit 
-a0cf680453d23422645016a7bc213aad714b9163. Bugbot is set up for automated code 
-reviews on this repo. Configure 
-[here](https://www.cursor.com/dashboard/bugbot).</sup>
-<!-- /CURSOR_SUMMARY -->
 
 ## Issue 17
 
@@ -1085,33 +1012,6 @@ Closes #8885
 github:jgm/pandoc@3.8.2` returns the `.mise-bins` path
 - [x] `cargo check` passes
 - [x] All pre-commit lints pass
-
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
-
-<!-- CURSOR_SUMMARY -->
----
-
-> [!NOTE]
-> **Medium Risk**
-> Touches tool resolution/merging and bin-path discovery for the GitHub/Aqua 
-backends, which could subtly change PATH/bin exposure for some tools. Changes 
-are small and covered by an added e2e assertion, but impact core CLI behavior.
-> 
-> **Overview**
-> Fixes a regression where CLI-specified tool versions (e.g. `mise bin-paths 
-tool@version`) could drop configured tool options like `filter_bins` by copying 
-options from the config request when the CLI request doesn’t specify its own.
-> 
-> Updates GitHub and Aqua backends’ `list_bin_paths` to also return the 
-`.mise-bins` directory whenever it already exists on disk (not only when the 
-relevant option is present), and adds an e2e check ensuring `bin-paths` returns 
-the filtered `.mise-bins` path for `github:jgm/pandoc@3.8.2`.
-> 
-> <sup>Reviewed by [Cursor Bugbot](https://cursor.com/bugbot) for commit 
-94fb91c20c205cdf76b9349bf3c0bcc8b47a4120. Bugbot is set up for automated code 
-reviews on this repo. Configure 
-[here](https://www.cursor.com/dashboard/bugbot).</sup>
-<!-- /CURSOR_SUMMARY -->
 
 ## Issue 18
 
@@ -1137,32 +1037,6 @@ env`
 - [ ] `mise -E production env` still works as before
 - [ ] Comma-separated values work: `mise --env=dev,staging env`
 
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
-
-<!-- CURSOR_SUMMARY -->
----
-
-> [!NOTE]
-> **Medium Risk**
-> Adjusts CLI argument parsing for environment selection, which can change which
-config/environment is applied at runtime; scope is localized and covered by new 
-e2e tests.
-> 
-> **Overview**
-> Fixes environment/profile flag parsing so `--env=dev`, `-E=dev`, 
-`--profile=dev`, and `-P=dev` are recognized (in addition to space-separated 
-forms), including comma-separated multi-env values.
-> 
-> Updates `environment()` scanning to stop treating flags after `mise run 
-<task>` as global env selectors, and adds an e2e test validating equals-sign, 
-space-separated, comma-separated, and `mise run` ordering behavior.
-> 
-> <sup>Reviewed by [Cursor Bugbot](https://cursor.com/bugbot) for commit 
-5c3df3bf8333a88b35d5a6724daf2ed50c2b1cf9. Bugbot is set up for automated code 
-reviews on this repo. Configure 
-[here](https://www.cursor.com/dashboard/bugbot).</sup>
-<!-- /CURSOR_SUMMARY -->
-
 ## Issue 19
 
 Pull request #8892: fix(github): use alias-specific options when tool_alias has 
@@ -1185,37 +1059,6 @@ Fixes https://github.com/jdx/mise/discussions/8847
 - [x] `mise run test:e2e test_github_tool_alias_asset_pattern` — new e2e test 
 passes
 - [x] All lint hooks pass
-
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
-
-<!-- CURSOR_SUMMARY -->
----
-
-> [!NOTE]
-> **Medium Risk**
-> Changes tool option resolution for aliased backends, which can affect how 
-tools are downloaded/installed (e.g., `asset_pattern`) for some configurations; 
-scope is localized but impacts installation behavior.
-> 
-> **Overview**
-> Fixes a regression where a `tool_alias` could incorrectly inherit the original
-tool’s option set (notably `asset_pattern`) instead of using the alias-specific 
-config.
-> 
-> `Config::get_tool_opts()` now considers both the alias short-name match and 
-the resolved full-name match and selects the entry that actually has options, 
-preferring the alias-specific entry when present while preserving the fallback 
-for resolved-name configs.
-> 
-> Adds an e2e regression test that configures a GitHub tool and its alias with 
-different `asset_pattern` values and verifies both install using their 
-respective assets.
-> 
-> <sup>Reviewed by [Cursor Bugbot](https://cursor.com/bugbot) for commit 
-7f9ce83a5ea01a1647a7a5984349593b67038d16. Bugbot is set up for automated code 
-reviews on this repo. Configure 
-[here](https://www.cursor.com/dashboard/bugbot).</sup>
-<!-- /CURSOR_SUMMARY -->
 
 ## Issue 20
 
@@ -1284,39 +1127,6 @@ depends_post, depends_post_multiple, deps_circular, skip_deps,
 failure_hang_depends, delegation_dedup, double_dash_behavior, args_position)
 - [x] All 563 unit tests pass
 
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
-
-<!-- CURSOR_SUMMARY -->
----
-
-> [!NOTE]
-> **Medium Risk**
-> Touches task dependency resolution and graph building to defer and later 
-re-render dependency specs, which can affect what tasks run and with what args 
-across chains. Added e2e coverage reduces risk but dependency parsing/rendering 
-changes can have edge cases (e.g., `skip_deps`, mixed template/env syntax).
-> 
-> **Overview**
-> Enables `{{usage.*}}` templates inside `depends`, `depends_post`, and 
-`wait_for` so a task can forward its resolved usage args/flags to dependency 
-tasks (including through multi-level dependency chains).
-> 
-> Implements deferred rendering for dependency entries that reference 
-`{{usage.*}}` by preserving raw dependency templates on `Task`, skipping 
-unresolved deps during initial resolution, then re-rendering them later once 
-CLI/parent-provided args are known (during `mise run` task list creation and 
-again while building the dependency graph).
-> 
-> Adds an end-to-end test covering positional args, flags, string vs structured 
-dependency syntax, fan-out dependencies, and chained forwarding, and updates 
-docs to describe the new argument-forwarding behavior.
-> 
-> <sup>Reviewed by [Cursor Bugbot](https://cursor.com/bugbot) for commit 
-076b9c5893b73aefe4fde511485f9042c66c4354. Bugbot is set up for automated code 
-reviews on this repo. Configure 
-[here](https://www.cursor.com/dashboard/bugbot).</sup>
-<!-- /CURSOR_SUMMARY -->
-
 ## Issue 21
 
 Pull request #8894: registry: remove carp test
@@ -1329,27 +1139,6 @@ release (v0.6.0) has no binary assets for any platform, causing CI failures in
 ## Test plan
 - [x] Lint checks pass locally
 - [ ] CI `test-tool-retry` no longer fails on carp
-
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
-
-<!-- CURSOR_SUMMARY -->
----
-
-> [!NOTE]
-> **Low Risk**
-> Low risk: only removes the `test` command for the `carp` registry entry, 
-reducing CI validation but not affecting installation/backends.
-> 
-> **Overview**
-> Removes the `test = { cmd = "which carp", expected = "" }` check from 
-`registry/carp.toml`, so the Carp tool entry no longer runs a post-install 
-validation during registry tests (avoiding CI hangs/failures for this tool).
-> 
-> <sup>Reviewed by [Cursor Bugbot](https://cursor.com/bugbot) for commit 
-cac0e2f2eb43f2b60b7ac55307501330a78b576f. Bugbot is set up for automated code 
-reviews on this repo. Configure 
-[here](https://www.cursor.com/dashboard/bugbot).</sup>
-<!-- /CURSOR_SUMMARY -->
 
 ## Issue 22
 
@@ -1365,33 +1154,6 @@ review
 ## Test plan
 - [ ] Open a test PR from a non-owner account and verify it gets converted to 
 draft with the comment
-
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
-
-<!-- CURSOR_SUMMARY -->
----
-
-> [!NOTE]
-> **Medium Risk**
-> Uses `pull_request_target` plus a write-scoped token to modify and comment on 
-incoming PRs, so misconfiguration could create a security/abuse surface. Scope 
-is limited to a single new workflow and guarded by author/draft checks.
-> 
-> **Overview**
-> Adds a new GitHub Actions workflow (`auto-draft-pr.yml`) that triggers when a 
-PR is opened and **automatically converts it to draft** for non-org contributors
-(excluding `renovate[bot]` and already-draft PRs).
-> 
-> The workflow uses the GitHub CLI to run `gh pr ready --undo` and posts a 
-comment instructing the author to mark the PR *Ready for review* when they want 
-human review, using `MISE_PR_COMMENT_TOKEN` with `pull-requests: write` 
-permission.
-> 
-> <sup>Reviewed by [Cursor Bugbot](https://cursor.com/bugbot) for commit 
-0f989d1ca7c029270a14af966585cf64beeaa63c. Bugbot is set up for automated code 
-reviews on this repo. Configure 
-[here](https://www.cursor.com/dashboard/bugbot).</sup>
-<!-- /CURSOR_SUMMARY -->
 
 ## Issue 23
 
@@ -1409,32 +1171,6 @@ files under `crates/aqua-registry/aqua-registry/pkgs/`
 - [ ] Open a test PR touching a file under 
 `crates/aqua-registry/aqua-registry/pkgs/` and verify the comment is posted
 - [ ] Verify no duplicate comments on subsequent pushes
-
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
-
-<!-- CURSOR_SUMMARY -->
----
-
-> [!NOTE]
-> **Low Risk**
-> Low risk: CI-only workflow changes that post PR comments; main risk is 
-misconfiguration of `pull_request_target`/token permissions causing unexpected 
-commenting behavior.
-> 
-> **Overview**
-> Adds a new `vendored-file-warning` GitHub Actions workflow that triggers on 
-`pull_request_target` when files under 
-`crates/aqua-registry/aqua-registry/pkgs/**` change and posts a one-time warning
-comment directing contributors to update the upstream `aqua-registry` instead.
-> 
-> Updates the semantic PR title lint workflow to use `MISE_PR_COMMENT_TOKEN` 
-(instead of the default `GITHUB_TOKEN`) for the semantic PR action.
-> 
-> <sup>Reviewed by [Cursor Bugbot](https://cursor.com/bugbot) for commit 
-d360c45e1ab40598e41d1f23b562229783d3dd89. Bugbot is set up for automated code 
-reviews on this repo. Configure 
-[here](https://www.cursor.com/dashboard/bugbot).</sup>
-<!-- /CURSOR_SUMMARY -->
 
 ## Issue 24
 
@@ -1495,39 +1231,6 @@ install)
 - [ ] Verify `ghcr.io/jdx/mise:e2e` image builds in docker.yml workflow
 - [ ] Verify docker-e2e job runs when triggered via workflow_dispatch
 
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
-
-<!-- CURSOR_SUMMARY -->
----
-
-> [!NOTE]
-> **Medium Risk**
-> CI behavior changes by shifting Linux e2e execution into a Docker container 
-and introducing a new published `e2e` image, which may surface 
-environment/parity issues or increase flakiness due to Docker/runtime 
-differences.
-> 
-> **Overview**
-> **Moves Linux e2e CI to a containerized environment.** The `test` workflow 
-replaces the previous coverage job with an `e2e` matrix job that pulls 
-`ghcr.io/jdx/mise:e2e` and runs `./e2e/run_all_tests` with `MISE_E2E_DOCKER=1`.
-> 
-> **Adds a dedicated e2e Docker image build.** The `docker` workflow now 
-builds/pushes an `e2e` flavor using the new `packaging/e2e/Dockerfile` 
-(Ubuntu-based image with shell/tooling deps).
-> 
-> **Updates e2e harness and tests for Docker execution.** `e2e/run_test` can now
-run tests inside Docker (mounting the repo and a Linux `mise` binary), 
-`resolve_mise_bin` is shared via `e2e/helpers.sh`, and several e2e scripts are 
-adjusted to avoid relying on `mise` being in `PATH` or on extra host deps (e.g.,
-`cargo init` -> `git init`, PATH manipulation fixes, task fixture tweaks).
-> 
-> <sup>Reviewed by [Cursor Bugbot](https://cursor.com/bugbot) for commit 
-1275b6a093c0fb685b7a8c1f7a4e1300ea1c73be. Bugbot is set up for automated code 
-reviews on this repo. Configure 
-[here](https://www.cursor.com/dashboard/bugbot).</sup>
-<!-- /CURSOR_SUMMARY -->
-
 ## Issue 26
 
 Pull request #8900: fix(ruby): support build revisions for precompiled binaries 
@@ -1567,36 +1270,6 @@ fallback to base, no match, non-numeric suffixes ignored)
 release
 - [ ] Verify `mise lock` captures the build revision URL in the lockfile
 - [ ] Verify re-running `mise lock` preserves the existing build revision
-
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
-
-<!-- CURSOR_SUMMARY -->
----
-
-> [!NOTE]
-> **Medium Risk**
-> Changes precompiled Ruby resolution to prefer and optionally pin GitHub 
-release tags with `{version}-N` build revisions, which can affect which 
-binaries/checksums are downloaded and locked. Risk is moderated by fallback 
-behavior when a locked revision can’t be found and by added unit tests for 
-revision selection.
-> 
-> **Overview**
-> **Precompiled Ruby installs/locks now support GitHub build revision tags** 
-(e.g. `3.3.11-2`) in repos like `jdx/ruby`, preferring the highest numeric `-N` 
-tag over the base `version`.
-> 
-> Adds `github::get_release_with_build_revision()` (backed by 
-`pick_best_build_revision()`) and unit tests, and updates the Ruby plugin to (1)
-extract an existing build revision from `mise.lock` URLs, (2) use that exact tag
-when present, and (3) fall back to the latest revision or base tag if the locked
-revision no longer exists.
-> 
-> <sup>Reviewed by [Cursor Bugbot](https://cursor.com/bugbot) for commit 
-1b63f1e67f81df197b80e4ad875ea9e75076f422. Bugbot is set up for automated code 
-reviews on this repo. Configure 
-[here](https://www.cursor.com/dashboard/bugbot).</sup>
-<!-- /CURSOR_SUMMARY -->
 
 ## Issue 27
 
@@ -1652,39 +1325,6 @@ provenance at install time
 detection (no download)
 - [ ] Verify the new setting appears in `mise settings ls` and schema
 
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
-
-<!-- CURSOR_SUMMARY -->
----
-
-> [!NOTE]
-> **Medium Risk**
-> Changes tool provenance verification behavior in the `aqua` and `github` 
-backends, including new lock-time artifact downloads and optional install-time 
-re-verification, which could affect install/lock reliability and CI rate limits.
-> 
-> **Overview**
-> **Strengthens lockfile provenance semantics.** `mise lock` now 
-*cryptographically verifies* detected provenance for the **current platform** 
-(downloading the artifact to a temp dir) before writing provenance into 
-`mise.lock` for both `aqua` and `github`; if verification fails, provenance is 
-omitted so it will be verified later.
-> 
-> **Adds an opt-in install-time safety check.** Introduces 
-`locked_verify_provenance` (also enabled by `paranoid`) to force provenance 
-re-verification during `mise install` even when the lockfile already contains 
-checksum+provenance, and updates schema/docs accordingly.
-> 
-> **Test/docs updates.** E2E tests are adjusted for the new npm package-manager 
-env var and for updated provenance expectations, and the cosign verification 
-test now uses an aqua package with bundle-based cosign verification.
-> 
-> <sup>Reviewed by [Cursor Bugbot](https://cursor.com/bugbot) for commit 
-810ef29f5a6e750beb8f545cd2a3124435fbefe6. Bugbot is set up for automated code 
-reviews on this repo. Configure 
-[here](https://www.cursor.com/dashboard/bugbot).</sup>
-<!-- /CURSOR_SUMMARY -->
-
 ## Issue 28
 
 Pull request #8903: chore(ci): use github.token for draft conversion in 
@@ -1707,32 +1347,6 @@ https://github.com/jdx/mise/actions/runs/23982740067/job/69949629833
 - [ ] Open a test PR from a non-collaborator fork to verify the workflow 
 converts it to draft and posts the comment
 
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
-
-<!-- CURSOR_SUMMARY -->
----
-
-> [!NOTE]
-> **Low Risk**
-> Low risk workflow-only change that adjusts which token is used for PR draft 
-conversion; main risk is unintended permissions/token behavior in 
-`pull_request_target` runs.
-> 
-> **Overview**
-> Fixes the `auto-draft-pr` workflow by splitting the single “convert + comment”
-step into two steps.
-> 
-> Draft conversion now uses `github.token` (with `pull-requests: write`) to run 
-`gh pr ready --undo`, while the follow-up comment continues to use 
-`MISE_PR_COMMENT_TOKEN`, avoiding failures from PATs that can’t perform the 
-draft-conversion mutation.
-> 
-> <sup>Reviewed by [Cursor Bugbot](https://cursor.com/bugbot) for commit 
-91703380f58f74d1bc2f31781ce02ab10031693f. Bugbot is set up for automated code 
-reviews on this repo. Configure 
-[here](https://www.cursor.com/dashboard/bugbot).</sup>
-<!-- /CURSOR_SUMMARY -->
-
 ## Issue 29
 
 Pull request #8904: chore: remove deprecated settings older than 12 months
@@ -1753,34 +1367,6 @@ fallback)
 - [x] `mise run lint` passes
 - [x] Schema regenerated
 - [ ] CI passes
-
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
-
-<!-- CURSOR_SUMMARY -->
----
-
-> [!NOTE]
-> **Medium Risk**
-> Removes multiple long-deprecated settings and their migration code, which can 
-break existing configs or env var usage that still relies on the old names. 
-Changes are otherwise straightforward and largely limited to config/schema/docs 
-and e2e coverage.
-> 
-> **Overview**
-> **Drops support for multiple deprecated settings/aliases** (e.g. `asdf`, 
-`vfox`, `cargo_binstall`, `disable_default_shorthands`, legacy python/pipx 
-aliases) by removing them from the generated `settings.toml`/`schema/mise.json` 
-and deleting their migration wiring in `src/config/settings.rs`.
-> 
-> Updates docs and e2e coverage to reflect the supported replacements, notably 
-standardizing npm tests on `MISE_NPM_PACKAGE_MANAGER` and documenting 
-`disable_default_registry` in `docs/configuration.md`.
-> 
-> <sup>Reviewed by [Cursor Bugbot](https://cursor.com/bugbot) for commit 
-af26f77b51dc7d7098529ac76c22be9995163ac0. Bugbot is set up for automated code 
-reviews on this repo. Configure 
-[here](https://www.cursor.com/dashboard/bugbot).</sup>
-<!-- /CURSOR_SUMMARY -->
 
 ## Issue 30
 
@@ -1831,30 +1417,6 @@ was published, causing Cargo to fall back to `lzma-rust2` 0.15.3 with `crc
 - [x] All pre-commit lints pass
 - [ ] CI passes
 
-🤖 Generated with [Claude Code](https://claude.ai/claude-code)
-
-<!-- CURSOR_SUMMARY -->
----
-
-> [!NOTE]
-> **Low Risk**
-> Low risk dependency update limited to the `ubi` crate and its transitive 
-lockfile changes; main risk is behavioral differences in updated archive/7z 
-handling dependencies at runtime.
-> 
-> **Overview**
-> Bumps the `ubi` dependency from `0.8.x` to `0.9.0`.
-> 
-> Updates `Cargo.lock` accordingly, including upgrading `sevenz-rust2` to 
-`0.20.2` and introducing `lzma-rust2` `0.16.2` alongside the existing `0.15.7` 
-entry to satisfy transitive constraints.
-> 
-> <sup>Reviewed by [Cursor Bugbot](https://cursor.com/bugbot) for commit 
-a73bd50f85e73e2a96f54ea1e57a080b7a3328a4. Bugbot is set up for automated code 
-reviews on this repo. Configure 
-[here](https://www.cursor.com/dashboard/bugbot).</sup>
-<!-- /CURSOR_SUMMARY -->
-
 ## Issue 32
 
 Pull request #8908: chore(deps): bump zip from 3 to 8
@@ -1868,32 +1430,6 @@ number of separate `zip` versions in the dependency tree
 - [x] `cargo check` passes locally
 - [x] All pre-commit lints pass
 - [x] CI passes
-
-🤖 Generated with [Claude Code](https://claude.ai/claude-code)
-
-<!-- CURSOR_SUMMARY -->
----
-
-> [!NOTE]
-> **Medium Risk**
-> Updates the ZIP/archive dependency stack (including crypto/RNG/transitive 
-compression crates), which can change archive compatibility and introduce subtle
-behavior changes. No application logic changes are present beyond dependency 
-resolution/lockfile updates.
-> 
-> **Overview**
-> Bumps the direct `zip` dependency from `3.x` to `8.5.0` in `Cargo.toml`.
-> 
-> Refreshes `Cargo.lock` to reflect the new `zip` version and its updated 
-transitive tree (notably newer `getrandom`/`rand`/`lzma-rust2` and related 
-WASI/WIT/wasm tooling crates), reducing duplicate/conflicting versions in the 
-dependency graph.
-> 
-> <sup>Reviewed by [Cursor Bugbot](https://cursor.com/bugbot) for commit 
-42adf248220844e88d808d24fc99bde2a7465c5d. Bugbot is set up for automated code 
-reviews on this repo. Configure 
-[here](https://www.cursor.com/dashboard/bugbot).</sup>
-<!-- /CURSOR_SUMMARY -->
 
 ## Issue 33
 
@@ -1911,34 +1447,6 @@ Pull request #8909: chore(deps): update lockfile deps (hold back rattler)
 - [x] All pre-commit lints pass
 - [x] CI passes
 
-🤖 Generated with [Claude Code](https://claude.ai/claude-code)
-
-<!-- CURSOR_SUMMARY -->
----
-
-> [!NOTE]
-> **Medium Risk**
-> Large dependency refresh affecting networking/crypto/tooling crates (e.g. 
-`hyper`, `rustls`, `tokio`, `gix`, `zip`) could introduce subtle runtime or 
-build regressions across platforms. No application logic changes, but the 
-breadth of transitive updates raises compatibility risk.
-> 
-> **Overview**
-> Updates `Cargo.lock` to newer compatible versions across the dependency tree, 
-including notable bumps to core runtime and networking/crypto libraries (e.g. 
-`tokio`, `hyper`, `rustls`, AWS Smithy crates, and `gix`) and introduces/removes
-several transitive crates as a result.
-> 
-> Adjusts `cargo-deny` policy in `deny.toml` by **removing** an advisory ignore 
-entry and **tightening** license configuration (drops `OpenSSL` from the 
-allowlist and removes the custom `ring` license clarification).
-> 
-> <sup>Reviewed by [Cursor Bugbot](https://cursor.com/bugbot) for commit 
-79691a4a6807fc8ce94451f43e3528711d95fce4. Bugbot is set up for automated code 
-reviews on this repo. Configure 
-[here](https://www.cursor.com/dashboard/bugbot).</sup>
-<!-- /CURSOR_SUMMARY -->
-
 ## Issue 34
 
 Pull request #8910: fix(ci): add Ruby build dependencies to e2e Docker image
@@ -1954,30 +1462,6 @@ source because system dev headers were missing
 - [x] Verified fix on bamboo: Ruby 4.0.2 compiles successfully with system 
 libssl-dev
 
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
-
-<!-- CURSOR_SUMMARY -->
----
-
-> [!NOTE]
-> **Low Risk**
-> Low risk: only expands the e2e Docker image's apt dependencies to provide 
-missing system headers for building Ruby/OpenSSL, with no runtime logic changes.
-> 
-> **Overview**
-> Updates the e2e test Docker image to install additional development libraries 
-(e.g., `libssl-dev`, `libreadline-dev`, `libyaml-dev`, `libffi-dev`, 
-`zlib1g-dev`) needed for compiling Ruby and native extensions during CI.
-> 
-> This unblocks Ruby builds in e2e/CI environments where `ruby-build` previously
-failed due to missing OpenSSL and related dev headers.
-> 
-> <sup>Reviewed by [Cursor Bugbot](https://cursor.com/bugbot) for commit 
-5d76c1f9f4dc3a0d35715cd3e405a84c00e6bca8. Bugbot is set up for automated code 
-reviews on this repo. Configure 
-[here](https://www.cursor.com/dashboard/bugbot).</sup>
-<!-- /CURSOR_SUMMARY -->
-
 ## Issue 35
 
 Pull request #8911: fix(ci): update COPR BuildRequires rust version to match 
@@ -1989,27 +1473,6 @@ template to match the project's MSRV
 
 ## Test plan
 - Verified RHEL 9, RHEL 10, and Ubuntu 26.04 all ship Rust >= 1.88
-
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
-
-<!-- CURSOR_SUMMARY -->
----
-
-> [!NOTE]
-> **Low Risk**
-> Low risk: a single packaging change that raises the COPR build Rust minimum 
-version, affecting only build-time requirements.
-> 
-> **Overview**
-> Updates the COPR RPM spec template generated by `packaging/copr/build-copr.sh`
-to require **Rust >= 1.88** (from 1.85), aligning COPR builds with the project’s
-MSRV.
-> 
-> <sup>Reviewed by [Cursor Bugbot](https://cursor.com/bugbot) for commit 
-c10367a2b117135ab04f5c255a4cb3e1c3d7c9a3. Bugbot is set up for automated code 
-reviews on this repo. Configure 
-[here](https://www.cursor.com/dashboard/bugbot).</sup>
-<!-- /CURSOR_SUMMARY -->
 
 ## Issue 36
 
@@ -2031,27 +1494,6 @@ Pull request #8912: fix(ci): add missing build dependencies to e2e Docker image
 - [x] Docker image build triggered: 
 https://github.com/jdx/mise/actions/runs/23987561675
 
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
-
-<!-- CURSOR_SUMMARY -->
----
-
-> [!NOTE]
-> **Low Risk**
-> Low risk: only expands the e2e CI Docker image build dependencies; main risk 
-is slightly larger image size or package version conflicts affecting CI builds.
-> 
-> **Overview**
-> Updates the e2e test Docker image to install additional build dependencies 
-(`autoconf`, `cargo`, `libncurses-dev`) so tool/plugin builds that rely on Rust 
-and certain native libraries succeed in CI.
-> 
-> <sup>Reviewed by [Cursor Bugbot](https://cursor.com/bugbot) for commit 
-ca6d245399f17f3dac00d91b9e2dd0accea89cd2. Bugbot is set up for automated code 
-reviews on this repo. Configure 
-[here](https://www.cursor.com/dashboard/bugbot).</sup>
-<!-- /CURSOR_SUMMARY -->
-
 ## Issue 37
 
 Pull request #8913: chore(deps): update bun.lock
@@ -2062,29 +1504,6 @@ Pull request #8913: chore(deps): update bun.lock
 ## Test plan
 - [x] All pre-commit lints pass
 - [ ] CI passes
-
-🤖 Generated with [Claude Code](https://claude.ai/claude-code)
-
-<!-- CURSOR_SUMMARY -->
----
-
-> [!NOTE]
-> **Low Risk**
-> Lockfile-only dependency bumps; risk is limited to potential tooling/build or 
-docs-site rendering changes from updated packages.
-> 
-> **Overview**
-> Updates `bun.lock` to newer resolved versions of several dev/docs 
-dependencies, including `@types/node`, `markdown-it`, `js-toml`, and 
-`vitepress-plugin-group-icons` (and its `@iconify-json/vscode-icons` 
-dependency). No application/source code changes are included; this is strictly a
-lockfile refresh.
-> 
-> <sup>Reviewed by [Cursor Bugbot](https://cursor.com/bugbot) for commit 
-3fe06e43825c3e77156a709637aa35d08938ee7f. Bugbot is set up for automated code 
-reviews on this repo. Configure 
-[here](https://www.cursor.com/dashboard/bugbot).</sup>
-<!-- /CURSOR_SUMMARY -->
 
 ## Issue 38
 
@@ -2104,27 +1523,6 @@ Pull request #8914: fix(ci): add missing build dependencies to e2e Docker image
 - [x] Docker image build triggered: 
 https://github.com/jdx/mise/actions/runs/23987968955
 
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
-
-<!-- CURSOR_SUMMARY -->
----
-
-> [!NOTE]
-> **Low Risk**
-> Low risk: a single additional system package in the CI/e2e container, with 
-minimal chance of impacting runtime behavior outside image build size/time.
-> 
-> **Overview**
-> Ensures the e2e Docker image includes the missing build tool `pkg-config`, 
-improving CI reliability for components that compile native dependencies during 
-end-to-end tests.
-> 
-> <sup>Reviewed by [Cursor Bugbot](https://cursor.com/bugbot) for commit 
-dca8a936bdf2e7d338c12953178941261d50c1ce. Bugbot is set up for automated code 
-reviews on this repo. Configure 
-[here](https://www.cursor.com/dashboard/bugbot).</sup>
-<!-- /CURSOR_SUMMARY -->
-
 ## Issue 39
 
 Pull request #8915: fix(ci): use Node 24 LTS for corepack e2e test
@@ -2139,30 +1537,6 @@ assertions
 - [x] Verified on bamboo: Node 24 installs with corepack shims, `which yarn` 
 works
 - [x] Verified Node 25 does not have corepack (confirmed the root cause)
-
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
-
-<!-- CURSOR_SUMMARY -->
----
-
-> [!NOTE]
-> **Low Risk**
-> Low risk: only adjusts an e2e test script to avoid upstream Node version 
-behavior changes; no production logic is affected.
-> 
-> **Overview**
-> Pins the `e2e/core/test_node_slow` corepack/yarn assertions to **Node 24** by 
-writing the latest `node@24` version into `.node-version` instead of using `mise
-latest node`.
-> 
-> Updates the version assertion to match the pinned `corepack_version`, 
-preventing failures when newer Node releases (25+) omit corepack.
-> 
-> <sup>Reviewed by [Cursor Bugbot](https://cursor.com/bugbot) for commit 
-72b39bc5ac5f6542dedc69e6e20a66d8516a7ce8. Bugbot is set up for automated code 
-reviews on this repo. Configure 
-[here](https://www.cursor.com/dashboard/bugbot).</sup>
-<!-- /CURSOR_SUMMARY -->
 
 ## Issue 40
 
@@ -2181,32 +1555,6 @@ existing pattern for Fedora and UBI
 - [x] Verified `https://download.swift.org/.../ubuntu26.04.tar.gz` redirects to 
 404
 
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
-
-<!-- CURSOR_SUMMARY -->
----
-
-> [!NOTE]
-> **Low Risk**
-> Low risk: small, isolated change to Swift download URL/platform selection for 
-Ubuntu; main risk is incorrect version mapping causing downloads to target the 
-wrong Ubuntu build.
-> 
-> **Overview**
-> Adjusts Swift Linux platform resolution so **Ubuntu** uses a supported Swift 
-binary version: introduces `ubuntu_swift_version()` to map unknown `version_id`s
-to `24.04`.
-> 
-> This mapping is applied both to `platform()` (e.g., `ubuntu24.04`) and to the 
-Ubuntu arm64 `platform_directory()` string (e.g., `ubuntu2404-aarch64`), 
-preventing 404s when running on newer/unsupported Ubuntu releases.
-> 
-> <sup>Reviewed by [Cursor Bugbot](https://cursor.com/bugbot) for commit 
-ddba13ff138c4f43720a9bb50dbb6de8df72c3e7. Bugbot is set up for automated code 
-reviews on this repo. Configure 
-[here](https://www.cursor.com/dashboard/bugbot).</sup>
-<!-- /CURSOR_SUMMARY -->
-
 ## Issue 41
 
 Pull request #8917: fix(ci): add libxml2 and pkg-config to e2e Docker image
@@ -2221,27 +1569,6 @@ Pull request #8917: fix(ci): add libxml2 and pkg-config to e2e Docker image
 libxml2.so.2` in test_swift_slow
 - [x] Docker image build triggered: 
 https://github.com/jdx/mise/actions/runs/23989620731
-
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
-
-<!-- CURSOR_SUMMARY -->
----
-
-> [!NOTE]
-> **Low Risk**
-> Low risk: only adjusts the e2e test Docker image dependencies; main impact is 
-slightly larger image/build time and potential package availability differences.
-> 
-> **Overview**
-> Updates the e2e test Docker image (`packaging/e2e/Dockerfile`) to install 
-`libxml2`, ensuring the container has the shared library needed by tooling that 
-links against `libxml2.so.2` (e.g., Swift SPM builds).
-> 
-> <sup>Reviewed by [Cursor Bugbot](https://cursor.com/bugbot) for commit 
-2ec769cda0430f2b4eac2d323edf29920decabf7. Bugbot is set up for automated code 
-reviews on this repo. Configure 
-[here](https://www.cursor.com/dashboard/bugbot).</sup>
-<!-- /CURSOR_SUMMARY -->
 
 ## Issue 42
 
@@ -2258,32 +1585,6 @@ will fail until Swift provides native 26.04 binaries.
 - [x] Confirmed ABI mismatch: Swift's `swift-package` expects `libxml2.so.2`, 
 Ubuntu 26.04 has `libxml2.so.16`
 - [x] Swift install + `swift --version` still works (only SPM is broken)
-
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
-
-<!-- CURSOR_SUMMARY -->
----
-
-> [!NOTE]
-> **Low Risk**
-> Low risk CI-only change: adjusts e2e Docker dependencies and temporarily skips
-failing Swift SPM assertions due to an Ubuntu 26.04/libxml2 ABI mismatch.
-> 
-> **Overview**
-> Updates the e2e test environment to install `libxml2-dev` (replacing 
-`libxml2`) in `packaging/e2e/Dockerfile`.
-> 
-> Temporarily disables the Swift SPM-based `SwiftFormat` assertions in 
-`e2e/core/test_swift_slow`, documenting an Ubuntu 26.04 `libxml2` ABI mismatch 
-until Swift ships compatible binaries.
-> 
-> <sup>Reviewed by [Cursor Bugbot](https://cursor.com/bugbot) for commit 
-e7e8691f75ad94a10f251a94941aa0371c2bfad1. Bugbot is set up for automated code 
-reviews on this repo. Configure 
-[here](https://www.cursor.com/dashboard/bugbot).</sup>
-<!-- /CURSOR_SUMMARY -->
-
-
 
 ## Paths the verifier owns
 
