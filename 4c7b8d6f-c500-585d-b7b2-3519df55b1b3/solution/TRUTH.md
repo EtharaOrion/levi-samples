@@ -2,12 +2,6 @@
 
 GENERATED SECTION. DO NOT HAND-EDIT.
 
-# FORGE canary block. Derived from the canonical content hash.
-# FORGE-CANARY[00]=B0DA1BB6B34BE74C93CD24280FEE65D6
-# FORGE-CANARY[01]=8586660CB375ACFF276580D9DBA47D08
-# FORGE-CANARY[02]=120499FC16D16514990912FCD40AF63E
-# FORGE-CANARY[03]=BD5FA149AC965B38CFB3268C11D80B60
-
 ## Defect
 
 The .NET backend in mise can only install full SDKs; there is no way for a user to request a runtime-only install of a specific .NET framework. There is no inline `runtime` tool option accepted from either the command-line side bracket syntax or the tools table of a config file, no validation restricting values to the recognized framework names, no plumbing to make the install fetch a runtime instead of an SDK, and no correct uninstall path for runtime layouts. Additionally, the SDK sanity check runs unconditionally after install, which would fail on a valid runtime, and the uninstall deduplication logic discards the entry carrying tool options in favor of a plain filesystem match, so options never reach the uninstall logic.
