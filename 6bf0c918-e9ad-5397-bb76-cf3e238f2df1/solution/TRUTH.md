@@ -2,6 +2,12 @@
 
 GENERATED SECTION. DO NOT HAND-EDIT.
 
+# FORGE canary block. Derived from the canonical content hash.
+# FORGE-CANARY[00]=24553901DC6282770870EDB77847B933
+# FORGE-CANARY[01]=E5E6C24D72D8532B145FBBE50F827476
+# FORGE-CANARY[02]=A95995746EB340C766897008A27FF7FC
+# FORGE-CANARY[03]=8042888AF71769D13D156A4A17FF2E7A
+
 ## Defect
 
 Reflex event objects offer no supported way for application authors to control DOM event propagation or the browser's default behavior. There is no chainable property on the event handler, the event spec, or the event chain that requests stopPropagation or preventDefault, and there are no top-level attributes that can be assigned to a trigger to request those DOM actions without a state update. Additionally, the preventDefault behavior for form submission is hardcoded in the generic frontend runtime rather than expressed through a general, composable mechanism.

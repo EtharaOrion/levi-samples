@@ -1,0 +1,66 @@
+schema: forge.provenance/v1
+instance_id: reflex-dev__reflex-269334014d4d
+slot_id: T15
+
+source:
+  origin: derived
+  source_kind: public_repository
+  repository: reflex-dev/reflex
+  repository_canonical_identity: R_kgDOITROHQ
+  repository_identity_state: resolved
+  fork_ancestry_snapshot_digest: null
+  fork_ancestry_state: unresolved
+  license: Apache-2.0
+  base_commit_sha: 269334014d4dd717f7a8424e9af2c87ed6e82fb0
+  upstream_change_sha: "span:269334014d4d"
+  upstream_change_committed_at: '2023-10-27T23:50:39Z'
+  task_generating_event_at: null
+  task_generating_event_state: unresolved
+  ancestry_attestation_digest: null
+  ancestry_attestation_signer: null
+  event_attestation_digest: null
+  event_attestation_signer: null
+  attestation_state: attestation-unavailable
+
+measurement_provenance:
+  state: unrecorded
+  basis: "unrecorded; no-measured-image-or-reference-exclusions-asserted"
+screening_roots:
+  exclusion_list: {identity: unresolved, digest: unresolved, state: unsupplied}
+  freeze_date_table: {identity: unresolved, digest: unresolved, state: unsupplied}
+  near_duplicate_index: {identity: unresolved, digest: unresolved, state: unsupplied}
+  source_attestation_trust_root: {identity: unresolved, digest: unresolved, state: unsupplied}
+
+atoms:
+  exclusion_matching: {applicability: applicable, state: unresolvable-root, result_digest: null}
+  freeze_holdout: {applicability: applicable, state: unresolvable-root, result_digest: null}
+  near_duplicate_screening: {applicability: applicable, state: unresolvable-root, result_digest: null}
+  sanitization: {applicability: applicable, state: measured, result_digest: unmeasured}
+  empty_submission_validation: {applicability: applicable, state: measured, result_digest: unmeasured}
+
+sanitization_closure:
+  agent_visible_paths: 2
+  image_digest: sha256:95bceab8aacc6575fd5f1424d6e0569df2b77dfd5ab110e7e88a54f17e1593a5
+  history_absence: "asserted-at-build-time commit-depth:1 remotes:0,tags:0,refs:0,reflogs:0,stash:0,shallow:0,grafts:0,alternates:0 layers:1 whiteout-leak-screen:clean image:forge-sanitized/426628337772.dkr.ecr.ap-south-1.amazonaws.com_rfp-coding-q1-tag-milo_reflex-dev_m_reflex:pr-1891@sha256:95bceab8aacc6575fd5f1424d6e0569df2b77dfd5ab110e7e88a54f17e1593a5 base-digest:sha256:060777d77ed2fd5a68721b916e006e9bf699c4064d4f28d92efe2cfa9a2d7596"
+  remote_absence: "asserted-at-build-time-and-rescanned remotes:0 tags:0 workdir:/home/reflex layers:1 image:forge-sanitized/426628337772.dkr.ecr.ap-south-1.amazonaws.com_rfp-coding-q1-tag-milo_reflex-dev_m_reflex:pr-1891"
+  thread_absence: "authored-prose-derivative-only; no-issue-export,no-pr-export,no-api-capture,no-archive,no-client-cache,no-mbox,no-attached-diff"
+  fix_absence: measured
+  closure_identity: "scanned-equals-executed: committed-bundle-bytes-plus-committed-dockerfile-image-at-recorded-digest"
+empty_submission:
+  invocation: bash tests/test.sh against an unmodified workspace
+  measured_reward: unmeasured
+  requirement: exactly zero
+
+instrument_versions:
+  normalization_domain: forge.canary-normalization/v1
+  emitter: forge.bundle/v1
+  recompute: solution/recompute.py
+
+screening_measured_at: '2026-09-04T00:00:00Z'
+screening_interval_days: 90
+screening_expires_at: '2026-12-03T00:00:00Z'
+
+binding:
+  canonical_bundle_hash: 10cb07aefb91b15c92125b980e429ccb46420074467ee8581774146d65f82ba1
+  pinned_image_digest: sha256:95bceab8aacc6575fd5f1424d6e0569df2b77dfd5ab110e7e88a54f17e1593a5
+  binding_envelope: unsigned-no-trust-root

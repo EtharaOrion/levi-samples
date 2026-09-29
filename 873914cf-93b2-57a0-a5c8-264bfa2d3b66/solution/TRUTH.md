@@ -2,6 +2,12 @@
 
 GENERATED SECTION. DO NOT HAND-EDIT.
 
+# FORGE canary block. Derived from the canonical content hash.
+# FORGE-CANARY[00]=E553CE85A6EB1F7D4A7659959DEDB7A0
+# FORGE-CANARY[01]=A9641C2DD6753F65E328BF2EBA5300DC
+# FORGE-CANARY[02]=31FE7C963D6FB908C38453B641ADF0E7
+# FORGE-CANARY[03]=3B134102F505CD43087B73B2BFADFFCF
+
 ## Defect
 
 When a Pynecone application is launched in production mode on Windows, the backend server fails to start at all because the framework unconditionally invokes a process manager that cannot run on that platform. The same production command works correctly on Linux and other Unix-like systems. Additionally, the pre-start port-cleanup step crashes with a permission error when the operating system refuses to let the framework terminate the process currently holding the target port, a situation that is especially common on Windows.

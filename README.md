@@ -299,27 +299,41 @@ Re-grading will shift rubric verdicts; the deterministic checks and the outcome 
 - **Two graded artifacts are exact-text snapshots.** Snapshot tests reward matching the reference's
   private naming and ordering, which the instruction does not state — depressing scores for
   functionally correct work, most visibly on mise.
+<<<<<<< HEAD
 
 <!-- trinity:lane-index:begin -->
 GENERATED SECTION. DO NOT HAND-EDIT.
 
 ## Promoted set
 
-| uuid | task_lane | sealed_at | stream |
-| --- | --- | --- | --- |
-| 4c7b8d6f-c500-585d-b7b2-3519df55b1b3 | adopted | unsealed | none |
-| 6bf0c918-e9ad-5397-bb76-cf3e238f2df1 | adopted | unsealed | none |
-| 873914cf-93b2-57a0-a5c8-264bfa2d3b66 | adopted | unsealed | none |
+| Property | Value |
+| --- | --- |
+| Bundles | 3 of 30 |
+| Sealed | 0 of 3 |
+| Registrations | adopted (3) |
+| Audit verdicts | none (3) |
+| Harbor schema | 1.4 (3) |
+| Difficulty | measured by the signed pilot alone, never declared in a bundle |
+
+| Bundle | Task | Keywords | Registration | Sealed at |
+| --- | --- | --- | --- | --- |
+| [`4c7b8d6f-c500-585d-b7b2-3519df55b1b3`](4c7b8d6f-c500-585d-b7b2-3519df55b1b3/) | `levi/s01-mise` | issue-resolving, mise, rust | adopted | unsealed |
+| [`6bf0c918-e9ad-5397-bb76-cf3e238f2df1`](6bf0c918-e9ad-5397-bb76-cf3e238f2df1/) | `levi/t15-reflex` | agent:openhands-sdk, issue-resolving, python, reflex | adopted | unsealed |
+| [`873914cf-93b2-57a0-a5c8-264bfa2d3b66`](873914cf-93b2-57a0-a5c8-264bfa2d3b66/) | `levi/t06-reflex` | agent:openhands-sdk, issue-resolving, python, reflex | adopted | unsealed |
 
 ## Standing
 
-| uuid | verdict |
-| --- | --- |
-| 4c7b8d6f-c500-585d-b7b2-3519df55b1b3 | none |
-| 6bf0c918-e9ad-5397-bb76-cf3e238f2df1 | none |
-| 873914cf-93b2-57a0-a5c8-264bfa2d3b66 | none |
+The verdict is the audit outcome recorded at the sealed digest, and `none` means no verdict has landed for that digest yet. Only a FORGE invocation removes a bundle from this lane, so removal waits for the next one.
+
+| uuid | Verdict | Sealed digest | Stream |
+| --- | --- | --- | --- |
+| 4c7b8d6f-c500-585d-b7b2-3519df55b1b3 | none | absent | none |
+| 6bf0c918-e9ad-5397-bb76-cf3e238f2df1 | none | absent | none |
+| 873914cf-93b2-57a0-a5c8-264bfa2d3b66 | none | absent | none |
 
 ## Screening roots
 
-No screening root is recorded by reconcile.
+Each bundle's signed provenance carrier holds its screening roots, screening instant, and absolute expiry. Placement moves that carrier into the private derivation set, which this page never reads, so reconcile lists no root it cannot verify here.
 <!-- trinity:lane-index:end -->
+=======
+>>>>>>> 54651ac8e446142fb5b26803515d59e2203115ca
