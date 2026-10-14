@@ -1,5 +1,3 @@
-GENERATED SECTION. DO NOT HAND-EDIT.
-
 <p align="center"><img src="images/hero.svg" alt="LEVI" width="720"></p>
 
 # LEVI: samples
@@ -32,7 +30,7 @@ Difficulty is measured by the signed pilot alone and never declared in a bundle,
 
 ## Evidence status
 
-The verdict is the audit outcome recorded at the sealed digest, and `none` means no verdict has landed for that digest yet. Only a FORGE invocation removes a bundle from this lane, so removal waits for the next one.
+The verdict is the audit outcome recorded at the sealed digest, and `none` means no verdict has landed for that digest yet. Only an authoring run removes a bundle from this lane, so removal waits for the next one.
 
 | uuid | Verdict | Sealed digest | Stream |
 | --- | --- | --- | --- |
@@ -53,11 +51,11 @@ The verdict is the audit outcome recorded at the sealed digest, and `none` means
 
 ## Dataset structure
 
-| Bundle | Task | Keywords | Registration | Sealed at |
-| --- | --- | --- | --- | --- |
-| [`4c7b8d6f-c500-585d-b7b2-3519df55b1b3`](4c7b8d6f-c500-585d-b7b2-3519df55b1b3/) | `levi/s01-mise` | issue-resolving, mise, rust | adopted | unsealed |
-| [`6bf0c918-e9ad-5397-bb76-cf3e238f2df1`](6bf0c918-e9ad-5397-bb76-cf3e238f2df1/) | `levi/t15-reflex` | agent:openhands-sdk, issue-resolving, python, reflex | adopted | unsealed |
-| [`873914cf-93b2-57a0-a5c8-264bfa2d3b66`](873914cf-93b2-57a0-a5c8-264bfa2d3b66/) | `levi/t06-reflex` | agent:openhands-sdk, issue-resolving, python, reflex | adopted | unsealed |
+| Bundle | Task | Keywords | Registration | Sealed at | Tier |
+| --- | --- | --- | --- | --- | --- |
+| [`4c7b8d6f-c500-585d-b7b2-3519df55b1b3`](4c7b8d6f-c500-585d-b7b2-3519df55b1b3/) | `levi/s01-mise` | issue-resolving, mise, rust | adopted | unsealed | - |
+| [`6bf0c918-e9ad-5397-bb76-cf3e238f2df1`](6bf0c918-e9ad-5397-bb76-cf3e238f2df1/) | `levi/t15-reflex` | agent:openhands-sdk, issue-resolving, python, reflex | adopted | unsealed | - |
+| [`873914cf-93b2-57a0-a5c8-264bfa2d3b66`](873914cf-93b2-57a0-a5c8-264bfa2d3b66/) | `levi/t06-reflex` | agent:openhands-sdk, issue-resolving, python, reflex | adopted | unsealed | - |
 
 ```mermaid
 %%{init: {"theme":"base","themeVariables":{"primaryColor":"#131a33","primaryTextColor":"#e8ecff","primaryBorderColor":"#845EF7","lineColor":"#22d3ee","fontFamily":"monospace"}}}%%
