@@ -1,0 +1,59 @@
+[[criterion]]
+id = "R1"
+description = "The .NET backend reads a runtime tool option from the ToolVersion request options and branches install behaviour on it, selecting the runtime install path when present and the SDK path otherwise."
+type = "binary"
+weight = 5
+[criterion.annotations]
+mode = "judged"
+evidence = ["final_diff"]
+evaluation_target = "final_diff"
+
+[[criterion]]
+id = "R2"
+description = "The runtime option is validated early so that only dotnet, aspnetcore, and windowsdesktop are accepted and any other value produces a clear error before reaching the install script."
+type = "binary"
+weight = 5
+[criterion.annotations]
+mode = "judged"
+evidence = ["final_diff"]
+evaluation_target = "final_diff"
+
+[[criterion]]
+id = "R3"
+description = "The post-install SDK version-command sanity check is skipped for runtime installs while remaining intact for SDK installs."
+type = "binary"
+weight = 3
+[criterion.annotations]
+mode = "judged"
+evidence = ["final_diff"]
+evaluation_target = "final_diff"
+
+[[criterion]]
+id = "R4"
+description = "The directory layout used for listing installed files and for uninstall reflects the framework-and-version runtime layout when a runtime was requested and the SDK layout otherwise."
+type = "binary"
+weight = 3
+[criterion.annotations]
+mode = "judged"
+evidence = ["final_diff"]
+evaluation_target = "final_diff"
+
+[[criterion]]
+id = "R5"
+description = "The uninstall version deduplication prefers the option-bearing ToolVersion over a bare filesystem match when two entries compare equal, without changing the resulting version set for optionless tools."
+type = "binary"
+weight = 3
+[criterion.annotations]
+mode = "judged"
+evidence = ["final_diff"]
+evaluation_target = "final_diff"
+
+[[criterion]]
+id = "R6"
+description = "The run demonstrates that the target tests and the preserved suite pass with the runtime-install feature in place."
+type = "binary"
+weight = 1
+[criterion.annotations]
+mode = "judged"
+evidence = ["verification_output"]
+evaluation_target = "verification_output"

@@ -1,0 +1,59 @@
+[[criterion]]
+id = "R1"
+description = "A shared mechanism carrying a dictionary of DOM event actions is introduced and inherited by both the event handler and event spec classes."
+type = "binary"
+weight = 5
+[criterion.annotations]
+mode = "judged"
+evidence = ["final_diff"]
+evaluation_target = "final_diff"
+
+[[criterion]]
+id = "R2"
+description = "The stop-propagation and prevent-default accessors return a fresh copy with the added action and never mutate the receiver."
+type = "binary"
+weight = 3
+[criterion.annotations]
+mode = "judged"
+evidence = ["final_diff"]
+evaluation_target = "final_diff"
+
+[[criterion]]
+id = "R3"
+description = "Event actions thread through compilation so a called handler and combined specs preserve and aggregate their actions onto the event chain."
+type = "binary"
+weight = 5
+[criterion.annotations]
+mode = "judged"
+evidence = ["final_diff"]
+evaluation_target = "final_diff"
+
+[[criterion]]
+id = "R4"
+description = "Two top-level attributes producing action-only event chains are defined and exported from the package's public entry point."
+type = "binary"
+weight = 3
+[criterion.annotations]
+mode = "judged"
+evidence = ["final_diff"]
+evaluation_target = "final_diff"
+
+[[criterion]]
+id = "R5"
+description = "The hardcoded form-submit preventDefault is removed from the frontend runtime and re-expressed as prevent_default on the form component's submit trigger."
+type = "binary"
+weight = 3
+[criterion.annotations]
+mode = "judged"
+evidence = ["final_diff"]
+evaluation_target = "final_diff"
+
+[[criterion]]
+id = "R6"
+description = "The test run demonstrates that action-free triggers behave unchanged while combined actions apply as specified."
+type = "binary"
+weight = 1
+[criterion.annotations]
+mode = "judged"
+evidence = ["verification_output"]
+evaluation_target = "verification_output"

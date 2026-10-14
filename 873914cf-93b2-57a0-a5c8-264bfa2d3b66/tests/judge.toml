@@ -1,0 +1,59 @@
+[[criterion]]
+id = "R1"
+description = "The production backend launch selects a Windows-capable server when running on Windows and retains the Unix process manager on other platforms."
+type = "binary"
+weight = 5
+[criterion.annotations]
+mode = "judged"
+evidence = ["final_diff"]
+evaluation_target = "final_diff"
+
+[[criterion]]
+id = "R2"
+description = "A constant naming the Windows-capable backend server command is introduced and referenced only on the Windows branch."
+type = "binary"
+weight = 3
+[criterion.annotations]
+mode = "judged"
+evidence = ["final_diff"]
+evaluation_target = "final_diff"
+
+[[criterion]]
+id = "R3"
+description = "The Windows branch passes host, port, and a module:app style entry point using the alternate server's own argument style rather than the Unix server's flags."
+type = "binary"
+weight = 3
+[criterion.annotations]
+mode = "judged"
+evidence = ["final_diff"]
+evaluation_target = "final_diff"
+
+[[criterion]]
+id = "R4"
+description = "The Unix production invocation preserves its prior argument shape and both branches continue to honor the log level and worker count."
+type = "binary"
+weight = 3
+[criterion.annotations]
+mode = "judged"
+evidence = ["final_diff"]
+evaluation_target = "final_diff"
+
+[[criterion]]
+id = "R5"
+description = "The port-cleanup kill call is guarded so that a permission-denied error from the process library is suppressed rather than aborting the run."
+type = "binary"
+weight = 5
+[criterion.annotations]
+mode = "judged"
+evidence = ["final_diff"]
+evaluation_target = "final_diff"
+
+[[criterion]]
+id = "R6"
+description = "The targeted test suite covering the platform branching and cleanup tolerance passes."
+type = "binary"
+weight = 3
+[criterion.annotations]
+mode = "judged"
+evidence = ["verification_output"]
+evaluation_target = "verification_output"
