@@ -104,3 +104,9 @@ MIT. See [`LICENSE`](LICENSE).
 ## Contact
 
 [Ethara.AI](https://github.com/Ethara-Ai), disclosures per [`SECURITY.md`](SECURITY.md), contributions per [`CONTRIBUTING.md`](CONTRIBUTING.md).
+
+---
+
+## Copyright
+
+Copyright (c) 2026 Green Rider Technology LLP (Ethara AI). All rights reserved.
